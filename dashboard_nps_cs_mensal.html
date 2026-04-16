@@ -126,7 +126,7 @@ tbody td.r{text-align:right}
 <div class="filters">
   <div class="week-comp-bar" id="week-comp">
     <button class="btn active" id="wc-s1s2" onclick="setWeekComp('s1s2')">Sem. Passada vs Anterior &nbsp;·&nbsp; 06–12 Abr vs 30 Mar–05 Abr</button>
-    <button class="btn" id="wc-s0s1" onclick="setWeekComp('s0s1')">Sem. Atual vs Passada &nbsp;·&nbsp; 13 Abr+ vs 06–10 Abr</button>
+    <button class="btn" id="wc-s0s1" onclick="setWeekComp('s0s1')">Sem. Atual vs Passada &nbsp;·&nbsp; 13-16 Abr vs 06-12 Abr</button>
   </div>
   <button class="btn active" onclick="setFilter('Todos')">Todos</button>
   <button class="btn" onclick="setFilter('Mature')">Mature</button>
@@ -183,20 +183,20 @@ tbody td.r{text-align:right}
 </div>
 
 <script>
-// ── Raw data: April 2026 ──────────────────────────────────
+// ── Raw data: April 2026 (atualizado 16/04/2026) ─────────
 const rawApr = [
-['CBT',158,16,177],
-['Experiencia Impositiva Mature',16,5,24],['Experiencia Impositiva Meli Pro',3,0,4],['Experiencia Impositiva Seller Dev',215,56,300],
-['FBM-S Mature',52,18,77],['FBM-S Meli Pro',9,3,13],['FBM-S Seller Dev',138,49,212],
-['ME Vendedor Mature',604,118,778],['ME Vendedor Meli Pro',35,8,43],['ME Vendedor Seller Dev',2546,352,3198],
-['Otros CV',314,97,444],
-['PCF Vendedor Mature',144,39,201],['PCF Vendedor Meli Pro',16,5,24],['PCF Vendedor Seller Dev',163,46,229],
-['PDD DS&XD - Vendedor',231,192,476],['PDD FBM - Vendedor',73,34,118],['PDD Fotos - Vendedor',13,8,23],
-['PDD MP,FLEX & CBT - Vendedor',28,16,48],
-['PNR ME - Vendedor',38,24,66],['PNR MP - Vendedor',80,32,121],
-['Partners',820,135,1060],
-['Post Venta Mature',161,32,210],['Post Venta Meli Pro',35,4,43],['Post Venta Seller Dev',371,59,470],
-['Publicaciones Mature',111,21,158],['Publicaciones Meli Pro',8,3,12],['Publicaciones Seller Dev',995,172,1278]
+['CBT',175,22,200],
+['Experiencia Impositiva Mature',18,6,27],['Experiencia Impositiva Meli Pro',3,1,5],['Experiencia Impositiva Seller Dev',259,69,361],
+['FBM-S Mature',65,20,92],['FBM-S Meli Pro',16,4,21],['FBM-S Seller Dev',167,54,249],
+['ME Vendedor Mature',698,134,898],['ME Vendedor Meli Pro',52,8,62],['ME Vendedor Seller Dev',3006,416,3768],
+['Otros CV',371,114,522],
+['PCF Vendedor Mature',164,47,234],['PCF Vendedor Meli Pro',32,7,45],['PCF Vendedor Seller Dev',208,52,282],
+['PDD DS&XD - Vendedor',261,219,537],['PDD FBM - Vendedor',83,44,140],['PDD Fotos - Vendedor',14,10,26],
+['PDD MP,FLEX & CBT - Vendedor',33,21,63],
+['PNR ME - Vendedor',40,25,70],['PNR MP - Vendedor',93,37,142],
+['Partners',1010,161,1297],
+['Post Venta Mature',185,35,242],['Post Venta Meli Pro',53,6,63],['Post Venta Seller Dev',446,72,565],
+['Publicaciones Mature',127,27,183],['Publicaciones Meli Pro',19,3,24],['Publicaciones Seller Dev',1191,195,1517]
 ];
 
 // ── Raw data: March 2026 ──────────────────────────────────
@@ -259,8 +259,26 @@ const rawS2 = [
 ['Otros CV',144,38,203]
 ];
 
-// ── Raw data: Week S0 — Sem. Atual (13 Abr+) — preencher quando disponível
-const rawS0 = [];
+// ── Raw data: Week S0 — 13-16 Abr 2026 ──────────────────
+const rawS0 = [
+// Buyer
+['CBT',31,6,37],['PDD DS&XD - Vendedor',48,42,99],['PDD FBM - Vendedor',17,14,36],['PDD Fotos - Vendedor',2,3,6],['PDD MP,FLEX & CBT - Vendedor',10,5,20],
+['PNR ME - Vendedor',5,2,8],['PNR MP - Vendedor',16,9,28],
+// Mature
+['Experiencia Impositiva Mature',3,1,4],['FBM-S Mature',18,3,22],
+['ME Vendedor Mature',150,28,190],['PCF Vendedor Mature',34,13,55],
+['Post Venta Mature',48,7,62],['Publicaciones Mature',22,9,35],
+// Meli Pro
+['Experiencia Impositiva Meli Pro',0,1,1],['FBM-S Meli Pro',7,2,9],
+['ME Vendedor Meli Pro',22,0,24],['PCF Vendedor Meli Pro',19,3,25],
+['Post Venta Meli Pro',24,4,29],['Publicaciones Meli Pro',11,1,13],
+// Longtail (Seller Dev)
+['Experiencia Impositiva Seller Dev',64,19,90],['FBM-S Seller Dev',40,12,57],
+['ME Vendedor Seller Dev',716,104,904],['PCF Vendedor Seller Dev',61,17,82],
+['Partners',285,44,372],['Post Venta Seller Dev',108,14,133],['Publicaciones Seller Dev',277,40,348],
+// Otros CV
+['Otros CV',94,29,133]
+];
 
 // ── Segment map ──────────────────────────────────────────
 const segMap = {
@@ -291,35 +309,35 @@ const targetMap = {
   'Publicaciones Mature':47.37,'Publicaciones Meli Pro':81.43,'Publicaciones Seller Dev':52.87
 };
 
-// ── Process-level data: April 2026 ───────────────────────
+// ── Process-level data: April 2026 (atualizado 16/04/2026) ─
 const procApr = {
-  "CBT":{"CBT - ME Reputation":[68,0,68],"CBT - Reputation":[45,8,56],"CBT - Package journey":[15,0,15],"CBT - Moderations":[8,1,9],"CBT - Reverse":[4,4,8],"CBT - Dispatch, Sales and Listings":[6,1,7],"CBT - Publication Management":[5,1,6],"CBT - Boosters":[4,0,4],"CBT - Operational Management":[2,1,3],"CBT - Billing":[1,0,1]},
-  "Experiencia Impositiva Mature":{"Emision de Nota Fiscal":[12,4,18],"Facturación":[3,1,4],"Datos fiscales":[1,0,2]},
-  "Experiencia Impositiva Meli Pro":{"Facturación":[2,0,3],"Emision de Nota Fiscal":[1,0,1]},
-  "Experiencia Impositiva Seller Dev":{"Emision de Nota Fiscal":[139,30,186],"Facturación":[58,20,88],"Datos fiscales":[18,6,26]},
-  "FBM-S Mature":{"FBM - Pre Inbound":[19,4,26],"FBM - Inventario":[13,6,21],"FBM - Retiro de Stock - Cx One":[8,3,13],"FBM - Post Inbound":[8,5,13],"FBM - Devoluciones":[2,0,2],"FBM - Funcionalidades":[2,0,2]},
-  "FBM-S Meli Pro":{"FBM - Inventario":[2,3,5],"FBM - Pre Inbound":[4,0,5],"FBM - Devoluciones":[2,0,2],"FBM - Funcionalidades":[1,0,1]},
-  "FBM-S Seller Dev":{"FBM - Pre Inbound":[51,23,81],"FBM - Inventario":[29,10,45],"FBM - Post Inbound":[27,8,38],"FBM - Retiro de Stock - Cx One":[15,2,22],"FBM - Funcionalidades":[11,2,16],"FBM - Devoluciones":[3,3,7],"FBM - Outbound":[1,1,2],"Asignación del Contáctanos FBM":[1,0,1]},
-  "ME Vendedor Mature":{"Reputación ME":[256,40,312],"Despacho Ventas y Publicaciones":[168,32,216],"Reversa":[84,16,108],"Gestiones Operativas":[62,20,92],"Viaje del paquete - Vendedor":[32,6,44],"Viaje del paquete - Comprador":[2,2,4],"Suspensiones ME":[0,2,2]},
-  "ME Vendedor Meli Pro":{"Reputación ME":[14,2,16],"Despacho Ventas y Publicaciones":[10,2,12],"Reversa":[3,3,6],"Viaje del paquete - Vendedor":[5,0,5],"Gestiones Operativas":[3,1,4]},
-  "ME Vendedor Seller Dev":{"Despacho Ventas y Publicaciones":[1104,214,1462],"Reputación ME":[1006,74,1158],"Gestiones Operativas":[186,24,240],"Reversa":[170,24,220],"Viaje del paquete - Vendedor":[78,16,116],"Suspensiones ME":[2,0,2]},
-  "Otros CV":{"KYC Services":[170,5,188],"Viaje del paquete - Comprador":[28,8,37],"Apelaciones retorno buyer XDDS":[7,26,35],"Costos de envío - Comprador":[9,6,19],"Caja vacía - Flex":[7,5,15],"Asignación del contáctanos Buyers Post":[8,5,13],"Problemas de seguridad":[3,6,10],"Reputación ME Masivos":[3,4,8],"CBT - Prohibited technique":[7,0,7],"Viaje del paquete - Vendedor":[2,3,6],"Tarjetas de crédito - Solicitud y Límites":[4,2,6],"Problemas con acceso y factores":[5,1,6],"Transferencias de dinero":[3,2,6],"Apelaciones buyer XDDS":[3,3,6],"Funcionalidades de tarjetas de Crédito":[3,2,5],"KYC seg360":[4,0,5],"Configuración de la cuenta":[2,0,4],"Post Compra Funcionalidades CBT":[3,1,4],"Reputación ML Masivos":[4,0,4],"Caja vacía - MP":[2,1,4],"CBT - Prohibited items":[2,1,4],"Restricciones":[2,1,3],"CBT - Intellectual Property":[3,0,3],"Despacho Ventas y Publicaciones Masivos":[2,1,3],"Consumer Credits":[1,1,2],"Guardia Urbana":[2,0,2],"Posterior a la Entrega":[2,0,2]},
-  "PCF Vendedor Mature":{"Post Compra Funcionalidades Vendedor":[144,39,201]},
-  "PCF Vendedor Meli Pro":{"Post Compra Funcionalidades Vendedor":[16,5,24]},
-  "PCF Vendedor Seller Dev":{"Post Compra Funcionalidades Vendedor":[163,46,229]},
-  "PDD DS&XD - Vendedor":{"Arrepentimiento - XD":[38,37,90],"Arrepentimiento - DS":[40,27,73],"Diferente - XD":[39,25,72],"Defectuoso - XD":[23,37,65],"Defectuoso - DS":[26,24,55],"Incompleto - XD":[25,12,41],"Diferente - DS":[17,13,38],"Incompleto - DS":[12,9,22],"Caja Vacía - DS":[5,5,11],"Caja Vacía - XD":[6,3,9]},
-  "PDD FBM - Vendedor":{"Defectuoso - FBM":[22,14,39],"Arrepentimiento - FBM":[17,3,22],"Asignación del Contáctanos PDD FBM":[6,8,17],"Diferente - FBM":[13,2,17],"Arrepentimiento - Super - FBM":[7,0,7],"Incompleto - FBM":[4,2,6],"MED - PDD Low cost":[2,2,5],"Caja Vacía - FBM":[1,1,2],"Low Cost -  Dry":[0,1,1],"Apelaciones Buyer":[0,1,1],"Incompleto - Super - FBM":[1,0,1]},
-  "PDD Fotos - Vendedor":{"PDD - Fotos":[13,8,23]},
-  "PDD MP,FLEX & CBT - Vendedor":{"Arrepentimiento - MP":[8,5,13],"Defectuoso - Flex":[4,4,9],"Defectuoso - MP":[3,2,6],"Arrepentimiento - Flex":[4,1,6],"Incompleto - Flex":[2,2,5],"Diferente - MP":[3,1,4],"Diferente - Flex":[2,1,3],"Defectuoso - CBT":[1,0,1],"Incompleto - MP":[1,0,1]},
-  "PNR ME - Vendedor":{"PNR - Previo al despacho XD DS":[26,18,45],"PNR - Contradictorio XD DS FBM":[7,3,12],"PNR - Contradictorio - Flex":[3,1,5],"PNR - Low Cost":[1,0,1],"PNR - Previo al Despacho - Flex":[0,1,1],"PNR - Contradictorio - DS":[1,0,1],"PNR - Contradictorio - XD":[0,1,1]},
-  "PNR MP - Vendedor":{"PNR - MP":[80,32,121]},
-  "Partners":{"Drivers":[630,105,823],"Places Kangu":[190,30,237]},
-  "Post Venta Mature":{"Reputación":[159,30,206],"Anulación de Venta":[2,2,4]},
-  "Post Venta Meli Pro":{"Reputación":[34,4,42],"Anulación de Venta":[1,0,1]},
-  "Post Venta Seller Dev":{"Reputación":[355,56,450],"Anulación de Venta":[16,3,20]},
-  "Publicaciones Mature":{"PR - Técnica prohibida":[31,4,40],"Gestión de Publicación":[26,5,40],"Potenciar Ventas":[15,4,23],"PR - Propiedad intelectual":[15,2,22],"PR - Artículos prohibidos":[10,4,15],"Calidad de foto":[6,0,6],"Antes de publicar":[3,1,5],"PR - Datos Personales":[3,1,5],"Denuncia de usuario":[2,0,2]},
-  "Publicaciones Meli Pro":{"PR - Técnica prohibida":[1,1,3],"Gestión de Publicación":[2,1,3],"PR - Propiedad intelectual":[2,0,2],"Antes de publicar":[1,0,1],"Potenciar Ventas":[0,1,1],"Calidad de foto":[1,0,1],"Asignación del Contáctanos - Prustomer":[1,0,1]},
-  "Publicaciones Seller Dev":{"Afiliados ML":[510,74,639],"Gestión de Publicación":[94,18,123],"PR - Técnica prohibida":[98,11,121],"PR - Propiedad intelectual":[76,18,98],"Potenciar Ventas":[62,18,93],"Antes de publicar":[70,8,88],"PR - Artículos prohibidos":[43,12,57],"Denuncia de usuario":[33,5,41],"Calidad de foto":[6,3,10],"PR - Datos Personales":[3,5,8]}
+  "CBT":{"CBT - ME Reputation":[73,1,74],"CBT - Reputation":[49,11,63],"CBT - Package journey":[17,1,18],"CBT - Moderations":[11,1,12],"CBT - Dispatch, Sales and Listings":[8,1,9],"CBT - Reverse":[5,4,9],"CBT - Publication Management":[5,1,6],"CBT - Boosters":[4,0,4],"CBT - Operational Management":[2,2,4],"CBT - Billing":[1,0,1]},
+  "Experiencia Impositiva Mature":{"Emision de Nota Fiscal":[14,5,21],"Facturación":[3,1,4],"Datos fiscales":[1,0,2]},
+  "Experiencia Impositiva Meli Pro":{"Facturación":[2,0,3],"Emision de Nota Fiscal":[1,1,2]},
+  "Experiencia Impositiva Seller Dev":{"Emision de Nota Fiscal":[162,37,218],"Facturación":[73,25,110],"Datos fiscales":[24,7,33]},
+  "FBM-S Mature":{"FBM - Pre Inbound":[26,5,34],"FBM - Inventario":[15,7,24],"FBM - Retiro de Stock - Cx One":[10,3,15],"FBM - Post Inbound":[8,5,13],"FBM - Devoluciones":[3,0,3],"FBM - Funcionalidades":[3,0,3]},
+  "FBM-S Meli Pro":{"FBM - Inventario":[5,3,8],"FBM - Pre Inbound":[5,0,6],"FBM - Devoluciones":[2,1,3],"FBM - Funcionalidades":[2,0,2],"FBM - Retiro de Stock - Cx One":[2,0,2]},
+  "FBM-S Seller Dev":{"FBM - Pre Inbound":[59,26,92],"FBM - Inventario":[37,11,55],"FBM - Post Inbound":[36,8,49],"FBM - Retiro de Stock - Cx One":[17,3,25],"FBM - Funcionalidades":[12,2,17],"FBM - Devoluciones":[4,3,8],"FBM - Outbound":[1,1,2],"Asignación del Contáctanos FBM":[1,0,1]},
+  "ME Vendedor Mature":{"Reputación ME":[300,46,362],"Despacho Ventas y Publicaciones":[188,38,244],"Reversa":[96,18,126],"Gestiones Operativas":[76,20,108],"Viaje del paquete - Vendedor":[36,6,50],"Viaje del paquete - Comprador":[2,4,6],"Suspensiones ME":[0,2,2]},
+  "ME Vendedor Meli Pro":{"Reputación ME":[20,2,24],"Despacho Ventas y Publicaciones":[10,2,12],"Reversa":[7,3,10],"Viaje del paquete - Vendedor":[9,0,9],"Gestiones Operativas":[6,1,7]},
+  "ME Vendedor Seller Dev":{"Despacho Ventas y Publicaciones":[1324,246,1744],"Reputación ME":[1174,82,1342],"Gestiones Operativas":[218,36,284],"Reversa":[194,32,256],"Viaje del paquete - Vendedor":[94,20,140],"Suspensiones ME":[2,0,2]},
+  "Otros CV":{"KYC Services":[202,7,224],"Viaje del paquete - Comprador":[36,12,50],"Apelaciones retorno buyer XDDS":[10,29,41],"Caja vacía - Flex":[9,5,17],"Asignación del contáctanos Buyers Post":[8,7,16],"Problemas de seguridad":[3,9,13],"Problemas con acceso y factores":[7,1,9],"Reputación ME Masivos":[4,4,9],"CBT - Prohibited technique":[8,0,8],"Viaje del paquete - Vendedor":[3,4,8],"Configuración de la cuenta":[4,1,7],"Tarjetas de crédito - Solicitud y Límites":[5,2,7],"CBT - Intellectual Property":[5,1,6],"Reputación ML Masivos":[5,0,6],"Post Compra Funcionalidades CBT":[5,1,6],"Transferencias de dinero":[3,2,6],"KYC seg360":[5,0,6],"Apelaciones buyer XDDS":[3,3,6],"Funcionalidades de tarjetas de Crédito":[3,2,5],"CBT - Prohibited items":[3,1,5],"Caja vacía - MP":[2,2,5],"Problemas con pagos - Cards":[3,1,4],"Despacho Ventas y Publicaciones Masivos":[2,2,4],"Restricciones":[2,1,3],"Guardia Urbana":[2,0,2],"Posterior a la Entrega":[2,0,2],"Consumer Credits":[1,1,2]},
+  "PCF Vendedor Mature":{"Post Compra Funcionalidades Vendedor":[164,47,234]},
+  "PCF Vendedor Meli Pro":{"Post Compra Funcionalidades Vendedor":[32,7,45]},
+  "PCF Vendedor Seller Dev":{"Post Compra Funcionalidades Vendedor":[208,52,282]},
+  "PDD DS&XD - Vendedor":{"Arrepentimiento - XD":[42,44,103],"Arrepentimiento - DS":[46,32,86],"Diferente - XD":[44,30,82],"Defectuoso - XD":[26,40,71],"Defectuoso - DS":[30,26,61],"Incompleto - XD":[27,15,46],"Diferente - DS":[19,14,41],"Incompleto - DS":[16,10,27],"Caja Vacía - DS":[5,5,11],"Caja Vacía - XD":[6,3,9]},
+  "PDD FBM - Vendedor":{"Defectuoso - FBM":[24,16,44],"Arrepentimiento - FBM":[19,4,26],"Asignación del Contáctanos PDD FBM":[8,12,23],"Diferente - FBM":[16,4,22],"Incompleto - FBM":[5,3,8],"Arrepentimiento - Super - FBM":[7,0,7],"MED - PDD Low cost":[2,2,5],"Caja Vacía - FBM":[1,1,2],"Apelaciones Buyer":[0,1,1],"Incompleto - Super - FBM":[1,0,1],"Low Cost -  Dry":[0,1,1]},
+  "PDD Fotos - Vendedor":{"PDD - Fotos":[14,10,26]},
+  "PDD MP,FLEX & CBT - Vendedor":{"Arrepentimiento - MP":[8,6,14],"Defectuoso - Flex":[4,5,11],"Defectuoso - MP":[5,2,9],"Arrepentimiento - Flex":[4,1,7],"Incompleto - Flex":[3,3,7],"Diferente - MP":[3,2,6],"Diferente - Flex":[2,2,4],"Incompleto - MP":[1,0,2],"Asignación del Contáctanos PDDMP Flex":[2,0,2],"Defectuoso - CBT":[1,0,1]},
+  "PNR ME - Vendedor":{"PNR - Previo al despacho XD DS":[26,18,45],"PNR - Contradictorio XD DS FBM":[9,4,16],"PNR - Contradictorio - Flex":[3,1,5],"PNR - Low Cost":[1,0,1],"PNR - Previo al Despacho - Flex":[0,1,1],"PNR - Contradictorio - XD":[0,1,1],"PNR - Contradictorio - DS":[1,0,1]},
+  "PNR MP - Vendedor":{"PNR - MP":[93,37,142]},
+  "Partners":{"Drivers":[775,127,1007],"Places Kangu":[235,34,290]},
+  "Post Venta Mature":{"Reputación":[182,33,237],"Anulación de Venta":[3,2,5]},
+  "Post Venta Meli Pro":{"Reputación":[52,6,62],"Anulación de Venta":[1,0,1]},
+  "Post Venta Seller Dev":{"Reputación":[427,69,542],"Anulación de Venta":[19,3,23]},
+  "Publicaciones Mature":{"Gestión de Publicación":[31,7,48],"PR - Técnica prohibida":[33,4,43],"Potenciar Ventas":[16,6,27],"PR - Propiedad intelectual":[20,2,27],"PR - Artículos prohibidos":[11,4,16],"Calidad de foto":[7,1,8],"Antes de publicar":[3,2,6],"PR - Datos Personales":[3,1,5],"Denuncia de usuario":[3,0,3]},
+  "Publicaciones Meli Pro":{"PR - Técnica prohibida":[6,1,8],"Potenciar Ventas":[4,1,6],"Gestión de Publicación":[3,1,4],"PR - Propiedad intelectual":[2,0,2],"PR - Artículos prohibidos":[1,0,1],"Calidad de foto":[1,0,1],"Antes de publicar":[1,0,1],"Asignación del Contáctanos - Prustomer":[1,0,1]},
+  "Publicaciones Seller Dev":{"Afiliados ML":[611,86,760],"Gestión de Publicación":[114,22,150],"PR - Técnica prohibida":[114,12,142],"PR - Propiedad intelectual":[88,20,114],"Potenciar Ventas":[76,20,109],"Antes de publicar":[87,9,107],"PR - Artículos prohibidos":[51,12,65],"Denuncia de usuario":[37,6,47],"Calidad de foto":[10,3,15],"PR - Datos Personales":[3,5,8]}
 };
 
 // ── Process-level data: March 2026 ───────────────────────
