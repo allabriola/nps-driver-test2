@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NPS CS vs Target | Variação Mensal</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}
+.header{background:linear-gradient(135deg,#ffe600,#f5c800);padding:22px 36px 18px;border-bottom:3px solid #e6b800}
+.header-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.header h1{font-size:1.4rem;font-weight:700;color:#1a1a2e}
+.header .sub{font-size:.82rem;color:#333;margin-top:3px}
+.badge{background:#1a1a2e;color:#ffe600;font-size:.72rem;font-weight:700;padding:4px 14px;border-radius:20px}
+.period-badge{background:rgba(26,26,46,.15);color:#1a1a2e;font-size:.72rem;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid rgba(26,26,46,.25)}
+.filters{display:flex;gap:8px;padding:18px 36px;flex-wrap:wrap;background:#0f172a;border-bottom:1px solid #1e293b}
+.btn{background:#1e293b;color:#94a3b8;border:1px solid #334155;border-radius:8px;padding:7px 18px;font-size:.82rem;font-weight:600;cursor:pointer;transition:.15s}
+.btn:hover{background:#334155;color:#e2e8f0}
+.btn.active{background:#3b82f6;color:#fff;border-color:#3b82f6}
+.tab-bar{display:flex;gap:0;padding:0 36px;background:#0f172a;border-bottom:1px solid #1e293b}
+.tab{background:transparent;color:#64748b;border:none;border-bottom:3px solid transparent;border-radius:0;padding:13px 22px;font-size:.84rem;font-weight:700;cursor:pointer;margin-bottom:-1px;transition:.15s;letter-spacing:.2px}
+.tab:hover{color:#e2e8f0}
+.tab.active{color:#ffe600;border-bottom-color:#ffe600}
+.week-comp-bar{width:100%;display:none;padding-bottom:12px;border-bottom:1px solid #1e293b;margin-bottom:4px}
+.kpis{display:flex;gap:14px;padding:20px 36px;flex-wrap:wrap}
+.kpi{background:#1e293b;border-radius:12px;padding:16px 22px;flex:1;min-width:150px;border-top:4px solid #334155}
+.kpi.k-surveys{border-top-color:#6366f1}
+.kpi.k-apr{border-top-color:#3b82f6}
+.kpi.k-mar{border-top-color:#64748b}
+.kpi.k-pos{border-top-color:#22c55e}
+.kpi.k-neg{border-top-color:#ef4444}
+.kpi label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;display:block;margin-bottom:6px}
+.kpi .val{font-size:2rem;font-weight:800;line-height:1}
+.kpi .sub{font-size:.7rem;color:#64748b;margin-top:4px}
+.kpi.k-surveys .val{color:#a5b4fc}
+.kpi.k-apr .val{color:#60a5fa}
+.kpi.k-mar .val{color:#94a3b8}
+.kpi.k-pos .val{color:#4ade80}
+.kpi.k-neg .val{color:#f87171}
+.section{padding:0 36px 30px}
+.section-title{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#64748b;margin-bottom:12px;padding-top:24px;border-top:1px solid #1e293b}
+table{width:100%;border-collapse:collapse;font-size:.83rem}
+thead th{text-align:left;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;padding:8px 12px;border-bottom:1px solid #1e293b}
+thead th.r{text-align:right}
+tbody tr{border-bottom:1px solid #1e293b;transition:.1s}
+tbody tr:hover{background:#1e293b}
+tbody td{padding:9px 12px;color:#cbd5e1}
+tbody td.r{text-align:right}
+.seg-tag{display:inline-block;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap}
+.seg-Mature{background:#1d4ed8;color:#bfdbfe}
+.seg-MelihPro{background:#7e22ce;color:#e9d5ff}
+.seg-Longtail{background:#065f46;color:#a7f3d0}
+.seg-OtrosCV{background:#92400e;color:#fde68a}
+.seg-Buyer{background:#9f1239;color:#fecdd3}
+.pos{color:#4ade80}
+.neg{color:#f87171}
+.neutral{color:#94a3b8}
+.bar-wrap{display:flex;gap:10px;margin-top:10px}
+.bar-col{flex:1;min-width:280px;background:#1e293b;border-radius:12px;padding:18px}
+.bar-col h3{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:14px}
+.bar-col h3.green{color:#4ade80}
+.bar-col h3.red{color:#f87171}
+.bar-item{margin-bottom:10px}
+.bar-item .label{display:flex;justify-content:space-between;font-size:.75rem;margin-bottom:4px}
+.bar-item .label .name{color:#cbd5e1;max-width:75%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-track{background:#0f172a;border-radius:4px;height:7px;overflow:hidden}
+.bar-fill-pos{background:#22c55e;height:7px;border-radius:4px;transition:width .4s}
+.bar-fill-neg{background:#ef4444;height:7px;border-radius:4px;transition:width .4s}
+.empty-state{text-align:center;padding:40px;color:#475569;font-size:.9rem}
+/* Executive Summary */
+.exec-card{background:#1e293b;border-radius:12px;padding:18px 22px;margin-bottom:4px}
+.exec-narrative{font-size:.85rem;color:#cbd5e1;line-height:1.7;margin-bottom:16px}
+.exec-narrative strong{color:#e2e8f0}
+.spotlight-row{display:flex;gap:12px;flex-wrap:wrap}
+.spotlight{flex:1;min-width:280px;background:#0f172a;border-radius:10px;padding:16px;border-left:4px solid #334155}
+.spotlight.up{border-left-color:#22c55e}
+.spotlight.down{border-left-color:#ef4444}
+.spotlight-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.spotlight-name{font-size:.82rem;font-weight:700;color:#e2e8f0;max-width:68%;line-height:1.3}
+.spotlight-delta{font-size:1.1rem;font-weight:800;white-space:nowrap}
+.proc-mini-tbl{width:100%;border-collapse:collapse;font-size:.75rem;margin-top:10px}
+.proc-mini-tbl th{color:#475569;font-size:.63rem;text-transform:uppercase;letter-spacing:.4px;padding:5px 8px;text-align:left;border-bottom:1px solid #1e293b}
+.proc-mini-tbl th.r{text-align:right}
+.proc-mini-tbl td{padding:5px 8px;color:#94a3b8;border-bottom:1px solid #1e293b10}
+.proc-mini-tbl td.r{text-align:right}
+.proc-mini-tbl tr:last-child td{border-bottom:none}
+/* Deep Dive */
+.dd-driver{margin-bottom:8px;background:#1e293b;border-radius:10px;overflow:hidden}
+.dd-driver-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;cursor:pointer;user-select:none}
+.dd-driver-header:hover{background:#243448}
+.dd-driver-title{display:flex;align-items:center;gap:10px;font-size:.82rem;font-weight:700;color:#e2e8f0}
+.dd-driver-meta{font-size:.73rem;color:#64748b}
+.dd-chevron{font-size:.68rem;color:#64748b;transition:transform .2s}
+.dd-body{display:none;padding:0 16px 14px}
+.dd-body.open{display:block}
+.dd-tbl{width:100%;border-collapse:collapse;font-size:.78rem}
+.dd-tbl th{color:#475569;font-size:.63rem;text-transform:uppercase;letter-spacing:.4px;padding:6px 10px;text-align:left;border-bottom:1px solid #0f172a}
+.dd-tbl th.r{text-align:right}
+.dd-tbl td{padding:7px 10px;color:#94a3b8;border-bottom:1px solid #0f172a30}
+.dd-tbl td.r{text-align:right}
+.dd-tbl tr:last-child td{border-bottom:none}
+.dd-tbl tbody tr:hover td{color:#cbd5e1;background:#0f172a20}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-row">
+    <div>
+      <h1>NPS CS vs Target</h1>
+      <div class="sub" id="header-sub">Variação Mensal — Brasil</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <span class="period-badge" id="badge-curr">Abril 2026</span>
+      <span style="color:#1a1a2e;font-weight:700">vs</span>
+      <span class="period-badge" id="badge-prev">Março 2026</span>
+      <span class="badge">CS</span>
+    </div>
+  </div>
+</div>
+
+<div class="tab-bar">
+  <button class="tab active" id="tab-mensal" onclick="setTab('mensal')">Mensal</button>
+  <button class="tab" id="tab-semanal" onclick="setTab('semanal')">Semanal</button>
+</div>
+
+<div class="filters">
+  <div class="week-comp-bar" id="week-comp">
+    <button class="btn active" id="wc-s1s2" onclick="setWeekComp('s1s2')">Sem. Passada vs Anterior &nbsp;·&nbsp; 06–12 Abr vs 30 Mar–05 Abr</button>
+    <button class="btn" id="wc-s0s1" onclick="setWeekComp('s0s1')">Sem. Atual vs Passada &nbsp;·&nbsp; 13 Abr+ vs 06–10 Abr</button>
+  </div>
+  <button class="btn active" onclick="setFilter('Todos')">Todos</button>
+  <button class="btn" onclick="setFilter('Mature')">Mature</button>
+  <button class="btn" onclick="setFilter('Meli Pro')">Meli Pro</button>
+  <button class="btn" onclick="setFilter('Longtail')">Longtail</button>
+  <button class="btn" onclick="setFilter('Buyer')">Buyer</button>
+  <button class="btn" onclick="setFilter('Otros CV')">Otros CV</button>
+</div>
+
+<div class="kpis" id="kpis"></div>
+
+<div class="section" id="waterfall-section">
+  <div class="section-title">Contribuição por Segmento ao NPS</div>
+  <div id="waterfall-chart"></div>
+</div>
+
+<div class="section" id="exec-section">
+  <div class="section-title">Resumo Executivo</div>
+  <div id="exec-summary"></div>
+</div>
+
+<div class="section">
+  <div class="section-title">Drivers</div>
+  <table>
+    <thead id="driver-thead">
+      <tr>
+        <th>Driver</th>
+        <th>Segmento</th>
+        <th class="r" id="th-curr">NPS Abr</th>
+        <th class="r" id="th-prev">NPS Mar</th>
+        <th class="r">Δ NPS</th>
+        <th class="r" id="th-imp">Impacto Abr</th>
+        <th class="r">Δ Impacto</th>
+        <th class="r">Neto</th>
+        <th class="r">Mix</th>
+        <th class="r" id="th-surv">Pesquisas Abr</th>
+      </tr>
+    </thead>
+    <tbody id="driver-table"></tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">Variação por Driver</div>
+  <div class="bar-wrap">
+    <div class="bar-col"><h3 class="green">Maior Alta</h3><div id="gainers"></div></div>
+    <div class="bar-col"><h3 class="red">Maior Queda</h3><div id="decliners"></div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Deep Dive por Processo</div>
+  <div id="deepdive"></div>
+</div>
+
+<script>
+// ── Raw data: April 2026 ──────────────────────────────────
+const rawApr = [
+['CBT',158,16,177],
+['Experiencia Impositiva Mature',16,5,24],['Experiencia Impositiva Meli Pro',3,0,4],['Experiencia Impositiva Seller Dev',215,56,300],
+['FBM-S Mature',52,18,77],['FBM-S Meli Pro',9,3,13],['FBM-S Seller Dev',138,49,212],
+['ME Vendedor Mature',604,118,778],['ME Vendedor Meli Pro',35,8,43],['ME Vendedor Seller Dev',2546,352,3198],
+['Otros CV',314,97,444],
+['PCF Vendedor Mature',144,39,201],['PCF Vendedor Meli Pro',16,5,24],['PCF Vendedor Seller Dev',163,46,229],
+['PDD DS&XD - Vendedor',231,192,476],['PDD FBM - Vendedor',73,34,118],['PDD Fotos - Vendedor',13,8,23],
+['PDD MP,FLEX & CBT - Vendedor',28,16,48],
+['PNR ME - Vendedor',38,24,66],['PNR MP - Vendedor',80,32,121],
+['Partners',820,135,1060],
+['Post Venta Mature',161,32,210],['Post Venta Meli Pro',35,4,43],['Post Venta Seller Dev',371,59,470],
+['Publicaciones Mature',111,21,158],['Publicaciones Meli Pro',8,3,12],['Publicaciones Seller Dev',995,172,1278]
+];
+
+// ── Raw data: March 2026 ──────────────────────────────────
+const rawMar = [
+['CBT',323,58,395],
+['Experiencia Impositiva Mature',45,20,72],['Experiencia Impositiva Meli Pro',8,4,13],['Experiencia Impositiva Seller Dev',312,108,469],
+['FBM-S Mature',130,45,203],['FBM-S Meli Pro',11,8,22],['FBM-S Seller Dev',347,125,524],
+['ME Vendedor Mature',1618,314,2184],['ME Vendedor Meli Pro',60,10,75],['ME Vendedor Seller Dev',4958,754,6266],
+['Otros CV',800,194,1087],
+['PCF Vendedor Mature',332,85,467],['PCF Vendedor Meli Pro',32,8,44],['PCF Vendedor Seller Dev',536,166,790],
+['PDD DS&XD - Vendedor',645,486,1280],['PDD FBM - Vendedor',193,89,306],['PDD Fotos - Vendedor',46,22,72],
+['PDD MP,FLEX & CBT - Vendedor',87,58,166],
+['PNR ME - Vendedor',103,71,193],['PNR MP - Vendedor',140,90,266],
+['Partners',2228,337,2806],
+['Post Venta Mature',392,76,520],['Post Venta Meli Pro',70,10,81],['Post Venta Seller Dev',929,178,1186],
+['Publicaciones Mature',258,51,345],['Publicaciones Meli Pro',18,7,26],['Publicaciones Seller Dev',2639,374,3309]
+];
+
+// ── Raw data: Week S1 — 06-12 Abr 2026 ───────────────────
+const rawS1 = [
+// Buyer
+['CBT',87,12,101],['PDD DS&XD - Vendedor',113,94,235],['PDD FBM - Vendedor',40,18,65],
+['PDD Fotos - Vendedor',7,5,12],['PDD MP,FLEX & CBT - Vendedor',16,9,28],
+['PNR ME - Vendedor',21,15,38],['PNR MP - Vendedor',54,16,74],
+// Mature
+['Experiencia Impositiva Mature',9,3,13],['FBM-S Mature',28,7,40],
+['ME Vendedor Mature',374,82,492],['PCF Vendedor Mature',97,24,131],
+['Post Venta Mature',89,15,117],['Publicaciones Mature',72,12,101],
+// Meli Pro
+['Experiencia Impositiva Meli Pro',1,0,2],['FBM-S Meli Pro',9,2,12],
+['ME Vendedor Meli Pro',24,6,30],['PCF Vendedor Meli Pro',13,3,19],
+['Post Venta Meli Pro',25,2,29],['Publicaciones Meli Pro',6,1,8],
+// Longtail (Seller Dev)
+['Experiencia Impositiva Seller Dev',150,36,208],['FBM-S Seller Dev',74,24,115],
+['ME Vendedor Seller Dev',1676,222,2104],['PCF Vendedor Seller Dev',98,29,136],
+['Partners',460,76,587],['Post Venta Seller Dev',239,39,301],['Publicaciones Seller Dev',607,103,769],
+// Otros CV
+['Otros CV',184,66,268]
+];
+
+// ── Raw data: Week S2 — 30 Mar-05 Abr 2026 ───────────────
+const rawS2 = [
+// Buyer
+['CBT',75,9,86],['PDD DS&XD - Vendedor',136,106,275],['PDD FBM - Vendedor',45,16,63],
+['PDD Fotos - Vendedor',9,5,15],['PDD MP,FLEX & CBT - Vendedor',14,7,24],
+['PNR ME - Vendedor',18,9,30],['PNR MP - Vendedor',33,15,56],
+// Mature
+['Experiencia Impositiva Mature',12,5,20],['FBM-S Mature',30,13,48],
+['ME Vendedor Mature',340,56,438],['PCF Vendedor Mature',68,14,91],
+['Post Venta Mature',88,20,114],['Publicaciones Mature',61,13,87],
+// Meli Pro
+['Experiencia Impositiva Meli Pro',2,1,3],['FBM-S Meli Pro',0,2,2],
+['ME Vendedor Meli Pro',10,6,17],['PCF Vendedor Meli Pro',4,3,7],
+['Post Venta Meli Pro',8,0,9],['Publicaciones Meli Pro',6,1,8],
+// Longtail (Seller Dev)
+['Experiencia Impositiva Seller Dev',66,25,100],['FBM-S Seller Dev',73,23,104],
+['ME Vendedor Seller Dev',1016,158,1270],['PCF Vendedor Seller Dev',84,23,125],
+['Partners',448,77,574],['Post Venta Seller Dev',176,39,233],['Publicaciones Seller Dev',502,88,653],
+// Otros CV
+['Otros CV',144,38,203]
+];
+
+// ── Raw data: Week S0 — Sem. Atual (13 Abr+) — preencher quando disponível
+const rawS0 = [];
+
+// ── Segment map ──────────────────────────────────────────
+const segMap = {
+  'Experiencia Impositiva Mature':'Mature','FBM-S Mature':'Mature','ME Vendedor Mature':'Mature',
+  'PCF Vendedor Mature':'Mature','Post Venta Mature':'Mature','Publicaciones Mature':'Mature',
+  'Experiencia Impositiva Meli Pro':'Meli Pro','FBM-S Meli Pro':'Meli Pro','ME Vendedor Meli Pro':'Meli Pro',
+  'PCF Vendedor Meli Pro':'Meli Pro','Post Venta Meli Pro':'Meli Pro','Publicaciones Meli Pro':'Meli Pro',
+  'Experiencia Impositiva Seller Dev':'Longtail','FBM-S Seller Dev':'Longtail','ME Vendedor Seller Dev':'Longtail',
+  'Partners':'Longtail','PCF Vendedor Seller Dev':'Longtail','Post Venta Seller Dev':'Longtail','Publicaciones Seller Dev':'Longtail',
+  'CBT':'Buyer','PDD DS&XD - Vendedor':'Buyer',
+  'PDD FBM - Vendedor':'Buyer','PDD Fotos - Vendedor':'Buyer','PDD MP,FLEX & CBT - Vendedor':'Buyer',
+  'PNR ME - Vendedor':'Buyer','PNR MP - Vendedor':'Buyer',
+  'Otros CV':'Otros CV'
+};
+
+const segClass = {'Mature':'seg-Mature','Meli Pro':'seg-MelihPro','Longtail':'seg-Longtail','Otros CV':'seg-OtrosCV','Buyer':'seg-Buyer'};
+
+// ── Target NPS por driver (Abril 2026) ───────────────────
+const targetMap = {
+  'CBT':74.63,'Experiencia Impositiva Mature':53.63,'Experiencia Impositiva Meli Pro':38.57,
+  'Experiencia Impositiva Seller Dev':59.03,'FBM-S Mature':19.60,'FBM-S Meli Pro':48.70,
+  'FBM-S Seller Dev':42.07,'ME Vendedor Mature':48.99,'ME Vendedor Meli Pro':81.60,
+  'ME Vendedor Seller Dev':57.80,'Otros CV':53.77,'PCF Vendedor Mature':28.27,
+  'PCF Vendedor Meli Pro':63.57,'PCF Vendedor Seller Dev':39.93,'PDD DS&XD - Vendedor':16.40,
+  'PDD FBM - Vendedor':40.67,'PDD Fotos - Vendedor':33.13,'PDD MP,FLEX & CBT - Vendedor':12.33,
+  'PNR ME - Vendedor':27.23,'PNR MP - Vendedor':29.57,'Partners':70.19,
+  'Post Venta Mature':50.10,'Post Venta Meli Pro':87.77,'Post Venta Seller Dev':53.40,
+  'Publicaciones Mature':47.37,'Publicaciones Meli Pro':81.43,'Publicaciones Seller Dev':52.87
+};
+
+// ── Process-level data: April 2026 ───────────────────────
+const procApr = {
+  "CBT":{"CBT - ME Reputation":[68,0,68],"CBT - Reputation":[45,8,56],"CBT - Package journey":[15,0,15],"CBT - Moderations":[8,1,9],"CBT - Reverse":[4,4,8],"CBT - Dispatch, Sales and Listings":[6,1,7],"CBT - Publication Management":[5,1,6],"CBT - Boosters":[4,0,4],"CBT - Operational Management":[2,1,3],"CBT - Billing":[1,0,1]},
+  "Experiencia Impositiva Mature":{"Emision de Nota Fiscal":[12,4,18],"Facturación":[3,1,4],"Datos fiscales":[1,0,2]},
+  "Experiencia Impositiva Meli Pro":{"Facturación":[2,0,3],"Emision de Nota Fiscal":[1,0,1]},
+  "Experiencia Impositiva Seller Dev":{"Emision de Nota Fiscal":[139,30,186],"Facturación":[58,20,88],"Datos fiscales":[18,6,26]},
+  "FBM-S Mature":{"FBM - Pre Inbound":[19,4,26],"FBM - Inventario":[13,6,21],"FBM - Retiro de Stock - Cx One":[8,3,13],"FBM - Post Inbound":[8,5,13],"FBM - Devoluciones":[2,0,2],"FBM - Funcionalidades":[2,0,2]},
+  "FBM-S Meli Pro":{"FBM - Inventario":[2,3,5],"FBM - Pre Inbound":[4,0,5],"FBM - Devoluciones":[2,0,2],"FBM - Funcionalidades":[1,0,1]},
+  "FBM-S Seller Dev":{"FBM - Pre Inbound":[51,23,81],"FBM - Inventario":[29,10,45],"FBM - Post Inbound":[27,8,38],"FBM - Retiro de Stock - Cx One":[15,2,22],"FBM - Funcionalidades":[11,2,16],"FBM - Devoluciones":[3,3,7],"FBM - Outbound":[1,1,2],"Asignación del Contáctanos FBM":[1,0,1]},
+  "ME Vendedor Mature":{"Reputación ME":[256,40,312],"Despacho Ventas y Publicaciones":[168,32,216],"Reversa":[84,16,108],"Gestiones Operativas":[62,20,92],"Viaje del paquete - Vendedor":[32,6,44],"Viaje del paquete - Comprador":[2,2,4],"Suspensiones ME":[0,2,2]},
+  "ME Vendedor Meli Pro":{"Reputación ME":[14,2,16],"Despacho Ventas y Publicaciones":[10,2,12],"Reversa":[3,3,6],"Viaje del paquete - Vendedor":[5,0,5],"Gestiones Operativas":[3,1,4]},
+  "ME Vendedor Seller Dev":{"Despacho Ventas y Publicaciones":[1104,214,1462],"Reputación ME":[1006,74,1158],"Gestiones Operativas":[186,24,240],"Reversa":[170,24,220],"Viaje del paquete - Vendedor":[78,16,116],"Suspensiones ME":[2,0,2]},
+  "Otros CV":{"KYC Services":[170,5,188],"Viaje del paquete - Comprador":[28,8,37],"Apelaciones retorno buyer XDDS":[7,26,35],"Costos de envío - Comprador":[9,6,19],"Caja vacía - Flex":[7,5,15],"Asignación del contáctanos Buyers Post":[8,5,13],"Problemas de seguridad":[3,6,10],"Reputación ME Masivos":[3,4,8],"CBT - Prohibited technique":[7,0,7],"Viaje del paquete - Vendedor":[2,3,6],"Tarjetas de crédito - Solicitud y Límites":[4,2,6],"Problemas con acceso y factores":[5,1,6],"Transferencias de dinero":[3,2,6],"Apelaciones buyer XDDS":[3,3,6],"Funcionalidades de tarjetas de Crédito":[3,2,5],"KYC seg360":[4,0,5],"Configuración de la cuenta":[2,0,4],"Post Compra Funcionalidades CBT":[3,1,4],"Reputación ML Masivos":[4,0,4],"Caja vacía - MP":[2,1,4],"CBT - Prohibited items":[2,1,4],"Restricciones":[2,1,3],"CBT - Intellectual Property":[3,0,3],"Despacho Ventas y Publicaciones Masivos":[2,1,3],"Consumer Credits":[1,1,2],"Guardia Urbana":[2,0,2],"Posterior a la Entrega":[2,0,2]},
+  "PCF Vendedor Mature":{"Post Compra Funcionalidades Vendedor":[144,39,201]},
+  "PCF Vendedor Meli Pro":{"Post Compra Funcionalidades Vendedor":[16,5,24]},
+  "PCF Vendedor Seller Dev":{"Post Compra Funcionalidades Vendedor":[163,46,229]},
+  "PDD DS&XD - Vendedor":{"Arrepentimiento - XD":[38,37,90],"Arrepentimiento - DS":[40,27,73],"Diferente - XD":[39,25,72],"Defectuoso - XD":[23,37,65],"Defectuoso - DS":[26,24,55],"Incompleto - XD":[25,12,41],"Diferente - DS":[17,13,38],"Incompleto - DS":[12,9,22],"Caja Vacía - DS":[5,5,11],"Caja Vacía - XD":[6,3,9]},
+  "PDD FBM - Vendedor":{"Defectuoso - FBM":[22,14,39],"Arrepentimiento - FBM":[17,3,22],"Asignación del Contáctanos PDD FBM":[6,8,17],"Diferente - FBM":[13,2,17],"Arrepentimiento - Super - FBM":[7,0,7],"Incompleto - FBM":[4,2,6],"MED - PDD Low cost":[2,2,5],"Caja Vacía - FBM":[1,1,2],"Low Cost -  Dry":[0,1,1],"Apelaciones Buyer":[0,1,1],"Incompleto - Super - FBM":[1,0,1]},
+  "PDD Fotos - Vendedor":{"PDD - Fotos":[13,8,23]},
+  "PDD MP,FLEX & CBT - Vendedor":{"Arrepentimiento - MP":[8,5,13],"Defectuoso - Flex":[4,4,9],"Defectuoso - MP":[3,2,6],"Arrepentimiento - Flex":[4,1,6],"Incompleto - Flex":[2,2,5],"Diferente - MP":[3,1,4],"Diferente - Flex":[2,1,3],"Defectuoso - CBT":[1,0,1],"Incompleto - MP":[1,0,1]},
+  "PNR ME - Vendedor":{"PNR - Previo al despacho XD DS":[26,18,45],"PNR - Contradictorio XD DS FBM":[7,3,12],"PNR - Contradictorio - Flex":[3,1,5],"PNR - Low Cost":[1,0,1],"PNR - Previo al Despacho - Flex":[0,1,1],"PNR - Contradictorio - DS":[1,0,1],"PNR - Contradictorio - XD":[0,1,1]},
+  "PNR MP - Vendedor":{"PNR - MP":[80,32,121]},
+  "Partners":{"Drivers":[630,105,823],"Places Kangu":[190,30,237]},
+  "Post Venta Mature":{"Reputación":[159,30,206],"Anulación de Venta":[2,2,4]},
+  "Post Venta Meli Pro":{"Reputación":[34,4,42],"Anulación de Venta":[1,0,1]},
+  "Post Venta Seller Dev":{"Reputación":[355,56,450],"Anulación de Venta":[16,3,20]},
+  "Publicaciones Mature":{"PR - Técnica prohibida":[31,4,40],"Gestión de Publicación":[26,5,40],"Potenciar Ventas":[15,4,23],"PR - Propiedad intelectual":[15,2,22],"PR - Artículos prohibidos":[10,4,15],"Calidad de foto":[6,0,6],"Antes de publicar":[3,1,5],"PR - Datos Personales":[3,1,5],"Denuncia de usuario":[2,0,2]},
+  "Publicaciones Meli Pro":{"PR - Técnica prohibida":[1,1,3],"Gestión de Publicación":[2,1,3],"PR - Propiedad intelectual":[2,0,2],"Antes de publicar":[1,0,1],"Potenciar Ventas":[0,1,1],"Calidad de foto":[1,0,1],"Asignación del Contáctanos - Prustomer":[1,0,1]},
+  "Publicaciones Seller Dev":{"Afiliados ML":[510,74,639],"Gestión de Publicación":[94,18,123],"PR - Técnica prohibida":[98,11,121],"PR - Propiedad intelectual":[76,18,98],"Potenciar Ventas":[62,18,93],"Antes de publicar":[70,8,88],"PR - Artículos prohibidos":[43,12,57],"Denuncia de usuario":[33,5,41],"Calidad de foto":[6,3,10],"PR - Datos Personales":[3,5,8]}
+};
+
+// ── Process-level data: March 2026 ───────────────────────
+const procMar = {
+  "CBT":{"CBT - ME Reputation":[170,15,189],"CBT - Reputation":[66,17,87],"CBT - Moderations":[26,4,32],"CBT - Package journey":[23,7,30],"CBT - Publication Management":[10,3,15],"CBT - Dispatch, Sales and Listings":[8,4,13],"CBT - Reverse":[5,3,9],"CBT - Billing":[5,2,7],"CBT - Boosters":[4,2,6],"CBT - Operational Management":[4,0,4],"CBT - Seller MP Features":[1,0,1],"FBM - Features - CBT":[1,0,1],"CBT - My Account":[0,1,1]},
+  "Experiencia Impositiva Mature":{"Emision de Nota Fiscal":[24,12,42],"Facturación":[20,8,29],"Datos fiscales":[1,0,1]},
+  "Experiencia Impositiva Meli Pro":{"Facturación":[4,3,8],"Emision de Nota Fiscal":[4,1,5]},
+  "Experiencia Impositiva Seller Dev":{"Facturación":[144,75,242],"Emision de Nota Fiscal":[129,26,177],"Datos fiscales":[39,7,50]},
+  "FBM-S Mature":{"FBM - Inventario":[32,18,60],"FBM - Pre Inbound":[36,12,59],"FBM - Post Inbound":[24,5,31],"FBM - Retiro de Stock - Cx One":[20,5,30],"FBM - Funcionalidades":[7,4,11],"FBM - Devoluciones":[9,1,10],"Asignación del Contáctanos FBM":[1,0,1],"FBM - Outbound":[1,0,1]},
+  "FBM-S Meli Pro":{"FBM - Pre Inbound":[4,1,7],"FBM - Post Inbound":[1,2,4],"FBM - Inventario":[1,2,3],"FBM - Devoluciones":[1,2,3],"FBM - Funcionalidades":[2,0,2],"FBM - Retiro de Stock - Cx One":[1,1,2],"FBM - Outbound":[1,0,1]},
+  "FBM-S Seller Dev":{"FBM - Pre Inbound":[126,38,188],"FBM - Inventario":[74,28,110],"FBM - Post Inbound":[57,21,84],"FBM - Retiro de Stock - Cx One":[51,19,76],"FBM - Funcionalidades":[20,14,38],"FBM - Devoluciones":[13,3,19],"FBM - Outbound":[6,2,9]},
+  "ME Vendedor Mature":{"Reputación ME":[604,80,756],"Despacho Ventas y Publicaciones":[416,110,614],"Reversa":[322,66,420],"Gestiones Operativas":[196,54,298],"Viaje del paquete - Vendedor":[74,4,90],"Viaje del paquete - Comprador":[4,0,4],"Suspensiones ME":[2,0,2]},
+  "ME Vendedor Meli Pro":{"Reputación ME":[29,5,35],"Despacho Ventas y Publicaciones":[7,3,13],"Reversa":[11,1,12],"Gestiones Operativas":[7,1,8],"Viaje del paquete - Vendedor":[6,0,7]},
+  "ME Vendedor Seller Dev":{"Reputación ME":[2080,148,2402],"Despacho Ventas y Publicaciones":[1520,360,2062],"Gestiones Operativas":[546,74,692],"Reversa":[468,128,668],"Viaje del paquete - Vendedor":[344,42,438],"Suspensiones ME":[0,2,4]},
+  "Otros CV":{"KYC Services":[460,17,517],"Viaje del paquete - Comprador":[79,22,115],"Costos de envío - Comprador":[25,12,40],"Apelaciones retorno buyer XDDS":[7,25,33],"Problemas de seguridad":[13,14,31],"Viaje del paquete - Vendedor":[20,9,30],"Problemas con acceso y factores":[17,1,21],"KYC seg360":[10,7,18],"Caja vacía - Flex":[9,6,18],"Tarjetas de crédito - Solicitud y Límites":[11,2,15],"Configuración de la cuenta":[10,3,14],"Restricciones":[5,7,14],"Post Compra Funcionalidades CBT":[7,4,13],"Consumer Credits":[9,3,12],"Problemas con pagos - Cards":[7,3,12],"CBT - Prohibited items":[10,2,12],"Reputación ME Masivos":[1,10,11],"Funcionalidades de tarjetas de Crédito":[6,3,10],"Asignación del contáctanos Buyers Post":[9,0,10],"Cancelación de cuenta":[5,1,7],"Reputación ML Masivos":[4,2,6],"Posterior a la Entrega":[4,2,6],"Afiliados ML":[4,2,6],"Seguros transaccional - Payers":[6,0,6],"Caja vacía - MP":[5,0,5],"Consumer Credits - Solicitud y Límites":[4,0,5],"CBT - Intellectual Property":[4,1,5],"Apelaciones buyer XDDS":[1,4,5],"Guardia Urbana":[2,0,2]},
+  "PCF Vendedor Mature":{"Post Compra Funcionalidades Vendedor":[332,85,467]},
+  "PCF Vendedor Meli Pro":{"Post Compra Funcionalidades Vendedor":[32,8,44]},
+  "PCF Vendedor Seller Dev":{"Post Compra Funcionalidades Vendedor":[536,166,790]},
+  "PDD DS&XD - Vendedor":{"Arrepentimiento - XD":[104,97,227],"Arrepentimiento - DS":[122,62,217],"Defectuoso - DS":[104,78,203],"Defectuoso - XD":[74,62,150],"Diferente - XD":[60,67,136],"Diferente - DS":[57,41,113],"Incompleto - XD":[44,37,94],"Incompleto - DS":[40,26,79],"Caja Vacía - DS":[20,11,32],"Caja Vacía - XD":[16,4,23],"Asignación del Contáctanos PDD DS&XD":[4,1,6]},
+  "PDD FBM - Vendedor":{"Defectuoso - FBM":[66,38,118],"Arrepentimiento - FBM":[35,13,50],"Asignación del Contáctanos PDD FBM":[21,18,42],"Incompleto - FBM":[27,9,38],"Diferente - FBM":[20,6,28],"Caja Vacía - FBM":[7,1,8],"Defectuoso - Super - FBM":[5,1,6],"Arrepentimiento - Super - FBM":[4,1,5],"MED - PDD Low cost":[3,1,4],"Incompleto - Super - FBM":[3,0,3],"Diferente - Super - FBM":[1,1,2],"Low Cost -  Dry":[1,0,2]},
+  "PDD Fotos - Vendedor":{"PDD - Fotos":[46,22,72]},
+  "PDD MP,FLEX & CBT - Vendedor":{"Arrepentimiento - MP":[23,13,42],"Defectuoso - Flex":[20,12,36],"Defectuoso - MP":[14,13,27],"Arrepentimiento - Flex":[9,6,16],"Incompleto - Flex":[8,5,15],"Diferente - Flex":[7,3,12],"Diferente - MP":[1,3,8],"Asignación del Contáctanos PDDMP Flex":[3,0,5],"Incompleto - MP":[1,3,4],"Defectuoso - CBT":[1,0,1]},
+  "PNR ME - Vendedor":{"PNR - Previo al despacho XD DS":[63,48,125],"PNR - Contradictorio XD DS FBM":[16,9,30],"PNR - Contradictorio - Flex":[9,6,15],"PNR - Contradictorio - DS":[8,4,12],"PNR - Low Cost":[5,0,5],"PNR - Contradictorio - XD":[1,3,4],"PNR - Previo al Despacho - Flex":[1,0,1],"PNR - Previo al Despacho - XD":[0,1,1]},
+  "PNR MP - Vendedor":{"PNR - MP":[140,90,266]},
+  "Partners":{"Drivers":[1797,278,2277],"Places Kangu":[431,59,529]},
+  "Post Venta Mature":{"Reputación":[390,75,516],"Anulación de Venta":[2,1,4]},
+  "Post Venta Meli Pro":{"Reputación":[69,9,79],"Anulación de Venta":[1,1,2]},
+  "Post Venta Seller Dev":{"Reputación":[899,167,1140],"Anulación de Venta":[30,11,46]},
+  "Publicaciones Mature":{"PR - Técnica prohibida":[76,8,96],"PR - Propiedad intelectual":[60,10,76],"Gestión de Publicación":[48,16,72],"Potenciar Ventas":[37,9,54],"PR - Artículos prohibidos":[15,1,16],"Calidad de foto":[10,1,13],"Antes de publicar":[5,3,8],"Denuncia de usuario":[2,3,5],"Afiliados ML":[3,0,3],"PR - Datos Personales":[2,0,2]},
+  "Publicaciones Meli Pro":{"PR - Técnica prohibida":[6,0,6],"Potenciar Ventas":[2,4,6],"Gestión de Publicación":[2,3,6],"PR - Propiedad intelectual":[3,0,3],"PR - Artículos prohibidos":[2,0,2],"Calidad de foto":[2,0,2],"Antes de publicar":[1,0,1]},
+  "Publicaciones Seller Dev":{"Afiliados ML":[1362,180,1687],"PR - Técnica prohibida":[235,25,286],"Gestión de Publicación":[213,39,284],"Antes de publicar":[219,19,267],"Potenciar Ventas":[196,43,265],"PR - Propiedad intelectual":[198,25,235],"PR - Artículos prohibidos":[77,25,113],"Denuncia de usuario":[85,12,109],"Calidad de foto":[43,2,47],"PR - Datos Personales":[11,4,15]}
+};
+
+// ── Aggregate by driver ───────────────────────────────────
+function aggregate(raw) {
+  const m = {};
+  for (const [d,p,det,s] of raw) {
+    if (!m[d]) m[d] = {p:0,d:0,s:0};
+    m[d].p += p; m[d].d += det; m[d].s += s;
+  }
+  return m;
+}
+
+const aggApr = aggregate(rawApr);
+const aggMar = aggregate(rawMar);
+const aggS1  = aggregate(rawS1);
+const aggS2  = aggregate(rawS2);
+const aggS0  = aggregate(rawS0);
+
+function nps(p,d,s){ return s===0 ? null : (p-d)/s*100; }
+function fmt(v,dec=2){ return v===null?'—':(v>=0?'+':'')+v.toFixed(dec)+'%'; }
+function fmtN(v,dec=2){ return v===null?'—':v.toFixed(dec)+'%'; }
+
+// Driver lists
+const allDrivers  = [...new Set([...Object.keys(aggApr),...Object.keys(aggMar)])].sort();
+const weekDrivers = [...new Set([...Object.keys(aggS1),...Object.keys(aggS2)])].sort();
+
+// State
+let currentTab    = 'mensal';
+let weekComp      = 's1s2';
+let currentFilter = 'Todos';
+
+// Active data (set at start of render)
+let _aggCurr, _aggPrev, _procCurr, _procPrev, _lCurr, _lPrev, _driversList;
+
+function setTab(t) {
+  currentTab = t;
+  currentFilter = 'Todos';
+  document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.id === 'tab-'+t));
+  document.querySelectorAll('.btn').forEach(b => { if(['Todos','Mature','Meli Pro','Longtail','Buyer','Otros CV'].includes(b.textContent.trim())) b.classList.toggle('active', b.textContent.trim()==='Todos'); });
+  render();
+}
+
+function setWeekComp(w) {
+  weekComp = w;
+  document.getElementById('wc-s1s2').classList.toggle('active', w==='s1s2');
+  document.getElementById('wc-s0s1').classList.toggle('active', w==='s0s1');
+  render();
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('.btn').forEach(b => { if(['Todos','Mature','Meli Pro','Longtail','Buyer','Otros CV'].includes(b.textContent.trim())) b.classList.toggle('active', b.textContent.trim()===f); });
+  render();
+}
+
+function getFiltered() {
+  if (currentFilter === 'Todos') return _driversList;
+  return _driversList.filter(d => segMap[d] === currentFilter);
+}
+
+function render() {
+  // ── Set active data based on current tab/comparison ──
+  const wcEl = document.getElementById('week-comp');
+  const hSub = document.getElementById('header-sub');
+  if (currentTab === 'mensal') {
+    _aggCurr = aggApr; _aggPrev = aggMar;
+    _procCurr = procApr; _procPrev = procMar;
+    _lCurr = 'Abril 2026'; _lPrev = 'Março 2026';
+    _driversList = allDrivers;
+    if (wcEl) wcEl.style.display = 'none';
+    if (hSub) hSub.textContent = 'Variação Mensal — Brasil';
+  } else {
+    _procCurr = {}; _procPrev = {};
+    _driversList = weekDrivers;
+    if (wcEl) wcEl.style.display = 'flex';
+    if (hSub) hSub.textContent = 'Variação Semanal — Brasil';
+    if (weekComp === 's1s2') {
+      _aggCurr = aggS1; _aggPrev = aggS2;
+      _lCurr = '06–12 Abr 2026'; _lPrev = '30 Mar–05 Abr 2026';
+    } else {
+      _aggCurr = aggS0; _aggPrev = aggS1;
+      _lCurr = 'Sem. Atual (13 Abr+)'; _lPrev = '06–10 Abr 2026';
+    }
+  }
+  const bc = document.getElementById('badge-curr'), bp = document.getElementById('badge-prev');
+  if (bc) bc.textContent = _lCurr; if (bp) bp.textContent = _lPrev;
+
+  // Update driver table headers
+  const short = (l) => l.replace(' 2026','').replace('Abril','Abr').replace('Março','Mar').replace('Sem. Atual (13 Abr+)','Atual');
+  const sc = short(_lCurr), sp = short(_lPrev);
+  const thC=document.getElementById('th-curr'),thP=document.getElementById('th-prev'),thI=document.getElementById('th-imp'),thS=document.getElementById('th-surv');
+  if(thC)thC.textContent=`NPS ${sc}`; if(thP)thP.textContent=`NPS ${sp}`; if(thI)thI.textContent=`Impacto ${sc}`; if(thS)thS.textContent=`Pesquisas ${sc}`;
+
+  const drivers = getFiltered();
+
+  if (drivers.length === 0) {
+    document.getElementById('kpis').innerHTML = `<div class="empty-state">Sem dados para o segmento <strong>${currentFilter}</strong> neste período.</div>`;
+    document.getElementById('driver-table').innerHTML = `<tr><td colspan="8" class="empty-state">Nenhum driver encontrado.</td></tr>`;
+    document.getElementById('gainers').innerHTML = '';
+    document.getElementById('decliners').innerHTML = '';
+    return;
+  }
+
+  // Totals
+  let totPA=0,totDA=0,totSA=0,totPM=0,totDM=0,totSM=0;
+  for (const d of drivers) {
+    const a=_aggCurr[d]||{p:0,d:0,s:0}, m=_aggPrev[d]||{p:0,d:0,s:0};
+    totPA+=a.p; totDA+=a.d; totSA+=a.s;
+    totPM+=m.p; totDM+=m.d; totSM+=m.s;
+  }
+  const npsA=nps(totPA,totDA,totSA), npsM=nps(totPM,totDM,totSM);
+  const delta = npsA!==null&&npsM!==null ? Math.round((npsA-npsM)*10)/10 : null;
+
+  // KPIs
+  const isPos = delta!==null&&delta>=0;
+  document.getElementById('kpis').innerHTML = `
+    <div class="kpi k-surveys"><label>Pesquisas ${sc}</label><div class="val">${totSA.toLocaleString('pt-BR')}</div><div class="sub">vs ${totSM.toLocaleString('pt-BR')} em ${sp}</div></div>
+    <div class="kpi k-apr"><label>NPS ${sc}</label><div class="val" style="font-size:1.5rem">${fmtN(npsA)}</div><div class="sub">período atual</div></div>
+    <div class="kpi k-mar"><label>NPS ${sp}</label><div class="val" style="font-size:1.5rem">${fmtN(npsM)}</div><div class="sub">período anterior</div></div>
+    <div class="kpi ${isPos?'k-pos':'k-neg'}"><label>Variação</label><div class="val" style="font-size:1.5rem">${fmt(delta)}</div><div class="sub">${sc} vs ${sp}</div></div>`;
+
+  // Driver rows
+  const rows = drivers.map(d => {
+    const a=_aggCurr[d]||{p:0,d:0,s:0}, m=_aggPrev[d]||{p:0,d:0,s:0};
+    const na=nps(a.p,a.d,a.s), nm=nps(m.p,m.d,m.s);
+    const dlt = na!==null&&nm!==null ? Math.round((na-nm)*10)/10 : null;
+    const impA = totSA>0 ? (a.p-a.d)/totSA*100 : null;
+    const impM = totSM>0 ? (m.p-m.d)/totSM*100 : null;
+    const dImp = impA!==null&&impM!==null ? impA-impM : null;
+    // MIX / NETO decomposition
+    const repA = totSA>0 ? a.s/totSA : 0;
+    const repM = totSM>0 ? m.s/totSM : 0;
+    const impNeto = na!==null&&nm!==null ? repA*(na-nm) : null;
+    const impMix  = nm!==null ? (repA-repM)*nm : null;
+    return {d,a,m,na,nm,dlt,impA,impM,dImp,impNeto,impMix};
+  }).sort((x,y)=>y.a.s-x.a.s);
+
+  document.getElementById('driver-table').innerHTML = rows.map(r=>{
+    const seg=segMap[r.d]||'?';
+    const dCls  = r.dlt===null?'neutral':r.dlt>=0?'pos':'neg';
+    const iCls  = r.impA===null?'neutral':r.impA>=0?'pos':'neg';
+    const diCls = r.dImp===null?'neutral':r.dImp>=0?'pos':'neg';
+    return `<tr>
+      <td>${r.d}</td>
+      <td><span class="seg-tag ${segClass[seg]||''}">${seg}</span></td>
+      <td class="r">${fmtN(r.na)}</td>
+      <td class="r">${fmtN(r.nm)}</td>
+      <td class="r ${dCls}">${fmt(r.dlt)}</td>
+      <td class="r ${iCls}">${r.impA!==null?fmtN(r.impA):'—'}</td>
+      <td class="r ${diCls}">${r.dImp!==null?fmt(r.dImp):'—'}</td>
+      <td class="r ${r.impNeto===null?'neutral':r.impNeto>=0?'pos':'neg'}">${r.impNeto!==null?fmt(r.impNeto):'—'}</td>
+      <td class="r ${r.impMix===null?'neutral':r.impMix>=0?'pos':'neg'}">${r.impMix!==null?fmt(r.impMix):'—'}</td>
+      <td class="r">${r.a.s.toLocaleString('pt-BR')}</td>
+    </tr>`;
+  }).join('');
+
+  // Gainers/Decliners
+  const withDelta = rows.filter(r=>r.dImp!==null&&r.a.s>=5);
+  const maxAbs = Math.max(...withDelta.map(r=>Math.abs(r.dImp)),0.01);
+  const gainers = [...withDelta].sort((a,b)=>b.dImp-a.dImp).slice(0,7);
+  const decliners = [...withDelta].sort((a,b)=>a.dImp-b.dImp).slice(0,7);
+
+  function barHTML(list, isGain) {
+    if (!list.length) return '<div class="empty-state" style="padding:20px;font-size:.8rem">Sem dados</div>';
+    return list.map(r=>`
+      <div class="bar-item">
+        <div class="label">
+          <span class="name">${r.d}</span>
+          <span class="${isGain?'pos':'neg'}">${fmt(r.dImp)} pts</span>
+        </div>
+        <div class="bar-track">
+          <div class="${isGain?'bar-fill-pos':'bar-fill-neg'}" style="width:${Math.abs(r.dImp)/maxAbs*100}%"></div>
+        </div>
+      </div>`).join('');
+  }
+
+  document.getElementById('gainers').innerHTML = barHTML(gainers, true);
+  document.getElementById('decliners').innerHTML = barHTML(decliners, false);
+
+  renderExecSummary(rows, npsA, npsM, totSA, totSM, _procCurr, _procPrev, _lCurr, _lPrev);
+  renderDeepDive(rows, _procCurr, _procPrev, sc, sp);
+  renderWaterfall(_aggCurr, _aggPrev, _driversList, _lCurr, _lPrev);
+}
+
+// ── Executive Summary ─────────────────────────────────────
+function renderExecSummary(rows, npsA, npsM, totSA, totSM, procCurr, procPrev, lCurr, lPrev) {
+  const el = document.getElementById('exec-summary');
+  if (!el) return;
+  const delta = npsA !== null && npsM !== null ? npsA - npsM : null;
+
+  const withImp = rows.filter(r => r.impNeto !== null && r.a.s >= 5 && r.m.s >= 5);
+  if (!withImp.length) { el.innerHTML = ''; return; }
+
+  const topGainer   = [...withImp].sort((a,b) => b.impNeto - a.impNeto)[0];
+  const topDecliner = [...withImp].sort((a,b) => a.impNeto - b.impNeto)[0];
+  const sameDriver  = topGainer.d === topDecliner.d;
+
+  // ── Target calculations ──────────────────────────────────
+  // Impacto vs Target (sem mix) = (surveys_driver_curr / total_surveys_prev) × (NPS_curr − TARGET)
+  // Usa surveys atuais do driver mas normaliza pelo total do período anterior,
+  // eliminando o efeito de variação do volume total (mix de pool).
+  const GLOBAL_TARGET   = 52.5;
+  const vsTargetOverall = npsA !== null ? npsA - GLOBAL_TARGET : null;
+  const vsTargetG = topGainer && topGainer.na !== null && totSM > 0
+    ? (topGainer.a.s / totSM) * (topGainer.na - GLOBAL_TARGET) : null;
+  const vsTargetD = topDecliner && !sameDriver && topDecliner.na !== null && totSM > 0
+    ? (topDecliner.a.s / totSM) * (topDecliner.na - GLOBAL_TARGET) : null;
+
+  function buildProcTable(driver, driverSurvA, driverSurvM) {
+    const pA = procCurr[driver] || {};
+    const pM = procPrev[driver] || {};
+    const allP = [...new Set([...Object.keys(pA), ...Object.keys(pM)])];
+    if (!allP.length) return '<div style="font-size:.73rem;color:#475569;padding:8px 0">Sem dados de processo.</div>';
+
+    const procRows = allP.map(proc => {
+      const va = pA[proc]||[0,0,0], vm = pM[proc]||[0,0,0];
+      const nA = va[2]>0 ? (va[0]-va[1])/va[2]*100 : null;
+      const nM = vm[2]>0 ? (vm[0]-vm[1])/vm[2]*100 : null;
+      const iA = driverSurvA>0 ? (va[0]-va[1])/driverSurvA*100 : null;
+      const iM = driverSurvM>0 ? (vm[0]-vm[1])/driverSurvM*100 : null;
+      const dI = iA!==null&&iM!==null ? iA-iM : null;
+      return {proc,va,nA,nM,iA,dI};
+    }).filter(r=>r.va[2]>0||((pM[r.proc]||[0,0,0])[2])>0)
+      .sort((a,b)=>(b.dI!==null?Math.abs(b.dI):0)-(a.dI!==null?Math.abs(a.dI):0))
+      .slice(0,5);
+
+    return `<table class="proc-mini-tbl">
+      <thead><tr><th>Processo</th><th class="r">NPS Abr</th><th class="r">NPS Mar</th><th class="r">Δ NPS</th><th class="r">Δ Impacto</th><th class="r">Pesq. Abr</th></tr></thead>
+      <tbody>${procRows.map(r=>{
+        const dN=r.nA!==null&&r.nM!==null?r.nA-r.nM:null;
+        const dCls=dN===null?'neutral':dN>=0?'pos':'neg';
+        const iCls=r.dI===null?'neutral':r.dI>=0?'pos':'neg';
+        return `<tr>
+          <td>${r.proc}</td>
+          <td class="r">${r.nA!==null?r.nA.toFixed(1)+'%':'—'}</td>
+          <td class="r">${r.nM!==null?r.nM.toFixed(1)+'%':'—'}</td>
+          <td class="r ${dCls}">${dN!==null?(dN>=0?'+':'')+dN.toFixed(1)+'p.p.':'—'}</td>
+          <td class="r ${iCls}">${r.dI!==null?(r.dI>=0?'+':'')+r.dI.toFixed(2)+'pts':'—'}</td>
+          <td class="r">${r.va[2]}</td>
+        </tr>`;
+      }).join('')}</tbody></table>`;
+  }
+
+  const ctx = currentFilter==='Todos' ? 'consolidado CS' : `segmento ${currentFilter}`;
+  const dSign = delta!==null&&delta>=0?'+':'';
+  const dCls  = delta!==null&&delta>=0?'pos':'neg';
+
+  el.innerHTML = `
+  <div class="exec-card">
+    <div class="exec-narrative">
+      Em <strong>${lCurr}</strong>, o NPS ${ctx} foi de <strong>${fmtN(npsA)}</strong>
+      com <strong>${totSA.toLocaleString('pt-BR')}</strong> pesquisas${
+      delta!==null
+        ? `, representando uma variação de <strong class="${dCls}">${dSign}${delta.toFixed(2)} p.p.</strong>
+           frente a <strong>${fmtN(npsM)}</strong> em ${lPrev} (${totSM.toLocaleString('pt-BR')} pesquisas).`
+        : '.'
+      }${vsTargetOverall!==null
+        ? ` Em relação ao target geral (<strong>${GLOBAL_TARGET.toFixed(1)}%</strong>), o NPS está <strong class="${vsTargetOverall>=0?'pos':'neg'}">${vsTargetOverall>=0?'+':''}${vsTargetOverall.toFixed(2)} p.p.</strong>`
+        : ''
+      }
+      ${topGainer ? `O driver com <strong>maior alta de impacto</strong> foi
+        <strong>${topGainer.d}</strong> (<span class="pos">${topGainer.impNeto>=0?'+':''}${topGainer.impNeto.toFixed(2)} pts neto</span>)` : ''}${
+      topDecliner&&!sameDriver
+        ? `, enquanto <strong>${topDecliner.d}</strong> registrou a
+           <strong>maior queda</strong> (<span class="neg">${topDecliner.impNeto.toFixed(2)} pts neto</span>).`
+        : topGainer ? '.' : ''
+      }
+    </div>
+    <div class="spotlight-row">
+      ${topGainer ? `
+      <div class="spotlight up">
+        <div class="spotlight-header">
+          <div class="spotlight-name">▲ ${topGainer.d}</div>
+          <div class="spotlight-delta pos">${topGainer.impNeto>=0?'+':''}${topGainer.impNeto.toFixed(2)} pts neto</div>
+        </div>
+        <div style="font-size:.7rem;color:#64748b;margin-bottom:2px">
+          NPS ${fmtN(topGainer.na)} ${lCurr.replace(' 2026','')} vs ${fmtN(topGainer.nm)} ${lPrev.replace(' 2026','')} · <strong style="color:#94a3b8">${topGainer.a.s.toLocaleString('pt-BR')}</strong> pesquisas
+        </div>
+        ${vsTargetG!==null?`<div style="font-size:.7rem;margin-bottom:6px">
+          Target geral <strong style="color:#94a3b8">${GLOBAL_TARGET.toFixed(1)}%</strong> &nbsp;·&nbsp;
+          Impacto vs Target <strong class="${vsTargetG>=0?'pos':'neg'}">${vsTargetG>=0?'+':''}${vsTargetG.toFixed(2)} pp</strong>
+        </div>`:''}
+        ${buildProcTable(topGainer.d, topGainer.a.s, topGainer.m.s)}
+      </div>` : ''}
+      ${topDecliner&&!sameDriver ? `
+      <div class="spotlight down">
+        <div class="spotlight-header">
+          <div class="spotlight-name">▼ ${topDecliner.d}</div>
+          <div class="spotlight-delta neg">${topDecliner.impNeto.toFixed(2)} pts neto</div>
+        </div>
+        <div style="font-size:.7rem;color:#64748b;margin-bottom:2px">
+          NPS ${fmtN(topDecliner.na)} ${lCurr.replace(' 2026','')} vs ${fmtN(topDecliner.nm)} ${lPrev.replace(' 2026','')} · <strong style="color:#94a3b8">${topDecliner.a.s.toLocaleString('pt-BR')}</strong> pesquisas
+        </div>
+        ${vsTargetD!==null?`<div style="font-size:.7rem;margin-bottom:6px">
+          Target geral <strong style="color:#94a3b8">${GLOBAL_TARGET.toFixed(1)}%</strong> &nbsp;·&nbsp;
+          Impacto vs Target <strong class="${vsTargetD>=0?'pos':'neg'}">${vsTargetD>=0?'+':''}${vsTargetD.toFixed(2)} pp</strong>
+        </div>`:''}
+        ${buildProcTable(topDecliner.d, topDecliner.a.s, topDecliner.m.s)}
+      </div>` : ''}
+    </div>
+  </div>`;
+}
+
+// ── Deep Dive por Processo ────────────────────────────────
+function renderDeepDive(rows, procCurr, procPrev, lCurrShort, lPrevShort) {
+  const el = document.getElementById('deepdive');
+  if (!el) return;
+
+  el.innerHTML = rows.map((r, idx) => {
+    const pA = procCurr[r.d]||{}, pM = procPrev[r.d]||{};
+    const allP = [...new Set([...Object.keys(pA), ...Object.keys(pM)])];
+    if (!allP.length) return '';
+
+    const procData = allP.map(proc => {
+      const va=pA[proc]||[0,0,0], vm=pM[proc]||[0,0,0];
+      const nA=va[2]>0?(va[0]-va[1])/va[2]*100:null;
+      const nM=vm[2]>0?(vm[0]-vm[1])/vm[2]*100:null;
+      const iA=r.a.s>0?(va[0]-va[1])/r.a.s*100:null;
+      const iM=r.m.s>0?(vm[0]-vm[1])/r.m.s*100:null;
+      const dI=iA!==null&&iM!==null?iA-iM:null;
+      const dN=nA!==null&&nM!==null?nA-nM:null;
+      return {proc,va,vm,nA,nM,iA,dI,dN};
+    }).filter(p=>p.va[2]>0||p.vm[2]>0)
+      .sort((a,b)=>b.va[2]-a.va[2]);
+
+    const seg=segMap[r.d]||'?', segCls=segClass[seg]||'';
+    const dltCls=r.dlt===null?'neutral':r.dlt>=0?'pos':'neg';
+
+    return `<div class="dd-driver">
+      <div class="dd-driver-header" onclick="toggleDD('dd-${idx}')">
+        <div class="dd-driver-title">
+          <span class="seg-tag ${segCls}">${seg}</span>${r.d}
+        </div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <span class="dd-driver-meta">${r.a.s.toLocaleString('pt-BR')} pesq. Abr</span>
+          <span class="${dltCls}" style="font-size:.78rem;font-weight:700">${r.dlt!==null?(r.dlt>=0?'+':'')+r.dlt.toFixed(1)+' p.p.':'—'}</span>
+          <span class="dd-chevron" id="chv-dd-${idx}">▼</span>
+        </div>
+      </div>
+      <div class="dd-body" id="dd-${idx}">
+        <table class="dd-tbl">
+          <thead><tr>
+            <th>Processo</th>
+            <th class="r">NPS ${lCurrShort||'Atual'}</th><th class="r">NPS ${lPrevShort||'Ant.'}</th><th class="r">Δ NPS</th>
+            <th class="r">Impacto ${lCurrShort||'Atual'}</th>
+            <th class="r">Δ Impacto</th>
+            <th class="r">Pesq. ${lCurrShort||'Atual'}</th>
+          </tr></thead>
+          <tbody>${procData.map(p=>{
+            const dCls=p.dN===null?'neutral':p.dN>=0?'pos':'neg';
+            const iCls=p.dI===null?'neutral':p.dI>=0?'pos':'neg';
+            return `<tr>
+              <td>${p.proc}</td>
+              <td class="r">${p.nA!==null?p.nA.toFixed(1)+'%':'—'}</td>
+              <td class="r">${p.nM!==null?p.nM.toFixed(1)+'%':'—'}</td>
+              <td class="r ${dCls}">${p.dN!==null?(p.dN>=0?'+':'')+p.dN.toFixed(1)+'p.p.':'—'}</td>
+              <td class="r ${iCls}">${p.iA!==null?p.iA.toFixed(2)+'pts':'—'}</td>
+              <td class="r ${iCls}">${p.dI!==null?(p.dI>=0?'+':'')+p.dI.toFixed(2)+'pts':'—'}</td>
+              <td class="r">${p.va[2]}</td>
+            </tr>`;
+          }).join('')}</tbody>
+        </table>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleDD(id) {
+  const body=document.getElementById(id), chv=document.getElementById('chv-'+id);
+  if(body){ body.classList.toggle('open'); if(chv) chv.textContent=body.classList.contains('open')?'▲':'▼'; }
+}
+
+// ── Waterfall: Contribuição por Segmento ─────────────────
+function renderWaterfall(aggCurr, aggPrev, driversList, lCurr, lPrev) {
+  const section = document.getElementById('waterfall-section');
+  if (!section) return;
+  if (currentFilter !== 'Todos') { section.style.display = 'none'; return; }
+  section.style.display = '';
+
+  // Totals across ALL drivers in the active list
+  let totPA=0,totDA=0,totSA=0,totPM=0,totDM=0,totSM=0;
+  for (const d of driversList) {
+    const a=aggCurr[d]||{p:0,d:0,s:0}, m=aggPrev[d]||{p:0,d:0,s:0};
+    totPA+=a.p; totDA+=a.d; totSA+=a.s; totPM+=m.p; totDM+=m.d; totSM+=m.s;
+  }
+  const totalA=(totPA-totDA)/totSA*100, totalM=(totPM-totDM)/totSM*100;
+
+  const SEGS=['Longtail','Mature','Buyer','Otros CV','Meli Pro'];
+
+  // delta = (NPS_seg_curr × rep_curr) − (NPS_seg_prev × rep_prev)
+  // Σ delta_seg = NPS_curr − NPS_prev
+  const segData=SEGS.map(seg=>{
+    const drvs=driversList.filter(d=>segMap[d]===seg);
+    let pA=0,dA=0,sA=0,pM=0,dM=0,sM=0;
+    for(const d of drvs){const a=aggCurr[d]||{p:0,d:0,s:0},m=aggPrev[d]||{p:0,d:0,s:0};pA+=a.p;dA+=a.d;sA+=a.s;pM+=m.p;dM+=m.d;sM+=m.s;}
+    const impA=totSA>0?(pA-dA)/totSA*100:0, impM=totSM>0?(pM-dM)/totSM*100:0;
+    return{seg,sA,sM,impA,impM,delta:impA-impM,npsA:sA>0?(pA-dA)/sA*100:null,npsM:sM>0?(pM-dM)/sM*100:null};
+  }).filter(s=>s.sA>0||s.sM>0); // exclude segments with no data in this period
+
+  // Sort ascending: negatives first, positives last
+  const sorted=[...segData].sort((a,b)=>a.delta-b.delta);
+
+  // Auto Y scale based on running cumulative range
+  let run=totalM, yLo=totalM, yHi=totalM;
+  for(const s of sorted){run+=s.delta;yLo=Math.min(yLo,run);yHi=Math.max(yHi,run);}
+  const yMin=Math.floor((Math.min(yLo,totalM)-2)/5)*5;
+  const yMax=Math.ceil((Math.max(yHi,totalA)+4)/5)*5;
+  const yRange=yMax-yMin;
+
+  const W=720,H=330,pad={t:48,r:50,b:72,l:50};
+  const cW=W-pad.l-pad.r, cH=H-pad.t-pad.b;
+  const nCols=sorted.length+2; // NPS Março + segs + NPS Abril
+  const stepW=cW/nCols;
+  const aW=Math.min(68,stepW*0.72);  // anchor bar width
+  const bW=Math.min(52,stepW*0.62);  // bridge bar width
+
+  const yS=v=>pad.t+cH-(v-yMin)/yRange*cH;
+  const hS=v=>v/yRange*cH;
+
+  let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:${W}px;display:block;margin:0 auto">`;
+
+  // Grid lines
+  const gStep=yRange<=12?2:5;
+  for(let v=Math.ceil(yMin/gStep)*gStep;v<=yMax;v+=gStep){
+    const y=yS(v);
+    svg+=`<line x1="${pad.l}" x2="${W-pad.r}" y1="${y}" y2="${y}" stroke="#1e293b" stroke-width="1"/>`;
+    svg+=`<text x="${pad.l-5}" y="${y+4}" text-anchor="end" font-size="9" fill="#475569" font-family="system-ui">${v}%</text>`;
+  }
+
+  // ── NPS Março anchor bar (gray) ──
+  const cx0=pad.l+stepW/2, bx0=cx0-aW/2, h0=hS(totalM-yMin);
+  svg+=`<rect x="${bx0}" y="${yS(totalM)}" width="${aW}" height="${h0}" fill="#475569" rx="3"/>`;
+  svg+=`<text x="${cx0}" y="${yS(totalM)+h0/2+5}" text-anchor="middle" font-size="11" font-weight="800" fill="#e2e8f0" font-family="system-ui">${totalM.toFixed(2)}%</text>`;
+  svg+=`<text x="${cx0}" y="${H-pad.b+16}" text-anchor="middle" font-size="10" fill="#94a3b8" font-weight="700" font-family="system-ui">NPS ${(lPrev||'Ant.').replace(' 2026','')}</text>`;
+  svg+=`<text x="${cx0}" y="${H-pad.b+28}" text-anchor="middle" font-size="8" fill="#475569" font-family="system-ui">${totSM.toLocaleString('pt-BR')} pesq.</text>`;
+
+  // ── Bridge bars (one per segment) ──
+  let cum=totalM;
+  sorted.forEach((s,i)=>{
+    const col=i+1;
+    const cx=pad.l+stepW*col+stepW/2, bx=cx-bW/2;
+    const isPos=s.delta>=0, color=isPos?'#22c55e':'#ef4444';
+    const barLow=Math.min(cum,cum+s.delta), barHigh=Math.max(cum,cum+s.delta);
+    const bBarY=yS(barHigh), bBarH=Math.max(hS(barHigh-barLow),3);
+
+    // Connector at current cumulative (before this delta)
+    const prevRx=col===1?pad.l+stepW/2+aW/2:pad.l+stepW*(col-1)+stepW/2+bW/2;
+    svg+=`<line x1="${prevRx}" x2="${bx}" y1="${yS(cum)}" y2="${yS(cum)}" stroke="#334155" stroke-width="1.2" stroke-dasharray="4,3"/>`;
+
+    svg+=`<rect x="${bx}" y="${bBarY}" width="${bW}" height="${bBarH}" fill="${color}" rx="3"/>`;
+    // Label above bar top
+    svg+=`<text x="${cx}" y="${bBarY-8}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${color}" font-family="system-ui">${isPos?'+':''}${s.delta.toFixed(2)}%</text>`;
+    svg+=`<text x="${cx}" y="${H-pad.b+16}" text-anchor="middle" font-size="10" fill="#94a3b8" font-weight="700" font-family="system-ui">${s.seg}</text>`;
+    svg+=`<text x="${cx}" y="${H-pad.b+28}" text-anchor="middle" font-size="8" fill="#475569" font-family="system-ui">${s.sA.toLocaleString('pt-BR')} pesq.</text>`;
+
+    cum+=s.delta;
+  });
+
+  // Connector to NPS Abril
+  const lastRx=pad.l+stepW*sorted.length+stepW/2+bW/2;
+  const cxA=pad.l+stepW*(sorted.length+1)+stepW/2, bxA=cxA-aW/2;
+  svg+=`<line x1="${lastRx}" x2="${bxA}" y1="${yS(cum)}" y2="${yS(cum)}" stroke="#334155" stroke-width="1.2" stroke-dasharray="4,3"/>`;
+
+  // ── NPS Abril anchor bar (blue) ──
+  const hA=hS(totalA-yMin);
+  svg+=`<rect x="${bxA}" y="${yS(totalA)}" width="${aW}" height="${hA}" fill="#3b82f6" rx="3"/>`;
+  svg+=`<text x="${cxA}" y="${yS(totalA)+hA/2+5}" text-anchor="middle" font-size="11" font-weight="800" fill="#e2e8f0" font-family="system-ui">${totalA.toFixed(2)}%</text>`;
+  svg+=`<text x="${cxA}" y="${H-pad.b+16}" text-anchor="middle" font-size="10" fill="#60a5fa" font-weight="700" font-family="system-ui">NPS ${(lCurr||'Atual').replace(' 2026','')}</text>`;
+  svg+=`<text x="${cxA}" y="${H-pad.b+28}" text-anchor="middle" font-size="8" fill="#475569" font-family="system-ui">${totSA.toLocaleString('pt-BR')} pesq.</text>`;
+
+  svg+=`</svg>`;
+
+  // Summary table below chart
+  const tableRows=[...segData].sort((a,b)=>b.impA-a.impA).map(s=>{
+    const d=s.delta, nD=s.npsA!==null&&s.npsM!==null?s.npsA-s.npsM:null;
+    return`<tr>
+      <td style="padding:7px 12px"><span class="seg-tag ${segClass[s.seg]||''}">${s.seg}</span></td>
+      <td style="text-align:right;padding:7px 12px;color:#94a3b8">${s.npsM!==null?s.npsM.toFixed(1)+'%':'—'}</td>
+      <td style="text-align:right;padding:7px 12px;color:#e2e8f0;font-weight:700">${s.npsA!==null?s.npsA.toFixed(1)+'%':'—'}</td>
+      <td style="text-align:right;padding:7px 12px" class="${nD===null?'neutral':nD>=0?'pos':'neg'}">${nD!==null?(nD>=0?'+':'')+nD.toFixed(1)+'pp':'—'}</td>
+      <td style="text-align:right;padding:7px 12px" class="${d>=0?'pos':'neg'}">${d>=0?'+':''}${d.toFixed(2)}pp</td>
+    </tr>`;
+  }).join('');
+
+  const table=`<table style="width:100%;border-collapse:collapse;font-size:.78rem;margin-top:16px">
+    <thead><tr style="border-bottom:1px solid #1e293b">
+      <th style="text-align:left;padding:6px 12px;color:#475569;font-size:.63rem;text-transform:uppercase;letter-spacing:.4px">Segmento</th>
+      <th style="text-align:right;padding:6px 12px;color:#475569;font-size:.63rem;text-transform:uppercase;letter-spacing:.4px">NPS ${(lPrev||'Ant.').replace(' 2026','')}</th>
+      <th style="text-align:right;padding:6px 12px;color:#475569;font-size:.63rem;text-transform:uppercase;letter-spacing:.4px">NPS ${(lCurr||'Atual').replace(' 2026','')}</th>
+      <th style="text-align:right;padding:6px 12px;color:#475569;font-size:.63rem;text-transform:uppercase;letter-spacing:.4px">Δ NPS</th>
+      <th style="text-align:right;padding:6px 12px;color:#475569;font-size:.63rem;text-transform:uppercase;letter-spacing:.4px">Δ Contrib.</th>
+    </tr></thead>
+    <tbody>${tableRows}</tbody>
+  </table>`;
+
+  document.getElementById('waterfall-chart').innerHTML=`<div style="background:#1e293b;border-radius:12px;padding:18px 20px">${svg}${table}</div>`;
+}
+
+render();
+</script>
+</body>
+</html>
