@@ -866,10 +866,15 @@ function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, driver
   }});
 }}
 
-// Navegacao ja definida no head — aqui so registra Chart.js e cria graficos
+// Navegacao ja definida no head
 updatePanes();
+// Graficos: requestAnimationFrame garante que o layout foi processado antes de renderizar
 try {{ Chart.register(ChartDataLabels); }} catch(e) {{ console.warn('Chart.register:', e); }}
-{js_charts("all", V_ALL)}{js_charts("sel", V_SEL)}
+requestAnimationFrame(function() {{
+  requestAnimationFrame(function() {{
+    {js_charts("all", V_ALL)}{js_charts("sel", V_SEL)}
+  }});
+}});
 
 var DD_DATA = {dd_json};
 var DD_BREAKDOWN = {dd_breakdown_json};
