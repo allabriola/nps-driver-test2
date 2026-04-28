@@ -85,11 +85,11 @@ header h1{font-size:16px;font-weight:700}
 .bk-table thead tr{background:#f5f6fa;border-bottom:2px solid #e0e2ee}
 .bk-table thead th{color:#666;padding:8px 10px;font-size:10px;font-weight:700;
                    text-transform:uppercase;letter-spacing:.5px;
-                   white-space:nowrap;text-align:right}
+                   white-space:nowrap;text-align:center}
 .bk-table thead th.col-name{text-align:left;color:#1a1e3c}
 .bk-table tbody td{padding:7px 10px;border-bottom:1px solid #f2f2f5;
                    vertical-align:middle;white-space:nowrap;
-                   text-align:right;font-variant-numeric:tabular-nums;color:#333}
+                   text-align:center;font-variant-numeric:tabular-nums;color:#333}
 .bk-table tbody td.col-name{text-align:left;white-space:normal;
                              word-break:break-word;color:#1a1e3c;font-weight:500}
 .bk-table tbody tr:hover td{background:#fafbff}
@@ -118,7 +118,7 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 11:57</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 12:04</div>
 </header>
 
 <div class="nav-bar">
@@ -608,8 +608,8 @@ function buildBreakdownTable(drvData, dim, periodA, periodB, drvTarget) {
     });
     items.sort(function(x,y){ return Math.abs(y.impact)-Math.abs(x.impact); });
 
-    var lA = periodA==='M2'?M2_LABEL:(periodA==='S2'?S2_LABEL:periodA);
-    var lB = periodB==='M1'?M1_LABEL:(periodB==='S1'?S1_LABEL:periodB);
+    var lA = periodA==='M2'?'Mar/26':(periodA==='S2'?'13/abr':periodA);
+    var lB = periodB==='M1'?'Abr/26':(periodB==='S1'?'20/abr':periodB);
 
     // Helpers visuais
     function fN(v) { return v!==null ? v.toFixed(2) : '&mdash;'; }
