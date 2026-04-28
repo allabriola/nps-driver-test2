@@ -80,21 +80,26 @@ header h1{font-size:16px;font-weight:700}
                    border-bottom:1px solid #eee}
 .bk-table{width:100%;border-collapse:collapse;background:#fff;border-radius:8px;
           overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:12px;
-          font-size:12px}
+          font-size:12px;table-layout:fixed}
 .bk-table thead tr{background:#2d3277}
 .bk-table thead th{color:#fff;padding:8px 10px;font-size:10px;font-weight:700;
-                   text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
-.bk-table thead th.col-name{text-align:left;min-width:160px}
-.bk-table thead th:not(.col-name){text-align:right;min-width:58px}
-.bk-table thead th.col-impact{background:#1a1e3c;min-width:72px}
-.bk-table tbody td{padding:6px 10px;border-bottom:1px solid #f2f2f5;vertical-align:middle}
-.bk-table tbody tr:last-child td{border-bottom:none}
+                   text-transform:uppercase;letter-spacing:.4px;
+                   white-space:nowrap;overflow:hidden}
+.bk-table thead th.col-name{text-align:left}
+.bk-table thead th:not(.col-name){text-align:right}
+.bk-table thead th.col-impact{background:#1a1e3c}
+.bk-table tbody td{padding:6px 10px;border-bottom:1px solid #f2f2f5;
+                   vertical-align:middle;overflow:hidden;text-overflow:ellipsis;
+                   white-space:nowrap}
+.bk-table tbody td.col-name{white-space:normal;word-break:break-word}
+.bk-table tbody td:not(.col-name){text-align:right;
+                                   font-variant-numeric:tabular-nums}
 .bk-table tbody tr:hover td{background:#f7f8ff}
 .bk-table tbody tr.bk-total td{background:#f0f2f8;font-weight:700;
                                 border-top:2px solid #dde0ea}
-.bk-name{font-weight:500;text-align:left}
-.bk-surv{color:#bbb!important;font-size:11px!important;text-align:right}
-.bk-impact-cell{font-weight:700;text-align:right;white-space:nowrap}
+.bk-name{font-weight:500}
+.bk-surv{color:#bbb!important;font-size:11px!important}
+.bk-impact-cell{font-weight:700}
 .bk-impact-pos-hi{background:#e8f5e9!important;color:#1b5e20!important}
 .bk-impact-pos-lo{background:#f1f8e9!important;color:#33691e!important}
 .bk-impact-neg-hi{background:#ffebee!important;color:#b71c1c!important}
@@ -109,7 +114,7 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 11:41</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 11:50</div>
 </header>
 
 <div class="nav-bar">
@@ -620,7 +625,19 @@ function buildBreakdownTable(drvData, dim, periodA, periodB) {
         return 'bk-impact-neu';
     }
 
-    var html = '<table class="bk-table"><thead><tr>' +
+    var html = '<table class="bk-table">' +
+        '<colgroup>' +
+        '<col style="width:26%">' +  // nome
+        '<col style="width:8%">'  +  // NPS A
+        '<col style="width:8%">'  +  // NPS B
+        '<col style="width:9%">'  +  // delta
+        '<col style="width:9%">'  +  // surveys
+        '<col style="width:7%">'  +  // share
+        '<col style="width:9%">'  +  // neto
+        '<col style="width:9%">'  +  // mix
+        '<col style="width:11%">' +  // impacto
+        '</colgroup>' +
+        '<thead><tr>' +
         '<th class="col-name">Dimensao</th>' +
         '<th>' + lA + '</th>' +
         '<th>' + lB + '</th>' +
@@ -638,15 +655,15 @@ function buildBreakdownTable(drvData, dim, periodA, periodB) {
         var delta = (a.nps!==null && b.nps!==null) ? b.nps-a.nps : null;
         totImpact += item.impact; totNeto += item.neto; totMix += item.mix;
         html += '<tr>' +
-            '<td class="bk-name">' + item.k + '</td>' +
-            '<td class="num">' + fNPS(a.nps) + '</td>' +
-            '<td class="num">' + fNPS(b.nps) + '</td>' +
-            '<td class="num ' + dCls(delta) + '">' + fDelta(delta) + '</td>' +
-            '<td class="num bk-surv">' + (b.s||0).toLocaleString('pt-BR') + '</td>' +
-            '<td class="num bk-surv">' + (item.shaB*100).toFixed(1)+'%</td>' +
-            '<td class="num ' + dCls(item.neto) + '">' + fDelta(item.neto) + '</td>' +
-            '<td class="num ' + dCls(item.mix)  + '">' + fDelta(item.mix)  + '</td>' +
-            '<td class="num bk-impact-cell ' + iCls(item.impact) + '">' + fDelta(item.impact) + '</td>' +
+            '<td class="bk-name col-name">' + item.k + '</td>' +
+            '<td>' + fNPS(a.nps) + '</td>' +
+            '<td>' + fNPS(b.nps) + '</td>' +
+            '<td class="' + dCls(delta) + '">' + fDelta(delta) + '</td>' +
+            '<td class="bk-surv">' + (b.s||0).toLocaleString('pt-BR') + '</td>' +
+            '<td class="bk-surv">' + (item.shaB*100).toFixed(1)+'%</td>' +
+            '<td class="' + dCls(item.neto) + '">' + fDelta(item.neto) + '</td>' +
+            '<td class="' + dCls(item.mix)  + '">' + fDelta(item.mix)  + '</td>' +
+            '<td class="bk-impact-cell ' + iCls(item.impact) + '">' + fDelta(item.impact) + '</td>' +
             '</tr>';
     });
 
@@ -656,15 +673,15 @@ function buildBreakdownTable(drvData, dim, periodA, periodB) {
     var totDelta = (npsA_tot!==null && npsB_tot!==null) ? npsB_tot-npsA_tot : null;
 
     html += '<tr class="bk-total">' +
-        '<td class="bk-name">Total</td>' +
-        '<td class="num">' + fNPS(npsA_tot) + '</td>' +
-        '<td class="num">' + fNPS(npsB_tot) + '</td>' +
-        '<td class="num ' + dCls(totDelta) + '">' + fDelta(totDelta!==null?Math.round(totDelta*100)/100:null) + '</td>' +
-        '<td class="num bk-surv">' + totB.s.toLocaleString('pt-BR') + '</td>' +
-        '<td class="num bk-surv">100%</td>' +
-        '<td class="num ' + dCls(totNeto) + '">' + fDelta(totNeto) + '</td>' +
-        '<td class="num ' + dCls(totMix)  + '">' + fDelta(totMix)  + '</td>' +
-        '<td class="num bk-impact-cell ' + iCls(totImpact) + '">' + fDelta(totImpact) + '</td>' +
+        '<td class="bk-name col-name">Total</td>' +
+        '<td>' + fNPS(npsA_tot) + '</td>' +
+        '<td>' + fNPS(npsB_tot) + '</td>' +
+        '<td class="' + dCls(totDelta) + '">' + fDelta(totDelta!==null?Math.round(totDelta*100)/100:null) + '</td>' +
+        '<td class="bk-surv">' + totB.s.toLocaleString('pt-BR') + '</td>' +
+        '<td class="bk-surv">100%</td>' +
+        '<td class="' + dCls(totNeto) + '">' + fDelta(totNeto) + '</td>' +
+        '<td class="' + dCls(totMix)  + '">' + fDelta(totMix)  + '</td>' +
+        '<td class="bk-impact-cell ' + iCls(totImpact) + '">' + fDelta(totImpact) + '</td>' +
         '</tr>';
 
     html += '</tbody></table>';
