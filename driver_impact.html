@@ -221,7 +221,7 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 17:49</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 18:01</div>
 </header>
 
 <div class="nav-bar">
@@ -744,6 +744,28 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {
   var chans   = getDimData('C');
   var offices = getDimData('O');
 
+  // Separar NETO (qualidade) e MIX (volume) para mix de pesquisas
+  function getMixData(dim) {
+    var dd=(bkData||{})[dim]||{};
+    var dA=dd[pA]||{}, dB=dd[pB]||{};
+    var keys=Object.keys(Object.assign({},dA,dB));
+    var totSA=0,totSB=0,totPB=0,totDB=0;
+    keys.forEach(function(k){var a=dA[k]||{s:0};var b=dB[k]||{s:0,p:0,d:0};totSA+=a.s||0;totSB+=b.s||0;totPB+=b.p||0;totDB+=b.d||0;});
+    var npsConsol=totSB>0?(totPB-totDB)/totSB*100:null;
+    return keys.map(function(k){
+      var a=dA[k]||{s:0,nps:null};var b=dB[k]||{s:0,nps:null};
+      var shaA=totSA>0?(a.s||0)/totSA:0;var shaB=totSB>0?(b.s||0)/totSB:0;
+      var deltaSha=Math.round((shaB-shaA)*1000)/10;  // mudanca de share em pp
+      var nA=a.nps,nB=b.nps;
+      var neto=shaA>0&&nA!==null&&nB!==null?Math.round(shaA*(nB-nA)*100)/100:0;
+      var mix=nB!==null&&npsConsol!==null?Math.round((shaB-shaA)*(nB-npsConsol)*100)/100:0;
+      return {k:k,nA:nA,nB:nB,shaA:Math.round(shaA*1000)/10,shaB:Math.round(shaB*1000)/10,
+               deltaSha:deltaSha,neto:neto,mix:mix,sB:b.s||0,
+               aboveAvg:nB!==null&&npsConsol!==null?nB>npsConsol:null};
+    }).filter(function(x){return x.sB>0||x.nB!==null;});
+  }
+  var procsMix = getMixData('P');
+
   // \u2500\u2500 BULLETS QUALITATIVOS \u2500\u2500
   var sumKey = isMes?'mom':'wow';
   var sumObj = DD_SUMMARIES[drv];
@@ -880,6 +902,77 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {
   if(bOpp)  html+=qualSection('&#127775;','Oportunidade Prioritaria','es-opp',bOpp,'#1b5e20');
   if(!bDor&&!bRep&&!bOpp&&!bVar)
     html+='<div class="exec-section full-width"><p class="exec-narrative" style="color:#aaa">Analise qualitativa nao disponivel para este driver neste periodo.</p></div>';
+
+  // \u2500\u2500 MIX DE PESQUISAS \u2500\u2500
+  var mixHtml='<div class="exec-section-title" style="color:#555">&#128257; Mix de Pesquisas \u2014 Efeito Volume</div>';
+  var badMixItems=procsMix.filter(function(p){return p.deltaSha>0.5&&p.aboveAvg===false&&p.mix<-0.05;}).sort(function(a,b){return a.mix-b.mix;}).slice(0,3);
+  var goodMixItems=procsMix.filter(function(p){return p.deltaSha<-0.5&&p.aboveAvg===true&&p.mix<-0.05;}).sort(function(a,b){return a.mix-b.mix;}).slice(0,2);
+  var totalMix=Math.round(procsMix.reduce(function(s,p){return s+p.mix;},0)*100)/100;
+  var totalNeto=Math.round(procsMix.reduce(function(s,p){return s+p.neto;},0)*100)/100;
+  mixHtml+='<p class="exec-narrative">Efeito qualidade (NETO): <strong style="color:'+(totalNeto>=0?'#1a7a1a':'#c0321a')+'">'+(totalNeto>=0?'+':'')+totalNeto.toFixed(2)+'pp</strong> &nbsp;|&nbsp; Efeito volume (MIX): <strong style="color:'+(totalMix>=0?'#1a7a1a':'#c0321a')+'">'+(totalMix>=0?'+':'')+totalMix.toFixed(2)+'pp</strong>.';
+  if(badMixItems.length>0){
+    mixHtml+=' Volume cresceu em processos abaixo da media: ';
+    mixHtml+=badMixItems.map(function(p){return '<b>'+p.k.substring(0,35)+'</b> (+'+p.deltaSha.toFixed(1)+'pp share, NPS '+p.nB.toFixed(1)+'%) &rarr; arrastou '+tag(p.mix);}).join('; ')+'.';
+  }
+  if(goodMixItems.length>0){
+    mixHtml+=' Volume encolheu em processos acima da media: ';
+    mixHtml+=goodMixItems.map(function(p){return '<b>'+p.k.substring(0,35)+'</b> ('+p.deltaSha.toFixed(1)+'pp share, NPS '+p.nB.toFixed(1)+'%) &rarr; impactou '+tag(p.mix);}).join('; ')+'.';
+  }
+  if(badMixItems.length===0&&goodMixItems.length===0) mixHtml+=' Nao houve redistribuicao significativa de volume entre processos neste periodo.';
+  mixHtml+='</p>';
+  html+='<div class="exec-section full-width">'+mixHtml+'</div>';
+
+  // \u2500\u2500 RECORRENCIA DAS CAUSAS \u2500\u2500
+  var recHtml='<div class="exec-section-title" style="color:#555">&#128260; Recorrencia das Causas</div>';
+  var causeItems=procs.filter(function(p){return p.impact<-0.05;}).slice(0,4).map(function(p){
+    var isRec=(p.nA!==null&&p.nB!==null&&p.nA<(npsB||60)&&p.nB<(npsB||60));
+    var isWorsen=(p.delta!==null&&p.delta<-1);
+    var recLabel=isRec?(isWorsen?'&#9888; Recorrente e piorando':'&#128260; Recorrente (ja era ofensor)'):'&#128993; Pontual (apenas '+lB+')';
+    var recColor=isRec?(isWorsen?'#c0321a':'#e65100'):'#777';
+    var tipo=p.sB>500?'Alto volume':'Baixo volume';
+    return '<div class="exec-narrative" style="margin-bottom:6px">'+
+      '<span style="font-weight:600">'+p.k.substring(0,40)+'</span>'+
+      ' &mdash; NPS '+p.nB.toFixed(1)+'% &nbsp;<span style="color:'+recColor+';font-size:11px">'+recLabel+'</span>'+
+      ' &nbsp;<span class="bk-surv">('+p.shaB+'% vol)</span>'+
+    '</div>';
+  }).join('');
+  if(causeItems) recHtml+=causeItems;
+  else recHtml+='<p class="exec-narrative" style="color:#aaa">Nenhum processo com impacto negativo relevante identificado.</p>';
+  html+='<div class="exec-section full-width">'+recHtml+'</div>';
+
+  // \u2500\u2500 PLANO DE ACOES \u2500\u2500
+  var acoes=[];
+  // Acao 1: do bullet de oportunidade
+  if(bOpp) acoes.push({acao:bOpp.replace(/^oportunidade[^:]*:\s*/i,'').replace(/^oportunidade\s*/i,''),prioridade:'Alta',tipo:'Qualitativa'});
+  // Acoes derivadas dos piores processos vs target
+  procs.filter(function(p){return p.gapT!==null&&p.gapT<-3;}).slice(0,2).forEach(function(p){
+    acoes.push({acao:'Investigar causa raiz de '+p.k+' (NPS '+p.nB.toFixed(1)+'%, '+p.gapT.toFixed(1)+'pp abaixo do target). Revisar CDU e comportamento do REP.',prioridade:p.gapT<-10?'Alta':'Media',tipo:'Operacional'});
+  });
+  // Acao de mix se efeito negativo
+  if(totalMix<-0.1) acoes.push({acao:'Avaliar redistribuicao de demanda: volume esta crescendo em processos de baixo NPS. Verificar filas e regras de roteamento.',prioridade:'Media',tipo:'Estrutural'});
+  // Acao de canal se algum canal em queda significativa
+  var chanFalling=chans.filter(function(c){return c.delta!==null&&c.delta<-3&&c.shaB>5;}).slice(0,1);
+  if(chanFalling.length>0) acoes.push({acao:'Canal '+chanFalling[0].k+' com queda de '+chanFalling[0].delta.toFixed(1)+'pp. Checar experiencia e SLA deste canal.',prioridade:'Media',tipo:'Canal'});
+
+  if(acoes.length>0){
+    var acoesHtml='<div class="exec-section-title" style="color:#555">&#9989; Plano de Acoes</div>'+
+      '<table style="width:100%;border-collapse:collapse;font-size:11.5px">'+
+      '<thead><tr style="background:#f5f6fa"><th style="text-align:left;padding:6px 10px;color:#666;font-weight:700;font-size:10px;text-transform:uppercase">Acao</th>'+
+      '<th style="padding:6px 8px;color:#666;font-weight:700;font-size:10px;text-transform:uppercase;white-space:nowrap">Prioridade</th>'+
+      '<th style="padding:6px 8px;color:#666;font-weight:700;font-size:10px;text-transform:uppercase">Tipo</th>'+
+      '<th style="padding:6px 8px;color:#666;font-weight:700;font-size:10px;text-transform:uppercase">Status</th></tr></thead><tbody>';
+    acoes.forEach(function(a,i){
+      var prioCls=a.prioridade==='Alta'?'pill-neg-hi':'pill-dn1';
+      acoesHtml+='<tr style="border-bottom:1px solid #f0f0f0">'+
+        '<td style="padding:7px 10px;line-height:1.5">'+a.acao+'</td>'+
+        '<td style="padding:7px 8px;text-align:center"><span class="pill '+prioCls+'">'+a.prioridade+'</span></td>'+
+        '<td style="padding:7px 8px;text-align:center"><span class="pill pill-flat" style="font-size:10px">'+a.tipo+'</span></td>'+
+        '<td style="padding:7px 8px;text-align:center"><span class="pill pill-dn1">Pendente</span></td>'+
+      '</tr>';
+    });
+    acoesHtml+='</tbody></table>';
+    html+='<div class="exec-section full-width">'+acoesHtml+'</div>';
+  }
 
   html+='</div></div>';
   return html;
