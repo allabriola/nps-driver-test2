@@ -60,6 +60,24 @@ header h1{font-size:16px;font-weight:700}
 .chart-title{font-size:13px;font-weight:700;color:#1a1e3c;margin-bottom:3px}
 .chart-sub{font-size:11px;color:#888;margin-bottom:12px}
 .chart-wrap{position:relative;height:310px;width:100%}
+
+/* ── Deep Dive ── */
+.dd-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.dd-label{font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.5px}
+.dd-select{padding:7px 12px;border:1px solid #d0d5e0;border-radius:7px;font-size:13px;
+            background:#fff;color:#1a1e3c;min-width:280px;cursor:pointer}
+.dd-placeholder{background:#fff;border-radius:12px;padding:40px;text-align:center;
+                 box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.dd-hint{color:#aaa;font-size:13px}
+.dd-sc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}
+.dd-chart-section{background:#fff;border-radius:12px;padding:18px 22px;
+                   box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:16px}
+.dd-chart-title{font-size:13px;font-weight:700;color:#1a1e3c;margin-bottom:3px}
+.dd-chart-sub{font-size:11px;color:#888;margin-bottom:12px}
+.dd-chart-wrap{position:relative;height:260px}
+.dd-section-title{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;
+                   letter-spacing:.6px;margin:20px 0 10px;padding-bottom:6px;
+                   border-bottom:1px solid #eee}
 </style>
 </head>
 <body>
@@ -69,13 +87,14 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 10:39</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 11:02</div>
 </header>
 
 <div class="nav-bar">
   <div class="view-tabs">
     <button class="view-btn active" data-view="all" onclick="setView(this)">All Drivers</button>
     <button class="view-btn"        data-view="sel" onclick="setView(this)">Drivers Sellers</button>
+    <button class="view-btn"        data-view="dd"  onclick="setView(this)">Deep Dive</button>
   </div>
   <div class="right-nav">
     <div class="period-tabs">
@@ -303,6 +322,33 @@ header h1{font-size:16px;font-weight:700}
       <div class="chart-wrap"><canvas id="c-sel-wow"></canvas></div>
     </div>
   </div>
+
+  <!-- ── DEEP DIVE ──────────────────────────────────────────────── -->
+  <div id="pane-dd-mes" class="tab-pane">
+    <div class="dd-bar">
+      <label class="dd-label">Driver</label>
+      <select id="dd-select-mes" class="dd-select" onchange="renderDD('mes')">
+        <option value="">Selecione um driver...</option>
+        <optgroup label="Longtail"><option value="Experiencia Impositiva Seller Dev">Experiencia Impositiva Seller Dev</option><option value="ME Vendedor Seller Dev">ME Vendedor Seller Dev</option><option value="PCF Vendedor Seller Dev">PCF Vendedor Seller Dev</option><option value="Partners">Partners</option><option value="Post Venta Seller Dev">Post Venta Seller Dev</option><option value="Publicaciones Seller Dev">Publicaciones Seller Dev</option></optgroup><optgroup label="Mature"><option value="Experiencia Impositiva Mature">Experiencia Impositiva Mature</option><option value="ME Vendedor Mature">ME Vendedor Mature</option><option value="PCF Vendedor Mature">PCF Vendedor Mature</option><option value="Post Venta Mature">Post Venta Mature</option><option value="Publicaciones Mature">Publicaciones Mature</option></optgroup><optgroup label="Meli Pro"><option value="Experiencia Impositiva Meli Pro">Experiencia Impositiva Meli Pro</option><option value="ME Vendedor Meli Pro">ME Vendedor Meli Pro</option><option value="PCF Vendedor Meli Pro">PCF Vendedor Meli Pro</option><option value="Post Venta Meli Pro">Post Venta Meli Pro</option><option value="Publicaciones Meli Pro">Publicaciones Meli Pro</option></optgroup><optgroup label="FBM"><option value="FBM-S Mature">FBM-S Mature</option><option value="FBM-S Meli Pro">FBM-S Meli Pro</option><option value="FBM-S Seller Dev">FBM-S Seller Dev</option></optgroup><optgroup label="Buyers"><option value="CBT">CBT</option><option value="PDD DS&XD - Vendedor">PDD DS&XD - Vendedor</option><option value="PDD FBM - Vendedor">PDD FBM - Vendedor</option><option value="PDD Fotos - Vendedor">PDD Fotos - Vendedor</option><option value="PDD MP,FLEX & CBT - Vendedor">PDD MP,FLEX & CBT - Vendedor</option><option value="PNR ME - Vendedor">PNR ME - Vendedor</option><option value="PNR MP - Vendedor">PNR MP - Vendedor</option></optgroup><optgroup label="Otros CV"><option value="Otros CV">Otros CV</option></optgroup>
+      </select>
+    </div>
+    <div id="dd-content-mes" class="dd-placeholder">
+      <div class="dd-hint">Selecione um driver acima para ver o detalhamento</div>
+    </div>
+  </div>
+
+  <div id="pane-dd-sem" class="tab-pane">
+    <div class="dd-bar">
+      <label class="dd-label">Driver</label>
+      <select id="dd-select-sem" class="dd-select" onchange="renderDD('sem')">
+        <option value="">Selecione um driver...</option>
+        <optgroup label="Longtail"><option value="Experiencia Impositiva Seller Dev">Experiencia Impositiva Seller Dev</option><option value="ME Vendedor Seller Dev">ME Vendedor Seller Dev</option><option value="PCF Vendedor Seller Dev">PCF Vendedor Seller Dev</option><option value="Partners">Partners</option><option value="Post Venta Seller Dev">Post Venta Seller Dev</option><option value="Publicaciones Seller Dev">Publicaciones Seller Dev</option></optgroup><optgroup label="Mature"><option value="Experiencia Impositiva Mature">Experiencia Impositiva Mature</option><option value="ME Vendedor Mature">ME Vendedor Mature</option><option value="PCF Vendedor Mature">PCF Vendedor Mature</option><option value="Post Venta Mature">Post Venta Mature</option><option value="Publicaciones Mature">Publicaciones Mature</option></optgroup><optgroup label="Meli Pro"><option value="Experiencia Impositiva Meli Pro">Experiencia Impositiva Meli Pro</option><option value="ME Vendedor Meli Pro">ME Vendedor Meli Pro</option><option value="PCF Vendedor Meli Pro">PCF Vendedor Meli Pro</option><option value="Post Venta Meli Pro">Post Venta Meli Pro</option><option value="Publicaciones Meli Pro">Publicaciones Meli Pro</option></optgroup><optgroup label="FBM"><option value="FBM-S Mature">FBM-S Mature</option><option value="FBM-S Meli Pro">FBM-S Meli Pro</option><option value="FBM-S Seller Dev">FBM-S Seller Dev</option></optgroup><optgroup label="Buyers"><option value="CBT">CBT</option><option value="PDD DS&XD - Vendedor">PDD DS&XD - Vendedor</option><option value="PDD FBM - Vendedor">PDD FBM - Vendedor</option><option value="PDD Fotos - Vendedor">PDD Fotos - Vendedor</option><option value="PDD MP,FLEX & CBT - Vendedor">PDD MP,FLEX & CBT - Vendedor</option><option value="PNR ME - Vendedor">PNR ME - Vendedor</option><option value="PNR MP - Vendedor">PNR MP - Vendedor</option></optgroup><optgroup label="Otros CV"><option value="Otros CV">Otros CV</option></optgroup>
+      </select>
+    </div>
+    <div id="dd-content-sem" class="dd-placeholder">
+      <div class="dd-hint">Selecione um driver acima para ver o detalhamento</div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -328,6 +374,18 @@ function setPeriod(btn) {
   document.querySelectorAll('.period-btn').forEach(function(b) { b.classList.remove('active'); });
   btn.classList.add('active');
   updatePanes();
+  // Se está no DD, re-renderizar com o driver atual
+  if (currentView === 'dd') {
+    var newPeriod = btn.getAttribute('data-period');
+    var selectId = 'dd-select-' + newPeriod;
+    var otherPeriod = newPeriod === 'mes' ? 'sem' : 'mes';
+    var otherSelectId = 'dd-select-' + otherPeriod;
+    var drv = document.getElementById(otherSelectId) ? document.getElementById(otherSelectId).value : '';
+    if (drv && document.getElementById(selectId)) {
+      document.getElementById(selectId).value = drv;
+      renderDD(newPeriod);
+    }
+  }
 }
 
 function shorten(s, n) {
@@ -383,6 +441,161 @@ buildWaterfall('c-sel-mom',62.77,64.14,'Marco 2026','Abril 2026',[{"label": "ME 
 buildWaterfall('c-sel-wow',63.33,65.54,'13/abr - 19/abr','20/abr - 26/abr',[{"label": "ME Vendedor Seller Dev", "v": 1.07}, {"label": "Post Venta Meli Pro", "v": 0.6}, {"label": "Publicaciones Mature", "v": 0.37}, {"label": "Publicaciones Meli Pro", "v": 0.23}, {"label": "PCF Vendedor Mature", "v": 0.22}, {"label": "FBM-S Meli Pro", "v": 0.21}, {"label": "Post Venta Seller Dev", "v": 0.13}, {"label": "PCF Vendedor Meli Pro", "v": 0.1}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.06}, {"label": "Experiencia Impositiva Mature", "v": 0.01}, {"label": "Post Venta Mature", "v": 0.01}, {"label": "Experiencia Impositiva Seller Dev", "v": -0.01}, {"label": "ME Vendedor Meli Pro", "v": -0.01}, {"label": "FBM-S Mature", "v": -0.02}, {"label": "ME Vendedor Mature", "v": -0.03}, {"label": "Publicaciones Seller Dev", "v": -0.03}, {"label": "FBM-S Seller Dev", "v": -0.07}, {"label": "Partners", "v": -0.07}, {"label": "Otros CV", "v": -0.27}, {"label": "PCF Vendedor Seller Dev", "v": -0.28}],60.3);
 buildWaterfall('c-sel-vt',57.12,64.14,'Target Pond.','Abril 2026',[{"label": "ME Vendedor Seller Dev", "v": 3.6}, {"label": "Publicaciones Seller Dev", "v": 1.55}, {"label": "ME Vendedor Mature", "v": 0.88}, {"label": "Post Venta Seller Dev", "v": 0.84}, {"label": "PCF Vendedor Mature", "v": 0.34}, {"label": "Post Venta Mature", "v": 0.29}, {"label": "PCF Vendedor Seller Dev", "v": 0.26}, {"label": "FBM-S Mature", "v": 0.22}, {"label": "Publicaciones Mature", "v": 0.14}, {"label": "FBM-S Seller Dev", "v": 0.07}, {"label": "Post Venta Meli Pro", "v": 0.06}, {"label": "FBM-S Meli Pro", "v": 0.05}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.01}, {"label": "Experiencia Impositiva Mature", "v": -0.01}, {"label": "PCF Vendedor Meli Pro", "v": -0.02}, {"label": "Publicaciones Meli Pro", "v": -0.03}, {"label": "ME Vendedor Meli Pro", "v": -0.04}, {"label": "Experiencia Impositiva Seller Dev", "v": -0.29}, {"label": "Otros CV", "v": -0.35}, {"label": "Partners", "v": -0.55}],54.1);
 
+
+var DD_DATA = {"CBT": {"cat": "Buyers", "target": 74.63, "monthly": [{"label": "Jan", "p": 481, "d": 57, "s": 549, "nps": 77.23}, {"label": "Fev", "p": 224, "d": 27, "s": 254, "nps": 77.56}, {"label": "Mar", "p": 323, "d": 58, "s": 395, "nps": 67.09}, {"label": "Abr", "p": 322, "d": 49, "s": 377, "nps": 72.41}], "weekly": [{"label": "16/mar", "p": 46, "d": 11, "s": 58, "nps": 60.34}, {"label": "23/mar", "p": 47, "d": 11, "s": 60, "nps": 60.0}, {"label": "30/mar", "p": 75, "d": 9, "s": 86, "nps": 76.74}, {"label": "06/abr", "p": 87, "d": 12, "s": 101, "nps": 74.26}, {"label": "13/abr", "p": 87, "d": 15, "s": 102, "nps": 70.59}, {"label": "20/abr", "p": 77, "d": 16, "s": 96, "nps": 63.54}]}, "Experiencia Impositiva Mature": {"cat": "Mature", "target": 53.63, "monthly": [{"label": "Jan", "p": 81, "d": 18, "s": 113, "nps": 55.75}, {"label": "Fev", "p": 49, "d": 14, "s": 70, "nps": 50.0}, {"label": "Mar", "p": 45, "d": 20, "s": 72, "nps": 34.72}, {"label": "Abr", "p": 25, "d": 7, "s": 37, "nps": 48.65}], "weekly": [{"label": "16/mar", "p": 10, "d": 4, "s": 18, "nps": 33.33}, {"label": "23/mar", "p": 9, "d": 4, "s": 15, "nps": 33.33}, {"label": "30/mar", "p": 12, "d": 5, "s": 20, "nps": 35.0}, {"label": "06/abr", "p": 9, "d": 3, "s": 13, "nps": 46.15}, {"label": "13/abr", "p": 6, "d": 2, "s": 8, "nps": 50.0}, {"label": "20/abr", "p": 2, "d": 0, "s": 4, "nps": 50.0}]}, "Experiencia Impositiva Meli Pro": {"cat": "Meli Pro", "target": 38.57, "monthly": [{"label": "Jan", "p": 8, "d": 6, "s": 16, "nps": 12.5}, {"label": "Fev", "p": 1, "d": 3, "s": 5, "nps": -40.0}, {"label": "Mar", "p": 8, "d": 4, "s": 13, "nps": 30.77}, {"label": "Abr", "p": 10, "d": 2, "s": 14, "nps": 57.14}], "weekly": [{"label": "16/mar", "p": 2, "d": 0, "s": 2, "nps": 100.0}, {"label": "23/mar", "p": 2, "d": 1, "s": 3, "nps": 33.33}, {"label": "30/mar", "p": 2, "d": 1, "s": 3, "nps": 33.33}, {"label": "06/abr", "p": 1, "d": 0, "s": 2, "nps": 50.0}, {"label": "13/abr", "p": 2, "d": 1, "s": 4, "nps": 25.0}, {"label": "20/abr", "p": 3, "d": 0, "s": 3, "nps": 100.0}]}, "Experiencia Impositiva Seller Dev": {"cat": "Longtail", "target": 59.03, "monthly": [{"label": "Jan", "p": 574, "d": 111, "s": 744, "nps": 62.23}, {"label": "Fev", "p": 350, "d": 86, "s": 477, "nps": 55.35}, {"label": "Mar", "p": 312, "d": 108, "s": 469, "nps": 43.5}, {"label": "Abr", "p": 368, "d": 107, "s": 527, "nps": 49.53}], "weekly": [{"label": "16/mar", "p": 82, "d": 20, "s": 113, "nps": 54.87}, {"label": "23/mar", "p": 60, "d": 19, "s": 90, "nps": 45.56}, {"label": "30/mar", "p": 66, "d": 25, "s": 100, "nps": 41.0}, {"label": "06/abr", "p": 150, "d": 36, "s": 208, "nps": 54.81}, {"label": "13/abr", "p": 112, "d": 33, "s": 160, "nps": 49.38}, {"label": "20/abr", "p": 57, "d": 23, "s": 88, "nps": 38.64}]}, "FBM-S Mature": {"cat": "FBM", "target": 19.6, "monthly": [{"label": "Jan", "p": 197, "d": 94, "s": 320, "nps": 32.19}, {"label": "Fev", "p": 135, "d": 61, "s": 216, "nps": 34.26}, {"label": "Mar", "p": 130, "d": 45, "s": 203, "nps": 41.87}, {"label": "Abr", "p": 88, "d": 26, "s": 123, "nps": 50.41}], "weekly": [{"label": "16/mar", "p": 25, "d": 9, "s": 38, "nps": 42.11}, {"label": "23/mar", "p": 34, "d": 7, "s": 46, "nps": 58.7}, {"label": "30/mar", "p": 30, "d": 13, "s": 48, "nps": 35.42}, {"label": "06/abr", "p": 28, "d": 7, "s": 40, "nps": 52.5}, {"label": "13/abr", "p": 23, "d": 4, "s": 29, "nps": 65.52}, {"label": "20/abr", "p": 17, "d": 4, "s": 21, "nps": 61.9}]}, "FBM-S Meli Pro": {"cat": "FBM", "target": 48.7, "monthly": [{"label": "Jan", "p": 33, "d": 5, "s": 42, "nps": 66.67}, {"label": "Fev", "p": 20, "d": 6, "s": 27, "nps": 51.85}, {"label": "Mar", "p": 11, "d": 8, "s": 22, "nps": 13.64}, {"label": "Abr", "p": 44, "d": 8, "s": 56, "nps": 64.29}], "weekly": [{"label": "16/mar", "p": 3, "d": 4, "s": 9, "nps": -11.11}, {"label": "23/mar", "p": 2, "d": 0, "s": 2, "nps": 100.0}, {"label": "30/mar", "p": 0, "d": 2, "s": 2, "nps": -100.0}, {"label": "06/abr", "p": 9, "d": 2, "s": 12, "nps": 58.33}, {"label": "13/abr", "p": 14, "d": 6, "s": 20, "nps": 40.0}, {"label": "20/abr", "p": 17, "d": 0, "s": 20, "nps": 85.0}]}, "FBM-S Seller Dev": {"cat": "FBM", "target": 42.07, "monthly": [{"label": "Jan", "p": 537, "d": 168, "s": 793, "nps": 46.53}, {"label": "Fev", "p": 340, "d": 109, "s": 501, "nps": 46.11}, {"label": "Mar", "p": 347, "d": 125, "s": 524, "nps": 42.37}, {"label": "Abr", "p": 295, "d": 100, "s": 435, "nps": 44.83}], "weekly": [{"label": "16/mar", "p": 75, "d": 26, "s": 114, "nps": 42.98}, {"label": "23/mar", "p": 76, "d": 25, "s": 115, "nps": 44.35}, {"label": "30/mar", "p": 73, "d": 23, "s": 104, "nps": 48.08}, {"label": "06/abr", "p": 74, "d": 24, "s": 115, "nps": 43.48}, {"label": "13/abr", "p": 68, "d": 24, "s": 101, "nps": 43.56}, {"label": "20/abr", "p": 85, "d": 29, "s": 121, "nps": 46.28}]}, "ME Vendedor Mature": {"cat": "Mature", "target": 48.99, "monthly": [{"label": "Jan", "p": 2084, "d": 422, "s": 2688, "nps": 61.83}, {"label": "Fev", "p": 1558, "d": 342, "s": 2082, "nps": 58.41}, {"label": "Mar", "p": 1618, "d": 314, "s": 2184, "nps": 59.71}, {"label": "Abr", "p": 930, "d": 188, "s": 1202, "nps": 61.73}], "weekly": [{"label": "16/mar", "p": 396, "d": 78, "s": 540, "nps": 58.89}, {"label": "23/mar", "p": 394, "d": 84, "s": 536, "nps": 57.84}, {"label": "30/mar", "p": 340, "d": 56, "s": 438, "nps": 64.84}, {"label": "06/abr", "p": 374, "d": 82, "s": 492, "nps": 59.35}, {"label": "13/abr", "p": 222, "d": 44, "s": 286, "nps": 62.24}, {"label": "20/abr", "p": 146, "d": 34, "s": 186, "nps": 60.22}]}, "ME Vendedor Meli Pro": {"cat": "Meli Pro", "target": 81.6, "monthly": [{"label": "Jan", "p": 126, "d": 17, "s": 149, "nps": 73.15}, {"label": "Fev", "p": 93, "d": 9, "s": 109, "nps": 77.06}, {"label": "Mar", "p": 60, "d": 10, "s": 75, "nps": 66.67}, {"label": "Abr", "p": 247, "d": 24, "s": 282, "nps": 79.08}], "weekly": [{"label": "16/mar", "p": 14, "d": 2, "s": 18, "nps": 66.67}, {"label": "23/mar", "p": 15, "d": 1, "s": 17, "nps": 82.35}, {"label": "30/mar", "p": 10, "d": 6, "s": 17, "nps": 23.53}, {"label": "06/abr", "p": 24, "d": 6, "s": 30, "nps": 60.0}, {"label": "13/abr", "p": 76, "d": 4, "s": 83, "nps": 86.75}, {"label": "20/abr", "p": 104, "d": 10, "s": 120, "nps": 78.33}]}, "ME Vendedor Seller Dev": {"cat": "Longtail", "target": 57.8, "monthly": [{"label": "Jan", "p": 8138, "d": 1110, "s": 9984, "nps": 70.39}, {"label": "Fev", "p": 5136, "d": 734, "s": 6390, "nps": 68.89}, {"label": "Mar", "p": 4958, "d": 754, "s": 6266, "nps": 67.09}, {"label": "Abr", "p": 4756, "d": 676, "s": 5968, "nps": 68.36}], "weekly": [{"label": "16/mar", "p": 1130, "d": 152, "s": 1420, "nps": 68.87}, {"label": "23/mar", "p": 1088, "d": 164, "s": 1358, "nps": 68.04}, {"label": "30/mar", "p": 1016, "d": 158, "s": 1270, "nps": 67.56}, {"label": "06/abr", "p": 1676, "d": 224, "s": 2106, "nps": 68.95}, {"label": "13/abr", "p": 1154, "d": 178, "s": 1482, "nps": 65.86}, {"label": "20/abr", "p": 1058, "d": 152, "s": 1308, "nps": 69.27}]}, "Otros CV": {"cat": "Otros CV", "target": 53.77, "monthly": [{"label": "Jan", "p": 935, "d": 420, "s": 1472, "nps": 34.99}, {"label": "Fev", "p": 844, "d": 241, "s": 1206, "nps": 50.0}, {"label": "Mar", "p": 775, "d": 182, "s": 1047, "nps": 56.64}, {"label": "Abr", "p": 648, "d": 216, "s": 918, "nps": 47.06}], "weekly": [{"label": "16/mar", "p": 175, "d": 43, "s": 235, "nps": 56.17}, {"label": "23/mar", "p": 170, "d": 59, "s": 253, "nps": 43.87}, {"label": "30/mar", "p": 139, "d": 36, "s": 195, "nps": 52.82}, {"label": "06/abr", "p": 181, "d": 63, "s": 259, "nps": 45.56}, {"label": "13/abr", "p": 158, "d": 56, "s": 230, "nps": 44.35}, {"label": "20/abr", "p": 182, "d": 68, "s": 259, "nps": 44.02}]}, "PCF Vendedor Mature": {"cat": "Mature", "target": 28.27, "monthly": [{"label": "Jan", "p": 306, "d": 122, "s": 482, "nps": 38.17}, {"label": "Fev", "p": 324, "d": 90, "s": 464, "nps": 50.43}, {"label": "Mar", "p": 332, "d": 85, "s": 467, "nps": 52.89}, {"label": "Abr", "p": 207, "d": 63, "s": 301, "nps": 47.84}], "weekly": [{"label": "16/mar", "p": 98, "d": 24, "s": 136, "nps": 54.41}, {"label": "23/mar", "p": 66, "d": 19, "s": 96, "nps": 48.96}, {"label": "30/mar", "p": 68, "d": 14, "s": 91, "nps": 59.34}, {"label": "06/abr", "p": 97, "d": 24, "s": 131, "nps": 55.73}, {"label": "13/abr", "p": 51, "d": 19, "s": 81, "nps": 39.51}, {"label": "20/abr", "p": 21, "d": 9, "s": 34, "nps": 35.29}]}, "PCF Vendedor Meli Pro": {"cat": "Meli Pro", "target": 63.57, "monthly": [{"label": "Jan", "p": 57, "d": 8, "s": 75, "nps": 65.33}, {"label": "Fev", "p": 57, "d": 11, "s": 73, "nps": 63.01}, {"label": "Mar", "p": 32, "d": 8, "s": 44, "nps": 54.55}, {"label": "Abr", "p": 204, "d": 35, "s": 270, "nps": 62.59}], "weekly": [{"label": "16/mar", "p": 11, "d": 3, "s": 15, "nps": 53.33}, {"label": "23/mar", "p": 3, "d": 1, "s": 6, "nps": 33.33}, {"label": "30/mar", "p": 4, "d": 3, "s": 7, "nps": 14.29}, {"label": "06/abr", "p": 13, "d": 3, "s": 19, "nps": 52.63}, {"label": "13/abr", "p": 67, "d": 12, "s": 89, "nps": 61.8}, {"label": "20/abr", "p": 101, "d": 14, "s": 131, "nps": 66.41}]}, "PCF Vendedor Seller Dev": {"cat": "Longtail", "target": 39.93, "monthly": [{"label": "Jan", "p": 697, "d": 244, "s": 1059, "nps": 42.78}, {"label": "Fev", "p": 529, "d": 173, "s": 768, "nps": 46.35}, {"label": "Mar", "p": 536, "d": 166, "s": 790, "nps": 46.84}, {"label": "Abr", "p": 338, "d": 98, "s": 485, "nps": 49.48}], "weekly": [{"label": "16/mar", "p": 121, "d": 31, "s": 168, "nps": 53.57}, {"label": "23/mar", "p": 113, "d": 38, "s": 167, "nps": 44.91}, {"label": "30/mar", "p": 84, "d": 23, "s": 125, "nps": 48.8}, {"label": "06/abr", "p": 98, "d": 29, "s": 136, "nps": 50.74}, {"label": "13/abr", "p": 95, "d": 28, "s": 137, "nps": 48.91}, {"label": "20/abr", "p": 82, "d": 30, "s": 129, "nps": 40.31}]}, "PDD DS&XD - Vendedor": {"cat": "Buyers", "target": 16.4, "monthly": [{"label": "Jan", "p": 406, "d": 324, "s": 830, "nps": 9.88}, {"label": "Fev", "p": 452, "d": 332, "s": 906, "nps": 13.25}, {"label": "Mar", "p": 645, "d": 486, "s": 1280, "nps": 12.42}, {"label": "Abr", "p": 476, "d": 377, "s": 947, "nps": 10.45}], "weekly": [{"label": "16/mar", "p": 149, "d": 115, "s": 305, "nps": 11.15}, {"label": "23/mar", "p": 134, "d": 146, "s": 304, "nps": -3.95}, {"label": "30/mar", "p": 136, "d": 106, "s": 275, "nps": 10.91}, {"label": "06/abr", "p": 113, "d": 95, "s": 236, "nps": 7.63}, {"label": "13/abr", "p": 135, "d": 107, "s": 261, "nps": 10.73}, {"label": "20/abr", "p": 112, "d": 75, "s": 210, "nps": 17.62}]}, "PDD FBM - Vendedor": {"cat": "Buyers", "target": 40.67, "monthly": [{"label": "Jan", "p": 93, "d": 39, "s": 153, "nps": 35.29}, {"label": "Fev", "p": 101, "d": 40, "s": 160, "nps": 38.12}, {"label": "Mar", "p": 193, "d": 89, "s": 306, "nps": 33.99}, {"label": "Abr", "p": 157, "d": 82, "s": 263, "nps": 28.52}], "weekly": [{"label": "16/mar", "p": 33, "d": 14, "s": 55, "nps": 34.55}, {"label": "23/mar", "p": 45, "d": 26, "s": 76, "nps": 25.0}, {"label": "30/mar", "p": 45, "d": 16, "s": 63, "nps": 46.03}, {"label": "06/abr", "p": 40, "d": 18, "s": 65, "nps": 33.85}, {"label": "13/abr", "p": 38, "d": 25, "s": 72, "nps": 18.06}, {"label": "20/abr", "p": 43, "d": 25, "s": 74, "nps": 24.32}]}, "PDD Fotos - Vendedor": {"cat": "Buyers", "target": 33.13, "monthly": [{"label": "Jan", "p": 35, "d": 18, "s": 59, "nps": 28.81}, {"label": "Fev", "p": 31, "d": 18, "s": 61, "nps": 21.31}, {"label": "Mar", "p": 46, "d": 22, "s": 72, "nps": 33.33}, {"label": "Abr", "p": 30, "d": 22, "s": 57, "nps": 14.04}], "weekly": [{"label": "16/mar", "p": 11, "d": 6, "s": 17, "nps": 29.41}, {"label": "23/mar", "p": 12, "d": 7, "s": 21, "nps": 23.81}, {"label": "30/mar", "p": 9, "d": 5, "s": 15, "nps": 26.67}, {"label": "06/abr", "p": 7, "d": 5, "s": 12, "nps": 16.67}, {"label": "13/abr", "p": 8, "d": 8, "s": 17, "nps": 0.0}, {"label": "20/abr", "p": 10, "d": 7, "s": 20, "nps": 15.0}]}, "PDD MP,FLEX & CBT - Vendedor": {"cat": "Buyers", "target": 12.33, "monthly": [{"label": "Jan", "p": 59, "d": 56, "s": 124, "nps": 2.42}, {"label": "Fev", "p": 75, "d": 61, "s": 151, "nps": 9.27}, {"label": "Mar", "p": 87, "d": 58, "s": 166, "nps": 17.47}, {"label": "Abr", "p": 55, "d": 39, "s": 107, "nps": 14.95}], "weekly": [{"label": "16/mar", "p": 25, "d": 14, "s": 45, "nps": 24.44}, {"label": "23/mar", "p": 12, "d": 13, "s": 32, "nps": -3.12}, {"label": "30/mar", "p": 14, "d": 7, "s": 24, "nps": 29.17}, {"label": "06/abr", "p": 16, "d": 9, "s": 28, "nps": 25.0}, {"label": "13/abr", "p": 21, "d": 11, "s": 39, "nps": 25.64}, {"label": "20/abr", "p": 8, "d": 10, "s": 19, "nps": -10.53}]}, "PNR ME - Vendedor": {"cat": "Buyers", "target": 27.23, "monthly": [{"label": "Jan", "p": 83, "d": 64, "s": 169, "nps": 11.24}, {"label": "Fev", "p": 86, "d": 79, "s": 186, "nps": 3.76}, {"label": "Mar", "p": 103, "d": 71, "s": 193, "nps": 16.58}, {"label": "Abr", "p": 132, "d": 78, "s": 226, "nps": 23.89}], "weekly": [{"label": "16/mar", "p": 34, "d": 19, "s": 58, "nps": 25.86}, {"label": "23/mar", "p": 12, "d": 13, "s": 27, "nps": -3.7}, {"label": "30/mar", "p": 18, "d": 9, "s": 30, "nps": 30.0}, {"label": "06/abr", "p": 21, "d": 15, "s": 38, "nps": 15.79}, {"label": "13/abr", "p": 23, "d": 10, "s": 37, "nps": 35.14}, {"label": "20/abr", "p": 62, "d": 39, "s": 107, "nps": 21.5}]}, "PNR MP - Vendedor": {"cat": "Buyers", "target": 29.57, "monthly": [{"label": "Jan", "p": 122, "d": 85, "s": 239, "nps": 15.48}, {"label": "Fev", "p": 147, "d": 88, "s": 258, "nps": 22.87}, {"label": "Mar", "p": 140, "d": 90, "s": 266, "nps": 18.8}, {"label": "Abr", "p": 143, "d": 66, "s": 228, "nps": 33.77}], "weekly": [{"label": "16/mar", "p": 33, "d": 25, "s": 63, "nps": 12.7}, {"label": "23/mar", "p": 22, "d": 23, "s": 51, "nps": -1.96}, {"label": "30/mar", "p": 33, "d": 15, "s": 56, "nps": 32.14}, {"label": "06/abr", "p": 54, "d": 16, "s": 74, "nps": 51.35}, {"label": "13/abr", "p": 32, "d": 13, "s": 49, "nps": 38.78}, {"label": "20/abr", "p": 27, "d": 24, "s": 54, "nps": 5.56}]}, "Partners": {"cat": "Longtail", "target": 70.19, "monthly": [{"label": "Jan", "p": 1793, "d": 251, "s": 2254, "nps": 68.41}, {"label": "Fev", "p": 1808, "d": 217, "s": 2198, "nps": 72.38}, {"label": "Mar", "p": 2228, "d": 337, "s": 2806, "nps": 67.39}, {"label": "Abr", "p": 1986, "d": 311, "s": 2523, "nps": 66.39}], "weekly": [{"label": "16/mar", "p": 528, "d": 69, "s": 659, "nps": 69.65}, {"label": "23/mar", "p": 450, "d": 75, "s": 573, "nps": 65.45}, {"label": "30/mar", "p": 448, "d": 77, "s": 574, "nps": 64.63}, {"label": "06/abr", "p": 460, "d": 76, "s": 587, "nps": 65.42}, {"label": "13/abr", "p": 575, "d": 85, "s": 725, "nps": 67.59}, {"label": "20/abr", "p": 567, "d": 85, "s": 719, "nps": 67.04}]}, "Post Venta Mature": {"cat": "Mature", "target": 50.1, "monthly": [{"label": "Jan", "p": 403, "d": 114, "s": 543, "nps": 53.22}, {"label": "Fev", "p": 363, "d": 85, "s": 493, "nps": 56.39}, {"label": "Mar", "p": 392, "d": 76, "s": 520, "nps": 60.77}, {"label": "Abr", "p": 269, "d": 45, "s": 346, "nps": 64.74}], "weekly": [{"label": "16/mar", "p": 94, "d": 12, "s": 113, "nps": 72.57}, {"label": "23/mar", "p": 91, "d": 15, "s": 119, "nps": 63.87}, {"label": "30/mar", "p": 88, "d": 20, "s": 114, "nps": 59.65}, {"label": "06/abr", "p": 89, "d": 15, "s": 117, "nps": 63.25}, {"label": "13/abr", "p": 76, "d": 11, "s": 97, "nps": 67.01}, {"label": "20/abr", "p": 46, "d": 6, "s": 58, "nps": 68.97}]}, "Post Venta Meli Pro": {"cat": "Meli Pro", "target": 87.77, "monthly": [{"label": "Jan", "p": 115, "d": 11, "s": 128, "nps": 81.25}, {"label": "Fev", "p": 88, "d": 9, "s": 101, "nps": 78.22}, {"label": "Mar", "p": 70, "d": 10, "s": 81, "nps": 74.07}, {"label": "Abr", "p": 310, "d": 11, "s": 329, "nps": 90.88}], "weekly": [{"label": "16/mar", "p": 15, "d": 3, "s": 19, "nps": 63.16}, {"label": "23/mar", "p": 18, "d": 3, "s": 21, "nps": 71.43}, {"label": "30/mar", "p": 8, "d": 0, "s": 9, "nps": 88.89}, {"label": "06/abr", "p": 25, "d": 2, "s": 29, "nps": 79.31}, {"label": "13/abr", "p": 104, "d": 5, "s": 112, "nps": 88.39}, {"label": "20/abr", "p": 149, "d": 1, "s": 152, "nps": 97.37}]}, "Post Venta Seller Dev": {"cat": "Longtail", "target": 53.4, "monthly": [{"label": "Jan", "p": 1206, "d": 265, "s": 1585, "nps": 59.37}, {"label": "Fev", "p": 983, "d": 209, "s": 1291, "nps": 59.95}, {"label": "Mar", "p": 929, "d": 178, "s": 1186, "nps": 63.32}, {"label": "Abr", "p": 747, "d": 106, "s": 924, "nps": 69.37}], "weekly": [{"label": "16/mar", "p": 215, "d": 28, "s": 261, "nps": 71.65}, {"label": "23/mar", "p": 214, "d": 41, "s": 280, "nps": 61.79}, {"label": "30/mar", "p": 176, "d": 39, "s": 233, "nps": 58.8}, {"label": "06/abr", "p": 239, "d": 39, "s": 301, "nps": 66.45}, {"label": "13/abr", "p": 194, "d": 23, "s": 233, "nps": 73.39}, {"label": "20/abr", "p": 177, "d": 18, "s": 209, "nps": 76.08}]}, "Publicaciones Mature": {"cat": "Mature", "target": 47.37, "monthly": [{"label": "Jan", "p": 321, "d": 73, "s": 429, "nps": 57.81}, {"label": "Fev", "p": 286, "d": 47, "s": 362, "nps": 66.02}, {"label": "Mar", "p": 258, "d": 51, "s": 345, "nps": 60.0}, {"label": "Abr", "p": 173, "d": 35, "s": 241, "nps": 57.26}], "weekly": [{"label": "16/mar", "p": 61, "d": 16, "s": 85, "nps": 52.94}, {"label": "23/mar", "p": 56, "d": 11, "s": 73, "nps": 61.64}, {"label": "30/mar", "p": 61, "d": 13, "s": 87, "nps": 55.17}, {"label": "06/abr", "p": 72, "d": 12, "s": 101, "nps": 59.41}, {"label": "13/abr", "p": 37, "d": 14, "s": 57, "nps": 40.35}, {"label": "20/abr", "p": 25, "d": 3, "s": 30, "nps": 73.33}]}, "Publicaciones Meli Pro": {"cat": "Meli Pro", "target": 81.43, "monthly": [{"label": "Jan", "p": 43, "d": 8, "s": 53, "nps": 66.04}, {"label": "Fev", "p": 34, "d": 2, "s": 40, "nps": 80.0}, {"label": "Mar", "p": 18, "d": 7, "s": 26, "nps": 42.31}, {"label": "Abr", "p": 119, "d": 12, "s": 138, "nps": 77.54}], "weekly": [{"label": "16/mar", "p": 4, "d": 1, "s": 5, "nps": 60.0}, {"label": "23/mar", "p": 3, "d": 2, "s": 5, "nps": 20.0}, {"label": "30/mar", "p": 6, "d": 1, "s": 8, "nps": 62.5}, {"label": "06/abr", "p": 6, "d": 1, "s": 8, "nps": 62.5}, {"label": "13/abr", "p": 37, "d": 4, "s": 44, "nps": 75.0}, {"label": "20/abr", "p": 59, "d": 4, "s": 64, "nps": 85.94}]}, "Publicaciones Seller Dev": {"cat": "Longtail", "target": 52.87, "monthly": [{"label": "Jan", "p": 3396, "d": 475, "s": 4216, "nps": 69.28}, {"label": "Fev", "p": 2581, "d": 381, "s": 3231, "nps": 68.09}, {"label": "Mar", "p": 2639, "d": 374, "s": 3309, "nps": 68.45}, {"label": "Abr", "p": 1844, "d": 323, "s": 2366, "nps": 64.29}], "weekly": [{"label": "16/mar", "p": 591, "d": 92, "s": 748, "nps": 66.71}, {"label": "23/mar", "p": 574, "d": 74, "s": 718, "nps": 69.64}, {"label": "30/mar", "p": 502, "d": 88, "s": 653, "nps": 63.4}, {"label": "06/abr", "p": 607, "d": 103, "s": 769, "nps": 65.54}, {"label": "13/abr", "p": 453, "d": 80, "s": 587, "nps": 63.54}, {"label": "20/abr", "p": 398, "d": 75, "s": 511, "nps": 63.21}]}};
+var ddCharts = {};
+
+function renderDD(period) {
+  var selectId = 'dd-select-' + period;
+  var contentId = 'dd-content-' + period;
+  var drv = document.getElementById(selectId).value;
+  var content = document.getElementById(contentId);
+
+  // Sincronizar selects
+  var otherPeriod = period === 'mes' ? 'sem' : 'mes';
+  var otherSelect = document.getElementById('dd-select-' + otherPeriod);
+  if (otherSelect) otherSelect.value = drv;
+
+  if (!drv || !DD_DATA[drv]) {
+    content.innerHTML = '<div class="dd-placeholder"><div class="dd-hint">Selecione um driver acima para ver o detalhamento</div></div>';
+    return;
+  }
+
+  var d = DD_DATA[drv];
+  var tgt = d.target;
+
+  // Destruir charts antigos deste period
+  if (ddCharts[period]) { ddCharts[period].forEach(function(c){ if(c) c.destroy(); }); }
+  ddCharts[period] = [];
+
+  function fmtNPS(v) { return v !== null ? v.toFixed(1)+'%' : '—'; }
+  function fmtDelta(v) { if(v===null||v===undefined) return '—'; var s=v>=0?'+':''; return s+v.toFixed(2)+' pp'; }
+
+  if (period === 'mes') {
+    var pts = d.monthly;
+    var cur = pts[pts.length-1];
+    var prev = pts[pts.length-2];
+    var nCur  = cur.nps;
+    var nPrev = prev.nps;
+    var delta = (nCur !== null && nPrev !== null) ? parseFloat((nCur - nPrev).toFixed(2)) : null;
+    var gapTgt = (nCur !== null && tgt) ? parseFloat((nCur - tgt).toFixed(2)) : null;
+
+    content.innerHTML =
+      '<div class="dd-sc-grid">' +
+        sc_dd('NPS '+cur.label, fmtNPS(nCur), null, nCur, tgt) +
+        sc_dd('NPS '+prev.label, fmtNPS(nPrev), null, nPrev, tgt) +
+        sc_dd('Variacao MoM', fmtDelta(delta), delta, null, null) +
+        sc_dd('Target', tgt ? tgt.toFixed(1)+'%' : '—', null, null, null) +
+        sc_dd('Gap vs Target', fmtDelta(gapTgt), gapTgt, null, null) +
+      '</div>' +
+      '<div class="dd-chart-section">' +
+        '<div class="dd-chart-title">Historico Mensal — '+drv+'</div>' +
+        '<div class="dd-chart-sub">NPS mensal Jan–Abr 2026 vs target do driver</div>' +
+        '<div class="dd-chart-wrap"><canvas id="c-dd-mes-chart"></canvas></div>' +
+      '</div>' +
+      '<div class="dd-section-title">Abertura por Processo — em breve</div>' +
+      '<div class="dd-placeholder" style="padding:20px">' +
+        '<div class="dd-hint">Detalhamento por processo chegando nas proximas versoes</div>' +
+      '</div>';
+
+    var labels = pts.map(function(p){ return p.label; });
+    var values = pts.map(function(p){ return p.nps; });
+    var colors = values.map(function(v){ return (tgt && v !== null && v < tgt) ? 'rgba(210,45,45,0.82)' : 'rgba(30,65,150,0.82)'; });
+    ddCharts[period].push(buildDDChart('c-dd-mes-chart', labels, values, colors, tgt, 'mensal'));
+
+  } else {
+    var pts = d.weekly;
+    var cur = pts[pts.length-1];
+    var prev = pts[pts.length-2];
+    var nCur  = cur.nps;
+    var nPrev = prev.nps;
+    var delta = (nCur !== null && nPrev !== null) ? parseFloat((nCur - nPrev).toFixed(2)) : null;
+    var gapTgt = (nCur !== null && tgt) ? parseFloat((nCur - tgt).toFixed(2)) : null;
+
+    content.innerHTML =
+      '<div class="dd-sc-grid">' +
+        sc_dd('NPS '+cur.label, fmtNPS(nCur), null, nCur, tgt) +
+        sc_dd('NPS '+prev.label, fmtNPS(nPrev), null, nPrev, tgt) +
+        sc_dd('Variacao WoW', fmtDelta(delta), delta, null, null) +
+        sc_dd('Target', tgt ? tgt.toFixed(1)+'%' : '—', null, null, null) +
+        sc_dd('Gap vs Target', fmtDelta(gapTgt), gapTgt, null, null) +
+      '</div>' +
+      '<div class="dd-chart-section">' +
+        '<div class="dd-chart-title">Historico Semanal — '+drv+'</div>' +
+        '<div class="dd-chart-sub">NPS semanal 6 semanas vs target do driver</div>' +
+        '<div class="dd-chart-wrap"><canvas id="c-dd-sem-chart"></canvas></div>' +
+      '</div>' +
+      '<div class="dd-section-title">Abertura por Processo — em breve</div>' +
+      '<div class="dd-placeholder" style="padding:20px">' +
+        '<div class="dd-hint">Detalhamento por processo chegando nas proximas versoes</div>' +
+      '</div>';
+
+    var labels = pts.map(function(p){ return p.label; });
+    var values = pts.map(function(p){ return p.nps; });
+    var colors = values.map(function(v){ return (tgt && v !== null && v < tgt) ? 'rgba(210,45,45,0.82)' : 'rgba(30,65,150,0.82)'; });
+    ddCharts[period].push(buildDDChart('c-dd-sem-chart', labels, values, colors, tgt, 'semanal'));
+  }
+}
+
+function sc_dd(label, val, delta, npsVal, tgt) {
+  var valColor = '';
+  if (npsVal !== null && tgt !== null && tgt !== undefined) {
+    valColor = npsVal >= tgt ? 'color:#1a7a1a' : 'color:#c0321a';
+  } else if (delta !== null && delta !== undefined) {
+    valColor = delta >= 0 ? 'color:#1a7a1a' : 'color:#c0321a';
+  } else {
+    valColor = 'color:#bf5c00';
+  }
+  return '<div class="sc">' +
+    '<div class="sc-label">'+label+'</div>' +
+    '<div class="sc-val" style="font-size:24px;'+valColor+'">'+val+'</div>' +
+  '</div>';
+}
+
+function buildDDChart(canvasId, labels, values, colors, target, type) {
+  var datasets = [{
+    label: 'NPS', data: values,
+    backgroundColor: colors, borderWidth: 0, borderRadius: 3
+  }];
+  if (target) {
+    datasets.push({
+      label: 'Target', data: Array(labels.length).fill(target),
+      type: 'line', borderColor: 'rgba(191,92,0,0.9)', borderWidth: 2,
+      borderDash: [5,4], pointRadius: 0, fill: false,
+      tension: 0
+    });
+  }
+  var allVals = values.filter(function(v){ return v !== null; }).concat(target ? [target] : []);
+  var yMin = allVals.length ? Math.floor(Math.min.apply(null,allVals)) - 5 : 0;
+  var yMax = allVals.length ? Math.ceil(Math.max.apply(null,allVals)) + 5 : 100;
+
+  return new Chart(document.getElementById(canvasId), {
+    type: 'bar',
+    plugins: [ChartDataLabels],
+    data: { labels: labels, datasets: datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true },
+        datalabels: {
+          display: function(ctx){ return ctx.dataset.type !== 'line'; },
+          formatter: function(v){ return v !== null ? v.toFixed(1)+'%' : ''; },
+          anchor: 'end', align: 'top',
+          font: { size: 10, weight: '600' }, color: '#333', padding: 2
+        }
+      },
+      layout: { padding: { top: 24 } },
+      scales: {
+        y: { min: yMin, max: yMax, display: true,
+              ticks: { callback: function(v){ return v+'%'; }, font: { size: 10 } },
+              grid: { color: '#f0f0f0' } },
+        x: { ticks: { font: { size: 10 }, color: '#555' },
+              grid: { display: false }, border: { display: false } }
+      }
+    }
+  });
+}
 </script>
 </body>
 </html>

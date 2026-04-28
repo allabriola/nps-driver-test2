@@ -132,6 +132,68 @@ weekly_driver = {
     "Publicaciones Seller Dev":          {"S2": (453, 80, 587),   "S1": (398, 75, 511)},
 }
 
+# Histórico mensal (Jan-Fev para chart do Deep Dive; Mar=M2, Abr=M1 já existem)
+monthly_hist_extra = {
+    "CBT":                               {"Jan":(481,57,549),    "Fev":(224,27,254)},
+    "Experiencia Impositiva Mature":     {"Jan":(81,18,113),     "Fev":(49,14,70)},
+    "Experiencia Impositiva Meli Pro":   {"Jan":(8,6,16),        "Fev":(1,3,5)},
+    "Experiencia Impositiva Seller Dev": {"Jan":(574,111,744),   "Fev":(350,86,477)},
+    "FBM-S Mature":                      {"Jan":(197,94,320),    "Fev":(135,61,216)},
+    "FBM-S Meli Pro":                    {"Jan":(33,5,42),       "Fev":(20,6,27)},
+    "FBM-S Seller Dev":                  {"Jan":(537,168,793),   "Fev":(340,109,501)},
+    "ME Vendedor Mature":                {"Jan":(2084,422,2688), "Fev":(1558,342,2082)},
+    "ME Vendedor Meli Pro":              {"Jan":(126,17,149),    "Fev":(93,9,109)},
+    "ME Vendedor Seller Dev":            {"Jan":(8138,1110,9984),"Fev":(5136,734,6390)},
+    "Otros CV":                          {"Jan":(935,420,1472),  "Fev":(844,241,1206)},
+    "PCF Vendedor Mature":               {"Jan":(306,122,482),   "Fev":(324,90,464)},
+    "PCF Vendedor Meli Pro":             {"Jan":(57,8,75),       "Fev":(57,11,73)},
+    "PCF Vendedor Seller Dev":           {"Jan":(697,244,1059),  "Fev":(529,173,768)},
+    "PDD DS&XD - Vendedor":              {"Jan":(406,324,830),   "Fev":(452,332,906)},
+    "PDD FBM - Vendedor":                {"Jan":(93,39,153),     "Fev":(101,40,160)},
+    "PDD Fotos - Vendedor":              {"Jan":(35,18,59),      "Fev":(31,18,61)},
+    "PDD MP,FLEX & CBT - Vendedor":      {"Jan":(59,56,124),     "Fev":(75,61,151)},
+    "PNR ME - Vendedor":                 {"Jan":(83,64,169),     "Fev":(86,79,186)},
+    "PNR MP - Vendedor":                 {"Jan":(122,85,239),    "Fev":(147,88,258)},
+    "Partners":                          {"Jan":(1793,251,2254), "Fev":(1808,217,2198)},
+    "Post Venta Mature":                 {"Jan":(403,114,543),   "Fev":(363,85,493)},
+    "Post Venta Meli Pro":               {"Jan":(115,11,128),    "Fev":(88,9,101)},
+    "Post Venta Seller Dev":             {"Jan":(1206,265,1585), "Fev":(983,209,1291)},
+    "Publicaciones Mature":              {"Jan":(321,73,429),    "Fev":(286,47,362)},
+    "Publicaciones Meli Pro":            {"Jan":(43,8,53),       "Fev":(34,2,40)},
+    "Publicaciones Seller Dev":          {"Jan":(3396,475,4216), "Fev":(2581,381,3231)},
+}
+
+# Semanas extras para Deep Dive (16/mar e 23/mar)
+weekly_hist_extra2 = {
+    "CBT":                               {"16/mar":(46,11,58),   "23/mar":(47,11,60)},
+    "Experiencia Impositiva Mature":     {"16/mar":(10,4,18),    "23/mar":(9,4,15)},
+    "Experiencia Impositiva Meli Pro":   {"16/mar":(2,0,2),      "23/mar":(2,1,3)},
+    "Experiencia Impositiva Seller Dev": {"16/mar":(82,20,113),  "23/mar":(60,19,90)},
+    "FBM-S Mature":                      {"16/mar":(25,9,38),    "23/mar":(34,7,46)},
+    "FBM-S Meli Pro":                    {"16/mar":(3,4,9),      "23/mar":(2,0,2)},
+    "FBM-S Seller Dev":                  {"16/mar":(75,26,114),  "23/mar":(76,25,115)},
+    "ME Vendedor Mature":                {"16/mar":(396,78,540), "23/mar":(394,84,536)},
+    "ME Vendedor Meli Pro":              {"16/mar":(14,2,18),    "23/mar":(15,1,17)},
+    "ME Vendedor Seller Dev":            {"16/mar":(1130,152,1420),"23/mar":(1088,164,1358)},
+    "Otros CV":                          {"16/mar":(175,43,235), "23/mar":(170,59,253)},
+    "PCF Vendedor Mature":               {"16/mar":(98,24,136),  "23/mar":(66,19,96)},
+    "PCF Vendedor Meli Pro":             {"16/mar":(11,3,15),    "23/mar":(3,1,6)},
+    "PCF Vendedor Seller Dev":           {"16/mar":(121,31,168), "23/mar":(113,38,167)},
+    "PDD DS&XD - Vendedor":              {"16/mar":(149,115,305),"23/mar":(134,146,304)},
+    "PDD FBM - Vendedor":                {"16/mar":(33,14,55),   "23/mar":(45,26,76)},
+    "PDD Fotos - Vendedor":              {"16/mar":(11,6,17),    "23/mar":(12,7,21)},
+    "PDD MP,FLEX & CBT - Vendedor":      {"16/mar":(25,14,45),   "23/mar":(12,13,32)},
+    "PNR ME - Vendedor":                 {"16/mar":(34,19,58),   "23/mar":(12,13,27)},
+    "PNR MP - Vendedor":                 {"16/mar":(33,25,63),   "23/mar":(22,23,51)},
+    "Partners":                          {"16/mar":(528,69,659), "23/mar":(450,75,573)},
+    "Post Venta Mature":                 {"16/mar":(94,12,113),  "23/mar":(91,15,119)},
+    "Post Venta Meli Pro":               {"16/mar":(15,3,19),    "23/mar":(18,3,21)},
+    "Post Venta Seller Dev":             {"16/mar":(215,28,261), "23/mar":(214,41,280)},
+    "Publicaciones Mature":              {"16/mar":(61,16,85),   "23/mar":(56,11,73)},
+    "Publicaciones Meli Pro":            {"16/mar":(4,1,5),      "23/mar":(3,2,5)},
+    "Publicaciones Seller Dev":          {"16/mar":(591,92,748), "23/mar":(574,74,718)},
+}
+
 # S3 = 06/abr-12/abr  |  S4 = 30/mar-05/abr  (histórico fechado)
 weekly_hist_extra = {
     "CBT":                               {"S3": (87, 12, 101),   "S4": (75, 9, 86)},
@@ -462,6 +524,60 @@ def make_panes(pfx, v):
 
 def build_html():
 
+    def nps_safe(p, d, s):
+        return round(100.0*(p-d)/s, 2) if s > 0 else None
+
+    # Montar DD_DATA: por driver, dados mensais (Jan-Abr) e semanais (6 semanas)
+    dd_data = {}
+    MONTH_KEYS = [("Jan","Jan"),("Fev","Fev"),("Mar","M2"),("Abr","M1")]
+    WEEK_KEYS  = [
+        ("16/mar", "16/mar", weekly_hist_extra2),
+        ("23/mar", "23/mar", weekly_hist_extra2),
+        ("30/mar", "S4",     weekly_hist_extra),
+        ("06/abr", "S3",     weekly_hist_extra),
+        ("13/abr", "S2",     weekly_driver),
+        ("20/abr", "S1",     weekly_driver),
+    ]
+
+    for drv in monthly_driver:
+        monthly_pts = []
+        for label, key in MONTH_KEYS:
+            if key in ("M1","M2"):
+                t = monthly_driver[drv][key]
+            else:
+                t = monthly_hist_extra.get(drv, {}).get(key, (0,0,0))
+            n = nps_safe(*t)
+            monthly_pts.append({"label": label, "p": t[0], "d": t[1], "s": t[2], "nps": n})
+
+        weekly_pts = []
+        for label, key, src in WEEK_KEYS:
+            t = src.get(drv, {}).get(key, (0,0,0))
+            n = nps_safe(*t)
+            weekly_pts.append({"label": label, "p": t[0], "d": t[1], "s": t[2], "nps": n})
+
+        dd_data[drv] = {
+            "cat": CAT.get(drv, "?"),
+            "target": DRIVER_TARGETS.get(drv),
+            "monthly": monthly_pts,
+            "weekly": weekly_pts,
+        }
+
+    dd_json = json.dumps(dd_data, ensure_ascii=False)
+
+    # Gerar options HTML agrupado por categoria
+    from collections import defaultdict
+    cat_drivers = defaultdict(list)
+    for drv in sorted(monthly_driver.keys()):
+        cat_drivers[CAT.get(drv,"?")].append(drv)
+    options_html = ""
+    for cat in ["Longtail","Mature","Meli Pro","FBM","Buyers","Otros CV"]:
+        drvs = cat_drivers.get(cat, [])
+        if drvs:
+            options_html += f'<optgroup label="{cat}">'
+            for d in drvs:
+                options_html += f'<option value="{d}">{d}</option>'
+            options_html += '</optgroup>'
+
     panes_all = make_panes("all", V_ALL)
     panes_sel = make_panes("sel", V_SEL)
 
@@ -538,6 +654,24 @@ header h1{{font-size:16px;font-weight:700}}
 .chart-title{{font-size:13px;font-weight:700;color:#1a1e3c;margin-bottom:3px}}
 .chart-sub{{font-size:11px;color:#888;margin-bottom:12px}}
 .chart-wrap{{position:relative;height:310px;width:100%}}
+
+/* ── Deep Dive ── */
+.dd-bar{{display:flex;align-items:center;gap:10px;margin-bottom:16px}}
+.dd-label{{font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.5px}}
+.dd-select{{padding:7px 12px;border:1px solid #d0d5e0;border-radius:7px;font-size:13px;
+            background:#fff;color:#1a1e3c;min-width:280px;cursor:pointer}}
+.dd-placeholder{{background:#fff;border-radius:12px;padding:40px;text-align:center;
+                 box-shadow:0 1px 4px rgba(0,0,0,.07)}}
+.dd-hint{{color:#aaa;font-size:13px}}
+.dd-sc-grid{{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}}
+.dd-chart-section{{background:#fff;border-radius:12px;padding:18px 22px;
+                   box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:16px}}
+.dd-chart-title{{font-size:13px;font-weight:700;color:#1a1e3c;margin-bottom:3px}}
+.dd-chart-sub{{font-size:11px;color:#888;margin-bottom:12px}}
+.dd-chart-wrap{{position:relative;height:260px}}
+.dd-section-title{{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;
+                   letter-spacing:.6px;margin:20px 0 10px;padding-bottom:6px;
+                   border-bottom:1px solid #eee}}
 </style>
 </head>
 <body>
@@ -554,6 +688,7 @@ header h1{{font-size:16px;font-weight:700}}
   <div class="view-tabs">
     <button class="view-btn active" data-view="all" onclick="setView(this)">All Drivers</button>
     <button class="view-btn"        data-view="sel" onclick="setView(this)">Drivers Sellers</button>
+    <button class="view-btn"        data-view="dd"  onclick="setView(this)">Deep Dive</button>
   </div>
   <div class="right-nav">
     <div class="period-tabs">
@@ -567,6 +702,33 @@ header h1{{font-size:16px;font-weight:700}}
 <div class="page">
   {panes_all}
   {panes_sel}
+
+  <!-- ── DEEP DIVE ──────────────────────────────────────────────── -->
+  <div id="pane-dd-mes" class="tab-pane">
+    <div class="dd-bar">
+      <label class="dd-label">Driver</label>
+      <select id="dd-select-mes" class="dd-select" onchange="renderDD('mes')">
+        <option value="">Selecione um driver...</option>
+        {options_html}
+      </select>
+    </div>
+    <div id="dd-content-mes" class="dd-placeholder">
+      <div class="dd-hint">Selecione um driver acima para ver o detalhamento</div>
+    </div>
+  </div>
+
+  <div id="pane-dd-sem" class="tab-pane">
+    <div class="dd-bar">
+      <label class="dd-label">Driver</label>
+      <select id="dd-select-sem" class="dd-select" onchange="renderDD('sem')">
+        <option value="">Selecione um driver...</option>
+        {options_html}
+      </select>
+    </div>
+    <div id="dd-content-sem" class="dd-placeholder">
+      <div class="dd-hint">Selecione um driver acima para ver o detalhamento</div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -592,6 +754,18 @@ function setPeriod(btn) {{
   document.querySelectorAll('.period-btn').forEach(function(b) {{ b.classList.remove('active'); }});
   btn.classList.add('active');
   updatePanes();
+  // Se está no DD, re-renderizar com o driver atual
+  if (currentView === 'dd') {{
+    var newPeriod = btn.getAttribute('data-period');
+    var selectId = 'dd-select-' + newPeriod;
+    var otherPeriod = newPeriod === 'mes' ? 'sem' : 'mes';
+    var otherSelectId = 'dd-select-' + otherPeriod;
+    var drv = document.getElementById(otherSelectId) ? document.getElementById(otherSelectId).value : '';
+    if (drv && document.getElementById(selectId)) {{
+      document.getElementById(selectId).value = drv;
+      renderDD(newPeriod);
+    }}
+  }}
 }}
 
 function shorten(s, n) {{
@@ -641,6 +815,161 @@ function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, driver
 }}
 
 {js_charts("all", V_ALL)}{js_charts("sel", V_SEL)}
+
+var DD_DATA = {dd_json};
+var ddCharts = {{}};
+
+function renderDD(period) {{
+  var selectId = 'dd-select-' + period;
+  var contentId = 'dd-content-' + period;
+  var drv = document.getElementById(selectId).value;
+  var content = document.getElementById(contentId);
+
+  // Sincronizar selects
+  var otherPeriod = period === 'mes' ? 'sem' : 'mes';
+  var otherSelect = document.getElementById('dd-select-' + otherPeriod);
+  if (otherSelect) otherSelect.value = drv;
+
+  if (!drv || !DD_DATA[drv]) {{
+    content.innerHTML = '<div class="dd-placeholder"><div class="dd-hint">Selecione um driver acima para ver o detalhamento</div></div>';
+    return;
+  }}
+
+  var d = DD_DATA[drv];
+  var tgt = d.target;
+
+  // Destruir charts antigos deste period
+  if (ddCharts[period]) {{ ddCharts[period].forEach(function(c){{ if(c) c.destroy(); }}); }}
+  ddCharts[period] = [];
+
+  function fmtNPS(v) {{ return v !== null ? v.toFixed(1)+'%' : '—'; }}
+  function fmtDelta(v) {{ if(v===null||v===undefined) return '—'; var s=v>=0?'+':''; return s+v.toFixed(2)+' pp'; }}
+
+  if (period === 'mes') {{
+    var pts = d.monthly;
+    var cur = pts[pts.length-1];
+    var prev = pts[pts.length-2];
+    var nCur  = cur.nps;
+    var nPrev = prev.nps;
+    var delta = (nCur !== null && nPrev !== null) ? parseFloat((nCur - nPrev).toFixed(2)) : null;
+    var gapTgt = (nCur !== null && tgt) ? parseFloat((nCur - tgt).toFixed(2)) : null;
+
+    content.innerHTML =
+      '<div class="dd-sc-grid">' +
+        sc_dd('NPS '+cur.label, fmtNPS(nCur), null, nCur, tgt) +
+        sc_dd('NPS '+prev.label, fmtNPS(nPrev), null, nPrev, tgt) +
+        sc_dd('Variacao MoM', fmtDelta(delta), delta, null, null) +
+        sc_dd('Target', tgt ? tgt.toFixed(1)+'%' : '—', null, null, null) +
+        sc_dd('Gap vs Target', fmtDelta(gapTgt), gapTgt, null, null) +
+      '</div>' +
+      '<div class="dd-chart-section">' +
+        '<div class="dd-chart-title">Historico Mensal — '+drv+'</div>' +
+        '<div class="dd-chart-sub">NPS mensal Jan–Abr 2026 vs target do driver</div>' +
+        '<div class="dd-chart-wrap"><canvas id="c-dd-mes-chart"></canvas></div>' +
+      '</div>' +
+      '<div class="dd-section-title">Abertura por Processo — em breve</div>' +
+      '<div class="dd-placeholder" style="padding:20px">' +
+        '<div class="dd-hint">Detalhamento por processo chegando nas proximas versoes</div>' +
+      '</div>';
+
+    var labels = pts.map(function(p){{ return p.label; }});
+    var values = pts.map(function(p){{ return p.nps; }});
+    var colors = values.map(function(v){{ return (tgt && v !== null && v < tgt) ? 'rgba(210,45,45,0.82)' : 'rgba(30,65,150,0.82)'; }});
+    ddCharts[period].push(buildDDChart('c-dd-mes-chart', labels, values, colors, tgt, 'mensal'));
+
+  }} else {{
+    var pts = d.weekly;
+    var cur = pts[pts.length-1];
+    var prev = pts[pts.length-2];
+    var nCur  = cur.nps;
+    var nPrev = prev.nps;
+    var delta = (nCur !== null && nPrev !== null) ? parseFloat((nCur - nPrev).toFixed(2)) : null;
+    var gapTgt = (nCur !== null && tgt) ? parseFloat((nCur - tgt).toFixed(2)) : null;
+
+    content.innerHTML =
+      '<div class="dd-sc-grid">' +
+        sc_dd('NPS '+cur.label, fmtNPS(nCur), null, nCur, tgt) +
+        sc_dd('NPS '+prev.label, fmtNPS(nPrev), null, nPrev, tgt) +
+        sc_dd('Variacao WoW', fmtDelta(delta), delta, null, null) +
+        sc_dd('Target', tgt ? tgt.toFixed(1)+'%' : '—', null, null, null) +
+        sc_dd('Gap vs Target', fmtDelta(gapTgt), gapTgt, null, null) +
+      '</div>' +
+      '<div class="dd-chart-section">' +
+        '<div class="dd-chart-title">Historico Semanal — '+drv+'</div>' +
+        '<div class="dd-chart-sub">NPS semanal 6 semanas vs target do driver</div>' +
+        '<div class="dd-chart-wrap"><canvas id="c-dd-sem-chart"></canvas></div>' +
+      '</div>' +
+      '<div class="dd-section-title">Abertura por Processo — em breve</div>' +
+      '<div class="dd-placeholder" style="padding:20px">' +
+        '<div class="dd-hint">Detalhamento por processo chegando nas proximas versoes</div>' +
+      '</div>';
+
+    var labels = pts.map(function(p){{ return p.label; }});
+    var values = pts.map(function(p){{ return p.nps; }});
+    var colors = values.map(function(v){{ return (tgt && v !== null && v < tgt) ? 'rgba(210,45,45,0.82)' : 'rgba(30,65,150,0.82)'; }});
+    ddCharts[period].push(buildDDChart('c-dd-sem-chart', labels, values, colors, tgt, 'semanal'));
+  }}
+}}
+
+function sc_dd(label, val, delta, npsVal, tgt) {{
+  var valColor = '';
+  if (npsVal !== null && tgt !== null && tgt !== undefined) {{
+    valColor = npsVal >= tgt ? 'color:#1a7a1a' : 'color:#c0321a';
+  }} else if (delta !== null && delta !== undefined) {{
+    valColor = delta >= 0 ? 'color:#1a7a1a' : 'color:#c0321a';
+  }} else {{
+    valColor = 'color:#bf5c00';
+  }}
+  return '<div class="sc">' +
+    '<div class="sc-label">'+label+'</div>' +
+    '<div class="sc-val" style="font-size:24px;'+valColor+'">'+val+'</div>' +
+  '</div>';
+}}
+
+function buildDDChart(canvasId, labels, values, colors, target, type) {{
+  var datasets = [{{
+    label: 'NPS', data: values,
+    backgroundColor: colors, borderWidth: 0, borderRadius: 3
+  }}];
+  if (target) {{
+    datasets.push({{
+      label: 'Target', data: Array(labels.length).fill(target),
+      type: 'line', borderColor: 'rgba(191,92,0,0.9)', borderWidth: 2,
+      borderDash: [5,4], pointRadius: 0, fill: false,
+      tension: 0
+    }});
+  }}
+  var allVals = values.filter(function(v){{ return v !== null; }}).concat(target ? [target] : []);
+  var yMin = allVals.length ? Math.floor(Math.min.apply(null,allVals)) - 5 : 0;
+  var yMax = allVals.length ? Math.ceil(Math.max.apply(null,allVals)) + 5 : 100;
+
+  return new Chart(document.getElementById(canvasId), {{
+    type: 'bar',
+    plugins: [ChartDataLabels],
+    data: {{ labels: labels, datasets: datasets }},
+    options: {{
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {{
+        legend: {{ display: false }},
+        tooltip: {{ enabled: true }},
+        datalabels: {{
+          display: function(ctx){{ return ctx.dataset.type !== 'line'; }},
+          formatter: function(v){{ return v !== null ? v.toFixed(1)+'%' : ''; }},
+          anchor: 'end', align: 'top',
+          font: {{ size: 10, weight: '600' }}, color: '#333', padding: 2
+        }}
+      }},
+      layout: {{ padding: {{ top: 24 }} }},
+      scales: {{
+        y: {{ min: yMin, max: yMax, display: true,
+              ticks: {{ callback: function(v){{ return v+'%'; }}, font: {{ size: 10 }} }},
+              grid: {{ color: '#f0f0f0' }} }},
+        x: {{ ticks: {{ font: {{ size: 10 }}, color: '#555' }},
+              grid: {{ display: false }}, border: {{ display: false }} }}
+      }}
+    }}
+  }});
+}}
 </script>
 </body>
 </html>"""
