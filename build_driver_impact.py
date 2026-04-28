@@ -614,8 +614,8 @@ def build_html():
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>NPS Driver Impact - All Sellers BR</title>
-<script>{open('chartjs.min.js',encoding='utf-8').read()}</script>
-<script>{open('chartjs-datalabels.min.js',encoding='utf-8').read()}</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
 *{{box-sizing:border-box;margin:0;padding:0}}
 body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
@@ -828,9 +828,6 @@ function shorten(s, n) {{
   n = n || 11;
   return s.length > n ? s.slice(0, n) + '...' : s;
 }}
-// Registrar Chart.js apenas aqui, depois das funcoes de navegacao
-try {{ Chart.register(ChartDataLabels); }} catch(e) {{ console.warn('Chart.register falhou:', e); }}
-
 function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, drivers, yBase) {{
   var labels = [startLabel], floatData = [[yBase, startVal]],
       bgColors = ['rgba(30,65,150,0.88)'], dlValues = [startVal.toFixed(1) + '%'];
@@ -873,10 +870,13 @@ function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, driver
   }});
 }}
 
-// Mostrar pane inicial antes de criar graficos
+// Abas funcionam imediatamente — charts carregam depois com CDN
 updatePanes();
 
-{js_charts("all", V_ALL)}{js_charts("sel", V_SEL)}
+window.addEventListener('load', function() {{
+  try {{ Chart.register(ChartDataLabels); }} catch(e) {{ console.warn('Chart:', e); return; }}
+  {js_charts("all", V_ALL)}{js_charts("sel", V_SEL)}
+}});
 
 var DD_DATA = {dd_json};
 var DD_BREAKDOWN = {dd_breakdown_json};
