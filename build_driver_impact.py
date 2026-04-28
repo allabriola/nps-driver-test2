@@ -131,6 +131,15 @@ weekly_driver = {
     "Publicaciones Seller Dev":          {"S2": (453, 80, 587),   "S1": (398, 75, 511)},
 }
 
+# ─── FILTRO SELLERS (sem drivers de mediacao) ────────────────────────────────
+DRIVERS_EXCLUIDOS = {
+    "CBT", "PDD DS&XD - Vendedor", "PDD FBM - Vendedor",
+    "PDD Fotos - Vendedor", "PNR ME - Vendedor", "PNR MP - Vendedor",
+    "PDD MP,FLEX & CBT - Vendedor",
+}
+monthly_driver_sel = {d: v for d, v in monthly_driver.items() if d not in DRIVERS_EXCLUIDOS}
+weekly_driver_sel  = {d: v for d, v in weekly_driver.items()  if d not in DRIVERS_EXCLUIDOS}
+
 # ─── CALCULOS ────────────────────────────────────────────────────────────────
 def nps(p, d, s):
     return round(100.0 * (p - d) / s, 2) if s > 0 else None
@@ -138,93 +147,83 @@ def nps(p, d, s):
 def mix_neto(data, pa, pb, surv_a, surv_b, nps_b_tot):
     out = {}
     for drv, pd in data.items():
-        a = pd.get(pa, (0, 0, 0))
-        b = pd.get(pb, (0, 0, 0))
-        na = nps(*a)
-        nb = nps(*b)
+        a = pd.get(pa, (0, 0, 0)); b = pd.get(pb, (0, 0, 0))
+        na = nps(*a); nb = nps(*b)
         sha = a[2] / surv_a if surv_a else 0
         shb = b[2] / surv_b if surv_b else 0
         nt = round(sha * (nb - na), 2) if na is not None and nb is not None else 0.0
         mx = round((shb - sha) * (nb - nps_b_tot), 2) if nb is not None else 0.0
-        out[drv] = dict(
-            surv_a=a[2], nps_a=na, share_a=round(sha * 100, 1),
-            surv_b=b[2], nps_b=nb, share_b=round(shb * 100, 1),
-            neto=nt, mix=mx, var=round(nt + mx, 2),
-        )
+        out[drv] = dict(surv_a=a[2], nps_a=na, share_a=round(sha*100,1),
+                        surv_b=b[2], nps_b=nb, share_b=round(shb*100,1),
+                        neto=nt, mix=mx, var=round(nt+mx,2))
     return out
 
-# Monthly
-sM2  = sum(v["M2"][2] for v in monthly_driver.values())
-sM1  = sum(v["M1"][2] for v in monthly_driver.values())
-nM2  = nps(sum(v["M2"][0] for v in monthly_driver.values()),
-           sum(v["M2"][1] for v in monthly_driver.values()), sM2)
-nM1  = nps(sum(v["M1"][0] for v in monthly_driver.values()),
-           sum(v["M1"][1] for v in monthly_driver.values()), sM1)
-dM   = round(nM1 - nM2, 2)
-mD   = mix_neto(monthly_driver, "M2", "M1", sM2, sM1, nM1)
-
-# Weekly
-sS2  = sum(v["S2"][2] for v in weekly_driver.values())
-sS1  = sum(v["S1"][2] for v in weekly_driver.values())
-nS2  = nps(sum(v["S2"][0] for v in weekly_driver.values()),
-           sum(v["S2"][1] for v in weekly_driver.values()), sS2)
-nS1  = nps(sum(v["S1"][0] for v in weekly_driver.values()),
-           sum(v["S1"][1] for v in weekly_driver.values()), sS1)
-dW   = round(nS1 - nS2, 2)
-wD   = mix_neto(weekly_driver, "S2", "S1", sS2, sS1, nS1)
-
-# vs Target — waterfall: theoretical_target -> drivers -> nM1
-# theoretical_target = SUM(TARGET_driver * share_M1) — baseline if all hit target
-theoretical_target = round(
-    sum(DRIVER_TARGETS[drv] * (monthly_driver[drv]["M1"][2] / sM1) for drv in monthly_driver), 2
-)
-gap_consol = round(nM1 - NPS_TARGET_CONSOL, 2)
-
-# (NPS_driver - TARGET_driver) * share: positive = driver above target, negative = drag
-vt_impacts = {}
-for drv in monthly_driver:
-    b   = monthly_driver[drv]["M1"]
-    nb  = nps(*b)
-    tgt = DRIVER_TARGETS.get(drv)
-    sh  = b[2] / sM1 if sM1 else 0
-    gap_d = round(nb - tgt, 2) if nb is not None and tgt is not None else 0.0
-    vt_impacts[drv] = {"var": round(gap_d * sh, 2), "nps": nb, "target": tgt,
-                       "gap": gap_d, "share": round(sh * 100, 1)}
-
-# ─── DERIVADOS ADICIONAIS ────────────────────────────────────────────────────
-worst_mom_drv = min(mD, key=lambda d: mD[d]["var"])
-best_mom_drv  = max(mD, key=lambda d: mD[d]["var"])
-worst_wow_drv = min(wD, key=lambda d: wD[d]["var"])
-best_wow_drv  = max(wD, key=lambda d: wD[d]["var"])
-
-surv_mom_var  = round((sM1 - sM2) / sM2 * 100, 1) if sM2 else 0
-surv_wow_var  = round((sS1 - sS2) / sS2 * 100, 1) if sS2 else 0
-vs_tgt_mom    = round(nM1 - NPS_TARGET_CONSOL, 2)
-vs_tgt_wow    = round(nS1 - NPS_TARGET_CONSOL, 2)
-
-# ─── HELPERS CHARTS ──────────────────────────────────────────────────────────
 def sorted_impacts(decomp):
-    """Sort: maiores ganhos primeiro ate maiores perdas por ultimo (decrescente)."""
-    items = [{"label": d, "v": round(r["var"], 3), "cat": CAT.get(d, "?")}
-             for d, r in decomp.items()]
+    items = [{"label": d, "v": round(r["var"], 3)} for d, r in decomp.items()]
     return sorted(items, key=lambda x: -x["v"])
 
 def calc_y_base(start, drivers):
-    """Minimum running value minus padding, used as bar anchor for start/end."""
-    running = start
-    vals = [start]
+    running, vals = start, [start]
     for d in drivers:
-        running += d["v"]
-        vals.append(running)
+        running += d["v"]; vals.append(running)
     return round(min(vals) - 3, 1)
 
-mom_drivers = sorted_impacts(mD)
-wow_drivers = sorted_impacts(wD)
-vt_drivers  = sorted_impacts(vt_impacts)
+def compute_view(monthly_data, weekly_data):
+    """Calcula todos os valores para um conjunto de drivers."""
+    # Monthly
+    sM2_ = sum(v["M2"][2] for v in monthly_data.values())
+    sM1_ = sum(v["M1"][2] for v in monthly_data.values())
+    nM2_ = nps(sum(v["M2"][0] for v in monthly_data.values()),
+               sum(v["M2"][1] for v in monthly_data.values()), sM2_)
+    nM1_ = nps(sum(v["M1"][0] for v in monthly_data.values()),
+               sum(v["M1"][1] for v in monthly_data.values()), sM1_)
+    dM_  = round(nM1_ - nM2_, 2)
+    mD_  = mix_neto(monthly_data, "M2", "M1", sM2_, sM1_, nM1_)
 
-mom_ybase = calc_y_base(nM2, mom_drivers)
-wow_ybase = calc_y_base(nS2, wow_drivers)
-vt_ybase  = calc_y_base(theoretical_target, vt_drivers)
+    # Weekly
+    sS2_ = sum(v["S2"][2] for v in weekly_data.values())
+    sS1_ = sum(v["S1"][2] for v in weekly_data.values())
+    nS2_ = nps(sum(v["S2"][0] for v in weekly_data.values()),
+               sum(v["S2"][1] for v in weekly_data.values()), sS2_)
+    nS1_ = nps(sum(v["S1"][0] for v in weekly_data.values()),
+               sum(v["S1"][1] for v in weekly_data.values()), sS1_)
+    dW_  = round(nS1_ - nS2_, 2)
+    wD_  = mix_neto(weekly_data, "S2", "S1", sS2_, sS1_, nS1_)
+
+    # vs Target
+    tt_ = round(sum(DRIVER_TARGETS[d] * (monthly_data[d]["M1"][2] / sM1_)
+                    for d in monthly_data if d in DRIVER_TARGETS), 2)
+    vt_ = {}
+    for drv in monthly_data:
+        b = monthly_data[drv]["M1"]; nb = nps(*b)
+        tgt = DRIVER_TARGETS.get(drv); sh = b[2] / sM1_ if sM1_ else 0
+        gap_d = round(nb - tgt, 2) if nb is not None and tgt is not None else 0.0
+        vt_[drv] = {"var": round(gap_d * sh, 2), "nps": nb, "target": tgt,
+                    "gap": gap_d, "share": round(sh * 100, 1)}
+
+    # Sorted for charts
+    md_ = sorted_impacts(mD_); wd_ = sorted_impacts(wD_); vd_ = sorted_impacts(vt_)
+
+    return dict(
+        nM1=nM1_, nM2=nM2_, dM=dM_, sM1=sM1_, sM2=sM2_,
+        nS1=nS1_, nS2=nS2_, dW=dW_, sS1=sS1_, sS2=sS2_,
+        vs_tgt_mom=round(nM1_ - NPS_TARGET_CONSOL, 2),
+        vs_tgt_wow=round(nS1_ - NPS_TARGET_CONSOL, 2),
+        surv_mom_var=round((sM1_ - sM2_) / sM2_ * 100, 1) if sM2_ else 0,
+        surv_wow_var=round((sS1_ - sS2_) / sS2_ * 100, 1) if sS2_ else 0,
+        mD=mD_, wD=wD_, vt=vt_, tt=tt_,
+        worst_mom=min(mD_, key=lambda d: mD_[d]["var"]),
+        best_mom =max(mD_, key=lambda d: mD_[d]["var"]),
+        worst_wow=min(wD_, key=lambda d: wD_[d]["var"]),
+        best_wow =max(wD_, key=lambda d: wD_[d]["var"]),
+        mom_json=json.dumps(md_), wow_json=json.dumps(wd_), vt_json=json.dumps(vd_),
+        mom_ybase=calc_y_base(nM2_, md_),
+        wow_ybase=calc_y_base(nS2_, wd_),
+        vt_ybase =calc_y_base(tt_, vd_),
+    )
+
+V_ALL = compute_view(monthly_driver,     weekly_driver)
+V_SEL = compute_view(monthly_driver_sel, weekly_driver_sel)
 
 # ─── HTML ─────────────────────────────────────────────────────────────────────
 def _arr(v): return "&#9650;" if v >= 0 else "&#9660;"
@@ -274,44 +273,77 @@ def sc_driver(title, drv, nps_val, share_val,
   <div class="bullet {_cls(tgt_gap)}">{_arr(tgt_gap)} {_pp(tgt_gap)} vs target</div>
 </div>"""
 
+def make_panes(pfx, v):
+    """Gera os dois panes (MES + SEMANA) para um conjunto de dados."""
+    mD, wD, vt = v["mD"], v["wD"], v["vt"]
+
+    def cards_mes():
+        wm = v["worst_mom"]; bm = v["best_mom"]
+        return (
+            sc_nps("NPS CONSOLIDADO", v["nM1"], v["vs_tgt_mom"], v["dM"], "mes ant.", M1_LABEL) +
+            sc_target(NPS_TARGET_CONSOL, M1_LABEL) +
+            sc_surveys(v["sM1"], v["surv_mom_var"], M1_LABEL) +
+            sc_driver("DRIVER MAIS OFENSOR", wm,
+                      mD[wm]["nps_b"], mD[wm]["share_b"],
+                      "MoM", mD[wm]["var"], "WoW", wD[wm]["var"], vt[wm]["gap"]) +
+            sc_driver("DRIVER MAIS PROMOTOR", bm,
+                      mD[bm]["nps_b"], mD[bm]["share_b"],
+                      "MoM", mD[bm]["var"], "WoW", wD[bm]["var"], vt[bm]["gap"])
+        )
+
+    def cards_sem():
+        ww = v["worst_wow"]; bw = v["best_wow"]
+        return (
+            sc_nps("NPS CONSOLIDADO", v["nS1"], v["vs_tgt_wow"], v["dW"], "sem. ant.", S1_LABEL) +
+            sc_target(NPS_TARGET_CONSOL, M1_LABEL) +
+            sc_surveys(v["sS1"], v["surv_wow_var"], S1_LABEL) +
+            sc_driver("DRIVER MAIS OFENSOR", ww,
+                      wD[ww]["nps_b"], wD[ww]["share_b"],
+                      "WoW", wD[ww]["var"], "MoM", mD[ww]["var"], vt[ww]["gap"]) +
+            sc_driver("DRIVER MAIS PROMOTOR", bw,
+                      wD[bw]["nps_b"], wD[bw]["share_b"],
+                      "WoW", wD[bw]["var"], "MoM", mD[bw]["var"], vt[bw]["gap"])
+        )
+
+    tt = v["tt"]
+    return f"""
+  <div id="pane-{pfx}-mes" class="tab-pane">
+    <div class="sc-grid">{cards_mes()}</div>
+    <div class="chart-section">
+      <div class="chart-title">Impacto MoM - Abertura Driver</div>
+      <div class="chart-sub">Contribuicao de cada driver (pp) na variacao consolidada {M2_LABEL} &rarr; {M1_LABEL}.</div>
+      <div class="chart-wrap"><canvas id="c-{pfx}-mom"></canvas></div>
+    </div>
+    <div class="chart-section">
+      <div class="chart-title">vs Target - Abertura Driver</div>
+      <div class="chart-sub">Partindo do target ponderado por volume ({tt:.1f}%), cada driver mostra seu desvio ate o NPS real de {v['nM1']:.1f}%. Negativo = abaixo do target.</div>
+      <div class="chart-wrap"><canvas id="c-{pfx}-vt"></canvas></div>
+    </div>
+  </div>
+  <div id="pane-{pfx}-sem" class="tab-pane">
+    <div class="sc-grid">{cards_sem()}</div>
+    <div class="chart-section">
+      <div class="chart-title">Impacto WoW - Abertura Driver</div>
+      <div class="chart-sub">Contribuicao de cada driver (pp) na variacao consolidada {S2_LABEL} &rarr; {S1_LABEL}.</div>
+      <div class="chart-wrap"><canvas id="c-{pfx}-wow"></canvas></div>
+    </div>
+  </div>"""
+
 def build_html():
-    mom_json = json.dumps(mom_drivers)
-    wow_json = json.dumps(wow_drivers)
-    vt_json  = json.dumps(vt_drivers)
 
-    # ── Scorecards MES ──
-    cards_mes = (
-        sc_nps("NPS CONSOLIDADO", nM1, vs_tgt_mom, dM, "mes ant.", M1_LABEL) +
-        sc_target(NPS_TARGET_CONSOL, M1_LABEL) +
-        sc_surveys(sM1, surv_mom_var, M1_LABEL) +
-        sc_driver("DRIVER MAIS OFENSOR", worst_mom_drv,
-                  mD[worst_mom_drv]["nps_b"], mD[worst_mom_drv]["share_b"],
-                  "MoM", mD[worst_mom_drv]["var"],
-                  "WoW", wD[worst_mom_drv]["var"],
-                  vt_impacts[worst_mom_drv]["gap"]) +
-        sc_driver("DRIVER MAIS PROMOTOR", best_mom_drv,
-                  mD[best_mom_drv]["nps_b"], mD[best_mom_drv]["share_b"],
-                  "MoM", mD[best_mom_drv]["var"],
-                  "WoW", wD[best_mom_drv]["var"],
-                  vt_impacts[best_mom_drv]["gap"])
-    )
+    panes_all = make_panes("all", V_ALL)
+    panes_sel = make_panes("sel", V_SEL)
 
-    # ── Scorecards SEMANA ──
-    cards_sem = (
-        sc_nps("NPS CONSOLIDADO", nS1, vs_tgt_wow, dW, "sem. ant.", S1_LABEL) +
-        sc_target(NPS_TARGET_CONSOL, M1_LABEL) +
-        sc_surveys(sS1, surv_wow_var, S1_LABEL) +
-        sc_driver("DRIVER MAIS OFENSOR", worst_wow_drv,
-                  wD[worst_wow_drv]["nps_b"], wD[worst_wow_drv]["share_b"],
-                  "WoW", wD[worst_wow_drv]["var"],
-                  "MoM", mD[worst_wow_drv]["var"],
-                  vt_impacts[worst_wow_drv]["gap"]) +
-        sc_driver("DRIVER MAIS PROMOTOR", best_wow_drv,
-                  wD[best_wow_drv]["nps_b"], wD[best_wow_drv]["share_b"],
-                  "WoW", wD[best_wow_drv]["var"],
-                  "MoM", mD[best_wow_drv]["var"],
-                  vt_impacts[best_wow_drv]["gap"])
-    )
+    # js chart calls para os 6 graficos
+    def js_charts(pfx, v):
+        return (
+            f"buildWaterfall('c-{pfx}-mom',{v['nM2']},{v['nM1']},'{M2_LABEL}','{M1_LABEL}',"
+            f"{v['mom_json']},{v['mom_ybase']});\n"
+            f"buildWaterfall('c-{pfx}-wow',{v['nS2']},{v['nS1']},'{S2_LABEL}','{S1_LABEL}',"
+            f"{v['wow_json']},{v['wow_ybase']});\n"
+            f"buildWaterfall('c-{pfx}-vt',{v['tt']},{v['nM1']},'Target Pond.','{M1_LABEL}',"
+            f"{v['vt_json']},{v['vt_ybase']});\n"
+        )
 
     return f"""<!DOCTYPE html>
 <html lang="pt-BR">
@@ -325,42 +357,42 @@ def build_html():
 *{{box-sizing:border-box;margin:0;padding:0}}
 body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
       background:#eef0f5;color:#1a1e3c;font-size:13px}}
-
-/* ── Header ── */
 header{{background:#1a1e3c;color:#fff;padding:13px 24px;
         display:flex;align-items:center;justify-content:space-between}}
 header h1{{font-size:16px;font-weight:700}}
 .hd-meta{{font-size:11px;color:#aab4d4}}
 
-/* ── Top bar (tabs + period) ── */
-.top-bar{{background:#eef0f5;padding:14px 24px 0;
-          display:flex;align-items:center;justify-content:space-between}}
-.tabs{{display:flex;gap:4px;background:#dde2ec;border-radius:8px;padding:3px}}
-.tab-btn{{border:none;cursor:pointer;padding:6px 20px;border-radius:6px;
-          font-size:12px;font-weight:700;background:transparent;color:#555;transition:.15s}}
-.tab-btn.active{{background:#bf5c00;color:#fff;box-shadow:0 1px 4px rgba(0,0,0,.15)}}
+/* ── Barra de navegacao ── */
+.nav-bar{{background:#eef0f5;padding:14px 24px 0;
+          display:flex;align-items:flex-end;justify-content:space-between;gap:12px}}
+.view-tabs{{display:flex;gap:3px;background:#d0d5e2;border-radius:8px;padding:3px}}
+.view-btn{{border:none;cursor:pointer;padding:7px 22px;border-radius:6px;
+           font-size:12px;font-weight:700;background:transparent;color:#555;transition:.15s}}
+.view-btn.active{{background:#1a1e3c;color:#fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}}
+.right-nav{{display:flex;align-items:center;gap:8px}}
+.period-tabs{{display:flex;gap:3px;background:#d0d5e2;border-radius:8px;padding:3px}}
+.period-btn{{border:none;cursor:pointer;padding:6px 18px;border-radius:6px;
+             font-size:12px;font-weight:700;background:transparent;color:#555;transition:.15s}}
+.period-btn.active{{background:#bf5c00;color:#fff;box-shadow:0 1px 4px rgba(0,0,0,.15)}}
 .period-label{{font-size:12px;color:#666;background:#fff;border:1px solid #d0d5e0;
                border-radius:6px;padding:5px 12px}}
 
 /* ── Page ── */
 .page{{padding:16px 24px;display:flex;flex-direction:column;gap:20px}}
+.tab-pane{{display:none}}.tab-pane.active{{display:flex;flex-direction:column;gap:20px}}
 
-/* ── Scorecards grid ── */
+/* ── Scorecards ── */
 .sc-grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}}
 .sc{{background:#fff;border-radius:10px;padding:16px 18px;
      box-shadow:0 1px 4px rgba(0,0,0,.07);border-top:3px solid #c8cdd8}}
-.sc-driver-card{{grid-column:span 1}}
-
 .sc-label{{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.6px;
            margin-bottom:6px;font-weight:700}}
 .sc-val{{font-size:30px;font-weight:700;color:#bf5c00;line-height:1.1}}
 .sc-val-int{{font-size:28px;font-weight:700;color:#bf5c00;line-height:1.1}}
 .sc-sep{{border:none;border-top:1px solid #eee;margin:8px 0}}
 .sc-sub{{font-size:10px;color:#aaa;margin-top:3px}}
-
 .bullet{{font-size:11px;font-weight:600;margin-top:4px;line-height:1.4}}
 .bullet.pos{{color:#1a7a1a}}.bullet.neg{{color:#c0321a}}
-
 .sc-driver-name{{font-size:13px;font-weight:700;color:#1a1e3c;margin-bottom:2px}}
 .sc-driver-meta{{font-size:11px;color:#777;margin-bottom:4px}}
 .sc-bar-wrap{{height:4px;background:#eee;border-radius:2px;margin-bottom:2px}}
@@ -372,9 +404,6 @@ header h1{{font-size:16px;font-weight:700}}
 .chart-title{{font-size:13px;font-weight:700;color:#1a1e3c;margin-bottom:3px}}
 .chart-sub{{font-size:11px;color:#888;margin-bottom:12px}}
 .chart-wrap{{position:relative;height:310px;width:100%}}
-
-/* ── Tab panes ── */
-.tab-pane{{display:none}}.tab-pane.active{{display:flex;flex-direction:column;gap:20px}}
 </style>
 </head>
 <body>
@@ -382,148 +411,102 @@ header h1{{font-size:16px;font-weight:700}}
 <header>
   <div>
     <h1>NPS Driver Impact - All Sellers BR</h1>
-    <div class="hd-meta">27 drivers | Sellers | CENTER=BR | E-Commerce</div>
+    <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
   <div class="hd-meta" style="text-align:right">Gerado em {REPORT_DATE}</div>
 </header>
 
-<div class="top-bar">
-  <div class="tabs">
-    <button class="tab-btn active" data-tab="pane-mes" onclick="showTab(this)">MES</button>
-    <button class="tab-btn"        data-tab="pane-sem" onclick="showTab(this)">SEMANA</button>
+<div class="nav-bar">
+  <div class="view-tabs">
+    <button class="view-btn active" data-view="all" onclick="setView(this)">All Drivers</button>
+    <button class="view-btn"        data-view="sel" onclick="setView(this)">Drivers Sellers</button>
   </div>
-  <div class="period-label" id="period-label">{M1_LABEL}</div>
+  <div class="right-nav">
+    <div class="period-tabs">
+      <button class="period-btn active" data-period="mes" onclick="setPeriod(this)">MES</button>
+      <button class="period-btn"        data-period="sem" onclick="setPeriod(this)">SEMANA</button>
+    </div>
+    <div class="period-label" id="period-label">{M1_LABEL}</div>
+  </div>
 </div>
 
 <div class="page">
-
-  <!-- ── TAB MES ──────────────────────────────────────────────── -->
-  <div id="pane-mes" class="tab-pane active">
-    <div class="sc-grid">{cards_mes}</div>
-
-    <div class="chart-section">
-      <div class="chart-title">Impacto MoM - Abertura Driver</div>
-      <div class="chart-sub">Contribuicao de cada driver (pp) na variacao consolidada {M2_LABEL} → {M1_LABEL}. Maiores ganhos a esquerda, maiores perdas a direita.</div>
-      <div class="chart-wrap"><canvas id="c-mom"></canvas></div>
-    </div>
-
-    <div class="chart-section">
-      <div class="chart-title">vs Target - Abertura Driver</div>
-      <div class="chart-sub">Partindo do target ponderado por volume ({theoretical_target:.1f}%), cada driver mostra seu desvio ponderado ate o NPS real de {nM1:.1f}%. Negativo = abaixo do target.</div>
-      <div class="chart-wrap"><canvas id="c-vt"></canvas></div>
-    </div>
-  </div>
-
-  <!-- ── TAB SEMANA ───────────────────────────────────────────── -->
-  <div id="pane-sem" class="tab-pane">
-    <div class="sc-grid">{cards_sem}</div>
-
-    <div class="chart-section">
-      <div class="chart-title">Impacto WoW - Abertura Driver</div>
-      <div class="chart-sub">Contribuicao de cada driver (pp) na variacao consolidada {S2_LABEL} → {S1_LABEL}. Maiores ganhos a esquerda, maiores perdas a direita.</div>
-      <div class="chart-wrap"><canvas id="c-wow"></canvas></div>
-    </div>
-  </div>
-
-</div><!-- /page -->
+  {panes_all}
+  {panes_sel}
+</div>
 
 <script>
 Chart.register(ChartDataLabels);
-const BLUE = 'rgba(30,65,150,0.88)';
-const GREEN = 'rgba(30,160,80,0.88)';
-const RED   = 'rgba(210,45,45,0.88)';
+var currentView = 'all', currentPeriod = 'mes';
+var PERIOD_LABELS = {{ mes: '{M1_LABEL}', sem: '{S1_LABEL}' }};
 
-const PERIOD_LABELS = {{ 'pane-mes': '{M1_LABEL}', 'pane-sem': '{S1_LABEL}' }};
-
-function showTab(btn) {{
+function updatePanes() {{
   document.querySelectorAll('.tab-pane').forEach(function(p) {{ p.classList.remove('active'); }});
-  document.querySelectorAll('.tab-btn').forEach(function(b) {{ b.classList.remove('active'); }});
-  var tabId = btn.getAttribute('data-tab');
-  document.getElementById(tabId).classList.add('active');
+  var id = 'pane-' + currentView + '-' + currentPeriod;
+  var el = document.getElementById(id);
+  if (el) el.classList.add('active');
+  document.getElementById('period-label').textContent = PERIOD_LABELS[currentPeriod] || '';
+}}
+function setView(btn) {{
+  currentView = btn.getAttribute('data-view');
+  document.querySelectorAll('.view-btn').forEach(function(b) {{ b.classList.remove('active'); }});
   btn.classList.add('active');
-  document.getElementById('period-label').textContent = PERIOD_LABELS[tabId] || '';
+  updatePanes();
+}}
+function setPeriod(btn) {{
+  currentPeriod = btn.getAttribute('data-period');
+  document.querySelectorAll('.period-btn').forEach(function(b) {{ b.classList.remove('active'); }});
+  btn.classList.add('active');
+  updatePanes();
 }}
 
 function shorten(s, n) {{
   n = n || 11;
   return s.length > n ? s.slice(0, n) + '...' : s;
 }}
-
 function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, drivers, yBase) {{
-  var labels    = [startLabel];
-  var floatData = [[yBase, startVal]];
-  var bgColors  = [BLUE];
-  var dlValues  = [startVal.toFixed(1) + '%'];
-
+  var labels = [startLabel], floatData = [[yBase, startVal]],
+      bgColors = ['rgba(30,65,150,0.88)'], dlValues = [startVal.toFixed(1) + '%'];
   var running = startVal;
   drivers.forEach(function(d) {{
     labels.push(shorten(d.label));
     floatData.push([running, running + d.v]);
-    bgColors.push(d.v >= 0 ? GREEN : RED);
+    bgColors.push(d.v >= 0 ? 'rgba(30,160,80,0.88)' : 'rgba(210,45,45,0.88)');
     dlValues.push((d.v >= 0 ? '+' : '') + d.v.toFixed(2) + '%');
     running += d.v;
   }});
-  labels.push(endLabel);
-  floatData.push([yBase, endVal]);
-  bgColors.push(BLUE);
-  dlValues.push(endVal.toFixed(1) + '%');
-
-  var allVals = floatData.reduce(function(a, p) {{ return a.concat([p[0], p[1]]); }}, []);
+  labels.push(endLabel); floatData.push([yBase, endVal]);
+  bgColors.push('rgba(30,65,150,0.88)'); dlValues.push(endVal.toFixed(1) + '%');
+  var allVals = floatData.reduce(function(a,p){{return a.concat([p[0],p[1]]);}},[]);
   var yMax = Math.max.apply(null, allVals) + 3;
-
   new Chart(document.getElementById(canvasId), {{
-    type: 'bar',
-    plugins: [ChartDataLabels],
-    data: {{
-      labels: labels,
-      datasets: [{{
-        data: floatData,
-        backgroundColor: bgColors,
-        borderWidth: 0,
-        borderRadius: 2,
-        barPercentage: 0.85,
-        categoryPercentage: 0.9,
-      }}]
-    }},
+    type: 'bar', plugins: [ChartDataLabels],
+    data: {{ labels: labels, datasets: [{{
+      data: floatData, backgroundColor: bgColors,
+      borderWidth: 0, borderRadius: 2, barPercentage: 0.85, categoryPercentage: 0.9
+    }}] }},
     options: {{
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: false,
+      responsive: true, maintainAspectRatio: false, animation: false,
       plugins: {{
-        legend: {{ display: false }},
-        tooltip: {{ enabled: false }},
+        legend: {{ display: false }}, tooltip: {{ enabled: false }},
         datalabels: {{
-          formatter: function(val, ctx) {{ return dlValues[ctx.dataIndex]; }},
-          anchor: function(ctx) {{
-            var p = floatData[ctx.dataIndex];
-            return p[1] >= p[0] ? 'end' : 'start';
-          }},
-          align: function(ctx) {{
-            var p = floatData[ctx.dataIndex];
-            return p[1] >= p[0] ? 'top' : 'bottom';
-          }},
-          font: {{ size: 9.5, weight: '600' }},
-          color: '#333',
-          padding: 2,
-          clip: false,
+          formatter: function(val,ctx){{ return dlValues[ctx.dataIndex]; }},
+          anchor: function(ctx){{ var p=floatData[ctx.dataIndex]; return p[1]>=p[0]?'end':'start'; }},
+          align:  function(ctx){{ var p=floatData[ctx.dataIndex]; return p[1]>=p[0]?'top':'bottom'; }},
+          font: {{ size: 9.5, weight: '600' }}, color: '#333', padding: 2, clip: false
         }}
       }},
       layout: {{ padding: {{ top: 28, bottom: 4 }} }},
       scales: {{
         y: {{ min: yBase, max: yMax, display: false }},
-        x: {{
-          ticks: {{ maxRotation: 60, minRotation: 45, font: {{ size: 9.5 }}, color: '#555' }},
-          grid: {{ display: false }},
-          border: {{ display: false }},
-        }}
+        x: {{ ticks: {{ maxRotation: 60, minRotation: 45, font: {{ size: 9.5 }}, color: '#555' }},
+              grid: {{ display: false }}, border: {{ display: false }} }}
       }}
     }}
   }});
 }}
 
-buildWaterfall('c-mom', {nM2}, {nM1}, '{M2_LABEL}', '{M1_LABEL}', {mom_json}, {mom_ybase});
-buildWaterfall('c-wow', {nS2}, {nS1}, '{S2_LABEL}', '{S1_LABEL}', {wow_json}, {wow_ybase});
-buildWaterfall('c-vt',  {theoretical_target}, {nM1}, 'Target Pond.', '{M1_LABEL}', {vt_json}, {vt_ybase});
+{js_charts("all", V_ALL)}{js_charts("sel", V_SEL)}
 </script>
 </body>
 </html>"""
@@ -533,7 +516,7 @@ if __name__ == "__main__":
     with open("driver_impact.html", "w", encoding="utf-8") as f:
         f.write(html)
     print("OK driver_impact.html gerado -", REPORT_DATE)
-    print("  MoM:", nM2, "->", nM1, "(", dM, "pp)")
-    print("  WoW:", nS2, "->", nS1, "(", dW, "pp)")
-    print("  vs Target: atual", nM1, "| target consol", NPS_TARGET_CONSOL,
-          "| target pond.", theoretical_target)
+    print("  [ALL] MoM:", V_ALL["nM2"], "->", V_ALL["nM1"], "(", V_ALL["dM"], "pp)")
+    print("  [ALL] WoW:", V_ALL["nS2"], "->", V_ALL["nS1"], "(", V_ALL["dW"], "pp)")
+    print("  [SEL] MoM:", V_SEL["nM2"], "->", V_SEL["nM1"], "(", V_SEL["dM"], "pp)")
+    print("  [SEL] WoW:", V_SEL["nS2"], "->", V_SEL["nS1"], "(", V_SEL["dW"], "pp)")
