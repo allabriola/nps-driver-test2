@@ -614,6 +614,36 @@ def build_html():
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>NPS Driver Impact - All Sellers BR</title>
+<script>
+/* NAV: este bloco nao depende de Chart.js nem de dados externos */
+var currentView='all',currentPeriod='mes';
+var PERIOD_LABELS={{mes:'{M1_LABEL}',sem:'{S1_LABEL}'}};
+function updatePanes(){{
+  document.querySelectorAll('.tab-pane').forEach(function(p){{p.classList.remove('active');}});
+  var el=document.getElementById('pane-'+currentView+'-'+currentPeriod);
+  if(el)el.classList.add('active');
+  var pl=document.getElementById('period-label');
+  if(pl)pl.textContent=PERIOD_LABELS[currentPeriod]||'';
+}}
+function setView(btn){{
+  currentView=btn.getAttribute('data-view');
+  document.querySelectorAll('.view-btn').forEach(function(b){{b.classList.remove('active');}});
+  btn.classList.add('active');
+  updatePanes();
+}}
+function setPeriod(btn){{
+  currentPeriod=btn.getAttribute('data-period');
+  document.querySelectorAll('.period-btn').forEach(function(b){{b.classList.remove('active');}});
+  btn.classList.add('active');
+  updatePanes();
+  if(currentView==='dd'){{
+    var sel=document.getElementById('dd-select-'+currentPeriod);
+    var other=document.getElementById('dd-select-'+(currentPeriod==='mes'?'sem':'mes'));
+    if(sel&&other&&other.value){{sel.value=other.value;if(typeof renderDD!=='undefined')renderDD(currentPeriod);}}
+  }}
+}}
+document.addEventListener('DOMContentLoaded',function(){{updatePanes();}});
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
@@ -788,41 +818,7 @@ header h1{{font-size:16px;font-weight:700}}
 </div>
 
 <script>
-// Variaveis e funcoes de navegacao vem PRIMEIRO — antes de qualquer Chart.js
-var currentView = 'all', currentPeriod = 'mes';
-var PERIOD_LABELS = {{ mes: '{M1_LABEL}', sem: '{S1_LABEL}' }};
-
-function updatePanes() {{
-  document.querySelectorAll('.tab-pane').forEach(function(p) {{ p.classList.remove('active'); }});
-  var id = 'pane-' + currentView + '-' + currentPeriod;
-  var el = document.getElementById(id);
-  if (el) el.classList.add('active');
-  document.getElementById('period-label').textContent = PERIOD_LABELS[currentPeriod] || '';
-}}
-function setView(btn) {{
-  currentView = btn.getAttribute('data-view');
-  document.querySelectorAll('.view-btn').forEach(function(b) {{ b.classList.remove('active'); }});
-  btn.classList.add('active');
-  updatePanes();
-}}
-function setPeriod(btn) {{
-  currentPeriod = btn.getAttribute('data-period');
-  document.querySelectorAll('.period-btn').forEach(function(b) {{ b.classList.remove('active'); }});
-  btn.classList.add('active');
-  updatePanes();
-  // Se está no DD, re-renderizar com o driver atual
-  if (currentView === 'dd') {{
-    var newPeriod = btn.getAttribute('data-period');
-    var selectId = 'dd-select-' + newPeriod;
-    var otherPeriod = newPeriod === 'mes' ? 'sem' : 'mes';
-    var otherSelectId = 'dd-select-' + otherPeriod;
-    var drv = document.getElementById(otherSelectId) ? document.getElementById(otherSelectId).value : '';
-    if (drv && document.getElementById(selectId)) {{
-      document.getElementById(selectId).value = drv;
-      renderDD(newPeriod);
-    }}
-  }}
-}}
+/* Funcoes auxiliares de chart e deep dive (dependem de Chart.js e dados) */
 
 function shorten(s, n) {{
   n = n || 11;
