@@ -830,7 +830,7 @@ header h1{{font-size:16px;font-weight:700}}
 <script type="application/json" id="_dd_breakdown">{dd_breakdown_json}</script>
 <script type="application/json" id="_dd_summaries">{dd_summaries_json}</script>
 <script>
-/* Funcoes auxiliares de chart e deep dive (dependem de Chart.js e dados) */
+/* Funcoes de chart e deep dive */
 
 function shorten(s, n) {{
   n = n || 11;
@@ -1196,6 +1196,22 @@ function buildDDChart(canvasId, labels, values, colors, target, type) {{
 }}
 
 // updatePanes() ja foi chamado antes dos graficos acima
+</script>
+<script>
+// Diagnostico: roda DEPOIS do script principal, em bloco separado
+(function() {{
+  var st = [];
+  st.push('renderDD=' + typeof renderDD);
+  st.push('DD_DATA=' + typeof DD_DATA);
+  st.push('DD_BREAKDOWN=' + typeof DD_BREAKDOWN);
+  st.push('DD_SUMMARIES=' + typeof DD_SUMMARIES);
+  st.push('buildWaterfall=' + typeof buildWaterfall);
+  var msg = st.join(' | ');
+  var div = document.createElement('div');
+  div.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#1a1e3c;color:#aab4d4;padding:6px 12px;font-size:11px;font-family:monospace;z-index:9999';
+  div.textContent = msg;
+  document.body.appendChild(div);
+}})();
 </script>
 </body>
 </html>"""
