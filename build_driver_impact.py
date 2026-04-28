@@ -6,6 +6,7 @@ Single page: scorecards + waterfall charts (MoM | WoW | vs Target)
 Gera: driver_impact.html
 """
 import json
+import os
 from datetime import datetime
 
 # ─── METADATA ────────────────────────────────────────────────────────────────
@@ -524,6 +525,11 @@ def make_panes(pfx, v):
 
 def build_html():
 
+    dd_breakdown_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dd_breakdown.json')
+    with open(dd_breakdown_path, encoding='utf-8') as f:
+        dd_breakdown = json.load(f)
+    dd_breakdown_json = json.dumps(dd_breakdown, ensure_ascii=False)
+
     def nps_safe(p, d, s):
         return round(100.0*(p-d)/s, 2) if s > 0 else None
 
@@ -672,6 +678,17 @@ header h1{{font-size:16px;font-weight:700}}
 .dd-section-title{{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;
                    letter-spacing:.6px;margin:20px 0 10px;padding-bottom:6px;
                    border-bottom:1px solid #eee}}
+.bk-table{{width:100%;border-collapse:collapse;background:#fff;border-radius:8px;
+          overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:8px}}
+.bk-table thead th{{background:#2d3277;color:#fff;padding:8px 10px;
+                   font-size:10px;font-weight:700;text-transform:uppercase;
+                   letter-spacing:.4px;text-align:left}}
+.bk-table thead th:not(:first-child){{text-align:right}}
+.bk-table td{{padding:7px 10px;border-bottom:1px solid #f5f5f5;font-size:12px}}
+.bk-table tr:last-child td{{border-bottom:none}}
+.bk-table tr:hover td{{background:#fafbff}}
+.bk-name{{font-weight:500;max-width:220px}}
+.bk-surv{{color:#aaa!important;font-size:11px!important}}
 </style>
 </head>
 <body>
@@ -817,6 +834,11 @@ function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, driver
 {js_charts("all", V_ALL)}{js_charts("sel", V_SEL)}
 
 var DD_DATA = {dd_json};
+var DD_BREAKDOWN = {dd_breakdown_json};
+var M1_LABEL = '{M1_LABEL}';
+var M2_LABEL = '{M2_LABEL}';
+var S1_LABEL = '{S1_LABEL}';
+var S2_LABEL = '{S2_LABEL}';
 var ddCharts = {{}};
 
 function renderDD(period) {{
@@ -867,10 +889,12 @@ function renderDD(period) {{
         '<div class="dd-chart-sub">NPS mensal Jan–Abr 2026 vs target do driver</div>' +
         '<div class="dd-chart-wrap"><canvas id="c-dd-mes-chart"></canvas></div>' +
       '</div>' +
-      '<div class="dd-section-title">Abertura por Processo — em breve</div>' +
-      '<div class="dd-placeholder" style="padding:20px">' +
-        '<div class="dd-hint">Detalhamento por processo chegando nas proximas versoes</div>' +
-      '</div>';
+      '<div class="dd-section-title">Processos — MoM (' + M2_LABEL + ' vs ' + M1_LABEL + ')</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'M2', 'M1') +
+      '<div class="dd-section-title">Canal — MoM</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'C', 'M2', 'M1') +
+      '<div class="dd-section-title">Oficina — MoM</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'M2', 'M1');
 
     var labels = pts.map(function(p){{ return p.label; }});
     var values = pts.map(function(p){{ return p.nps; }});
@@ -899,16 +923,71 @@ function renderDD(period) {{
         '<div class="dd-chart-sub">NPS semanal 6 semanas vs target do driver</div>' +
         '<div class="dd-chart-wrap"><canvas id="c-dd-sem-chart"></canvas></div>' +
       '</div>' +
-      '<div class="dd-section-title">Abertura por Processo — em breve</div>' +
-      '<div class="dd-placeholder" style="padding:20px">' +
-        '<div class="dd-hint">Detalhamento por processo chegando nas proximas versoes</div>' +
-      '</div>';
+      '<div class="dd-section-title">Processos — WoW (' + S2_LABEL + ' vs ' + S1_LABEL + ')</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'S2', 'S1') +
+      '<div class="dd-section-title">Canal — WoW</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'C', 'S2', 'S1') +
+      '<div class="dd-section-title">Oficina — WoW</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'S2', 'S1');
 
     var labels = pts.map(function(p){{ return p.label; }});
     var values = pts.map(function(p){{ return p.nps; }});
     var colors = values.map(function(v){{ return (tgt && v !== null && v < tgt) ? 'rgba(210,45,45,0.82)' : 'rgba(30,65,150,0.82)'; }});
     ddCharts[period].push(buildDDChart('c-dd-sem-chart', labels, values, colors, tgt, 'semanal'));
   }}
+}}
+
+function buildBreakdownTable(drvData, dim, periodA, periodB) {{
+    if (!drvData || !drvData[dim]) return '<div class="dd-hint">Sem dados</div>';
+
+    var dataA = drvData[dim][periodA] || {{}};
+    var dataB = drvData[dim][periodB] || {{}};
+
+    var keys = Array.from(new Set(Object.keys(dataA).concat(Object.keys(dataB))));
+
+    keys.sort(function(x, y) {{
+        var sB_x = (dataB[x] || {{s: 0}}).s;
+        var sB_y = (dataB[y] || {{s: 0}}).s;
+        return sB_y - sB_x;
+    }});
+
+    if (keys.length === 0) return '<div class="dd-hint">Sem dados para este periodo</div>';
+
+    var totA = {{p:0,d:0,s:0}}, totB = {{p:0,d:0,s:0}};
+    keys.forEach(function(k) {{
+        var a = dataA[k] || {{}}; var b = dataB[k] || {{}};
+        totA.p += a.p||0; totA.d += a.d||0; totA.s += a.s||0;
+        totB.p += b.p||0; totB.d += b.d||0; totB.s += b.s||0;
+    }});
+
+    var labelA = periodA === 'M2' ? M2_LABEL : (periodA === 'M1' ? M1_LABEL : (periodA === 'S2' ? S2_LABEL : S1_LABEL));
+    var labelB = periodB === 'M1' ? M1_LABEL : (periodB === 'S1' ? S1_LABEL : periodB);
+
+    var rows = '<table class="bk-table"><thead><tr>' +
+        '<th>Dimensao</th>' +
+        '<th>' + labelA + '</th><th>Surveys</th>' +
+        '<th>' + labelB + '</th><th>Surveys</th>' +
+        '<th>Delta</th>' +
+        '</tr></thead><tbody>';
+
+    keys.forEach(function(k) {{
+        var a = dataA[k] || {{nps: null, s: 0}};
+        var b = dataB[k] || {{nps: null, s: 0}};
+        var delta = (a.nps !== null && b.nps !== null) ? (b.nps - a.nps).toFixed(2) : null;
+        var dCls = delta === null ? '' : (parseFloat(delta) >= 0 ? 'pos' : 'neg');
+        var dStr = delta === null ? '&mdash;' : (parseFloat(delta) >= 0 ? '+' : '') + delta + ' pp';
+        rows += '<tr>' +
+            '<td class="bk-name">' + k + '</td>' +
+            '<td class="num">' + (a.nps !== null ? a.nps.toFixed(1)+'%' : '&mdash;') + '</td>' +
+            '<td class="num bk-surv">' + (a.s||0).toLocaleString() + '</td>' +
+            '<td class="num">' + (b.nps !== null ? b.nps.toFixed(1)+'%' : '&mdash;') + '</td>' +
+            '<td class="num bk-surv">' + (b.s||0).toLocaleString() + '</td>' +
+            '<td class="num bold ' + dCls + '">' + dStr + '</td>' +
+            '</tr>';
+    }});
+
+    rows += '</tbody></table>';
+    return rows;
 }}
 
 function sc_dd(label, val, delta, npsVal, tgt) {{
