@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-build_driver_impact.py
-Visões de impacto NPS por driver: MoM | WoW | vs Target
+build_driver_impact.py  v2
+Single page: scorecards + waterfall charts (MoM | WoW | vs Target)
 Gera: driver_impact.html
 """
+import json
 from datetime import datetime
 
 # ─── METADATA ────────────────────────────────────────────────────────────────
 M1_LABEL          = "Abril 2026"
-M2_LABEL          = "Março 2026"
-S1_LABEL          = "20/abr – 26/abr"
-S2_LABEL          = "13/abr – 19/abr"
+M2_LABEL          = "Marco 2026"
+S1_LABEL          = "20/abr - 26/abr"
+S2_LABEL          = "13/abr - 19/abr"
 NPS_TARGET_CONSOL = 52.22
 REPORT_DATE       = datetime.now().strftime("%d/%m/%Y %H:%M")
 
@@ -33,19 +34,10 @@ _CATS = {
         "CBT", "PDD DS&XD - Vendedor", "PDD FBM - Vendedor", "PDD Fotos - Vendedor",
         "PDD MP,FLEX & CBT - Vendedor", "PNR ME - Vendedor", "PNR MP - Vendedor",
     ],
-    "FBM": ["FBM-S Mature", "FBM-S Meli Pro", "FBM-S Seller Dev"],
+    "FBM":      ["FBM-S Mature", "FBM-S Meli Pro", "FBM-S Seller Dev"],
     "Otros CV": ["Otros CV"],
 }
 CAT = {d: c for c, ds in _CATS.items() for d in ds}
-
-CAT_COLOR = {
-    "Longtail": "#1a73e8",
-    "Mature":   "#e37400",
-    "Meli Pro": "#1e8e3e",
-    "Buyers":   "#7b1fa2",
-    "FBM":      "#c62828",
-    "Otros CV": "#546e7a",
-}
 
 # ─── TARGETS ─────────────────────────────────────────────────────────────────
 DRIVER_TARGETS = {
@@ -139,7 +131,7 @@ weekly_driver = {
     "Publicaciones Seller Dev":          {"S2": (453, 80, 587),   "S1": (398, 75, 511)},
 }
 
-# ─── CÁLCULOS ────────────────────────────────────────────────────────────────
+# ─── CALCULOS ────────────────────────────────────────────────────────────────
 def nps(p, d, s):
     return round(100.0 * (p - d) / s, 2) if s > 0 else None
 
@@ -181,342 +173,278 @@ nS1  = nps(sum(v["S1"][0] for v in weekly_driver.values()),
 dW   = round(nS1 - nS2, 2)
 wD   = mix_neto(weekly_driver, "S2", "S1", sS2, sS1, nS1)
 
-# vs Target
+# vs Target — waterfall: theoretical_target -> drivers -> nM1
+# theoretical_target = SUM(TARGET_driver * share_M1) — baseline if all hit target
+theoretical_target = round(
+    sum(DRIVER_TARGETS[drv] * (monthly_driver[drv]["M1"][2] / sM1) for drv in monthly_driver), 2
+)
 gap_consol = round(nM1 - NPS_TARGET_CONSOL, 2)
-tD = {}
+
+# (NPS_driver - TARGET_driver) * share: positive = driver above target, negative = drag
+vt_impacts = {}
 for drv in monthly_driver:
     b   = monthly_driver[drv]["M1"]
     nb  = nps(*b)
     tgt = DRIVER_TARGETS.get(drv)
     sh  = b[2] / sM1 if sM1 else 0
-    gap_d = round(nb - tgt, 2) if nb is not None and tgt is not None else None
-    imp   = round(gap_d * sh, 2) if gap_d is not None else None
-    opp   = round(-gap_d * sh, 2) if (gap_d is not None and gap_d < 0) else 0.0
-    tD[drv] = dict(nps=nb, target=tgt, gap=gap_d,
-                   share=round(sh * 100, 1), impact=imp, opportunity=opp)
+    gap_d = round(nb - tgt, 2) if nb is not None and tgt is not None else 0.0
+    vt_impacts[drv] = {"var": round(gap_d * sh, 2), "nps": nb, "target": tgt,
+                       "gap": gap_d, "share": round(sh * 100, 1)}
 
-# ─── HELPERS HTML ────────────────────────────────────────────────────────────
-def fmt_nps(v):
-    if v is None:
-        return "—"
-    return f"{v:.1f}%"
+# ─── HELPERS JS ──────────────────────────────────────────────────────────────
+def sorted_impacts(decomp):
+    """Sort: positives descending then negatives ascending (like the screenshot)."""
+    items = [{"label": d, "v": round(r["var"], 3), "cat": CAT.get(d, "?")}
+             for d, r in decomp.items()]
+    pos = sorted([x for x in items if x["v"] >= 0], key=lambda x: -x["v"])
+    neg = sorted([x for x in items if x["v"] < 0],  key=lambda x:  x["v"])
+    return pos + neg
 
-def fmt_delta(v, decimals=2):
-    if v is None:
-        return "—"
-    sign = "+" if v > 0 else ""
-    return f"{sign}{v:.{decimals}f} pp"
+def calc_y_base(start, drivers):
+    """Minimum running value minus padding, used as bar anchor for start/end."""
+    running = start
+    vals = [start]
+    for d in drivers:
+        running += d["v"]
+        vals.append(running)
+    return round(min(vals) - 3, 1)
 
-def impact_class(v, thresh_hi=0.3, thresh_lo=-0.3):
-    if v is None:
-        return ""
-    if v >= thresh_hi:
-        return "pos-hi"
-    if v > 0:
-        return "pos-lo"
-    if v <= thresh_lo:
-        return "neg-hi"
-    if v < 0:
-        return "neg-lo"
-    return "neutral"
+mom_drivers = sorted_impacts(mD)
+wow_drivers = sorted_impacts(wD)
+vt_drivers  = sorted_impacts(vt_impacts)
 
-def delta_class(v):
-    if v is None:
-        return ""
-    return "pos-hi" if v > 0 else ("neg-hi" if v < 0 else "neutral")
-
-def cat_badge(drv):
-    c = CAT.get(drv, "?")
-    col = CAT_COLOR.get(c, "#888")
-    return f'<span class="badge" style="background:{col}">{c}</span>'
-
-def bar_html(v, max_abs, width=80):
-    if v is None or max_abs == 0:
-        return ""
-    pct = abs(v) / max_abs * width
-    color = "#1b5e20" if v >= 0 else "#b71c1c"
-    direction = "left" if v < 0 else "right"
-    align = "right" if v < 0 else "left"
-    return (f'<div style="display:flex;align-items:center;gap:4px;justify-content:{align}">'
-            f'<div style="width:{pct:.0f}px;height:10px;background:{color};'
-            f'border-radius:2px"></div></div>')
-
-def scorecard(label, value, sub=None, cls=""):
-    sub_html = f'<div class="sc-sub">{sub}</div>' if sub else ""
-    return f'<div class="sc {cls}"><div class="sc-label">{label}</div><div class="sc-value">{value}</div>{sub_html}</div>'
-
-# ─── TABELAS ─────────────────────────────────────────────────────────────────
-def table_impact(decomp, label_a, label_b, delta_total):
-    rows = sorted(decomp.items(), key=lambda x: abs(x[1]["var"]), reverse=True)
-    max_abs = max(abs(r["var"]) for _, r in rows) or 1
-
-    hdr = f"""<thead><tr>
-      <th>Driver</th><th>Categoria</th>
-      <th>{label_a}</th><th>{label_b}</th>
-      <th>Δ Driver</th><th>Surveys</th><th>Share</th>
-      <th>NETO</th><th>MIX</th>
-      <th class="col-impact">Impacto Consol</th>
-      <th>Barra</th>
-    </tr></thead>"""
-
-    body_rows = []
-    for drv, r in rows:
-        na  = r["nps_a"]
-        nb  = r["nps_b"]
-        d_drv = round(nb - na, 2) if na is not None and nb is not None else None
-        var = r["var"]
-        body_rows.append(f"""<tr>
-          <td class="drv-name">{drv}</td>
-          <td>{cat_badge(drv)}</td>
-          <td class="num">{fmt_nps(na)}</td>
-          <td class="num">{fmt_nps(nb)}</td>
-          <td class="num {delta_class(d_drv)}">{fmt_delta(d_drv)}</td>
-          <td class="num">{r['surv_b']:,}</td>
-          <td class="num">{r['share_b']:.1f}%</td>
-          <td class="num {impact_class(r['neto'],0.15,-0.15)}">{fmt_delta(r['neto'])}</td>
-          <td class="num {impact_class(r['mix'],0.15,-0.15)}">{fmt_delta(r['mix'])}</td>
-          <td class="num bold {impact_class(var)}">{fmt_delta(var)}</td>
-          <td>{bar_html(var, max_abs)}</td>
-        </tr>""")
-
-    # Totais
-    tot_surv = sum(r["surv_b"] for _, r in rows)
-    tot_var  = round(sum(r["var"] for _, r in rows), 2)
-    tot_neto = round(sum(r["neto"] for _, r in rows), 2)
-    tot_mix  = round(sum(r["mix"] for _, r in rows), 2)
-    body_rows.append(f"""<tr class="total-row">
-      <td colspan="5"><strong>Total consolidado</strong></td>
-      <td class="num">{tot_surv:,}</td>
-      <td class="num">100%</td>
-      <td class="num {impact_class(tot_neto)}">{fmt_delta(tot_neto)}</td>
-      <td class="num {impact_class(tot_mix)}">{fmt_delta(tot_mix)}</td>
-      <td class="num bold {impact_class(delta_total)}">{fmt_delta(delta_total)}</td>
-      <td></td>
-    </tr>""")
-
-    return f'<table class="impact-table">{hdr}<tbody>{"".join(body_rows)}</tbody></table>'
-
-
-def table_target():
-    rows = sorted(tD.items(), key=lambda x: x[1]["opportunity"], reverse=True)
-    max_opp = max(r["opportunity"] for _, r in rows) or 1
-
-    hdr = """<thead><tr>
-      <th>Driver</th><th>Categoria</th>
-      <th>NPS Abr</th><th>Target</th>
-      <th>Gap vs Target</th><th>Share</th>
-      <th>Impacto no Consol</th>
-      <th class="col-impact">Oportunidade</th>
-      <th>Potencial</th>
-    </tr></thead>"""
-
-    body_rows = []
-    for drv, r in rows:
-        gap = r["gap"]
-        imp = r["impact"]
-        opp = r["opportunity"]
-        body_rows.append(f"""<tr>
-          <td class="drv-name">{drv}</td>
-          <td>{cat_badge(drv)}</td>
-          <td class="num">{fmt_nps(r['nps'])}</td>
-          <td class="num">{fmt_nps(r['target'])}</td>
-          <td class="num {delta_class(gap)}">{fmt_delta(gap)}</td>
-          <td class="num">{r['share']:.1f}%</td>
-          <td class="num {impact_class(imp)}">{fmt_delta(imp)}</td>
-          <td class="num bold {'opp-cell' if opp > 0 else 'neutral'}">{fmt_delta(opp) if opp > 0 else '—'}</td>
-          <td>{bar_html(opp, max_opp) if opp > 0 else ''}</td>
-        </tr>""")
-
-    tot_imp  = round(sum(r["impact"] for _, r in rows if r["impact"] is not None), 2)
-    tot_opp  = round(sum(r["opportunity"] for _, r in rows), 2)
-    body_rows.append(f"""<tr class="total-row">
-      <td colspan="6"><strong>Total potencial se todos drivers atingissem target</strong></td>
-      <td class="num {impact_class(tot_imp)}">{fmt_delta(tot_imp)}</td>
-      <td class="num bold opp-cell">{fmt_delta(tot_opp)}</td>
-      <td></td>
-    </tr>""")
-
-    return f'<table class="impact-table">{hdr}<tbody>{"".join(body_rows)}</tbody></table>'
-
+mom_ybase = calc_y_base(nM2, mom_drivers)
+wow_ybase = calc_y_base(nS2, wow_drivers)
+vt_ybase  = calc_y_base(theoretical_target, vt_drivers)
 
 # ─── HTML ─────────────────────────────────────────────────────────────────────
-CSS = """
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-       background: #f0f2f5; color: #1a1a2e; font-size: 13px; }
-
-header { background: #1a1e3c; color: #fff; padding: 16px 24px;
-         display: flex; align-items: center; justify-content: space-between; }
-header h1 { font-size: 18px; font-weight: 700; }
-header .meta { font-size: 11px; color: #aab4d4; }
-
-.tabs { display: flex; gap: 2px; padding: 16px 24px 0; background: #f0f2f5; }
-.tab-btn { padding: 10px 24px; border: none; border-radius: 8px 8px 0 0; cursor: pointer;
-           font-size: 13px; font-weight: 600; background: #d8dce8; color: #555; transition: .15s; }
-.tab-btn.active { background: #fff; color: #1a1e3c; box-shadow: 0 -2px 8px rgba(0,0,0,.06); }
-.tab-btn:hover:not(.active) { background: #c8cdd8; }
-
-.tab-content { display: none; padding: 0 24px 32px; background: #f0f2f5; }
-.tab-content.active { display: block; }
-
-.scorecards { display: flex; gap: 12px; padding: 20px 0 16px; flex-wrap: wrap; }
-.sc { background: #fff; border-radius: 10px; padding: 16px 20px; min-width: 160px;
-      box-shadow: 0 1px 4px rgba(0,0,0,.08); border-top: 3px solid #c8cdd8; }
-.sc.pos { border-top-color: #1b5e20; }
-.sc.neg { border-top-color: #b71c1c; }
-.sc.neutral-sc { border-top-color: #1a73e8; }
-.sc-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
-.sc-value { font-size: 26px; font-weight: 700; color: #1a1e3c; }
-.sc.pos .sc-value { color: #1b5e20; }
-.sc.neg .sc-value { color: #b71c1c; }
-.sc-sub { font-size: 11px; color: #888; margin-top: 4px; }
-
-.section-title { font-size: 13px; font-weight: 700; color: #1a1e3c; text-transform: uppercase;
-                 letter-spacing: .6px; padding: 8px 0 10px; border-bottom: 2px solid #1a1e3c;
-                 margin-bottom: 12px; }
-.note { font-size: 11px; color: #888; margin-bottom: 10px; }
-
-.table-wrap { overflow-x: auto; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
-table.impact-table { width: 100%; border-collapse: collapse; background: #fff; }
-table.impact-table th { background: #1a1e3c; color: #fff; padding: 9px 10px;
-                         text-align: left; font-size: 11px; font-weight: 600;
-                         text-transform: uppercase; letter-spacing: .4px; white-space: nowrap; }
-table.impact-table td { padding: 7px 10px; border-bottom: 1px solid #f0f0f0;
-                         vertical-align: middle; }
-table.impact-table tr:hover td { background: #fafbff; }
-table.impact-table tr.total-row td { background: #f5f5f5; font-weight: 600;
-                                      border-top: 2px solid #ddd; }
-.col-impact { background: #2d3277 !important; }
-
-.drv-name { font-weight: 500; min-width: 200px; }
-.num { text-align: right; white-space: nowrap; }
-.bold { font-weight: 700; }
-
-.badge { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 10px;
-         font-weight: 600; color: #fff; white-space: nowrap; }
-
-.pos-hi  { background: #e8f5e9; color: #1b5e20 !important; }
-.pos-lo  { background: #f1f8e9; color: #33691e !important; }
-.neg-hi  { background: #ffebee; color: #b71c1c !important; }
-.neg-lo  { background: #fff3f3; color: #c62828 !important; }
-.neutral { color: #555 !important; }
-.opp-cell { background: #e3f2fd !important; color: #0d47a1 !important; }
-
-.legend { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
-.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #555; }
-.legend-dot { width: 10px; height: 10px; border-radius: 2px; }
-"""
-
-JS = """
-function showTab(id) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelector('[data-tab="'+id+'"]').classList.add('active');
-}
-"""
-
+def sc(label, val_main, val_sub=None, delta=None, surveys=None):
+    sign = "+" if delta and delta > 0 else ""
+    delta_cls = "delta-pos" if delta and delta > 0 else ("delta-neg" if delta and delta < 0 else "delta-neu")
+    delta_html = f'<div class="sc-delta {delta_cls}">{sign}{delta:+.2f} pp</div>' if delta is not None else ""
+    sub_html   = f'<div class="sc-sub">{val_sub}</div>' if val_sub else ""
+    surv_html  = f'<div class="sc-surv">{surveys:,} surveys</div>' if surveys else ""
+    return f"""<div class="sc">
+  <div class="sc-label">{label}</div>
+  <div class="sc-val">{val_main:.1f}%</div>
+  {delta_html}{sub_html}{surv_html}
+</div>"""
 
 def build_html():
+    mom_json = json.dumps(mom_drivers)
+    wow_json = json.dumps(wow_drivers)
+    vt_json  = json.dumps(vt_drivers)
+
     sc_mom = (
-        scorecard(M2_LABEL, fmt_nps(nM2), f"{sM2:,} surveys", "neutral-sc") +
-        scorecard(M1_LABEL, fmt_nps(nM1), f"{sM1:,} surveys", "neutral-sc") +
-        scorecard("Variação MoM", fmt_delta(dM), None, "pos" if dM >= 0 else "neg")
+        sc(M2_LABEL, nM2, surveys=sM2) +
+        sc(M1_LABEL, nM1, surveys=sM1) +
+        sc("Variacao MoM", nM1, val_sub=f"{M2_LABEL} vs {M1_LABEL}", delta=dM)
     )
     sc_wow = (
-        scorecard(S2_LABEL, fmt_nps(nS2), f"{sS2:,} surveys", "neutral-sc") +
-        scorecard(S1_LABEL, fmt_nps(nS1), f"{sS1:,} surveys", "neutral-sc") +
-        scorecard("Variação WoW", fmt_delta(dW), None, "pos" if dW >= 0 else "neg")
+        sc(S2_LABEL, nS2, surveys=sS2) +
+        sc(S1_LABEL, nS1, surveys=sS1) +
+        sc("Variacao WoW", nS1, val_sub=f"{S2_LABEL} vs {S1_LABEL}", delta=dW)
     )
-    sc_tgt = (
-        scorecard(f"NPS {M1_LABEL}", fmt_nps(nM1), f"{sM1:,} surveys", "neutral-sc") +
-        scorecard("Target Abril", fmt_nps(NPS_TARGET_CONSOL), "SUM(NUM)/SUM(DEN)", "neutral-sc") +
-        scorecard("Gap vs Target", fmt_delta(gap_consol), None, "pos" if gap_consol >= 0 else "neg")
+    sc_vt = (
+        sc(f"NPS {M1_LABEL}", nM1, surveys=sM1) +
+        sc("Target Abril (consol)", NPS_TARGET_CONSOL) +
+        sc("Gap vs Target", nM1, val_sub="NPS atual vs target consolidado", delta=gap_consol)
     )
-
-    legend = """<div class="legend">
-      <span class="legend-item"><span class="legend-dot" style="background:#1b5e20"></span>Impacto positivo forte (&ge; +0.30pp)</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#a5d6a7"></span>Impacto positivo leve (&lt; +0.30pp)</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#ef9a9a"></span>Impacto negativo leve (&gt; -0.30pp)</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#b71c1c"></span>Impacto negativo forte (&le; -0.30pp)</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#1565c0"></span>Oportunidade (abaixo do target)</span>
-    </div>"""
 
     return f"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NPS Driver Impact — All Sellers BR</title>
-<style>{CSS}</style>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NPS Driver Impact - All Sellers BR</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+*{{box-sizing:border-box;margin:0;padding:0}}
+body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#eef0f5;color:#1a1e3c;font-size:13px}}
+header{{background:#1a1e3c;color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}}
+header h1{{font-size:17px;font-weight:700}}
+.meta{{font-size:11px;color:#aab4d4}}
+.page{{padding:20px 24px;display:flex;flex-direction:column;gap:28px}}
+
+/* Scorecards */
+.sc-group{{display:flex;gap:12px;flex-wrap:wrap}}
+.sc{{background:#fff;border-radius:10px;padding:14px 18px;min-width:155px;
+     box-shadow:0 1px 4px rgba(0,0,0,.08);border-top:3px solid #9099c8}}
+.sc-label{{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}}
+.sc-val{{font-size:28px;font-weight:700;color:#1a1e3c;line-height:1}}
+.sc-delta{{font-size:15px;font-weight:700;margin-top:4px}}
+.delta-pos{{color:#1b5e20}}.delta-neg{{color:#b71c1c}}.delta-neu{{color:#555}}
+.sc-sub{{font-size:10px;color:#aaa;margin-top:2px}}
+.sc-surv{{font-size:10px;color:#bbb;margin-top:1px}}
+
+/* Chart sections */
+.chart-section{{background:#fff;border-radius:12px;padding:20px 24px;
+                box-shadow:0 1px 4px rgba(0,0,0,.08)}}
+.chart-title{{font-size:13px;font-weight:700;color:#1a1e3c;margin-bottom:4px}}
+.chart-sub{{font-size:11px;color:#888;margin-bottom:14px}}
+.chart-wrap{{position:relative;height:320px;width:100%}}
+</style>
 </head>
 <body>
 <header>
   <div>
-    <h1>NPS Driver Impact — All Sellers BR</h1>
+    <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="meta">27 drivers | Sellers | CENTER=BR | E-Commerce</div>
   </div>
   <div class="meta" style="text-align:right">Gerado em {REPORT_DATE}</div>
 </header>
 
-<div class="tabs">
-  <button class="tab-btn active" data-tab="mom" onclick="showTab('mom')">MoM — Mês a Mês</button>
-  <button class="tab-btn" data-tab="wow" onclick="showTab('wow')">WoW — Semana a Semana</button>
-  <button class="tab-btn" data-tab="target">vs Target — Oportunidade</button>
-</div>
+<div class="page">
 
-<!-- ── TAB MoM ─────────────────────────────────────────────────────────────-->
-<div id="mom" class="tab-content active">
-  <div class="scorecards">{sc_mom}</div>
-  <div class="section-title">Impacto por Driver — {M2_LABEL} → {M1_LABEL}</div>
-  <p class="note">Impacto Consol = quanto cada driver contribuiu (em pp) para a variação do NPS consolidado.
-  NETO = efeito de qualidade (variação interna do driver ponderada pelo share). MIX = efeito de redistribuição de volume entre drivers.
-  Ordenado por |Impacto| decrescente.</p>
-  {legend}
-  <div class="table-wrap">
-    {table_impact(mD, M2_LABEL, M1_LABEL, dM)}
+  <!-- MoM -->
+  <section>
+    <div class="sc-group">{sc_mom}</div>
+  </section>
+  <div class="chart-section">
+    <div class="chart-title">Impacto MoM - Abertura Driver</div>
+    <div class="chart-sub">Contribuicao de cada driver (pp) para a variacao consolidada {M2_LABEL} vs {M1_LABEL}. Ordenado: maiores ganhos primeiro, maiores quedas por ultimo.</div>
+    <div class="chart-wrap"><canvas id="c-mom"></canvas></div>
   </div>
-</div>
 
-<!-- ── TAB WoW ─────────────────────────────────────────────────────────────-->
-<div id="wow" class="tab-content">
-  <div class="scorecards">{sc_wow}</div>
-  <div class="section-title">Impacto por Driver — {S2_LABEL} → {S1_LABEL}</div>
-  <p class="note">Impacto Consol = quanto cada driver contribuiu (em pp) para a variação do NPS consolidado semana a semana.
-  Ordenado por |Impacto| decrescente.</p>
-  {legend}
-  <div class="table-wrap">
-    {table_impact(wD, S2_LABEL, S1_LABEL, dW)}
+  <!-- WoW -->
+  <section>
+    <div class="sc-group">{sc_wow}</div>
+  </section>
+  <div class="chart-section">
+    <div class="chart-title">Impacto WoW - Abertura Driver</div>
+    <div class="chart-sub">Contribuicao de cada driver (pp) para a variacao consolidada {S2_LABEL} vs {S1_LABEL}.</div>
+    <div class="chart-wrap"><canvas id="c-wow"></canvas></div>
   </div>
-</div>
 
-<!-- ── TAB vs Target ────────────────────────────────────────────────────────-->
-<div id="target" class="tab-content">
-  <div class="scorecards">{sc_tgt}</div>
-  <div class="section-title">Oportunidade por Driver vs Target — {M1_LABEL}</div>
-  <p class="note">Gap vs Target = NPS driver − Target driver.
-  Impacto no Consol = quanto cada driver está arrastando (ou puxando) o NPS consolidado em relação ao target consolidado.
-  Oportunidade = pp que o consolidado ganharia se esse driver atingisse seu target.
-  Ordenado por Oportunidade decrescente.</p>
-  {legend}
-  <div class="table-wrap">
-    {table_target()}
+  <!-- vs Target -->
+  <section>
+    <div class="sc-group">{sc_vt}</div>
+  </section>
+  <div class="chart-section">
+    <div class="chart-title">vs Target - Abertura Driver</div>
+    <div class="chart-sub">Cada driver contribui com (NPS_driver - Target_driver) x share para o desvio em relacao ao target ponderado ({theoretical_target:.1f}%). Negativo = abaixo do target = oportunidade.</div>
+    <div class="chart-wrap"><canvas id="c-vt"></canvas></div>
   </div>
+
 </div>
 
-<script>{JS}</script>
 <script>
-  document.querySelector('[data-tab="target"]').addEventListener('click', function() {{ showTab('target'); }});
+Chart.register(ChartDataLabels);
+
+const BLUE   = 'rgba(30,65,150,0.88)';
+const GREEN  = 'rgba(30,160,80,0.88)';
+const RED    = 'rgba(210,45,45,0.88)';
+const BLUE_S = 'rgba(30,65,150,0.55)';
+
+function shorten(s, n) {{
+  n = n || 10;
+  return s.length > n ? s.slice(0, n) + '...' : s;
+}}
+
+function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, drivers, yBase) {{
+  const labels = [startLabel];
+  const floatData  = [[yBase, startVal]];
+  const bgColors   = [BLUE];
+  const dlValues   = [startVal.toFixed(1) + '%'];
+
+  let running = startVal;
+  drivers.forEach(function(d) {{
+    labels.push(shorten(d.label, 11));
+    floatData.push([running, running + d.v]);
+    bgColors.push(d.v >= 0 ? GREEN : RED);
+    dlValues.push((d.v >= 0 ? '+' : '') + d.v.toFixed(2) + '%');
+    running += d.v;
+  }});
+
+  labels.push(endLabel);
+  floatData.push([yBase, endVal]);
+  bgColors.push(BLUE);
+  dlValues.push(endVal.toFixed(1) + '%');
+
+  const allVals = floatData.map(function(p) {{ return [p[0], p[1]]; }}).flat();
+  const yMax = Math.max.apply(null, allVals) + 3;
+
+  new Chart(document.getElementById(canvasId), {{
+    type: 'bar',
+    plugins: [ChartDataLabels],
+    data: {{
+      labels: labels,
+      datasets: [{{
+        data: floatData,
+        backgroundColor: bgColors,
+        borderWidth: 0,
+        borderRadius: 2,
+        barPercentage: 0.85,
+        categoryPercentage: 0.9,
+      }}]
+    }},
+    options: {{
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      plugins: {{
+        legend: {{ display: false }},
+        tooltip: {{ enabled: false }},
+        datalabels: {{
+          formatter: function(val, ctx) {{ return dlValues[ctx.dataIndex]; }},
+          anchor: function(ctx) {{
+            var p = floatData[ctx.dataIndex];
+            return p[1] >= p[0] ? 'end' : 'start';
+          }},
+          align: function(ctx) {{
+            var p = floatData[ctx.dataIndex];
+            return p[1] >= p[0] ? 'top' : 'bottom';
+          }},
+          font: {{ size: 9.5, weight: '600' }},
+          color: '#333',
+          padding: {{ top: 2, bottom: 2 }},
+          clip: false,
+        }}
+      }},
+      layout: {{ padding: {{ top: 28, bottom: 4 }} }},
+      scales: {{
+        y: {{
+          min: yBase,
+          max: yMax,
+          display: false,
+        }},
+        x: {{
+          ticks: {{
+            maxRotation: 60,
+            minRotation: 45,
+            font: {{ size: 9.5 }},
+            color: '#555',
+          }},
+          grid: {{ display: false }},
+          border: {{ display: false }},
+        }}
+      }}
+    }}
+  }});
+}}
+
+// MoM
+buildWaterfall('c-mom', {nM2}, {nM1}, '{M2_LABEL}', '{M1_LABEL}',
+  {mom_json}, {mom_ybase});
+
+// WoW
+buildWaterfall('c-wow', {nS2}, {nS1}, '{S2_LABEL}', '{S1_LABEL}',
+  {wow_json}, {wow_ybase});
+
+// vs Target
+buildWaterfall('c-vt', {theoretical_target}, {nM1}, 'Target Pond.', '{M1_LABEL}',
+  {vt_json}, {vt_ybase});
 </script>
 </body>
 </html>"""
-
 
 if __name__ == "__main__":
     html = build_html()
     with open("driver_impact.html", "w", encoding="utf-8") as f:
         f.write(html)
-    print(f"OK driver_impact.html gerado - {REPORT_DATE}")
-    print(f"  MoM: {fmt_nps(nM2)} -> {fmt_nps(nM1)} ({fmt_delta(dM)})")
-    print(f"  WoW: {fmt_nps(nS2)} -> {fmt_nps(nS1)} ({fmt_delta(dW)})")
-    print(f"  vs Target: {fmt_nps(nM1)} vs {fmt_nps(NPS_TARGET_CONSOL)} ({fmt_delta(gap_consol)})")
+    print("OK driver_impact.html gerado -", REPORT_DATE)
+    print("  MoM:", nM2, "->", nM1, "(", dM, "pp)")
+    print("  WoW:", nS2, "->", nS1, "(", dW, "pp)")
+    print("  vs Target: atual", nM1, "| target consol", NPS_TARGET_CONSOL,
+          "| target pond.", theoretical_target)

@@ -2,1117 +2,222 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NPS Driver Impact — All Sellers BR</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NPS Driver Impact - All Sellers BR</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-       background: #f0f2f5; color: #1a1a2e; font-size: 13px; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#eef0f5;color:#1a1e3c;font-size:13px}
+header{background:#1a1e3c;color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+header h1{font-size:17px;font-weight:700}
+.meta{font-size:11px;color:#aab4d4}
+.page{padding:20px 24px;display:flex;flex-direction:column;gap:28px}
 
-header { background: #1a1e3c; color: #fff; padding: 16px 24px;
-         display: flex; align-items: center; justify-content: space-between; }
-header h1 { font-size: 18px; font-weight: 700; }
-header .meta { font-size: 11px; color: #aab4d4; }
+/* Scorecards */
+.sc-group{display:flex;gap:12px;flex-wrap:wrap}
+.sc{background:#fff;border-radius:10px;padding:14px 18px;min-width:155px;
+     box-shadow:0 1px 4px rgba(0,0,0,.08);border-top:3px solid #9099c8}
+.sc-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.sc-val{font-size:28px;font-weight:700;color:#1a1e3c;line-height:1}
+.sc-delta{font-size:15px;font-weight:700;margin-top:4px}
+.delta-pos{color:#1b5e20}.delta-neg{color:#b71c1c}.delta-neu{color:#555}
+.sc-sub{font-size:10px;color:#aaa;margin-top:2px}
+.sc-surv{font-size:10px;color:#bbb;margin-top:1px}
 
-.tabs { display: flex; gap: 2px; padding: 16px 24px 0; background: #f0f2f5; }
-.tab-btn { padding: 10px 24px; border: none; border-radius: 8px 8px 0 0; cursor: pointer;
-           font-size: 13px; font-weight: 600; background: #d8dce8; color: #555; transition: .15s; }
-.tab-btn.active { background: #fff; color: #1a1e3c; box-shadow: 0 -2px 8px rgba(0,0,0,.06); }
-.tab-btn:hover:not(.active) { background: #c8cdd8; }
-
-.tab-content { display: none; padding: 0 24px 32px; background: #f0f2f5; }
-.tab-content.active { display: block; }
-
-.scorecards { display: flex; gap: 12px; padding: 20px 0 16px; flex-wrap: wrap; }
-.sc { background: #fff; border-radius: 10px; padding: 16px 20px; min-width: 160px;
-      box-shadow: 0 1px 4px rgba(0,0,0,.08); border-top: 3px solid #c8cdd8; }
-.sc.pos { border-top-color: #1b5e20; }
-.sc.neg { border-top-color: #b71c1c; }
-.sc.neutral-sc { border-top-color: #1a73e8; }
-.sc-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
-.sc-value { font-size: 26px; font-weight: 700; color: #1a1e3c; }
-.sc.pos .sc-value { color: #1b5e20; }
-.sc.neg .sc-value { color: #b71c1c; }
-.sc-sub { font-size: 11px; color: #888; margin-top: 4px; }
-
-.section-title { font-size: 13px; font-weight: 700; color: #1a1e3c; text-transform: uppercase;
-                 letter-spacing: .6px; padding: 8px 0 10px; border-bottom: 2px solid #1a1e3c;
-                 margin-bottom: 12px; }
-.note { font-size: 11px; color: #888; margin-bottom: 10px; }
-
-.table-wrap { overflow-x: auto; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
-table.impact-table { width: 100%; border-collapse: collapse; background: #fff; }
-table.impact-table th { background: #1a1e3c; color: #fff; padding: 9px 10px;
-                         text-align: left; font-size: 11px; font-weight: 600;
-                         text-transform: uppercase; letter-spacing: .4px; white-space: nowrap; }
-table.impact-table td { padding: 7px 10px; border-bottom: 1px solid #f0f0f0;
-                         vertical-align: middle; }
-table.impact-table tr:hover td { background: #fafbff; }
-table.impact-table tr.total-row td { background: #f5f5f5; font-weight: 600;
-                                      border-top: 2px solid #ddd; }
-.col-impact { background: #2d3277 !important; }
-
-.drv-name { font-weight: 500; min-width: 200px; }
-.num { text-align: right; white-space: nowrap; }
-.bold { font-weight: 700; }
-
-.badge { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 10px;
-         font-weight: 600; color: #fff; white-space: nowrap; }
-
-.pos-hi  { background: #e8f5e9; color: #1b5e20 !important; }
-.pos-lo  { background: #f1f8e9; color: #33691e !important; }
-.neg-hi  { background: #ffebee; color: #b71c1c !important; }
-.neg-lo  { background: #fff3f3; color: #c62828 !important; }
-.neutral { color: #555 !important; }
-.opp-cell { background: #e3f2fd !important; color: #0d47a1 !important; }
-
-.legend { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
-.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #555; }
-.legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+/* Chart sections */
+.chart-section{background:#fff;border-radius:12px;padding:20px 24px;
+                box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.chart-title{font-size:13px;font-weight:700;color:#1a1e3c;margin-bottom:4px}
+.chart-sub{font-size:11px;color:#888;margin-bottom:14px}
+.chart-wrap{position:relative;height:320px;width:100%}
 </style>
 </head>
 <body>
 <header>
   <div>
-    <h1>NPS Driver Impact — All Sellers BR</h1>
+    <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="meta">27 drivers | Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="meta" style="text-align:right">Gerado em 28/04/2026 09:14</div>
+  <div class="meta" style="text-align:right">Gerado em 28/04/2026 09:25</div>
 </header>
 
-<div class="tabs">
-  <button class="tab-btn active" data-tab="mom" onclick="showTab('mom')">MoM — Mês a Mês</button>
-  <button class="tab-btn" data-tab="wow" onclick="showTab('wow')">WoW — Semana a Semana</button>
-  <button class="tab-btn" data-tab="target">vs Target — Oportunidade</button>
-</div>
+<div class="page">
 
-<!-- ── TAB MoM ─────────────────────────────────────────────────────────────-->
-<div id="mom" class="tab-content active">
-  <div class="scorecards"><div class="sc neutral-sc"><div class="sc-label">Março 2026</div><div class="sc-value">58.4%</div><div class="sc-sub">23,127 surveys</div></div><div class="sc neutral-sc"><div class="sc-label">Abril 2026</div><div class="sc-value">59.9%</div><div class="sc-sub">18,686 surveys</div></div><div class="sc pos"><div class="sc-label">Variação MoM</div><div class="sc-value">+1.55 pp</div></div></div>
-  <div class="section-title">Impacto por Driver — Março 2026 → Abril 2026</div>
-  <p class="note">Impacto Consol = quanto cada driver contribuiu (em pp) para a variação do NPS consolidado.
-  NETO = efeito de qualidade (variação interna do driver ponderada pelo share). MIX = efeito de redistribuição de volume entre drivers.
-  Ordenado por |Impacto| decrescente.</p>
-  <div class="legend">
-      <span class="legend-item"><span class="legend-dot" style="background:#1b5e20"></span>Impacto positivo forte (&ge; +0.30pp)</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#a5d6a7"></span>Impacto positivo leve (&lt; +0.30pp)</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#ef9a9a"></span>Impacto negativo leve (&gt; -0.30pp)</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#b71c1c"></span>Impacto negativo forte (&le; -0.30pp)</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#1565c0"></span>Oportunidade (abaixo do target)</span>
-    </div>
-  <div class="table-wrap">
-    <table class="impact-table"><thead><tr>
-      <th>Driver</th><th>Categoria</th>
-      <th>Março 2026</th><th>Abril 2026</th>
-      <th>Δ Driver</th><th>Surveys</th><th>Share</th>
-      <th>NETO</th><th>MIX</th>
-      <th class="col-impact">Impacto Consol</th>
-      <th>Barra</th>
-    </tr></thead><tbody><tr>
-          <td class="drv-name">Publicaciones Seller Dev</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">68.5%</td>
-          <td class="num">64.2%</td>
-          <td class="num neg-hi">-4.27 pp</td>
-          <td class="num">2,267</td>
-          <td class="num">12.1%</td>
-          <td class="num neg-hi">-0.61 pp</td>
-          <td class="num neg-lo">-0.09 pp</td>
-          <td class="num bold neg-hi">-0.70 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:80px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">ME Vendedor Seller Dev</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">67.1%</td>
-          <td class="num">68.3%</td>
-          <td class="num pos-hi">+1.18 pp</td>
-          <td class="num">5,654</td>
-          <td class="num">30.3%</td>
-          <td class="num pos-hi">+0.32 pp</td>
-          <td class="num pos-hi">+0.26 pp</td>
-          <td class="num bold pos-hi">+0.58 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:66px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Otros CV</td>
-          <td><span class="badge" style="background:#546e7a">Otros CV</span></td>
-          <td class="num">56.6%</td>
-          <td class="num">46.4%</td>
-          <td class="num neg-hi">-10.23 pp</td>
-          <td class="num">877</td>
-          <td class="num">4.7%</td>
-          <td class="num neg-hi">-0.46 pp</td>
-          <td class="num neg-lo">-0.02 pp</td>
-          <td class="num bold neg-hi">-0.48 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:55px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Post Venta Meli Pro</td>
-          <td><span class="badge" style="background:#1e8e3e">Meli Pro</span></td>
-          <td class="num">74.1%</td>
-          <td class="num">92.0%</td>
-          <td class="num pos-hi">+17.88 pp</td>
-          <td class="num">298</td>
-          <td class="num">1.6%</td>
-          <td class="num pos-lo">+0.06 pp</td>
-          <td class="num pos-hi">+0.40 pp</td>
-          <td class="num bold pos-hi">+0.46 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:53px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Post Venta Seller Dev</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">63.3%</td>
-          <td class="num">69.8%</td>
-          <td class="num pos-hi">+6.47 pp</td>
-          <td class="num">874</td>
-          <td class="num">4.7%</td>
-          <td class="num pos-hi">+0.33 pp</td>
-          <td class="num neg-lo">-0.04 pp</td>
-          <td class="num bold pos-lo">+0.29 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:33px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PDD DS&XD - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">12.4%</td>
-          <td class="num">11.4%</td>
-          <td class="num neg-hi">-1.03 pp</td>
-          <td class="num">904</td>
-          <td class="num">4.8%</td>
-          <td class="num neg-lo">-0.06 pp</td>
-          <td class="num pos-hi">+0.34 pp</td>
-          <td class="num bold pos-lo">+0.28 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:32px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">ME Vendedor Meli Pro</td>
-          <td><span class="badge" style="background:#1e8e3e">Meli Pro</span></td>
-          <td class="num">66.7%</td>
-          <td class="num">78.0%</td>
-          <td class="num pos-hi">+11.34 pp</td>
-          <td class="num">241</td>
-          <td class="num">1.3%</td>
-          <td class="num pos-lo">+0.04 pp</td>
-          <td class="num pos-hi">+0.17 pp</td>
-          <td class="num bold pos-lo">+0.21 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:24px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PCF Vendedor Seller Dev</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">46.8%</td>
-          <td class="num">49.6%</td>
-          <td class="num pos-hi">+2.73 pp</td>
-          <td class="num">466</td>
-          <td class="num">2.5%</td>
-          <td class="num pos-lo">+0.09 pp</td>
-          <td class="num pos-lo">+0.10 pp</td>
-          <td class="num bold pos-lo">+0.19 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:22px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PNR MP - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">18.8%</td>
-          <td class="num">32.7%</td>
-          <td class="num pos-hi">+13.92 pp</td>
-          <td class="num">217</td>
-          <td class="num">1.2%</td>
-          <td class="num pos-hi">+0.16 pp</td>
-          <td class="num neutral">-0.00 pp</td>
-          <td class="num bold pos-lo">+0.16 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:18px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">ME Vendedor Mature</td>
-          <td><span class="badge" style="background:#e37400">Mature</span></td>
-          <td class="num">59.7%</td>
-          <td class="num">62.0%</td>
-          <td class="num pos-hi">+2.32 pp</td>
-          <td class="num">1,180</td>
-          <td class="num">6.3%</td>
-          <td class="num pos-hi">+0.22 pp</td>
-          <td class="num neg-lo">-0.07 pp</td>
-          <td class="num bold pos-lo">+0.15 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:17px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Publicaciones Meli Pro</td>
-          <td><span class="badge" style="background:#1e8e3e">Meli Pro</span></td>
-          <td class="num">42.3%</td>
-          <td class="num">79.0%</td>
-          <td class="num pos-hi">+36.68 pp</td>
-          <td class="num">119</td>
-          <td class="num">0.6%</td>
-          <td class="num pos-lo">+0.04 pp</td>
-          <td class="num pos-lo">+0.10 pp</td>
-          <td class="num bold pos-lo">+0.14 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:16px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">CBT</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">67.1%</td>
-          <td class="num">72.1%</td>
-          <td class="num pos-hi">+5.05 pp</td>
-          <td class="num">359</td>
-          <td class="num">1.9%</td>
-          <td class="num pos-lo">+0.09 pp</td>
-          <td class="num pos-lo">+0.03 pp</td>
-          <td class="num bold pos-lo">+0.12 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:14px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">FBM-S Mature</td>
-          <td><span class="badge" style="background:#c62828">FBM</span></td>
-          <td class="num">41.9%</td>
-          <td class="num">51.7%</td>
-          <td class="num pos-hi">+9.80 pp</td>
-          <td class="num">120</td>
-          <td class="num">0.6%</td>
-          <td class="num pos-lo">+0.09 pp</td>
-          <td class="num pos-lo">+0.02 pp</td>
-          <td class="num bold pos-lo">+0.11 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:13px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PDD FBM - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">34.0%</td>
-          <td class="num">26.7%</td>
-          <td class="num neg-hi">-7.27 pp</td>
-          <td class="num">247</td>
-          <td class="num">1.3%</td>
-          <td class="num neg-lo">-0.10 pp</td>
-          <td class="num neutral">0.00 pp</td>
-          <td class="num bold neg-lo">-0.10 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:11px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">FBM-S Seller Dev</td>
-          <td><span class="badge" style="background:#c62828">FBM</span></td>
-          <td class="num">42.4%</td>
-          <td class="num">44.7%</td>
-          <td class="num pos-hi">+2.32 pp</td>
-          <td class="num">414</td>
-          <td class="num">2.2%</td>
-          <td class="num pos-lo">+0.05 pp</td>
-          <td class="num pos-lo">+0.01 pp</td>
-          <td class="num bold pos-lo">+0.06 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:7px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PCF Vendedor Mature</td>
-          <td><span class="badge" style="background:#e37400">Mature</span></td>
-          <td class="num">52.9%</td>
-          <td class="num">47.6%</td>
-          <td class="num neg-hi">-5.27 pp</td>
-          <td class="num">294</td>
-          <td class="num">1.6%</td>
-          <td class="num neg-lo">-0.11 pp</td>
-          <td class="num pos-lo">+0.05 pp</td>
-          <td class="num bold neg-lo">-0.06 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:7px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PDD MP,FLEX & CBT - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">17.5%</td>
-          <td class="num">14.8%</td>
-          <td class="num neg-hi">-2.62 pp</td>
-          <td class="num">101</td>
-          <td class="num">0.5%</td>
-          <td class="num neg-lo">-0.02 pp</td>
-          <td class="num pos-lo">+0.08 pp</td>
-          <td class="num bold pos-lo">+0.06 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:7px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Experiencia Impositiva Mature</td>
-          <td><span class="badge" style="background:#e37400">Mature</span></td>
-          <td class="num">34.7%</td>
-          <td class="num">45.7%</td>
-          <td class="num pos-hi">+10.99 pp</td>
-          <td class="num">35</td>
-          <td class="num">0.2%</td>
-          <td class="num pos-lo">+0.03 pp</td>
-          <td class="num pos-lo">+0.02 pp</td>
-          <td class="num bold pos-lo">+0.05 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:6px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Experiencia Impositiva Seller Dev</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">43.5%</td>
-          <td class="num">49.7%</td>
-          <td class="num pos-hi">+6.21 pp</td>
-          <td class="num">519</td>
-          <td class="num">2.8%</td>
-          <td class="num pos-lo">+0.13 pp</td>
-          <td class="num neg-lo">-0.08 pp</td>
-          <td class="num bold pos-lo">+0.05 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:6px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">FBM-S Meli Pro</td>
-          <td><span class="badge" style="background:#c62828">FBM</span></td>
-          <td class="num">13.6%</td>
-          <td class="num">61.5%</td>
-          <td class="num pos-hi">+47.90 pp</td>
-          <td class="num">52</td>
-          <td class="num">0.3%</td>
-          <td class="num pos-lo">+0.05 pp</td>
-          <td class="num neutral">0.00 pp</td>
-          <td class="num bold pos-lo">+0.05 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:6px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PCF Vendedor Meli Pro</td>
-          <td><span class="badge" style="background:#1e8e3e">Meli Pro</span></td>
-          <td class="num">54.5%</td>
-          <td class="num">62.9%</td>
-          <td class="num pos-hi">+8.37 pp</td>
-          <td class="num">240</td>
-          <td class="num">1.3%</td>
-          <td class="num pos-lo">+0.02 pp</td>
-          <td class="num pos-lo">+0.03 pp</td>
-          <td class="num bold pos-lo">+0.05 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:6px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PDD Fotos - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">33.3%</td>
-          <td class="num">14.3%</td>
-          <td class="num neg-hi">-19.04 pp</td>
-          <td class="num">56</td>
-          <td class="num">0.3%</td>
-          <td class="num neg-lo">-0.06 pp</td>
-          <td class="num pos-lo">+0.01 pp</td>
-          <td class="num bold neg-lo">-0.05 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:6px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Post Venta Mature</td>
-          <td><span class="badge" style="background:#e37400">Mature</span></td>
-          <td class="num">60.8%</td>
-          <td class="num">63.9%</td>
-          <td class="num pos-hi">+3.11 pp</td>
-          <td class="num">335</td>
-          <td class="num">1.8%</td>
-          <td class="num pos-lo">+0.07 pp</td>
-          <td class="num neg-lo">-0.02 pp</td>
-          <td class="num bold pos-lo">+0.05 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:6px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Publicaciones Mature</td>
-          <td><span class="badge" style="background:#e37400">Mature</span></td>
-          <td class="num">60.0%</td>
-          <td class="num">56.2%</td>
-          <td class="num neg-hi">-3.83 pp</td>
-          <td class="num">235</td>
-          <td class="num">1.3%</td>
-          <td class="num neg-lo">-0.06 pp</td>
-          <td class="num pos-lo">+0.01 pp</td>
-          <td class="num bold neg-lo">-0.05 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:6px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PNR ME - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">16.6%</td>
-          <td class="num">22.8%</td>
-          <td class="num pos-hi">+6.19 pp</td>
-          <td class="num">202</td>
-          <td class="num">1.1%</td>
-          <td class="num pos-lo">+0.05 pp</td>
-          <td class="num neg-lo">-0.09 pp</td>
-          <td class="num bold neg-lo">-0.04 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:5px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Partners</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">67.4%</td>
-          <td class="num">66.7%</td>
-          <td class="num neg-hi">-0.70 pp</td>
-          <td class="num">2,369</td>
-          <td class="num">12.7%</td>
-          <td class="num neg-lo">-0.08 pp</td>
-          <td class="num pos-lo">+0.04 pp</td>
-          <td class="num bold neg-lo">-0.04 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:5px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Experiencia Impositiva Meli Pro</td>
-          <td><span class="badge" style="background:#1e8e3e">Meli Pro</span></td>
-          <td class="num">30.8%</td>
-          <td class="num">63.6%</td>
-          <td class="num pos-hi">+32.87 pp</td>
-          <td class="num">11</td>
-          <td class="num">0.1%</td>
-          <td class="num pos-lo">+0.02 pp</td>
-          <td class="num neutral">0.00 pp</td>
-          <td class="num bold pos-lo">+0.02 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:2px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr class="total-row">
-      <td colspan="5"><strong>Total consolidado</strong></td>
-      <td class="num">18,686</td>
-      <td class="num">100%</td>
-      <td class="num pos-hi">+0.30 pp</td>
-      <td class="num pos-hi">+1.26 pp</td>
-      <td class="num bold pos-hi">+1.55 pp</td>
-      <td></td>
-    </tr></tbody></table>
+  <!-- MoM -->
+  <section>
+    <div class="sc-group"><div class="sc">
+  <div class="sc-label">Marco 2026</div>
+  <div class="sc-val">58.4%</div>
+  <div class="sc-surv">23,127 surveys</div>
+</div><div class="sc">
+  <div class="sc-label">Abril 2026</div>
+  <div class="sc-val">59.9%</div>
+  <div class="sc-surv">18,686 surveys</div>
+</div><div class="sc">
+  <div class="sc-label">Variacao MoM</div>
+  <div class="sc-val">59.9%</div>
+  <div class="sc-delta delta-pos">++1.55 pp</div><div class="sc-sub">Marco 2026 vs Abril 2026</div>
+</div></div>
+  </section>
+  <div class="chart-section">
+    <div class="chart-title">Impacto MoM - Abertura Driver</div>
+    <div class="chart-sub">Contribuicao de cada driver (pp) para a variacao consolidada Marco 2026 vs Abril 2026. Ordenado: maiores ganhos primeiro, maiores quedas por ultimo.</div>
+    <div class="chart-wrap"><canvas id="c-mom"></canvas></div>
   </div>
-</div>
 
-<!-- ── TAB WoW ─────────────────────────────────────────────────────────────-->
-<div id="wow" class="tab-content">
-  <div class="scorecards"><div class="sc neutral-sc"><div class="sc-label">13/abr – 19/abr</div><div class="sc-value">59.2%</div><div class="sc-sub">5,142 surveys</div></div><div class="sc neutral-sc"><div class="sc-label">20/abr – 26/abr</div><div class="sc-value">60.7%</div><div class="sc-sub">4,731 surveys</div></div><div class="sc pos"><div class="sc-label">Variação WoW</div><div class="sc-value">+1.42 pp</div></div></div>
-  <div class="section-title">Impacto por Driver — 13/abr – 19/abr → 20/abr – 26/abr</div>
-  <p class="note">Impacto Consol = quanto cada driver contribuiu (em pp) para a variação do NPS consolidado semana a semana.
-  Ordenado por |Impacto| decrescente.</p>
-  <div class="legend">
-      <span class="legend-item"><span class="legend-dot" style="background:#1b5e20"></span>Impacto positivo forte (&ge; +0.30pp)</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#a5d6a7"></span>Impacto positivo leve (&lt; +0.30pp)</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#ef9a9a"></span>Impacto negativo leve (&gt; -0.30pp)</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#b71c1c"></span>Impacto negativo forte (&le; -0.30pp)</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#1565c0"></span>Oportunidade (abaixo do target)</span>
-    </div>
-  <div class="table-wrap">
-    <table class="impact-table"><thead><tr>
-      <th>Driver</th><th>Categoria</th>
-      <th>13/abr – 19/abr</th><th>20/abr – 26/abr</th>
-      <th>Δ Driver</th><th>Surveys</th><th>Share</th>
-      <th>NETO</th><th>MIX</th>
-      <th class="col-impact">Impacto Consol</th>
-      <th>Barra</th>
-    </tr></thead><tbody><tr>
-          <td class="drv-name">ME Vendedor Seller Dev</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">65.9%</td>
-          <td class="num">69.3%</td>
-          <td class="num pos-hi">+3.41 pp</td>
-          <td class="num">1,308</td>
-          <td class="num">27.6%</td>
-          <td class="num pos-hi">+0.98 pp</td>
-          <td class="num neg-lo">-0.10 pp</td>
-          <td class="num bold pos-hi">+0.88 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:80px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PDD DS&XD - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">10.7%</td>
-          <td class="num">19.0%</td>
-          <td class="num pos-hi">+8.29 pp</td>
-          <td class="num">205</td>
-          <td class="num">4.3%</td>
-          <td class="num pos-hi">+0.42 pp</td>
-          <td class="num pos-hi">+0.31 pp</td>
-          <td class="num bold pos-hi">+0.73 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:66px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PNR ME - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">35.1%</td>
-          <td class="num">20.4%</td>
-          <td class="num neg-hi">-14.75 pp</td>
-          <td class="num">103</td>
-          <td class="num">2.2%</td>
-          <td class="num neg-lo">-0.11 pp</td>
-          <td class="num neg-hi">-0.59 pp</td>
-          <td class="num bold neg-hi">-0.70 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:64px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Post Venta Meli Pro</td>
-          <td><span class="badge" style="background:#1e8e3e">Meli Pro</span></td>
-          <td class="num">88.4%</td>
-          <td class="num">97.4%</td>
-          <td class="num pos-hi">+8.98 pp</td>
-          <td class="num">152</td>
-          <td class="num">3.2%</td>
-          <td class="num pos-hi">+0.20 pp</td>
-          <td class="num pos-hi">+0.38 pp</td>
-          <td class="num bold pos-hi">+0.58 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:53px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PNR MP - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">38.8%</td>
-          <td class="num">5.6%</td>
-          <td class="num neg-hi">-33.22 pp</td>
-          <td class="num">54</td>
-          <td class="num">1.1%</td>
-          <td class="num neg-hi">-0.32 pp</td>
-          <td class="num neg-lo">-0.10 pp</td>
-          <td class="num bold neg-hi">-0.42 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:38px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Publicaciones Mature</td>
-          <td><span class="badge" style="background:#e37400">Mature</span></td>
-          <td class="num">40.4%</td>
-          <td class="num">73.3%</td>
-          <td class="num pos-hi">+32.98 pp</td>
-          <td class="num">30</td>
-          <td class="num">0.6%</td>
-          <td class="num pos-hi">+0.37 pp</td>
-          <td class="num neg-lo">-0.06 pp</td>
-          <td class="num bold pos-hi">+0.31 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:28px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PCF Vendedor Seller Dev</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">48.9%</td>
-          <td class="num">40.3%</td>
-          <td class="num neg-hi">-8.60 pp</td>
-          <td class="num">129</td>
-          <td class="num">2.7%</td>
-          <td class="num neg-hi">-0.23 pp</td>
-          <td class="num neg-lo">-0.01 pp</td>
-          <td class="num bold neg-lo">-0.24 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:22px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Publicaciones Meli Pro</td>
-          <td><span class="badge" style="background:#1e8e3e">Meli Pro</span></td>
-          <td class="num">75.0%</td>
-          <td class="num">85.9%</td>
-          <td class="num pos-hi">+10.94 pp</td>
-          <td class="num">64</td>
-          <td class="num">1.4%</td>
-          <td class="num pos-lo">+0.09 pp</td>
-          <td class="num pos-lo">+0.13 pp</td>
-          <td class="num bold pos-lo">+0.22 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:20px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">FBM-S Meli Pro</td>
-          <td><span class="badge" style="background:#c62828">FBM</span></td>
-          <td class="num">40.0%</td>
-          <td class="num">85.0%</td>
-          <td class="num pos-hi">+45.00 pp</td>
-          <td class="num">20</td>
-          <td class="num">0.4%</td>
-          <td class="num pos-hi">+0.18 pp</td>
-          <td class="num pos-lo">+0.01 pp</td>
-          <td class="num bold pos-lo">+0.19 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:17px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Otros CV</td>
-          <td><span class="badge" style="background:#546e7a">Otros CV</span></td>
-          <td class="num">44.4%</td>
-          <td class="num">43.8%</td>
-          <td class="num neg-hi">-0.55 pp</td>
-          <td class="num">258</td>
-          <td class="num">5.5%</td>
-          <td class="num neg-lo">-0.02 pp</td>
-          <td class="num neg-hi">-0.17 pp</td>
-          <td class="num bold neg-lo">-0.19 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:17px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">CBT</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">70.6%</td>
-          <td class="num">62.8%</td>
-          <td class="num neg-hi">-7.82 pp</td>
-          <td class="num">94</td>
-          <td class="num">2.0%</td>
-          <td class="num neg-hi">-0.16 pp</td>
-          <td class="num neutral">0.00 pp</td>
-          <td class="num bold neg-lo">-0.16 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:15px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PCF Vendedor Mature</td>
-          <td><span class="badge" style="background:#e37400">Mature</span></td>
-          <td class="num">39.5%</td>
-          <td class="num">35.3%</td>
-          <td class="num neg-hi">-4.22 pp</td>
-          <td class="num">34</td>
-          <td class="num">0.7%</td>
-          <td class="num neg-lo">-0.07 pp</td>
-          <td class="num pos-hi">+0.22 pp</td>
-          <td class="num bold pos-lo">+0.15 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:14px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PCF Vendedor Meli Pro</td>
-          <td><span class="badge" style="background:#1e8e3e">Meli Pro</span></td>
-          <td class="num">61.8%</td>
-          <td class="num">66.4%</td>
-          <td class="num pos-hi">+4.61 pp</td>
-          <td class="num">131</td>
-          <td class="num">2.8%</td>
-          <td class="num pos-lo">+0.08 pp</td>
-          <td class="num pos-lo">+0.06 pp</td>
-          <td class="num bold pos-lo">+0.14 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:13px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">ME Vendedor Mature</td>
-          <td><span class="badge" style="background:#e37400">Mature</span></td>
-          <td class="num">62.2%</td>
-          <td class="num">60.2%</td>
-          <td class="num neg-hi">-2.02 pp</td>
-          <td class="num">186</td>
-          <td class="num">3.9%</td>
-          <td class="num neg-lo">-0.11 pp</td>
-          <td class="num pos-lo">+0.01 pp</td>
-          <td class="num bold neg-lo">-0.10 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:9px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Post Venta Seller Dev</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">73.4%</td>
-          <td class="num">76.1%</td>
-          <td class="num pos-hi">+2.69 pp</td>
-          <td class="num">209</td>
-          <td class="num">4.4%</td>
-          <td class="num pos-lo">+0.12 pp</td>
-          <td class="num neg-lo">-0.02 pp</td>
-          <td class="num bold pos-lo">+0.10 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:9px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Publicaciones Seller Dev</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">63.5%</td>
-          <td class="num">63.2%</td>
-          <td class="num neg-hi">-0.33 pp</td>
-          <td class="num">511</td>
-          <td class="num">10.8%</td>
-          <td class="num neg-lo">-0.04 pp</td>
-          <td class="num neg-lo">-0.02 pp</td>
-          <td class="num bold neg-lo">-0.06 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:5px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Experiencia Impositiva Meli Pro</td>
-          <td><span class="badge" style="background:#1e8e3e">Meli Pro</span></td>
-          <td class="num">25.0%</td>
-          <td class="num">100.0%</td>
-          <td class="num pos-hi">+75.00 pp</td>
-          <td class="num">3</td>
-          <td class="num">0.1%</td>
-          <td class="num pos-lo">+0.06 pp</td>
-          <td class="num neg-lo">-0.01 pp</td>
-          <td class="num bold pos-lo">+0.05 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:5px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Experiencia Impositiva Seller Dev</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">49.4%</td>
-          <td class="num">38.6%</td>
-          <td class="num neg-hi">-10.74 pp</td>
-          <td class="num">88</td>
-          <td class="num">1.9%</td>
-          <td class="num neg-hi">-0.33 pp</td>
-          <td class="num pos-hi">+0.28 pp</td>
-          <td class="num bold neg-lo">-0.05 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:5px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">FBM-S Seller Dev</td>
-          <td><span class="badge" style="background:#c62828">FBM</span></td>
-          <td class="num">43.6%</td>
-          <td class="num">46.3%</td>
-          <td class="num pos-hi">+2.72 pp</td>
-          <td class="num">121</td>
-          <td class="num">2.6%</td>
-          <td class="num pos-lo">+0.05 pp</td>
-          <td class="num neg-lo">-0.09 pp</td>
-          <td class="num bold neg-lo">-0.04 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:4px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PDD FBM - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">18.1%</td>
-          <td class="num">23.9%</td>
-          <td class="num pos-hi">+5.88 pp</td>
-          <td class="num">71</td>
-          <td class="num">1.5%</td>
-          <td class="num pos-lo">+0.08 pp</td>
-          <td class="num neg-lo">-0.04 pp</td>
-          <td class="num bold pos-lo">+0.04 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:4px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">FBM-S Mature</td>
-          <td><span class="badge" style="background:#c62828">FBM</span></td>
-          <td class="num">65.5%</td>
-          <td class="num">61.9%</td>
-          <td class="num neg-hi">-3.62 pp</td>
-          <td class="num">21</td>
-          <td class="num">0.4%</td>
-          <td class="num neg-lo">-0.02 pp</td>
-          <td class="num neutral">-0.00 pp</td>
-          <td class="num bold neg-lo">-0.02 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:2px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">ME Vendedor Meli Pro</td>
-          <td><span class="badge" style="background:#1e8e3e">Meli Pro</span></td>
-          <td class="num">86.8%</td>
-          <td class="num">78.3%</td>
-          <td class="num neg-hi">-8.42 pp</td>
-          <td class="num">120</td>
-          <td class="num">2.5%</td>
-          <td class="num neg-lo">-0.14 pp</td>
-          <td class="num pos-hi">+0.16 pp</td>
-          <td class="num bold pos-lo">+0.02 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:2px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PDD Fotos - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">0.0%</td>
-          <td class="num">15.8%</td>
-          <td class="num pos-hi">+15.79 pp</td>
-          <td class="num">19</td>
-          <td class="num">0.4%</td>
-          <td class="num pos-lo">+0.05 pp</td>
-          <td class="num neg-lo">-0.03 pp</td>
-          <td class="num bold pos-lo">+0.02 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:2px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PDD MP,FLEX & CBT - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">25.6%</td>
-          <td class="num">-10.5%</td>
-          <td class="num neg-hi">-36.17 pp</td>
-          <td class="num">19</td>
-          <td class="num">0.4%</td>
-          <td class="num neg-hi">-0.27 pp</td>
-          <td class="num pos-hi">+0.25 pp</td>
-          <td class="num bold neg-lo">-0.02 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:2px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Experiencia Impositiva Mature</td>
-          <td><span class="badge" style="background:#e37400">Mature</span></td>
-          <td class="num">50.0%</td>
-          <td class="num">50.0%</td>
-          <td class="num neutral">0.00 pp</td>
-          <td class="num">4</td>
-          <td class="num">0.1%</td>
-          <td class="num neutral">0.00 pp</td>
-          <td class="num pos-lo">+0.01 pp</td>
-          <td class="num bold pos-lo">+0.01 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:1px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Partners</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">67.6%</td>
-          <td class="num">67.0%</td>
-          <td class="num neg-hi">-0.55 pp</td>
-          <td class="num">719</td>
-          <td class="num">15.2%</td>
-          <td class="num neg-lo">-0.08 pp</td>
-          <td class="num pos-lo">+0.07 pp</td>
-          <td class="num bold neg-lo">-0.01 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:1px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Post Venta Mature</td>
-          <td><span class="badge" style="background:#e37400">Mature</span></td>
-          <td class="num">67.0%</td>
-          <td class="num">69.0%</td>
-          <td class="num pos-hi">+1.96 pp</td>
-          <td class="num">58</td>
-          <td class="num">1.2%</td>
-          <td class="num pos-lo">+0.04 pp</td>
-          <td class="num neg-lo">-0.05 pp</td>
-          <td class="num bold neg-lo">-0.01 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:right"><div style="width:1px;height:10px;background:#b71c1c;border-radius:2px"></div></div></td>
-        </tr><tr class="total-row">
-      <td colspan="5"><strong>Total consolidado</strong></td>
-      <td class="num">4,731</td>
-      <td class="num">100%</td>
-      <td class="num pos-hi">+0.82 pp</td>
-      <td class="num pos-hi">+0.60 pp</td>
-      <td class="num bold pos-hi">+1.42 pp</td>
-      <td></td>
-    </tr></tbody></table>
+  <!-- WoW -->
+  <section>
+    <div class="sc-group"><div class="sc">
+  <div class="sc-label">13/abr - 19/abr</div>
+  <div class="sc-val">59.2%</div>
+  <div class="sc-surv">5,142 surveys</div>
+</div><div class="sc">
+  <div class="sc-label">20/abr - 26/abr</div>
+  <div class="sc-val">60.7%</div>
+  <div class="sc-surv">4,731 surveys</div>
+</div><div class="sc">
+  <div class="sc-label">Variacao WoW</div>
+  <div class="sc-val">60.7%</div>
+  <div class="sc-delta delta-pos">++1.42 pp</div><div class="sc-sub">13/abr - 19/abr vs 20/abr - 26/abr</div>
+</div></div>
+  </section>
+  <div class="chart-section">
+    <div class="chart-title">Impacto WoW - Abertura Driver</div>
+    <div class="chart-sub">Contribuicao de cada driver (pp) para a variacao consolidada 13/abr - 19/abr vs 20/abr - 26/abr.</div>
+    <div class="chart-wrap"><canvas id="c-wow"></canvas></div>
   </div>
-</div>
 
-<!-- ── TAB vs Target ────────────────────────────────────────────────────────-->
-<div id="target" class="tab-content">
-  <div class="scorecards"><div class="sc neutral-sc"><div class="sc-label">NPS Abril 2026</div><div class="sc-value">59.9%</div><div class="sc-sub">18,686 surveys</div></div><div class="sc neutral-sc"><div class="sc-label">Target Abril</div><div class="sc-value">52.2%</div><div class="sc-sub">SUM(NUM)/SUM(DEN)</div></div><div class="sc pos"><div class="sc-label">Gap vs Target</div><div class="sc-value">+7.70 pp</div></div></div>
-  <div class="section-title">Oportunidade por Driver vs Target — Abril 2026</div>
-  <p class="note">Gap vs Target = NPS driver − Target driver.
-  Impacto no Consol = quanto cada driver está arrastando (ou puxando) o NPS consolidado em relação ao target consolidado.
-  Oportunidade = pp que o consolidado ganharia se esse driver atingisse seu target.
-  Ordenado por Oportunidade decrescente.</p>
-  <div class="legend">
-      <span class="legend-item"><span class="legend-dot" style="background:#1b5e20"></span>Impacto positivo forte (&ge; +0.30pp)</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#a5d6a7"></span>Impacto positivo leve (&lt; +0.30pp)</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#ef9a9a"></span>Impacto negativo leve (&gt; -0.30pp)</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#b71c1c"></span>Impacto negativo forte (&le; -0.30pp)</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#1565c0"></span>Oportunidade (abaixo do target)</span>
-    </div>
-  <div class="table-wrap">
-    <table class="impact-table"><thead><tr>
-      <th>Driver</th><th>Categoria</th>
-      <th>NPS Abr</th><th>Target</th>
-      <th>Gap vs Target</th><th>Share</th>
-      <th>Impacto no Consol</th>
-      <th class="col-impact">Oportunidade</th>
-      <th>Potencial</th>
-    </tr></thead><tbody><tr>
-          <td class="drv-name">Partners</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">66.7%</td>
-          <td class="num">70.2%</td>
-          <td class="num neg-hi">-3.50 pp</td>
-          <td class="num">12.7%</td>
-          <td class="num neg-hi">-0.44 pp</td>
-          <td class="num bold opp-cell">+0.44 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:80px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Otros CV</td>
-          <td><span class="badge" style="background:#546e7a">Otros CV</span></td>
-          <td class="num">46.4%</td>
-          <td class="num">53.8%</td>
-          <td class="num neg-hi">-7.36 pp</td>
-          <td class="num">4.7%</td>
-          <td class="num neg-hi">-0.35 pp</td>
-          <td class="num bold opp-cell">+0.35 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:64px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Experiencia Impositiva Seller Dev</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">49.7%</td>
-          <td class="num">59.0%</td>
-          <td class="num neg-hi">-9.32 pp</td>
-          <td class="num">2.8%</td>
-          <td class="num neg-lo">-0.26 pp</td>
-          <td class="num bold opp-cell">+0.26 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:47px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PDD DS&XD - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">11.4%</td>
-          <td class="num">16.4%</td>
-          <td class="num neg-hi">-5.01 pp</td>
-          <td class="num">4.8%</td>
-          <td class="num neg-lo">-0.24 pp</td>
-          <td class="num bold opp-cell">+0.24 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:44px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PDD FBM - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">26.7%</td>
-          <td class="num">40.7%</td>
-          <td class="num neg-hi">-13.95 pp</td>
-          <td class="num">1.3%</td>
-          <td class="num neg-lo">-0.18 pp</td>
-          <td class="num bold opp-cell">+0.18 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:33px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PDD Fotos - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">14.3%</td>
-          <td class="num">33.1%</td>
-          <td class="num neg-hi">-18.84 pp</td>
-          <td class="num">0.3%</td>
-          <td class="num neg-lo">-0.06 pp</td>
-          <td class="num bold opp-cell">+0.06 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:11px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">CBT</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">72.1%</td>
-          <td class="num">74.6%</td>
-          <td class="num neg-hi">-2.49 pp</td>
-          <td class="num">1.9%</td>
-          <td class="num neg-lo">-0.05 pp</td>
-          <td class="num bold opp-cell">+0.05 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:9px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">ME Vendedor Meli Pro</td>
-          <td><span class="badge" style="background:#1e8e3e">Meli Pro</span></td>
-          <td class="num">78.0%</td>
-          <td class="num">81.6%</td>
-          <td class="num neg-hi">-3.59 pp</td>
-          <td class="num">1.3%</td>
-          <td class="num neg-lo">-0.05 pp</td>
-          <td class="num bold opp-cell">+0.05 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:9px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PNR ME - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">22.8%</td>
-          <td class="num">27.2%</td>
-          <td class="num neg-hi">-4.46 pp</td>
-          <td class="num">1.1%</td>
-          <td class="num neg-lo">-0.05 pp</td>
-          <td class="num bold opp-cell">+0.05 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:9px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Publicaciones Meli Pro</td>
-          <td><span class="badge" style="background:#1e8e3e">Meli Pro</span></td>
-          <td class="num">79.0%</td>
-          <td class="num">81.4%</td>
-          <td class="num neg-hi">-2.44 pp</td>
-          <td class="num">0.6%</td>
-          <td class="num neg-lo">-0.02 pp</td>
-          <td class="num bold opp-cell">+0.02 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:4px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Experiencia Impositiva Mature</td>
-          <td><span class="badge" style="background:#e37400">Mature</span></td>
-          <td class="num">45.7%</td>
-          <td class="num">53.6%</td>
-          <td class="num neg-hi">-7.92 pp</td>
-          <td class="num">0.2%</td>
-          <td class="num neg-lo">-0.01 pp</td>
-          <td class="num bold opp-cell">+0.01 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:2px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">PCF Vendedor Meli Pro</td>
-          <td><span class="badge" style="background:#1e8e3e">Meli Pro</span></td>
-          <td class="num">62.9%</td>
-          <td class="num">63.6%</td>
-          <td class="num neg-hi">-0.65 pp</td>
-          <td class="num">1.3%</td>
-          <td class="num neg-lo">-0.01 pp</td>
-          <td class="num bold opp-cell">+0.01 pp</td>
-          <td><div style="display:flex;align-items:center;gap:4px;justify-content:left"><div style="width:2px;height:10px;background:#1b5e20;border-radius:2px"></div></div></td>
-        </tr><tr>
-          <td class="drv-name">Experiencia Impositiva Meli Pro</td>
-          <td><span class="badge" style="background:#1e8e3e">Meli Pro</span></td>
-          <td class="num">63.6%</td>
-          <td class="num">38.6%</td>
-          <td class="num pos-hi">+25.07 pp</td>
-          <td class="num">0.1%</td>
-          <td class="num pos-lo">+0.01 pp</td>
-          <td class="num bold neutral">—</td>
-          <td></td>
-        </tr><tr>
-          <td class="drv-name">FBM-S Mature</td>
-          <td><span class="badge" style="background:#c62828">FBM</span></td>
-          <td class="num">51.7%</td>
-          <td class="num">19.6%</td>
-          <td class="num pos-hi">+32.07 pp</td>
-          <td class="num">0.6%</td>
-          <td class="num pos-lo">+0.21 pp</td>
-          <td class="num bold neutral">—</td>
-          <td></td>
-        </tr><tr>
-          <td class="drv-name">FBM-S Meli Pro</td>
-          <td><span class="badge" style="background:#c62828">FBM</span></td>
-          <td class="num">61.5%</td>
-          <td class="num">48.7%</td>
-          <td class="num pos-hi">+12.84 pp</td>
-          <td class="num">0.3%</td>
-          <td class="num pos-lo">+0.04 pp</td>
-          <td class="num bold neutral">—</td>
-          <td></td>
-        </tr><tr>
-          <td class="drv-name">FBM-S Seller Dev</td>
-          <td><span class="badge" style="background:#c62828">FBM</span></td>
-          <td class="num">44.7%</td>
-          <td class="num">42.1%</td>
-          <td class="num pos-hi">+2.62 pp</td>
-          <td class="num">2.2%</td>
-          <td class="num pos-lo">+0.06 pp</td>
-          <td class="num bold neutral">—</td>
-          <td></td>
-        </tr><tr>
-          <td class="drv-name">ME Vendedor Mature</td>
-          <td><span class="badge" style="background:#e37400">Mature</span></td>
-          <td class="num">62.0%</td>
-          <td class="num">49.0%</td>
-          <td class="num pos-hi">+13.04 pp</td>
-          <td class="num">6.3%</td>
-          <td class="num pos-hi">+0.82 pp</td>
-          <td class="num bold neutral">—</td>
-          <td></td>
-        </tr><tr>
-          <td class="drv-name">ME Vendedor Seller Dev</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">68.3%</td>
-          <td class="num">57.8%</td>
-          <td class="num pos-hi">+10.47 pp</td>
-          <td class="num">30.3%</td>
-          <td class="num pos-hi">+3.17 pp</td>
-          <td class="num bold neutral">—</td>
-          <td></td>
-        </tr><tr>
-          <td class="drv-name">PCF Vendedor Mature</td>
-          <td><span class="badge" style="background:#e37400">Mature</span></td>
-          <td class="num">47.6%</td>
-          <td class="num">28.3%</td>
-          <td class="num pos-hi">+19.35 pp</td>
-          <td class="num">1.6%</td>
-          <td class="num pos-hi">+0.30 pp</td>
-          <td class="num bold neutral">—</td>
-          <td></td>
-        </tr><tr>
-          <td class="drv-name">PCF Vendedor Seller Dev</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">49.6%</td>
-          <td class="num">39.9%</td>
-          <td class="num pos-hi">+9.64 pp</td>
-          <td class="num">2.5%</td>
-          <td class="num pos-lo">+0.24 pp</td>
-          <td class="num bold neutral">—</td>
-          <td></td>
-        </tr><tr>
-          <td class="drv-name">PDD MP,FLEX & CBT - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">14.8%</td>
-          <td class="num">12.3%</td>
-          <td class="num pos-hi">+2.52 pp</td>
-          <td class="num">0.5%</td>
-          <td class="num pos-lo">+0.01 pp</td>
-          <td class="num bold neutral">—</td>
-          <td></td>
-        </tr><tr>
-          <td class="drv-name">PNR MP - Vendedor</td>
-          <td><span class="badge" style="background:#7b1fa2">Buyers</span></td>
-          <td class="num">32.7%</td>
-          <td class="num">29.6%</td>
-          <td class="num pos-hi">+3.15 pp</td>
-          <td class="num">1.2%</td>
-          <td class="num pos-lo">+0.04 pp</td>
-          <td class="num bold neutral">—</td>
-          <td></td>
-        </tr><tr>
-          <td class="drv-name">Post Venta Mature</td>
-          <td><span class="badge" style="background:#e37400">Mature</span></td>
-          <td class="num">63.9%</td>
-          <td class="num">50.1%</td>
-          <td class="num pos-hi">+13.78 pp</td>
-          <td class="num">1.8%</td>
-          <td class="num pos-lo">+0.25 pp</td>
-          <td class="num bold neutral">—</td>
-          <td></td>
-        </tr><tr>
-          <td class="drv-name">Post Venta Meli Pro</td>
-          <td><span class="badge" style="background:#1e8e3e">Meli Pro</span></td>
-          <td class="num">92.0%</td>
-          <td class="num">87.8%</td>
-          <td class="num pos-hi">+4.18 pp</td>
-          <td class="num">1.6%</td>
-          <td class="num pos-lo">+0.07 pp</td>
-          <td class="num bold neutral">—</td>
-          <td></td>
-        </tr><tr>
-          <td class="drv-name">Post Venta Seller Dev</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">69.8%</td>
-          <td class="num">53.4%</td>
-          <td class="num pos-hi">+16.39 pp</td>
-          <td class="num">4.7%</td>
-          <td class="num pos-hi">+0.77 pp</td>
-          <td class="num bold neutral">—</td>
-          <td></td>
-        </tr><tr>
-          <td class="drv-name">Publicaciones Mature</td>
-          <td><span class="badge" style="background:#e37400">Mature</span></td>
-          <td class="num">56.2%</td>
-          <td class="num">47.4%</td>
-          <td class="num pos-hi">+8.80 pp</td>
-          <td class="num">1.3%</td>
-          <td class="num pos-lo">+0.11 pp</td>
-          <td class="num bold neutral">—</td>
-          <td></td>
-        </tr><tr>
-          <td class="drv-name">Publicaciones Seller Dev</td>
-          <td><span class="badge" style="background:#1a73e8">Longtail</span></td>
-          <td class="num">64.2%</td>
-          <td class="num">52.9%</td>
-          <td class="num pos-hi">+11.31 pp</td>
-          <td class="num">12.1%</td>
-          <td class="num pos-hi">+1.37 pp</td>
-          <td class="num bold neutral">—</td>
-          <td></td>
-        </tr><tr class="total-row">
-      <td colspan="6"><strong>Total potencial se todos drivers atingissem target</strong></td>
-      <td class="num pos-hi">+5.75 pp</td>
-      <td class="num bold opp-cell">+1.72 pp</td>
-      <td></td>
-    </tr></tbody></table>
+  <!-- vs Target -->
+  <section>
+    <div class="sc-group"><div class="sc">
+  <div class="sc-label">NPS Abril 2026</div>
+  <div class="sc-val">59.9%</div>
+  <div class="sc-surv">18,686 surveys</div>
+</div><div class="sc">
+  <div class="sc-label">Target Abril (consol)</div>
+  <div class="sc-val">52.2%</div>
+  
+</div><div class="sc">
+  <div class="sc-label">Gap vs Target</div>
+  <div class="sc-val">59.9%</div>
+  <div class="sc-delta delta-pos">++7.70 pp</div><div class="sc-sub">NPS atual vs target consolidado</div>
+</div></div>
+  </section>
+  <div class="chart-section">
+    <div class="chart-title">vs Target - Abertura Driver</div>
+    <div class="chart-sub">Cada driver contribui com (NPS_driver - Target_driver) x share para o desvio em relacao ao target ponderado (54.2%). Negativo = abaixo do target = oportunidade.</div>
+    <div class="chart-wrap"><canvas id="c-vt"></canvas></div>
   </div>
+
 </div>
 
 <script>
-function showTab(id) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelector('[data-tab="'+id+'"]').classList.add('active');
+Chart.register(ChartDataLabels);
+
+const BLUE   = 'rgba(30,65,150,0.88)';
+const GREEN  = 'rgba(30,160,80,0.88)';
+const RED    = 'rgba(210,45,45,0.88)';
+const BLUE_S = 'rgba(30,65,150,0.55)';
+
+function shorten(s, n) {
+  n = n || 10;
+  return s.length > n ? s.slice(0, n) + '...' : s;
 }
-</script>
-<script>
-  document.querySelector('[data-tab="target"]').addEventListener('click', function() { showTab('target'); });
+
+function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, drivers, yBase) {
+  const labels = [startLabel];
+  const floatData  = [[yBase, startVal]];
+  const bgColors   = [BLUE];
+  const dlValues   = [startVal.toFixed(1) + '%'];
+
+  let running = startVal;
+  drivers.forEach(function(d) {
+    labels.push(shorten(d.label, 11));
+    floatData.push([running, running + d.v]);
+    bgColors.push(d.v >= 0 ? GREEN : RED);
+    dlValues.push((d.v >= 0 ? '+' : '') + d.v.toFixed(2) + '%');
+    running += d.v;
+  });
+
+  labels.push(endLabel);
+  floatData.push([yBase, endVal]);
+  bgColors.push(BLUE);
+  dlValues.push(endVal.toFixed(1) + '%');
+
+  const allVals = floatData.map(function(p) { return [p[0], p[1]]; }).flat();
+  const yMax = Math.max.apply(null, allVals) + 3;
+
+  new Chart(document.getElementById(canvasId), {
+    type: 'bar',
+    plugins: [ChartDataLabels],
+    data: {
+      labels: labels,
+      datasets: [{
+        data: floatData,
+        backgroundColor: bgColors,
+        borderWidth: 0,
+        borderRadius: 2,
+        barPercentage: 0.85,
+        categoryPercentage: 0.9,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false },
+        datalabels: {
+          formatter: function(val, ctx) { return dlValues[ctx.dataIndex]; },
+          anchor: function(ctx) {
+            var p = floatData[ctx.dataIndex];
+            return p[1] >= p[0] ? 'end' : 'start';
+          },
+          align: function(ctx) {
+            var p = floatData[ctx.dataIndex];
+            return p[1] >= p[0] ? 'top' : 'bottom';
+          },
+          font: { size: 9.5, weight: '600' },
+          color: '#333',
+          padding: { top: 2, bottom: 2 },
+          clip: false,
+        }
+      },
+      layout: { padding: { top: 28, bottom: 4 } },
+      scales: {
+        y: {
+          min: yBase,
+          max: yMax,
+          display: false,
+        },
+        x: {
+          ticks: {
+            maxRotation: 60,
+            minRotation: 45,
+            font: { size: 9.5 },
+            color: '#555',
+          },
+          grid: { display: false },
+          border: { display: false },
+        }
+      }
+    }
+  });
+}
+
+// MoM
+buildWaterfall('c-mom', 58.37, 59.92, 'Marco 2026', 'Abril 2026',
+  [{"label": "ME Vendedor Seller Dev", "v": 0.58, "cat": "Longtail"}, {"label": "Post Venta Meli Pro", "v": 0.46, "cat": "Meli Pro"}, {"label": "Post Venta Seller Dev", "v": 0.29, "cat": "Longtail"}, {"label": "PDD DS&XD - Vendedor", "v": 0.28, "cat": "Buyers"}, {"label": "ME Vendedor Meli Pro", "v": 0.21, "cat": "Meli Pro"}, {"label": "PCF Vendedor Seller Dev", "v": 0.19, "cat": "Longtail"}, {"label": "PNR MP - Vendedor", "v": 0.16, "cat": "Buyers"}, {"label": "ME Vendedor Mature", "v": 0.15, "cat": "Mature"}, {"label": "Publicaciones Meli Pro", "v": 0.14, "cat": "Meli Pro"}, {"label": "CBT", "v": 0.12, "cat": "Buyers"}, {"label": "FBM-S Mature", "v": 0.11, "cat": "FBM"}, {"label": "FBM-S Seller Dev", "v": 0.06, "cat": "FBM"}, {"label": "PDD MP,FLEX & CBT - Vendedor", "v": 0.06, "cat": "Buyers"}, {"label": "Experiencia Impositiva Mature", "v": 0.05, "cat": "Mature"}, {"label": "Experiencia Impositiva Seller Dev", "v": 0.05, "cat": "Longtail"}, {"label": "FBM-S Meli Pro", "v": 0.05, "cat": "FBM"}, {"label": "PCF Vendedor Meli Pro", "v": 0.05, "cat": "Meli Pro"}, {"label": "Post Venta Mature", "v": 0.05, "cat": "Mature"}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.02, "cat": "Meli Pro"}, {"label": "Publicaciones Seller Dev", "v": -0.7, "cat": "Longtail"}, {"label": "Otros CV", "v": -0.48, "cat": "Otros CV"}, {"label": "PDD FBM - Vendedor", "v": -0.1, "cat": "Buyers"}, {"label": "PCF Vendedor Mature", "v": -0.06, "cat": "Mature"}, {"label": "PDD Fotos - Vendedor", "v": -0.05, "cat": "Buyers"}, {"label": "Publicaciones Mature", "v": -0.05, "cat": "Mature"}, {"label": "PNR ME - Vendedor", "v": -0.04, "cat": "Buyers"}, {"label": "Partners", "v": -0.04, "cat": "Longtail"}], 55.4);
+
+// WoW
+buildWaterfall('c-wow', 59.24, 60.66, '13/abr - 19/abr', '20/abr - 26/abr',
+  [{"label": "ME Vendedor Seller Dev", "v": 0.88, "cat": "Longtail"}, {"label": "PDD DS&XD - Vendedor", "v": 0.73, "cat": "Buyers"}, {"label": "Post Venta Meli Pro", "v": 0.58, "cat": "Meli Pro"}, {"label": "Publicaciones Mature", "v": 0.31, "cat": "Mature"}, {"label": "Publicaciones Meli Pro", "v": 0.22, "cat": "Meli Pro"}, {"label": "FBM-S Meli Pro", "v": 0.19, "cat": "FBM"}, {"label": "PCF Vendedor Mature", "v": 0.15, "cat": "Mature"}, {"label": "PCF Vendedor Meli Pro", "v": 0.14, "cat": "Meli Pro"}, {"label": "Post Venta Seller Dev", "v": 0.1, "cat": "Longtail"}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.05, "cat": "Meli Pro"}, {"label": "PDD FBM - Vendedor", "v": 0.04, "cat": "Buyers"}, {"label": "ME Vendedor Meli Pro", "v": 0.02, "cat": "Meli Pro"}, {"label": "PDD Fotos - Vendedor", "v": 0.02, "cat": "Buyers"}, {"label": "Experiencia Impositiva Mature", "v": 0.01, "cat": "Mature"}, {"label": "PNR ME - Vendedor", "v": -0.7, "cat": "Buyers"}, {"label": "PNR MP - Vendedor", "v": -0.42, "cat": "Buyers"}, {"label": "PCF Vendedor Seller Dev", "v": -0.24, "cat": "Longtail"}, {"label": "Otros CV", "v": -0.19, "cat": "Otros CV"}, {"label": "CBT", "v": -0.16, "cat": "Buyers"}, {"label": "ME Vendedor Mature", "v": -0.1, "cat": "Mature"}, {"label": "Publicaciones Seller Dev", "v": -0.06, "cat": "Longtail"}, {"label": "Experiencia Impositiva Seller Dev", "v": -0.05, "cat": "Longtail"}, {"label": "FBM-S Seller Dev", "v": -0.04, "cat": "FBM"}, {"label": "FBM-S Mature", "v": -0.02, "cat": "FBM"}, {"label": "PDD MP,FLEX & CBT - Vendedor", "v": -0.02, "cat": "Buyers"}, {"label": "Partners", "v": -0.01, "cat": "Longtail"}, {"label": "Post Venta Mature", "v": -0.01, "cat": "Mature"}], 56.2);
+
+// vs Target
+buildWaterfall('c-vt', 54.16, 59.92, 'Target Pond.', 'Abril 2026',
+  [{"label": "ME Vendedor Seller Dev", "v": 3.17, "cat": "Longtail"}, {"label": "Publicaciones Seller Dev", "v": 1.37, "cat": "Longtail"}, {"label": "ME Vendedor Mature", "v": 0.82, "cat": "Mature"}, {"label": "Post Venta Seller Dev", "v": 0.77, "cat": "Longtail"}, {"label": "PCF Vendedor Mature", "v": 0.3, "cat": "Mature"}, {"label": "Post Venta Mature", "v": 0.25, "cat": "Mature"}, {"label": "PCF Vendedor Seller Dev", "v": 0.24, "cat": "Longtail"}, {"label": "FBM-S Mature", "v": 0.21, "cat": "FBM"}, {"label": "Publicaciones Mature", "v": 0.11, "cat": "Mature"}, {"label": "Post Venta Meli Pro", "v": 0.07, "cat": "Meli Pro"}, {"label": "FBM-S Seller Dev", "v": 0.06, "cat": "FBM"}, {"label": "FBM-S Meli Pro", "v": 0.04, "cat": "FBM"}, {"label": "PNR MP - Vendedor", "v": 0.04, "cat": "Buyers"}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.01, "cat": "Meli Pro"}, {"label": "PDD MP,FLEX & CBT - Vendedor", "v": 0.01, "cat": "Buyers"}, {"label": "Partners", "v": -0.44, "cat": "Longtail"}, {"label": "Otros CV", "v": -0.35, "cat": "Otros CV"}, {"label": "Experiencia Impositiva Seller Dev", "v": -0.26, "cat": "Longtail"}, {"label": "PDD DS&XD - Vendedor", "v": -0.24, "cat": "Buyers"}, {"label": "PDD FBM - Vendedor", "v": -0.18, "cat": "Buyers"}, {"label": "PDD Fotos - Vendedor", "v": -0.06, "cat": "Buyers"}, {"label": "CBT", "v": -0.05, "cat": "Buyers"}, {"label": "ME Vendedor Meli Pro", "v": -0.05, "cat": "Meli Pro"}, {"label": "PNR ME - Vendedor", "v": -0.05, "cat": "Buyers"}, {"label": "Publicaciones Meli Pro", "v": -0.02, "cat": "Meli Pro"}, {"label": "Experiencia Impositiva Mature", "v": -0.01, "cat": "Mature"}, {"label": "PCF Vendedor Meli Pro", "v": -0.01, "cat": "Meli Pro"}], 51.2);
 </script>
 </body>
 </html>
