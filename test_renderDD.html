@@ -1,0 +1,107 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>
+<script>function updatePanes(){} var ddCharts={};</script>
+<script>function renderDD(period) {
+  var selectId = 'dd-select-' + period;
+  var contentId = 'dd-content-' + period;
+  var drv = document.getElementById(selectId).value;
+  var content = document.getElementById(contentId);
+
+  // Sincronizar selects
+  var otherPeriod = period === 'mes' ? 'sem' : 'mes';
+  var otherSelect = document.getElementById('dd-select-' + otherPeriod);
+  if (otherSelect) otherSelect.value = drv;
+
+  if (!drv || !DD_DATA[drv]) {
+    content.innerHTML = '<div class="dd-placeholder"><div class="dd-hint">Selecione um driver acima para ver o detalhamento</div></div>';
+    return;
+  }
+
+  var d = DD_DATA[drv];
+  var tgt = d.target;
+
+  // Destruir charts antigos deste period
+  if (ddCharts[period]) { ddCharts[period].forEach(function(c){ if(c) c.destroy(); }); }
+  ddCharts[period] = [];
+
+  function fmtNPS(v) { return v !== null ? v.toFixed(1)+'%' : '\u2014'; }
+  function fmtDelta(v) { if(v===null||v===undefined) return '\u2014'; var s=v>=0?'+':''; return s+v.toFixed(2)+' pp'; }
+
+  if (period === 'mes') {
+    var pts = d.monthly;
+    var cur = pts[pts.length-1];
+    var prev = pts[pts.length-2];
+    var nCur  = cur.nps;
+    var nPrev = prev.nps;
+    var delta = (nCur !== null && nPrev !== null) ? parseFloat((nCur - nPrev).toFixed(2)) : null;
+    var gapTgt = (nCur !== null && tgt) ? parseFloat((nCur - tgt).toFixed(2)) : null;
+
+    content.innerHTML =
+      '<div class="dd-sc-grid">' +
+        sc_dd('NPS '+cur.label, fmtNPS(nCur), null, nCur, tgt) +
+        sc_dd('NPS '+prev.label, fmtNPS(nPrev), null, nPrev, tgt) +
+        sc_dd('Variacao MoM', fmtDelta(delta), delta, null, null) +
+        sc_dd('Target', tgt ? tgt.toFixed(1)+'%' : '\u2014', null, null, null) +
+        sc_dd('Gap vs Target', fmtDelta(gapTgt), gapTgt, null, null) +
+      '</div>' +
+      '<div class="dd-chart-section">' +
+        '<div class="dd-chart-title">Historico Mensal \u2014 '+drv+'</div>' +
+        '<div class="dd-chart-sub">NPS mensal Jan\u2013Abr 2026 vs target do driver</div>' +
+        '<div class="dd-chart-wrap"><canvas id="c-dd-mes-chart"></canvas></div>' +
+      '</div>' +
+      buildExecSummary(drv, 'mes') +
+      '<div class="dd-section-title">Processos \u2014 MoM (' + M2_LABEL + ' vs ' + M1_LABEL + ')</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'M2', 'M1', d.target, 'Processo') +
+      '<div class="dd-section-title">Canal \u2014 MoM</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'C', 'M2', 'M1', d.target, 'Canal') +
+      '<div class="dd-section-title">Oficina \u2014 MoM</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'M2', 'M1', d.target, 'Oficina');
+
+    var labels = pts.map(function(p){ return p.label; });
+    var values = pts.map(function(p){ return p.nps; });
+    var colors = values.map(function(v){ return (tgt && v !== null && v < tgt) ? 'rgba(210,45,45,0.82)' : 'rgba(30,65,150,0.82)'; });
+    ddCharts[period].push(buildDDChart('c-dd-mes-chart', labels, values, colors, tgt, 'mensal'));
+
+  } else {
+    var pts = d.weekly;
+    var cur = pts[pts.length-1];
+    var prev = pts[pts.length-2];
+    var nCur  = cur.nps;
+    var nPrev = prev.nps;
+    var delta = (nCur !== null && nPrev !== null) ? parseFloat((nCur - nPrev).toFixed(2)) : null;
+    var gapTgt = (nCur !== null && tgt) ? parseFloat((nCur - tgt).toFixed(2)) : null;
+
+    content.innerHTML =
+      '<div class="dd-sc-grid">' +
+        sc_dd('NPS '+cur.label, fmtNPS(nCur), null, nCur, tgt) +
+        sc_dd('NPS '+prev.label, fmtNPS(nPrev), null, nPrev, tgt) +
+        sc_dd('Variacao WoW', fmtDelta(delta), delta, null, null) +
+        sc_dd('Target', tgt ? tgt.toFixed(1)+'%' : '\u2014', null, null, null) +
+        sc_dd('Gap vs Target', fmtDelta(gapTgt), gapTgt, null, null) +
+      '</div>' +
+      '<div class="dd-chart-section">' +
+        '<div class="dd-chart-title">Historico Semanal \u2014 '+drv+'</div>' +
+        '<div class="dd-chart-sub">NPS semanal 6 semanas vs target do driver</div>' +
+        '<div class="dd-chart-wrap"><canvas id="c-dd-sem-chart"></canvas></div>' +
+      '</div>' +
+      buildExecSummary(drv, 'sem') +
+      '<div class="dd-section-title">Processos \u2014 WoW (' + S2_LABEL + ' vs ' + S1_LABEL + ')</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'S2', 'S1', d.target, 'Processo') +
+      '<div class="dd-section-title">Canal \u2014 WoW</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'C', 'S2', 'S1', d.target, 'Canal') +
+      '<div class="dd-section-title">Oficina \u2014 WoW</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'S2', 'S1', d.target, 'Oficina');
+
+    var labels = pts.map(function(p){ return p.label; });
+    var values = pts.map(function(p){ return p.nps; });
+    var colors = values.map(function(v){ return (tgt && v !== null && v < tgt) ? 'rgba(210,45,45,0.82)' : 'rgba(30,65,150,0.82)'; });
+    ddCharts[period].push(buildDDChart('c-dd-sem-chart', labels, values, colors, tgt, 'semanal'));
+  }
+}
+</script>
+<script>
+var fns=["renderDD","buildWaterfall","buildBreakdownTable","sc_dd","shorten","buildExecSummary"];
+var ok=fns.filter(function(f){return typeof window[f]==='function';});
+var bad=fns.filter(function(f){return typeof window[f]!=='function';});
+document.write('<p style="font-family:monospace;font-size:12px">OK: '+ok.join(',')+' | FAIL: '+bad.join(',')+'</p>');
+</script>
+</body></html>
