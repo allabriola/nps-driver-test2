@@ -243,28 +243,43 @@ def compute_view(monthly_data, weekly_data, nps_target_consol):
     nS3_ = consol_week("S3")
     nS4_ = consol_week("S4")
 
-    def recurrence(drv, is_worst):
-        """Conta periodos onde driver ficou abaixo (worst) ou acima (best) da media consolidada."""
-        # Mensal: M1 e M2
-        pairs_m = [
-            (nps(*monthly_data[drv]["M1"]), nM1_),
-            (nps(*monthly_data[drv]["M2"]), nM2_),
-        ]
-        m_hits = sum(1 for nd, nc in pairs_m
-                     if nd is not None and (nd < nc if is_worst else nd > nc))
-        # Semanal: S1, S2, S3, S4
-        def wk(key, src):
-            t = src[drv].get(key)
-            return nps(*t) if t and t[2] > 0 else None
-        pairs_w = [
-            (wk("S1", weekly_data), nS1_),
-            (wk("S2", weekly_data), nS2_),
-            (wk("S3", weekly_hist_extra), nS3_),
-            (wk("S4", weekly_hist_extra), nS4_),
-        ]
-        w_hits = sum(1 for nd, nc in pairs_w
-                     if nd is not None and nc is not None and (nd < nc if is_worst else nd > nc))
-        return m_hits, w_hits
+    def drv_nps_w(drv, key):
+        src = weekly_data if key in ("S1", "S2") else weekly_hist_extra
+        t = src.get(drv, {}).get(key)
+        return nps(*t) if t and t[2] > 0 else None
+
+    def recurrence(drv):
+        """
+        Retorna dois dicts com flags de recorrencia:
+        vs_target: {months: int (0-2), weeks: int (0-4)}
+        trend:     {months: int (0=sem queda, 1=queda M2->M1),
+                    weeks: int (0-3 semanas consecutivas de queda a partir de S1)}
+        """
+        tgt = DRIVER_TARGETS.get(drv)
+
+        nm1 = nps(*monthly_data[drv]["M1"]) if monthly_data[drv]["M1"][2] > 0 else None
+        nm2 = nps(*monthly_data[drv]["M2"]) if monthly_data[drv]["M2"][2] > 0 else None
+        ns  = {k: drv_nps_w(drv, k) for k in ("S1", "S2", "S3", "S4")}
+
+        # vs Target: periodos abaixo do target proprio do driver
+        below_m = sum(1 for nd in [nm1, nm2] if nd is not None and tgt and nd < tgt)
+        below_w = sum(1 for nd in ns.values() if nd is not None and tgt and nd < tgt)
+
+        # Tendencia: queda consecutiva a partir do periodo mais recente
+        # Mensal: queda M2->M1 = 1 comparacao
+        trend_m = 1 if (nm1 is not None and nm2 is not None and nm1 < nm2) else 0
+
+        # Semanal: quantas semanas consecutivas de queda a partir de S1
+        consec_w = 0
+        for older, newer in [("S2","S1"), ("S3","S2"), ("S4","S3")]:
+            n_old, n_new = ns[older], ns[newer]
+            if n_old is not None and n_new is not None and n_new < n_old:
+                consec_w += 1
+            else:
+                break
+
+        return {"below_m": below_m, "below_w": below_w,
+                "trend_m": trend_m, "consec_w": consec_w}
 
     # Sorted for charts
     md_ = sorted_impacts(mD_); wd_ = sorted_impacts(wD_); vd_ = sorted_impacts(vt_)
@@ -285,10 +300,10 @@ def compute_view(monthly_data, weekly_data, nps_target_consol):
         mD=mD_, wD=wD_, vt=vt_, tt=tt_,
         worst_mom=worst_mom_, best_mom=best_mom_,
         worst_wow=worst_wow_, best_wow=best_wow_,
-        rec_worst_mom=recurrence(worst_mom_, is_worst=True),
-        rec_best_mom =recurrence(best_mom_,  is_worst=False),
-        rec_worst_wow=recurrence(worst_wow_, is_worst=True),
-        rec_best_wow =recurrence(best_wow_,  is_worst=False),
+        rec_worst_mom=recurrence(worst_mom_),
+        rec_best_mom =recurrence(best_mom_),
+        rec_worst_wow=recurrence(worst_wow_),
+        rec_best_wow =recurrence(best_wow_),
         mom_json=json.dumps(md_), wow_json=json.dumps(wd_), vt_json=json.dumps(vd_),
         mom_ybase=calc_y_base(nM2_, md_),
         wow_ybase=calc_y_base(nS2_, wd_),
@@ -335,18 +350,42 @@ def sc_surveys(surveys, var_pct, period_sub):
 
 def sc_driver(title, drv, nps_val, share_val,
               p1_label, p1_var, p2_label, p2_var, tgt_gap,
-              rec_months, rec_weeks, is_worst):
-    def rec_bullet(count, total, period_label):
-        if count == total:
-            cls = "neg" if is_worst else "pos"
-            icon = "&#9650;" if not is_worst else "&#9660;"
-            return f'<div class="bullet {cls} rec-full">{icon} Recorrente: {count}/{total} {period_label}</div>'
-        elif count >= total - 1:
-            return f'<div class="bullet rec-partial">&#9654; Parcial: {count}/{total} {period_label}</div>'
-        else:
-            return f'<div class="bullet rec-none">&#8212; Pontual: {count}/{total} {period_label}</div>'
+              rec, is_worst):
+    """rec = dict com below_m, below_w, trend_m, consec_w"""
+    below_m  = rec["below_m"]   # 0-2 meses abaixo do target
+    below_w  = rec["below_w"]   # 0-4 semanas abaixo do target
+    trend_m  = rec["trend_m"]   # 1 se NPS caiu M2->M1
+    consec_w = rec["consec_w"]  # 0-3 semanas consecutivas de queda a partir de S1
 
-    m_count, w_count = rec_months, rec_weeks
+    # Bullet vs Target
+    def tgt_bullet():
+        alert_m = below_m == 2
+        alert_w = below_w >= 3
+        if alert_m and alert_w:
+            cls = "neg" if is_worst else "pos"
+            icon = "&#9660;" if is_worst else "&#9650;"
+            return f'<div class="bullet {cls} rec-full">{icon} vs Target: {below_m}/2 meses &middot; {below_w}/4 semanas</div>'
+        elif alert_m or alert_w:
+            m_str = f"{below_m}/2 meses" if alert_m else f"{below_m}/2 meses"
+            w_str = f"{below_w}/4 semanas"
+            return f'<div class="bullet rec-partial">&#9654; vs Target: {m_str} &middot; {w_str}</div>'
+        else:
+            return f'<div class="bullet rec-none">&#8212; vs Target: {below_m}/2 meses &middot; {below_w}/4 semanas</div>'
+
+    # Bullet Tendência
+    def trend_bullet():
+        alert_m = trend_m == 1
+        alert_w = consec_w >= 3
+        trend_m_str = "queda MoM" if trend_m else "sem queda MoM"
+        trend_w_str = f"queda {consec_w} sem. consec." if consec_w > 0 else "sem queda semanal"
+        if alert_m and alert_w:
+            cls = "neg" if is_worst else "neg"
+            return f'<div class="bullet {cls} rec-full">&#9660; Tendencia: {trend_m_str} &middot; {trend_w_str}</div>'
+        elif alert_m or consec_w >= 2:
+            return f'<div class="bullet rec-partial">&#9654; Tendencia: {trend_m_str} &middot; {trend_w_str}</div>'
+        else:
+            return f'<div class="bullet rec-none">&#8212; Tendencia: {trend_m_str} &middot; {trend_w_str}</div>'
+
     return f"""<div class="sc sc-driver-card">
   <div class="sc-label">{title}</div>
   <div class="sc-driver-name">{drv}</div>
@@ -355,10 +394,10 @@ def sc_driver(title, drv, nps_val, share_val,
   <hr class="sc-sep">
   <div class="bullet {_cls(p1_var)}">{_arr(p1_var)} {_pp(p1_var)} impacto {p1_label}</div>
   <div class="bullet {_cls(p2_var)}">{_arr(p2_var)} {_pp(p2_var)} impacto {p2_label}</div>
-  <div class="bullet {_cls(tgt_gap)}">{_arr(tgt_gap)} {_pp(tgt_gap)} vs target</div>
+  <div class="bullet {_cls(tgt_gap)}">{_arr(tgt_gap)} {_pp(tgt_gap)} vs target driver</div>
   <hr class="sc-sep">
-  {rec_bullet(m_count, 2, "meses")}
-  {rec_bullet(w_count, 4, "semanas")}
+  {tgt_bullet()}
+  {trend_bullet()}
 </div>"""
 
 def make_panes(pfx, v):
@@ -367,7 +406,6 @@ def make_panes(pfx, v):
 
     def cards_mes():
         wm = v["worst_mom"]; bm = v["best_mom"]
-        rm_w, rw_w = v["rec_worst_mom"]; rm_b, rw_b = v["rec_best_mom"]
         return (
             sc_nps("NPS CONSOLIDADO", v["nM1"], v["vs_tgt_mom"], v["dM"], "mes ant.", M1_LABEL) +
             sc_target(v["nps_target"], M1_LABEL) +
@@ -375,16 +413,15 @@ def make_panes(pfx, v):
             sc_driver("DRIVER MAIS OFENSOR", wm,
                       mD[wm]["nps_b"], mD[wm]["share_b"],
                       "MoM", mD[wm]["var"], "WoW", wD[wm]["var"], vt[wm]["gap"],
-                      rm_w, rw_w, is_worst=True) +
+                      v["rec_worst_mom"], is_worst=True) +
             sc_driver("DRIVER MAIS PROMOTOR", bm,
                       mD[bm]["nps_b"], mD[bm]["share_b"],
                       "MoM", mD[bm]["var"], "WoW", wD[bm]["var"], vt[bm]["gap"],
-                      rm_b, rw_b, is_worst=False)
+                      v["rec_best_mom"], is_worst=False)
         )
 
     def cards_sem():
         ww = v["worst_wow"]; bw = v["best_wow"]
-        rm_w, rw_w = v["rec_worst_wow"]; rm_b, rw_b = v["rec_best_wow"]
         return (
             sc_nps("NPS CONSOLIDADO", v["nS1"], v["vs_tgt_wow"], v["dW"], "sem. ant.", S1_LABEL) +
             sc_target(v["nps_target"], M1_LABEL) +
@@ -392,11 +429,11 @@ def make_panes(pfx, v):
             sc_driver("DRIVER MAIS OFENSOR", ww,
                       wD[ww]["nps_b"], wD[ww]["share_b"],
                       "WoW", wD[ww]["var"], "MoM", mD[ww]["var"], vt[ww]["gap"],
-                      rm_w, rw_w, is_worst=True) +
+                      v["rec_worst_wow"], is_worst=True) +
             sc_driver("DRIVER MAIS PROMOTOR", bw,
                       wD[bw]["nps_b"], wD[bw]["share_b"],
                       "WoW", wD[bw]["var"], "MoM", mD[bw]["var"], vt[bw]["gap"],
-                      rm_b, rw_b, is_worst=False)
+                      v["rec_best_wow"], is_worst=False)
         )
 
     tt = v["tt"]
