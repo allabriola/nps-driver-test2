@@ -463,6 +463,32 @@ def sc_driver(title, drv, nps_val, share_val,
   {trend_bullet()}
 </div>"""
 
+def compute_history(drivers):
+    """Calcula historico NPS mensal (Jan-Abr) e semanal (6 semanas) para um conjunto de drivers."""
+    def nps_safe(p, d, s): return round(100*(p-d)/s, 2) if s > 0 else None
+    monthly = []
+    for label, key in [("Jan","Jan"),("Fev","Fev"),("Mar","M2"),("Abr","M1")]:
+        if key in ("M1","M2"):
+            p   = sum(monthly_driver[d][key][0] for d in drivers)
+            det = sum(monthly_driver[d][key][1] for d in drivers)
+            s   = sum(monthly_driver[d][key][2] for d in drivers)
+        else:
+            p   = sum(monthly_hist_extra.get(d,{}).get(key,(0,0,0))[0] for d in drivers)
+            det = sum(monthly_hist_extra.get(d,{}).get(key,(0,0,0))[1] for d in drivers)
+            s   = sum(monthly_hist_extra.get(d,{}).get(key,(0,0,0))[2] for d in drivers)
+        monthly.append({"label": label, "nps": nps_safe(p,det,s), "s": s})
+    weekly = []
+    for label, src, key in [
+        ("16/mar", weekly_hist_extra2, "16/mar"),("23/mar", weekly_hist_extra2, "23/mar"),
+        ("30/mar", weekly_hist_extra,  "S4"),    ("06/abr", weekly_hist_extra,  "S3"),
+        ("13/abr", weekly_driver,      "S2"),    ("20/abr", weekly_driver,      "S1"),
+    ]:
+        p   = sum(src.get(d,{}).get(key,(0,0,0))[0] for d in drivers)
+        det = sum(src.get(d,{}).get(key,(0,0,0))[1] for d in drivers)
+        s   = sum(src.get(d,{}).get(key,(0,0,0))[2] for d in drivers)
+        weekly.append({"label": label, "nps": nps_safe(p,det,s), "s": s})
+    return {"monthly": monthly, "weekly": weekly}
+
 def make_panes(pfx, v):
     """Gera os dois panes (MES + SEMANA) para um conjunto de dados."""
     mD, wD, vt = v["mD"], v["wD"], v["vt"]
@@ -505,6 +531,11 @@ def make_panes(pfx, v):
   <div id="pane-{pfx}-mes" class="tab-pane{initial_class}">
     <div class="sc-grid">{cards_mes()}</div>
     <div class="chart-section">
+      <div class="chart-title">Evolucao Mensal — NPS Consolidado</div>
+      <div class="chart-sub">NPS mensal Jan–Abr 2026 vs target ({v['nps_target']:.1f}%)</div>
+      <div class="chart-wrap"><canvas id="c-{pfx}-evol-mes"></canvas></div>
+    </div>
+    <div class="chart-section">
       <div class="chart-title">Impacto MoM - Abertura Driver</div>
       <div class="chart-sub">Contribuicao de cada driver (pp) na variacao consolidada {M2_LABEL} &rarr; {M1_LABEL}.</div>
       <div class="chart-wrap"><canvas id="c-{pfx}-mom"></canvas></div>
@@ -517,6 +548,11 @@ def make_panes(pfx, v):
   </div>
   <div id="pane-{pfx}-sem" class="tab-pane">
     <div class="sc-grid">{cards_sem()}</div>
+    <div class="chart-section">
+      <div class="chart-title">Evolucao Semanal — NPS Consolidado</div>
+      <div class="chart-sub">NPS semanal 6 semanas (16/mar – 20/abr) vs target ({v['nps_target']:.1f}%)</div>
+      <div class="chart-wrap"><canvas id="c-{pfx}-evol-sem"></canvas></div>
+    </div>
     <div class="chart-section">
       <div class="chart-title">Impacto WoW - Abertura Driver</div>
       <div class="chart-sub">Contribuicao de cada driver (pp) na variacao consolidada {S2_LABEL} &rarr; {S1_LABEL}.</div>
@@ -594,6 +630,12 @@ def build_html():
 
     panes_all = make_panes("all", V_ALL)
     panes_sel = make_panes("sel", V_SEL)
+
+    # Historico NPS consolidado para os graficos de evolucao
+    hist_all = compute_history(list(monthly_driver.keys()))
+    hist_sel = compute_history([d for d in monthly_driver if d not in DRIVERS_EXCLUIDOS])
+    hist_all_json = json.dumps(hist_all, ensure_ascii=False)
+    hist_sel_json = json.dumps(hist_sel, ensure_ascii=False)
 
     # js chart calls para os 6 graficos
     def js_charts(pfx, v):
@@ -829,6 +871,8 @@ header h1{{font-size:16px;font-weight:700}}
 <script type="application/json" id="_dd_data">{dd_json}</script>
 <script type="application/json" id="_dd_breakdown">{dd_breakdown_json}</script>
 <script type="application/json" id="_dd_summaries">{dd_summaries_json}</script>
+<script type="application/json" id="_hist_all">{hist_all_json}</script>
+<script type="application/json" id="_hist_sel">{hist_sel_json}</script>
 <script>
 /* Funcoes de chart e deep dive */
 
@@ -878,6 +922,48 @@ function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, driver
   }});
 }}
 
+function buildEvolChart(canvasId, pts, target) {{
+  var labels = pts.map(function(p){{ return p.label; }});
+  var values = pts.map(function(p){{ return p.nps; }});
+  var colors = values.map(function(v){{ return v !== null && target && v < target ? 'rgba(210,45,45,0.85)' : 'rgba(30,65,150,0.85)'; }});
+  var allV = values.filter(function(v){{ return v !== null; }}).concat(target ? [target] : []);
+  var yMin = allV.length ? Math.floor(Math.min.apply(null,allV))-3 : 50;
+  var yMax = allV.length ? Math.ceil(Math.max.apply(null,allV))+3 : 100;
+  var datasets = [{{
+    label: 'NPS', data: values, backgroundColor: colors,
+    borderColor: colors, borderWidth: 1, borderRadius: 3,
+    type: 'bar'
+  }}];
+  if (target) datasets.push({{
+    label: 'Target', data: Array(labels.length).fill(target),
+    type: 'line', borderColor: 'rgba(191,92,0,0.9)', borderWidth: 2,
+    borderDash: [5,4], pointRadius: 0, fill: false, tension: 0
+  }});
+  return new Chart(document.getElementById(canvasId), {{
+    type: 'bar', plugins: [ChartDataLabels],
+    data: {{ labels: labels, datasets: datasets }},
+    options: {{
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {{
+        legend: {{ display: false }}, tooltip: {{ enabled: true }},
+        datalabels: {{
+          display: function(ctx){{ return ctx.dataset.type !== 'line'; }},
+          formatter: function(v){{ return v !== null ? v.toFixed(1)+'%' : ''; }},
+          anchor: 'end', align: 'top', font: {{ size: 10, weight: '600' }},
+          color: '#333', padding: 2
+        }}
+      }},
+      layout: {{ padding: {{ top: 24 }} }},
+      scales: {{
+        y: {{ min: yMin, max: yMax, display: true,
+              ticks: {{ callback: function(v){{ return v+'%'; }}, font: {{ size: 10 }} }},
+              grid: {{ color: '#f0f0f0' }} }},
+        x: {{ ticks: {{ font: {{ size: 10 }} }}, grid: {{ display: false }}, border: {{ display: false }} }}
+      }}
+    }}
+  }});
+}}
+
 // Navegacao ja definida no head
 updatePanes();
 // Graficos: requestAnimationFrame garante que o layout foi processado antes de renderizar
@@ -885,6 +971,10 @@ try {{ Chart.register(ChartDataLabels); }} catch(e) {{ console.warn('Chart.regis
 requestAnimationFrame(function() {{
   requestAnimationFrame(function() {{
     {js_charts("all", V_ALL)}{js_charts("sel", V_SEL)}
+    try {{ buildEvolChart('c-all-evol-mes', HIST_ALL.monthly, {V_ALL['nps_target']}); }} catch(e) {{}}
+    try {{ buildEvolChart('c-all-evol-sem', HIST_ALL.weekly,  {V_ALL['nps_target']}); }} catch(e) {{}}
+    try {{ buildEvolChart('c-sel-evol-mes', HIST_SEL.monthly, {V_SEL['nps_target']}); }} catch(e) {{}}
+    try {{ buildEvolChart('c-sel-evol-sem', HIST_SEL.weekly,  {V_SEL['nps_target']}); }} catch(e) {{}}
   }});
 }});
 
@@ -892,6 +982,8 @@ requestAnimationFrame(function() {{
 var DD_DATA      = JSON.parse(document.getElementById('_dd_data').textContent);
 var DD_BREAKDOWN = JSON.parse(document.getElementById('_dd_breakdown').textContent);
 var DD_SUMMARIES = JSON.parse(document.getElementById('_dd_summaries').textContent);
+var HIST_ALL     = JSON.parse(document.getElementById('_hist_all').textContent);
+var HIST_SEL     = JSON.parse(document.getElementById('_hist_sel').textContent);
 var M1_LABEL = '{M1_LABEL}';
 var M2_LABEL = '{M2_LABEL}';
 var S1_LABEL = '{S1_LABEL}';
@@ -901,11 +993,17 @@ var ddCharts = {{}};
 function buildExecSummary(drv, period) {{
   var s = DD_SUMMARIES[drv];
   var key = period === 'mes' ? 'mom' : 'wow';
-  var text = s && s[key] ? s[key] : (s && s['mom'] ? s['mom'] : null);
-  var title = period === 'mes' ? 'Resumo Executivo — MoM (Marco vs Abril 2026)' : 'Resumo Executivo — WoW';
+  var text = s && s[key] ? s[key] : null;
+  var title = period === 'mes' ? 'Resumo Executivo — MoM (Marco vs Abril 2026)' : 'Resumo Executivo — WoW (13-19/abr vs 20-26/abr)';
   if (!text) {{
-    return '<div class="exec-summary"><div class="exec-summary-title">' + title + '</div>' +
-           '<div class="exec-na">Analise qualitativa nao disponivel para este driver.</div></div>';
+    var fallback = (period === 'sem' && s && s['mom'])
+      ? '<div class="exec-na">⚠ Resumo WoW nao gerado ainda. Exibindo analise MoM como referencia.</div>' + s['mom']
+      : null;
+    if (!fallback) {{
+      return '<div class="exec-summary"><div class="exec-summary-title">' + title + '</div>' +
+             '<div class="exec-na">Analise qualitativa nao disponivel para este driver.</div></div>';
+    }}
+    text = fallback;
   }}
   var bullets = text.split('\\n').filter(function(l){{ return l.trim(); }});
   var html = '<div class="exec-summary"><div class="exec-summary-title">' + title + '</div>';
