@@ -13,7 +13,8 @@ M1_LABEL          = "Abril 2026"
 M2_LABEL          = "Marco 2026"
 S1_LABEL          = "20/abr - 26/abr"
 S2_LABEL          = "13/abr - 19/abr"
-NPS_TARGET_CONSOL = 52.22
+NPS_TARGET_ALL = 52.49   # SUM(NUM_TARGET)/SUM(DENOM_TARGET) — 27 drivers — Abril 2026
+NPS_TARGET_SEL = 56.04   # SUM(NUM_TARGET)/SUM(DENOM_TARGET) — 20 drivers (sem Med) — Abril 2026
 REPORT_DATE       = datetime.now().strftime("%d/%m/%Y %H:%M")
 
 # ─── CATEGORIAS ──────────────────────────────────────────────────────────────
@@ -168,7 +169,7 @@ def calc_y_base(start, drivers):
         running += d["v"]; vals.append(running)
     return round(min(vals) - 3, 1)
 
-def compute_view(monthly_data, weekly_data):
+def compute_view(monthly_data, weekly_data, nps_target_consol):
     """Calcula todos os valores para um conjunto de drivers."""
     # Monthly
     sM2_ = sum(v["M2"][2] for v in monthly_data.values())
@@ -207,8 +208,9 @@ def compute_view(monthly_data, weekly_data):
     return dict(
         nM1=nM1_, nM2=nM2_, dM=dM_, sM1=sM1_, sM2=sM2_,
         nS1=nS1_, nS2=nS2_, dW=dW_, sS1=sS1_, sS2=sS2_,
-        vs_tgt_mom=round(nM1_ - NPS_TARGET_CONSOL, 2),
-        vs_tgt_wow=round(nS1_ - NPS_TARGET_CONSOL, 2),
+        nps_target=nps_target_consol,
+        vs_tgt_mom=round(nM1_ - nps_target_consol, 2),
+        vs_tgt_wow=round(nS1_ - nps_target_consol, 2),
         surv_mom_var=round((sM1_ - sM2_) / sM2_ * 100, 1) if sM2_ else 0,
         surv_wow_var=round((sS1_ - sS2_) / sS2_ * 100, 1) if sS2_ else 0,
         mD=mD_, wD=wD_, vt=vt_, tt=tt_,
@@ -222,8 +224,8 @@ def compute_view(monthly_data, weekly_data):
         vt_ybase =calc_y_base(tt_, vd_),
     )
 
-V_ALL = compute_view(monthly_driver,     weekly_driver)
-V_SEL = compute_view(monthly_driver_sel, weekly_driver_sel)
+V_ALL = compute_view(monthly_driver,     weekly_driver,     NPS_TARGET_ALL)
+V_SEL = compute_view(monthly_driver_sel, weekly_driver_sel, NPS_TARGET_SEL)
 
 # ─── HTML ─────────────────────────────────────────────────────────────────────
 def _arr(v): return "&#9650;" if v >= 0 else "&#9660;"
@@ -281,7 +283,7 @@ def make_panes(pfx, v):
         wm = v["worst_mom"]; bm = v["best_mom"]
         return (
             sc_nps("NPS CONSOLIDADO", v["nM1"], v["vs_tgt_mom"], v["dM"], "mes ant.", M1_LABEL) +
-            sc_target(NPS_TARGET_CONSOL, M1_LABEL) +
+            sc_target(v["nps_target"], M1_LABEL) +
             sc_surveys(v["sM1"], v["surv_mom_var"], M1_LABEL) +
             sc_driver("DRIVER MAIS OFENSOR", wm,
                       mD[wm]["nps_b"], mD[wm]["share_b"],
@@ -295,7 +297,7 @@ def make_panes(pfx, v):
         ww = v["worst_wow"]; bw = v["best_wow"]
         return (
             sc_nps("NPS CONSOLIDADO", v["nS1"], v["vs_tgt_wow"], v["dW"], "sem. ant.", S1_LABEL) +
-            sc_target(NPS_TARGET_CONSOL, M1_LABEL) +
+            sc_target(v["nps_target"], M1_LABEL) +
             sc_surveys(v["sS1"], v["surv_wow_var"], S1_LABEL) +
             sc_driver("DRIVER MAIS OFENSOR", ww,
                       wD[ww]["nps_b"], wD[ww]["share_b"],
