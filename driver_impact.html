@@ -79,16 +79,27 @@ header h1{font-size:16px;font-weight:700}
                    letter-spacing:.6px;margin:20px 0 10px;padding-bottom:6px;
                    border-bottom:1px solid #eee}
 .bk-table{width:100%;border-collapse:collapse;background:#fff;border-radius:8px;
-          overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:8px}
-.bk-table thead th{background:#2d3277;color:#fff;padding:8px 10px;
-                   font-size:10px;font-weight:700;text-transform:uppercase;
-                   letter-spacing:.4px;text-align:left}
-.bk-table thead th:not(:first-child){text-align:right}
-.bk-table td{padding:7px 10px;border-bottom:1px solid #f5f5f5;font-size:12px}
-.bk-table tr:last-child td{border-bottom:none}
-.bk-table tr:hover td{background:#fafbff}
-.bk-name{font-weight:500;max-width:220px}
-.bk-surv{color:#aaa!important;font-size:11px!important}
+          overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:12px;
+          font-size:12px}
+.bk-table thead tr{background:#2d3277}
+.bk-table thead th{color:#fff;padding:8px 10px;font-size:10px;font-weight:700;
+                   text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+.bk-table thead th.col-name{text-align:left;min-width:160px}
+.bk-table thead th:not(.col-name){text-align:right;min-width:58px}
+.bk-table thead th.col-impact{background:#1a1e3c;min-width:72px}
+.bk-table tbody td{padding:6px 10px;border-bottom:1px solid #f2f2f5;vertical-align:middle}
+.bk-table tbody tr:last-child td{border-bottom:none}
+.bk-table tbody tr:hover td{background:#f7f8ff}
+.bk-table tbody tr.bk-total td{background:#f0f2f8;font-weight:700;
+                                border-top:2px solid #dde0ea}
+.bk-name{font-weight:500;text-align:left}
+.bk-surv{color:#bbb!important;font-size:11px!important;text-align:right}
+.bk-impact-cell{font-weight:700;text-align:right;white-space:nowrap}
+.bk-impact-pos-hi{background:#e8f5e9!important;color:#1b5e20!important}
+.bk-impact-pos-lo{background:#f1f8e9!important;color:#33691e!important}
+.bk-impact-neg-hi{background:#ffebee!important;color:#b71c1c!important}
+.bk-impact-neg-lo{background:#fff3f3!important;color:#c62828!important}
+.bk-impact-neu{color:#999!important}
 </style>
 </head>
 <body>
@@ -98,7 +109,7 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 11:33</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 11:41</div>
 </header>
 
 <div class="nav-bar">
@@ -562,52 +573,102 @@ function buildBreakdownTable(drvData, dim, periodA, periodB) {
 
     var dataA = drvData[dim][periodA] || {};
     var dataB = drvData[dim][periodB] || {};
-
-    var keys = Array.from(new Set(Object.keys(dataA).concat(Object.keys(dataB))));
-
-    keys.sort(function(x, y) {
-        var sB_x = (dataB[x] || {s: 0}).s;
-        var sB_y = (dataB[y] || {s: 0}).s;
-        return sB_y - sB_x;
-    });
-
+    var keys  = Array.from(new Set(Object.keys(dataA).concat(Object.keys(dataB))));
     if (keys.length === 0) return '<div class="dd-hint">Sem dados para este periodo</div>';
 
+    // Totais do driver nos dois periodos (base para share e NPS consolidado)
     var totA = {p:0,d:0,s:0}, totB = {p:0,d:0,s:0};
     keys.forEach(function(k) {
-        var a = dataA[k] || {}; var b = dataB[k] || {};
+        var a = dataA[k]||{}; var b = dataB[k]||{};
         totA.p += a.p||0; totA.d += a.d||0; totA.s += a.s||0;
         totB.p += b.p||0; totB.d += b.d||0; totB.s += b.s||0;
     });
+    var npsA_tot = totA.s>0 ? (totA.p-totA.d)/totA.s*100 : null;
+    var npsB_tot = totB.s>0 ? (totB.p-totB.d)/totB.s*100 : null;
 
-    var labelA = periodA === 'M2' ? M2_LABEL : (periodA === 'M1' ? M1_LABEL : (periodA === 'S2' ? S2_LABEL : S1_LABEL));
-    var labelB = periodB === 'M1' ? M1_LABEL : (periodB === 'S1' ? S1_LABEL : periodB);
+    // Calcular MIX+NETO para cada item
+    var items = keys.map(function(k) {
+        var a = dataA[k]||{p:0,d:0,s:0,nps:null};
+        var b = dataB[k]||{p:0,d:0,s:0,nps:null};
+        var shaA = totA.s>0 ? a.s/totA.s : 0;
+        var shaB = totB.s>0 ? b.s/totB.s : 0;
+        var nA = a.nps, nB = b.nps;
+        var neto = (shaA>0 && nA!==null && nB!==null) ? shaA*(nB-nA) : 0;
+        var mix  = (nB!==null && npsB_tot!==null) ? (shaB-shaA)*(nB-npsB_tot) : 0;
+        var impact = neto + mix;
+        return { k:k, a:a, b:b, shaA:shaA, shaB:shaB,
+                  neto:Math.round(neto*100)/100,
+                  mix:Math.round(mix*100)/100,
+                  impact:Math.round(impact*100)/100 };
+    });
 
-    var rows = '<table class="bk-table"><thead><tr>' +
-        '<th>Dimensao</th>' +
-        '<th>' + labelA + '</th><th>Surveys</th>' +
-        '<th>' + labelB + '</th><th>Surveys</th>' +
-        '<th>Delta</th>' +
+    // Ordenar por |impacto| decrescente
+    items.sort(function(x,y) { return Math.abs(y.impact)-Math.abs(x.impact); });
+
+    var lA = periodA==='M2'?M2_LABEL:(periodA==='M1'?M1_LABEL:(periodA==='S2'?S2_LABEL:S1_LABEL));
+    var lB = periodB==='M1'?M1_LABEL:(periodB==='S1'?S1_LABEL:(periodB==='M2'?M2_LABEL:S2_LABEL));
+
+    function fNPS(v)  { return v!==null ? v.toFixed(1)+'%' : '&mdash;'; }
+    function fDelta(v){ return v===null ? '&mdash;' : (v>=0?'+':'')+v.toFixed(2)+' pp'; }
+    function dCls(v)  { return v===null?'':(v>=0?'pos':'neg'); }
+    function iCls(v)  {
+        if(v===null) return 'bk-impact-neu';
+        if(v>= 0.30) return 'bk-impact-pos-hi';
+        if(v>= 0.05) return 'bk-impact-pos-lo';
+        if(v<=-0.30) return 'bk-impact-neg-hi';
+        if(v<=-0.05) return 'bk-impact-neg-lo';
+        return 'bk-impact-neu';
+    }
+
+    var html = '<table class="bk-table"><thead><tr>' +
+        '<th class="col-name">Dimensao</th>' +
+        '<th>' + lA + '</th>' +
+        '<th>' + lB + '</th>' +
+        '<th>&Delta; NPS</th>' +
+        '<th>Surveys</th>' +
+        '<th>Share</th>' +
+        '<th>NETO</th>' +
+        '<th>MIX</th>' +
+        '<th class="col-impact">Impacto</th>' +
         '</tr></thead><tbody>';
 
-    keys.forEach(function(k) {
-        var a = dataA[k] || {nps: null, s: 0};
-        var b = dataB[k] || {nps: null, s: 0};
-        var delta = (a.nps !== null && b.nps !== null) ? (b.nps - a.nps).toFixed(2) : null;
-        var dCls = delta === null ? '' : (parseFloat(delta) >= 0 ? 'pos' : 'neg');
-        var dStr = delta === null ? '&mdash;' : (parseFloat(delta) >= 0 ? '+' : '') + delta + ' pp';
-        rows += '<tr>' +
-            '<td class="bk-name">' + k + '</td>' +
-            '<td class="num">' + (a.nps !== null ? a.nps.toFixed(1)+'%' : '&mdash;') + '</td>' +
-            '<td class="num bk-surv">' + (a.s||0).toLocaleString() + '</td>' +
-            '<td class="num">' + (b.nps !== null ? b.nps.toFixed(1)+'%' : '&mdash;') + '</td>' +
-            '<td class="num bk-surv">' + (b.s||0).toLocaleString() + '</td>' +
-            '<td class="num bold ' + dCls + '">' + dStr + '</td>' +
+    var totImpact=0, totNeto=0, totMix=0;
+    items.forEach(function(item) {
+        var a=item.a, b=item.b;
+        var delta = (a.nps!==null && b.nps!==null) ? b.nps-a.nps : null;
+        totImpact += item.impact; totNeto += item.neto; totMix += item.mix;
+        html += '<tr>' +
+            '<td class="bk-name">' + item.k + '</td>' +
+            '<td class="num">' + fNPS(a.nps) + '</td>' +
+            '<td class="num">' + fNPS(b.nps) + '</td>' +
+            '<td class="num ' + dCls(delta) + '">' + fDelta(delta) + '</td>' +
+            '<td class="num bk-surv">' + (b.s||0).toLocaleString('pt-BR') + '</td>' +
+            '<td class="num bk-surv">' + (item.shaB*100).toFixed(1)+'%</td>' +
+            '<td class="num ' + dCls(item.neto) + '">' + fDelta(item.neto) + '</td>' +
+            '<td class="num ' + dCls(item.mix)  + '">' + fDelta(item.mix)  + '</td>' +
+            '<td class="num bk-impact-cell ' + iCls(item.impact) + '">' + fDelta(item.impact) + '</td>' +
             '</tr>';
     });
 
-    rows += '</tbody></table>';
-    return rows;
+    totImpact=Math.round(totImpact*100)/100;
+    totNeto  =Math.round(totNeto*100)/100;
+    totMix   =Math.round(totMix*100)/100;
+    var totDelta = (npsA_tot!==null && npsB_tot!==null) ? npsB_tot-npsA_tot : null;
+
+    html += '<tr class="bk-total">' +
+        '<td class="bk-name">Total</td>' +
+        '<td class="num">' + fNPS(npsA_tot) + '</td>' +
+        '<td class="num">' + fNPS(npsB_tot) + '</td>' +
+        '<td class="num ' + dCls(totDelta) + '">' + fDelta(totDelta!==null?Math.round(totDelta*100)/100:null) + '</td>' +
+        '<td class="num bk-surv">' + totB.s.toLocaleString('pt-BR') + '</td>' +
+        '<td class="num bk-surv">100%</td>' +
+        '<td class="num ' + dCls(totNeto) + '">' + fDelta(totNeto) + '</td>' +
+        '<td class="num ' + dCls(totMix)  + '">' + fDelta(totMix)  + '</td>' +
+        '<td class="num bk-impact-cell ' + iCls(totImpact) + '">' + fDelta(totImpact) + '</td>' +
+        '</tr>';
+
+    html += '</tbody></table>';
+    return html;
 }
 
 function sc_dd(label, val, delta, npsVal, tgt) {
