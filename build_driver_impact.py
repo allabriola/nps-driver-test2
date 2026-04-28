@@ -739,14 +739,14 @@ header h1{{font-size:16px;font-weight:700}}
 
 <div class="nav-bar">
   <div class="view-tabs">
-    <button class="view-btn active" data-view="all" onclick="setView(this)">All Drivers</button>
-    <button class="view-btn"        data-view="sel" onclick="setView(this)">Drivers Sellers</button>
-    <button class="view-btn"        data-view="dd"  onclick="setView(this)">Deep Dive</button>
+    <button class="view-btn active" data-view="all">All Drivers</button>
+    <button class="view-btn"        data-view="sel">Drivers Sellers</button>
+    <button class="view-btn"        data-view="dd">Deep Dive</button>
   </div>
   <div class="right-nav">
     <div class="period-tabs">
-      <button class="period-btn active" data-period="mes" onclick="setPeriod(this)">MES</button>
-      <button class="period-btn"        data-period="sem" onclick="setPeriod(this)">SEMANA</button>
+      <button class="period-btn active" data-period="mes">MES</button>
+      <button class="period-btn"        data-period="sem">SEMANA</button>
     </div>
     <div class="period-label" id="period-label">{M1_LABEL}</div>
   </div>
@@ -760,7 +760,7 @@ header h1{{font-size:16px;font-weight:700}}
   <div id="pane-dd-mes" class="tab-pane">
     <div class="dd-bar">
       <label class="dd-label">Driver</label>
-      <select id="dd-select-mes" class="dd-select" onchange="renderDD('mes')">
+      <select id="dd-select-mes" class="dd-select">
         <option value="">Selecione um driver...</option>
         {options_html}
       </select>
@@ -773,7 +773,7 @@ header h1{{font-size:16px;font-weight:700}}
   <div id="pane-dd-sem" class="tab-pane">
     <div class="dd-bar">
       <label class="dd-label">Driver</label>
-      <select id="dd-select-sem" class="dd-select" onchange="renderDD('sem')">
+      <select id="dd-select-sem" class="dd-select">
         <option value="">Selecione um driver...</option>
         {options_html}
       </select>
@@ -1174,6 +1174,25 @@ function buildDDChart(canvasId, labels, values, colors, target, type) {{
     }}
   }});
 }}
+
+// Substituir onclick/onchange inline por addEventListener (CSP do Grid)
+document.addEventListener('DOMContentLoaded', function() {{
+  // View tabs (All Drivers / Drivers Sellers / Deep Dive)
+  document.querySelectorAll('.view-btn').forEach(function(btn) {{
+    btn.addEventListener('click', function() {{ setView(btn); }});
+  }});
+
+  // Period tabs (MES / SEMANA)
+  document.querySelectorAll('.period-btn').forEach(function(btn) {{
+    btn.addEventListener('click', function() {{ setPeriod(btn); }});
+  }});
+
+  // Deep Dive selects
+  var selMes = document.getElementById('dd-select-mes');
+  var selSem = document.getElementById('dd-select-sem');
+  if (selMes) selMes.addEventListener('change', function() {{ renderDD('mes'); }});
+  if (selSem) selSem.addEventListener('change', function() {{ renderDD('sem'); }});
+}});
 </script>
 </body>
 </html>"""
