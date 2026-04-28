@@ -643,6 +643,15 @@ function setPeriod(btn){{
   }}
 }}
 document.addEventListener('DOMContentLoaded',function(){{updatePanes();}});
+// Wrapper seguro para renderDD — chama a funcao quando disponivel
+function callRenderDD(period){{
+  var cont=document.getElementById('dd-content-'+period);
+  if(typeof renderDD==='undefined'){{
+    if(cont)cont.innerHTML='<div style="padding:16px;color:#b71c1c;background:#ffebee;border-radius:8px">Erro: renderDD nao definido. Tente recarregar a pagina (Ctrl+Shift+R).</div>';
+    return;
+  }}
+  renderDD(period);
+}}
 </script>
 <script>{open('chartjs.min.js',encoding='utf-8').read()}</script>
 <script>{open('chartjs-datalabels.min.js',encoding='utf-8').read()}</script>
@@ -793,7 +802,7 @@ header h1{{font-size:16px;font-weight:700}}
   <div id="pane-dd-mes" class="tab-pane">
     <div class="dd-bar">
       <label class="dd-label">Driver</label>
-      <select id="dd-select-mes" class="dd-select" onchange="renderDD('mes')">
+      <select id="dd-select-mes" class="dd-select" onchange="callRenderDD('mes')">
         <option value="">Selecione um driver...</option>
         {options_html}
       </select>
@@ -806,7 +815,7 @@ header h1{{font-size:16px;font-weight:700}}
   <div id="pane-dd-sem" class="tab-pane">
     <div class="dd-bar">
       <label class="dd-label">Driver</label>
-      <select id="dd-select-sem" class="dd-select" onchange="renderDD('sem')">
+      <select id="dd-select-sem" class="dd-select" onchange="callRenderDD('sem')">
         <option value="">Selecione um driver...</option>
         {options_html}
       </select>

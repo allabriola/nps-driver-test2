@@ -33,6 +33,15 @@ function setPeriod(btn){
   }
 }
 document.addEventListener('DOMContentLoaded',function(){updatePanes();});
+// Wrapper seguro para renderDD — chama a funcao quando disponivel
+function callRenderDD(period){
+  var cont=document.getElementById('dd-content-'+period);
+  if(typeof renderDD==='undefined'){
+    if(cont)cont.innerHTML='<div style="padding:16px;color:#b71c1c;background:#ffebee;border-radius:8px">Erro: renderDD nao definido. Tente recarregar a pagina (Ctrl+Shift+R).</div>';
+    return;
+  }
+  renderDD(period);
+}
 </script>
 <script>/**
  * Skipped minification because the original files appears to be already minified.
@@ -184,7 +193,7 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 14:48</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 14:51</div>
 </header>
 
 <div class="nav-bar">
@@ -424,7 +433,7 @@ header h1{font-size:16px;font-weight:700}
   <div id="pane-dd-mes" class="tab-pane">
     <div class="dd-bar">
       <label class="dd-label">Driver</label>
-      <select id="dd-select-mes" class="dd-select" onchange="renderDD('mes')">
+      <select id="dd-select-mes" class="dd-select" onchange="callRenderDD('mes')">
         <option value="">Selecione um driver...</option>
         <optgroup label="Longtail"><option value="Experiencia Impositiva Seller Dev">Experiencia Impositiva Seller Dev</option><option value="ME Vendedor Seller Dev">ME Vendedor Seller Dev</option><option value="PCF Vendedor Seller Dev">PCF Vendedor Seller Dev</option><option value="Partners">Partners</option><option value="Post Venta Seller Dev">Post Venta Seller Dev</option><option value="Publicaciones Seller Dev">Publicaciones Seller Dev</option></optgroup><optgroup label="Mature"><option value="Experiencia Impositiva Mature">Experiencia Impositiva Mature</option><option value="ME Vendedor Mature">ME Vendedor Mature</option><option value="PCF Vendedor Mature">PCF Vendedor Mature</option><option value="Post Venta Mature">Post Venta Mature</option><option value="Publicaciones Mature">Publicaciones Mature</option></optgroup><optgroup label="Meli Pro"><option value="Experiencia Impositiva Meli Pro">Experiencia Impositiva Meli Pro</option><option value="ME Vendedor Meli Pro">ME Vendedor Meli Pro</option><option value="PCF Vendedor Meli Pro">PCF Vendedor Meli Pro</option><option value="Post Venta Meli Pro">Post Venta Meli Pro</option><option value="Publicaciones Meli Pro">Publicaciones Meli Pro</option></optgroup><optgroup label="FBM"><option value="FBM-S Mature">FBM-S Mature</option><option value="FBM-S Meli Pro">FBM-S Meli Pro</option><option value="FBM-S Seller Dev">FBM-S Seller Dev</option></optgroup><optgroup label="Buyers"><option value="CBT">CBT</option><option value="PDD DS&XD - Vendedor">PDD DS&XD - Vendedor</option><option value="PDD FBM - Vendedor">PDD FBM - Vendedor</option><option value="PDD Fotos - Vendedor">PDD Fotos - Vendedor</option><option value="PDD MP,FLEX & CBT - Vendedor">PDD MP,FLEX & CBT - Vendedor</option><option value="PNR ME - Vendedor">PNR ME - Vendedor</option><option value="PNR MP - Vendedor">PNR MP - Vendedor</option></optgroup><optgroup label="Otros CV"><option value="Otros CV">Otros CV</option></optgroup>
       </select>
@@ -437,7 +446,7 @@ header h1{font-size:16px;font-weight:700}
   <div id="pane-dd-sem" class="tab-pane">
     <div class="dd-bar">
       <label class="dd-label">Driver</label>
-      <select id="dd-select-sem" class="dd-select" onchange="renderDD('sem')">
+      <select id="dd-select-sem" class="dd-select" onchange="callRenderDD('sem')">
         <option value="">Selecione um driver...</option>
         <optgroup label="Longtail"><option value="Experiencia Impositiva Seller Dev">Experiencia Impositiva Seller Dev</option><option value="ME Vendedor Seller Dev">ME Vendedor Seller Dev</option><option value="PCF Vendedor Seller Dev">PCF Vendedor Seller Dev</option><option value="Partners">Partners</option><option value="Post Venta Seller Dev">Post Venta Seller Dev</option><option value="Publicaciones Seller Dev">Publicaciones Seller Dev</option></optgroup><optgroup label="Mature"><option value="Experiencia Impositiva Mature">Experiencia Impositiva Mature</option><option value="ME Vendedor Mature">ME Vendedor Mature</option><option value="PCF Vendedor Mature">PCF Vendedor Mature</option><option value="Post Venta Mature">Post Venta Mature</option><option value="Publicaciones Mature">Publicaciones Mature</option></optgroup><optgroup label="Meli Pro"><option value="Experiencia Impositiva Meli Pro">Experiencia Impositiva Meli Pro</option><option value="ME Vendedor Meli Pro">ME Vendedor Meli Pro</option><option value="PCF Vendedor Meli Pro">PCF Vendedor Meli Pro</option><option value="Post Venta Meli Pro">Post Venta Meli Pro</option><option value="Publicaciones Meli Pro">Publicaciones Meli Pro</option></optgroup><optgroup label="FBM"><option value="FBM-S Mature">FBM-S Mature</option><option value="FBM-S Meli Pro">FBM-S Meli Pro</option><option value="FBM-S Seller Dev">FBM-S Seller Dev</option></optgroup><optgroup label="Buyers"><option value="CBT">CBT</option><option value="PDD DS&XD - Vendedor">PDD DS&XD - Vendedor</option><option value="PDD FBM - Vendedor">PDD FBM - Vendedor</option><option value="PDD Fotos - Vendedor">PDD Fotos - Vendedor</option><option value="PDD MP,FLEX & CBT - Vendedor">PDD MP,FLEX & CBT - Vendedor</option><option value="PNR ME - Vendedor">PNR ME - Vendedor</option><option value="PNR MP - Vendedor">PNR MP - Vendedor</option></optgroup><optgroup label="Otros CV"><option value="Otros CV">Otros CV</option></optgroup>
       </select>
