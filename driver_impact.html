@@ -221,7 +221,7 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 18:54</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 18:59</div>
 </header>
 
 <div class="nav-bar">
@@ -896,8 +896,7 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {
       '<p class="exec-narrative">'+text+'</p>'+
     '</div>';
   }
-  html+='<div class="exec-section">'+s5+'</div>';
-  html+='<div class="exec-section">'+s6+'</div>';
+
 
   // \u2500\u2500 MIX DE PESQUISAS + SENIORIDADE (grid 2 colunas, junto aos outros impactos) \u2500\u2500
   var badMixItems=procsMix.filter(function(p){return p.deltaSha>0.5&&p.aboveAvg===false&&p.mix<-0.05;}).sort(function(a,b){return a.mix-b.mix;}).slice(0,3);
@@ -942,6 +941,9 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {
   } else {
     s6+='<p class="exec-narrative" style="color:#aaa">Sem dados de senioridade para este periodo.</p>';
   }
+
+  html+='<div class="exec-section">'+s5+'</div>';
+  html+='<div class="exec-section">'+s6+'</div>';
 
   // \u2500\u2500 RECORRENCIA DAS CAUSAS \u2500\u2500
   // Periodos historicos do driver (3 meses ou 4 semanas)

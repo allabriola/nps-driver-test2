@@ -1310,8 +1310,7 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
       '<p class="exec-narrative">'+text+'</p>'+
     '</div>';
   }}
-  html+='<div class="exec-section">'+s5+'</div>';
-  html+='<div class="exec-section">'+s6+'</div>';
+
 
   // ── MIX DE PESQUISAS + SENIORIDADE (grid 2 colunas, junto aos outros impactos) ──
   var badMixItems=procsMix.filter(function(p){{return p.deltaSha>0.5&&p.aboveAvg===false&&p.mix<-0.05;}}).sort(function(a,b){{return a.mix-b.mix;}}).slice(0,3);
@@ -1356,6 +1355,9 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   }} else {{
     s6+='<p class="exec-narrative" style="color:#aaa">Sem dados de senioridade para este periodo.</p>';
   }}
+
+  html+='<div class="exec-section">'+s5+'</div>';
+  html+='<div class="exec-section">'+s6+'</div>';
 
   // ── RECORRENCIA DAS CAUSAS ──
   // Periodos historicos do driver (3 meses ou 4 semanas)
