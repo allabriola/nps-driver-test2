@@ -463,6 +463,32 @@ def sc_driver(title, drv, nps_val, share_val,
   {trend_bullet()}
 </div>"""
 
+def compute_driver_history():
+    """Historico NPS por driver: 3 meses (Fev/Mar/Abr) e 5 semanas (23/mar-20/abr)."""
+    def nps_s(p, d, s): return round(100*(p-d)/s, 2) if s > 0 else None
+    result = {}
+    for drv in monthly_driver:
+        monthly = []
+        for label, key in [("Fev","Fev"),("Mar","M2"),("Abr","M1")]:
+            if key in ("M1","M2"):
+                t = monthly_driver[drv][key]
+            else:
+                t = monthly_hist_extra.get(drv, {}).get(key, (0,0,0))
+            monthly.append({"label": label, "nps": nps_s(*t), "s": t[2]})
+        weekly = []
+        for label, src, key in [
+            ("23/mar", weekly_hist_extra2, "23/mar"),
+            ("30/mar", weekly_hist_extra,  "S4"),
+            ("06/abr", weekly_hist_extra,  "S3"),
+            ("13/abr", weekly_driver,      "S2"),
+            ("20/abr", weekly_driver,      "S1"),
+        ]:
+            t = src.get(drv, {}).get(key, (0,0,0))
+            weekly.append({"label": label, "nps": nps_s(*t), "s": t[2]})
+        result[drv] = {"monthly": monthly, "weekly": weekly,
+                       "target": DRIVER_TARGETS.get(drv), "cat": CAT.get(drv,"?")}
+    return result
+
 def compute_history(drivers):
     """Calcula historico NPS mensal (Jan-Abr) e semanal (6 semanas) para um conjunto de drivers."""
     def nps_safe(p, d, s): return round(100*(p-d)/s, 2) if s > 0 else None
@@ -531,8 +557,8 @@ def make_panes(pfx, v):
   <div id="pane-{pfx}-mes" class="tab-pane{initial_class}">
     <div class="sc-grid">{cards_mes()}</div>
     <div class="chart-section">
-      <div class="chart-title">NPS Consolidado — Evolucao Mensal</div>
-      <div class="chart-sub">Ultimos 3 meses | target: {v['nps_target']:.1f}%</div>
+      <div class="chart-title">NPS por Driver — Evolucao Mensal (Fev / Mar / Abr)</div>
+      <div class="chart-sub">NPS por driver nos ultimos 3 meses | target consolidado: {v['nps_target']:.1f}%</div>
       <div id="evol-mes-{pfx}"></div>
     </div>
     <div class="chart-section">
@@ -549,8 +575,8 @@ def make_panes(pfx, v):
   <div id="pane-{pfx}-sem" class="tab-pane">
     <div class="sc-grid">{cards_sem()}</div>
     <div class="chart-section">
-      <div class="chart-title">NPS Consolidado — Evolucao Semanal</div>
-      <div class="chart-sub">Ultimas 5 semanas | target: {v['nps_target']:.1f}%</div>
+      <div class="chart-title">NPS por Driver — Evolucao Semanal (23/mar – 20/abr)</div>
+      <div class="chart-sub">NPS por driver nas ultimas 5 semanas | target consolidado: {v['nps_target']:.1f}%</div>
       <div id="evol-sem-{pfx}"></div>
     </div>
     <div class="chart-section">
@@ -636,6 +662,9 @@ def build_html():
     hist_sel = compute_history([d for d in monthly_driver if d not in DRIVERS_EXCLUIDOS])
     hist_all_json = json.dumps(hist_all, ensure_ascii=False)
     hist_sel_json = json.dumps(hist_sel, ensure_ascii=False)
+
+    drv_hist      = compute_driver_history()
+    drv_hist_json = json.dumps(drv_hist, ensure_ascii=False)
 
     # js chart calls para os 6 graficos
     def js_charts(pfx, v):
@@ -873,6 +902,7 @@ header h1{{font-size:16px;font-weight:700}}
 <script type="application/json" id="_dd_summaries">{dd_summaries_json}</script>
 <script type="application/json" id="_hist_all">{hist_all_json}</script>
 <script type="application/json" id="_hist_sel">{hist_sel_json}</script>
+<script type="application/json" id="_drv_hist">{drv_hist_json}</script>
 <script>
 /* Funcoes de chart e deep dive */
 
@@ -922,62 +952,94 @@ function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, driver
   }});
 }}
 
-function buildEvolTable(containerId, allPts, target, nLast) {{
-  var pts = allPts.slice(-nLast);  // ultimos N periodos
+function buildEvolTable(containerId, drivers, periodType, consolTarget) {{
+  // drivers: array de strings (nomes dos drivers)
+  // periodType: 'monthly' (3 cols: Fev/Mar/Abr) ou 'weekly' (5 cols: 23/mar-20/abr)
+  var el = document.getElementById(containerId);
+  if (!el) return;
+
   function pDelta(v) {{
-    if(v===null) return '<span class="pill pill-neu">&mdash;</span>';
+    if(v===null||v===undefined) return '<span class="pill pill-neu">&mdash;</span>';
     var s=(v>=0?'+':'')+v.toFixed(2)+' pp';
     var c=v>=1?'pill-pos-hi':v>0?'pill-pos-lo':v>=-1?'pill-dn1':'pill-neg-hi';
     return '<span class="pill '+c+'">'+s+'</span>';
   }}
-  function pTarget(nps) {{
-    if(nps===null||!target) return '<span class="pill pill-neu">&mdash;</span>';
-    var g=nps-target; var s=(g>=0?'+':'')+g.toFixed(2)+' pp';
+  function pTgt(nps, tgt) {{
+    if(nps===null||!tgt) return '<span class="pill pill-neu">&mdash;</span>';
+    var g=nps-tgt; var s=(g>=0?'+':'')+g.toFixed(2)+' pp';
     return '<span class="pill '+(g>=0?'pill-pos-hi':'pill-neg-hi')+'">'+s+'</span>';
   }}
   function pTend(d) {{
-    if(d===null) return '<span class="pill pill-neu">&mdash;</span>';
+    if(d===null||d===undefined) return '<span class="pill pill-neu">&mdash;</span>';
     if(d>=3)  return '<span class="pill pill-up2">&#8679;&#8679; Em alta</span>';
     if(d>=0.5)return '<span class="pill pill-up1">&#8679; Evolucao</span>';
     if(d>-0.5)return '<span class="pill pill-flat">&#8594; Estavel</span>';
     if(d>-3)  return '<span class="pill pill-dn1">&#8681; Queda</span>';
     return '<span class="pill pill-dn2">&#8681;&#8681; Em queda</span>';
   }}
-  var belowTgt=0; var rows='';
-  pts.forEach(function(pt,i){{
-    var prev=i>0?pts[i-1]:null;
-    var delta=(prev&&prev.nps!==null&&pt.nps!==null)?Math.round((pt.nps-prev.nps)*100)/100:null;
-    if(target&&pt.nps!==null&&pt.nps<target) belowTgt++;
-    rows+='<tr>'+
-      '<td class="col-name">'+pt.label+'</td>'+
-      '<td>'+(pt.nps!==null?pt.nps.toFixed(1)+'%':'&mdash;')+'</td>'+
-      '<td>'+(i>0?pDelta(delta):'<span class="pill pill-neu">&mdash;</span>')+'</td>'+
-      '<td>'+pTarget(pt.nps)+'</td>'+
-      '<td>'+(i>0?pTend(delta):'<span class="pill pill-neu">&mdash;</span>')+'</td>'+
-      '</tr>';
-  }});
-  // Linha de recorrencia
-  var consec=0;
-  for(var j=pts.length-1;j>0;j--){{
-    if(pts[j].nps!==null&&pts[j-1].nps!==null&&pts[j].nps<pts[j-1].nps) consec++;
-    else break;
+  function pRec(belowN, total, consecN) {{
+    var tgtC = belowN===total?'pill-neg-hi':belowN>0?'pill-dn1':'pill-pos-hi';
+    var tendC = consecN>=3?'pill-neg-hi':consecN>=2?'pill-dn1':'pill-flat';
+    return '<span class="pill '+tgtC+'" title="Abaixo target">'+belowN+'/'+total+'</span>'+
+           '&nbsp;<span class="pill '+tendC+'" title="Queda consecutiva">'+
+           (consecN>0?consecN+' queda':'estavel')+'</span>';
   }}
-  var rcTgt=belowTgt+'/'+pts.length+' abaixo target';
-  var rcTnd=consec>0?consec+' dec. consec.':'sem queda consec.';
-  var rcTgtC=belowTgt===pts.length?'pill-neg-hi':belowTgt>pts.length/2?'pill-dn1':'pill-pos-hi';
-  var rcTndC=consec>=3?'pill-neg-hi':consec>=2?'pill-dn1':'pill-flat';
-  rows+='<tr class="bk-total">'+
-    '<td class="col-name">Recorr.</td>'+
-    '<td colspan="2"><span class="pill '+rcTgtC+'">'+rcTgt+'</span></td>'+
-    '<td colspan="2"><span class="pill '+rcTndC+'">'+rcTnd+'</span></td>'+
-    '</tr>';
-  var el=document.getElementById(containerId);
-  if(!el) return;
-  el.innerHTML='<div class="bk-wrap"><table class="bk-table">'+
-    '<colgroup><col style="width:18%"><col style="width:13%"><col style="width:17%"><col style="width:17%"><col style="width:20%"></colgroup>'+
-    '<thead><tr>'+
-    '<th class="col-name">Periodo</th><th>NPS</th><th>Delta</th><th>vs Target</th><th>Tendencia</th>'+
-    '</tr></thead><tbody>'+rows+'</tbody></table></div>';
+
+  // Calcular colunas de periodo
+  var cols = [];
+  if (periodType === 'monthly') {{
+    cols = drivers.map(function(d){{ return DRV_HIST[d]?DRV_HIST[d].monthly:[]; }});
+  }} else {{
+    cols = drivers.map(function(d){{ return DRV_HIST[d]?DRV_HIST[d].weekly:[]; }});
+  }}
+  if (!cols.length || !cols[0].length) {{ el.innerHTML='<div class="dd-hint">Sem dados</div>'; return; }}
+  var periods = cols[0].map(function(p){{ return p.label; }});
+
+  // Ordenar drivers por gap vs target do ultimo periodo (mais critico primeiro)
+  var drvData = drivers.map(function(d,i){{
+    var pts = cols[i];
+    var last = pts[pts.length-1];
+    var prev = pts[pts.length-2];
+    var delta = (last&&prev&&last.nps!==null&&prev.nps!==null)?Math.round((last.nps-prev.nps)*100)/100:null;
+    var tgt = DRV_HIST[d]?DRV_HIST[d].target:null;
+    var gap = (last&&last.nps!==null&&tgt)?last.nps-tgt:null;
+    // Recorrencia
+    var below=0, consec=0;
+    pts.forEach(function(p){{ if(p.nps!==null&&tgt&&p.nps<tgt) below++; }});
+    for(var j=pts.length-1;j>0;j--){{
+      if(pts[j].nps!==null&&pts[j-1].nps!==null&&pts[j].nps<pts[j-1].nps) consec++;
+      else break;
+    }}
+    return {{d:d, pts:pts, delta:delta, gap:gap, tgt:tgt, below:below, consec:consec}};
+  }});
+  drvData.sort(function(a,b){{ return (a.gap||99)-(b.gap||99); }});  // mais abaixo do target primeiro
+
+  // Cabeçalho
+  var colW = Math.floor(35/periods.length);
+  var colgroup = '<col style="width:22%">';
+  periods.forEach(function(){{ colgroup+='<col style="width:'+colW+'%">'; }});
+  colgroup += '<col style="width:10%"><col style="width:12%"><col style="width:12%"><col style="width:14%">';
+  var head = '<tr><th class="col-name">Driver</th>';
+  periods.forEach(function(p){{ head+='<th>'+p+'</th>'; }});
+  head += '<th>Delta</th><th>vs Tgt Driver</th><th>vs Tgt Consol</th><th>Recorr.</th></tr>';
+
+  var rows = drvData.map(function(r){{
+    var cells = '';
+    r.pts.forEach(function(p){{ cells+='<td>'+(p.nps!==null?p.nps.toFixed(1)+'%':'&mdash;')+'</td>'; }});
+    var last = r.pts[r.pts.length-1];
+    return '<tr>'+
+      '<td class="col-name">'+r.d+'</td>'+
+      cells+
+      '<td>'+pDelta(r.delta)+'</td>'+
+      '<td>'+pTgt(last?last.nps:null, r.tgt)+'</td>'+
+      '<td>'+pTgt(last?last.nps:null, consolTarget)+'</td>'+
+      '<td>'+pRec(r.below, r.pts.length, r.consec)+'</td>'+
+      '</tr>';
+  }}).join('');
+
+  el.innerHTML='<div class="bk-wrap" style="overflow-x:auto"><table class="bk-table">'+
+    '<colgroup>'+colgroup+'</colgroup>'+
+    '<thead>'+head+'</thead><tbody>'+rows+'</tbody></table></div>';
 }}
 
 // Navegacao ja definida no head
@@ -987,10 +1049,12 @@ try {{ Chart.register(ChartDataLabels); }} catch(e) {{ console.warn('Chart.regis
 requestAnimationFrame(function() {{
   requestAnimationFrame(function() {{
     {js_charts("all", V_ALL)}{js_charts("sel", V_SEL)}
-    try {{ buildEvolTable('evol-mes-all', HIST_ALL.monthly, {V_ALL['nps_target']}, 3); }} catch(e) {{}}
-    try {{ buildEvolTable('evol-sem-all', HIST_ALL.weekly,  {V_ALL['nps_target']}, 5); }} catch(e) {{}}
-    try {{ buildEvolTable('evol-mes-sel', HIST_SEL.monthly, {V_SEL['nps_target']}, 3); }} catch(e) {{}}
-    try {{ buildEvolTable('evol-sem-sel', HIST_SEL.weekly,  {V_SEL['nps_target']}, 5); }} catch(e) {{}}
+    var allDrvs = Object.keys(DRV_HIST);
+    var selDrvs = allDrvs.filter(function(d){{ return {json.dumps(list(monthly_driver_sel.keys()))}.indexOf(d)>=0; }});
+    try {{ buildEvolTable('evol-mes-all', allDrvs, 'monthly', {V_ALL['nps_target']}); }} catch(e) {{ console.warn('evol-mes-all',e); }}
+    try {{ buildEvolTable('evol-sem-all', allDrvs, 'weekly',  {V_ALL['nps_target']}); }} catch(e) {{ console.warn('evol-sem-all',e); }}
+    try {{ buildEvolTable('evol-mes-sel', selDrvs, 'monthly', {V_SEL['nps_target']}); }} catch(e) {{ console.warn('evol-mes-sel',e); }}
+    try {{ buildEvolTable('evol-sem-sel', selDrvs, 'weekly',  {V_SEL['nps_target']}); }} catch(e) {{ console.warn('evol-sem-sel',e); }}
   }});
 }});
 
@@ -1000,6 +1064,7 @@ var DD_BREAKDOWN = JSON.parse(document.getElementById('_dd_breakdown').textConte
 var DD_SUMMARIES = JSON.parse(document.getElementById('_dd_summaries').textContent);
 var HIST_ALL     = JSON.parse(document.getElementById('_hist_all').textContent);
 var HIST_SEL     = JSON.parse(document.getElementById('_hist_sel').textContent);
+var DRV_HIST     = JSON.parse(document.getElementById('_drv_hist').textContent);
 var M1_LABEL = '{M1_LABEL}';
 var M2_LABEL = '{M2_LABEL}';
 var S1_LABEL = '{S1_LABEL}';
