@@ -1384,60 +1384,100 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   var dorRec = themeRecurrence(bDor, getBullet(['dor','cliente','reclam','vendedor']), dorKeywords);
   var repRec = themeRecurrence(bRep, getBullet(['representante','rep ','comportamento']), repKeywords);
 
-  // Montar lista unificada de causas (processos + temas qualitativos)
-  var allCauses = [];
-  procs.filter(function(p){{return p.impact<-0.05;}}).slice(0,4).forEach(function(p){{
-    var rec = procRecurrence(p);
-    var severity = rec.cls==='pill-neg-hi'?0:rec.cls==='pill-dn1'?1:2;
-    allCauses.push({{
-      tipo:'Processo', icon:'&#9881;', iconBg:'#e8eaf6',
-      nome: p.k.substring(0,40),
-      detalhe: 'NPS '+p.nB.toFixed(1)+'% &nbsp;&bull;&nbsp; Impacto '+
-               (p.impact>=0?'+':'')+p.impact.toFixed(2)+'pp &nbsp;&bull;&nbsp; '+p.shaB+'% vol',
-      rec: rec, severity: severity
-    }});
-  }});
-  if(bDor){{
-    var rec=dorRec||{{tag:'&#9679; Sem comparativo',cls:'pill-flat',themes:[]}};
-    var severity=rec.cls==='pill-neg-hi'?0:rec.cls==='pill-dn1'?1:2;
-    allCauses.push({{
-      tipo:'Dor do Cliente', icon:'&#128139;', iconBg:'#fce4ec',
-      nome: (bDor.length>60?bDor.substring(0,60)+'…':bDor).replace(/^dor do cliente:\s*/i,''),
-      detalhe: dorRec&&dorRec.themes.length>0?'Temas: '+dorRec.themes.join(', '):'Identificado na analise qualitativa',
-      rec: rec, severity: severity
-    }});
-  }}
-  if(bRep){{
-    var rec=repRec||{{tag:'&#9679; Sem comparativo',cls:'pill-flat',themes:[]}};
-    var severity=rec.cls==='pill-neg-hi'?0:rec.cls==='pill-dn1'?1:2;
-    allCauses.push({{
-      tipo:'Comportamento REP', icon:'&#129309;', iconBg:'#fff3e0',
-      nome: (bRep.length>60?bRep.substring(0,60)+'…':bRep).replace(/^comportamento rep[^:]*:\s*/i,''),
-      detalhe: repRec&&repRec.themes.length>0?'Padroes: '+repRec.themes.join(', '):'Identificado na analise de transcricoes',
-      rec: rec, severity: severity
-    }});
-  }}
-  allCauses.sort(function(a,b){{return a.severity-b.severity;}});
-
   var recHtml='<div class="exec-section-title" style="color:#555">&#128260; Recorrencia das Causas &nbsp;<span class="bk-surv">('+periodLabel+')</span></div>';
 
-  if(allCauses.length===0){{
+  var negProcs = procs.filter(function(p){{return p.impact<-0.05;}}).slice(0,4);
+
+  if(negProcs.length===0&&!bDor&&!bRep){{
     recHtml+='<p class="exec-narrative" style="color:#aaa">Nenhuma causa relevante identificada.</p>';
   }} else {{
-    recHtml+='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-top:8px">';
-    allCauses.forEach(function(c){{
-      var borderColor=c.rec.cls==='pill-neg-hi'?'#ef5350':c.rec.cls==='pill-dn1'?'#ff9800':'#bdbdbd';
-      recHtml+=
-        '<div style="border:1px solid #e0e0e0;border-left:4px solid '+borderColor+';border-radius:8px;padding:12px;background:#fafafa">'+
-          '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">'+
-            '<span style="background:'+c.iconBg+';border-radius:5px;padding:3px 7px;font-size:13px">'+c.icon+'</span>'+
-            '<span style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px">'+c.tipo+'</span>'+
+    recHtml+='<div style="display:flex;flex-direction:column;gap:12px;margin-top:8px">';
+
+    // ── CARD PRINCIPAL UNIFICADO: top processo + dor + rep (mesma raiz) ──
+    var mainProc = negProcs[0];
+    if(mainProc||(bDor||bRep)){{
+      var mRec = mainProc?procRecurrence(mainProc):null;
+      var borderColor = mRec&&mRec.cls==='pill-neg-hi'?'#ef5350':mRec&&mRec.cls==='pill-dn1'?'#ff9800':'#bdbdbd';
+      var headerBg = mRec&&mRec.cls==='pill-neg-hi'?'#ffebee':mRec&&mRec.cls==='pill-dn1'?'#fff8e1':'#f5f5f5';
+
+      recHtml+='<div style="border:1px solid #e0e0e0;border-left:5px solid '+borderColor+';border-radius:10px;overflow:hidden">';
+
+      // Header do card unificado
+      if(mainProc){{
+        recHtml+='<div style="background:'+headerBg+';padding:10px 14px;display:flex;align-items:center;justify-content:space-between">'+
+          '<div>'+
+            '<span style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px">&#9881; Processo Principal</span>'+
+            '<div style="font-size:13px;font-weight:700;color:#1a1e3c;margin-top:2px">'+mainProc.k.substring(0,45)+'</div>'+
+            '<div style="font-size:11px;color:#666;margin-top:2px">'+
+              'NPS <b>'+mainProc.nB.toFixed(1)+'%</b> &nbsp;&bull;&nbsp; '+
+              'Impacto <b style="color:'+(mainProc.impact<0?'#c0321a':'#1a7a1a')+'">'+(mainProc.impact>=0?'+':'')+mainProc.impact.toFixed(2)+'pp</b> &nbsp;&bull;&nbsp; '+
+              '<span class="bk-surv">'+mainProc.shaB+'% vol</span>'+
+            '</div>'+
           '</div>'+
-          '<div style="font-size:12px;font-weight:600;color:#1a1e3c;margin-bottom:5px;line-height:1.4">'+c.nome+'</div>'+
-          '<div style="font-size:11px;color:#777;margin-bottom:8px">'+c.detalhe+'</div>'+
-          '<span class="pill '+c.rec.cls+'" style="font-size:10.5px">'+c.rec.tag+'</span>'+
+          (mRec?'<span class="pill '+mRec.cls+'" style="font-size:10.5px;flex-shrink:0;margin-left:10px">'+mRec.tag+'</span>':'')+
         '</div>';
-    }});
+      }}
+
+      // Secoes internas do card
+      var innerSections = '';
+
+      // Dor do Cliente
+      if(bDor){{
+        var dorText = bDor.replace(/^dor do cliente[^:]*:\s*/i,'').replace(/^dor[^:]*:\s*/i,'');
+        innerSections+=
+          '<div style="padding:10px 14px;border-top:1px solid #eeeeee">'+
+            '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">'+
+              '<div style="flex:1">'+
+                '<div style="font-size:10px;font-weight:700;color:#c0321a;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px">&#128139; O que o cliente relata</div>'+
+                '<p style="font-size:12px;color:#333;line-height:1.55;margin:0">'+dorText+'</p>'+
+                (dorRec&&dorRec.themes.length>0?'<p style="font-size:10.5px;color:#888;margin:4px 0 0 0">Temas recorrentes: <em>'+dorRec.themes.join(', ')+'</em></p>':'')+
+              '</div>'+
+              (dorRec?'<span class="pill '+dorRec.cls+'" style="font-size:10.5px;flex-shrink:0;margin-top:2px">'+dorRec.tag+'</span>':'')+
+            '</div>'+
+          '</div>';
+      }}
+
+      // Comportamento REP
+      if(bRep){{
+        var repText = bRep.replace(/^comportamento rep[^:]*:\s*/i,'').replace(/^comportamento[^:]*:\s*/i,'');
+        innerSections+=
+          '<div style="padding:10px 14px;border-top:1px solid #eeeeee">'+
+            '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">'+
+              '<div style="flex:1">'+
+                '<div style="font-size:10px;font-weight:700;color:#e65100;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px">&#129309; Comportamento observado no atendimento</div>'+
+                '<p style="font-size:12px;color:#333;line-height:1.55;margin:0">'+repText+'</p>'+
+                (repRec&&repRec.themes.length>0?'<p style="font-size:10.5px;color:#888;margin:4px 0 0 0">Padroes recorrentes: <em>'+repRec.themes.join(', ')+'</em></p>':'')+
+              '</div>'+
+              (repRec?'<span class="pill '+repRec.cls+'" style="font-size:10.5px;flex-shrink:0;margin-top:2px">'+repRec.tag+'</span>':'')+
+            '</div>'+
+          '</div>';
+      }}
+
+      if(innerSections) recHtml+=innerSections;
+      recHtml+='</div>';
+    }}
+
+    // ── CARDS SECUNDARIOS: processos adicionais (menores, sem qualitativo) ──
+    if(negProcs.length>1){{
+      recHtml+='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px">';
+      negProcs.slice(1).forEach(function(p){{
+        var rec=procRecurrence(p);
+        var bc=rec.cls==='pill-neg-hi'?'#ef5350':rec.cls==='pill-dn1'?'#ff9800':'#bdbdbd';
+        recHtml+=
+          '<div style="border:1px solid #e0e0e0;border-left:4px solid '+bc+';border-radius:8px;padding:10px 12px;background:#fafafa">'+
+            '<div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px">&#9881; Processo Adicional</div>'+
+            '<div style="font-size:12px;font-weight:600;color:#1a1e3c;margin-bottom:4px">'+p.k.substring(0,38)+'</div>'+
+            '<div style="font-size:11px;color:#666;margin-bottom:8px">'+
+              'NPS '+p.nB.toFixed(1)+'% &nbsp;&bull;&nbsp; '+
+              '<span style="color:'+(p.impact<0?'#c0321a':'#1a7a1a')+';font-weight:600">'+(p.impact>=0?'+':'')+p.impact.toFixed(2)+'pp</span>'+
+              ' &nbsp;&bull;&nbsp; <span class="bk-surv">'+p.shaB+'% vol</span>'+
+            '</div>'+
+            '<span class="pill '+rec.cls+'" style="font-size:10.5px">'+rec.tag+'</span>'+
+          '</div>';
+      }});
+      recHtml+='</div>';
+    }}
+
     recHtml+='</div>';
   }}
 
