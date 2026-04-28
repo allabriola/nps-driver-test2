@@ -193,7 +193,7 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 15:16</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 16:01</div>
 </header>
 
 <div class="nav-bar">
@@ -544,8 +544,7 @@ function buildExecSummary(drv, period) {
     return '<div class="exec-summary"><div class="exec-summary-title">' + title + '</div>' +
            '<div class="exec-na">Analise qualitativa nao disponivel para este driver.</div></div>';
   }
-  var bullets = text.split('
-').filter(function(l){ return l.trim(); });
+  var bullets = text.split('\n').filter(function(l){ return l.trim(); });
   var html = '<div class="exec-summary"><div class="exec-summary-title">' + title + '</div>';
   bullets.forEach(function(b) {
     var clean = b.replace(/^[\u25b6\s]+/, '').trim();

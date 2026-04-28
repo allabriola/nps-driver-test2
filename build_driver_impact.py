@@ -907,7 +907,7 @@ function buildExecSummary(drv, period) {{
     return '<div class="exec-summary"><div class="exec-summary-title">' + title + '</div>' +
            '<div class="exec-na">Analise qualitativa nao disponivel para este driver.</div></div>';
   }}
-  var bullets = text.split('\n').filter(function(l){{ return l.trim(); }});
+  var bullets = text.split('\\n').filter(function(l){{ return l.trim(); }});
   var html = '<div class="exec-summary"><div class="exec-summary-title">' + title + '</div>';
   bullets.forEach(function(b) {{
     var clean = b.replace(/^[▶\s]+/, '').trim();
