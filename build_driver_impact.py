@@ -1384,40 +1384,61 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   var dorRec = themeRecurrence(bDor, getBullet(['dor','cliente','reclam','vendedor']), dorKeywords);
   var repRec = themeRecurrence(bRep, getBullet(['representante','rep ','comportamento']), repKeywords);
 
-  var recHtml='<div class="exec-section-title" style="color:#555">&#128260; Recorrencia das Causas &nbsp;<span class="bk-surv">(historico: '+periodLabel+')</span></div>';
-
-  // 1. Processos ofensores
-  var causas=procs.filter(function(p){{return p.impact<-0.05;}}).slice(0,4);
-  if(causas.length>0){{
-    recHtml+='<p class="analysis-label" style="margin-top:4px">PROCESSOS OFENSORES</p>';
-    causas.forEach(function(p){{
-      var rec=procRecurrence(p);
-      recHtml+='<div class="exec-narrative" style="margin-bottom:7px;display:flex;align-items:flex-start;gap:8px">'+
-        '<div style="flex:1"><span style="font-weight:600">'+p.k.substring(0,45)+'</span>'+
-        ' &mdash; NPS '+p.nB.toFixed(1)+'% &nbsp;<span class="bk-surv">'+p.shaB+'% vol</span></div>'+
-        '<div style="flex-shrink:0"><span class="pill '+rec.cls+'" title="'+rec.detail+'">'+rec.tag+'</span></div>'+
-      '</div>';
+  // Montar lista unificada de causas (processos + temas qualitativos)
+  var allCauses = [];
+  procs.filter(function(p){{return p.impact<-0.05;}}).slice(0,4).forEach(function(p){{
+    var rec = procRecurrence(p);
+    var severity = rec.cls==='pill-neg-hi'?0:rec.cls==='pill-dn1'?1:2;
+    allCauses.push({{
+      tipo:'Processo', icon:'&#9881;', iconBg:'#e8eaf6',
+      nome: p.k.substring(0,40),
+      detalhe: 'NPS '+p.nB.toFixed(1)+'% &nbsp;&bull;&nbsp; Impacto '+
+               (p.impact>=0?'+':'')+p.impact.toFixed(2)+'pp &nbsp;&bull;&nbsp; '+p.shaB+'% vol',
+      rec: rec, severity: severity
+    }});
+  }});
+  if(bDor){{
+    var rec=dorRec||{{tag:'&#9679; Sem comparativo',cls:'pill-flat',themes:[]}};
+    var severity=rec.cls==='pill-neg-hi'?0:rec.cls==='pill-dn1'?1:2;
+    allCauses.push({{
+      tipo:'Dor do Cliente', icon:'&#128139;', iconBg:'#fce4ec',
+      nome: (bDor.length>60?bDor.substring(0,60)+'…':bDor).replace(/^dor do cliente:\s*/i,''),
+      detalhe: dorRec&&dorRec.themes.length>0?'Temas: '+dorRec.themes.join(', '):'Identificado na analise qualitativa',
+      rec: rec, severity: severity
     }});
   }}
-
-  // 2. Temas Dor do Cliente
-  if(bDor||dorRec){{
-    recHtml+='<p class="analysis-label" style="margin-top:8px">DOR DO CLIENTE</p>';
-    recHtml+='<div class="exec-narrative" style="display:flex;align-items:flex-start;gap:8px">'+
-      '<div style="flex:1">'+(bDor?bDor.substring(0,120)+'...':'Tema identificado no resumo.')+'</div>'+
-      (dorRec?'<div style="flex-shrink:0"><span class="pill '+dorRec.cls+'">'+dorRec.tag+'</span></div>':'')+
-    '</div>';
-    if(dorRec&&dorRec.themes.length>0) recHtml+='<p style="font-size:10.5px;color:#888;margin:3px 0 0 0">Temas em comum entre mes e semana: <em>'+dorRec.themes.join(', ')+'</em></p>';
+  if(bRep){{
+    var rec=repRec||{{tag:'&#9679; Sem comparativo',cls:'pill-flat',themes:[]}};
+    var severity=rec.cls==='pill-neg-hi'?0:rec.cls==='pill-dn1'?1:2;
+    allCauses.push({{
+      tipo:'Comportamento REP', icon:'&#129309;', iconBg:'#fff3e0',
+      nome: (bRep.length>60?bRep.substring(0,60)+'…':bRep).replace(/^comportamento rep[^:]*:\s*/i,''),
+      detalhe: repRec&&repRec.themes.length>0?'Padroes: '+repRec.themes.join(', '):'Identificado na analise de transcricoes',
+      rec: rec, severity: severity
+    }});
   }}
+  allCauses.sort(function(a,b){{return a.severity-b.severity;}});
 
-  // 3. Temas Comportamento REP
-  if(bRep||repRec){{
-    recHtml+='<p class="analysis-label" style="margin-top:8px">COMPORTAMENTO DO REPRESENTANTE</p>';
-    recHtml+='<div class="exec-narrative" style="display:flex;align-items:flex-start;gap:8px">'+
-      '<div style="flex:1">'+(bRep?bRep.substring(0,120)+'...':'Padrao identificado no resumo.')+'</div>'+
-      (repRec?'<div style="flex-shrink:0"><span class="pill '+repRec.cls+'">'+repRec.tag+'</span></div>':'')+
-    '</div>';
-    if(repRec&&repRec.themes.length>0) recHtml+='<p style="font-size:10.5px;color:#888;margin:3px 0 0 0">Temas em comum: <em>'+repRec.themes.join(', ')+'</em></p>';
+  var recHtml='<div class="exec-section-title" style="color:#555">&#128260; Recorrencia das Causas &nbsp;<span class="bk-surv">('+periodLabel+')</span></div>';
+
+  if(allCauses.length===0){{
+    recHtml+='<p class="exec-narrative" style="color:#aaa">Nenhuma causa relevante identificada.</p>';
+  }} else {{
+    recHtml+='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-top:8px">';
+    allCauses.forEach(function(c){{
+      var borderColor=c.rec.cls==='pill-neg-hi'?'#ef5350':c.rec.cls==='pill-dn1'?'#ff9800':'#bdbdbd';
+      recHtml+=
+        '<div style="border:1px solid #e0e0e0;border-left:4px solid '+borderColor+';border-radius:8px;padding:12px;background:#fafafa">'+
+          '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">'+
+            '<span style="background:'+c.iconBg+';border-radius:5px;padding:3px 7px;font-size:13px">'+c.icon+'</span>'+
+            '<span style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px">'+c.tipo+'</span>'+
+          '</div>'+
+          '<div style="font-size:12px;font-weight:600;color:#1a1e3c;margin-bottom:5px;line-height:1.4">'+c.nome+'</div>'+
+          '<div style="font-size:11px;color:#777;margin-bottom:8px">'+c.detalhe+'</div>'+
+          '<span class="pill '+c.rec.cls+'" style="font-size:10.5px">'+c.rec.tag+'</span>'+
+        '</div>';
+    }});
+    recHtml+='</div>';
   }}
 
   html+='<div class="exec-section full-width">'+recHtml+'</div>';
