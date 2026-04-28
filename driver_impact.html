@@ -16,6 +16,7 @@ header h1{font-size:17px;font-weight:700}
 
 /* Scorecards */
 .sc-group{display:flex;gap:12px;flex-wrap:wrap}
+.sc-group-divider{width:1px;background:#dde0ea;margin:0 4px;align-self:stretch}
 .sc{background:#fff;border-radius:10px;padding:14px 18px;min-width:155px;
      box-shadow:0 1px 4px rgba(0,0,0,.08);border-top:3px solid #9099c8}
 .sc-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
@@ -39,14 +40,14 @@ header h1{font-size:17px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="meta">27 drivers | Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="meta" style="text-align:right">Gerado em 28/04/2026 09:35</div>
+  <div class="meta" style="text-align:right">Gerado em 28/04/2026 09:38</div>
 </header>
 
 <div class="page">
 
-  <!-- MoM -->
-  <section>
-    <div class="sc-group"><div class="sc">
+  <!-- Todos os scorecards juntos no topo -->
+  <div class="sc-group">
+    <div class="sc">
   <div class="sc-label">Marco 2026</div>
   <div class="sc-val">58.4%</div>
   <div class="sc-surv">23,127 surveys</div>
@@ -58,17 +59,9 @@ header h1{font-size:17px;font-weight:700}
   <div class="sc-label">Variacao MoM</div>
   <div class="sc-val">59.9%</div>
   <div class="sc-delta delta-pos">++1.55 pp</div><div class="sc-sub">Marco 2026 vs Abril 2026</div>
-</div></div>
-  </section>
-  <div class="chart-section">
-    <div class="chart-title">Impacto MoM - Abertura Driver</div>
-    <div class="chart-sub">Contribuicao de cada driver (pp) para a variacao consolidada Marco 2026 vs Abril 2026. Ordenado: maiores ganhos primeiro, maiores quedas por ultimo.</div>
-    <div class="chart-wrap"><canvas id="c-mom"></canvas></div>
-  </div>
-
-  <!-- WoW -->
-  <section>
-    <div class="sc-group"><div class="sc">
+</div>
+    <div class="sc-group-divider"></div>
+    <div class="sc">
   <div class="sc-label">13/abr - 19/abr</div>
   <div class="sc-val">59.2%</div>
   <div class="sc-surv">5,142 surveys</div>
@@ -80,17 +73,9 @@ header h1{font-size:17px;font-weight:700}
   <div class="sc-label">Variacao WoW</div>
   <div class="sc-val">60.7%</div>
   <div class="sc-delta delta-pos">++1.42 pp</div><div class="sc-sub">13/abr - 19/abr vs 20/abr - 26/abr</div>
-</div></div>
-  </section>
-  <div class="chart-section">
-    <div class="chart-title">Impacto WoW - Abertura Driver</div>
-    <div class="chart-sub">Contribuicao de cada driver (pp) para a variacao consolidada 13/abr - 19/abr vs 20/abr - 26/abr.</div>
-    <div class="chart-wrap"><canvas id="c-wow"></canvas></div>
-  </div>
-
-  <!-- vs Target -->
-  <section>
-    <div class="sc-group"><div class="sc">
+</div>
+    <div class="sc-group-divider"></div>
+    <div class="sc">
   <div class="sc-label">NPS Abril 2026</div>
   <div class="sc-val">59.9%</div>
   <div class="sc-surv">18,686 surveys</div>
@@ -102,8 +87,24 @@ header h1{font-size:17px;font-weight:700}
   <div class="sc-label">Gap vs Target</div>
   <div class="sc-val">59.9%</div>
   <div class="sc-delta delta-pos">++7.70 pp</div><div class="sc-sub">NPS atual vs target consolidado</div>
-</div></div>
-  </section>
+</div>
+  </div>
+
+  <!-- MoM -->
+  <div class="chart-section">
+    <div class="chart-title">Impacto MoM - Abertura Driver</div>
+    <div class="chart-sub">Contribuicao de cada driver (pp) para a variacao consolidada Marco 2026 vs Abril 2026. Ordenado: maiores ganhos ate maiores perdas.</div>
+    <div class="chart-wrap"><canvas id="c-mom"></canvas></div>
+  </div>
+
+  <!-- WoW -->
+  <div class="chart-section">
+    <div class="chart-title">Impacto WoW - Abertura Driver</div>
+    <div class="chart-sub">Contribuicao de cada driver (pp) para a variacao consolidada 13/abr - 19/abr vs 20/abr - 26/abr.</div>
+    <div class="chart-wrap"><canvas id="c-wow"></canvas></div>
+  </div>
+
+  <!-- vs Target -->
   <div class="chart-section">
     <div class="chart-title">vs Target - Abertura Driver</div>
     <div class="chart-sub">Cada driver contribui com (NPS_driver - Target_driver) x share para o desvio em relacao ao target ponderado (54.2%). Negativo = abaixo do target = oportunidade.</div>

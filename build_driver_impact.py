@@ -267,6 +267,7 @@ header h1{{font-size:17px;font-weight:700}}
 
 /* Scorecards */
 .sc-group{{display:flex;gap:12px;flex-wrap:wrap}}
+.sc-group-divider{{width:1px;background:#dde0ea;margin:0 4px;align-self:stretch}}
 .sc{{background:#fff;border-radius:10px;padding:14px 18px;min-width:155px;
      box-shadow:0 1px 4px rgba(0,0,0,.08);border-top:3px solid #9099c8}}
 .sc-label{{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}}
@@ -295,20 +296,23 @@ header h1{{font-size:17px;font-weight:700}}
 
 <div class="page">
 
+  <!-- Todos os scorecards juntos no topo -->
+  <div class="sc-group">
+    {sc_mom}
+    <div class="sc-group-divider"></div>
+    {sc_wow}
+    <div class="sc-group-divider"></div>
+    {sc_vt}
+  </div>
+
   <!-- MoM -->
-  <section>
-    <div class="sc-group">{sc_mom}</div>
-  </section>
   <div class="chart-section">
     <div class="chart-title">Impacto MoM - Abertura Driver</div>
-    <div class="chart-sub">Contribuicao de cada driver (pp) para a variacao consolidada {M2_LABEL} vs {M1_LABEL}. Ordenado: maiores ganhos primeiro, maiores quedas por ultimo.</div>
+    <div class="chart-sub">Contribuicao de cada driver (pp) para a variacao consolidada {M2_LABEL} vs {M1_LABEL}. Ordenado: maiores ganhos ate maiores perdas.</div>
     <div class="chart-wrap"><canvas id="c-mom"></canvas></div>
   </div>
 
   <!-- WoW -->
-  <section>
-    <div class="sc-group">{sc_wow}</div>
-  </section>
   <div class="chart-section">
     <div class="chart-title">Impacto WoW - Abertura Driver</div>
     <div class="chart-sub">Contribuicao de cada driver (pp) para a variacao consolidada {S2_LABEL} vs {S1_LABEL}.</div>
@@ -316,9 +320,6 @@ header h1{{font-size:17px;font-weight:700}}
   </div>
 
   <!-- vs Target -->
-  <section>
-    <div class="sc-group">{sc_vt}</div>
-  </section>
   <div class="chart-section">
     <div class="chart-title">vs Target - Abertura Driver</div>
     <div class="chart-sub">Cada driver contribui com (NPS_driver - Target_driver) x share para o desvio em relacao ao target ponderado ({theoretical_target:.1f}%). Negativo = abaixo do target = oportunidade.</div>
