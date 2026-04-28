@@ -1337,21 +1337,89 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   html+='<div class="exec-section full-width">'+mixHtml+'</div>';
 
   // ── RECORRENCIA DAS CAUSAS ──
-  var recHtml='<div class="exec-section-title" style="color:#555">&#128260; Recorrencia das Causas</div>';
-  var causeItems=procs.filter(function(p){{return p.impact<-0.05;}}).slice(0,4).map(function(p){{
-    var isRec=(p.nA!==null&&p.nB!==null&&p.nA<(npsB||60)&&p.nB<(npsB||60));
-    var isWorsen=(p.delta!==null&&p.delta<-1);
-    var recLabel=isRec?(isWorsen?'&#9888; Recorrente e piorando':'&#128260; Recorrente (ja era ofensor)'):'&#128993; Pontual (apenas '+lB+')';
-    var recColor=isRec?(isWorsen?'#c0321a':'#e65100'):'#777';
-    var tipo=p.sB>500?'Alto volume':'Baixo volume';
-    return '<div class="exec-narrative" style="margin-bottom:6px">'+
-      '<span style="font-weight:600">'+p.k.substring(0,40)+'</span>'+
-      ' &mdash; NPS '+p.nB.toFixed(1)+'% &nbsp;<span style="color:'+recColor+';font-size:11px">'+recLabel+'</span>'+
-      ' &nbsp;<span class="bk-surv">('+p.shaB+'% vol)</span>'+
+  // Periodos historicos do driver (3 meses ou 4 semanas)
+  var drvHistArr = DRV_HIST[drv] ? (isMes ? DRV_HIST[drv].monthly : DRV_HIST[drv].weekly) : [];
+  var nPeriods = isMes ? 3 : 4;
+  var histWindow = drvHistArr.slice(-nPeriods);  // ultimos N periodos
+  var periodLabel = isMes ? '3 meses' : '4 semanas';
+
+  // Contar quantos periodos o DRIVER como um todo ficou abaixo da media historica
+  var histAvg = histWindow.reduce(function(s,p){{return s+(p.nps||0);}},0)/(histWindow.length||1);
+  var driverBelowCount = histWindow.filter(function(p){{return p.nps!==null&&p.nps<histAvg;}}).length;
+
+  // Recorrencia de PROCESSO: combina dado dos 2 periodos disponiveis + tendencia do driver
+  function procRecurrence(p) {{
+    var belowA = p.nA!==null&&npsA!==null&&p.nA<npsA;  // abaixo da media do driver no periodo A
+    var belowB = p.nB!==null&&npsB!==null&&p.nB<npsB;  // abaixo da media do driver no periodo B
+    var worsening = p.delta!==null&&p.delta<-1.5;
+    var driverTrend = driverBelowCount >= (isMes?2:3);  // driver tbm estava mal nos periodos historicos
+    if(belowA&&belowB&&worsening)   return {{tag:'&#9888; Recorrente e piorando',cls:'pill-neg-hi',detail:'processo abaixo da media em ambos os periodos e piorando'}};
+    if(belowA&&belowB)               return {{tag:'&#128260; Recorrente ('+periodLabel+')',cls:'pill-dn1',detail:'processo abaixo da media nos 2 periodos avaliados'}};
+    if(!belowA&&belowB&&driverTrend) return {{tag:'&#128993; Em queda recente',cls:'pill-dn1',detail:'novo no periodo atual; driver ja estava pressionado'}};
+    if(!belowA&&belowB)              return {{tag:'&#128993; Pontual (apenas '+lB+')',cls:'pill-flat',detail:'apareceu apenas no periodo mais recente'}};
+    return {{tag:'&#9989; Sem recorrencia',cls:'pill-pos-lo',detail:'NPS acima da media do driver'}};
+  }}
+
+  // Recorrencia de TEMAS QUALITATIVOS: compara bullets mom vs wow
+  function themeRecurrence(momText, wowText, themeKeywords) {{
+    if(!momText&&!wowText) return null;
+    var mLow=(momText||'').toLowerCase();
+    var wLow=(wowText||'').toLowerCase();
+    var shared=themeKeywords.filter(function(k){{return mLow.indexOf(k)>=0&&wLow.indexOf(k)>=0;}});
+    var inMom=themeKeywords.filter(function(k){{return mLow.indexOf(k)>=0;}}).length;
+    var inWow=themeKeywords.filter(function(k){{return wLow.indexOf(k)>=0;}}).length;
+    if(shared.length>=2) return {{tag:'&#128260; Recorrente (mes e semana)',cls:'pill-neg-hi',themes:shared.slice(0,3)}};
+    if(shared.length===1) return {{tag:'&#9888; Parcialmente recorrente',cls:'pill-dn1',themes:shared}};
+    if(inMom>0&&inWow===0) return {{tag:'&#128993; Apenas no mes',cls:'pill-flat',themes:[]}};
+    if(inMom===0&&inWow>0) return {{tag:'&#128993; Apenas na semana',cls:'pill-flat',themes:[]}};
+    return {{tag:'&#9989; Nao recorrente',cls:'pill-pos-lo',themes:[]}};
+  }}
+
+  var sumDrv = DD_SUMMARIES[drv]||{{}};
+  var momAllText = (sumDrv.mom||'').toLowerCase();
+  var wowAllText = (sumDrv.wow||'').toLowerCase();
+
+  var dorKeywords=['rastreio','entrega','cancelad','foto','nota fiscal','suspen','bloqueio','restrict','devolu','conta inativ','prazo','demora'];
+  var repKeywords=['transfere','transferencia','verifica sistema','nao encontra','padrao','sem ferramenta','aguardar','encaminh','sem soluc','repete'];
+  var dorRec = themeRecurrence(bDor, getBullet(['dor','cliente','reclam','vendedor']), dorKeywords);
+  var repRec = themeRecurrence(bRep, getBullet(['representante','rep ','comportamento']), repKeywords);
+
+  var recHtml='<div class="exec-section-title" style="color:#555">&#128260; Recorrencia das Causas &nbsp;<span class="bk-surv">(historico: '+periodLabel+')</span></div>';
+
+  // 1. Processos ofensores
+  var causas=procs.filter(function(p){{return p.impact<-0.05;}}).slice(0,4);
+  if(causas.length>0){{
+    recHtml+='<p class="analysis-label" style="margin-top:4px">PROCESSOS OFENSORES</p>';
+    causas.forEach(function(p){{
+      var rec=procRecurrence(p);
+      recHtml+='<div class="exec-narrative" style="margin-bottom:7px;display:flex;align-items:flex-start;gap:8px">'+
+        '<div style="flex:1"><span style="font-weight:600">'+p.k.substring(0,45)+'</span>'+
+        ' &mdash; NPS '+p.nB.toFixed(1)+'% &nbsp;<span class="bk-surv">'+p.shaB+'% vol</span></div>'+
+        '<div style="flex-shrink:0"><span class="pill '+rec.cls+'" title="'+rec.detail+'">'+rec.tag+'</span></div>'+
+      '</div>';
+    }});
+  }}
+
+  // 2. Temas Dor do Cliente
+  if(bDor||dorRec){{
+    recHtml+='<p class="analysis-label" style="margin-top:8px">DOR DO CLIENTE</p>';
+    recHtml+='<div class="exec-narrative" style="display:flex;align-items:flex-start;gap:8px">'+
+      '<div style="flex:1">'+(bDor?bDor.substring(0,120)+'...':'Tema identificado no resumo.')+'</div>'+
+      (dorRec?'<div style="flex-shrink:0"><span class="pill '+dorRec.cls+'">'+dorRec.tag+'</span></div>':'')+
     '</div>';
-  }}).join('');
-  if(causeItems) recHtml+=causeItems;
-  else recHtml+='<p class="exec-narrative" style="color:#aaa">Nenhum processo com impacto negativo relevante identificado.</p>';
+    if(dorRec&&dorRec.themes.length>0) recHtml+='<p style="font-size:10.5px;color:#888;margin:3px 0 0 0">Temas em comum entre mes e semana: <em>'+dorRec.themes.join(', ')+'</em></p>';
+  }}
+
+  // 3. Temas Comportamento REP
+  if(bRep||repRec){{
+    recHtml+='<p class="analysis-label" style="margin-top:8px">COMPORTAMENTO DO REPRESENTANTE</p>';
+    recHtml+='<div class="exec-narrative" style="display:flex;align-items:flex-start;gap:8px">'+
+      '<div style="flex:1">'+(bRep?bRep.substring(0,120)+'...':'Padrao identificado no resumo.')+'</div>'+
+      (repRec?'<div style="flex-shrink:0"><span class="pill '+repRec.cls+'">'+repRec.tag+'</span></div>':'')+
+    '</div>';
+    if(repRec&&repRec.themes.length>0) recHtml+='<p style="font-size:10.5px;color:#888;margin:3px 0 0 0">Temas em comum: <em>'+repRec.themes.join(', ')+'</em></p>';
+  }}
+
   html+='<div class="exec-section full-width">'+recHtml+'</div>';
 
   // ── PLANO DE ACOES ──
