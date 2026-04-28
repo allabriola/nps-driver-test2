@@ -1228,9 +1228,6 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
       }}).join(' e ')+'.';
     }}
     s1+='</p>';
-    if(bVar) s1+='<p class="exec-narrative" style="color:#555"><em>'+bVar+'</em></p>';
-  }} else if(bVar) {{
-    s1+='<p class="exec-narrative">'+bVar+'</p>';
   }} else {{
     s1+='<p class="exec-narrative" style="color:#aaa">Sem dados de processo para este periodo.</p>';
   }}
