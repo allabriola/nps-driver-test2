@@ -1315,24 +1315,52 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   if(!bPos&&!bOpp)
     html+='<div class="exec-section full-width"><p class="exec-narrative" style="color:#aaa">Analise qualitativa nao disponivel para este driver neste periodo.</p></div>';
 
-  // ── MIX DE PESQUISAS ──
-  var mixHtml='<div class="exec-section-title" style="color:#555">&#128257; Mix de Pesquisas — Efeito Volume</div>';
+  // ── MIX DE PESQUISAS + SENIORIDADE (grid 2 colunas, junto aos outros impactos) ──
   var badMixItems=procsMix.filter(function(p){{return p.deltaSha>0.5&&p.aboveAvg===false&&p.mix<-0.05;}}).sort(function(a,b){{return a.mix-b.mix;}}).slice(0,3);
   var goodMixItems=procsMix.filter(function(p){{return p.deltaSha<-0.5&&p.aboveAvg===true&&p.mix<-0.05;}}).sort(function(a,b){{return a.mix-b.mix;}}).slice(0,2);
   var totalMix=Math.round(procsMix.reduce(function(s,p){{return s+p.mix;}},0)*100)/100;
   var totalNeto=Math.round(procsMix.reduce(function(s,p){{return s+p.neto;}},0)*100)/100;
-  mixHtml+='<p class="exec-narrative">Efeito qualidade (NETO): <strong style="color:'+(totalNeto>=0?'#1a7a1a':'#c0321a')+'">'+(totalNeto>=0?'+':'')+totalNeto.toFixed(2)+'pp</strong> &nbsp;|&nbsp; Efeito volume (MIX): <strong style="color:'+(totalMix>=0?'#1a7a1a':'#c0321a')+'">'+(totalMix>=0?'+':'')+totalMix.toFixed(2)+'pp</strong>.';
-  if(badMixItems.length>0){{
-    mixHtml+=' Volume cresceu em processos abaixo da media: ';
-    mixHtml+=badMixItems.map(function(p){{return '<b>'+p.k.substring(0,35)+'</b> (+'+p.deltaSha.toFixed(1)+'pp share, NPS '+p.nB.toFixed(1)+'%) &rarr; arrastou '+tag(p.mix);}}).join('; ')+'.';
+
+  var s5='<div class="exec-section-title" style="color:#555">&#128257; Mix de Pesquisas — Efeito Volume</div>';
+  s5+='<p class="exec-narrative">NETO (qualidade): <strong style="color:'+(totalNeto>=0?'#1a7a1a':'#c0321a')+'">'+(totalNeto>=0?'+':'')+totalNeto.toFixed(2)+'pp</strong> &nbsp;|&nbsp; MIX (volume): <strong style="color:'+(totalMix>=0?'#1a7a1a':'#c0321a')+'">'+(totalMix>=0?'+':'')+totalMix.toFixed(2)+'pp</strong>.';
+  if(badMixItems.length>0) s5+=' Volume cresceu em processos abaixo da media: '+badMixItems.map(function(p){{return '<b>'+p.k.substring(0,30)+'</b> (+'+p.deltaSha.toFixed(1)+'pp share) &rarr; '+tag(p.mix);}}).join('; ')+'.';
+  if(goodMixItems.length>0) s5+=' Volume caiu em processos acima da media: '+goodMixItems.map(function(p){{return '<b>'+p.k.substring(0,30)+'</b> ('+p.deltaSha.toFixed(1)+'pp share) &rarr; '+tag(p.mix);}}).join('; ')+'.';
+  if(badMixItems.length===0&&goodMixItems.length===0) s5+=' Sem redistribuicao significativa de volume neste periodo.';
+  s5+='</p>';
+
+  // Senioridade
+  var srData = (bkData&&bkData.Sr)||{{}};
+  var srA = srData[pA]||{{}}, srB = srData[pB]||{{}};
+  var expA=srA['Expert']||{{nps:null,s:0}}, expB=srB['Expert']||{{nps:null,s:0}};
+  var nbA=srA['Newbie']||{{nps:null,s:0}},  nbB=srB['Newbie']||{{nps:null,s:0}};
+  var expDelta=(expA.nps!==null&&expB.nps!==null)?Math.round((expB.nps-expA.nps)*100)/100:null;
+  var nbDelta=(nbA.nps!==null&&nbB.nps!==null)?Math.round((nbB.nps-nbA.nps)*100)/100:null;
+  var gapA=(expA.nps!==null&&nbA.nps!==null)?Math.round((expA.nps-nbA.nps)*100)/100:null;
+  var gapB=(expB.nps!==null&&nbB.nps!==null)?Math.round((expB.nps-nbB.nps)*100)/100:null;
+  var gapDelta=(gapA!==null&&gapB!==null)?Math.round((gapB-gapA)*100)/100:null;
+
+  var s6='<div class="exec-section-title" style="color:#555">&#127891; Impacto Senioridade — Expert vs Newbie</div>';
+  if(expB.nps!==null||nbB.nps!==null){{
+    s6+='<p class="exec-narrative">'+
+      '&#127775; <b>Expert</b>: NPS '+(expB.nps!==null?expB.nps.toFixed(1)+'%':'—')+
+      (expDelta!==null?' ('+tag(expDelta,1)+' vs '+lA+')':'')+
+      ' &nbsp;&bull;&nbsp; <span class="bk-surv">'+expB.s.toLocaleString('pt-BR')+' surveys</span>'+
+    '</p>'+
+    '<p class="exec-narrative">'+
+      '&#128164; <b>Newbie</b>: NPS '+(nbB.nps!==null?nbB.nps.toFixed(1)+'%':'—')+
+      (nbDelta!==null?' ('+tag(nbDelta,1)+' vs '+lA+')':'')+
+      ' &nbsp;&bull;&nbsp; <span class="bk-surv">'+nbB.s.toLocaleString('pt-BR')+' surveys</span>'+
+    '</p>'+
+    '<p class="exec-narrative">'+
+      'Gap Expert&minus;Newbie: <strong style="color:'+(gapB!==null&&gapB>0?'#1a7a1a':'#c0321a')+'">'+(gapB!==null?(gapB>=0?'+':'')+gapB.toFixed(1)+'pp':'—')+'</strong>'+
+      (gapDelta!==null?' &nbsp;(gap '+(gapDelta>=0?'ampliou':'reduziu')+' '+Math.abs(gapDelta).toFixed(1)+'pp vs '+lA+')':'')+
+    '</p>';
+  }} else {{
+    s6+='<p class="exec-narrative" style="color:#aaa">Sem dados de senioridade para este periodo.</p>';
   }}
-  if(goodMixItems.length>0){{
-    mixHtml+=' Volume encolheu em processos acima da media: ';
-    mixHtml+=goodMixItems.map(function(p){{return '<b>'+p.k.substring(0,35)+'</b> ('+p.deltaSha.toFixed(1)+'pp share, NPS '+p.nB.toFixed(1)+'%) &rarr; impactou '+tag(p.mix);}}).join('; ')+'.';
-  }}
-  if(badMixItems.length===0&&goodMixItems.length===0) mixHtml+=' Nao houve redistribuicao significativa de volume entre processos neste periodo.';
-  mixHtml+='</p>';
-  html+='<div class="exec-section full-width">'+mixHtml+'</div>';
+
+  html+='<div class="exec-section">'+s5+'</div>';
+  html+='<div class="exec-section">'+s6+'</div>';
 
   // ── RECORRENCIA DAS CAUSAS ──
   // Periodos historicos do driver (3 meses ou 4 semanas)
@@ -1714,7 +1742,9 @@ function renderDD(period) {{
       '<div class="dd-section-title">Canal — MoM</div>' +
       buildBreakdownTable(DD_BREAKDOWN[drv], 'C', 'M2', 'M1', d.target, 'Canal') +
       '<div class="dd-section-title">Oficina — MoM</div>' +
-      buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'M2', 'M1', d.target, 'Oficina');
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'M2', 'M1', d.target, 'Oficina') +
+      '<div class="dd-section-title">Senioridade — MoM (Expert vs Newbie)</div>' +
+      buildSeniorityTable(DD_BREAKDOWN[drv], 'M2', 'M1', d.target);
 
     var labels = pts.map(function(p){{ return p.label; }});
     var values = pts.map(function(p){{ return p.nps; }});
@@ -1749,13 +1779,85 @@ function renderDD(period) {{
       '<div class="dd-section-title">Canal — WoW</div>' +
       buildBreakdownTable(DD_BREAKDOWN[drv], 'C', 'S2', 'S1', d.target, 'Canal') +
       '<div class="dd-section-title">Oficina — WoW</div>' +
-      buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'S2', 'S1', d.target, 'Oficina');
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'S2', 'S1', d.target, 'Oficina') +
+      '<div class="dd-section-title">Senioridade — WoW (Expert vs Newbie)</div>' +
+      buildSeniorityTable(DD_BREAKDOWN[drv], 'S2', 'S1', d.target);
 
     var labels = pts.map(function(p){{ return p.label; }});
     var values = pts.map(function(p){{ return p.nps; }});
     var colors = values.map(function(v){{ return (tgt && v !== null && v < tgt) ? 'rgba(210,45,45,0.82)' : 'rgba(30,65,150,0.82)'; }});
     ddCharts[period].push(buildDDChart('c-dd-sem-chart', labels, values, colors, tgt, 'semanal'));
   }}
+}}
+
+function buildSeniorityTable(drvData, periodA, periodB, drvTarget) {{
+  var sr = (drvData&&drvData.Sr)||{{}};
+  var dA = sr[periodA]||{{}}, dB = sr[periodB]||{{}};
+  var rows = ['Expert','Newbie'];
+
+  function nStr(v){{ return v!==null&&v!==undefined?v.toFixed(1)+'%':'&mdash;'; }}
+  function pDelta(v){{
+    if(v===null||v===undefined) return '<span class="pill pill-neu">&mdash;</span>';
+    var s=(v>=0?'+':'')+v.toFixed(2)+' pp';
+    var c=v>=1?'pill-pos-hi':v>0?'pill-pos-lo':v>=-1?'pill-dn1':'pill-neg-hi';
+    return '<span class="pill '+c+'">'+s+'</span>';
+  }}
+  function pTgt(nps,tgt){{
+    if(nps===null||!tgt) return '<span class="pill pill-neu">&mdash;</span>';
+    var g=nps-tgt; var s=(g>=0?'+':'')+g.toFixed(2)+' pp';
+    return '<span class="pill '+(g>=0?'pill-pos-hi':'pill-neg-hi')+'">'+s+'</span>';
+  }}
+  function pTend(d){{
+    if(d===null||d===undefined) return '<span class="pill pill-neu">&mdash;</span>';
+    if(d>=3) return '<span class="pill pill-up2">&#8679;&#8679; Em alta</span>';
+    if(d>=0.5) return '<span class="pill pill-up1">&#8679; Evolucao</span>';
+    if(d>-0.5) return '<span class="pill pill-flat">&#8594; Estavel</span>';
+    if(d>-3) return '<span class="pill pill-dn1">&#8681; Queda</span>';
+    return '<span class="pill pill-dn2">&#8681;&#8681; Em queda</span>';
+  }}
+
+  var lA = periodA==='M2'?M2_LABEL:(periodA==='S2'?S2_LABEL:periodA);
+  var lB = periodB==='M1'?M1_LABEL:(periodB==='S1'?S1_LABEL:periodB);
+
+  var html = '<div class="bk-wrap"><table class="bk-table">'+
+    '<colgroup><col style="width:18%"><col style="width:10%"><col style="width:10%">'+
+    '<col style="width:11%"><col style="width:9%"><col style="width:12%"><col style="width:13%"></colgroup>'+
+    '<thead><tr>'+
+    '<th class="col-name">Senioridade</th>'+
+    '<th>'+lA+'</th><th>'+lB+'</th>'+
+    '<th>&Delta; NPS</th><th>Surveys</th><th>vs Target</th><th>Tendencia</th>'+
+    '</tr></thead><tbody>';
+
+  var npsExp = {{a:(dA['Expert']||{{}}).nps, b:(dB['Expert']||{{}}).nps, sB:(dB['Expert']||{{}}).s||0}};
+  var npsNwb = {{a:(dA['Newbie']||{{}}).nps, b:(dB['Newbie']||{{}}).nps, sB:(dB['Newbie']||{{}}).s||0}};
+
+  [{{k:'&#127775; Expert',d:npsExp}},{{k:'&#128164; Newbie',d:npsNwb}}].forEach(function(r){{
+    var d=r.d;
+    var delta=(d.a!==null&&d.b!==null)?Math.round((d.b-d.a)*100)/100:null;
+    html+='<tr>'+
+      '<td class="col-name">'+r.k+'</td>'+
+      '<td>'+nStr(d.a)+'</td>'+
+      '<td>'+nStr(d.b)+'</td>'+
+      '<td>'+pDelta(delta)+'</td>'+
+      '<td class="bk-surv">'+d.sB.toLocaleString('pt-BR')+'</td>'+
+      '<td>'+pTgt(d.b,drvTarget)+'</td>'+
+      '<td>'+pTend(delta)+'</td>'+
+    '</tr>';
+  }});
+
+  // Linha de gap Expert - Newbie
+  var gapA = (npsExp.a!==null&&npsNwb.a!==null)?Math.round((npsExp.a-npsNwb.a)*100)/100:null;
+  var gapB = (npsExp.b!==null&&npsNwb.b!==null)?Math.round((npsExp.b-npsNwb.b)*100)/100:null;
+  var gapDelta = (gapA!==null&&gapB!==null)?Math.round((gapB-gapA)*100)/100:null;
+  html+='<tr class="bk-total">'+
+    '<td class="col-name">Gap Expert&minus;Newbie</td>'+
+    '<td>'+(gapA!==null?(gapA>=0?'+':'')+gapA.toFixed(1)+'pp':'&mdash;')+'</td>'+
+    '<td>'+(gapB!==null?(gapB>=0?'+':'')+gapB.toFixed(1)+'pp':'&mdash;')+'</td>'+
+    '<td>'+(gapDelta!==null?pDelta(gapDelta):'<span class="pill pill-neu">&mdash;</span>')+'</td>'+
+    '<td colspan="3" style="color:#888;font-size:11px">'+(gapDelta!==null?(gapDelta>0?'Gap ampliou':'Gap reduziu')+' vs '+lA:'')+'</td>'+
+  '</tr>';
+
+  return html+'</tbody></table></div>';
 }}
 
 function buildBreakdownTable(drvData, dim, periodA, periodB, drvTarget, dimLabel) {{
