@@ -597,13 +597,15 @@ def build_html():
 
     # js chart calls para os 6 graficos
     def js_charts(pfx, v):
+        def safe(call):
+            return f"try {{ {call} }} catch(e) {{ console.warn('chart {pfx}:', e); }}\n"
         return (
-            f"buildWaterfall('c-{pfx}-mom',{v['nM2']},{v['nM1']},'{M2_LABEL}','{M1_LABEL}',"
-            f"{v['mom_json']},{v['mom_ybase']});\n"
-            f"buildWaterfall('c-{pfx}-wow',{v['nS2']},{v['nS1']},'{S2_LABEL}','{S1_LABEL}',"
-            f"{v['wow_json']},{v['wow_ybase']});\n"
-            f"buildWaterfall('c-{pfx}-vt',{v['tt']},{v['nM1']},'Target Pond.','{M1_LABEL}',"
-            f"{v['vt_json']},{v['vt_ybase']});\n"
+            safe(f"buildWaterfall('c-{pfx}-mom',{v['nM2']},{v['nM1']},'{M2_LABEL}','{M1_LABEL}',"
+                 f"{v['mom_json']},{v['mom_ybase']});") +
+            safe(f"buildWaterfall('c-{pfx}-wow',{v['nS2']},{v['nS1']},'{S2_LABEL}','{S1_LABEL}',"
+                 f"{v['wow_json']},{v['wow_ybase']});") +
+            safe(f"buildWaterfall('c-{pfx}-vt',{v['tt']},{v['nM1']},'Target Pond.','{M1_LABEL}',"
+                 f"{v['vt_json']},{v['vt_ybase']});")
         )
 
     return f"""<!DOCTYPE html>
@@ -867,6 +869,9 @@ function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, driver
     }}
   }});
 }}
+
+// Mostrar pane inicial antes de criar graficos
+updatePanes();
 
 {js_charts("all", V_ALL)}{js_charts("sel", V_SEL)}
 
@@ -1176,8 +1181,7 @@ function buildDDChart(canvasId, labels, values, colors, target, type) {{
   }});
 }}
 
-// Setup inicial — executado direto (script esta no fim do body, DOM ja pronto)
-updatePanes();
+// updatePanes() ja foi chamado antes dos graficos acima
 </script>
 </body>
 </html>"""
