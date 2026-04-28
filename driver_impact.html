@@ -193,7 +193,7 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 16:51</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 16:54</div>
 </header>
 
 <div class="nav-bar">
@@ -594,22 +594,31 @@ function buildEvolTable(containerId, drivers, periodType, consolTarget) {
   });
   drvData.sort(function(a,b){ return (a.gap||99)-(b.gap||99); });  // mais abaixo do target primeiro
 
+  // Calcular share do ultimo periodo
+  var totalS = drvData.reduce(function(acc,r){ var last=r.pts[r.pts.length-1]; return acc+(last?last.s||0:0); },0);
+  drvData.forEach(function(r){
+    var last=r.pts[r.pts.length-1];
+    r.share = (totalS>0&&last&&last.s)? Math.round(last.s/totalS*1000)/10 : null;
+  });
+
   // Cabe\u00e7alho
-  var colW = Math.floor(35/periods.length);
-  var colgroup = '<col style="width:22%">';
+  var colW = Math.floor(30/periods.length);
+  var colgroup = '<col style="width:20%">';
   periods.forEach(function(){ colgroup+='<col style="width:'+colW+'%">'; });
-  colgroup += '<col style="width:10%"><col style="width:12%"><col style="width:12%"><col style="width:14%">';
+  colgroup += '<col style="width:7%"><col style="width:9%"><col style="width:11%"><col style="width:11%"><col style="width:12%">';
   var head = '<tr><th class="col-name">Driver</th>';
   periods.forEach(function(p){ head+='<th>'+p+'</th>'; });
-  head += '<th>Delta</th><th>vs Tgt Driver</th><th>vs Tgt Consol</th><th>Recorr.</th></tr>';
+  head += '<th>Share</th><th>Delta</th><th>vs Tgt Driver</th><th>vs Tgt Consol</th><th>Recorr.</th></tr>';
 
   var rows = drvData.map(function(r){
     var cells = '';
     r.pts.forEach(function(p){ cells+='<td>'+(p.nps!==null?p.nps.toFixed(1)+'%':'&mdash;')+'</td>'; });
     var last = r.pts[r.pts.length-1];
+    var shareCell = r.share!==null ? '<span class="bk-surv">'+r.share.toFixed(1)+'%</span>' : '&mdash;';
     return '<tr>'+
       '<td class="col-name">'+r.d+'</td>'+
       cells+
+      '<td>'+shareCell+'</td>'+
       '<td>'+pDelta(r.delta)+'</td>'+
       '<td>'+pTgt(last?last.nps:null, r.tgt)+'</td>'+
       '<td>'+pTgt(last?last.nps:null, consolTarget)+'</td>'+
@@ -617,9 +626,14 @@ function buildEvolTable(containerId, drivers, periodType, consolTarget) {
       '</tr>';
   }).join('');
 
+  // Linha total com share 100%
+  var totalRow='<tr class="bk-total"><td class="col-name">Total</td>';
+  periods.forEach(function(){ totalRow+='<td></td>'; });
+  totalRow+='<td><span class="bk-surv">100%</span></td><td colspan="4"></td></tr>';
+
   el.innerHTML='<div class="bk-wrap" style="overflow-x:auto"><table class="bk-table">'+
     '<colgroup>'+colgroup+'</colgroup>'+
-    '<thead>'+head+'</thead><tbody>'+rows+'</tbody></table></div>';
+    '<thead>'+head+'</thead><tbody>'+rows+totalRow+'</tbody></table></div>';
 }
 
 // Navegacao ja definida no head
