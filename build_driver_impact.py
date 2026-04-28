@@ -1312,10 +1312,6 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   }}
   html+='<div class="exec-section">'+s5+'</div>';
   html+='<div class="exec-section">'+s6+'</div>';
-  if(bPos)  html+=qualSection('&#128077;','Ponto Positivo','es-opp',bPos,'#1b5e20');
-  if(bOpp)  html+=qualSection('&#127775;','Oportunidade Prioritaria','es-opp',bOpp,'#1b5e20');
-  if(!bPos&&!bOpp)
-    html+='<div class="exec-section full-width"><p class="exec-narrative" style="color:#aaa">Analise qualitativa nao disponivel para este driver neste periodo.</p></div>';
 
   // ── MIX DE PESQUISAS + SENIORIDADE (grid 2 colunas, junto aos outros impactos) ──
   var badMixItems=procsMix.filter(function(p){{return p.deltaSha>0.5&&p.aboveAvg===false&&p.mix<-0.05;}}).sort(function(a,b){{return a.mix-b.mix;}}).slice(0,3);
