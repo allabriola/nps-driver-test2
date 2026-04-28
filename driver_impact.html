@@ -141,6 +141,20 @@ header h1{font-size:16px;font-weight:700}
 .dd-chart-title{font-size:13px;font-weight:700;color:#1a1e3c;margin-bottom:3px}
 .dd-chart-sub{font-size:11px;color:#888;margin-bottom:12px}
 .dd-chart-wrap{position:relative;height:260px}
+.analysis-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.analysis-card{background:#fff;border-radius:10px;padding:16px 18px;
+                box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.analysis-card.card-mom{border-left:4px solid #1a73e8}
+.analysis-card.card-tgt{border-left:4px solid #bf5c00}
+.analysis-card-title{font-size:10px;font-weight:700;text-transform:uppercase;
+                      letter-spacing:.6px;margin-bottom:10px}
+.card-mom .analysis-card-title{color:#1a73e8}
+.card-tgt .analysis-card-title{color:#bf5c00}
+.analysis-item{font-size:12px;color:#333;margin-bottom:6px;line-height:1.5;
+                display:flex;align-items:flex-start;gap:6px}
+.analysis-icon{font-size:13px;flex-shrink:0;margin-top:1px}
+.analysis-label{color:#888;font-size:10px;font-weight:600;text-transform:uppercase;
+                 letter-spacing:.4px;margin:8px 0 4px}
 .exec-summary{background:#fff;border-radius:10px;padding:18px 20px;
                box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:16px;
                border-left:4px solid #1a1e3c}
@@ -193,7 +207,7 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 17:01</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 17:14</div>
 </header>
 
 <div class="nav-bar">
@@ -671,6 +685,116 @@ var S1_LABEL = '20/abr - 26/abr';
 var S2_LABEL = '13/abr - 19/abr';
 var ddCharts = {};
 
+function buildAnalysisCards(drv, period, drvData, bkData) {
+  var isMes = period === 'mes';
+  var pA = isMes ? 'M2' : 'S2';
+  var pB = isMes ? 'M1' : 'S1';
+  var lA = isMes ? M2_LABEL : S2_LABEL;
+  var lB = isMes ? M1_LABEL : S1_LABEL;
+  var tgt = drvData ? drvData.target : null;
+
+  // NPS geral do driver nos dois periodos
+  var hist = DRV_HIST[drv];
+  var npsB = null, npsA = null;
+  if (hist) {
+    var arr = isMes ? hist.monthly : hist.weekly;
+    if (arr && arr.length >= 2) {
+      npsB = arr[arr.length-1].nps;  // periodo atual
+      npsA = arr[arr.length-2].nps;  // periodo anterior
+    }
+  }
+  var deltaNps = (npsA!==null&&npsB!==null) ? Math.round((npsB-npsA)*100)/100 : null;
+  var gapTgt   = (tgt&&npsB!==null) ? Math.round((npsB-tgt)*100)/100 : null;
+
+  function pill(v, isGap) {
+    if(v===null||v===undefined) return '<span class="pill pill-neu">&mdash;</span>';
+    var s=(v>=0?'+':'')+v.toFixed(2)+' pp';
+    var c=v>=1?'pill-pos-hi':v>=0?'pill-pos-lo':v>=-1?'pill-dn1':'pill-neg-hi';
+    return '<span class="pill '+c+'">'+s+'</span>';
+  }
+
+  // Processos mais impactados (por variacao de NPS)
+  var procData = bkData && bkData.P ? bkData.P : {};
+  var procItems = [];
+  Object.keys(procData).forEach(function(p){
+    var dA = procData[p][pA]; var dB = procData[p][pB];
+    if(!dA||!dB||dA.nps===null||dB.nps===null) return;
+    var delta = Math.round((dB.nps-dA.nps)*100)/100;
+    var w = dB.s||0;
+    procItems.push({name:p, npsB:dB.nps, npsA:dA.nps, delta:delta, s:w});
+  });
+  procItems.sort(function(a,b){return a.delta-b.delta;});
+  var worst3 = procItems.slice(0,3);
+  var best3  = procItems.slice(-3).reverse();
+
+  // Processos vs target
+  var vsTargetItems = [];
+  procItems.forEach(function(p){
+    if(tgt===null||tgt===undefined) return;
+    vsTargetItems.push({name:p.name, nps:p.npsB, gap:Math.round((p.npsB-tgt)*100)/100, s:p.s});
+  });
+  vsTargetItems.sort(function(a,b){return a.gap-b.gap;});
+  var worstVsTgt = vsTargetItems.slice(0,3);
+  var bestVsTgt  = vsTargetItems.slice(-3).reverse();
+
+  function procLine(p, showDelta) {
+    var icon = (showDelta&&p.delta<0)||(!showDelta&&p.gap<0) ? '&#8681;' : '&#8679;';
+    var cls  = (showDelta&&p.delta<0)||(!showDelta&&p.gap<0) ? 'color:#c0321a' : 'color:#1a7a1a';
+    var val  = showDelta ? p.delta : p.gap;
+    var valStr = (val>=0?'+':'')+val.toFixed(1)+' pp';
+    return '<div class="analysis-item">'+
+      '<span class="analysis-icon" style="'+cls+'">'+icon+'</span>'+
+      '<span><strong>'+p.name.substring(0,35)+'</strong> \u2014 NPS '+(showDelta?p.npsB.toFixed(1):p.nps.toFixed(1))+'% '+
+      '<span style="'+cls+';font-weight:600">'+valStr+'</span>'+
+      ' <span class="bk-surv">('+p.s.toLocaleString('pt-BR')+')</span></span>'+
+      '</div>';
+  }
+
+  // Card MoM
+  var cardMom = '<div class="analysis-card card-mom">'+
+    '<div class="analysis-card-title">'+
+      (deltaNps===null?'Variacao '+lA+' vs '+lB:
+       (deltaNps>=0?'&#8679; Por que subimos MoM?':'&#8681; Por que caimos MoM?'))+
+    '</div>'+
+    '<div class="analysis-item"><span style="font-size:12px">Variacao consolidada '+lA+' &rarr; '+lB+': '+
+      (deltaNps!==null?'<strong>'+pill(deltaNps)+'</strong>':'sem dados')+
+      (npsA!==null&&npsB!==null?' &nbsp;('+npsA.toFixed(1)+'% &rarr; '+npsB.toFixed(1)+'%)':'')+
+    '</span></div>';
+
+  if(worst3.length>0) {
+    cardMom += '<div class="analysis-label">Processos que mais puxaram para baixo</div>';
+    worst3.forEach(function(p){ cardMom+=procLine(p,true); });
+  }
+  if(best3.length>0) {
+    cardMom += '<div class="analysis-label">Processos que mais compensaram</div>';
+    best3.forEach(function(p){ cardMom+=procLine(p,true); });
+  }
+  cardMom += '</div>';
+
+  // Card vs Target
+  var cardTgt = '<div class="analysis-card card-tgt">'+
+    '<div class="analysis-card-title">'+
+      (gapTgt===null?'Por que nao entregamos vs target?':
+       (gapTgt>=0?'&#8679; Por que estamos acima do target?':'&#8681; Por que nao entregamos vs target?'))+
+    '</div>'+
+    '<div class="analysis-item"><span style="font-size:12px">NPS atual vs target driver'+
+      (tgt?' ('+tgt.toFixed(1)+'%)':'')+': '+
+      (gapTgt!==null?'<strong>'+pill(gapTgt,true)+'</strong>':'sem target definido')+
+    '</span></div>';
+
+  if(worstVsTgt.length>0&&tgt!==null) {
+    cardTgt += '<div class="analysis-label">Processos mais abaixo do target</div>';
+    worstVsTgt.forEach(function(p){ cardTgt+=procLine(p,false); });
+  }
+  if(bestVsTgt.length>0&&tgt!==null) {
+    cardTgt += '<div class="analysis-label">Processos acima do target (favoraveis)</div>';
+    bestVsTgt.forEach(function(p){ cardTgt+=procLine(p,false); });
+  }
+  cardTgt += '</div>';
+
+  return '<div class="analysis-cards">'+cardMom+cardTgt+'</div>';
+}
+
 function buildExecSummary(drv, period) {
   var s = DD_SUMMARIES[drv];
   var key = period === 'mes' ? 'mom' : 'wow';
@@ -751,6 +875,7 @@ function renderDD(period) {
         '<div class="dd-chart-wrap"><canvas id="c-dd-mes-chart"></canvas></div>' +
       '</div>' +
       buildExecSummary(drv, 'mes') +
+      buildAnalysisCards(drv, 'mes', d, DD_BREAKDOWN[drv]) +
       '<div class="dd-section-title">Processos \u2014 MoM (' + M2_LABEL + ' vs ' + M1_LABEL + ')</div>' +
       buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'M2', 'M1', d.target, 'Processo') +
       '<div class="dd-section-title">Canal \u2014 MoM</div>' +
@@ -786,6 +911,7 @@ function renderDD(period) {
         '<div class="dd-chart-wrap"><canvas id="c-dd-sem-chart"></canvas></div>' +
       '</div>' +
       buildExecSummary(drv, 'sem') +
+      buildAnalysisCards(drv, 'sem', d, DD_BREAKDOWN[drv]) +
       '<div class="dd-section-title">Processos \u2014 WoW (' + S2_LABEL + ' vs ' + S1_LABEL + ')</div>' +
       buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'S2', 'S1', d.target, 'Processo') +
       '<div class="dd-section-title">Canal \u2014 WoW</div>' +
