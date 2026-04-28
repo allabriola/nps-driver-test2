@@ -826,6 +826,9 @@ header h1{{font-size:16px;font-weight:700}}
   </div>
 </div>
 
+<script type="application/json" id="_dd_data">{dd_json}</script>
+<script type="application/json" id="_dd_breakdown">{dd_breakdown_json}</script>
+<script type="application/json" id="_dd_summaries">{dd_summaries_json}</script>
 <script>
 /* Funcoes auxiliares de chart e deep dive (dependem de Chart.js e dados) */
 
@@ -1194,9 +1197,6 @@ function buildDDChart(canvasId, labels, values, colors, target, type) {{
 
 // updatePanes() ja foi chamado antes dos graficos acima
 </script>
-<script type="application/json" id="_dd_data">{dd_json}</script>
-<script type="application/json" id="_dd_breakdown">{dd_breakdown_json}</script>
-<script type="application/json" id="_dd_summaries">{dd_summaries_json}</script>
 </body>
 </html>"""
 
