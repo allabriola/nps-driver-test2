@@ -531,9 +531,9 @@ def make_panes(pfx, v):
   <div id="pane-{pfx}-mes" class="tab-pane{initial_class}">
     <div class="sc-grid">{cards_mes()}</div>
     <div class="chart-section">
-      <div class="chart-title">Evolucao Mensal — NPS Consolidado</div>
-      <div class="chart-sub">NPS mensal Jan–Abr 2026 vs target ({v['nps_target']:.1f}%)</div>
-      <div class="chart-wrap"><canvas id="c-{pfx}-evol-mes"></canvas></div>
+      <div class="chart-title">NPS Consolidado — Evolucao Mensal</div>
+      <div class="chart-sub">Ultimos 3 meses | target: {v['nps_target']:.1f}%</div>
+      <div id="evol-mes-{pfx}"></div>
     </div>
     <div class="chart-section">
       <div class="chart-title">Impacto MoM - Abertura Driver</div>
@@ -549,9 +549,9 @@ def make_panes(pfx, v):
   <div id="pane-{pfx}-sem" class="tab-pane">
     <div class="sc-grid">{cards_sem()}</div>
     <div class="chart-section">
-      <div class="chart-title">Evolucao Semanal — NPS Consolidado</div>
-      <div class="chart-sub">NPS semanal 6 semanas (16/mar – 20/abr) vs target ({v['nps_target']:.1f}%)</div>
-      <div class="chart-wrap"><canvas id="c-{pfx}-evol-sem"></canvas></div>
+      <div class="chart-title">NPS Consolidado — Evolucao Semanal</div>
+      <div class="chart-sub">Ultimas 5 semanas | target: {v['nps_target']:.1f}%</div>
+      <div id="evol-sem-{pfx}"></div>
     </div>
     <div class="chart-section">
       <div class="chart-title">Impacto WoW - Abertura Driver</div>
@@ -922,46 +922,62 @@ function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, driver
   }});
 }}
 
-function buildEvolChart(canvasId, pts, target) {{
-  var labels = pts.map(function(p){{ return p.label; }});
-  var values = pts.map(function(p){{ return p.nps; }});
-  var colors = values.map(function(v){{ return v !== null && target && v < target ? 'rgba(210,45,45,0.85)' : 'rgba(30,65,150,0.85)'; }});
-  var allV = values.filter(function(v){{ return v !== null; }}).concat(target ? [target] : []);
-  var yMin = allV.length ? Math.floor(Math.min.apply(null,allV))-3 : 50;
-  var yMax = allV.length ? Math.ceil(Math.max.apply(null,allV))+3 : 100;
-  var datasets = [{{
-    label: 'NPS', data: values, backgroundColor: colors,
-    borderColor: colors, borderWidth: 1, borderRadius: 3,
-    type: 'bar'
-  }}];
-  if (target) datasets.push({{
-    label: 'Target', data: Array(labels.length).fill(target),
-    type: 'line', borderColor: 'rgba(191,92,0,0.9)', borderWidth: 2,
-    borderDash: [5,4], pointRadius: 0, fill: false, tension: 0
+function buildEvolTable(containerId, allPts, target, nLast) {{
+  var pts = allPts.slice(-nLast);  // ultimos N periodos
+  function pDelta(v) {{
+    if(v===null) return '<span class="pill pill-neu">&mdash;</span>';
+    var s=(v>=0?'+':'')+v.toFixed(2)+' pp';
+    var c=v>=1?'pill-pos-hi':v>0?'pill-pos-lo':v>=-1?'pill-dn1':'pill-neg-hi';
+    return '<span class="pill '+c+'">'+s+'</span>';
+  }}
+  function pTarget(nps) {{
+    if(nps===null||!target) return '<span class="pill pill-neu">&mdash;</span>';
+    var g=nps-target; var s=(g>=0?'+':'')+g.toFixed(2)+' pp';
+    return '<span class="pill '+(g>=0?'pill-pos-hi':'pill-neg-hi')+'">'+s+'</span>';
+  }}
+  function pTend(d) {{
+    if(d===null) return '<span class="pill pill-neu">&mdash;</span>';
+    if(d>=3)  return '<span class="pill pill-up2">&#8679;&#8679; Em alta</span>';
+    if(d>=0.5)return '<span class="pill pill-up1">&#8679; Evolucao</span>';
+    if(d>-0.5)return '<span class="pill pill-flat">&#8594; Estavel</span>';
+    if(d>-3)  return '<span class="pill pill-dn1">&#8681; Queda</span>';
+    return '<span class="pill pill-dn2">&#8681;&#8681; Em queda</span>';
+  }}
+  var belowTgt=0; var rows='';
+  pts.forEach(function(pt,i){{
+    var prev=i>0?pts[i-1]:null;
+    var delta=(prev&&prev.nps!==null&&pt.nps!==null)?Math.round((pt.nps-prev.nps)*100)/100:null;
+    if(target&&pt.nps!==null&&pt.nps<target) belowTgt++;
+    rows+='<tr>'+
+      '<td class="col-name">'+pt.label+'</td>'+
+      '<td>'+(pt.nps!==null?pt.nps.toFixed(1)+'%':'&mdash;')+'</td>'+
+      '<td>'+(i>0?pDelta(delta):'<span class="pill pill-neu">&mdash;</span>')+'</td>'+
+      '<td>'+pTarget(pt.nps)+'</td>'+
+      '<td>'+(i>0?pTend(delta):'<span class="pill pill-neu">&mdash;</span>')+'</td>'+
+      '</tr>';
   }});
-  return new Chart(document.getElementById(canvasId), {{
-    type: 'bar', plugins: [ChartDataLabels],
-    data: {{ labels: labels, datasets: datasets }},
-    options: {{
-      responsive: true, maintainAspectRatio: false, animation: false,
-      plugins: {{
-        legend: {{ display: false }}, tooltip: {{ enabled: true }},
-        datalabels: {{
-          display: function(ctx){{ return ctx.dataset.type !== 'line'; }},
-          formatter: function(v){{ return v !== null ? v.toFixed(1)+'%' : ''; }},
-          anchor: 'end', align: 'top', font: {{ size: 10, weight: '600' }},
-          color: '#333', padding: 2
-        }}
-      }},
-      layout: {{ padding: {{ top: 24 }} }},
-      scales: {{
-        y: {{ min: yMin, max: yMax, display: true,
-              ticks: {{ callback: function(v){{ return v+'%'; }}, font: {{ size: 10 }} }},
-              grid: {{ color: '#f0f0f0' }} }},
-        x: {{ ticks: {{ font: {{ size: 10 }} }}, grid: {{ display: false }}, border: {{ display: false }} }}
-      }}
-    }}
-  }});
+  // Linha de recorrencia
+  var consec=0;
+  for(var j=pts.length-1;j>0;j--){{
+    if(pts[j].nps!==null&&pts[j-1].nps!==null&&pts[j].nps<pts[j-1].nps) consec++;
+    else break;
+  }}
+  var rcTgt=belowTgt+'/'+pts.length+' abaixo target';
+  var rcTnd=consec>0?consec+' dec. consec.':'sem queda consec.';
+  var rcTgtC=belowTgt===pts.length?'pill-neg-hi':belowTgt>pts.length/2?'pill-dn1':'pill-pos-hi';
+  var rcTndC=consec>=3?'pill-neg-hi':consec>=2?'pill-dn1':'pill-flat';
+  rows+='<tr class="bk-total">'+
+    '<td class="col-name">Recorr.</td>'+
+    '<td colspan="2"><span class="pill '+rcTgtC+'">'+rcTgt+'</span></td>'+
+    '<td colspan="2"><span class="pill '+rcTndC+'">'+rcTnd+'</span></td>'+
+    '</tr>';
+  var el=document.getElementById(containerId);
+  if(!el) return;
+  el.innerHTML='<div class="bk-wrap"><table class="bk-table">'+
+    '<colgroup><col style="width:18%"><col style="width:13%"><col style="width:17%"><col style="width:17%"><col style="width:20%"></colgroup>'+
+    '<thead><tr>'+
+    '<th class="col-name">Periodo</th><th>NPS</th><th>Delta</th><th>vs Target</th><th>Tendencia</th>'+
+    '</tr></thead><tbody>'+rows+'</tbody></table></div>';
 }}
 
 // Navegacao ja definida no head
@@ -971,10 +987,10 @@ try {{ Chart.register(ChartDataLabels); }} catch(e) {{ console.warn('Chart.regis
 requestAnimationFrame(function() {{
   requestAnimationFrame(function() {{
     {js_charts("all", V_ALL)}{js_charts("sel", V_SEL)}
-    try {{ buildEvolChart('c-all-evol-mes', HIST_ALL.monthly, {V_ALL['nps_target']}); }} catch(e) {{}}
-    try {{ buildEvolChart('c-all-evol-sem', HIST_ALL.weekly,  {V_ALL['nps_target']}); }} catch(e) {{}}
-    try {{ buildEvolChart('c-sel-evol-mes', HIST_SEL.monthly, {V_SEL['nps_target']}); }} catch(e) {{}}
-    try {{ buildEvolChart('c-sel-evol-sem', HIST_SEL.weekly,  {V_SEL['nps_target']}); }} catch(e) {{}}
+    try {{ buildEvolTable('evol-mes-all', HIST_ALL.monthly, {V_ALL['nps_target']}, 3); }} catch(e) {{}}
+    try {{ buildEvolTable('evol-sem-all', HIST_ALL.weekly,  {V_ALL['nps_target']}, 5); }} catch(e) {{}}
+    try {{ buildEvolTable('evol-mes-sel', HIST_SEL.monthly, {V_SEL['nps_target']}, 3); }} catch(e) {{}}
+    try {{ buildEvolTable('evol-sem-sel', HIST_SEL.weekly,  {V_SEL['nps_target']}, 5); }} catch(e) {{}}
   }});
 }});
 
