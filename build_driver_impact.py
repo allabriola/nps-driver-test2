@@ -795,20 +795,33 @@ header h1{{font-size:16px;font-weight:700}}
 .dd-chart-title{{font-size:13px;font-weight:700;color:#1a1e3c;margin-bottom:3px}}
 .dd-chart-sub{{font-size:11px;color:#888;margin-bottom:12px}}
 .dd-chart-wrap{{position:relative;height:260px}}
-.analysis-cards{{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}}
-.analysis-card{{background:#fff;border-radius:10px;padding:16px 18px;
-                box-shadow:0 1px 4px rgba(0,0,0,.07)}}
-.analysis-card.card-mom{{border-left:4px solid #1a73e8}}
-.analysis-card.card-tgt{{border-left:4px solid #bf5c00}}
-.analysis-card-title{{font-size:10px;font-weight:700;text-transform:uppercase;
-                      letter-spacing:.6px;margin-bottom:10px}}
-.card-mom .analysis-card-title{{color:#1a73e8}}
-.card-tgt .analysis-card-title{{color:#bf5c00}}
-.analysis-item{{font-size:12px;color:#333;margin-bottom:6px;line-height:1.5;
-                display:flex;align-items:flex-start;gap:6px}}
-.analysis-icon{{font-size:13px;flex-shrink:0;margin-top:1px}}
-.analysis-label{{color:#888;font-size:10px;font-weight:600;text-transform:uppercase;
-                 letter-spacing:.4px;margin:8px 0 4px}}
+.exec-brief{{background:#fff;border-radius:12px;overflow:hidden;
+             box-shadow:0 2px 8px rgba(0,0,0,.1);margin-bottom:20px}}
+.exec-brief-header{{background:#1a1e3c;color:#fff;padding:16px 20px}}
+.exec-brief-header-top{{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}}
+.exec-brief-driver{{font-size:15px;font-weight:700}}
+.exec-brief-period{{font-size:11px;color:#aab4d4}}
+.exec-brief-kpis{{display:flex;gap:10px;flex-wrap:wrap}}
+.exec-brief-kpi{{background:rgba(255,255,255,.12);border-radius:7px;padding:7px 14px;
+                 display:flex;flex-direction:column;gap:2px}}
+.exec-brief-kpi-label{{font-size:9px;color:#aab4d4;text-transform:uppercase;letter-spacing:.5px}}
+.exec-brief-kpi-val{{font-size:18px;font-weight:700;line-height:1}}
+.exec-brief-kpi-val.pos{{color:#69f0ae}}.exec-brief-kpi-val.neg{{color:#ff8a80}}
+.exec-brief-kpi-val.neutral{{color:#fff}}
+.exec-brief-body{{display:grid;grid-template-columns:1fr 1fr;}}
+.exec-section{{padding:14px 18px;border-bottom:1px solid #f0f2f5;border-right:1px solid #f0f2f5}}
+.exec-section:nth-child(even){{border-right:none}}
+.exec-section.full-width{{grid-column:1/-1;border-right:none}}
+.exec-section:last-child,.exec-section:nth-last-child(2){{border-bottom:none}}
+.exec-section-title{{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;
+                     margin-bottom:8px;display:flex;align-items:center;gap:5px}}
+.es-mom{{color:#1a73e8}}.es-tgt{{color:#bf5c00}}.es-canal{{color:#7b1fa2}}
+.es-office{{color:#546e7a}}.es-client{{color:#c0321a}}.es-rep{{color:#e65100}}
+.es-opp{{color:#1b5e20}}
+.exec-item{{font-size:11.5px;color:#333;line-height:1.55;margin-bottom:5px;
+            display:flex;align-items:flex-start;gap:5px}}
+.exec-item-icon{{flex-shrink:0;font-weight:700;min-width:14px}}
+.exec-item b{{color:#1a1e3c}}
 .exec-summary{{background:#fff;border-radius:10px;padding:18px 20px;
                box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:16px;
                border-left:4px solid #1a1e3c}}
@@ -1099,6 +1112,205 @@ var S1_LABEL = '{S1_LABEL}';
 var S2_LABEL = '{S2_LABEL}';
 var ddCharts = {{}};
 
+function buildExecutiveBrief(drv, period, drvData, bkData) {{
+  var isMes = period === 'mes';
+  var pA = isMes?'M2':'S2', pB = isMes?'M1':'S1';
+  var lA = isMes?M2_LABEL:S2_LABEL, lB = isMes?M1_LABEL:S1_LABEL;
+  var tgt = drvData?drvData.target:null;
+  var cat = drvData&&DRV_HIST[drv]?DRV_HIST[drv].cat:'';
+
+  // NPS geral
+  var hist = DRV_HIST[drv];
+  var npsB=null,npsA=null;
+  if(hist){{ var arr=isMes?hist.monthly:hist.weekly; if(arr&&arr.length>=2){{npsB=arr[arr.length-1].nps;npsA=arr[arr.length-2].nps;}} }}
+  var delta=(npsA!==null&&npsB!==null)?Math.round((npsB-npsA)*100)/100:null;
+  var gapTgt=(tgt&&npsB!==null)?Math.round((npsB-tgt)*100)/100:null;
+
+  function kpiCls(v){{ return v===null?'neutral':v>=0?'pos':'neg'; }}
+  function fV(v,dec){{ return v!==null?(v>=0?'+':'')+v.toFixed(dec||1)+'pp':'—'; }}
+
+  // Processos — calcular contribuicao
+  var procs=[], chans=[], offices=[];
+  if(bkData){{
+    ['P','C','O'].forEach(function(dim){{
+      var dd=bkData[dim]||{{}};
+      var totSA=0,totSB=0,totPA=0,totPB=0,totDA=0,totDB=0;
+      Object.keys(dd).forEach(function(k){{
+        var a=dd[k][pA]||{{p:0,d:0,s:0}},b=dd[k][pB]||{{p:0,d:0,s:0}};
+        totSA+=a.s||0; totSB+=b.s||0; totPA+=a.p||0; totPB+=b.p||0; totDA+=a.d||0; totDB+=b.d||0;
+      }});
+      var npsAllA=totSA>0?Math.round((totPA-totDA)/totSA*1000)/10:null;
+      var npsAllB=totSB>0?Math.round((totPB-totDB)/totSB*1000)/10:null;
+      var items=[];
+      Object.keys(dd).forEach(function(k){{
+        var a=dd[k][pA]||{{p:0,d:0,s:0,nps:null}},b=dd[k][pB]||{{p:0,d:0,s:0,nps:null}};
+        var shaA=totSA>0?(a.s||0)/totSA:0, shaB=totSB>0?(b.s||0)/totSB:0;
+        var nA=a.nps, nB=b.nps;
+        var neto=(shaA>0&&nA!==null&&nB!==null)?shaA*(nB-nA):0;
+        var mix=(nB!==null&&npsAllB!==null)?(shaB-shaA)*(nB-npsAllB):0;
+        var impact=Math.round((neto+mix)*100)/100;
+        var gapT=(tgt&&nB!==null)?Math.round((nB-tgt)*100)/100:null;
+        items.push({{k:k,nA:nA,nB:nB,shaB:Math.round(shaB*1000)/10,impact:impact,gapT:gapT,sB:b.s||0}});
+      }});
+      items.sort(function(a,b){{return a.impact-b.impact;}});
+      if(dim==='P') procs=items;
+      else if(dim==='C') chans=items;
+      else offices=items;
+    }});
+  }}
+
+  function row(icon,cls,content){{
+    return '<div class="exec-item"><span class="exec-item-icon" style="color:'+cls+'">'+icon+'</span><span>'+content+'</span></div>';
+  }}
+  function npsStr(v){{ return v!==null?v.toFixed(1)+'%':'—'; }}
+  function impStr(v){{ if(v===null) return ''; return ' <span style="color:'+(v>=0?'#1a7a1a':'#c0321a');'font-weight:600">'+(v>=0?'+':'')+v.toFixed(2)+'pp</span>'; }}
+
+  // Bullets qualitativos do resumo
+  var sumKey=isMes?'mom':'wow';
+  var sumObj=DD_SUMMARIES[drv];
+  var sumText=sumObj&&sumObj[sumKey]?sumObj[sumKey]:(sumObj&&sumObj.mom?sumObj.mom:null);
+  var bullets=(sumText||'').split('\\n').map(function(b){{return b.replace(/^[^\w]*/,'').trim();}}).filter(function(b){{return b.length>10;}});
+  function getBullet(keywords){{
+    for(var i=0;i<bullets.length;i++){{
+      var bl=bullets[i].toLowerCase();
+      for(var j=0;j<keywords.length;j++){{if(bl.indexOf(keywords[j])>=0) return bullets[i];}}
+    }}
+    return null;
+  }}
+  var bDor=getBullet(['dor','cliente','reclam','vendedor']);
+  var bRep=getBullet(['representante','rep ','atendente','comportamento','transfere','padrao']);
+  var bOpp=getBullet(['oportunidade','acao','padronizar','implementar','melhoria','prioridade']);
+  var bPos=getBullet(['positivo','funciona','promotor','acima']);
+
+  // ── HEADER ──
+  var html='<div class="exec-brief">'+
+    '<div class="exec-brief-header">'+
+      '<div class="exec-brief-header-top">'+
+        '<div>'+
+          '<div class="exec-brief-driver">'+drv+'</div>'+
+          '<div class="exec-brief-period">'+cat+' &middot; '+lA+' &rarr; '+lB+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="exec-brief-kpis">'+
+        '<div class="exec-brief-kpi"><div class="exec-brief-kpi-label">NPS Atual</div>'+
+          '<div class="exec-brief-kpi-val neutral">'+(npsB!==null?npsB.toFixed(1)+'%':'—')+'</div></div>'+
+        '<div class="exec-brief-kpi"><div class="exec-brief-kpi-label">Variacao '+lB+'</div>'+
+          '<div class="exec-brief-kpi-val '+kpiCls(delta)+'">'+fV(delta)+'</div></div>'+
+        (tgt?'<div class="exec-brief-kpi"><div class="exec-brief-kpi-label">Target</div>'+
+          '<div class="exec-brief-kpi-val neutral">'+tgt.toFixed(1)+'%</div></div>':'')+
+        (gapTgt!==null?'<div class="exec-brief-kpi"><div class="exec-brief-kpi-label">Gap vs Target</div>'+
+          '<div class="exec-brief-kpi-val '+kpiCls(gapTgt)+'">'+fV(gapTgt)+'</div></div>':'')+
+      '</div>'+
+    '</div>'+
+    '<div class="exec-brief-body">';
+
+  // ── SECAO 1: Variacao — Mix de Processos ──
+  var momHtml='<div class="exec-section-title es-mom">&#128201; Variacao — Mix de Processos</div>';
+  if(procs.length>0){{
+    momHtml+='<div style="font-size:10.5px;color:#666;margin-bottom:6px">Ordenado por impacto no NPS consolidado (NETO+MIX)</div>';
+    var worst2=procs.slice(0,2), best2=procs.slice(-2).reverse();
+    worst2.forEach(function(p){{
+      momHtml+=row('&#8681;','#c0321a','<b>'+p.k.substring(0,40)+'</b>: NPS '+npsStr(p.nB)+
+        ' &nbsp;<span style="color:#c0321a;font-weight:600">'+(p.impact>=0?'+':'')+p.impact.toFixed(2)+'pp impacto</span>'+
+        ' &nbsp;<span class="bk-surv">'+p.shaB+'% vol</span>');
+    }});
+    best2.forEach(function(p){{
+      if(p.impact>0) momHtml+=row('&#8679;','#1a7a1a','<b>'+p.k.substring(0,40)+'</b>: NPS '+npsStr(p.nB)+
+        ' &nbsp;<span style="color:#1a7a1a;font-weight:600">+'+(p.impact).toFixed(2)+'pp impacto</span>'+
+        ' &nbsp;<span class="bk-surv">'+p.shaB+'% vol</span>');
+    }});
+  }} else momHtml+='<div class="exec-item">Sem dados de processo disponíveis.</div>';
+
+  // ── SECAO 2: vs Target ──
+  var tgtHtml='<div class="exec-section-title es-tgt">&#127919; vs Target — Analise do Gap</div>';
+  if(procs.length>0&&tgt!==null){{
+    var abTgt=procs.filter(function(p){{return p.gapT!==null&&p.gapT<0;}}).sort(function(a,b){{return a.gapT-b.gapT;}}).slice(0,3);
+    var acTgt=procs.filter(function(p){{return p.gapT!==null&&p.gapT>=0;}}).sort(function(a,b){{return b.gapT-a.gapT;}}).slice(0,2);
+    if(abTgt.length>0){{
+      tgtHtml+='<div style="font-size:10px;color:#888;margin-bottom:4px;font-weight:600">Processos abaixo do target:</div>';
+      abTgt.forEach(function(p){{
+        tgtHtml+=row('&#10007;','#c0321a','<b>'+p.k.substring(0,38)+'</b>: '+npsStr(p.nB)+
+          ' &nbsp;<span style="color:#c0321a;font-weight:600">'+p.gapT.toFixed(1)+'pp vs target</span>');
+      }});
+    }}
+    if(acTgt.length>0){{
+      tgtHtml+='<div style="font-size:10px;color:#888;margin:6px 0 4px;font-weight:600">Processos favoráveis:</div>';
+      acTgt.forEach(function(p){{
+        tgtHtml+=row('&#10003;','#1a7a1a','<b>'+p.k.substring(0,38)+'</b>: '+npsStr(p.nB)+
+          ' &nbsp;<span style="color:#1a7a1a;font-weight:600">+'+p.gapT.toFixed(1)+'pp vs target</span>');
+      }});
+    }}
+    if(abTgt.length===0&&acTgt.length===0) tgtHtml+='<div class="exec-item">Todos os processos alinhados com o target.</div>';
+  }} else tgtHtml+='<div class="exec-item">'+(tgt===null?'Target não definido para este driver.':'Sem dados de processo.')+'</div>';
+
+  html+='<div class="exec-section">'+momHtml+'</div>';
+  html+='<div class="exec-section">'+tgtHtml+'</div>';
+
+  // ── SECAO 3: Canal ──
+  var canalHtml='<div class="exec-section-title es-canal">&#128241; Impacto Canal</div>';
+  if(chans.length>0){{
+    chans.sort(function(a,b){{return b.sB-a.sB;}}).slice(0,4).forEach(function(c){{
+      var dnA=c.nA!==null?c.nA.toFixed(1)+'%':'—';
+      var dnB=c.nB!==null?c.nB.toFixed(1)+'%':'—';
+      var dd2=c.nA!==null&&c.nB!==null?Math.round((c.nB-c.nA)*100)/100:null;
+      var icon=dd2===null?'&#9679;':dd2>=0?'&#8679;':'&#8681;';
+      var col=dd2===null?'#999':dd2>=0?'#1a7a1a':'#c0321a';
+      canalHtml+=row(icon,col,'<b>'+c.k+'</b>: '+dnB+
+        (dd2!==null?' <span style="color:'+col+';font-weight:600">'+(dd2>=0?'+':'')+dd2.toFixed(1)+'pp</span>':'')+
+        ' <span class="bk-surv">'+c.shaB+'%</span>');
+    }});
+  }} else canalHtml+='<div class="exec-item">Sem dados de canal.</div>';
+
+  // ── SECAO 4: Oficina ──
+  var offHtml='<div class="exec-section-title es-office">&#127970; Impacto Oficina</div>';
+  if(offices.length>0){{
+    offices.sort(function(a,b){{return b.sB-a.sB;}}).slice(0,4).forEach(function(o){{
+      var dnB=o.nB!==null?o.nB.toFixed(1)+'%':'—';
+      var dd2=o.nA!==null&&o.nB!==null?Math.round((o.nB-o.nA)*100)/100:null;
+      var icon=dd2===null?'&#9679;':dd2>=0?'&#8679;':'&#8681;';
+      var col=dd2===null?'#999':dd2>=0?'#1a7a1a':'#c0321a';
+      offHtml+=row(icon,col,'<b>'+o.k+'</b>: '+dnB+
+        (dd2!==null?' <span style="color:'+col+';font-weight:600">'+(dd2>=0?'+':'')+dd2.toFixed(1)+'pp</span>':'')+
+        ' <span class="bk-surv">'+o.shaB+'%</span>');
+    }});
+  }} else offHtml+='<div class="exec-item">Sem dados de oficina.</div>';
+
+  html+='<div class="exec-section">'+canalHtml+'</div>';
+  html+='<div class="exec-section">'+offHtml+'</div>';
+
+  // ── SECOES QUALITATIVAS ──
+  if(bDor){{
+    html+='<div class="exec-section full-width">'+
+      '<div class="exec-section-title es-client">&#128139; Dor do Cliente</div>'+
+      '<div class="exec-item"><span class="exec-item-icon" style="color:#c0321a">&#9654;</span><span>'+bDor+'</span></div>'+
+    '</div>';
+  }}
+  if(bRep){{
+    html+='<div class="exec-section full-width">'+
+      '<div class="exec-section-title es-rep">&#129309; Comportamento do Representante</div>'+
+      '<div class="exec-item"><span class="exec-item-icon" style="color:#e65100">&#9654;</span><span>'+bRep+'</span></div>'+
+    '</div>';
+  }}
+  if(bPos){{
+    html+='<div class="exec-section full-width">'+
+      '<div class="exec-section-title es-opp">&#128077; Ponto Positivo</div>'+
+      '<div class="exec-item"><span class="exec-item-icon" style="color:#1b5e20">&#9654;</span><span>'+bPos+'</span></div>'+
+    '</div>';
+  }}
+  if(bOpp){{
+    html+='<div class="exec-section full-width">'+
+      '<div class="exec-section-title es-opp">&#127775; Oportunidade Prioritária</div>'+
+      '<div class="exec-item"><span class="exec-item-icon" style="color:#1b5e20">&#9654;</span><span>'+bOpp+'</span></div>'+
+    '</div>';
+  }}
+  if(!bDor&&!bRep&&!bOpp){{
+    html+='<div class="exec-section full-width"><div class="exec-item" style="color:#aaa">Análise qualitativa não disponível para este driver neste período.</div></div>';
+  }}
+
+  html+='</div></div>';
+  return html;
+}}
+
 function buildAnalysisCards(drv, period, drvData, bkData) {{
   var isMes = period === 'mes';
   var pA = isMes ? 'M2' : 'S2';
@@ -1288,8 +1500,7 @@ function renderDD(period) {{
         '<div class="dd-chart-sub">NPS mensal Jan–Abr 2026 vs target do driver</div>' +
         '<div class="dd-chart-wrap"><canvas id="c-dd-mes-chart"></canvas></div>' +
       '</div>' +
-      buildExecSummary(drv, 'mes') +
-      buildAnalysisCards(drv, 'mes', d, DD_BREAKDOWN[drv]) +
+      buildExecutiveBrief(drv, 'mes', d, DD_BREAKDOWN[drv]) +
       '<div class="dd-section-title">Processos — MoM (' + M2_LABEL + ' vs ' + M1_LABEL + ')</div>' +
       buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'M2', 'M1', d.target, 'Processo') +
       '<div class="dd-section-title">Canal — MoM</div>' +
@@ -1324,8 +1535,7 @@ function renderDD(period) {{
         '<div class="dd-chart-sub">NPS semanal 6 semanas vs target do driver</div>' +
         '<div class="dd-chart-wrap"><canvas id="c-dd-sem-chart"></canvas></div>' +
       '</div>' +
-      buildExecSummary(drv, 'sem') +
-      buildAnalysisCards(drv, 'sem', d, DD_BREAKDOWN[drv]) +
+      buildExecutiveBrief(drv, 'sem', d, DD_BREAKDOWN[drv]) +
       '<div class="dd-section-title">Processos — WoW (' + S2_LABEL + ' vs ' + S1_LABEL + ')</div>' +
       buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'S2', 'S1', d.target, 'Processo') +
       '<div class="dd-section-title">Canal — WoW</div>' +
