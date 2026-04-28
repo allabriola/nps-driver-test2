@@ -193,12 +193,10 @@ for drv in monthly_driver:
 
 # ─── HELPERS JS ──────────────────────────────────────────────────────────────
 def sorted_impacts(decomp):
-    """Sort: positives descending then negatives ascending (like the screenshot)."""
+    """Sort: maiores ganhos primeiro ate maiores perdas por ultimo (decrescente)."""
     items = [{"label": d, "v": round(r["var"], 3), "cat": CAT.get(d, "?")}
              for d, r in decomp.items()]
-    pos = sorted([x for x in items if x["v"] >= 0], key=lambda x: -x["v"])
-    neg = sorted([x for x in items if x["v"] < 0],  key=lambda x:  x["v"])
-    return pos + neg
+    return sorted(items, key=lambda x: -x["v"])
 
 def calc_y_base(start, drivers):
     """Minimum running value minus padding, used as bar anchor for start/end."""
