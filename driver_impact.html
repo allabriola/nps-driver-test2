@@ -221,7 +221,7 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 18:38</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 18:44</div>
 </header>
 
 <div class="nav-bar">
@@ -896,6 +896,8 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {
       '<p class="exec-narrative">'+text+'</p>'+
     '</div>';
   }
+  html+='<div class="exec-section">'+s5+'</div>';
+  html+='<div class="exec-section">'+s6+'</div>';
   if(bPos)  html+=qualSection('&#128077;','Ponto Positivo','es-opp',bPos,'#1b5e20');
   if(bOpp)  html+=qualSection('&#127775;','Oportunidade Prioritaria','es-opp',bOpp,'#1b5e20');
   if(!bPos&&!bOpp)
@@ -938,15 +940,12 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {
       ' &nbsp;&bull;&nbsp; <span class="bk-surv">'+nbB.s.toLocaleString('pt-BR')+' surveys</span>'+
     '</p>'+
     '<p class="exec-narrative">'+
-      'Gap Expert&minus;Newbie: <strong style="color:'+(gapB!==null&&gapB>0?'#1a7a1a':'#c0321a')+'">'+(gapB!==null?(gapB>=0?'+':'')+gapB.toFixed(1)+'pp':'\u2014')+'</strong>'+
+      'Gap Expert&minus;Newbie: <strong style="color:'+(gapB!==null&&Math.abs(gapB)>5?'#c0321a':'#1a7a1a')+'">'+(gapB!==null?(gapB>=0?'+':'')+gapB.toFixed(1)+'pp':'\u2014')+'</strong>'+
       (gapDelta!==null?' &nbsp;(gap '+(gapDelta>=0?'ampliou':'reduziu')+' '+Math.abs(gapDelta).toFixed(1)+'pp vs '+lA+')':'')+
     '</p>';
   } else {
     s6+='<p class="exec-narrative" style="color:#aaa">Sem dados de senioridade para este periodo.</p>';
   }
-
-  html+='<div class="exec-section">'+s5+'</div>';
-  html+='<div class="exec-section">'+s6+'</div>';
 
   // \u2500\u2500 RECORRENCIA DAS CAUSAS \u2500\u2500
   // Periodos historicos do driver (3 meses ou 4 semanas)
@@ -1437,8 +1436,8 @@ function buildSeniorityTable(drvData, periodA, periodB, drvTarget) {
   var gapDelta = (gapA!==null&&gapB!==null)?Math.round((gapB-gapA)*100)/100:null;
   html+='<tr class="bk-total">'+
     '<td class="col-name">Gap Expert&minus;Newbie</td>'+
-    '<td>'+(gapA!==null?(gapA>=0?'+':'')+gapA.toFixed(1)+'pp':'&mdash;')+'</td>'+
-    '<td>'+(gapB!==null?(gapB>=0?'+':'')+gapB.toFixed(1)+'pp':'&mdash;')+'</td>'+
+    '<td style="color:'+(gapA!==null&&Math.abs(gapA)>5?'#c0321a':'#1a7a1a')+';font-weight:600">'+(gapA!==null?(gapA>=0?'+':'')+gapA.toFixed(1)+'pp':'&mdash;')+'</td>'+
+    '<td style="color:'+(gapB!==null&&Math.abs(gapB)>5?'#c0321a':'#1a7a1a')+';font-weight:600">'+(gapB!==null?(gapB>=0?'+':'')+gapB.toFixed(1)+'pp':'&mdash;')+'</td>'+
     '<td>'+(gapDelta!==null?pDelta(gapDelta):'<span class="pill pill-neu">&mdash;</span>')+'</td>'+
     '<td colspan="3" style="color:#888;font-size:11px">'+(gapDelta!==null?(gapDelta>0?'Gap ampliou':'Gap reduziu')+' vs '+lA:'')+'</td>'+
   '</tr>';
