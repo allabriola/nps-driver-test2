@@ -500,8 +500,9 @@ def make_panes(pfx, v):
         )
 
     tt = v["tt"]
+    initial_class = " active" if pfx == "all" else ""
     return f"""
-  <div id="pane-{pfx}-mes" class="tab-pane">
+  <div id="pane-{pfx}-mes" class="tab-pane{initial_class}">
     <div class="sc-grid">{cards_mes()}</div>
     <div class="chart-section">
       <div class="chart-title">Impacto MoM - Abertura Driver</div>
@@ -1192,6 +1193,9 @@ document.addEventListener('DOMContentLoaded', function() {{
   var selSem = document.getElementById('dd-select-sem');
   if (selMes) selMes.addEventListener('change', function() {{ renderDD('mes'); }});
   if (selSem) selSem.addEventListener('change', function() {{ renderDD('sem'); }});
+
+  // Mostrar pane inicial
+  updatePanes();
 }});
 </script>
 </body>
