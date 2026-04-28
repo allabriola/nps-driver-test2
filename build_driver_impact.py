@@ -910,11 +910,11 @@ function renderDD(period) {{
         '<div class="dd-chart-wrap"><canvas id="c-dd-mes-chart"></canvas></div>' +
       '</div>' +
       '<div class="dd-section-title">Processos — MoM (' + M2_LABEL + ' vs ' + M1_LABEL + ')</div>' +
-      buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'M2', 'M1', d.target) +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'M2', 'M1', d.target, 'Processo') +
       '<div class="dd-section-title">Canal — MoM</div>' +
-      buildBreakdownTable(DD_BREAKDOWN[drv], 'C', 'M2', 'M1', d.target) +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'C', 'M2', 'M1', d.target, 'Canal') +
       '<div class="dd-section-title">Oficina — MoM</div>' +
-      buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'M2', 'M1', d.target);
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'M2', 'M1', d.target, 'Oficina');
 
     var labels = pts.map(function(p){{ return p.label; }});
     var values = pts.map(function(p){{ return p.nps; }});
@@ -944,11 +944,11 @@ function renderDD(period) {{
         '<div class="dd-chart-wrap"><canvas id="c-dd-sem-chart"></canvas></div>' +
       '</div>' +
       '<div class="dd-section-title">Processos — WoW (' + S2_LABEL + ' vs ' + S1_LABEL + ')</div>' +
-      buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'S2', 'S1', d.target) +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'S2', 'S1', d.target, 'Processo') +
       '<div class="dd-section-title">Canal — WoW</div>' +
-      buildBreakdownTable(DD_BREAKDOWN[drv], 'C', 'S2', 'S1', d.target) +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'C', 'S2', 'S1', d.target, 'Canal') +
       '<div class="dd-section-title">Oficina — WoW</div>' +
-      buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'S2', 'S1', d.target);
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'S2', 'S1', d.target, 'Oficina');
 
     var labels = pts.map(function(p){{ return p.label; }});
     var values = pts.map(function(p){{ return p.nps; }});
@@ -957,7 +957,7 @@ function renderDD(period) {{
   }}
 }}
 
-function buildBreakdownTable(drvData, dim, periodA, periodB, drvTarget) {{
+function buildBreakdownTable(drvData, dim, periodA, periodB, drvTarget, dimLabel) {{
     if (!drvData || !drvData[dim]) return '<div class="dd-hint">Sem dados</div>';
 
     var dataA = drvData[dim][periodA] || {{}};
@@ -1029,7 +1029,7 @@ function buildBreakdownTable(drvData, dim, periodA, periodB, drvTarget) {{
         '<col style="width:11%"><col style="width:12%"><col style="width:12%">' +
         '</colgroup>' +
         '<thead><tr>' +
-        '<th class="col-name">Dimensao</th>' +
+        '<th class="col-name">' + (dimLabel||'Dimensao') + '</th>' +
         '<th>' + lA + '</th><th>' + lB + '</th>' +
         '<th>&Delta; NPS</th><th>Surveys</th><th>Share</th>' +
         '<th>Impacto</th><th>VS Target</th><th>Tendencia</th>' +
