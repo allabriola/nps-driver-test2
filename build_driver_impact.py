@@ -132,6 +132,37 @@ weekly_driver = {
     "Publicaciones Seller Dev":          {"S2": (453, 80, 587),   "S1": (398, 75, 511)},
 }
 
+# S3 = 06/abr-12/abr  |  S4 = 30/mar-05/abr  (histórico fechado)
+weekly_hist_extra = {
+    "CBT":                               {"S3": (87, 12, 101),   "S4": (75, 9, 86)},
+    "Experiencia Impositiva Mature":     {"S3": (9, 3, 13),      "S4": (12, 5, 20)},
+    "Experiencia Impositiva Meli Pro":   {"S3": (1, 0, 2),       "S4": (2, 1, 3)},
+    "Experiencia Impositiva Seller Dev": {"S3": (150, 36, 208),  "S4": (66, 25, 100)},
+    "FBM-S Mature":                      {"S3": (28, 7, 40),     "S4": (30, 13, 48)},
+    "FBM-S Meli Pro":                    {"S3": (9, 2, 12),      "S4": (0, 2, 2)},
+    "FBM-S Seller Dev":                  {"S3": (74, 24, 115),   "S4": (73, 23, 104)},
+    "ME Vendedor Mature":                {"S3": (374, 82, 492),  "S4": (340, 56, 438)},
+    "ME Vendedor Meli Pro":              {"S3": (24, 6, 30),     "S4": (10, 6, 17)},
+    "ME Vendedor Seller Dev":            {"S3": (1676, 224, 2106),"S4": (1016, 158, 1270)},
+    "Otros CV":                          {"S3": (181, 63, 259),  "S4": (139, 36, 195)},
+    "PCF Vendedor Mature":               {"S3": (97, 24, 131),   "S4": (68, 14, 91)},
+    "PCF Vendedor Meli Pro":             {"S3": (13, 3, 19),     "S4": (4, 3, 7)},
+    "PCF Vendedor Seller Dev":           {"S3": (98, 29, 136),   "S4": (84, 23, 125)},
+    "PDD DS&XD - Vendedor":              {"S3": (113, 95, 236),  "S4": (136, 106, 275)},
+    "PDD FBM - Vendedor":                {"S3": (40, 18, 65),    "S4": (45, 16, 63)},
+    "PDD Fotos - Vendedor":              {"S3": (7, 5, 12),      "S4": (9, 5, 15)},
+    "PDD MP,FLEX & CBT - Vendedor":      {"S3": (16, 9, 28),     "S4": (14, 7, 24)},
+    "PNR ME - Vendedor":                 {"S3": (21, 15, 38),    "S4": (18, 9, 30)},
+    "PNR MP - Vendedor":                 {"S3": (54, 16, 74),    "S4": (33, 15, 56)},
+    "Partners":                          {"S3": (460, 76, 587),  "S4": (448, 77, 574)},
+    "Post Venta Mature":                 {"S3": (89, 15, 117),   "S4": (88, 20, 114)},
+    "Post Venta Meli Pro":               {"S3": (25, 2, 29),     "S4": (8, 0, 9)},
+    "Post Venta Seller Dev":             {"S3": (239, 39, 301),  "S4": (176, 39, 233)},
+    "Publicaciones Mature":              {"S3": (72, 12, 101),   "S4": (61, 13, 87)},
+    "Publicaciones Meli Pro":            {"S3": (6, 1, 8),       "S4": (6, 1, 8)},
+    "Publicaciones Seller Dev":          {"S3": (607, 103, 769), "S4": (502, 88, 653)},
+}
+
 # ─── FILTRO SELLERS (sem drivers de mediacao) ────────────────────────────────
 DRIVERS_EXCLUIDOS = {
     "CBT", "PDD DS&XD - Vendedor", "PDD FBM - Vendedor",
@@ -202,8 +233,46 @@ def compute_view(monthly_data, weekly_data, nps_target_consol):
         vt_[drv] = {"var": round(gap_d * sh, 2), "nps": nb, "target": tgt,
                     "gap": gap_d, "share": round(sh * 100, 1)}
 
+    # NPS consolidado de S3 e S4 (para recorrência semanal)
+    def consol_week(key):
+        p = sum(weekly_hist_extra[d][key][0] for d in monthly_data if d in weekly_hist_extra)
+        det = sum(weekly_hist_extra[d][key][1] for d in monthly_data if d in weekly_hist_extra)
+        s = sum(weekly_hist_extra[d][key][2] for d in monthly_data if d in weekly_hist_extra)
+        return nps(p, det, s)
+
+    nS3_ = consol_week("S3")
+    nS4_ = consol_week("S4")
+
+    def recurrence(drv, is_worst):
+        """Conta periodos onde driver ficou abaixo (worst) ou acima (best) da media consolidada."""
+        # Mensal: M1 e M2
+        pairs_m = [
+            (nps(*monthly_data[drv]["M1"]), nM1_),
+            (nps(*monthly_data[drv]["M2"]), nM2_),
+        ]
+        m_hits = sum(1 for nd, nc in pairs_m
+                     if nd is not None and (nd < nc if is_worst else nd > nc))
+        # Semanal: S1, S2, S3, S4
+        def wk(key, src):
+            t = src[drv].get(key)
+            return nps(*t) if t and t[2] > 0 else None
+        pairs_w = [
+            (wk("S1", weekly_data), nS1_),
+            (wk("S2", weekly_data), nS2_),
+            (wk("S3", weekly_hist_extra), nS3_),
+            (wk("S4", weekly_hist_extra), nS4_),
+        ]
+        w_hits = sum(1 for nd, nc in pairs_w
+                     if nd is not None and nc is not None and (nd < nc if is_worst else nd > nc))
+        return m_hits, w_hits
+
     # Sorted for charts
     md_ = sorted_impacts(mD_); wd_ = sorted_impacts(wD_); vd_ = sorted_impacts(vt_)
+
+    worst_mom_ = min(mD_, key=lambda d: mD_[d]["var"])
+    best_mom_  = max(mD_, key=lambda d: mD_[d]["var"])
+    worst_wow_ = min(wD_, key=lambda d: wD_[d]["var"])
+    best_wow_  = max(wD_, key=lambda d: wD_[d]["var"])
 
     return dict(
         nM1=nM1_, nM2=nM2_, dM=dM_, sM1=sM1_, sM2=sM2_,
@@ -214,10 +283,12 @@ def compute_view(monthly_data, weekly_data, nps_target_consol):
         surv_mom_var=round((sM1_ - sM2_) / sM2_ * 100, 1) if sM2_ else 0,
         surv_wow_var=round((sS1_ - sS2_) / sS2_ * 100, 1) if sS2_ else 0,
         mD=mD_, wD=wD_, vt=vt_, tt=tt_,
-        worst_mom=min(mD_, key=lambda d: mD_[d]["var"]),
-        best_mom =max(mD_, key=lambda d: mD_[d]["var"]),
-        worst_wow=min(wD_, key=lambda d: wD_[d]["var"]),
-        best_wow =max(wD_, key=lambda d: wD_[d]["var"]),
+        worst_mom=worst_mom_, best_mom=best_mom_,
+        worst_wow=worst_wow_, best_wow=best_wow_,
+        rec_worst_mom=recurrence(worst_mom_, is_worst=True),
+        rec_best_mom =recurrence(best_mom_,  is_worst=False),
+        rec_worst_wow=recurrence(worst_wow_, is_worst=True),
+        rec_best_wow =recurrence(best_wow_,  is_worst=False),
         mom_json=json.dumps(md_), wow_json=json.dumps(wd_), vt_json=json.dumps(vd_),
         mom_ybase=calc_y_base(nM2_, md_),
         wow_ybase=calc_y_base(nS2_, wd_),
@@ -263,7 +334,19 @@ def sc_surveys(surveys, var_pct, period_sub):
 </div>"""
 
 def sc_driver(title, drv, nps_val, share_val,
-              p1_label, p1_var, p2_label, p2_var, tgt_gap):
+              p1_label, p1_var, p2_label, p2_var, tgt_gap,
+              rec_months, rec_weeks, is_worst):
+    def rec_bullet(count, total, period_label):
+        if count == total:
+            cls = "neg" if is_worst else "pos"
+            icon = "&#9650;" if not is_worst else "&#9660;"
+            return f'<div class="bullet {cls} rec-full">{icon} Recorrente: {count}/{total} {period_label}</div>'
+        elif count >= total - 1:
+            return f'<div class="bullet rec-partial">&#9654; Parcial: {count}/{total} {period_label}</div>'
+        else:
+            return f'<div class="bullet rec-none">&#8212; Pontual: {count}/{total} {period_label}</div>'
+
+    m_count, w_count = rec_months, rec_weeks
     return f"""<div class="sc sc-driver-card">
   <div class="sc-label">{title}</div>
   <div class="sc-driver-name">{drv}</div>
@@ -273,6 +356,9 @@ def sc_driver(title, drv, nps_val, share_val,
   <div class="bullet {_cls(p1_var)}">{_arr(p1_var)} {_pp(p1_var)} impacto {p1_label}</div>
   <div class="bullet {_cls(p2_var)}">{_arr(p2_var)} {_pp(p2_var)} impacto {p2_label}</div>
   <div class="bullet {_cls(tgt_gap)}">{_arr(tgt_gap)} {_pp(tgt_gap)} vs target</div>
+  <hr class="sc-sep">
+  {rec_bullet(m_count, 2, "meses")}
+  {rec_bullet(w_count, 4, "semanas")}
 </div>"""
 
 def make_panes(pfx, v):
@@ -281,30 +367,36 @@ def make_panes(pfx, v):
 
     def cards_mes():
         wm = v["worst_mom"]; bm = v["best_mom"]
+        rm_w, rw_w = v["rec_worst_mom"]; rm_b, rw_b = v["rec_best_mom"]
         return (
             sc_nps("NPS CONSOLIDADO", v["nM1"], v["vs_tgt_mom"], v["dM"], "mes ant.", M1_LABEL) +
             sc_target(v["nps_target"], M1_LABEL) +
             sc_surveys(v["sM1"], v["surv_mom_var"], M1_LABEL) +
             sc_driver("DRIVER MAIS OFENSOR", wm,
                       mD[wm]["nps_b"], mD[wm]["share_b"],
-                      "MoM", mD[wm]["var"], "WoW", wD[wm]["var"], vt[wm]["gap"]) +
+                      "MoM", mD[wm]["var"], "WoW", wD[wm]["var"], vt[wm]["gap"],
+                      rm_w, rw_w, is_worst=True) +
             sc_driver("DRIVER MAIS PROMOTOR", bm,
                       mD[bm]["nps_b"], mD[bm]["share_b"],
-                      "MoM", mD[bm]["var"], "WoW", wD[bm]["var"], vt[bm]["gap"])
+                      "MoM", mD[bm]["var"], "WoW", wD[bm]["var"], vt[bm]["gap"],
+                      rm_b, rw_b, is_worst=False)
         )
 
     def cards_sem():
         ww = v["worst_wow"]; bw = v["best_wow"]
+        rm_w, rw_w = v["rec_worst_wow"]; rm_b, rw_b = v["rec_best_wow"]
         return (
             sc_nps("NPS CONSOLIDADO", v["nS1"], v["vs_tgt_wow"], v["dW"], "sem. ant.", S1_LABEL) +
             sc_target(v["nps_target"], M1_LABEL) +
             sc_surveys(v["sS1"], v["surv_wow_var"], S1_LABEL) +
             sc_driver("DRIVER MAIS OFENSOR", ww,
                       wD[ww]["nps_b"], wD[ww]["share_b"],
-                      "WoW", wD[ww]["var"], "MoM", mD[ww]["var"], vt[ww]["gap"]) +
+                      "WoW", wD[ww]["var"], "MoM", mD[ww]["var"], vt[ww]["gap"],
+                      rm_w, rw_w, is_worst=True) +
             sc_driver("DRIVER MAIS PROMOTOR", bw,
                       wD[bw]["nps_b"], wD[bw]["share_b"],
-                      "WoW", wD[bw]["var"], "MoM", mD[bw]["var"], vt[bw]["gap"])
+                      "WoW", wD[bw]["var"], "MoM", mD[bw]["var"], vt[bw]["gap"],
+                      rm_b, rw_b, is_worst=False)
         )
 
     tt = v["tt"]
@@ -399,6 +491,9 @@ header h1{{font-size:16px;font-weight:700}}
 .sc-driver-meta{{font-size:11px;color:#777;margin-bottom:4px}}
 .sc-bar-wrap{{height:4px;background:#eee;border-radius:2px;margin-bottom:2px}}
 .sc-bar{{height:4px;background:#9099c8;border-radius:2px}}
+.rec-full{{font-weight:700!important}}
+.rec-partial{{color:#8a6000!important;font-weight:600}}
+.rec-none{{color:#aaa!important;font-weight:400}}
 
 /* ── Charts ── */
 .chart-section{{background:#fff;border-radius:12px;padding:18px 22px;
