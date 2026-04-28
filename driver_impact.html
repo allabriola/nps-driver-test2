@@ -8,146 +8,227 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#eef0f5;color:#1a1e3c;font-size:13px}
-header{background:#1a1e3c;color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
-header h1{font-size:17px;font-weight:700}
-.meta{font-size:11px;color:#aab4d4}
-.page{padding:20px 24px;display:flex;flex-direction:column;gap:28px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      background:#eef0f5;color:#1a1e3c;font-size:13px}
 
-/* Scorecards */
-.sc-group{display:flex;gap:12px;flex-wrap:wrap}
-.sc-group-divider{width:1px;background:#dde0ea;margin:0 4px;align-self:stretch}
-.sc{background:#fff;border-radius:10px;padding:14px 18px;min-width:155px;
-     box-shadow:0 1px 4px rgba(0,0,0,.08);border-top:3px solid #9099c8}
-.sc-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
-.sc-val{font-size:28px;font-weight:700;color:#1a1e3c;line-height:1}
-.sc-delta{font-size:15px;font-weight:700;margin-top:4px}
-.delta-pos{color:#1b5e20}.delta-neg{color:#b71c1c}.delta-neu{color:#555}
-.sc-sub{font-size:10px;color:#aaa;margin-top:2px}
-.sc-surv{font-size:10px;color:#bbb;margin-top:1px}
+/* ── Header ── */
+header{background:#1a1e3c;color:#fff;padding:13px 24px;
+        display:flex;align-items:center;justify-content:space-between}
+header h1{font-size:16px;font-weight:700}
+.hd-meta{font-size:11px;color:#aab4d4}
 
-/* Chart sections */
-.chart-section{background:#fff;border-radius:12px;padding:20px 24px;
-                box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.chart-title{font-size:13px;font-weight:700;color:#1a1e3c;margin-bottom:4px}
-.chart-sub{font-size:11px;color:#888;margin-bottom:14px}
-.chart-wrap{position:relative;height:320px;width:100%}
+/* ── Top bar (tabs + period) ── */
+.top-bar{background:#eef0f5;padding:14px 24px 0;
+          display:flex;align-items:center;justify-content:space-between}
+.tabs{display:flex;gap:4px;background:#dde2ec;border-radius:8px;padding:3px}
+.tab-btn{border:none;cursor:pointer;padding:6px 20px;border-radius:6px;
+          font-size:12px;font-weight:700;background:transparent;color:#555;transition:.15s}
+.tab-btn.active{background:#bf5c00;color:#fff;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.period-label{font-size:12px;color:#666;background:#fff;border:1px solid #d0d5e0;
+               border-radius:6px;padding:5px 12px}
+
+/* ── Page ── */
+.page{padding:16px 24px;display:flex;flex-direction:column;gap:20px}
+
+/* ── Scorecards grid ── */
+.sc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.sc{background:#fff;border-radius:10px;padding:16px 18px;
+     box-shadow:0 1px 4px rgba(0,0,0,.07);border-top:3px solid #c8cdd8}
+.sc-driver-card{grid-column:span 1}
+
+.sc-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.6px;
+           margin-bottom:6px;font-weight:700}
+.sc-val{font-size:30px;font-weight:700;color:#bf5c00;line-height:1.1}
+.sc-val-int{font-size:28px;font-weight:700;color:#bf5c00;line-height:1.1}
+.sc-sep{border:none;border-top:1px solid #eee;margin:8px 0}
+.sc-sub{font-size:10px;color:#aaa;margin-top:3px}
+
+.bullet{font-size:11px;font-weight:600;margin-top:4px;line-height:1.4}
+.bullet.pos{color:#1a7a1a}.bullet.neg{color:#c0321a}
+
+.sc-driver-name{font-size:13px;font-weight:700;color:#1a1e3c;margin-bottom:2px}
+.sc-driver-meta{font-size:11px;color:#777;margin-bottom:4px}
+.sc-bar-wrap{height:4px;background:#eee;border-radius:2px;margin-bottom:2px}
+.sc-bar{height:4px;background:#9099c8;border-radius:2px}
+
+/* ── Charts ── */
+.chart-section{background:#fff;border-radius:12px;padding:18px 22px;
+                box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.chart-title{font-size:13px;font-weight:700;color:#1a1e3c;margin-bottom:3px}
+.chart-sub{font-size:11px;color:#888;margin-bottom:12px}
+.chart-wrap{position:relative;height:310px;width:100%}
+
+/* ── Tab panes ── */
+.tab-pane{display:none}.tab-pane.active{display:flex;flex-direction:column;gap:20px}
 </style>
 </head>
 <body>
+
 <header>
   <div>
     <h1>NPS Driver Impact - All Sellers BR</h1>
-    <div class="meta">27 drivers | Sellers | CENTER=BR | E-Commerce</div>
+    <div class="hd-meta">27 drivers | Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="meta" style="text-align:right">Gerado em 28/04/2026 09:38</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 09:50</div>
 </header>
+
+<div class="top-bar">
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="pane-mes" onclick="showTab(this)">MES</button>
+    <button class="tab-btn"        data-tab="pane-sem" onclick="showTab(this)">SEMANA</button>
+  </div>
+  <div class="period-label" id="period-label">Abril 2026</div>
+</div>
 
 <div class="page">
 
-  <!-- Todos os scorecards juntos no topo -->
-  <div class="sc-group">
-    <div class="sc">
-  <div class="sc-label">Marco 2026</div>
-  <div class="sc-val">58.4%</div>
-  <div class="sc-surv">23,127 surveys</div>
+  <!-- ── TAB MES ──────────────────────────────────────────────── -->
+  <div id="pane-mes" class="tab-pane active">
+    <div class="sc-grid"><div class="sc">
+  <div class="sc-label">NPS CONSOLIDADO</div>
+  <div class="sc-val" style="color:#1a7a1a">59.9%</div>
+  <hr class="sc-sep">
+  <div class="bullet pos">&#9650; +7.70 pp gap vs target</div>
+  <div class="bullet pos">&#9650; +1.55 pp vs mes ant.</div>
+  <div class="sc-sub">Abril 2026</div>
 </div><div class="sc">
-  <div class="sc-label">Abril 2026</div>
-  <div class="sc-val">59.9%</div>
-  <div class="sc-surv">18,686 surveys</div>
-</div><div class="sc">
-  <div class="sc-label">Variacao MoM</div>
-  <div class="sc-val">59.9%</div>
-  <div class="sc-delta delta-pos">++1.55 pp</div><div class="sc-sub">Marco 2026 vs Abril 2026</div>
-</div>
-    <div class="sc-group-divider"></div>
-    <div class="sc">
-  <div class="sc-label">13/abr - 19/abr</div>
-  <div class="sc-val">59.2%</div>
-  <div class="sc-surv">5,142 surveys</div>
-</div><div class="sc">
-  <div class="sc-label">20/abr - 26/abr</div>
-  <div class="sc-val">60.7%</div>
-  <div class="sc-surv">4,731 surveys</div>
-</div><div class="sc">
-  <div class="sc-label">Variacao WoW</div>
-  <div class="sc-val">60.7%</div>
-  <div class="sc-delta delta-pos">++1.42 pp</div><div class="sc-sub">13/abr - 19/abr vs 20/abr - 26/abr</div>
-</div>
-    <div class="sc-group-divider"></div>
-    <div class="sc">
-  <div class="sc-label">NPS Abril 2026</div>
-  <div class="sc-val">59.9%</div>
-  <div class="sc-surv">18,686 surveys</div>
-</div><div class="sc">
-  <div class="sc-label">Target Abril (consol)</div>
+  <div class="sc-label">TARGET</div>
   <div class="sc-val">52.2%</div>
-  
+  <hr class="sc-sep">
+  <div class="sc-sub">meta do periodo</div>
+  <div class="sc-sub">Abril 2026</div>
 </div><div class="sc">
-  <div class="sc-label">Gap vs Target</div>
-  <div class="sc-val">59.9%</div>
-  <div class="sc-delta delta-pos">++7.70 pp</div><div class="sc-sub">NPS atual vs target consolidado</div>
-</div>
+  <div class="sc-label">PESQUISAS</div>
+  <div class="sc-val sc-val-int">18,686</div>
+  <hr class="sc-sep">
+  <div class="bullet neg">&#9660; -19.2% vs periodo ant.</div>
+  <div class="sc-sub">Abril 2026</div>
+</div><div class="sc sc-driver-card">
+  <div class="sc-label">DRIVER MAIS OFENSOR</div>
+  <div class="sc-driver-name">Publicaciones Seller Dev</div>
+  <div class="sc-driver-meta">64.2% NPS &middot; 12.1% vol.</div>
+  <div class="sc-bar-wrap"><div class="sc-bar" style="width:12.1%"></div></div>
+  <hr class="sc-sep">
+  <div class="bullet neg">&#9660; -0.70 pp impacto MoM</div>
+  <div class="bullet neg">&#9660; -0.06 pp impacto WoW</div>
+  <div class="bullet pos">&#9650; +11.31 pp vs target</div>
+</div><div class="sc sc-driver-card">
+  <div class="sc-label">DRIVER MAIS PROMOTOR</div>
+  <div class="sc-driver-name">ME Vendedor Seller Dev</div>
+  <div class="sc-driver-meta">68.3% NPS &middot; 30.3% vol.</div>
+  <div class="sc-bar-wrap"><div class="sc-bar" style="width:30.3%"></div></div>
+  <hr class="sc-sep">
+  <div class="bullet pos">&#9650; +0.58 pp impacto MoM</div>
+  <div class="bullet pos">&#9650; +0.88 pp impacto WoW</div>
+  <div class="bullet pos">&#9650; +10.47 pp vs target</div>
+</div></div>
+
+    <div class="chart-section">
+      <div class="chart-title">Impacto MoM - Abertura Driver</div>
+      <div class="chart-sub">Contribuicao de cada driver (pp) na variacao consolidada Marco 2026 → Abril 2026. Maiores ganhos a esquerda, maiores perdas a direita.</div>
+      <div class="chart-wrap"><canvas id="c-mom"></canvas></div>
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-title">vs Target - Abertura Driver</div>
+      <div class="chart-sub">Partindo do target ponderado por volume (54.2%), cada driver mostra seu desvio ponderado ate o NPS real de 59.9%. Negativo = abaixo do target.</div>
+      <div class="chart-wrap"><canvas id="c-vt"></canvas></div>
+    </div>
   </div>
 
-  <!-- MoM -->
-  <div class="chart-section">
-    <div class="chart-title">Impacto MoM - Abertura Driver</div>
-    <div class="chart-sub">Contribuicao de cada driver (pp) para a variacao consolidada Marco 2026 vs Abril 2026. Ordenado: maiores ganhos ate maiores perdas.</div>
-    <div class="chart-wrap"><canvas id="c-mom"></canvas></div>
+  <!-- ── TAB SEMANA ───────────────────────────────────────────── -->
+  <div id="pane-sem" class="tab-pane">
+    <div class="sc-grid"><div class="sc">
+  <div class="sc-label">NPS CONSOLIDADO</div>
+  <div class="sc-val" style="color:#1a7a1a">60.7%</div>
+  <hr class="sc-sep">
+  <div class="bullet pos">&#9650; +8.44 pp gap vs target</div>
+  <div class="bullet pos">&#9650; +1.42 pp vs sem. ant.</div>
+  <div class="sc-sub">20/abr - 26/abr</div>
+</div><div class="sc">
+  <div class="sc-label">TARGET</div>
+  <div class="sc-val">52.2%</div>
+  <hr class="sc-sep">
+  <div class="sc-sub">meta do periodo</div>
+  <div class="sc-sub">Abril 2026</div>
+</div><div class="sc">
+  <div class="sc-label">PESQUISAS</div>
+  <div class="sc-val sc-val-int">4,731</div>
+  <hr class="sc-sep">
+  <div class="bullet neg">&#9660; -8.0% vs periodo ant.</div>
+  <div class="sc-sub">20/abr - 26/abr</div>
+</div><div class="sc sc-driver-card">
+  <div class="sc-label">DRIVER MAIS OFENSOR</div>
+  <div class="sc-driver-name">PNR ME - Vendedor</div>
+  <div class="sc-driver-meta">20.4% NPS &middot; 2.2% vol.</div>
+  <div class="sc-bar-wrap"><div class="sc-bar" style="width:2.2%"></div></div>
+  <hr class="sc-sep">
+  <div class="bullet neg">&#9660; -0.70 pp impacto WoW</div>
+  <div class="bullet neg">&#9660; -0.04 pp impacto MoM</div>
+  <div class="bullet neg">&#9660; -4.46 pp vs target</div>
+</div><div class="sc sc-driver-card">
+  <div class="sc-label">DRIVER MAIS PROMOTOR</div>
+  <div class="sc-driver-name">ME Vendedor Seller Dev</div>
+  <div class="sc-driver-meta">69.3% NPS &middot; 27.6% vol.</div>
+  <div class="sc-bar-wrap"><div class="sc-bar" style="width:27.6%"></div></div>
+  <hr class="sc-sep">
+  <div class="bullet pos">&#9650; +0.88 pp impacto WoW</div>
+  <div class="bullet pos">&#9650; +0.58 pp impacto MoM</div>
+  <div class="bullet pos">&#9650; +10.47 pp vs target</div>
+</div></div>
+
+    <div class="chart-section">
+      <div class="chart-title">Impacto WoW - Abertura Driver</div>
+      <div class="chart-sub">Contribuicao de cada driver (pp) na variacao consolidada 13/abr - 19/abr → 20/abr - 26/abr. Maiores ganhos a esquerda, maiores perdas a direita.</div>
+      <div class="chart-wrap"><canvas id="c-wow"></canvas></div>
+    </div>
   </div>
 
-  <!-- WoW -->
-  <div class="chart-section">
-    <div class="chart-title">Impacto WoW - Abertura Driver</div>
-    <div class="chart-sub">Contribuicao de cada driver (pp) para a variacao consolidada 13/abr - 19/abr vs 20/abr - 26/abr.</div>
-    <div class="chart-wrap"><canvas id="c-wow"></canvas></div>
-  </div>
-
-  <!-- vs Target -->
-  <div class="chart-section">
-    <div class="chart-title">vs Target - Abertura Driver</div>
-    <div class="chart-sub">Cada driver contribui com (NPS_driver - Target_driver) x share para o desvio em relacao ao target ponderado (54.2%). Negativo = abaixo do target = oportunidade.</div>
-    <div class="chart-wrap"><canvas id="c-vt"></canvas></div>
-  </div>
-
-</div>
+</div><!-- /page -->
 
 <script>
 Chart.register(ChartDataLabels);
+const BLUE = 'rgba(30,65,150,0.88)';
+const GREEN = 'rgba(30,160,80,0.88)';
+const RED   = 'rgba(210,45,45,0.88)';
 
-const BLUE   = 'rgba(30,65,150,0.88)';
-const GREEN  = 'rgba(30,160,80,0.88)';
-const RED    = 'rgba(210,45,45,0.88)';
-const BLUE_S = 'rgba(30,65,150,0.55)';
+const PERIOD_LABELS = { 'pane-mes': 'Abril 2026', 'pane-sem': '20/abr - 26/abr' };
+
+function showTab(btn) {
+  document.querySelectorAll('.tab-pane').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  var tabId = btn.getAttribute('data-tab');
+  document.getElementById(tabId).classList.add('active');
+  btn.classList.add('active');
+  document.getElementById('period-label').textContent = PERIOD_LABELS[tabId] || '';
+}
 
 function shorten(s, n) {
-  n = n || 10;
+  n = n || 11;
   return s.length > n ? s.slice(0, n) + '...' : s;
 }
 
 function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, drivers, yBase) {
-  const labels = [startLabel];
-  const floatData  = [[yBase, startVal]];
-  const bgColors   = [BLUE];
-  const dlValues   = [startVal.toFixed(1) + '%'];
+  var labels    = [startLabel];
+  var floatData = [[yBase, startVal]];
+  var bgColors  = [BLUE];
+  var dlValues  = [startVal.toFixed(1) + '%'];
 
-  let running = startVal;
+  var running = startVal;
   drivers.forEach(function(d) {
-    labels.push(shorten(d.label, 11));
+    labels.push(shorten(d.label));
     floatData.push([running, running + d.v]);
     bgColors.push(d.v >= 0 ? GREEN : RED);
     dlValues.push((d.v >= 0 ? '+' : '') + d.v.toFixed(2) + '%');
     running += d.v;
   });
-
   labels.push(endLabel);
   floatData.push([yBase, endVal]);
   bgColors.push(BLUE);
   dlValues.push(endVal.toFixed(1) + '%');
 
-  const allVals = floatData.map(function(p) { return [p[0], p[1]]; }).flat();
-  const yMax = Math.max.apply(null, allVals) + 3;
+  var allVals = floatData.reduce(function(a, p) { return a.concat([p[0], p[1]]); }, []);
+  var yMax = Math.max.apply(null, allVals) + 3;
 
   new Chart(document.getElementById(canvasId), {
     type: 'bar',
@@ -182,24 +263,15 @@ function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, driver
           },
           font: { size: 9.5, weight: '600' },
           color: '#333',
-          padding: { top: 2, bottom: 2 },
+          padding: 2,
           clip: false,
         }
       },
       layout: { padding: { top: 28, bottom: 4 } },
       scales: {
-        y: {
-          min: yBase,
-          max: yMax,
-          display: false,
-        },
+        y: { min: yBase, max: yMax, display: false },
         x: {
-          ticks: {
-            maxRotation: 60,
-            minRotation: 45,
-            font: { size: 9.5 },
-            color: '#555',
-          },
+          ticks: { maxRotation: 60, minRotation: 45, font: { size: 9.5 }, color: '#555' },
           grid: { display: false },
           border: { display: false },
         }
@@ -208,17 +280,9 @@ function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, driver
   });
 }
 
-// MoM
-buildWaterfall('c-mom', 58.37, 59.92, 'Marco 2026', 'Abril 2026',
-  [{"label": "ME Vendedor Seller Dev", "v": 0.58, "cat": "Longtail"}, {"label": "Post Venta Meli Pro", "v": 0.46, "cat": "Meli Pro"}, {"label": "Post Venta Seller Dev", "v": 0.29, "cat": "Longtail"}, {"label": "PDD DS&XD - Vendedor", "v": 0.28, "cat": "Buyers"}, {"label": "ME Vendedor Meli Pro", "v": 0.21, "cat": "Meli Pro"}, {"label": "PCF Vendedor Seller Dev", "v": 0.19, "cat": "Longtail"}, {"label": "PNR MP - Vendedor", "v": 0.16, "cat": "Buyers"}, {"label": "ME Vendedor Mature", "v": 0.15, "cat": "Mature"}, {"label": "Publicaciones Meli Pro", "v": 0.14, "cat": "Meli Pro"}, {"label": "CBT", "v": 0.12, "cat": "Buyers"}, {"label": "FBM-S Mature", "v": 0.11, "cat": "FBM"}, {"label": "FBM-S Seller Dev", "v": 0.06, "cat": "FBM"}, {"label": "PDD MP,FLEX & CBT - Vendedor", "v": 0.06, "cat": "Buyers"}, {"label": "Experiencia Impositiva Mature", "v": 0.05, "cat": "Mature"}, {"label": "Experiencia Impositiva Seller Dev", "v": 0.05, "cat": "Longtail"}, {"label": "FBM-S Meli Pro", "v": 0.05, "cat": "FBM"}, {"label": "PCF Vendedor Meli Pro", "v": 0.05, "cat": "Meli Pro"}, {"label": "Post Venta Mature", "v": 0.05, "cat": "Mature"}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.02, "cat": "Meli Pro"}, {"label": "PNR ME - Vendedor", "v": -0.04, "cat": "Buyers"}, {"label": "Partners", "v": -0.04, "cat": "Longtail"}, {"label": "PDD Fotos - Vendedor", "v": -0.05, "cat": "Buyers"}, {"label": "Publicaciones Mature", "v": -0.05, "cat": "Mature"}, {"label": "PCF Vendedor Mature", "v": -0.06, "cat": "Mature"}, {"label": "PDD FBM - Vendedor", "v": -0.1, "cat": "Buyers"}, {"label": "Otros CV", "v": -0.48, "cat": "Otros CV"}, {"label": "Publicaciones Seller Dev", "v": -0.7, "cat": "Longtail"}], 55.4);
-
-// WoW
-buildWaterfall('c-wow', 59.24, 60.66, '13/abr - 19/abr', '20/abr - 26/abr',
-  [{"label": "ME Vendedor Seller Dev", "v": 0.88, "cat": "Longtail"}, {"label": "PDD DS&XD - Vendedor", "v": 0.73, "cat": "Buyers"}, {"label": "Post Venta Meli Pro", "v": 0.58, "cat": "Meli Pro"}, {"label": "Publicaciones Mature", "v": 0.31, "cat": "Mature"}, {"label": "Publicaciones Meli Pro", "v": 0.22, "cat": "Meli Pro"}, {"label": "FBM-S Meli Pro", "v": 0.19, "cat": "FBM"}, {"label": "PCF Vendedor Mature", "v": 0.15, "cat": "Mature"}, {"label": "PCF Vendedor Meli Pro", "v": 0.14, "cat": "Meli Pro"}, {"label": "Post Venta Seller Dev", "v": 0.1, "cat": "Longtail"}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.05, "cat": "Meli Pro"}, {"label": "PDD FBM - Vendedor", "v": 0.04, "cat": "Buyers"}, {"label": "ME Vendedor Meli Pro", "v": 0.02, "cat": "Meli Pro"}, {"label": "PDD Fotos - Vendedor", "v": 0.02, "cat": "Buyers"}, {"label": "Experiencia Impositiva Mature", "v": 0.01, "cat": "Mature"}, {"label": "Partners", "v": -0.01, "cat": "Longtail"}, {"label": "Post Venta Mature", "v": -0.01, "cat": "Mature"}, {"label": "FBM-S Mature", "v": -0.02, "cat": "FBM"}, {"label": "PDD MP,FLEX & CBT - Vendedor", "v": -0.02, "cat": "Buyers"}, {"label": "FBM-S Seller Dev", "v": -0.04, "cat": "FBM"}, {"label": "Experiencia Impositiva Seller Dev", "v": -0.05, "cat": "Longtail"}, {"label": "Publicaciones Seller Dev", "v": -0.06, "cat": "Longtail"}, {"label": "ME Vendedor Mature", "v": -0.1, "cat": "Mature"}, {"label": "CBT", "v": -0.16, "cat": "Buyers"}, {"label": "Otros CV", "v": -0.19, "cat": "Otros CV"}, {"label": "PCF Vendedor Seller Dev", "v": -0.24, "cat": "Longtail"}, {"label": "PNR MP - Vendedor", "v": -0.42, "cat": "Buyers"}, {"label": "PNR ME - Vendedor", "v": -0.7, "cat": "Buyers"}], 56.2);
-
-// vs Target
-buildWaterfall('c-vt', 54.16, 59.92, 'Target Pond.', 'Abril 2026',
-  [{"label": "ME Vendedor Seller Dev", "v": 3.17, "cat": "Longtail"}, {"label": "Publicaciones Seller Dev", "v": 1.37, "cat": "Longtail"}, {"label": "ME Vendedor Mature", "v": 0.82, "cat": "Mature"}, {"label": "Post Venta Seller Dev", "v": 0.77, "cat": "Longtail"}, {"label": "PCF Vendedor Mature", "v": 0.3, "cat": "Mature"}, {"label": "Post Venta Mature", "v": 0.25, "cat": "Mature"}, {"label": "PCF Vendedor Seller Dev", "v": 0.24, "cat": "Longtail"}, {"label": "FBM-S Mature", "v": 0.21, "cat": "FBM"}, {"label": "Publicaciones Mature", "v": 0.11, "cat": "Mature"}, {"label": "Post Venta Meli Pro", "v": 0.07, "cat": "Meli Pro"}, {"label": "FBM-S Seller Dev", "v": 0.06, "cat": "FBM"}, {"label": "FBM-S Meli Pro", "v": 0.04, "cat": "FBM"}, {"label": "PNR MP - Vendedor", "v": 0.04, "cat": "Buyers"}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.01, "cat": "Meli Pro"}, {"label": "PDD MP,FLEX & CBT - Vendedor", "v": 0.01, "cat": "Buyers"}, {"label": "Experiencia Impositiva Mature", "v": -0.01, "cat": "Mature"}, {"label": "PCF Vendedor Meli Pro", "v": -0.01, "cat": "Meli Pro"}, {"label": "Publicaciones Meli Pro", "v": -0.02, "cat": "Meli Pro"}, {"label": "CBT", "v": -0.05, "cat": "Buyers"}, {"label": "ME Vendedor Meli Pro", "v": -0.05, "cat": "Meli Pro"}, {"label": "PNR ME - Vendedor", "v": -0.05, "cat": "Buyers"}, {"label": "PDD Fotos - Vendedor", "v": -0.06, "cat": "Buyers"}, {"label": "PDD FBM - Vendedor", "v": -0.18, "cat": "Buyers"}, {"label": "PDD DS&XD - Vendedor", "v": -0.24, "cat": "Buyers"}, {"label": "Experiencia Impositiva Seller Dev", "v": -0.26, "cat": "Longtail"}, {"label": "Otros CV", "v": -0.35, "cat": "Otros CV"}, {"label": "Partners", "v": -0.44, "cat": "Longtail"}], 51.2);
+buildWaterfall('c-mom', 58.37, 59.92, 'Marco 2026', 'Abril 2026', [{"label": "ME Vendedor Seller Dev", "v": 0.58, "cat": "Longtail"}, {"label": "Post Venta Meli Pro", "v": 0.46, "cat": "Meli Pro"}, {"label": "Post Venta Seller Dev", "v": 0.29, "cat": "Longtail"}, {"label": "PDD DS&XD - Vendedor", "v": 0.28, "cat": "Buyers"}, {"label": "ME Vendedor Meli Pro", "v": 0.21, "cat": "Meli Pro"}, {"label": "PCF Vendedor Seller Dev", "v": 0.19, "cat": "Longtail"}, {"label": "PNR MP - Vendedor", "v": 0.16, "cat": "Buyers"}, {"label": "ME Vendedor Mature", "v": 0.15, "cat": "Mature"}, {"label": "Publicaciones Meli Pro", "v": 0.14, "cat": "Meli Pro"}, {"label": "CBT", "v": 0.12, "cat": "Buyers"}, {"label": "FBM-S Mature", "v": 0.11, "cat": "FBM"}, {"label": "FBM-S Seller Dev", "v": 0.06, "cat": "FBM"}, {"label": "PDD MP,FLEX & CBT - Vendedor", "v": 0.06, "cat": "Buyers"}, {"label": "Experiencia Impositiva Mature", "v": 0.05, "cat": "Mature"}, {"label": "Experiencia Impositiva Seller Dev", "v": 0.05, "cat": "Longtail"}, {"label": "FBM-S Meli Pro", "v": 0.05, "cat": "FBM"}, {"label": "PCF Vendedor Meli Pro", "v": 0.05, "cat": "Meli Pro"}, {"label": "Post Venta Mature", "v": 0.05, "cat": "Mature"}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.02, "cat": "Meli Pro"}, {"label": "PNR ME - Vendedor", "v": -0.04, "cat": "Buyers"}, {"label": "Partners", "v": -0.04, "cat": "Longtail"}, {"label": "PDD Fotos - Vendedor", "v": -0.05, "cat": "Buyers"}, {"label": "Publicaciones Mature", "v": -0.05, "cat": "Mature"}, {"label": "PCF Vendedor Mature", "v": -0.06, "cat": "Mature"}, {"label": "PDD FBM - Vendedor", "v": -0.1, "cat": "Buyers"}, {"label": "Otros CV", "v": -0.48, "cat": "Otros CV"}, {"label": "Publicaciones Seller Dev", "v": -0.7, "cat": "Longtail"}], 55.4);
+buildWaterfall('c-wow', 59.24, 60.66, '13/abr - 19/abr', '20/abr - 26/abr', [{"label": "ME Vendedor Seller Dev", "v": 0.88, "cat": "Longtail"}, {"label": "PDD DS&XD - Vendedor", "v": 0.73, "cat": "Buyers"}, {"label": "Post Venta Meli Pro", "v": 0.58, "cat": "Meli Pro"}, {"label": "Publicaciones Mature", "v": 0.31, "cat": "Mature"}, {"label": "Publicaciones Meli Pro", "v": 0.22, "cat": "Meli Pro"}, {"label": "FBM-S Meli Pro", "v": 0.19, "cat": "FBM"}, {"label": "PCF Vendedor Mature", "v": 0.15, "cat": "Mature"}, {"label": "PCF Vendedor Meli Pro", "v": 0.14, "cat": "Meli Pro"}, {"label": "Post Venta Seller Dev", "v": 0.1, "cat": "Longtail"}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.05, "cat": "Meli Pro"}, {"label": "PDD FBM - Vendedor", "v": 0.04, "cat": "Buyers"}, {"label": "ME Vendedor Meli Pro", "v": 0.02, "cat": "Meli Pro"}, {"label": "PDD Fotos - Vendedor", "v": 0.02, "cat": "Buyers"}, {"label": "Experiencia Impositiva Mature", "v": 0.01, "cat": "Mature"}, {"label": "Partners", "v": -0.01, "cat": "Longtail"}, {"label": "Post Venta Mature", "v": -0.01, "cat": "Mature"}, {"label": "FBM-S Mature", "v": -0.02, "cat": "FBM"}, {"label": "PDD MP,FLEX & CBT - Vendedor", "v": -0.02, "cat": "Buyers"}, {"label": "FBM-S Seller Dev", "v": -0.04, "cat": "FBM"}, {"label": "Experiencia Impositiva Seller Dev", "v": -0.05, "cat": "Longtail"}, {"label": "Publicaciones Seller Dev", "v": -0.06, "cat": "Longtail"}, {"label": "ME Vendedor Mature", "v": -0.1, "cat": "Mature"}, {"label": "CBT", "v": -0.16, "cat": "Buyers"}, {"label": "Otros CV", "v": -0.19, "cat": "Otros CV"}, {"label": "PCF Vendedor Seller Dev", "v": -0.24, "cat": "Longtail"}, {"label": "PNR MP - Vendedor", "v": -0.42, "cat": "Buyers"}, {"label": "PNR ME - Vendedor", "v": -0.7, "cat": "Buyers"}], 56.2);
+buildWaterfall('c-vt',  54.16, 59.92, 'Target Pond.', 'Abril 2026', [{"label": "ME Vendedor Seller Dev", "v": 3.17, "cat": "Longtail"}, {"label": "Publicaciones Seller Dev", "v": 1.37, "cat": "Longtail"}, {"label": "ME Vendedor Mature", "v": 0.82, "cat": "Mature"}, {"label": "Post Venta Seller Dev", "v": 0.77, "cat": "Longtail"}, {"label": "PCF Vendedor Mature", "v": 0.3, "cat": "Mature"}, {"label": "Post Venta Mature", "v": 0.25, "cat": "Mature"}, {"label": "PCF Vendedor Seller Dev", "v": 0.24, "cat": "Longtail"}, {"label": "FBM-S Mature", "v": 0.21, "cat": "FBM"}, {"label": "Publicaciones Mature", "v": 0.11, "cat": "Mature"}, {"label": "Post Venta Meli Pro", "v": 0.07, "cat": "Meli Pro"}, {"label": "FBM-S Seller Dev", "v": 0.06, "cat": "FBM"}, {"label": "FBM-S Meli Pro", "v": 0.04, "cat": "FBM"}, {"label": "PNR MP - Vendedor", "v": 0.04, "cat": "Buyers"}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.01, "cat": "Meli Pro"}, {"label": "PDD MP,FLEX & CBT - Vendedor", "v": 0.01, "cat": "Buyers"}, {"label": "Experiencia Impositiva Mature", "v": -0.01, "cat": "Mature"}, {"label": "PCF Vendedor Meli Pro", "v": -0.01, "cat": "Meli Pro"}, {"label": "Publicaciones Meli Pro", "v": -0.02, "cat": "Meli Pro"}, {"label": "CBT", "v": -0.05, "cat": "Buyers"}, {"label": "ME Vendedor Meli Pro", "v": -0.05, "cat": "Meli Pro"}, {"label": "PNR ME - Vendedor", "v": -0.05, "cat": "Buyers"}, {"label": "PDD Fotos - Vendedor", "v": -0.06, "cat": "Buyers"}, {"label": "PDD FBM - Vendedor", "v": -0.18, "cat": "Buyers"}, {"label": "PDD DS&XD - Vendedor", "v": -0.24, "cat": "Buyers"}, {"label": "Experiencia Impositiva Seller Dev", "v": -0.26, "cat": "Longtail"}, {"label": "Otros CV", "v": -0.35, "cat": "Otros CV"}, {"label": "Partners", "v": -0.44, "cat": "Longtail"}], 51.2);
 </script>
 </body>
 </html>

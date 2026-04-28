@@ -191,7 +191,18 @@ for drv in monthly_driver:
     vt_impacts[drv] = {"var": round(gap_d * sh, 2), "nps": nb, "target": tgt,
                        "gap": gap_d, "share": round(sh * 100, 1)}
 
-# ─── HELPERS JS ──────────────────────────────────────────────────────────────
+# ─── DERIVADOS ADICIONAIS ────────────────────────────────────────────────────
+worst_mom_drv = min(mD, key=lambda d: mD[d]["var"])
+best_mom_drv  = max(mD, key=lambda d: mD[d]["var"])
+worst_wow_drv = min(wD, key=lambda d: wD[d]["var"])
+best_wow_drv  = max(wD, key=lambda d: wD[d]["var"])
+
+surv_mom_var  = round((sM1 - sM2) / sM2 * 100, 1) if sM2 else 0
+surv_wow_var  = round((sS1 - sS2) / sS2 * 100, 1) if sS2 else 0
+vs_tgt_mom    = round(nM1 - NPS_TARGET_CONSOL, 2)
+vs_tgt_wow    = round(nS1 - NPS_TARGET_CONSOL, 2)
+
+# ─── HELPERS CHARTS ──────────────────────────────────────────────────────────
 def sorted_impacts(decomp):
     """Sort: maiores ganhos primeiro ate maiores perdas por ultimo (decrescente)."""
     items = [{"label": d, "v": round(r["var"], 3), "cat": CAT.get(d, "?")}
@@ -216,16 +227,51 @@ wow_ybase = calc_y_base(nS2, wow_drivers)
 vt_ybase  = calc_y_base(theoretical_target, vt_drivers)
 
 # ─── HTML ─────────────────────────────────────────────────────────────────────
-def sc(label, val_main, val_sub=None, delta=None, surveys=None):
-    sign = "+" if delta and delta > 0 else ""
-    delta_cls = "delta-pos" if delta and delta > 0 else ("delta-neg" if delta and delta < 0 else "delta-neu")
-    delta_html = f'<div class="sc-delta {delta_cls}">{sign}{delta:+.2f} pp</div>' if delta is not None else ""
-    sub_html   = f'<div class="sc-sub">{val_sub}</div>' if val_sub else ""
-    surv_html  = f'<div class="sc-surv">{surveys:,} surveys</div>' if surveys else ""
+def _arr(v): return "&#9650;" if v >= 0 else "&#9660;"
+def _cls(v): return "pos" if v >= 0 else "neg"
+def _pp(v):  return f"{v:+.2f} pp"
+def _pct(v): return f"{v:+.1f}%"
+
+def sc_nps(label, val, vs_tgt, vs_prev, prev_label, period_sub):
+    val_color = "#1a7a1a" if vs_tgt >= 0 else "#c0321a"
     return f"""<div class="sc">
   <div class="sc-label">{label}</div>
-  <div class="sc-val">{val_main:.1f}%</div>
-  {delta_html}{sub_html}{surv_html}
+  <div class="sc-val" style="color:{val_color}">{val:.1f}%</div>
+  <hr class="sc-sep">
+  <div class="bullet {_cls(vs_tgt)}">{_arr(vs_tgt)} {_pp(vs_tgt)} gap vs target</div>
+  <div class="bullet {_cls(vs_prev)}">{_arr(vs_prev)} {_pp(vs_prev)} vs {prev_label}</div>
+  <div class="sc-sub">{period_sub}</div>
+</div>"""
+
+def sc_target(val, label):
+    return f"""<div class="sc">
+  <div class="sc-label">TARGET</div>
+  <div class="sc-val">{val:.1f}%</div>
+  <hr class="sc-sep">
+  <div class="sc-sub">meta do periodo</div>
+  <div class="sc-sub">{label}</div>
+</div>"""
+
+def sc_surveys(surveys, var_pct, period_sub):
+    return f"""<div class="sc">
+  <div class="sc-label">PESQUISAS</div>
+  <div class="sc-val sc-val-int">{surveys:,}</div>
+  <hr class="sc-sep">
+  <div class="bullet {_cls(var_pct)}">{_arr(var_pct)} {_pct(var_pct)} vs periodo ant.</div>
+  <div class="sc-sub">{period_sub}</div>
+</div>"""
+
+def sc_driver(title, drv, nps_val, share_val,
+              p1_label, p1_var, p2_label, p2_var, tgt_gap):
+    return f"""<div class="sc sc-driver-card">
+  <div class="sc-label">{title}</div>
+  <div class="sc-driver-name">{drv}</div>
+  <div class="sc-driver-meta">{nps_val:.1f}% NPS &middot; {share_val:.1f}% vol.</div>
+  <div class="sc-bar-wrap"><div class="sc-bar" style="width:{share_val:.1f}%"></div></div>
+  <hr class="sc-sep">
+  <div class="bullet {_cls(p1_var)}">{_arr(p1_var)} {_pp(p1_var)} impacto {p1_label}</div>
+  <div class="bullet {_cls(p2_var)}">{_arr(p2_var)} {_pp(p2_var)} impacto {p2_label}</div>
+  <div class="bullet {_cls(tgt_gap)}">{_arr(tgt_gap)} {_pp(tgt_gap)} vs target</div>
 </div>"""
 
 def build_html():
@@ -233,20 +279,38 @@ def build_html():
     wow_json = json.dumps(wow_drivers)
     vt_json  = json.dumps(vt_drivers)
 
-    sc_mom = (
-        sc(M2_LABEL, nM2, surveys=sM2) +
-        sc(M1_LABEL, nM1, surveys=sM1) +
-        sc("Variacao MoM", nM1, val_sub=f"{M2_LABEL} vs {M1_LABEL}", delta=dM)
+    # ── Scorecards MES ──
+    cards_mes = (
+        sc_nps("NPS CONSOLIDADO", nM1, vs_tgt_mom, dM, "mes ant.", M1_LABEL) +
+        sc_target(NPS_TARGET_CONSOL, M1_LABEL) +
+        sc_surveys(sM1, surv_mom_var, M1_LABEL) +
+        sc_driver("DRIVER MAIS OFENSOR", worst_mom_drv,
+                  mD[worst_mom_drv]["nps_b"], mD[worst_mom_drv]["share_b"],
+                  "MoM", mD[worst_mom_drv]["var"],
+                  "WoW", wD[worst_mom_drv]["var"],
+                  vt_impacts[worst_mom_drv]["gap"]) +
+        sc_driver("DRIVER MAIS PROMOTOR", best_mom_drv,
+                  mD[best_mom_drv]["nps_b"], mD[best_mom_drv]["share_b"],
+                  "MoM", mD[best_mom_drv]["var"],
+                  "WoW", wD[best_mom_drv]["var"],
+                  vt_impacts[best_mom_drv]["gap"])
     )
-    sc_wow = (
-        sc(S2_LABEL, nS2, surveys=sS2) +
-        sc(S1_LABEL, nS1, surveys=sS1) +
-        sc("Variacao WoW", nS1, val_sub=f"{S2_LABEL} vs {S1_LABEL}", delta=dW)
-    )
-    sc_vt = (
-        sc(f"NPS {M1_LABEL}", nM1, surveys=sM1) +
-        sc("Target Abril (consol)", NPS_TARGET_CONSOL) +
-        sc("Gap vs Target", nM1, val_sub="NPS atual vs target consolidado", delta=gap_consol)
+
+    # ── Scorecards SEMANA ──
+    cards_sem = (
+        sc_nps("NPS CONSOLIDADO", nS1, vs_tgt_wow, dW, "sem. ant.", S1_LABEL) +
+        sc_target(NPS_TARGET_CONSOL, M1_LABEL) +
+        sc_surveys(sS1, surv_wow_var, S1_LABEL) +
+        sc_driver("DRIVER MAIS OFENSOR", worst_wow_drv,
+                  wD[worst_wow_drv]["nps_b"], wD[worst_wow_drv]["share_b"],
+                  "WoW", wD[worst_wow_drv]["var"],
+                  "MoM", mD[worst_wow_drv]["var"],
+                  vt_impacts[worst_wow_drv]["gap"]) +
+        sc_driver("DRIVER MAIS PROMOTOR", best_wow_drv,
+                  wD[best_wow_drv]["nps_b"], wD[best_wow_drv]["share_b"],
+                  "WoW", wD[best_wow_drv]["var"],
+                  "MoM", mD[best_wow_drv]["var"],
+                  vt_impacts[best_wow_drv]["gap"])
     )
 
     return f"""<!DOCTYPE html>
@@ -259,110 +323,153 @@ def build_html():
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
 *{{box-sizing:border-box;margin:0;padding:0}}
-body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#eef0f5;color:#1a1e3c;font-size:13px}}
-header{{background:#1a1e3c;color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}}
-header h1{{font-size:17px;font-weight:700}}
-.meta{{font-size:11px;color:#aab4d4}}
-.page{{padding:20px 24px;display:flex;flex-direction:column;gap:28px}}
+body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      background:#eef0f5;color:#1a1e3c;font-size:13px}}
 
-/* Scorecards */
-.sc-group{{display:flex;gap:12px;flex-wrap:wrap}}
-.sc-group-divider{{width:1px;background:#dde0ea;margin:0 4px;align-self:stretch}}
-.sc{{background:#fff;border-radius:10px;padding:14px 18px;min-width:155px;
-     box-shadow:0 1px 4px rgba(0,0,0,.08);border-top:3px solid #9099c8}}
-.sc-label{{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}}
-.sc-val{{font-size:28px;font-weight:700;color:#1a1e3c;line-height:1}}
-.sc-delta{{font-size:15px;font-weight:700;margin-top:4px}}
-.delta-pos{{color:#1b5e20}}.delta-neg{{color:#b71c1c}}.delta-neu{{color:#555}}
-.sc-sub{{font-size:10px;color:#aaa;margin-top:2px}}
-.sc-surv{{font-size:10px;color:#bbb;margin-top:1px}}
+/* ── Header ── */
+header{{background:#1a1e3c;color:#fff;padding:13px 24px;
+        display:flex;align-items:center;justify-content:space-between}}
+header h1{{font-size:16px;font-weight:700}}
+.hd-meta{{font-size:11px;color:#aab4d4}}
 
-/* Chart sections */
-.chart-section{{background:#fff;border-radius:12px;padding:20px 24px;
-                box-shadow:0 1px 4px rgba(0,0,0,.08)}}
-.chart-title{{font-size:13px;font-weight:700;color:#1a1e3c;margin-bottom:4px}}
-.chart-sub{{font-size:11px;color:#888;margin-bottom:14px}}
-.chart-wrap{{position:relative;height:320px;width:100%}}
+/* ── Top bar (tabs + period) ── */
+.top-bar{{background:#eef0f5;padding:14px 24px 0;
+          display:flex;align-items:center;justify-content:space-between}}
+.tabs{{display:flex;gap:4px;background:#dde2ec;border-radius:8px;padding:3px}}
+.tab-btn{{border:none;cursor:pointer;padding:6px 20px;border-radius:6px;
+          font-size:12px;font-weight:700;background:transparent;color:#555;transition:.15s}}
+.tab-btn.active{{background:#bf5c00;color:#fff;box-shadow:0 1px 4px rgba(0,0,0,.15)}}
+.period-label{{font-size:12px;color:#666;background:#fff;border:1px solid #d0d5e0;
+               border-radius:6px;padding:5px 12px}}
+
+/* ── Page ── */
+.page{{padding:16px 24px;display:flex;flex-direction:column;gap:20px}}
+
+/* ── Scorecards grid ── */
+.sc-grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}}
+.sc{{background:#fff;border-radius:10px;padding:16px 18px;
+     box-shadow:0 1px 4px rgba(0,0,0,.07);border-top:3px solid #c8cdd8}}
+.sc-driver-card{{grid-column:span 1}}
+
+.sc-label{{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.6px;
+           margin-bottom:6px;font-weight:700}}
+.sc-val{{font-size:30px;font-weight:700;color:#bf5c00;line-height:1.1}}
+.sc-val-int{{font-size:28px;font-weight:700;color:#bf5c00;line-height:1.1}}
+.sc-sep{{border:none;border-top:1px solid #eee;margin:8px 0}}
+.sc-sub{{font-size:10px;color:#aaa;margin-top:3px}}
+
+.bullet{{font-size:11px;font-weight:600;margin-top:4px;line-height:1.4}}
+.bullet.pos{{color:#1a7a1a}}.bullet.neg{{color:#c0321a}}
+
+.sc-driver-name{{font-size:13px;font-weight:700;color:#1a1e3c;margin-bottom:2px}}
+.sc-driver-meta{{font-size:11px;color:#777;margin-bottom:4px}}
+.sc-bar-wrap{{height:4px;background:#eee;border-radius:2px;margin-bottom:2px}}
+.sc-bar{{height:4px;background:#9099c8;border-radius:2px}}
+
+/* ── Charts ── */
+.chart-section{{background:#fff;border-radius:12px;padding:18px 22px;
+                box-shadow:0 1px 4px rgba(0,0,0,.07)}}
+.chart-title{{font-size:13px;font-weight:700;color:#1a1e3c;margin-bottom:3px}}
+.chart-sub{{font-size:11px;color:#888;margin-bottom:12px}}
+.chart-wrap{{position:relative;height:310px;width:100%}}
+
+/* ── Tab panes ── */
+.tab-pane{{display:none}}.tab-pane.active{{display:flex;flex-direction:column;gap:20px}}
 </style>
 </head>
 <body>
+
 <header>
   <div>
     <h1>NPS Driver Impact - All Sellers BR</h1>
-    <div class="meta">27 drivers | Sellers | CENTER=BR | E-Commerce</div>
+    <div class="hd-meta">27 drivers | Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="meta" style="text-align:right">Gerado em {REPORT_DATE}</div>
+  <div class="hd-meta" style="text-align:right">Gerado em {REPORT_DATE}</div>
 </header>
+
+<div class="top-bar">
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="pane-mes" onclick="showTab(this)">MES</button>
+    <button class="tab-btn"        data-tab="pane-sem" onclick="showTab(this)">SEMANA</button>
+  </div>
+  <div class="period-label" id="period-label">{M1_LABEL}</div>
+</div>
 
 <div class="page">
 
-  <!-- Todos os scorecards juntos no topo -->
-  <div class="sc-group">
-    {sc_mom}
-    <div class="sc-group-divider"></div>
-    {sc_wow}
-    <div class="sc-group-divider"></div>
-    {sc_vt}
+  <!-- ── TAB MES ──────────────────────────────────────────────── -->
+  <div id="pane-mes" class="tab-pane active">
+    <div class="sc-grid">{cards_mes}</div>
+
+    <div class="chart-section">
+      <div class="chart-title">Impacto MoM - Abertura Driver</div>
+      <div class="chart-sub">Contribuicao de cada driver (pp) na variacao consolidada {M2_LABEL} → {M1_LABEL}. Maiores ganhos a esquerda, maiores perdas a direita.</div>
+      <div class="chart-wrap"><canvas id="c-mom"></canvas></div>
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-title">vs Target - Abertura Driver</div>
+      <div class="chart-sub">Partindo do target ponderado por volume ({theoretical_target:.1f}%), cada driver mostra seu desvio ponderado ate o NPS real de {nM1:.1f}%. Negativo = abaixo do target.</div>
+      <div class="chart-wrap"><canvas id="c-vt"></canvas></div>
+    </div>
   </div>
 
-  <!-- MoM -->
-  <div class="chart-section">
-    <div class="chart-title">Impacto MoM - Abertura Driver</div>
-    <div class="chart-sub">Contribuicao de cada driver (pp) para a variacao consolidada {M2_LABEL} vs {M1_LABEL}. Ordenado: maiores ganhos ate maiores perdas.</div>
-    <div class="chart-wrap"><canvas id="c-mom"></canvas></div>
+  <!-- ── TAB SEMANA ───────────────────────────────────────────── -->
+  <div id="pane-sem" class="tab-pane">
+    <div class="sc-grid">{cards_sem}</div>
+
+    <div class="chart-section">
+      <div class="chart-title">Impacto WoW - Abertura Driver</div>
+      <div class="chart-sub">Contribuicao de cada driver (pp) na variacao consolidada {S2_LABEL} → {S1_LABEL}. Maiores ganhos a esquerda, maiores perdas a direita.</div>
+      <div class="chart-wrap"><canvas id="c-wow"></canvas></div>
+    </div>
   </div>
 
-  <!-- WoW -->
-  <div class="chart-section">
-    <div class="chart-title">Impacto WoW - Abertura Driver</div>
-    <div class="chart-sub">Contribuicao de cada driver (pp) para a variacao consolidada {S2_LABEL} vs {S1_LABEL}.</div>
-    <div class="chart-wrap"><canvas id="c-wow"></canvas></div>
-  </div>
-
-  <!-- vs Target -->
-  <div class="chart-section">
-    <div class="chart-title">vs Target - Abertura Driver</div>
-    <div class="chart-sub">Cada driver contribui com (NPS_driver - Target_driver) x share para o desvio em relacao ao target ponderado ({theoretical_target:.1f}%). Negativo = abaixo do target = oportunidade.</div>
-    <div class="chart-wrap"><canvas id="c-vt"></canvas></div>
-  </div>
-
-</div>
+</div><!-- /page -->
 
 <script>
 Chart.register(ChartDataLabels);
+const BLUE = 'rgba(30,65,150,0.88)';
+const GREEN = 'rgba(30,160,80,0.88)';
+const RED   = 'rgba(210,45,45,0.88)';
 
-const BLUE   = 'rgba(30,65,150,0.88)';
-const GREEN  = 'rgba(30,160,80,0.88)';
-const RED    = 'rgba(210,45,45,0.88)';
-const BLUE_S = 'rgba(30,65,150,0.55)';
+const PERIOD_LABELS = {{ 'pane-mes': '{M1_LABEL}', 'pane-sem': '{S1_LABEL}' }};
+
+function showTab(btn) {{
+  document.querySelectorAll('.tab-pane').forEach(function(p) {{ p.classList.remove('active'); }});
+  document.querySelectorAll('.tab-btn').forEach(function(b) {{ b.classList.remove('active'); }});
+  var tabId = btn.getAttribute('data-tab');
+  document.getElementById(tabId).classList.add('active');
+  btn.classList.add('active');
+  document.getElementById('period-label').textContent = PERIOD_LABELS[tabId] || '';
+}}
 
 function shorten(s, n) {{
-  n = n || 10;
+  n = n || 11;
   return s.length > n ? s.slice(0, n) + '...' : s;
 }}
 
 function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, drivers, yBase) {{
-  const labels = [startLabel];
-  const floatData  = [[yBase, startVal]];
-  const bgColors   = [BLUE];
-  const dlValues   = [startVal.toFixed(1) + '%'];
+  var labels    = [startLabel];
+  var floatData = [[yBase, startVal]];
+  var bgColors  = [BLUE];
+  var dlValues  = [startVal.toFixed(1) + '%'];
 
-  let running = startVal;
+  var running = startVal;
   drivers.forEach(function(d) {{
-    labels.push(shorten(d.label, 11));
+    labels.push(shorten(d.label));
     floatData.push([running, running + d.v]);
     bgColors.push(d.v >= 0 ? GREEN : RED);
     dlValues.push((d.v >= 0 ? '+' : '') + d.v.toFixed(2) + '%');
     running += d.v;
   }});
-
   labels.push(endLabel);
   floatData.push([yBase, endVal]);
   bgColors.push(BLUE);
   dlValues.push(endVal.toFixed(1) + '%');
 
-  const allVals = floatData.map(function(p) {{ return [p[0], p[1]]; }}).flat();
-  const yMax = Math.max.apply(null, allVals) + 3;
+  var allVals = floatData.reduce(function(a, p) {{ return a.concat([p[0], p[1]]); }}, []);
+  var yMax = Math.max.apply(null, allVals) + 3;
 
   new Chart(document.getElementById(canvasId), {{
     type: 'bar',
@@ -397,24 +504,15 @@ function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, driver
           }},
           font: {{ size: 9.5, weight: '600' }},
           color: '#333',
-          padding: {{ top: 2, bottom: 2 }},
+          padding: 2,
           clip: false,
         }}
       }},
       layout: {{ padding: {{ top: 28, bottom: 4 }} }},
       scales: {{
-        y: {{
-          min: yBase,
-          max: yMax,
-          display: false,
-        }},
+        y: {{ min: yBase, max: yMax, display: false }},
         x: {{
-          ticks: {{
-            maxRotation: 60,
-            minRotation: 45,
-            font: {{ size: 9.5 }},
-            color: '#555',
-          }},
+          ticks: {{ maxRotation: 60, minRotation: 45, font: {{ size: 9.5 }}, color: '#555' }},
           grid: {{ display: false }},
           border: {{ display: false }},
         }}
@@ -423,17 +521,9 @@ function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, driver
   }});
 }}
 
-// MoM
-buildWaterfall('c-mom', {nM2}, {nM1}, '{M2_LABEL}', '{M1_LABEL}',
-  {mom_json}, {mom_ybase});
-
-// WoW
-buildWaterfall('c-wow', {nS2}, {nS1}, '{S2_LABEL}', '{S1_LABEL}',
-  {wow_json}, {wow_ybase});
-
-// vs Target
-buildWaterfall('c-vt', {theoretical_target}, {nM1}, 'Target Pond.', '{M1_LABEL}',
-  {vt_json}, {vt_ybase});
+buildWaterfall('c-mom', {nM2}, {nM1}, '{M2_LABEL}', '{M1_LABEL}', {mom_json}, {mom_ybase});
+buildWaterfall('c-wow', {nS2}, {nS1}, '{S2_LABEL}', '{S1_LABEL}', {wow_json}, {wow_ybase});
+buildWaterfall('c-vt',  {theoretical_target}, {nM1}, 'Target Pond.', '{M1_LABEL}', {vt_json}, {vt_ybase});
 </script>
 </body>
 </html>"""
