@@ -885,9 +885,10 @@ requestAnimationFrame(function() {{
   }});
 }});
 
-var DD_DATA = {dd_json};
-var DD_BREAKDOWN = {dd_breakdown_json};
-var DD_SUMMARIES = {dd_summaries_json};
+// Carregar dados dos elementos JSON (evita problemas de parsing JS com caracteres especiais)
+var DD_DATA      = JSON.parse(document.getElementById('_dd_data').textContent);
+var DD_BREAKDOWN = JSON.parse(document.getElementById('_dd_breakdown').textContent);
+var DD_SUMMARIES = JSON.parse(document.getElementById('_dd_summaries').textContent);
 var M1_LABEL = '{M1_LABEL}';
 var M2_LABEL = '{M2_LABEL}';
 var S1_LABEL = '{S1_LABEL}';
@@ -1193,6 +1194,9 @@ function buildDDChart(canvasId, labels, values, colors, target, type) {{
 
 // updatePanes() ja foi chamado antes dos graficos acima
 </script>
+<script type="application/json" id="_dd_data">{dd_json}</script>
+<script type="application/json" id="_dd_breakdown">{dd_breakdown_json}</script>
+<script type="application/json" id="_dd_summaries">{dd_summaries_json}</script>
 </body>
 </html>"""
 
