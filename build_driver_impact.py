@@ -1195,16 +1195,6 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
     '<div class="exec-brief-header">'+
       '<div class="exec-brief-driver">Resumo Executivo Driver</div>'+
       '<div class="exec-brief-period">'+drv+' &middot; '+cat+' &middot; '+lA+' &rarr; '+lB+'</div>'+
-      '<div class="exec-brief-kpis" style="margin-top:10px">'+
-        '<div class="exec-brief-kpi"><div class="exec-brief-kpi-label">NPS Atual</div>'+
-          '<div class="exec-brief-kpi-val neutral">'+(npsB!==null?npsB.toFixed(1)+'%':'—')+'</div></div>'+
-        '<div class="exec-brief-kpi"><div class="exec-brief-kpi-label">Variacao '+lB+'</div>'+
-          '<div class="exec-brief-kpi-val '+(delta!==null?kpiCls(delta):'neutral')+'">'+(delta!==null?fV(delta):'—')+'</div></div>'+
-        (tgt!==null?'<div class="exec-brief-kpi"><div class="exec-brief-kpi-label">Target Driver</div>'+
-          '<div class="exec-brief-kpi-val neutral">'+tgt.toFixed(1)+'%</div></div>':'')+
-        (gapTgt!==null?'<div class="exec-brief-kpi"><div class="exec-brief-kpi-label">Gap vs Target</div>'+
-          '<div class="exec-brief-kpi-val '+kpiCls(gapTgt)+'">'+fV(gapTgt)+'</div></div>':'')+
-      '</div>'+
     '</div>'+
     '<div class="exec-brief-body">';
 
