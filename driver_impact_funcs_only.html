@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8">
+<script>
+function updatePanes(){}
+function ddCharts_init(){ window.ddCharts={}; }
+ddCharts_init();
+</script>
+</head>
+<body>
+<script>
+
+/* Funcoes de chart e deep dive */
+
+function shorten(s, n) {
+  n = n || 11;
+  return s.length > n ? s.slice(0, n) + '...' : s;
+}
+function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, drivers, yBase) {
+  var labels = [startLabel], floatData = [[yBase, startVal]],
+      bgColors = ['rgba(30,65,150,0.88)'], dlValues = [startVal.toFixed(1) + '%'];
+  var running = startVal;
+  drivers.forEach(function(d) {
+    labels.push(shorten(d.label));
+    floatData.push([running, running + d.v]);
+    bgColors.push(d.v >= 0 ? 'rgba(30,160,80,0.88)' : 'rgba(210,45,45,0.88)');
+    dlValues.push((d.v >= 0 ? '+' : '') + d.v.toFixed(2) + '%');
+    running += d.v;
+  });
+  labels.push(endLabel); floatData.push([yBase, endVal]);
+  bgColors.push('rgba(30,65,150,0.88)'); dlValues.push(endVal.toFixed(1) + '%');
+  var allVals = floatData.reduce(function(a,p){return a.concat([p[0],p[1]]);},[]);
+  var yMax = Math.max.apply(null, allVals) + 3;
+  new Chart(document.getElementById(canvasId), {
+    type: 'bar', plugins: [ChartDataLabels],
+    data: { labels: labels, datasets: [{
+      data: floatData, backgroundColor: bgColors,
+      borderWidth: 0, borderRadius: 2, barPercentage: 0.85, categoryPercentage: 0.9
+    }] },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {
+        legend: { display: false }, tooltip: { enabled: false },
+        datalabels: {
+          formatter: function(val,ctx){ return dlValues[ctx.dataIndex]; },
+          anchor: function(ctx){ var p=floatData[ctx.dataIndex]; return p[1]>=p[0]?'end':'start'; },
+          align:  function(ctx){ var p=floatData[ctx.dataIndex]; return p[1]>=p[0]?'top':'bottom'; },
+          font: { size: 9.5, weight: '600' }, color: '#333', padding: 2, clip: false
+        }
+      },
+      layout: { padding: { top: 28, bottom: 4 } },
+      scales: {
+        y: { min: yBase, max: yMax, display: false },
+        x: { ticks: { maxRotation: 60, minRotation: 45, font: { size: 9.5 }, color: '#555' },
+              grid: { display: false }, border: { display: false } }
+      }
+    }
+  });
+}
+function buildExecSummary(drv, period) {
+  var s = DD_SUMMARIES[drv];
+  var key = period === 'mes' ? 'mom' : 'wow';
+  var text = s && s[key] ? s[key] : (s && s['mom'] ? s['mom'] : null);
+  var title = period === 'mes' ? 'Resumo Executivo \u2014 MoM (Marco vs Abril 2026)' : 'Resumo Executivo \u2014 WoW';
+  if (!text) {
+    return '<div class="exec-summary"><div class="exec-summary-title">' + title + '</div>' +
+           '<div class="exec-na">Analise qualitativa nao disponivel para este driver.</div></div>';
+  }
+  var bullets = text.split('
+').filter(function(l){ return l.trim(); });
+  var html = '<div class="exec-summary"><div class="exec-summary-title">' + title + '</div>';
+  bullets.forEach(function(b) {
+    var clean = b.replace(/^[\u25b6\s]+/, '').trim();
+    if (!clean) return;
+    // Destaque da primeira parte antes do ':'
+    var colon = clean.indexOf(':');
+    if (colon > 0 && colon < 40) {
+      clean = '<strong>' + clean.substring(0, colon+1) + '</strong>' + clean.substring(colon+1);
+    }
+    html += '<div class="exec-bullet">\u25b6 ' + clean + '</div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderDD(period) {
+  var selectId = 'dd-select-' + period;
+  var contentId = 'dd-content-' + period;
+  var drv = document.getElementById(selectId).value;
+  var content = document.getElementById(contentId);
+
+  // Sincronizar selects
+  var otherPeriod = period === 'mes' ? 'sem' : 'mes';
+  var otherSelect = document.getElementById('dd-select-' + otherPeriod);
+  if (otherSelect) otherSelect.value = drv;
+
+  if (!drv || !DD_DATA[drv]) {
+    content.innerHTML = '<div class="dd-placeholder"><div class="dd-hint">Selecione um driver acima para ver o detalhamento</div></div>';
+    return;
+  }
+
+  var d = DD_DATA[drv];
+  var tgt = d.target;
+
+  // Destruir charts antigos deste period
+  if (ddCharts[period]) { ddCharts[period].forEach(function(c){ if(c) c.destroy(); }); }
+  ddCharts[period] = [];
+
+  function fmtNPS(v) { return v !== null ? v.toFixed(1)+'%' : '\u2014'; }
+  function fmtDelta(v) { if(v===null||v===undefined) return '\u2014'; var s=v>=0?'+':''; return s+v.toFixed(2)+' pp'; }
+
+  if (period === 'mes') {
+    var pts = d.monthly;
+    var cur = pts[pts.length-1];
+    var prev = pts[pts.length-2];
+    var nCur  = cur.nps;
+    var nPrev = prev.nps;
+    var delta = (nCur !== null && nPrev !== null) ? parseFloat((nCur - nPrev).toFixed(2)) : null;
+    var gapTgt = (nCur !== null && tgt) ? parseFloat((nCur - tgt).toFixed(2)) : null;
+
+    content.innerHTML =
+      '<div class="dd-sc-grid">' +
+        sc_dd('NPS '+cur.label, fmtNPS(nCur), null, nCur, tgt) +
+        sc_dd('NPS '+prev.label, fmtNPS(nPrev), null, nPrev, tgt) +
+        sc_dd('Variacao MoM', fmtDelta(delta), delta, null, null) +
+        sc_dd('Target', tgt ? tgt.toFixed(1)+'%' : '\u2014', null, null, null) +
+        sc_dd('Gap vs Target', fmtDelta(gapTgt), gapTgt, null, null) +
+      '</div>' +
+      '<div class="dd-chart-section">' +
+        '<div class="dd-chart-title">Historico Mensal \u2014 '+drv+'</div>' +
+        '<div class="dd-chart-sub">NPS mensal Jan\u2013Abr 2026 vs target do driver</div>' +
+        '<div class="dd-chart-wrap"><canvas id="c-dd-mes-chart"></canvas></div>' +
+      '</div>' +
+      buildExecSummary(drv, 'mes') +
+      '<div class="dd-section-title">Processos \u2014 MoM (' + M2_LABEL + ' vs ' + M1_LABEL + ')</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'M2', 'M1', d.target, 'Processo') +
+      '<div class="dd-section-title">Canal \u2014 MoM</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'C', 'M2', 'M1', d.target, 'Canal') +
+      '<div class="dd-section-title">Oficina \u2014 MoM</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'M2', 'M1', d.target, 'Oficina');
+
+    var labels = pts.map(function(p){ return p.label; });
+    var values = pts.map(function(p){ return p.nps; });
+    var colors = values.map(function(v){ return (tgt && v !== null && v < tgt) ? 'rgba(210,45,45,0.82)' : 'rgba(30,65,150,0.82)'; });
+    ddCharts[period].push(buildDDChart('c-dd-mes-chart', labels, values, colors, tgt, 'mensal'));
+
+  } else {
+    var pts = d.weekly;
+    var cur = pts[pts.length-1];
+    var prev = pts[pts.length-2];
+    var nCur  = cur.nps;
+    var nPrev = prev.nps;
+    var delta = (nCur !== null && nPrev !== null) ? parseFloat((nCur - nPrev).toFixed(2)) : null;
+    var gapTgt = (nCur !== null && tgt) ? parseFloat((nCur - tgt).toFixed(2)) : null;
+
+    content.innerHTML =
+      '<div class="dd-sc-grid">' +
+        sc_dd('NPS '+cur.label, fmtNPS(nCur), null, nCur, tgt) +
+        sc_dd('NPS '+prev.label, fmtNPS(nPrev), null, nPrev, tgt) +
+        sc_dd('Variacao WoW', fmtDelta(delta), delta, null, null) +
+        sc_dd('Target', tgt ? tgt.toFixed(1)+'%' : '\u2014', null, null, null) +
+        sc_dd('Gap vs Target', fmtDelta(gapTgt), gapTgt, null, null) +
+      '</div>' +
+      '<div class="dd-chart-section">' +
+        '<div class="dd-chart-title">Historico Semanal \u2014 '+drv+'</div>' +
+        '<div class="dd-chart-sub">NPS semanal 6 semanas vs target do driver</div>' +
+        '<div class="dd-chart-wrap"><canvas id="c-dd-sem-chart"></canvas></div>' +
+      '</div>' +
+      buildExecSummary(drv, 'sem') +
+      '<div class="dd-section-title">Processos \u2014 WoW (' + S2_LABEL + ' vs ' + S1_LABEL + ')</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'S2', 'S1', d.target, 'Processo') +
+      '<div class="dd-section-title">Canal \u2014 WoW</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'C', 'S2', 'S1', d.target, 'Canal') +
+      '<div class="dd-section-title">Oficina \u2014 WoW</div>' +
+      buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'S2', 'S1', d.target, 'Oficina');
+
+    var labels = pts.map(function(p){ return p.label; });
+    var values = pts.map(function(p){ return p.nps; });
+    var colors = values.map(function(v){ return (tgt && v !== null && v < tgt) ? 'rgba(210,45,45,0.82)' : 'rgba(30,65,150,0.82)'; });
+    ddCharts[period].push(buildDDChart('c-dd-sem-chart', labels, values, colors, tgt, 'semanal'));
+  }
+}
+
+function buildBreakdownTable(drvData, dim, periodA, periodB, drvTarget, dimLabel) {
+    if (!drvData || !drvData[dim]) return '<div class="dd-hint">Sem dados</div>';
+
+    var dataA = drvData[dim][periodA] || {};
+    var dataB = drvData[dim][periodB] || {};
+    var keys  = Array.from(new Set(Object.keys(dataA).concat(Object.keys(dataB))));
+    if (keys.length === 0) return '<div class="dd-hint">Sem dados para este periodo</div>';
+
+    // Totais para share e NPS consolidado do driver
+    var totA={p:0,d:0,s:0}, totB={p:0,d:0,s:0};
+    keys.forEach(function(k) {
+        var a=dataA[k]||{}; var b=dataB[k]||{};
+        totA.p+=a.p||0; totA.d+=a.d||0; totA.s+=a.s||0;
+        totB.p+=b.p||0; totB.d+=b.d||0; totB.s+=b.s||0;
+    });
+    var npsA_tot = totA.s>0 ? (totA.p-totA.d)/totA.s*100 : null;
+    var npsB_tot = totB.s>0 ? (totB.p-totB.d)/totB.s*100 : null;
+
+    // MIX+NETO por item
+    var items = keys.map(function(k) {
+        var a=dataA[k]||{p:0,d:0,s:0,nps:null};
+        var b=dataB[k]||{p:0,d:0,s:0,nps:null};
+        var shaA=totA.s>0?a.s/totA.s:0, shaB=totB.s>0?b.s/totB.s:0;
+        var nA=a.nps, nB=b.nps;
+        var neto=(shaA>0&&nA!==null&&nB!==null)?shaA*(nB-nA):0;
+        var mix=(nB!==null&&npsB_tot!==null)?(shaB-shaA)*(nB-npsB_tot):0;
+        return {k:k,a:a,b:b,shaB:shaB,
+                 impact:Math.round((neto+mix)*100)/100};
+    });
+    items.sort(function(x,y){ return Math.abs(y.impact)-Math.abs(x.impact); });
+
+    var lA = periodA==='M2'?'Mar/26':(periodA==='S2'?'13/abr':periodA);
+    var lB = periodB==='M1'?'Abr/26':(periodB==='S1'?'20/abr':periodB);
+
+    // Helpers visuais
+    function fN(v) { return v!==null ? v.toFixed(2) : '&mdash;'; }
+    function pillDelta(v) {
+        if(v===null) return '<span class="pill pill-neu">&mdash;</span>';
+        var s=(v>=0?'+':'')+v.toFixed(2)+' pp';
+        var c=v>=1?'pill-pos-hi':v>=0?'pill-pos-lo':v>=-1?'pill-dn1':'pill-neg-hi';
+        return '<span class="pill '+c+'">'+s+'</span>';
+    }
+    function pillVsTarget(nps) {
+        if(nps===null||drvTarget===null||drvTarget===undefined)
+            return '<span class="pill pill-neu">&mdash;</span>';
+        var g=nps-drvTarget;
+        var s=(g>=0?'+':'')+g.toFixed(2)+' pp';
+        var c=g>=0?'pill-pos-hi':'pill-neg-hi';
+        return '<span class="pill '+c+'">'+s+'</span>';
+    }
+    function pillImpacto(v) {
+        if(v===0) return '<span class="pill pill-neu">0,00 pp</span>';
+        var s=(v>=0?'+':'')+v.toFixed(2)+' pp';
+        var c=v>=0.3?'pill-pos-hi':v>=0.05?'pill-pos-lo':v<=-0.3?'pill-neg-hi':v<=-0.05?'pill-dn1':'pill-neu';
+        return '<span class="pill '+c+'">'+s+'</span>';
+    }
+    function pillTendencia(delta) {
+        if(delta===null) return '<span class="pill pill-neu">&mdash;</span>';
+        if(delta>=3)  return '<span class="pill pill-up2">&#8679;&#8679; Em alta</span>';
+        if(delta>=0.5)return '<span class="pill pill-up1">&#8679; Evolucao</span>';
+        if(delta>-0.5)return '<span class="pill pill-flat">&#8594; Estavel</span>';
+        if(delta>-3)  return '<span class="pill pill-dn1">&#8681; Queda</span>';
+        return '<span class="pill pill-dn2">&#8681;&#8681; Em queda</span>';
+    }
+
+    var html = '<div class="bk-wrap"><table class="bk-table">' +
+        '<colgroup>' +
+        '<col style="width:24%"><col style="width:8%"><col style="width:8%">' +
+        '<col style="width:11%"><col style="width:8%"><col style="width:6%">' +
+        '<col style="width:11%"><col style="width:12%"><col style="width:12%">' +
+        '</colgroup>' +
+        '<thead><tr>' +
+        '<th class="col-name">' + (dimLabel||'Dimensao') + '</th>' +
+        '<th>' + lA + '</th><th>' + lB + '</th>' +
+        '<th>&Delta; NPS</th><th>Surveys</th><th>Share</th>' +
+        '<th>Impacto</th><th>VS Target</th><th>Tendencia</th>' +
+        '</tr></thead><tbody>';
+
+    var totImpact=0;
+    items.forEach(function(item) {
+        var a=item.a, b=item.b;
+        var delta=(a.nps!==null&&b.nps!==null)?Math.round((b.nps-a.nps)*100)/100:null;
+        totImpact+=item.impact;
+        html += '<tr>' +
+            '<td class="col-name">' + item.k + '</td>' +
+            '<td>' + fN(a.nps) + '</td>' +
+            '<td>' + fN(b.nps) + '</td>' +
+            '<td>' + pillDelta(delta) + '</td>' +
+            '<td class="bk-surv">' + (b.s||0).toLocaleString('pt-BR') + '</td>' +
+            '<td class="bk-surv">' + (item.shaB*100).toFixed(1)+'%</td>' +
+            '<td>' + pillImpacto(item.impact) + '</td>' +
+            '<td>' + pillVsTarget(b.nps) + '</td>' +
+            '<td>' + pillTendencia(delta) + '</td>' +
+            '</tr>';
+    });
+
+    var totDelta=(npsA_tot!==null&&npsB_tot!==null)?Math.round((npsB_tot-npsA_tot)*100)/100:null;
+    totImpact=Math.round(totImpact*100)/100;
+    html += '<tr class="bk-total">' +
+        '<td class="col-name">Total driver</td>' +
+        '<td>' + fN(npsA_tot) + '</td>' +
+        '<td>' + fN(npsB_tot) + '</td>' +
+        '<td>' + pillDelta(totDelta) + '</td>' +
+        '<td class="bk-surv">' + totB.s.toLocaleString('pt-BR') + '</td>' +
+        '<td class="bk-surv">100%</td>' +
+        '<td>' + pillImpacto(totImpact) + '</td>' +
+        '<td>' + pillVsTarget(npsB_tot) + '</td>' +
+        '<td>' + pillTendencia(totDelta) + '</td>' +
+        '</tr>';
+
+    html += '</tbody></table></div>';
+    return html;
+}
+
+function sc_dd(label, val, delta, npsVal, tgt) {
+  var valColor = '';
+  if (npsVal !== null && tgt !== null && tgt !== undefined) {
+    valColor = npsVal >= tgt ? 'color:#1a7a1a' : 'color:#c0321a';
+  } else if (delta !== null && delta !== undefined) {
+    valColor = delta >= 0 ? 'color:#1a7a1a' : 'color:#c0321a';
+  } else {
+    valColor = 'color:#bf5c00';
+  }
+  return '<div class="sc">' +
+    '<div class="sc-label">'+label+'</div>' +
+    '<div class="sc-val" style="font-size:24px;'+valColor+'">'+val+'</div>' +
+  '</div>';
+}
+
+function buildDDChart(canvasId, labels, values, colors, target, type) {
+  var datasets = [{
+    label: 'NPS', data: values,
+    backgroundColor: colors, borderWidth: 0, borderRadius: 3
+  }];
+  if (target) {
+    datasets.push({
+      label: 'Target', data: Array(labels.length).fill(target),
+      type: 'line', borderColor: 'rgba(191,92,0,0.9)', borderWidth: 2,
+      borderDash: [5,4], pointRadius: 0, fill: false,
+      tension: 0
+    });
+  }
+  var allVals = values.filter(function(v){ return v !== null; }).concat(target ? [target] : []);
+  var yMin = allVals.length ? Math.floor(Math.min.apply(null,allVals)) - 5 : 0;
+  var yMax = allVals.length ? Math.ceil(Math.max.apply(null,allVals)) + 5 : 100;
+
+  return new Chart(document.getElementById(canvasId), {
+    type: 'bar',
+    plugins: [ChartDataLabels],
+    data: { labels: labels, datasets: datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true },
+        datalabels: {
+          display: function(ctx){ return ctx.dataset.type !== 'line'; },
+          formatter: function(v){ return v !== null ? v.toFixed(1)+'%' : ''; },
+          anchor: 'end', align: 'top',
+          font: { size: 10, weight: '600' }, color: '#333', padding: 2
+        }
+      },
+      layout: { padding: { top: 24 } },
+      scales: {
+        y: { min: yMin, max: yMax, display: true,
+              ticks: { callback: function(v){ return v+'%'; }, font: { size: 10 } },
+              grid: { color: '#f0f0f0' } },
+        x: { ticks: { font: { size: 10 }, color: '#555' },
+              grid: { display: false }, border: { display: false } }
+      }
+    }
+  });
+}
+
+// updatePanes() ja foi chamado antes dos graficos acima
+
+</script>
+<script>
+var fns=["renderDD","buildWaterfall","buildBreakdownTable","sc_dd","buildDDChart"];
+var status=fns.map(function(f){return f+"="+(typeof window[f]);}).join(" | ");
+document.write("<div style='background:#1a1e3c;color:#aab4d4;padding:8px;font-size:12px'>"+status+"</div>");
+</script>
+</body>
+</html>
