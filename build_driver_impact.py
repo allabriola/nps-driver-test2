@@ -557,11 +557,6 @@ def make_panes(pfx, v):
   <div id="pane-{pfx}-mes" class="tab-pane{initial_class}">
     <div class="sc-grid">{cards_mes()}</div>
     <div class="chart-section">
-      <div class="chart-title">NPS por Driver — Evolucao Mensal (Fev / Mar / Abr)</div>
-      <div class="chart-sub">NPS por driver nos ultimos 3 meses | target consolidado: {v['nps_target']:.1f}%</div>
-      <div id="evol-mes-{pfx}"></div>
-    </div>
-    <div class="chart-section">
       <div class="chart-title">Impacto MoM - Abertura Driver</div>
       <div class="chart-sub">Contribuicao de cada driver (pp) na variacao consolidada {M2_LABEL} &rarr; {M1_LABEL}.</div>
       <div class="chart-wrap"><canvas id="c-{pfx}-mom"></canvas></div>
@@ -571,18 +566,23 @@ def make_panes(pfx, v):
       <div class="chart-sub">Partindo do target ponderado por volume ({tt:.1f}%), cada driver mostra seu desvio ate o NPS real de {v['nM1']:.1f}%. Negativo = abaixo do target.</div>
       <div class="chart-wrap"><canvas id="c-{pfx}-vt"></canvas></div>
     </div>
+    <div class="chart-section">
+      <div class="chart-title">NPS por Driver — Evolucao Mensal (Fev / Mar / Abr)</div>
+      <div class="chart-sub">NPS por driver nos ultimos 3 meses | target consolidado: {v['nps_target']:.1f}%</div>
+      <div id="evol-mes-{pfx}"></div>
+    </div>
   </div>
   <div id="pane-{pfx}-sem" class="tab-pane">
     <div class="sc-grid">{cards_sem()}</div>
     <div class="chart-section">
-      <div class="chart-title">NPS por Driver — Evolucao Semanal (23/mar – 20/abr)</div>
-      <div class="chart-sub">NPS por driver nas ultimas 5 semanas | target consolidado: {v['nps_target']:.1f}%</div>
-      <div id="evol-sem-{pfx}"></div>
-    </div>
-    <div class="chart-section">
       <div class="chart-title">Impacto WoW - Abertura Driver</div>
       <div class="chart-sub">Contribuicao de cada driver (pp) na variacao consolidada {S2_LABEL} &rarr; {S1_LABEL}.</div>
       <div class="chart-wrap"><canvas id="c-{pfx}-wow"></canvas></div>
+    </div>
+    <div class="chart-section">
+      <div class="chart-title">NPS por Driver — Evolucao Semanal (23/mar – 20/abr)</div>
+      <div class="chart-sub">NPS por driver nas ultimas 5 semanas | target consolidado: {v['nps_target']:.1f}%</div>
+      <div id="evol-sem-{pfx}"></div>
     </div>
   </div>"""
 
