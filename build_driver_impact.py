@@ -530,6 +530,13 @@ def build_html():
         dd_breakdown = json.load(f)
     dd_breakdown_json = json.dumps(dd_breakdown, ensure_ascii=False)
 
+    dd_summaries_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dd_summaries.json')
+    dd_summaries = {}
+    if os.path.exists(dd_summaries_path):
+        with open(dd_summaries_path, encoding='utf-8') as f:
+            dd_summaries = json.load(f)
+    dd_summaries_json = json.dumps(dd_summaries, ensure_ascii=False)
+
     def nps_safe(p, d, s):
         return round(100.0*(p-d)/s, 2) if s > 0 else None
 
@@ -675,6 +682,15 @@ header h1{{font-size:16px;font-weight:700}}
 .dd-chart-title{{font-size:13px;font-weight:700;color:#1a1e3c;margin-bottom:3px}}
 .dd-chart-sub{{font-size:11px;color:#888;margin-bottom:12px}}
 .dd-chart-wrap{{position:relative;height:260px}}
+.exec-summary{{background:#fff;border-radius:10px;padding:18px 20px;
+               box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:16px;
+               border-left:4px solid #1a1e3c}}
+.exec-summary-title{{font-size:10px;font-weight:700;color:#1a1e3c;text-transform:uppercase;
+                     letter-spacing:.7px;margin-bottom:10px}}
+.exec-bullet{{font-size:12px;color:#333;line-height:1.6;margin-bottom:6px;
+              padding-left:4px}}
+.exec-bullet strong{{color:#1a1e3c}}
+.exec-na{{font-size:12px;color:#aaa;font-style:italic}}
 .dd-section-title{{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;
                    letter-spacing:.6px;margin:20px 0 10px;padding-bottom:6px;
                    border-bottom:1px solid #eee}}
@@ -855,11 +871,37 @@ function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, driver
 
 var DD_DATA = {dd_json};
 var DD_BREAKDOWN = {dd_breakdown_json};
+var DD_SUMMARIES = {dd_summaries_json};
 var M1_LABEL = '{M1_LABEL}';
 var M2_LABEL = '{M2_LABEL}';
 var S1_LABEL = '{S1_LABEL}';
 var S2_LABEL = '{S2_LABEL}';
 var ddCharts = {{}};
+
+function buildExecSummary(drv, period) {{
+  var s = DD_SUMMARIES[drv];
+  var key = period === 'mes' ? 'mom' : 'wow';
+  var text = s && s[key] ? s[key] : (s && s['mom'] ? s['mom'] : null);
+  var title = period === 'mes' ? 'Resumo Executivo — MoM (Marco vs Abril 2026)' : 'Resumo Executivo — WoW';
+  if (!text) {{
+    return '<div class="exec-summary"><div class="exec-summary-title">' + title + '</div>' +
+           '<div class="exec-na">Analise qualitativa nao disponivel para este driver.</div></div>';
+  }}
+  var bullets = text.split('\n').filter(function(l){{ return l.trim(); }});
+  var html = '<div class="exec-summary"><div class="exec-summary-title">' + title + '</div>';
+  bullets.forEach(function(b) {{
+    var clean = b.replace(/^[▶\s]+/, '').trim();
+    if (!clean) return;
+    // Destaque da primeira parte antes do ':'
+    var colon = clean.indexOf(':');
+    if (colon > 0 && colon < 40) {{
+      clean = '<strong>' + clean.substring(0, colon+1) + '</strong>' + clean.substring(colon+1);
+    }}
+    html += '<div class="exec-bullet">▶ ' + clean + '</div>';
+  }});
+  html += '</div>';
+  return html;
+}}
 
 function renderDD(period) {{
   var selectId = 'dd-select-' + period;
@@ -909,6 +951,7 @@ function renderDD(period) {{
         '<div class="dd-chart-sub">NPS mensal Jan–Abr 2026 vs target do driver</div>' +
         '<div class="dd-chart-wrap"><canvas id="c-dd-mes-chart"></canvas></div>' +
       '</div>' +
+      buildExecSummary(drv, 'mes') +
       '<div class="dd-section-title">Processos — MoM (' + M2_LABEL + ' vs ' + M1_LABEL + ')</div>' +
       buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'M2', 'M1', d.target, 'Processo') +
       '<div class="dd-section-title">Canal — MoM</div>' +
@@ -943,6 +986,7 @@ function renderDD(period) {{
         '<div class="dd-chart-sub">NPS semanal 6 semanas vs target do driver</div>' +
         '<div class="dd-chart-wrap"><canvas id="c-dd-sem-chart"></canvas></div>' +
       '</div>' +
+      buildExecSummary(drv, 'sem') +
       '<div class="dd-section-title">Processos — WoW (' + S2_LABEL + ' vs ' + S1_LABEL + ')</div>' +
       buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'S2', 'S1', d.target, 'Processo') +
       '<div class="dd-section-title">Canal — WoW</div>' +
