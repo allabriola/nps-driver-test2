@@ -788,7 +788,7 @@ header h1{{font-size:16px;font-weight:700}}
 </div>
 
 <script>
-Chart.register(ChartDataLabels);
+// Variaveis e funcoes de navegacao vem PRIMEIRO — antes de qualquer Chart.js
 var currentView = 'all', currentPeriod = 'mes';
 var PERIOD_LABELS = {{ mes: '{M1_LABEL}', sem: '{S1_LABEL}' }};
 
@@ -828,6 +828,9 @@ function shorten(s, n) {{
   n = n || 11;
   return s.length > n ? s.slice(0, n) + '...' : s;
 }}
+// Registrar Chart.js apenas aqui, depois das funcoes de navegacao
+try {{ Chart.register(ChartDataLabels); }} catch(e) {{ console.warn('Chart.register falhou:', e); }}
+
 function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, drivers, yBase) {{
   var labels = [startLabel], floatData = [[yBase, startVal]],
       bgColors = ['rgba(30,65,150,0.88)'], dlValues = [startVal.toFixed(1) + '%'];
