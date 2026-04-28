@@ -822,6 +822,7 @@ header h1{{font-size:16px;font-weight:700}}
             display:flex;align-items:flex-start;gap:5px}}
 .exec-item-icon{{flex-shrink:0;font-weight:700;min-width:14px}}
 .exec-item b{{color:#1a1e3c}}
+.exec-narrative{{font-size:12.5px;color:#333;line-height:1.65;margin:0 0 6px 0}}
 .exec-summary{{background:#fff;border-radius:10px;padding:18px 20px;
                box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:16px;
                border-left:4px solid #1a1e3c}}
@@ -1117,86 +1118,89 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   var pA = isMes?'M2':'S2', pB = isMes?'M1':'S1';
   var lA = isMes?M2_LABEL:S2_LABEL, lB = isMes?M1_LABEL:S1_LABEL;
   var tgt = drvData?drvData.target:null;
-  var cat = drvData&&DRV_HIST[drv]?DRV_HIST[drv].cat:'';
+  var cat = DRV_HIST[drv]?DRV_HIST[drv].cat:'';
 
   // NPS geral
   var hist = DRV_HIST[drv];
-  var npsB=null,npsA=null;
-  if(hist){{ var arr=isMes?hist.monthly:hist.weekly; if(arr&&arr.length>=2){{npsB=arr[arr.length-1].nps;npsA=arr[arr.length-2].nps;}} }}
-  var delta=(npsA!==null&&npsB!==null)?Math.round((npsB-npsA)*100)/100:null;
-  var gapTgt=(tgt&&npsB!==null)?Math.round((npsB-tgt)*100)/100:null;
+  var npsB=null, npsA=null;
+  if(hist){{ var arr=isMes?hist.monthly:hist.weekly; if(arr&&arr.length>=2){{npsB=arr[arr.length-1].nps; npsA=arr[arr.length-2].nps;}} }}
+  var delta = (npsA!==null&&npsB!==null) ? Math.round((npsB-npsA)*100)/100 : null;
+  var gapTgt = (tgt!==null&&npsB!==null) ? Math.round((npsB-tgt)*100)/100 : null;
 
   function kpiCls(v){{ return v===null?'neutral':v>=0?'pos':'neg'; }}
   function fV(v,dec){{ return v!==null?(v>=0?'+':'')+v.toFixed(dec||1)+'pp':'—'; }}
 
-  // Processos — calcular contribuicao
-  var procs=[], chans=[], offices=[];
-  if(bkData){{
-    ['P','C','O'].forEach(function(dim){{
-      var dd=bkData[dim]||{{}};
-      var totSA=0,totSB=0,totPA=0,totPB=0,totDA=0,totDB=0;
-      Object.keys(dd).forEach(function(k){{
-        var a=dd[k][pA]||{{p:0,d:0,s:0}},b=dd[k][pB]||{{p:0,d:0,s:0}};
-        totSA+=a.s||0; totSB+=b.s||0; totPA+=a.p||0; totPB+=b.p||0; totDA+=a.d||0; totDB+=b.d||0;
-      }});
-      var npsAllA=totSA>0?Math.round((totPA-totDA)/totSA*1000)/10:null;
-      var npsAllB=totSB>0?Math.round((totPB-totDB)/totSB*1000)/10:null;
-      var items=[];
-      Object.keys(dd).forEach(function(k){{
-        var a=dd[k][pA]||{{p:0,d:0,s:0,nps:null}},b=dd[k][pB]||{{p:0,d:0,s:0,nps:null}};
-        var shaA=totSA>0?(a.s||0)/totSA:0, shaB=totSB>0?(b.s||0)/totSB:0;
-        var nA=a.nps, nB=b.nps;
-        var neto=(shaA>0&&nA!==null&&nB!==null)?shaA*(nB-nA):0;
-        var mix=(nB!==null&&npsAllB!==null)?(shaB-shaA)*(nB-npsAllB):0;
-        var impact=Math.round((neto+mix)*100)/100;
-        var gapT=(tgt&&nB!==null)?Math.round((nB-tgt)*100)/100:null;
-        items.push({{k:k,nA:nA,nB:nB,shaB:Math.round(shaB*1000)/10,impact:impact,gapT:gapT,sB:b.s||0}});
-      }});
-      items.sort(function(a,b){{return a.impact-b.impact;}});
-      if(dim==='P') procs=items;
-      else if(dim==='C') chans=items;
-      else offices=items;
+  // ── DADOS QUANTITATIVOS (estrutura correta: bkData[dim][periodo][nome]) ──
+  function getDimData(dim) {{
+    var dd = (bkData||{{}})[dim] || {{}};
+    var dA = dd[pA] || {{}};  // {{nome_processo: {{p,d,s,nps}}}}
+    var dB = dd[pB] || {{}};
+    var keys = Object.keys(Object.assign({{}}, dA, dB));
+    var totSA=0, totSB=0, totPB=0, totDB=0;
+    keys.forEach(function(k){{
+      var a=dA[k]||{{p:0,d:0,s:0}}; var b=dB[k]||{{p:0,d:0,s:0}};
+      totSA+=a.s||0; totSB+=b.s||0; totPB+=b.p||0; totDB+=b.d||0;
     }});
+    var npsAllB = totSB>0 ? (totPB-totDB)/totSB*100 : null;
+    return keys.map(function(k){{
+      var a=dA[k]||{{p:0,d:0,s:0,nps:null}}; var b=dB[k]||{{p:0,d:0,s:0,nps:null}};
+      var shaA=totSA>0?(a.s||0)/totSA:0; var shaB=totSB>0?(b.s||0)/totSB:0;
+      var nA=a.nps, nB=b.nps;
+      var neto=(shaA>0&&nA!==null&&nB!==null)?shaA*(nB-nA):0;
+      var mix=(nB!==null&&npsAllB!==null)?(shaB-shaA)*(nB-npsAllB):0;
+      var impact=Math.round((neto+mix)*100)/100;
+      var gapT=(tgt!==null&&nB!==null)?Math.round((nB-tgt)*100)/100:null;
+      var delta=(nA!==null&&nB!==null)?Math.round((nB-nA)*100)/100:null;
+      return {{k:k, nA:nA, nB:nB, shaB:Math.round(shaB*1000)/10, impact:impact, gapT:gapT, delta:delta, sB:b.s||0}};
+    }}).filter(function(x){{return x.sB>0||x.nB!==null;}}).sort(function(a,b){{return a.impact-b.impact;}});
   }}
+  var procs   = getDimData('P');
+  var chans   = getDimData('C');
+  var offices = getDimData('O');
 
-  function row(icon,cls,content){{
-    return '<div class="exec-item"><span class="exec-item-icon" style="color:'+cls+'">'+icon+'</span><span>'+content+'</span></div>';
-  }}
-  function npsStr(v){{ return v!==null?v.toFixed(1)+'%':'—'; }}
-  function impStr(v){{ if(v===null) return ''; return ' <span style="color:'+(v>=0?'#1a7a1a':'#c0321a');'font-weight:600">'+(v>=0?'+':'')+v.toFixed(2)+'pp</span>'; }}
-
-  // Bullets qualitativos do resumo
-  var sumKey=isMes?'mom':'wow';
-  var sumObj=DD_SUMMARIES[drv];
-  var sumText=sumObj&&sumObj[sumKey]?sumObj[sumKey]:(sumObj&&sumObj.mom?sumObj.mom:null);
-  var bullets=(sumText||'').split('\\n').map(function(b){{return b.replace(/^[^\w]*/,'').trim();}}).filter(function(b){{return b.length>10;}});
-  function getBullet(keywords){{
-    for(var i=0;i<bullets.length;i++){{
-      var bl=bullets[i].toLowerCase();
-      for(var j=0;j<keywords.length;j++){{if(bl.indexOf(keywords[j])>=0) return bullets[i];}}
-    }}
+  // ── BULLETS QUALITATIVOS ──
+  var sumKey = isMes?'mom':'wow';
+  var sumObj = DD_SUMMARIES[drv];
+  var sumText = sumObj&&sumObj[sumKey]?sumObj[sumKey]:(sumObj&&sumObj.mom?sumObj.mom:null);
+  var bullets = (sumText||'').split('\\n').map(function(b){{return b.replace(/^[\s▶•]+/,'').trim();}}).filter(function(b){{return b.length>15;}});
+  function getBullet(kws){{
+    for(var i=0;i<bullets.length;i++){{ var bl=bullets[i].toLowerCase(); for(var j=0;j<kws.length;j++){{if(bl.indexOf(kws[j])>=0) return bullets[i];}} }}
     return null;
   }}
-  var bDor=getBullet(['dor','cliente','reclam','vendedor']);
-  var bRep=getBullet(['representante','rep ','atendente','comportamento','transfere','padrao']);
-  var bOpp=getBullet(['oportunidade','acao','padronizar','implementar','melhoria','prioridade']);
-  var bPos=getBullet(['positivo','funciona','promotor','acima']);
+  var bVar = getBullet(['varia','queda','alta','subiu','caiu','processo']);
+  var bDor = getBullet(['dor','cliente','reclam','vendedor','insatisf']);
+  var bRep = getBullet(['representante','rep ','atendente','comportamento','transfere','padrao','agente']);
+  var bPos = getBullet(['positivo','funciona','promotor','acima','cresceu','melhora']);
+  var bOpp = getBullet(['oportunidade','acao','padronizar','implementar','prioridade','melhoria']);
+  if(!bVar&&bullets.length>0) bVar=bullets[0];
+
+  // ── HELPERS ──
+  function kpiCls(v){{ return v===null?'neutral':v>=0?'pos':'neg'; }}
+  function fV(v){{ return v!==null?(v>=0?'+':'')+v.toFixed(2)+'pp':'—'; }}
+  function clr(v){{ return v>=0?'#1a7a1a':'#c0321a'; }}
+  function arrow(v){{ return v>=0?'&#8679;':'&#8681;'; }}
+  function nStr(v){{ return v!==null?v.toFixed(1)+'%':'—'; }}
+  function tag(v,dec){{
+    var s=(v>=0?'+':'')+v.toFixed(dec||2)+' pp';
+    return '<span style="font-weight:700;color:'+clr(v)+'">'+s+'</span>';
+  }}
+  function pill(v,dec){{
+    var s=(v>=0?'+':'')+v.toFixed(dec||1)+' pp';
+    var c=v>=1?'pill-pos-hi':v>=0?'pill-pos-lo':v>=-1?'pill-dn1':'pill-neg-hi';
+    return '<span class="pill '+c+'">'+s+'</span>';
+  }}
 
   // ── HEADER ──
   var html='<div class="exec-brief">'+
     '<div class="exec-brief-header">'+
-      '<div class="exec-brief-header-top">'+
-        '<div>'+
-          '<div class="exec-brief-driver">'+drv+'</div>'+
-          '<div class="exec-brief-period">'+cat+' &middot; '+lA+' &rarr; '+lB+'</div>'+
-        '</div>'+
-      '</div>'+
-      '<div class="exec-brief-kpis">'+
+      '<div class="exec-brief-driver">'+drv+'</div>'+
+      '<div class="exec-brief-period">'+cat+' &middot; Periodo: '+lA+' &rarr; '+lB+'</div>'+
+      '<div class="exec-brief-kpis" style="margin-top:10px">'+
         '<div class="exec-brief-kpi"><div class="exec-brief-kpi-label">NPS Atual</div>'+
           '<div class="exec-brief-kpi-val neutral">'+(npsB!==null?npsB.toFixed(1)+'%':'—')+'</div></div>'+
         '<div class="exec-brief-kpi"><div class="exec-brief-kpi-label">Variacao '+lB+'</div>'+
-          '<div class="exec-brief-kpi-val '+kpiCls(delta)+'">'+fV(delta)+'</div></div>'+
-        (tgt?'<div class="exec-brief-kpi"><div class="exec-brief-kpi-label">Target</div>'+
+          '<div class="exec-brief-kpi-val '+(delta!==null?kpiCls(delta):'neutral')+'">'+(delta!==null?fV(delta):'—')+'</div></div>'+
+        (tgt!==null?'<div class="exec-brief-kpi"><div class="exec-brief-kpi-label">Target Driver</div>'+
           '<div class="exec-brief-kpi-val neutral">'+tgt.toFixed(1)+'%</div></div>':'')+
         (gapTgt!==null?'<div class="exec-brief-kpi"><div class="exec-brief-kpi-label">Gap vs Target</div>'+
           '<div class="exec-brief-kpi-val '+kpiCls(gapTgt)+'">'+fV(gapTgt)+'</div></div>':'')+
@@ -1204,108 +1208,105 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
     '</div>'+
     '<div class="exec-brief-body">';
 
-  // ── SECAO 1: Variacao — Mix de Processos ──
-  var momHtml='<div class="exec-section-title es-mom">&#128201; Variacao — Mix de Processos</div>';
+  // ── 1: VARIACAO MOM/WOW — narrativa executiva ──
+  var s1='<div class="exec-section-title es-mom">&#128201; '+(isMes?'Por que o NPS variou MoM?':'Por que o NPS variou WoW?')+'</div>';
+  var top3neg = procs.filter(function(p){{return p.impact<0;}}).slice(0,3);
+  var top2pos = procs.filter(function(p){{return p.impact>0;}}).slice(-2).reverse();
   if(procs.length>0){{
-    momHtml+='<div style="font-size:10.5px;color:#666;margin-bottom:6px">Ordenado por impacto no NPS consolidado (NETO+MIX)</div>';
-    var worst2=procs.slice(0,2), best2=procs.slice(-2).reverse();
-    worst2.forEach(function(p){{
-      momHtml+=row('&#8681;','#c0321a','<b>'+p.k.substring(0,40)+'</b>: NPS '+npsStr(p.nB)+
-        ' &nbsp;<span style="color:#c0321a;font-weight:600">'+(p.impact>=0?'+':'')+p.impact.toFixed(2)+'pp impacto</span>'+
-        ' &nbsp;<span class="bk-surv">'+p.shaB+'% vol</span>');
-    }});
-    best2.forEach(function(p){{
-      if(p.impact>0) momHtml+=row('&#8679;','#1a7a1a','<b>'+p.k.substring(0,40)+'</b>: NPS '+npsStr(p.nB)+
-        ' &nbsp;<span style="color:#1a7a1a;font-weight:600">+'+(p.impact).toFixed(2)+'pp impacto</span>'+
-        ' &nbsp;<span class="bk-surv">'+p.shaB+'% vol</span>');
-    }});
-  }} else momHtml+='<div class="exec-item">Sem dados de processo disponíveis.</div>';
+    s1+='<p class="exec-narrative">O NPS do driver '+(delta!==null?(delta>=0?'subiu':'caiu')+' '+Math.abs(delta).toFixed(2)+'pp':'variou')+
+        ' de '+nStr(npsA)+' ('+lA+') para '+nStr(npsB)+' ('+lB+')</b>.';
+    if(top3neg.length>0){{
+      s1+=' Os principais fatores que puxaram para baixo foram: ';
+      s1+=top3neg.map(function(p){{
+        return '<b>'+p.k+'</b> ('+tag(p.impact)+' de impacto, NPS '+nStr(p.nB)+', '+p.shaB+'% vol)';
+      }}).join('; ')+'.';
+    }}
+    if(top2pos.length>0){{
+      s1+=' Compensaram positivamente: ';
+      s1+=top2pos.map(function(p){{
+        return '<b>'+p.k+'</b> ('+tag(p.impact)+', NPS '+nStr(p.nB)+')';
+      }}).join(' e ')+'.';
+    }}
+    s1+='</p>';
+    if(bVar) s1+='<p class="exec-narrative" style="color:#555"><em>'+bVar+'</em></p>';
+  }} else if(bVar) {{
+    s1+='<p class="exec-narrative">'+bVar+'</p>';
+  }} else {{
+    s1+='<p class="exec-narrative" style="color:#aaa">Sem dados de processo para este periodo.</p>';
+  }}
 
-  // ── SECAO 2: vs Target ──
-  var tgtHtml='<div class="exec-section-title es-tgt">&#127919; vs Target — Analise do Gap</div>';
+  // ── 2: VS TARGET — narrativa executiva ──
+  var s2='<div class="exec-section-title es-tgt">&#127919; '+(gapTgt!==null&&gapTgt<0?'Por que nao entregamos vs target?':'Situacao vs target')+'</div>';
   if(procs.length>0&&tgt!==null){{
-    var abTgt=procs.filter(function(p){{return p.gapT!==null&&p.gapT<0;}}).sort(function(a,b){{return a.gapT-b.gapT;}}).slice(0,3);
-    var acTgt=procs.filter(function(p){{return p.gapT!==null&&p.gapT>=0;}}).sort(function(a,b){{return b.gapT-a.gapT;}}).slice(0,2);
+    var abTgt=procs.filter(function(p){{return p.gapT!==null&&p.gapT<0;}}).sort(function(a,b){{return a.gapT-b.gapT;}});
+    var acTgt=procs.filter(function(p){{return p.gapT!==null&&p.gapT>=0;}}).sort(function(a,b){{return b.gapT-a.gapT;}});
+    s2+='<p class="exec-narrative">O driver esta '+
+        (gapTgt>=0?'<b style="color:#1a7a1a">'+fV(gapTgt)+' acima do target</b>':'<b style="color:#c0321a">'+fV(gapTgt)+' abaixo do target</b>')+
+        ' ('+tgt.toFixed(1)+'%).';
     if(abTgt.length>0){{
-      tgtHtml+='<div style="font-size:10px;color:#888;margin-bottom:4px;font-weight:600">Processos abaixo do target:</div>';
-      abTgt.forEach(function(p){{
-        tgtHtml+=row('&#10007;','#c0321a','<b>'+p.k.substring(0,38)+'</b>: '+npsStr(p.nB)+
-          ' &nbsp;<span style="color:#c0321a;font-weight:600">'+p.gapT.toFixed(1)+'pp vs target</span>');
-      }});
+      s2+=' Processos que mais pressionam o gap: ';
+      s2+=abTgt.slice(0,3).map(function(p){{
+        return '<b>'+p.k+'</b> ('+p.gapT.toFixed(1)+'pp abaixo, NPS '+nStr(p.nB)+')';
+      }}).join('; ')+'.';
     }}
-    if(acTgt.length>0){{
-      tgtHtml+='<div style="font-size:10px;color:#888;margin:6px 0 4px;font-weight:600">Processos favoráveis:</div>';
-      acTgt.forEach(function(p){{
-        tgtHtml+=row('&#10003;','#1a7a1a','<b>'+p.k.substring(0,38)+'</b>: '+npsStr(p.nB)+
-          ' &nbsp;<span style="color:#1a7a1a;font-weight:600">+'+p.gapT.toFixed(1)+'pp vs target</span>');
-      }});
+    if(acTgt.length>0&&abTgt.length>0){{
+      s2+=' Compensam positivamente: ';
+      s2+=acTgt.slice(0,2).map(function(p){{
+        return '<b>'+p.k+'</b> (+'+p.gapT.toFixed(1)+'pp)';
+      }}).join(', ')+'.';
     }}
-    if(abTgt.length===0&&acTgt.length===0) tgtHtml+='<div class="exec-item">Todos os processos alinhados com o target.</div>';
-  }} else tgtHtml+='<div class="exec-item">'+(tgt===null?'Target não definido para este driver.':'Sem dados de processo.')+'</div>';
+    if(abTgt.length===0) s2+=' Todos os processos estao acima do target.';
+    s2+='</p>';
+  }} else {{
+    s2+='<p class="exec-narrative" style="color:#aaa">'+(tgt===null?'Target nao definido para este driver.':'Sem dados de processo.')+'</p>';
+  }}
 
-  html+='<div class="exec-section">'+momHtml+'</div>';
-  html+='<div class="exec-section">'+tgtHtml+'</div>';
+  html+='<div class="exec-section">'+s1+'</div>';
+  html+='<div class="exec-section">'+s2+'</div>';
 
-  // ── SECAO 3: Canal ──
-  var canalHtml='<div class="exec-section-title es-canal">&#128241; Impacto Canal</div>';
+  // ── 3: CANAL — narrativa ──
+  var s3='<div class="exec-section-title es-canal">&#128241; Impacto Canal</div>';
   if(chans.length>0){{
-    chans.sort(function(a,b){{return b.sB-a.sB;}}).slice(0,4).forEach(function(c){{
-      var dnA=c.nA!==null?c.nA.toFixed(1)+'%':'—';
-      var dnB=c.nB!==null?c.nB.toFixed(1)+'%':'—';
-      var dd2=c.nA!==null&&c.nB!==null?Math.round((c.nB-c.nA)*100)/100:null;
-      var icon=dd2===null?'&#9679;':dd2>=0?'&#8679;':'&#8681;';
-      var col=dd2===null?'#999':dd2>=0?'#1a7a1a':'#c0321a';
-      canalHtml+=row(icon,col,'<b>'+c.k+'</b>: '+dnB+
-        (dd2!==null?' <span style="color:'+col+';font-weight:600">'+(dd2>=0?'+':'')+dd2.toFixed(1)+'pp</span>':'')+
-        ' <span class="bk-surv">'+c.shaB+'%</span>');
+    var chSort=chans.slice().sort(function(a,b){{return b.sB-a.sB;}}).slice(0,4);
+    s3+='<p class="exec-narrative">';
+    chSort.forEach(function(c,i){{
+      var d2=c.delta;
+      s3+=(i>0?'. ':'')+'<b>'+c.k+'</b>: NPS '+nStr(c.nB)+
+          (d2!==null?' ('+tag(d2,1)+')':'')+ ' — '+c.shaB+'% do volume';
     }});
-  }} else canalHtml+='<div class="exec-item">Sem dados de canal.</div>';
+    s3+='.</p>';
+  }} else s3+='<p class="exec-narrative" style="color:#aaa">Sem dados de canal.</p>';
 
-  // ── SECAO 4: Oficina ──
-  var offHtml='<div class="exec-section-title es-office">&#127970; Impacto Oficina</div>';
+  // ── 4: OFICINA — narrativa ──
+  var s4='<div class="exec-section-title es-office">&#127970; Impacto Oficina</div>';
   if(offices.length>0){{
-    offices.sort(function(a,b){{return b.sB-a.sB;}}).slice(0,4).forEach(function(o){{
-      var dnB=o.nB!==null?o.nB.toFixed(1)+'%':'—';
-      var dd2=o.nA!==null&&o.nB!==null?Math.round((o.nB-o.nA)*100)/100:null;
-      var icon=dd2===null?'&#9679;':dd2>=0?'&#8679;':'&#8681;';
-      var col=dd2===null?'#999':dd2>=0?'#1a7a1a':'#c0321a';
-      offHtml+=row(icon,col,'<b>'+o.k+'</b>: '+dnB+
-        (dd2!==null?' <span style="color:'+col+';font-weight:600">'+(dd2>=0?'+':'')+dd2.toFixed(1)+'pp</span>':'')+
-        ' <span class="bk-surv">'+o.shaB+'%</span>');
+    var oSort=offices.slice().sort(function(a,b){{return b.sB-a.sB;}}).slice(0,4);
+    var oBest=offices.slice().sort(function(a,b){{return (b.nB||0)-(a.nB||0);}})[0];
+    s4+='<p class="exec-narrative">';
+    oSort.forEach(function(o,i){{
+      var d2=o.delta;
+      s4+=(i>0?'. ':'')+'<b>'+o.k+'</b>: NPS '+nStr(o.nB)+
+          (d2!==null?' ('+tag(d2,1)+')':'')+ ' — '+o.shaB+'% vol';
     }});
-  }} else offHtml+='<div class="exec-item">Sem dados de oficina.</div>';
+    s4+='.</p>';
+  }} else s4+='<p class="exec-narrative" style="color:#aaa">Sem dados de oficina.</p>';
 
-  html+='<div class="exec-section">'+canalHtml+'</div>';
-  html+='<div class="exec-section">'+offHtml+'</div>';
+  html+='<div class="exec-section">'+s3+'</div>';
+  html+='<div class="exec-section">'+s4+'</div>';
 
-  // ── SECOES QUALITATIVAS ──
-  if(bDor){{
-    html+='<div class="exec-section full-width">'+
-      '<div class="exec-section-title es-client">&#128139; Dor do Cliente</div>'+
-      '<div class="exec-item"><span class="exec-item-icon" style="color:#c0321a">&#9654;</span><span>'+bDor+'</span></div>'+
+  // ── 5-7: QUALITATIVO — full width ──
+  function qualSection(icon, title, cls, text, iconColor){{
+    return '<div class="exec-section full-width">'+
+      '<div class="exec-section-title '+cls+'">'+icon+' '+title+'</div>'+
+      '<p class="exec-narrative">'+text+'</p>'+
     '</div>';
   }}
-  if(bRep){{
-    html+='<div class="exec-section full-width">'+
-      '<div class="exec-section-title es-rep">&#129309; Comportamento do Representante</div>'+
-      '<div class="exec-item"><span class="exec-item-icon" style="color:#e65100">&#9654;</span><span>'+bRep+'</span></div>'+
-    '</div>';
-  }}
-  if(bPos){{
-    html+='<div class="exec-section full-width">'+
-      '<div class="exec-section-title es-opp">&#128077; Ponto Positivo</div>'+
-      '<div class="exec-item"><span class="exec-item-icon" style="color:#1b5e20">&#9654;</span><span>'+bPos+'</span></div>'+
-    '</div>';
-  }}
-  if(bOpp){{
-    html+='<div class="exec-section full-width">'+
-      '<div class="exec-section-title es-opp">&#127775; Oportunidade Prioritária</div>'+
-      '<div class="exec-item"><span class="exec-item-icon" style="color:#1b5e20">&#9654;</span><span>'+bOpp+'</span></div>'+
-    '</div>';
-  }}
-  if(!bDor&&!bRep&&!bOpp){{
-    html+='<div class="exec-section full-width"><div class="exec-item" style="color:#aaa">Análise qualitativa não disponível para este driver neste período.</div></div>';
-  }}
+  if(bDor)  html+=qualSection('&#128139;','Dor do Cliente','es-client',bDor,'#c0321a');
+  if(bRep)  html+=qualSection('&#129309;','Comportamento do Representante','es-rep',bRep,'#e65100');
+  if(bPos)  html+=qualSection('&#128077;','Ponto Positivo','es-opp',bPos,'#1b5e20');
+  if(bOpp)  html+=qualSection('&#127775;','Oportunidade Prioritaria','es-opp',bOpp,'#1b5e20');
+  if(!bDor&&!bRep&&!bOpp&&!bVar)
+    html+='<div class="exec-section full-width"><p class="exec-narrative" style="color:#aaa">Analise qualitativa nao disponivel para este driver neste periodo.</p></div>';
 
   html+='</div></div>';
   return html;
