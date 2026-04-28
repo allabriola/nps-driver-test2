@@ -1012,7 +1012,7 @@ function buildEvolTable(containerId, drivers, periodType, consolTarget) {{
     }}
     return {{d:d, pts:pts, delta:delta, gap:gap, tgt:tgt, below:below, consec:consec}};
   }});
-  drvData.sort(function(a,b){{ return (a.gap||99)-(b.gap||99); }});  // mais abaixo do target primeiro
+  drvData.sort(function(a,b){{ var sa=a.pts[a.pts.length-1]?a.pts[a.pts.length-1].s||0:0; var sb=b.pts[b.pts.length-1]?b.pts[b.pts.length-1].s||0:0; return sb-sa; }});  // maior share primeiro
 
   // Calcular share do ultimo periodo
   var totalS = drvData.reduce(function(acc,r){{ var last=r.pts[r.pts.length-1]; return acc+(last?last.s||0:0); }},0);
