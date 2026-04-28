@@ -1216,8 +1216,29 @@ function buildDDChart(canvasId, labels, values, colors, target, type) {{
 </body>
 </html>"""
 
+def escape_nonascii_in_scripts(html):
+    """Escapa chars nao-ASCII dentro de blocos <script> (exceto application/json)."""
+    import re
+    def fix_block(m):
+        tag_open = m.group(1)
+        content  = m.group(2)
+        # Escapar todo char > 127 como \uXXXX
+        safe = ''.join(
+            c if ord(c) <= 127 else '\\u{:04x}'.format(ord(c))
+            for c in content
+        )
+        return tag_open + safe + '</script>'
+    # Apenas scripts sem type (ou type diferente de application/json)
+    return re.sub(
+        r'(<script(?! src| type)[^>]*>)(.*?)</script>',
+        fix_block,
+        html,
+        flags=re.DOTALL
+    )
+
 if __name__ == "__main__":
     html = build_html()
+    html = escape_nonascii_in_scripts(html)
     with open("driver_impact.html", "w", encoding="utf-8") as f:
         f.write(html)
     print("OK driver_impact.html gerado -", REPORT_DATE)

@@ -33,7 +33,7 @@ function setPeriod(btn){
   }
 }
 document.addEventListener('DOMContentLoaded',function(){updatePanes();});
-// Wrapper seguro para renderDD — chama a funcao quando disponivel
+// Wrapper seguro para renderDD \u2014 chama a funcao quando disponivel
 function callRenderDD(period){
   var cont=document.getElementById('dd-content-'+period);
   if(typeof renderDD==='undefined'){
@@ -193,7 +193,7 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 15:06</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 28/04/2026 15:16</div>
 </header>
 
 <div class="nav-bar">
@@ -539,7 +539,7 @@ function buildExecSummary(drv, period) {
   var s = DD_SUMMARIES[drv];
   var key = period === 'mes' ? 'mom' : 'wow';
   var text = s && s[key] ? s[key] : (s && s['mom'] ? s['mom'] : null);
-  var title = period === 'mes' ? 'Resumo Executivo — MoM (Marco vs Abril 2026)' : 'Resumo Executivo — WoW';
+  var title = period === 'mes' ? 'Resumo Executivo \u2014 MoM (Marco vs Abril 2026)' : 'Resumo Executivo \u2014 WoW';
   if (!text) {
     return '<div class="exec-summary"><div class="exec-summary-title">' + title + '</div>' +
            '<div class="exec-na">Analise qualitativa nao disponivel para este driver.</div></div>';
@@ -548,14 +548,14 @@ function buildExecSummary(drv, period) {
 ').filter(function(l){ return l.trim(); });
   var html = '<div class="exec-summary"><div class="exec-summary-title">' + title + '</div>';
   bullets.forEach(function(b) {
-    var clean = b.replace(/^[▶\s]+/, '').trim();
+    var clean = b.replace(/^[\u25b6\s]+/, '').trim();
     if (!clean) return;
     // Destaque da primeira parte antes do ':'
     var colon = clean.indexOf(':');
     if (colon > 0 && colon < 40) {
       clean = '<strong>' + clean.substring(0, colon+1) + '</strong>' + clean.substring(colon+1);
     }
-    html += '<div class="exec-bullet">▶ ' + clean + '</div>';
+    html += '<div class="exec-bullet">\u25b6 ' + clean + '</div>';
   });
   html += '</div>';
   return html;
@@ -584,8 +584,8 @@ function renderDD(period) {
   if (ddCharts[period]) { ddCharts[period].forEach(function(c){ if(c) c.destroy(); }); }
   ddCharts[period] = [];
 
-  function fmtNPS(v) { return v !== null ? v.toFixed(1)+'%' : '—'; }
-  function fmtDelta(v) { if(v===null||v===undefined) return '—'; var s=v>=0?'+':''; return s+v.toFixed(2)+' pp'; }
+  function fmtNPS(v) { return v !== null ? v.toFixed(1)+'%' : '\u2014'; }
+  function fmtDelta(v) { if(v===null||v===undefined) return '\u2014'; var s=v>=0?'+':''; return s+v.toFixed(2)+' pp'; }
 
   if (period === 'mes') {
     var pts = d.monthly;
@@ -601,20 +601,20 @@ function renderDD(period) {
         sc_dd('NPS '+cur.label, fmtNPS(nCur), null, nCur, tgt) +
         sc_dd('NPS '+prev.label, fmtNPS(nPrev), null, nPrev, tgt) +
         sc_dd('Variacao MoM', fmtDelta(delta), delta, null, null) +
-        sc_dd('Target', tgt ? tgt.toFixed(1)+'%' : '—', null, null, null) +
+        sc_dd('Target', tgt ? tgt.toFixed(1)+'%' : '\u2014', null, null, null) +
         sc_dd('Gap vs Target', fmtDelta(gapTgt), gapTgt, null, null) +
       '</div>' +
       '<div class="dd-chart-section">' +
-        '<div class="dd-chart-title">Historico Mensal — '+drv+'</div>' +
-        '<div class="dd-chart-sub">NPS mensal Jan–Abr 2026 vs target do driver</div>' +
+        '<div class="dd-chart-title">Historico Mensal \u2014 '+drv+'</div>' +
+        '<div class="dd-chart-sub">NPS mensal Jan\u2013Abr 2026 vs target do driver</div>' +
         '<div class="dd-chart-wrap"><canvas id="c-dd-mes-chart"></canvas></div>' +
       '</div>' +
       buildExecSummary(drv, 'mes') +
-      '<div class="dd-section-title">Processos — MoM (' + M2_LABEL + ' vs ' + M1_LABEL + ')</div>' +
+      '<div class="dd-section-title">Processos \u2014 MoM (' + M2_LABEL + ' vs ' + M1_LABEL + ')</div>' +
       buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'M2', 'M1', d.target, 'Processo') +
-      '<div class="dd-section-title">Canal — MoM</div>' +
+      '<div class="dd-section-title">Canal \u2014 MoM</div>' +
       buildBreakdownTable(DD_BREAKDOWN[drv], 'C', 'M2', 'M1', d.target, 'Canal') +
-      '<div class="dd-section-title">Oficina — MoM</div>' +
+      '<div class="dd-section-title">Oficina \u2014 MoM</div>' +
       buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'M2', 'M1', d.target, 'Oficina');
 
     var labels = pts.map(function(p){ return p.label; });
@@ -636,20 +636,20 @@ function renderDD(period) {
         sc_dd('NPS '+cur.label, fmtNPS(nCur), null, nCur, tgt) +
         sc_dd('NPS '+prev.label, fmtNPS(nPrev), null, nPrev, tgt) +
         sc_dd('Variacao WoW', fmtDelta(delta), delta, null, null) +
-        sc_dd('Target', tgt ? tgt.toFixed(1)+'%' : '—', null, null, null) +
+        sc_dd('Target', tgt ? tgt.toFixed(1)+'%' : '\u2014', null, null, null) +
         sc_dd('Gap vs Target', fmtDelta(gapTgt), gapTgt, null, null) +
       '</div>' +
       '<div class="dd-chart-section">' +
-        '<div class="dd-chart-title">Historico Semanal — '+drv+'</div>' +
+        '<div class="dd-chart-title">Historico Semanal \u2014 '+drv+'</div>' +
         '<div class="dd-chart-sub">NPS semanal 6 semanas vs target do driver</div>' +
         '<div class="dd-chart-wrap"><canvas id="c-dd-sem-chart"></canvas></div>' +
       '</div>' +
       buildExecSummary(drv, 'sem') +
-      '<div class="dd-section-title">Processos — WoW (' + S2_LABEL + ' vs ' + S1_LABEL + ')</div>' +
+      '<div class="dd-section-title">Processos \u2014 WoW (' + S2_LABEL + ' vs ' + S1_LABEL + ')</div>' +
       buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'S2', 'S1', d.target, 'Processo') +
-      '<div class="dd-section-title">Canal — WoW</div>' +
+      '<div class="dd-section-title">Canal \u2014 WoW</div>' +
       buildBreakdownTable(DD_BREAKDOWN[drv], 'C', 'S2', 'S1', d.target, 'Canal') +
-      '<div class="dd-section-title">Oficina — WoW</div>' +
+      '<div class="dd-section-title">Oficina \u2014 WoW</div>' +
       buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'S2', 'S1', d.target, 'Oficina');
 
     var labels = pts.map(function(p){ return p.label; });
