@@ -644,8 +644,8 @@ function setPeriod(btn){{
 }}
 document.addEventListener('DOMContentLoaded',function(){{updatePanes();}});
 </script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>{open('chartjs.min.js',encoding='utf-8').read()}</script>
+<script>{open('chartjs-datalabels.min.js',encoding='utf-8').read()}</script>
 <style>
 *{{box-sizing:border-box;margin:0;padding:0}}
 body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
@@ -866,13 +866,10 @@ function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, driver
   }});
 }}
 
-// Abas funcionam imediatamente — charts carregam depois com CDN
+// Navegacao ja definida no head — aqui so registra Chart.js e cria graficos
 updatePanes();
-
-window.addEventListener('load', function() {{
-  try {{ Chart.register(ChartDataLabels); }} catch(e) {{ console.warn('Chart:', e); return; }}
-  {js_charts("all", V_ALL)}{js_charts("sel", V_SEL)}
-}});
+try {{ Chart.register(ChartDataLabels); }} catch(e) {{ console.warn('Chart.register:', e); }}
+{js_charts("all", V_ALL)}{js_charts("sel", V_SEL)}
 
 var DD_DATA = {dd_json};
 var DD_BREAKDOWN = {dd_breakdown_json};
