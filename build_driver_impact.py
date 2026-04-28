@@ -1193,8 +1193,8 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   // ── HEADER ──
   var html='<div class="exec-brief">'+
     '<div class="exec-brief-header">'+
-      '<div class="exec-brief-driver">'+drv+'</div>'+
-      '<div class="exec-brief-period">'+cat+' &middot; Periodo: '+lA+' &rarr; '+lB+'</div>'+
+      '<div class="exec-brief-driver">Resumo Executivo Driver</div>'+
+      '<div class="exec-brief-period">'+drv+' &middot; '+cat+' &middot; '+lA+' &rarr; '+lB+'</div>'+
       '<div class="exec-brief-kpis" style="margin-top:10px">'+
         '<div class="exec-brief-kpi"><div class="exec-brief-kpi-label">NPS Atual</div>'+
           '<div class="exec-brief-kpi-val neutral">'+(npsB!==null?npsB.toFixed(1)+'%':'—')+'</div></div>'+
@@ -1209,7 +1209,7 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
     '<div class="exec-brief-body">';
 
   // ── 1: VARIACAO MOM/WOW — narrativa executiva ──
-  var s1='<div class="exec-section-title es-mom">&#128201; '+(isMes?'Por que o NPS variou MoM?':'Por que o NPS variou WoW?')+'</div>';
+  var s1='<div class="exec-section-title" style="color:#555">&#128201; '+(isMes?'Variacao MoM':'Variacao WoW')+'</div>';
   var top3neg = procs.filter(function(p){{return p.impact<0;}}).slice(0,3);
   var top2pos = procs.filter(function(p){{return p.impact>0;}}).slice(-2).reverse();
   if(procs.length>0){{
@@ -1233,7 +1233,7 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   }}
 
   // ── 2: VS TARGET — narrativa executiva ──
-  var s2='<div class="exec-section-title es-tgt">&#127919; '+(gapTgt!==null&&gapTgt<0?'Por que nao entregamos vs target?':'Situacao vs target')+'</div>';
+  var s2='<div class="exec-section-title" style="color:#555">&#127919; Analise vs Target</div>';
   if(procs.length>0&&tgt!==null){{
     var abTgt=procs.filter(function(p){{return p.gapT!==null&&p.gapT<0;}}).sort(function(a,b){{return a.gapT-b.gapT;}});
     var acTgt=procs.filter(function(p){{return p.gapT!==null&&p.gapT>=0;}}).sort(function(a,b){{return b.gapT-a.gapT;}});
@@ -1262,7 +1262,7 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   html+='<div class="exec-section">'+s2+'</div>';
 
   // ── 3: CANAL — narrativa ──
-  var s3='<div class="exec-section-title es-canal">&#128241; Impacto Canal</div>';
+  var s3='<div class="exec-section-title" style="color:#555">&#128241; Impacto Canal</div>';
   if(chans.length>0){{
     var chSort=chans.slice().sort(function(a,b){{return b.sB-a.sB;}}).slice(0,4);
     s3+='<p class="exec-narrative">';
@@ -1275,7 +1275,7 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   }} else s3+='<p class="exec-narrative" style="color:#aaa">Sem dados de canal.</p>';
 
   // ── 4: OFICINA — narrativa ──
-  var s4='<div class="exec-section-title es-office">&#127970; Impacto Oficina</div>';
+  var s4='<div class="exec-section-title" style="color:#555">&#127970; Impacto Oficina</div>';
   if(offices.length>0){{
     var oSort=offices.slice().sort(function(a,b){{return b.sB-a.sB;}}).slice(0,4);
     var oBest=offices.slice().sort(function(a,b){{return (b.nB||0)-(a.nB||0);}})[0];
@@ -1294,7 +1294,7 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   // ── 5-7: QUALITATIVO — full width ──
   function qualSection(icon, title, cls, text, iconColor){{
     return '<div class="exec-section full-width">'+
-      '<div class="exec-section-title '+cls+'">'+icon+' '+title+'</div>'+
+      '<div class="exec-section-title" style="color:#555">'+icon+' '+title+'</div>'+
       '<p class="exec-narrative">'+text+'</p>'+
     '</div>';
   }}
