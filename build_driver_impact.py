@@ -674,6 +674,7 @@ def make_panes(pfx, v, is_vig=False):
       <div class="chart-sub">NPS por driver nos ultimos 3 meses | target consolidado: {v['nps_target']:.1f}%</div>
       <div id="evol-mes-{pfx}"></div>
     </div>
+    <div id="strategic-{pfx}-mes"></div>
   </div>
   <div id="pane-{pfx}-sem" class="tab-pane">
     <div class="sc-grid">{cards_sem()}</div>
@@ -687,6 +688,7 @@ def make_panes(pfx, v, is_vig=False):
       <div class="chart-sub">NPS por driver nas ultimas 5 semanas | target consolidado: {v['nps_target']:.1f}%</div>
       <div id="evol-sem-{pfx}"></div>
     </div>
+    <div id="strategic-{pfx}-sem"></div>
   </div>
 """
 
@@ -787,6 +789,7 @@ def build_html():
       <div class="chart-sub">Contribuicao de cada driver (pp): {S1_LABEL} (fechada) &rarr; {VIG_LABEL} (vigente).</div>
       <div class="chart-wrap"><canvas id="c-{view}-vig-wow"></canvas></div>
     </div>
+    <div id="strategic-{view}-vig"></div>
   </div>"""
 
     panes_all_vig = make_vig_pane("all", V_ALL_VIG)
@@ -1091,6 +1094,134 @@ header h1{{font-size:16px;font-weight:700}}
 <script>
 /* Funcoes de chart e deep dive */
 
+function buildStrategicSummary(containerId, period, drvData, vtData, npsB, npsA, tgt) {{
+  var el = document.getElementById(containerId);
+  if (!el) return;
+  var lPeriod = period==='mes'?'MoM ('+M2_LABEL+' → '+M1_LABEL+')':period==='sem'?'WoW ('+S2_LABEL+' → '+S1_LABEL+')':'VIG ⚡ ('+S1_LABEL+' → '+VIG_LABEL+')';
+  var lAtual  = period==='mes'?M1_LABEL:period==='sem'?S1_LABEL:VIG_LABEL+' ⚡';
+
+  // Identificar drivers abaixo do target E em queda
+  var atRisk = Object.keys(drvData).filter(function(d) {{
+    return vtData[d] && vtData[d].gap < 0 && drvData[d] && drvData[d].var < -0.5;
+  }}).sort(function(a, b) {{ return (vtData[a]?vtData[a].gap:0) - (vtData[b]?vtData[b].gap:0); }});
+
+  // Drivers apenas abaixo do target (sem queda significativa)
+  var watchList = Object.keys(vtData).filter(function(d) {{
+    return vtData[d] && vtData[d].gap < 0 && (!drvData[d] || drvData[d].var >= -0.5);
+  }}).sort(function(a,b){{ return (vtData[a]?vtData[a].gap:0)-(vtData[b]?vtData[b].gap:0); }}).slice(0,3);
+
+  function nS(v){{ return v!==null&&v!==undefined?v.toFixed(1)+'%':'—'; }}
+  function dS(v){{ return v!==null?(v>=0?'+':'')+v.toFixed(2)+'pp':'—'; }}
+  function pill(v){{
+    var c=v>=0?'#1b5e20':'#b71c1c';
+    return '<span style="font-weight:700;color:'+c+'">'+(v>=0?'+':'')+v.toFixed(2)+'pp</span>';
+  }}
+  function extractInsight(drv) {{
+    var sumObj = (typeof DD_SUMMARIES!=='undefined'?DD_SUMMARIES:{{}})[drv]||{{}};
+    var key = period==='mes'?'mom':'wow';
+    var raw = sumObj[key] || sumObj.mom || null;
+    var txt = (typeof raw==='object'&&raw)?(raw.bullets_legado||''):(raw||'');
+    var lines = txt.split('\n').map(function(b){{return b.replace(/^[\s▶•]+/,'').trim();}}).filter(function(b){{return b.length>20;}});
+    return lines[0] || null;
+  }}
+
+  var delta = npsB!==null&&npsA!==null?Math.round((npsB-npsA)*100)/100:null;
+  var gapCons = npsB!==null&&tgt?Math.round((npsB-tgt)*100)/100:null;
+
+  // Header consolidado
+  var headerColor = atRisk.length>0?'#b71c1c':watchList.length>0?'#e65100':'#1b5e20';
+  var headerIcon  = atRisk.length>0?'⚠️':'&#128308;';
+  var headerMsg   = atRisk.length>0
+    ? atRisk.length+' driver'+(atRisk.length>1?'s':'')+' abaixo do target e em queda'
+    : watchList.length>0 ? watchList.length+' driver'+(watchList.length>1?'s':'')+' abaixo do target (estável)'
+    : 'Todos os drivers acima do target ✔';
+
+  var html = '<div style="margin:16px 0;border:2px solid '+headerColor+';border-radius:12px;overflow:hidden">'+
+    '<div style="background:'+headerColor+';padding:10px 16px;display:flex;align-items:center;justify-content:space-between">'+
+      '<div style="display:flex;align-items:center;gap:8px">'+
+        '<span style="font-size:16px">'+headerIcon+'</span>'+
+        '<span style="color:#fff;font-weight:700;font-size:13px">Visão Estratégica — Drivers Sellers</span>'+
+        '<span style="color:rgba(255,255,255,0.75);font-size:11px">'+lPeriod+'</span>'+
+      '</div>'+
+      '<div style="color:#fff;font-size:11px;font-weight:600">'+headerMsg+'</div>'+
+    '</div>'+
+    '<div style="padding:12px 16px;background:#fafafa">'+
+    // NPS consolidado resumo
+    '<div style="display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap">'+
+      '<div style="background:#fff;padding:8px 14px;border-radius:8px;border:1px solid #e0e0e0;min-width:140px">'+
+        '<div style="font-size:10px;color:#888;font-weight:600">NPS '+lAtual+'</div>'+
+        '<div style="font-size:18px;font-weight:700;color:'+(gapCons>=0?'#1b5e20':'#b71c1c')+'">'+nS(npsB)+'</div>'+
+        '<div style="font-size:11px;color:#666">'+dS(delta)+' vs período ant.</div>'+
+      '</div>'+
+      '<div style="background:#fff;padding:8px 14px;border-radius:8px;border:1px solid #e0e0e0;min-width:140px">'+
+        '<div style="font-size:10px;color:#888;font-weight:600">Vs Target ('+nS(tgt)+')</div>'+
+        '<div style="font-size:18px;font-weight:700;color:'+(gapCons>=0?'#1b5e20':'#b71c1c')+'">'+dS(gapCons)+'</div>'+
+        '<div style="font-size:11px;color:#666">'+((gapCons!==null&&gapCons>=0)?'Acima da meta':'Abaixo da meta')+'</div>'+
+      '</div>'+
+      (atRisk.length>0?'<div style="background:#ffebee;padding:8px 14px;border-radius:8px;border:1px solid #ef9a9a;min-width:140px">'+
+        '<div style="font-size:10px;color:#b71c1c;font-weight:600">Em alerta crítico</div>'+
+        '<div style="font-size:18px;font-weight:700;color:#b71c1c">'+atRisk.length+'</div>'+
+        '<div style="font-size:11px;color:#b71c1c">abaixo target + queda</div>'+
+      '</div>':'')+'</div>';
+
+  // Cards dos drivers em risco
+  if (atRisk.length > 0) {{
+    html += '<div style="font-size:10px;font-weight:700;color:#b71c1c;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px">⚠ Drivers Abaixo do Target e em Queda</div>';
+    html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px;margin-bottom:12px">';
+    atRisk.forEach(function(drv) {{
+      var d  = drvData[drv]||{{}};
+      var vt = vtData[drv]||{{}};
+      var insight = extractInsight(drv);
+      var severity = vt.gap < -10 ? '#b71c1c' : vt.gap < -5 ? '#e65100' : '#f57f17';
+      html += '<div style="background:#fff;border-radius:8px;padding:10px 12px;border-left:4px solid '+severity+';border:1px solid #e0e0e0;border-left:4px solid '+severity+'">'+
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">'+
+          '<span style="font-size:12px;font-weight:700;color:#1a1e3c">'+drv+'</span>'+
+        '</div>'+
+        '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:5px">'+
+          '<span style="font-size:11px">NPS: <b style="color:'+(d.nps_b>=tgt?'#1b5e20':'#b71c1c')+'">'+nS(d.nps_b)+'</b></span>'+
+          '<span style="font-size:11px">Var: <b>'+pill(d.var||0)+'</b></span>'+
+          '<span style="font-size:11px">Gap target: <b style="color:#b71c1c">'+dS(vt.gap)+'</b></span>'+
+          '<span style="font-size:11px;color:#888">'+Math.round((vt.share||0)*10)/10+'% vol</span>'+
+        '</div>'+
+        (insight ? '<div style="font-size:11px;color:#555;font-style:italic;border-top:1px solid #f0f0f0;padding-top:5px;margin-top:3px">▶ '+insight+'</div>' : '')+
+      '</div>';
+    }});
+    html += '</div>';
+  }}
+
+  // Watch list (abaixo do target mas estável)
+  if (watchList.length > 0) {{
+    html += '<div style="font-size:10px;font-weight:700;color:#e65100;margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px">&#128993; Monitorar: Abaixo do Target (Tendência Estável)</div>';
+    html += '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">';
+    watchList.forEach(function(drv) {{
+      var vt = vtData[drv]||{{}};
+      var d  = drvData[drv]||{{}};
+      html += '<div style="background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:5px 10px;font-size:11px">'+
+        '<b>'+drv+'</b> &nbsp;'+nS(d.nps_b||vt.nps)+'&nbsp;<span style="color:#e65100">'+dS(vt.gap)+' vs target</span>'+
+      '</div>';
+    }});
+    html += '</div>';
+  }}
+
+  // Conclusão estratégica consolidada
+  var conclusion = '';
+  if(atRisk.length===0 && watchList.length===0) {{
+    conclusion = '✅ Todos os drivers estão acima do target neste período. Manter monitoramento semanal.';
+  }} else {{
+    var piorDrv = atRisk[0]||watchList[0];
+    var piorVt  = vtData[piorDrv]||{{}};
+    conclusion = 'Prioridade imediata: <b>'+atRisk.slice(0,2).join(' e ')+'</b>'+(atRisk.length>2?' (+'+( atRisk.length-2)+' outros)':'')+'.'+'<br>O driver mais crítico é <b>'+piorDrv+'</b> ('+dS(piorVt.gap)+' vs target). '+
+      'Acesse o Deep Dive de cada driver para detalhamento de causa-raiz e plano de ação.';
+  }}
+  html += '<div style="background:#e8f5e9;border-radius:8px;padding:9px 12px;border:1px solid #a5d6a7">'+
+    '<div style="font-size:10px;font-weight:700;color:#1b5e20;margin-bottom:4px">&#127919; CONCLUSÃO ESTRATÉGICA</div>'+
+    '<div style="font-size:11px;color:#1a3c1a;line-height:1.5">'+conclusion+'</div>'+
+  '</div>';
+
+  html += '</div></div>';
+  el.innerHTML = html;
+}}
+
 function shorten(s, n) {{
   n = n || 11;
   return s.length > n ? s.slice(0, n) + '...' : s;
@@ -1256,6 +1387,13 @@ requestAnimationFrame(function() {{
     try {{ buildEvolTable('evol-sem-all', allDrvs, 'weekly',  {V_ALL['nps_target']}); }} catch(e) {{ console.warn('evol-sem-all',e); }}
     try {{ buildEvolTable('evol-mes-sel', selDrvs, 'monthly', {V_SEL['nps_target']}); }} catch(e) {{ console.warn('evol-mes-sel',e); }}
     try {{ buildEvolTable('evol-sem-sel', selDrvs, 'weekly',  {V_SEL['nps_target']}); }} catch(e) {{ console.warn('evol-sem-sel',e); }}
+    // Visao Estrategica — inicializar apos graficos
+    try {{ buildStrategicSummary('strategic-sel-mes','mes',{V_SEL['mom_json']},{V_SEL['vt_json']},{V_SEL['nM1']},{V_SEL['nM2']},{V_SEL['nps_target']}); }} catch(e) {{}}
+    try {{ buildStrategicSummary('strategic-sel-sem','sem',{V_SEL['wow_json']},{V_SEL['vt_json']},{V_SEL['nS1']},{V_SEL['nS2']},{V_SEL['nps_target']}); }} catch(e) {{}}
+    try {{ buildStrategicSummary('strategic-sel-vig','vig',{V_SEL_VIG['wow_json']},{V_SEL_VIG['vt_json']},{V_SEL_VIG['nS1']},{V_SEL_VIG['nS2']},{V_SEL_VIG['nps_target']}); }} catch(e) {{}}
+    try {{ buildStrategicSummary('strategic-all-mes','mes',{V_ALL['mom_json']},{V_ALL['vt_json']},{V_ALL['nM1']},{V_ALL['nM2']},{V_ALL['nps_target']}); }} catch(e) {{}}
+    try {{ buildStrategicSummary('strategic-all-sem','sem',{V_ALL['wow_json']},{V_ALL['vt_json']},{V_ALL['nS1']},{V_ALL['nS2']},{V_ALL['nps_target']}); }} catch(e) {{}}
+    try {{ buildStrategicSummary('strategic-all-vig','vig',{V_ALL_VIG['wow_json']},{V_ALL_VIG['vt_json']},{V_ALL_VIG['nS1']},{V_ALL_VIG['nS2']},{V_ALL_VIG['nps_target']}); }} catch(e) {{}}
   }});
 }});
 

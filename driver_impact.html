@@ -224,7 +224,7 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 29/04/2026 19:22</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 29/04/2026 19:30</div>
 </header>
 
 <div class="nav-bar">
@@ -306,6 +306,7 @@ header h1{font-size:16px;font-weight:700}
       <div class="chart-sub">NPS por driver nos ultimos 3 meses | target consolidado: 52.5%</div>
       <div id="evol-mes-all"></div>
     </div>
+    <div id="strategic-all-mes"></div>
   </div>
   <div id="pane-all-sem" class="tab-pane">
     <div class="sc-grid"><div class="sc">
@@ -363,6 +364,7 @@ header h1{font-size:16px;font-weight:700}
       <div class="chart-sub">NPS por driver nas ultimas 5 semanas | target consolidado: 52.5%</div>
       <div id="evol-sem-all"></div>
     </div>
+    <div id="strategic-all-sem"></div>
   </div>
 
   
@@ -427,6 +429,7 @@ header h1{font-size:16px;font-weight:700}
       <div class="chart-sub">NPS por driver nos ultimos 3 meses | target consolidado: 56.0%</div>
       <div id="evol-mes-sel"></div>
     </div>
+    <div id="strategic-sel-mes"></div>
   </div>
   <div id="pane-sel-sem" class="tab-pane">
     <div class="sc-grid"><div class="sc">
@@ -484,6 +487,7 @@ header h1{font-size:16px;font-weight:700}
       <div class="chart-sub">NPS por driver nas ultimas 5 semanas | target consolidado: 56.0%</div>
       <div id="evol-sem-sel"></div>
     </div>
+    <div id="strategic-sel-sem"></div>
   </div>
 
   
@@ -541,6 +545,7 @@ header h1{font-size:16px;font-weight:700}
       <div class="chart-sub">Contribuicao de cada driver (pp): 20/abr - 26/abr (fechada) &rarr; 27/abr - 29/abr (vigente).</div>
       <div class="chart-wrap"><canvas id="c-all-vig-wow"></canvas></div>
     </div>
+    <div id="strategic-all-vig"></div>
   </div>
   
   <div id="pane-sel-vig" class="tab-pane">
@@ -597,6 +602,7 @@ header h1{font-size:16px;font-weight:700}
       <div class="chart-sub">Contribuicao de cada driver (pp): 20/abr - 26/abr (fechada) &rarr; 27/abr - 29/abr (vigente).</div>
       <div class="chart-wrap"><canvas id="c-sel-vig-wow"></canvas></div>
     </div>
+    <div id="strategic-sel-vig"></div>
   </div>
 
   <!-- ── DEEP DIVE ──────────────────────────────────────────────── -->
@@ -651,6 +657,135 @@ header h1{font-size:16px;font-weight:700}
 <script type="application/json" id="_drv_hist">{"CBT": {"monthly": [{"label": "Fev", "nps": 77.56, "s": 254}, {"label": "Mar", "nps": 67.09, "s": 395}, {"label": "Abr", "nps": 72.32, "s": 383}], "weekly": [{"label": "23/mar", "nps": 60.0, "s": 60}, {"label": "30/mar", "nps": 76.74, "s": 86}, {"label": "06/abr", "nps": 74.26, "s": 101}, {"label": "13/abr", "nps": 70.59, "s": 102}, {"label": "20/abr", "nps": 63.54, "s": 96}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 63.54, "s": 96}, {"label": "27/abr - 29/abr", "nps": 72.73, "s": 22}], "target": 74.63, "cat": "Buyers"}, "Experiencia Impositiva Mature": {"monthly": [{"label": "Fev", "nps": 50.0, "s": 70}, {"label": "Mar", "nps": 34.72, "s": 72}, {"label": "Abr", "nps": 50.0, "s": 38}], "weekly": [{"label": "23/mar", "nps": 33.33, "s": 15}, {"label": "30/mar", "nps": 35.0, "s": 20}, {"label": "06/abr", "nps": 46.15, "s": 13}, {"label": "13/abr", "nps": 50.0, "s": 8}, {"label": "20/abr", "nps": 50.0, "s": 4}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 50.0, "s": 4}, {"label": "27/abr - 29/abr", "nps": 100.0, "s": 3}], "target": 53.63, "cat": "Mature"}, "Experiencia Impositiva Meli Pro": {"monthly": [{"label": "Fev", "nps": -40.0, "s": 5}, {"label": "Mar", "nps": 30.77, "s": 13}, {"label": "Abr", "nps": 64.71, "s": 17}], "weekly": [{"label": "23/mar", "nps": 33.33, "s": 3}, {"label": "30/mar", "nps": 33.33, "s": 3}, {"label": "06/abr", "nps": 50.0, "s": 2}, {"label": "13/abr", "nps": 25.0, "s": 4}, {"label": "20/abr", "nps": 100.0, "s": 3}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 100.0, "s": 3}, {"label": "27/abr - 29/abr", "nps": 66.67, "s": 6}], "target": 38.57, "cat": "Meli Pro"}, "Experiencia Impositiva Seller Dev": {"monthly": [{"label": "Fev", "nps": 55.35, "s": 477}, {"label": "Mar", "nps": 43.5, "s": 469}, {"label": "Abr", "nps": 50.37, "s": 544}], "weekly": [{"label": "23/mar", "nps": 45.56, "s": 90}, {"label": "30/mar", "nps": 41.0, "s": 100}, {"label": "06/abr", "nps": 54.81, "s": 208}, {"label": "13/abr", "nps": 49.38, "s": 160}, {"label": "20/abr", "nps": 38.64, "s": 88}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 38.64, "s": 88}, {"label": "27/abr - 29/abr", "nps": 64.0, "s": 25}], "target": 59.03, "cat": "Longtail"}, "FBM-S Mature": {"monthly": [{"label": "Fev", "nps": 34.26, "s": 216}, {"label": "Mar", "nps": 41.87, "s": 203}, {"label": "Abr", "nps": 51.16, "s": 129}], "weekly": [{"label": "23/mar", "nps": 58.7, "s": 46}, {"label": "30/mar", "nps": 35.42, "s": 48}, {"label": "06/abr", "nps": 52.5, "s": 40}, {"label": "13/abr", "nps": 65.52, "s": 29}, {"label": "20/abr", "nps": 61.9, "s": 21}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 61.9, "s": 21}, {"label": "27/abr - 29/abr", "nps": 44.44, "s": 9}], "target": 19.6, "cat": "FBM"}, "FBM-S Meli Pro": {"monthly": [{"label": "Fev", "nps": 51.85, "s": 27}, {"label": "Mar", "nps": 13.64, "s": 22}, {"label": "Abr", "nps": 62.9, "s": 62}], "weekly": [{"label": "23/mar", "nps": 100.0, "s": 2}, {"label": "30/mar", "nps": -100.0, "s": 2}, {"label": "06/abr", "nps": 58.33, "s": 12}, {"label": "13/abr", "nps": 40.0, "s": 20}, {"label": "20/abr", "nps": 85.0, "s": 20}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 85.0, "s": 20}, {"label": "27/abr - 29/abr", "nps": 70.0, "s": 10}], "target": 48.7, "cat": "FBM"}, "FBM-S Seller Dev": {"monthly": [{"label": "Fev", "nps": 46.11, "s": 501}, {"label": "Mar", "nps": 42.37, "s": 524}, {"label": "Abr", "nps": 45.2, "s": 458}], "weekly": [{"label": "23/mar", "nps": 44.35, "s": 115}, {"label": "30/mar", "nps": 48.08, "s": 104}, {"label": "06/abr", "nps": 43.48, "s": 115}, {"label": "13/abr", "nps": 43.56, "s": 101}, {"label": "20/abr", "nps": 46.28, "s": 121}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 46.28, "s": 121}, {"label": "27/abr - 29/abr", "nps": 50.0, "s": 44}], "target": 42.07, "cat": "FBM"}, "ME Vendedor Mature": {"monthly": [{"label": "Fev", "nps": 58.41, "s": 2082}, {"label": "Mar", "nps": 59.71, "s": 2184}, {"label": "Abr", "nps": 61.1, "s": 1234}], "weekly": [{"label": "23/mar", "nps": 57.84, "s": 536}, {"label": "30/mar", "nps": 64.84, "s": 438}, {"label": "06/abr", "nps": 59.35, "s": 492}, {"label": "13/abr", "nps": 62.24, "s": 286}, {"label": "20/abr", "nps": 60.22, "s": 186}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 60.22, "s": 186}, {"label": "27/abr - 29/abr", "nps": 40.74, "s": 54}], "target": 48.99, "cat": "Mature"}, "ME Vendedor Meli Pro": {"monthly": [{"label": "Fev", "nps": 77.06, "s": 109}, {"label": "Mar", "nps": 66.67, "s": 75}, {"label": "Abr", "nps": 80.75, "s": 322}], "weekly": [{"label": "23/mar", "nps": 82.35, "s": 17}, {"label": "30/mar", "nps": 23.53, "s": 17}, {"label": "06/abr", "nps": 60.0, "s": 30}, {"label": "13/abr", "nps": 86.75, "s": 83}, {"label": "20/abr", "nps": 78.33, "s": 120}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 78.33, "s": 120}, {"label": "27/abr - 29/abr", "nps": 88.89, "s": 81}], "target": 81.6, "cat": "Meli Pro"}, "ME Vendedor Seller Dev": {"monthly": [{"label": "Fev", "nps": 68.89, "s": 6390}, {"label": "Mar", "nps": 67.09, "s": 6266}, {"label": "Abr", "nps": 68.21, "s": 6196}], "weekly": [{"label": "23/mar", "nps": 68.04, "s": 1358}, {"label": "30/mar", "nps": 67.56, "s": 1270}, {"label": "06/abr", "nps": 68.95, "s": 2106}, {"label": "13/abr", "nps": 65.86, "s": 1482}, {"label": "20/abr", "nps": 69.27, "s": 1308}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 69.27, "s": 1308}, {"label": "27/abr - 29/abr", "nps": 67.53, "s": 542}], "target": 57.8, "cat": "Longtail"}, "Otros CV": {"monthly": [{"label": "Fev", "nps": 50.0, "s": 1206}, {"label": "Mar", "nps": 56.64, "s": 1047}, {"label": "Abr", "nps": 47.52, "s": 966}], "weekly": [{"label": "23/mar", "nps": 43.87, "s": 253}, {"label": "30/mar", "nps": 52.82, "s": 195}, {"label": "06/abr", "nps": 45.56, "s": 259}, {"label": "13/abr", "nps": 44.35, "s": 230}, {"label": "20/abr", "nps": 44.02, "s": 259}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 44.02, "s": 259}, {"label": "27/abr - 29/abr", "nps": 57.47, "s": 87}], "target": 53.77, "cat": "Otros CV"}, "PCF Vendedor Mature": {"monthly": [{"label": "Fev", "nps": 50.43, "s": 464}, {"label": "Mar", "nps": 52.89, "s": 467}, {"label": "Abr", "nps": 48.06, "s": 310}], "weekly": [{"label": "23/mar", "nps": 48.96, "s": 96}, {"label": "30/mar", "nps": 59.34, "s": 91}, {"label": "06/abr", "nps": 55.73, "s": 131}, {"label": "13/abr", "nps": 39.51, "s": 81}, {"label": "20/abr", "nps": 35.29, "s": 34}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 35.29, "s": 34}, {"label": "27/abr - 29/abr", "nps": 56.25, "s": 16}], "target": 28.27, "cat": "Mature"}, "PCF Vendedor Meli Pro": {"monthly": [{"label": "Fev", "nps": 63.01, "s": 73}, {"label": "Mar", "nps": 54.55, "s": 44}, {"label": "Abr", "nps": 63.48, "s": 293}], "weekly": [{"label": "23/mar", "nps": 33.33, "s": 6}, {"label": "30/mar", "nps": 14.29, "s": 7}, {"label": "06/abr", "nps": 52.63, "s": 19}, {"label": "13/abr", "nps": 61.8, "s": 89}, {"label": "20/abr", "nps": 66.41, "s": 131}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 66.41, "s": 131}, {"label": "27/abr - 29/abr", "nps": 66.04, "s": 53}], "target": 63.57, "cat": "Meli Pro"}, "PCF Vendedor Seller Dev": {"monthly": [{"label": "Fev", "nps": 46.35, "s": 768}, {"label": "Mar", "nps": 46.84, "s": 790}, {"label": "Abr", "nps": 48.83, "s": 512}], "weekly": [{"label": "23/mar", "nps": 44.91, "s": 167}, {"label": "30/mar", "nps": 48.8, "s": 125}, {"label": "06/abr", "nps": 50.74, "s": 136}, {"label": "13/abr", "nps": 48.91, "s": 137}, {"label": "20/abr", "nps": 40.31, "s": 129}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 40.31, "s": 129}, {"label": "27/abr - 29/abr", "nps": 41.3, "s": 46}], "target": 39.93, "cat": "Longtail"}, "PDD DS&XD - Vendedor": {"monthly": [{"label": "Fev", "nps": 13.25, "s": 906}, {"label": "Mar", "nps": 12.42, "s": 1280}, {"label": "Abr", "nps": 10.79, "s": 973}], "weekly": [{"label": "23/mar", "nps": -3.95, "s": 304}, {"label": "30/mar", "nps": 10.91, "s": 275}, {"label": "06/abr", "nps": 7.63, "s": 236}, {"label": "13/abr", "nps": 10.73, "s": 261}, {"label": "20/abr", "nps": 17.62, "s": 210}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 17.62, "s": 210}, {"label": "27/abr - 29/abr", "nps": 3.33, "s": 60}], "target": 16.4, "cat": "Buyers"}, "PDD FBM - Vendedor": {"monthly": [{"label": "Fev", "nps": 38.12, "s": 160}, {"label": "Mar", "nps": 33.99, "s": 306}, {"label": "Abr", "nps": 27.51, "s": 269}], "weekly": [{"label": "23/mar", "nps": 25.0, "s": 76}, {"label": "30/mar", "nps": 46.03, "s": 63}, {"label": "06/abr", "nps": 33.85, "s": 65}, {"label": "13/abr", "nps": 18.06, "s": 72}, {"label": "20/abr", "nps": 24.32, "s": 74}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 24.32, "s": 74}, {"label": "27/abr - 29/abr", "nps": 36.84, "s": 19}], "target": 40.67, "cat": "Buyers"}, "PDD Fotos - Vendedor": {"monthly": [{"label": "Fev", "nps": 21.31, "s": 61}, {"label": "Mar", "nps": 33.33, "s": 72}, {"label": "Abr", "nps": 13.56, "s": 59}], "weekly": [{"label": "23/mar", "nps": 23.81, "s": 21}, {"label": "30/mar", "nps": 26.67, "s": 15}, {"label": "06/abr", "nps": 16.67, "s": 12}, {"label": "13/abr", "nps": 0.0, "s": 17}, {"label": "20/abr", "nps": 15.0, "s": 20}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 15.0, "s": 20}, {"label": "27/abr - 29/abr", "nps": 0.0, "s": 2}], "target": 33.13, "cat": "Buyers"}, "PDD MP,FLEX & CBT - Vendedor": {"monthly": [{"label": "Fev", "nps": 9.27, "s": 151}, {"label": "Mar", "nps": 17.47, "s": 166}, {"label": "Abr", "nps": 13.64, "s": 110}], "weekly": [{"label": "23/mar", "nps": -3.12, "s": 32}, {"label": "30/mar", "nps": 29.17, "s": 24}, {"label": "06/abr", "nps": 25.0, "s": 28}, {"label": "13/abr", "nps": 25.64, "s": 39}, {"label": "20/abr", "nps": -10.53, "s": 19}], "weekly_vig": [{"label": "20/abr (S1)", "nps": -10.53, "s": 19}, {"label": "27/abr - 29/abr", "nps": 0.0, "s": 9}], "target": 12.33, "cat": "Buyers"}, "PNR ME - Vendedor": {"monthly": [{"label": "Fev", "nps": 3.76, "s": 186}, {"label": "Mar", "nps": 16.58, "s": 193}, {"label": "Abr", "nps": 23.53, "s": 238}], "weekly": [{"label": "23/mar", "nps": -3.7, "s": 27}, {"label": "30/mar", "nps": 30.0, "s": 30}, {"label": "06/abr", "nps": 15.79, "s": 38}, {"label": "13/abr", "nps": 35.14, "s": 37}, {"label": "20/abr", "nps": 21.5, "s": 107}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 21.5, "s": 107}, {"label": "27/abr - 29/abr", "nps": 31.03, "s": 29}], "target": 27.23, "cat": "Buyers"}, "PNR MP - Vendedor": {"monthly": [{"label": "Fev", "nps": 22.87, "s": 258}, {"label": "Mar", "nps": 18.8, "s": 266}, {"label": "Abr", "nps": 34.32, "s": 236}], "weekly": [{"label": "23/mar", "nps": -1.96, "s": 51}, {"label": "30/mar", "nps": 32.14, "s": 56}, {"label": "06/abr", "nps": 51.35, "s": 74}, {"label": "13/abr", "nps": 38.78, "s": 49}, {"label": "20/abr", "nps": 5.56, "s": 54}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 5.56, "s": 54}, {"label": "27/abr - 29/abr", "nps": 62.5, "s": 16}], "target": 29.57, "cat": "Buyers"}, "Partners": {"monthly": [{"label": "Fev", "nps": 72.38, "s": 2198}, {"label": "Mar", "nps": 67.39, "s": 2806}, {"label": "Abr", "nps": 65.85, "s": 2638}], "weekly": [{"label": "23/mar", "nps": 65.45, "s": 573}, {"label": "30/mar", "nps": 64.63, "s": 574}, {"label": "06/abr", "nps": 65.42, "s": 587}, {"label": "13/abr", "nps": 67.59, "s": 725}, {"label": "20/abr", "nps": 67.04, "s": 719}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 67.04, "s": 719}, {"label": "27/abr - 29/abr", "nps": 58.36, "s": 269}], "target": 70.19, "cat": "Longtail"}, "Post Venta Mature": {"monthly": [{"label": "Fev", "nps": 56.39, "s": 493}, {"label": "Mar", "nps": 60.77, "s": 520}, {"label": "Abr", "nps": 64.97, "s": 354}], "weekly": [{"label": "23/mar", "nps": 63.87, "s": 119}, {"label": "30/mar", "nps": 59.65, "s": 114}, {"label": "06/abr", "nps": 63.25, "s": 117}, {"label": "13/abr", "nps": 67.01, "s": 97}, {"label": "20/abr", "nps": 68.97, "s": 58}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 68.97, "s": 58}, {"label": "27/abr - 29/abr", "nps": 84.21, "s": 19}], "target": 50.1, "cat": "Mature"}, "Post Venta Meli Pro": {"monthly": [{"label": "Fev", "nps": 78.22, "s": 101}, {"label": "Mar", "nps": 74.07, "s": 81}, {"label": "Abr", "nps": 89.92, "s": 357}], "weekly": [{"label": "23/mar", "nps": 71.43, "s": 21}, {"label": "30/mar", "nps": 88.89, "s": 9}, {"label": "06/abr", "nps": 79.31, "s": 29}, {"label": "13/abr", "nps": 88.39, "s": 112}, {"label": "20/abr", "nps": 97.37, "s": 152}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 97.37, "s": 152}, {"label": "27/abr - 29/abr", "nps": 79.66, "s": 59}], "target": 87.77, "cat": "Meli Pro"}, "Post Venta Seller Dev": {"monthly": [{"label": "Fev", "nps": 59.95, "s": 1291}, {"label": "Mar", "nps": 63.32, "s": 1186}, {"label": "Abr", "nps": 69.18, "s": 967}], "weekly": [{"label": "23/mar", "nps": 61.79, "s": 280}, {"label": "30/mar", "nps": 58.8, "s": 233}, {"label": "06/abr", "nps": 66.45, "s": 301}, {"label": "13/abr", "nps": 73.39, "s": 233}, {"label": "20/abr", "nps": 76.08, "s": 209}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 76.08, "s": 209}, {"label": "27/abr - 29/abr", "nps": 63.44, "s": 93}], "target": 53.4, "cat": "Longtail"}, "Publicaciones Mature": {"monthly": [{"label": "Fev", "nps": 66.02, "s": 362}, {"label": "Mar", "nps": 60.0, "s": 345}, {"label": "Abr", "nps": 57.09, "s": 247}], "weekly": [{"label": "23/mar", "nps": 61.64, "s": 73}, {"label": "30/mar", "nps": 55.17, "s": 87}, {"label": "06/abr", "nps": 59.41, "s": 101}, {"label": "13/abr", "nps": 40.35, "s": 57}, {"label": "20/abr", "nps": 73.33, "s": 30}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 73.33, "s": 30}, {"label": "27/abr - 29/abr", "nps": 75.0, "s": 12}], "target": 47.37, "cat": "Mature"}, "Publicaciones Meli Pro": {"monthly": [{"label": "Fev", "nps": 80.0, "s": 40}, {"label": "Mar", "nps": 42.31, "s": 26}, {"label": "Abr", "nps": 77.84, "s": 167}], "weekly": [{"label": "23/mar", "nps": 20.0, "s": 5}, {"label": "30/mar", "nps": 62.5, "s": 8}, {"label": "06/abr", "nps": 62.5, "s": 8}, {"label": "13/abr", "nps": 75.0, "s": 44}, {"label": "20/abr", "nps": 85.94, "s": 64}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 85.94, "s": 64}, {"label": "27/abr - 29/abr", "nps": 75.0, "s": 48}], "target": 81.43, "cat": "Meli Pro"}, "Publicaciones Seller Dev": {"monthly": [{"label": "Fev", "nps": 68.09, "s": 3231}, {"label": "Mar", "nps": 68.45, "s": 3309}, {"label": "Abr", "nps": 64.12, "s": 2439}], "weekly": [{"label": "23/mar", "nps": 69.64, "s": 718}, {"label": "30/mar", "nps": 63.4, "s": 653}, {"label": "06/abr", "nps": 65.54, "s": 769}, {"label": "13/abr", "nps": 63.54, "s": 587}, {"label": "20/abr", "nps": 63.21, "s": 511}], "weekly_vig": [{"label": "20/abr (S1)", "nps": 63.21, "s": 511}, {"label": "27/abr - 29/abr", "nps": 64.33, "s": 171}], "target": 52.87, "cat": "Longtail"}}</script>
 <script>
 /* Funcoes de chart e deep dive */
+
+function buildStrategicSummary(containerId, period, drvData, vtData, npsB, npsA, tgt) {
+  var el = document.getElementById(containerId);
+  if (!el) return;
+  var lPeriod = period==='mes'?'MoM ('+M2_LABEL+' \u2192 '+M1_LABEL+')':period==='sem'?'WoW ('+S2_LABEL+' \u2192 '+S1_LABEL+')':'VIG \u26a1 ('+S1_LABEL+' \u2192 '+VIG_LABEL+')';
+  var lAtual  = period==='mes'?M1_LABEL:period==='sem'?S1_LABEL:VIG_LABEL+' \u26a1';
+
+  // Identificar drivers abaixo do target E em queda
+  var atRisk = Object.keys(drvData).filter(function(d) {
+    return vtData[d] && vtData[d].gap < 0 && drvData[d] && drvData[d].var < -0.5;
+  }).sort(function(a, b) { return (vtData[a]?vtData[a].gap:0) - (vtData[b]?vtData[b].gap:0); });
+
+  // Drivers apenas abaixo do target (sem queda significativa)
+  var watchList = Object.keys(vtData).filter(function(d) {
+    return vtData[d] && vtData[d].gap < 0 && (!drvData[d] || drvData[d].var >= -0.5);
+  }).sort(function(a,b){ return (vtData[a]?vtData[a].gap:0)-(vtData[b]?vtData[b].gap:0); }).slice(0,3);
+
+  function nS(v){ return v!==null&&v!==undefined?v.toFixed(1)+'%':'\u2014'; }
+  function dS(v){ return v!==null?(v>=0?'+':'')+v.toFixed(2)+'pp':'\u2014'; }
+  function pill(v){
+    var c=v>=0?'#1b5e20':'#b71c1c';
+    return '<span style="font-weight:700;color:'+c+'">'+(v>=0?'+':'')+v.toFixed(2)+'pp</span>';
+  }
+  function extractInsight(drv) {
+    var sumObj = (typeof DD_SUMMARIES!=='undefined'?DD_SUMMARIES:{})[drv]||{};
+    var key = period==='mes'?'mom':'wow';
+    var raw = sumObj[key] || sumObj.mom || null;
+    var txt = (typeof raw==='object'&&raw)?(raw.bullets_legado||''):(raw||'');
+    var lines = txt.split('
+').map(function(b){return b.replace(/^[\s\u25b6\u2022]+/,'').trim();}).filter(function(b){return b.length>20;});
+    return lines[0] || null;
+  }
+
+  var delta = npsB!==null&&npsA!==null?Math.round((npsB-npsA)*100)/100:null;
+  var gapCons = npsB!==null&&tgt?Math.round((npsB-tgt)*100)/100:null;
+
+  // Header consolidado
+  var headerColor = atRisk.length>0?'#b71c1c':watchList.length>0?'#e65100':'#1b5e20';
+  var headerIcon  = atRisk.length>0?'\u26a0\ufe0f':'&#128308;';
+  var headerMsg   = atRisk.length>0
+    ? atRisk.length+' driver'+(atRisk.length>1?'s':'')+' abaixo do target e em queda'
+    : watchList.length>0 ? watchList.length+' driver'+(watchList.length>1?'s':'')+' abaixo do target (est\u00e1vel)'
+    : 'Todos os drivers acima do target \u2714';
+
+  var html = '<div style="margin:16px 0;border:2px solid '+headerColor+';border-radius:12px;overflow:hidden">'+
+    '<div style="background:'+headerColor+';padding:10px 16px;display:flex;align-items:center;justify-content:space-between">'+
+      '<div style="display:flex;align-items:center;gap:8px">'+
+        '<span style="font-size:16px">'+headerIcon+'</span>'+
+        '<span style="color:#fff;font-weight:700;font-size:13px">Vis\u00e3o Estrat\u00e9gica \u2014 Drivers Sellers</span>'+
+        '<span style="color:rgba(255,255,255,0.75);font-size:11px">'+lPeriod+'</span>'+
+      '</div>'+
+      '<div style="color:#fff;font-size:11px;font-weight:600">'+headerMsg+'</div>'+
+    '</div>'+
+    '<div style="padding:12px 16px;background:#fafafa">'+
+    // NPS consolidado resumo
+    '<div style="display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap">'+
+      '<div style="background:#fff;padding:8px 14px;border-radius:8px;border:1px solid #e0e0e0;min-width:140px">'+
+        '<div style="font-size:10px;color:#888;font-weight:600">NPS '+lAtual+'</div>'+
+        '<div style="font-size:18px;font-weight:700;color:'+(gapCons>=0?'#1b5e20':'#b71c1c')+'">'+nS(npsB)+'</div>'+
+        '<div style="font-size:11px;color:#666">'+dS(delta)+' vs per\u00edodo ant.</div>'+
+      '</div>'+
+      '<div style="background:#fff;padding:8px 14px;border-radius:8px;border:1px solid #e0e0e0;min-width:140px">'+
+        '<div style="font-size:10px;color:#888;font-weight:600">Vs Target ('+nS(tgt)+')</div>'+
+        '<div style="font-size:18px;font-weight:700;color:'+(gapCons>=0?'#1b5e20':'#b71c1c')+'">'+dS(gapCons)+'</div>'+
+        '<div style="font-size:11px;color:#666">'+((gapCons!==null&&gapCons>=0)?'Acima da meta':'Abaixo da meta')+'</div>'+
+      '</div>'+
+      (atRisk.length>0?'<div style="background:#ffebee;padding:8px 14px;border-radius:8px;border:1px solid #ef9a9a;min-width:140px">'+
+        '<div style="font-size:10px;color:#b71c1c;font-weight:600">Em alerta cr\u00edtico</div>'+
+        '<div style="font-size:18px;font-weight:700;color:#b71c1c">'+atRisk.length+'</div>'+
+        '<div style="font-size:11px;color:#b71c1c">abaixo target + queda</div>'+
+      '</div>':'')+'</div>';
+
+  // Cards dos drivers em risco
+  if (atRisk.length > 0) {
+    html += '<div style="font-size:10px;font-weight:700;color:#b71c1c;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px">\u26a0 Drivers Abaixo do Target e em Queda</div>';
+    html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px;margin-bottom:12px">';
+    atRisk.forEach(function(drv) {
+      var d  = drvData[drv]||{};
+      var vt = vtData[drv]||{};
+      var insight = extractInsight(drv);
+      var severity = vt.gap < -10 ? '#b71c1c' : vt.gap < -5 ? '#e65100' : '#f57f17';
+      html += '<div style="background:#fff;border-radius:8px;padding:10px 12px;border-left:4px solid '+severity+';border:1px solid #e0e0e0;border-left:4px solid '+severity+'">'+
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">'+
+          '<span style="font-size:12px;font-weight:700;color:#1a1e3c">'+drv+'</span>'+
+        '</div>'+
+        '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:5px">'+
+          '<span style="font-size:11px">NPS: <b style="color:'+(d.nps_b>=tgt?'#1b5e20':'#b71c1c')+'">'+nS(d.nps_b)+'</b></span>'+
+          '<span style="font-size:11px">Var: <b>'+pill(d.var||0)+'</b></span>'+
+          '<span style="font-size:11px">Gap target: <b style="color:#b71c1c">'+dS(vt.gap)+'</b></span>'+
+          '<span style="font-size:11px;color:#888">'+Math.round((vt.share||0)*10)/10+'% vol</span>'+
+        '</div>'+
+        (insight ? '<div style="font-size:11px;color:#555;font-style:italic;border-top:1px solid #f0f0f0;padding-top:5px;margin-top:3px">\u25b6 '+insight+'</div>' : '')+
+      '</div>';
+    });
+    html += '</div>';
+  }
+
+  // Watch list (abaixo do target mas est\u00e1vel)
+  if (watchList.length > 0) {
+    html += '<div style="font-size:10px;font-weight:700;color:#e65100;margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px">&#128993; Monitorar: Abaixo do Target (Tend\u00eancia Est\u00e1vel)</div>';
+    html += '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">';
+    watchList.forEach(function(drv) {
+      var vt = vtData[drv]||{};
+      var d  = drvData[drv]||{};
+      html += '<div style="background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:5px 10px;font-size:11px">'+
+        '<b>'+drv+'</b> &nbsp;'+nS(d.nps_b||vt.nps)+'&nbsp;<span style="color:#e65100">'+dS(vt.gap)+' vs target</span>'+
+      '</div>';
+    });
+    html += '</div>';
+  }
+
+  // Conclus\u00e3o estrat\u00e9gica consolidada
+  var conclusion = '';
+  if(atRisk.length===0 && watchList.length===0) {
+    conclusion = '\u2705 Todos os drivers est\u00e3o acima do target neste per\u00edodo. Manter monitoramento semanal.';
+  } else {
+    var piorDrv = atRisk[0]||watchList[0];
+    var piorVt  = vtData[piorDrv]||{};
+    conclusion = 'Prioridade imediata: <b>'+atRisk.slice(0,2).join(' e ')+'</b>'+(atRisk.length>2?' (+'+( atRisk.length-2)+' outros)':'')+'.'+'<br>O driver mais cr\u00edtico \u00e9 <b>'+piorDrv+'</b> ('+dS(piorVt.gap)+' vs target). '+
+      'Acesse o Deep Dive de cada driver para detalhamento de causa-raiz e plano de a\u00e7\u00e3o.';
+  }
+  html += '<div style="background:#e8f5e9;border-radius:8px;padding:9px 12px;border:1px solid #a5d6a7">'+
+    '<div style="font-size:10px;font-weight:700;color:#1b5e20;margin-bottom:4px">&#127919; CONCLUS\u00c3O ESTRAT\u00c9GICA</div>'+
+    '<div style="font-size:11px;color:#1a3c1a;line-height:1.5">'+conclusion+'</div>'+
+  '</div>';
+
+  html += '</div></div>';
+  el.innerHTML = html;
+}
 
 function shorten(s, n) {
   n = n || 11;
@@ -823,6 +958,13 @@ try { buildWaterfall('c-sel-vt',57.23,64.07,'Target Pond.','Abril 2026',[{"label
     try { buildEvolTable('evol-sem-all', allDrvs, 'weekly',  52.49); } catch(e) { console.warn('evol-sem-all',e); }
     try { buildEvolTable('evol-mes-sel', selDrvs, 'monthly', 56.04); } catch(e) { console.warn('evol-mes-sel',e); }
     try { buildEvolTable('evol-sem-sel', selDrvs, 'weekly',  56.04); } catch(e) { console.warn('evol-sem-sel',e); }
+    // Visao Estrategica \u2014 inicializar apos graficos
+    try { buildStrategicSummary('strategic-sel-mes','mes',[{"label": "ME Vendedor Seller Dev", "v": 0.48}, {"label": "Post Venta Meli Pro", "v": 0.46}, {"label": "Post Venta Seller Dev", "v": 0.31}, {"label": "ME Vendedor Meli Pro", "v": 0.28}, {"label": "ME Vendedor Mature", "v": 0.27}, {"label": "PCF Vendedor Seller Dev", "v": 0.24}, {"label": "Publicaciones Meli Pro", "v": 0.16}, {"label": "FBM-S Mature", "v": 0.13}, {"label": "Post Venta Mature", "v": 0.1}, {"label": "FBM-S Seller Dev", "v": 0.08}, {"label": "Experiencia Impositiva Mature", "v": 0.07}, {"label": "Experiencia Impositiva Seller Dev", "v": 0.07}, {"label": "FBM-S Meli Pro", "v": 0.05}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.02}, {"label": "PCF Vendedor Meli Pro", "v": 0.01}, {"label": "PCF Vendedor Mature", "v": -0.02}, {"label": "Publicaciones Mature", "v": -0.03}, {"label": "Partners", "v": -0.2}, {"label": "Otros CV", "v": -0.5}, {"label": "Publicaciones Seller Dev", "v": -0.7}],[{"label": "ME Vendedor Seller Dev", "v": 3.53}, {"label": "Publicaciones Seller Dev", "v": 1.5}, {"label": "Post Venta Seller Dev", "v": 0.84}, {"label": "ME Vendedor Mature", "v": 0.82}, {"label": "PCF Vendedor Mature", "v": 0.34}, {"label": "Post Venta Mature", "v": 0.29}, {"label": "PCF Vendedor Seller Dev", "v": 0.25}, {"label": "FBM-S Mature", "v": 0.22}, {"label": "Publicaciones Mature", "v": 0.13}, {"label": "FBM-S Seller Dev", "v": 0.08}, {"label": "FBM-S Meli Pro", "v": 0.05}, {"label": "Post Venta Meli Pro", "v": 0.04}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.02}, {"label": "PCF Vendedor Meli Pro", "v": -0.0}, {"label": "Experiencia Impositiva Mature", "v": -0.01}, {"label": "ME Vendedor Meli Pro", "v": -0.01}, {"label": "Publicaciones Meli Pro", "v": -0.03}, {"label": "Experiencia Impositiva Seller Dev", "v": -0.26}, {"label": "Otros CV", "v": -0.33}, {"label": "Partners", "v": -0.63}],64.07,62.77,56.04); } catch(e) {}
+    try { buildStrategicSummary('strategic-sel-sem','sem',[{"label": "ME Vendedor Seller Dev", "v": 1.07}, {"label": "Post Venta Meli Pro", "v": 0.6}, {"label": "Publicaciones Mature", "v": 0.37}, {"label": "Publicaciones Meli Pro", "v": 0.23}, {"label": "PCF Vendedor Mature", "v": 0.22}, {"label": "FBM-S Meli Pro", "v": 0.21}, {"label": "Post Venta Seller Dev", "v": 0.13}, {"label": "PCF Vendedor Meli Pro", "v": 0.1}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.06}, {"label": "Experiencia Impositiva Mature", "v": 0.01}, {"label": "Post Venta Mature", "v": 0.01}, {"label": "Experiencia Impositiva Seller Dev", "v": -0.01}, {"label": "ME Vendedor Meli Pro", "v": -0.01}, {"label": "FBM-S Mature", "v": -0.02}, {"label": "ME Vendedor Mature", "v": -0.03}, {"label": "Publicaciones Seller Dev", "v": -0.03}, {"label": "FBM-S Seller Dev", "v": -0.07}, {"label": "Partners", "v": -0.07}, {"label": "Otros CV", "v": -0.27}, {"label": "PCF Vendedor Seller Dev", "v": -0.28}],[{"label": "ME Vendedor Seller Dev", "v": 3.53}, {"label": "Publicaciones Seller Dev", "v": 1.5}, {"label": "Post Venta Seller Dev", "v": 0.84}, {"label": "ME Vendedor Mature", "v": 0.82}, {"label": "PCF Vendedor Mature", "v": 0.34}, {"label": "Post Venta Mature", "v": 0.29}, {"label": "PCF Vendedor Seller Dev", "v": 0.25}, {"label": "FBM-S Mature", "v": 0.22}, {"label": "Publicaciones Mature", "v": 0.13}, {"label": "FBM-S Seller Dev", "v": 0.08}, {"label": "FBM-S Meli Pro", "v": 0.05}, {"label": "Post Venta Meli Pro", "v": 0.04}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.02}, {"label": "PCF Vendedor Meli Pro", "v": -0.0}, {"label": "Experiencia Impositiva Mature", "v": -0.01}, {"label": "ME Vendedor Meli Pro", "v": -0.01}, {"label": "Publicaciones Meli Pro", "v": -0.03}, {"label": "Experiencia Impositiva Seller Dev", "v": -0.26}, {"label": "Otros CV", "v": -0.33}, {"label": "Partners", "v": -0.63}],65.54,63.33,56.04); } catch(e) {}
+    try { buildStrategicSummary('strategic-sel-vig','vig',[{"label": "Otros CV", "v": 0.91}, {"label": "ME Vendedor Meli Pro", "v": 0.8}, {"label": "Experiencia Impositiva Seller Dev", "v": 0.54}, {"label": "PCF Vendedor Mature", "v": 0.16}, {"label": "Post Venta Mature", "v": 0.16}, {"label": "FBM-S Seller Dev", "v": 0.14}, {"label": "Publicaciones Seller Dev", "v": 0.14}, {"label": "PCF Vendedor Seller Dev", "v": 0.1}, {"label": "Experiencia Impositiva Mature", "v": 0.08}, {"label": "Publicaciones Mature", "v": 0.01}, {"label": "Experiencia Impositiva Meli Pro", "v": -0.01}, {"label": "PCF Vendedor Meli Pro", "v": -0.01}, {"label": "Publicaciones Meli Pro", "v": -0.03}, {"label": "FBM-S Meli Pro", "v": -0.06}, {"label": "FBM-S Mature", "v": -0.1}, {"label": "ME Vendedor Seller Dev", "v": -0.5}, {"label": "ME Vendedor Mature", "v": -0.59}, {"label": "Post Venta Seller Dev", "v": -0.64}, {"label": "Post Venta Meli Pro", "v": -0.66}, {"label": "Partners", "v": -1.44}],[{"label": "ME Vendedor Seller Dev", "v": 3.53}, {"label": "Publicaciones Seller Dev", "v": 1.5}, {"label": "Post Venta Seller Dev", "v": 0.84}, {"label": "ME Vendedor Mature", "v": 0.82}, {"label": "PCF Vendedor Mature", "v": 0.34}, {"label": "Post Venta Mature", "v": 0.29}, {"label": "PCF Vendedor Seller Dev", "v": 0.25}, {"label": "FBM-S Mature", "v": 0.22}, {"label": "Publicaciones Mature", "v": 0.13}, {"label": "FBM-S Seller Dev", "v": 0.08}, {"label": "FBM-S Meli Pro", "v": 0.05}, {"label": "Post Venta Meli Pro", "v": 0.04}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.02}, {"label": "PCF Vendedor Meli Pro", "v": -0.0}, {"label": "Experiencia Impositiva Mature", "v": -0.01}, {"label": "ME Vendedor Meli Pro", "v": -0.01}, {"label": "Publicaciones Meli Pro", "v": -0.03}, {"label": "Experiencia Impositiva Seller Dev", "v": -0.26}, {"label": "Otros CV", "v": -0.33}, {"label": "Partners", "v": -0.63}],64.54,65.54,56.04); } catch(e) {}
+    try { buildStrategicSummary('strategic-all-mes','mes',[{"label": "ME Vendedor Seller Dev", "v": 0.56}, {"label": "Post Venta Meli Pro", "v": 0.48}, {"label": "ME Vendedor Meli Pro", "v": 0.31}, {"label": "PDD DS&XD - Vendedor", "v": 0.3}, {"label": "Post Venta Seller Dev", "v": 0.26}, {"label": "PNR MP - Vendedor", "v": 0.18}, {"label": "PCF Vendedor Seller Dev", "v": 0.17}, {"label": "Publicaciones Meli Pro", "v": 0.17}, {"label": "CBT", "v": 0.11}, {"label": "FBM-S Mature", "v": 0.1}, {"label": "ME Vendedor Mature", "v": 0.09}, {"label": "Experiencia Impositiva Seller Dev", "v": 0.08}, {"label": "Experiencia Impositiva Mature", "v": 0.06}, {"label": "FBM-S Meli Pro", "v": 0.06}, {"label": "FBM-S Seller Dev", "v": 0.06}, {"label": "PCF Vendedor Meli Pro", "v": 0.06}, {"label": "Post Venta Mature", "v": 0.06}, {"label": "PDD MP,FLEX & CBT - Vendedor", "v": 0.05}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.02}, {"label": "Publicaciones Mature", "v": -0.03}, {"label": "PCF Vendedor Mature", "v": -0.04}, {"label": "PDD Fotos - Vendedor", "v": -0.05}, {"label": "PNR ME - Vendedor", "v": -0.06}, {"label": "PDD FBM - Vendedor", "v": -0.09}, {"label": "Partners", "v": -0.15}, {"label": "Otros CV", "v": -0.43}, {"label": "Publicaciones Seller Dev", "v": -0.72}],[{"label": "ME Vendedor Seller Dev", "v": 3.14}, {"label": "Publicaciones Seller Dev", "v": 1.34}, {"label": "Post Venta Seller Dev", "v": 0.74}, {"label": "ME Vendedor Mature", "v": 0.73}, {"label": "PCF Vendedor Mature", "v": 0.3}, {"label": "Post Venta Mature", "v": 0.26}, {"label": "PCF Vendedor Seller Dev", "v": 0.22}, {"label": "FBM-S Mature", "v": 0.2}, {"label": "Publicaciones Mature", "v": 0.12}, {"label": "FBM-S Seller Dev", "v": 0.07}, {"label": "PNR MP - Vendedor", "v": 0.05}, {"label": "FBM-S Meli Pro", "v": 0.04}, {"label": "Post Venta Meli Pro", "v": 0.04}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.02}, {"label": "PDD MP,FLEX & CBT - Vendedor", "v": 0.01}, {"label": "PCF Vendedor Meli Pro", "v": -0.0}, {"label": "Experiencia Impositiva Mature", "v": -0.01}, {"label": "ME Vendedor Meli Pro", "v": -0.01}, {"label": "Publicaciones Meli Pro", "v": -0.03}, {"label": "CBT", "v": -0.04}, {"label": "PNR ME - Vendedor", "v": -0.04}, {"label": "PDD Fotos - Vendedor", "v": -0.06}, {"label": "PDD FBM - Vendedor", "v": -0.17}, {"label": "Experiencia Impositiva Seller Dev", "v": -0.23}, {"label": "PDD DS&XD - Vendedor", "v": -0.27}, {"label": "Otros CV", "v": -0.29}, {"label": "Partners", "v": -0.56}],59.99,58.37,52.49); } catch(e) {}
+    try { buildStrategicSummary('strategic-all-sem','sem',[{"label": "ME Vendedor Seller Dev", "v": 0.87}, {"label": "PDD DS&XD - Vendedor", "v": 0.63}, {"label": "Post Venta Meli Pro", "v": 0.58}, {"label": "Publicaciones Mature", "v": 0.31}, {"label": "Publicaciones Meli Pro", "v": 0.22}, {"label": "FBM-S Meli Pro", "v": 0.19}, {"label": "PCF Vendedor Mature", "v": 0.15}, {"label": "PCF Vendedor Meli Pro", "v": 0.14}, {"label": "Post Venta Seller Dev", "v": 0.1}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.05}, {"label": "PDD FBM - Vendedor", "v": 0.03}, {"label": "ME Vendedor Meli Pro", "v": 0.02}, {"label": "Experiencia Impositiva Mature", "v": 0.01}, {"label": "PDD Fotos - Vendedor", "v": 0.01}, {"label": "Partners", "v": -0.01}, {"label": "FBM-S Mature", "v": -0.02}, {"label": "PDD MP,FLEX & CBT - Vendedor", "v": -0.02}, {"label": "Post Venta Mature", "v": -0.02}, {"label": "FBM-S Seller Dev", "v": -0.03}, {"label": "Experiencia Impositiva Seller Dev", "v": -0.05}, {"label": "Publicaciones Seller Dev", "v": -0.06}, {"label": "ME Vendedor Mature", "v": -0.1}, {"label": "CBT", "v": -0.14}, {"label": "Otros CV", "v": -0.17}, {"label": "PCF Vendedor Seller Dev", "v": -0.24}, {"label": "PNR MP - Vendedor", "v": -0.42}, {"label": "PNR ME - Vendedor", "v": -0.7}],[{"label": "ME Vendedor Seller Dev", "v": 3.14}, {"label": "Publicaciones Seller Dev", "v": 1.34}, {"label": "Post Venta Seller Dev", "v": 0.74}, {"label": "ME Vendedor Mature", "v": 0.73}, {"label": "PCF Vendedor Mature", "v": 0.3}, {"label": "Post Venta Mature", "v": 0.26}, {"label": "PCF Vendedor Seller Dev", "v": 0.22}, {"label": "FBM-S Mature", "v": 0.2}, {"label": "Publicaciones Mature", "v": 0.12}, {"label": "FBM-S Seller Dev", "v": 0.07}, {"label": "PNR MP - Vendedor", "v": 0.05}, {"label": "FBM-S Meli Pro", "v": 0.04}, {"label": "Post Venta Meli Pro", "v": 0.04}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.02}, {"label": "PDD MP,FLEX & CBT - Vendedor", "v": 0.01}, {"label": "PCF Vendedor Meli Pro", "v": -0.0}, {"label": "Experiencia Impositiva Mature", "v": -0.01}, {"label": "ME Vendedor Meli Pro", "v": -0.01}, {"label": "Publicaciones Meli Pro", "v": -0.03}, {"label": "CBT", "v": -0.04}, {"label": "PNR ME - Vendedor", "v": -0.04}, {"label": "PDD Fotos - Vendedor", "v": -0.06}, {"label": "PDD FBM - Vendedor", "v": -0.17}, {"label": "Experiencia Impositiva Seller Dev", "v": -0.23}, {"label": "PDD DS&XD - Vendedor", "v": -0.27}, {"label": "Otros CV", "v": -0.29}, {"label": "Partners", "v": -0.56}],60.54,59.24,52.49); } catch(e) {}
+    try { buildStrategicSummary('strategic-all-vig','vig',[{"label": "ME Vendedor Meli Pro", "v": 0.81}, {"label": "Otros CV", "v": 0.75}, {"label": "PNR MP - Vendedor", "v": 0.65}, {"label": "Experiencia Impositiva Seller Dev", "v": 0.46}, {"label": "PNR ME - Vendedor", "v": 0.41}, {"label": "PDD FBM - Vendedor", "v": 0.32}, {"label": "Post Venta Mature", "v": 0.15}, {"label": "PCF Vendedor Mature", "v": 0.14}, {"label": "PDD Fotos - Vendedor", "v": 0.13}, {"label": "CBT", "v": 0.1}, {"label": "FBM-S Seller Dev", "v": 0.1}, {"label": "Publicaciones Seller Dev", "v": 0.08}, {"label": "Experiencia Impositiva Mature", "v": 0.07}, {"label": "PCF Vendedor Seller Dev", "v": 0.06}, {"label": "Publicaciones Meli Pro", "v": 0.03}, {"label": "PDD DS&XD - Vendedor", "v": 0.01}, {"label": "Publicaciones Mature", "v": 0.01}, {"label": "PCF Vendedor Meli Pro", "v": 0.0}, {"label": "Experiencia Impositiva Meli Pro", "v": -0.01}, {"label": "PDD MP,FLEX & CBT - Vendedor", "v": -0.02}, {"label": "FBM-S Meli Pro", "v": -0.05}, {"label": "FBM-S Mature", "v": -0.09}, {"label": "ME Vendedor Seller Dev", "v": -0.33}, {"label": "Post Venta Seller Dev", "v": -0.54}, {"label": "Post Venta Meli Pro", "v": -0.56}, {"label": "ME Vendedor Mature", "v": -0.57}, {"label": "Partners", "v": -1.3}],[{"label": "ME Vendedor Seller Dev", "v": 3.14}, {"label": "Publicaciones Seller Dev", "v": 1.34}, {"label": "Post Venta Seller Dev", "v": 0.74}, {"label": "ME Vendedor Mature", "v": 0.73}, {"label": "PCF Vendedor Mature", "v": 0.3}, {"label": "Post Venta Mature", "v": 0.26}, {"label": "PCF Vendedor Seller Dev", "v": 0.22}, {"label": "FBM-S Mature", "v": 0.2}, {"label": "Publicaciones Mature", "v": 0.12}, {"label": "FBM-S Seller Dev", "v": 0.07}, {"label": "PNR MP - Vendedor", "v": 0.05}, {"label": "FBM-S Meli Pro", "v": 0.04}, {"label": "Post Venta Meli Pro", "v": 0.04}, {"label": "Experiencia Impositiva Meli Pro", "v": 0.02}, {"label": "PDD MP,FLEX & CBT - Vendedor", "v": 0.01}, {"label": "PCF Vendedor Meli Pro", "v": -0.0}, {"label": "Experiencia Impositiva Mature", "v": -0.01}, {"label": "ME Vendedor Meli Pro", "v": -0.01}, {"label": "Publicaciones Meli Pro", "v": -0.03}, {"label": "CBT", "v": -0.04}, {"label": "PNR ME - Vendedor", "v": -0.04}, {"label": "PDD Fotos - Vendedor", "v": -0.06}, {"label": "PDD FBM - Vendedor", "v": -0.17}, {"label": "Experiencia Impositiva Seller Dev", "v": -0.23}, {"label": "PDD DS&XD - Vendedor", "v": -0.27}, {"label": "Otros CV", "v": -0.29}, {"label": "Partners", "v": -0.56}],61.36,60.54,52.49); } catch(e) {}
   });
 });
 
