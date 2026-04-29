@@ -224,7 +224,7 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 29/04/2026 18:59</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 29/04/2026 19:02</div>
 </header>
 
 <div class="nav-bar">
@@ -1151,8 +1151,10 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {
   }
 
   var sumDrv = DD_SUMMARIES[drv]||{};
-  var momAllText = (sumDrv.mom||'').toLowerCase();
-  var wowAllText = (sumDrv.wow||'').toLowerCase();
+  // sumDrv.wow pode ser string (legado) ou objeto (novo formato) \u2014 extrair texto para toLowerCase
+  function extractText(v){ return typeof v==='object'&&v!==null?(v.bullets_legado||''):((v||'')); }
+  var momAllText = extractText(sumDrv.mom).toLowerCase();
+  var wowAllText = extractText(sumDrv.wow).toLowerCase();
 
   var dorKeywords=['rastreio','entrega','cancelad','foto','nota fiscal','suspen','bloqueio','restrict','devolu','conta inativ','prazo','demora'];
   var repKeywords=['transfere','transferencia','verifica sistema','nao encontra','padrao','sem ferramenta','aguardar','encaminh','sem soluc','repete'];

@@ -1584,8 +1584,10 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   }}
 
   var sumDrv = DD_SUMMARIES[drv]||{{}};
-  var momAllText = (sumDrv.mom||'').toLowerCase();
-  var wowAllText = (sumDrv.wow||'').toLowerCase();
+  // sumDrv.wow pode ser string (legado) ou objeto (novo formato) — extrair texto para toLowerCase
+  function extractText(v){{ return typeof v==='object'&&v!==null?(v.bullets_legado||''):((v||'')); }}
+  var momAllText = extractText(sumDrv.mom).toLowerCase();
+  var wowAllText = extractText(sumDrv.wow).toLowerCase();
 
   var dorKeywords=['rastreio','entrega','cancelad','foto','nota fiscal','suspen','bloqueio','restrict','devolu','conta inativ','prazo','demora'];
   var repKeywords=['transfere','transferencia','verifica sistema','nao encontra','padrao','sem ferramenta','aguardar','encaminh','sem soluc','repete'];
