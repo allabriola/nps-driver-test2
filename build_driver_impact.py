@@ -1994,10 +1994,6 @@ function renderDD(period) {{
 }}
 
 function buildSeniorityTable(drvData, periodA, periodB, drvTarget) {{
-  var sr = (drvData&&drvData.Sr)||{{}};
-  var dA = sr[periodA]||{{}}, dB = sr[periodB]||{{}};
-  var rows = ['Expert','Newbie'];
-
   function nStr(v){{ return v!==null&&v!==undefined?v.toFixed(1)+'%':'&mdash;'; }}
   function pDelta(v){{
     if(v===null||v===undefined) return '<span class="pill pill-neu">&mdash;</span>';
@@ -2010,56 +2006,99 @@ function buildSeniorityTable(drvData, periodA, periodB, drvTarget) {{
     var g=nps-tgt; var s=(g>=0?'+':'')+g.toFixed(2)+' pp';
     return '<span class="pill '+(g>=0?'pill-pos-hi':'pill-neg-hi')+'">'+s+'</span>';
   }}
-  function pTend(d){{
-    if(d===null||d===undefined) return '<span class="pill pill-neu">&mdash;</span>';
-    if(d>=3) return '<span class="pill pill-up2">&#8679;&#8679; Em alta</span>';
-    if(d>=0.5) return '<span class="pill pill-up1">&#8679; Evolucao</span>';
-    if(d>-0.5) return '<span class="pill pill-flat">&#8594; Estavel</span>';
-    if(d>-3) return '<span class="pill pill-dn1">&#8681; Queda</span>';
-    return '<span class="pill pill-dn2">&#8681;&#8681; Em queda</span>';
+  function pGap(g){{
+    if(g===null||g===undefined) return '<span style="color:#888">&mdash;</span>';
+    var abs = Math.abs(g);
+    var col = abs > 10 ? '#b71c1c' : abs > 5 ? '#e65100' : '#2e7d32';
+    return '<span style="font-weight:600;color:'+col+'">'+(g>=0?'+':'')+g.toFixed(1)+'pp</span>';
+  }}
+  var lA = periodA==='M2'?M2_LABEL:(periodA==='S2'?S2_LABEL:(periodA==='S1'?S1_LABEL:periodA));
+  var lB = periodB==='M1'?M1_LABEL:(periodB==='S1'?S1_LABEL:(periodB==='VIG'?VIG_LABEL+'&#9889;':periodB));
+
+  // Usar Sr_P (por processo) se disponivel; senao Sr (geral)
+  var srP = (drvData&&drvData.Sr_P)||{{}};
+  var srPb = srP[periodB]||{{}};
+  var srPa = srP[periodA]||{{}};
+  var hasSrP = Object.keys(srPb).length > 0;
+
+  if (hasSrP) {{
+    // Vista por processo: cada linha = 1 processo, colunas Expert/Newbie no periodo atual
+    var procs = Object.keys(srPb).sort(function(a,b){{
+      var sA = ((srPb[a]['Expert']||{{}}).s||0) + ((srPb[a]['Newbie']||{{}}).s||0);
+      var sB = ((srPb[b]['Expert']||{{}}).s||0) + ((srPb[b]['Newbie']||{{}}).s||0);
+      return sB - sA;
+    }});
+
+    var html = '<div class="bk-wrap"><table class="bk-table">'+
+      '<colgroup><col style="width:26%"><col style="width:11%"><col style="width:7%">'+
+      '<col style="width:11%"><col style="width:7%"><col style="width:10%">'+
+      '<col style="width:10%"><col style="width:10%"></colgroup>'+
+      '<thead><tr>'+
+      '<th class="col-name">Processo</th>'+
+      '<th>&#127775; Expert NPS</th><th>Surv.</th>'+
+      '<th>&#128164; Newbie NPS</th><th>Surv.</th>'+
+      '<th>Gap E&minus;N</th><th>&Delta; Expert</th><th>&Delta; Newbie</th>'+
+      '</tr></thead><tbody>';
+
+    var totEp=0,totEd=0,totEs=0,totNp=0,totNd=0,totNs=0;
+    procs.forEach(function(proc){{
+      var cur = srPb[proc]||{{}};
+      var prev = srPa[proc]||{{}};
+      var eB = cur['Expert']||{{}}, nB = cur['Newbie']||{{}};
+      var eA = prev['Expert']||{{}}, nA = prev['Newbie']||{{}};
+      var eNps = eB.nps, nNps = nB.nps;
+      var eNpsA = eA.nps, nNpsA = nA.nps;
+      var gap = (eNps!==null&&eNps!==undefined&&nNps!==null&&nNps!==undefined) ? Math.round((eNps-nNps)*100)/100 : null;
+      var dE = (eNpsA!==null&&eNpsA!==undefined&&eNps!==null&&eNps!==undefined) ? Math.round((eNps-eNpsA)*100)/100 : null;
+      var dN = (nNpsA!==null&&nNpsA!==undefined&&nNps!==null&&nNps!==undefined) ? Math.round((nNps-nNpsA)*100)/100 : null;
+      var rowBg = (gap!==null&&Math.abs(gap)>10)?'background:#fff3e0;':'';
+      totEp+=eB.p||0; totEd+=eB.d||0; totEs+=eB.s||0;
+      totNp+=nB.p||0; totNd+=nB.d||0; totNs+=nB.s||0;
+      html+='<tr style="'+rowBg+'">'+
+        '<td class="col-name">'+proc+'</td>'+
+        '<td>'+nStr(eNps)+'</td><td class="bk-surv">'+(eB.s||0)+'</td>'+
+        '<td>'+nStr(nNps)+'</td><td class="bk-surv">'+(nB.s||0)+'</td>'+
+        '<td>'+pGap(gap)+'</td>'+
+        '<td>'+pDelta(dE)+'</td>'+
+        '<td>'+pDelta(dN)+'</td>'+
+      '</tr>';
+    }});
+
+    // Linha total
+    function npsCalc(p,d,s){{ return s>0?Math.round(100*(p-d)/s*10)/10:null; }}
+    var eNpsT=npsCalc(totEp,totEd,totEs), nNpsT=npsCalc(totNp,totNd,totNs);
+    var gapT=(eNpsT!==null&&nNpsT!==null)?Math.round((eNpsT-nNpsT)*100)/100:null;
+    html+='<tr class="bk-total">'+
+      '<td class="col-name">Total Driver</td>'+
+      '<td>'+nStr(eNpsT)+'</td><td class="bk-surv">'+totEs+'</td>'+
+      '<td>'+nStr(nNpsT)+'</td><td class="bk-surv">'+totNs+'</td>'+
+      '<td>'+pGap(gapT)+'</td><td></td><td></td>'+
+    '</tr>';
+
+    return html+'</tbody></table></div>';
   }}
 
-  var lA = periodA==='M2'?M2_LABEL:(periodA==='S2'?S2_LABEL:periodA);
-  var lB = periodB==='M1'?M1_LABEL:(periodB==='S1'?S1_LABEL:periodB);
-
-  var html = '<div class="bk-wrap"><table class="bk-table">'+
-    '<colgroup><col style="width:18%"><col style="width:10%"><col style="width:10%">'+
-    '<col style="width:11%"><col style="width:9%"><col style="width:12%"><col style="width:13%"></colgroup>'+
-    '<thead><tr>'+
-    '<th class="col-name">Senioridade</th>'+
-    '<th>'+lA+'</th><th>'+lB+'</th>'+
-    '<th>&Delta; NPS</th><th>Surveys</th><th>vs Target</th><th>Tendencia</th>'+
-    '</tr></thead><tbody>';
-
+  // Fallback: tabela geral Expert vs Newbie (sem Sr_P disponivel)
+  var sr = (drvData&&drvData.Sr)||{{}};
+  var dA = sr[periodA]||{{}}, dB = sr[periodB]||{{}};
   var npsExp = {{a:(dA['Expert']||{{}}).nps, b:(dB['Expert']||{{}}).nps, sB:(dB['Expert']||{{}}).s||0}};
   var npsNwb = {{a:(dA['Newbie']||{{}}).nps, b:(dB['Newbie']||{{}}).nps, sB:(dB['Newbie']||{{}}).s||0}};
-
+  var html = '<div class="bk-wrap"><table class="bk-table">'+
+    '<colgroup><col style="width:22%"><col style="width:12%"><col style="width:12%">'+
+    '<col style="width:12%"><col style="width:10%"><col style="width:13%"></colgroup>'+
+    '<thead><tr>'+
+    '<th class="col-name">Senioridade</th><th>'+lA+'</th><th>'+lB+'</th>'+
+    '<th>&Delta; NPS</th><th>Surveys</th><th>vs Target</th>'+
+    '</tr></thead><tbody>';
   [{{k:'&#127775; Expert',d:npsExp}},{{k:'&#128164; Newbie',d:npsNwb}}].forEach(function(r){{
     var d=r.d;
     var delta=(d.a!==null&&d.b!==null)?Math.round((d.b-d.a)*100)/100:null;
-    html+='<tr>'+
-      '<td class="col-name">'+r.k+'</td>'+
-      '<td>'+nStr(d.a)+'</td>'+
-      '<td>'+nStr(d.b)+'</td>'+
-      '<td>'+pDelta(delta)+'</td>'+
-      '<td class="bk-surv">'+d.sB.toLocaleString('pt-BR')+'</td>'+
-      '<td>'+pTgt(d.b,drvTarget)+'</td>'+
-      '<td>'+pTend(delta)+'</td>'+
-    '</tr>';
+    html+='<tr><td class="col-name">'+r.k+'</td><td>'+nStr(d.a)+'</td><td>'+nStr(d.b)+'</td>'+
+      '<td>'+pDelta(delta)+'</td><td class="bk-surv">'+d.sB+'</td><td>'+pTgt(d.b,drvTarget)+'</td></tr>';
   }});
-
-  // Linha de gap Expert - Newbie
-  var gapA = (npsExp.a!==null&&npsNwb.a!==null)?Math.round((npsExp.a-npsNwb.a)*100)/100:null;
-  var gapB = (npsExp.b!==null&&npsNwb.b!==null)?Math.round((npsExp.b-npsNwb.b)*100)/100:null;
-  var gapDelta = (gapA!==null&&gapB!==null)?Math.round((gapB-gapA)*100)/100:null;
-  html+='<tr class="bk-total">'+
-    '<td class="col-name">Gap Expert&minus;Newbie</td>'+
-    '<td style="color:'+(gapA!==null&&Math.abs(gapA)>5?'#c0321a':'#1a7a1a')+';font-weight:600">'+(gapA!==null?(gapA>=0?'+':'')+gapA.toFixed(1)+'pp':'&mdash;')+'</td>'+
-    '<td style="color:'+(gapB!==null&&Math.abs(gapB)>5?'#c0321a':'#1a7a1a')+';font-weight:600">'+(gapB!==null?(gapB>=0?'+':'')+gapB.toFixed(1)+'pp':'&mdash;')+'</td>'+
-    '<td>'+(gapDelta!==null?pDelta(gapDelta):'<span class="pill pill-neu">&mdash;</span>')+'</td>'+
-    '<td colspan="3" style="color:#888;font-size:11px">'+(gapDelta!==null?(gapDelta>0?'Gap ampliou':'Gap reduziu')+' vs '+lA:'')+'</td>'+
-  '</tr>';
-
+  var gapB=(npsExp.b!==null&&npsNwb.b!==null)?Math.round((npsExp.b-npsNwb.b)*100)/100:null;
+  html+='<tr class="bk-total"><td class="col-name">Gap E&minus;N ('+lB+')</td>'+
+    '<td colspan="2" style="font-weight:600">'+pGap(gapB)+'</td><td colspan="3"></td></tr>';
   return html+'</tbody></table></div>';
 }}
 

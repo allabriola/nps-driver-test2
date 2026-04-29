@@ -375,7 +375,8 @@
           "nps": 33.33
         }
       }
-    }
+    },
+    "Sr_P": {}
   },
   "Experiencia Impositiva Mature": {
     "P": {
@@ -669,7 +670,8 @@
           "nps": 45.28
         }
       }
-    }
+    },
+    "Sr_P": {}
   },
   "Experiencia Impositiva Meli Pro": {
     "P": {
@@ -915,7 +917,8 @@
           "nps": 46.74
         }
       }
-    }
+    },
+    "Sr_P": {}
   },
   "Experiencia Impositiva Seller Dev": {
     "P": {
@@ -1300,17 +1303,103 @@
         }
       },
       "VIG": {
-        "EXPERT": {
+        "Expert": {
           "p": 9,
           "d": 0,
           "s": 11,
           "nps": 81.8
         },
-        "NEWBIE": {
+        "Newbie": {
           "p": 7,
           "d": 1,
           "s": 9,
           "nps": 66.7
+        }
+      }
+    },
+    "Sr_P": {
+      "S1": {
+        "Datos fiscales": {
+          "Expert": {
+            "p": 4,
+            "d": 0,
+            "s": 4,
+            "nps": 100.0
+          },
+          "Newbie": {
+            "p": 4,
+            "d": 0,
+            "s": 4,
+            "nps": 100.0
+          }
+        },
+        "Emision de Nota Fiscal": {
+          "Expert": {
+            "p": 23,
+            "d": 5,
+            "s": 29,
+            "nps": 62.1
+          },
+          "Newbie": {
+            "p": 12,
+            "d": 8,
+            "s": 26,
+            "nps": 15.4
+          }
+        }
+      },
+      "S2": {
+        "Datos fiscales": {
+          "Expert": {
+            "p": 7,
+            "d": 0,
+            "s": 7,
+            "nps": 100.0
+          },
+          "Newbie": {
+            "p": 9,
+            "d": 4,
+            "s": 14,
+            "nps": 35.7
+          }
+        },
+        "Emision de Nota Fiscal": {
+          "Expert": {
+            "p": 30,
+            "d": 9,
+            "s": 43,
+            "nps": 48.8
+          },
+          "Newbie": {
+            "p": 38,
+            "d": 14,
+            "s": 57,
+            "nps": 42.1
+          }
+        }
+      },
+      "VIG": {
+        "Datos fiscales": {
+          "Expert": {
+            "p": 1,
+            "d": 0,
+            "s": 3,
+            "nps": 33.3
+          }
+        },
+        "Emision de Nota Fiscal": {
+          "Expert": {
+            "p": 8,
+            "d": 0,
+            "s": 8,
+            "nps": 100.0
+          },
+          "Newbie": {
+            "p": 7,
+            "d": 1,
+            "s": 9,
+            "nps": 66.7
+          }
         }
       }
     }
@@ -1667,7 +1756,8 @@
           "nps": 50.0
         }
       }
-    }
+    },
+    "Sr_P": {}
   },
   "FBM-S Meli Pro": {
     "P": {
@@ -2009,7 +2099,8 @@
           "nps": 50.0
         }
       }
-    }
+    },
+    "Sr_P": {}
   },
   "FBM-S Seller Dev": {
     "P": {
@@ -2508,17 +2599,203 @@
         }
       },
       "VIG": {
-        "EXPERT": {
+        "Expert": {
           "p": 42,
           "d": 9,
           "s": 55,
           "nps": 60.0
         },
-        "NEWBIE": {
+        "Newbie": {
           "p": 1,
           "d": 1,
           "s": 2,
           "nps": 0.0
+        }
+      }
+    },
+    "Sr_P": {
+      "S1": {
+        "FBM - Devoluciones": {
+          "Expert": {
+            "p": 4,
+            "d": 0,
+            "s": 6,
+            "nps": 66.7
+          }
+        },
+        "FBM - Funcionalidades": {
+          "Expert": {
+            "p": 8,
+            "d": 3,
+            "s": 11,
+            "nps": 45.5
+          }
+        },
+        "FBM - Inventario": {
+          "Expert": {
+            "p": 20,
+            "d": 10,
+            "s": 32,
+            "nps": 31.2
+          }
+        },
+        "FBM - Outbound": {
+          "Expert": {
+            "p": 3,
+            "d": 0,
+            "s": 4,
+            "nps": 75.0
+          }
+        },
+        "FBM - Post Inbound": {
+          "Expert": {
+            "p": 18,
+            "d": 5,
+            "s": 26,
+            "nps": 50.0
+          }
+        },
+        "FBM - Pre Inbound": {
+          "Expert": {
+            "p": 46,
+            "d": 12,
+            "s": 59,
+            "nps": 57.6
+          },
+          "Newbie": {
+            "p": 0,
+            "d": 2,
+            "s": 2,
+            "nps": -100.0
+          }
+        },
+        "FBM - Retiro de Stock - Cx One": {
+          "Expert": {
+            "p": 19,
+            "d": 2,
+            "s": 22,
+            "nps": 77.3
+          }
+        }
+      },
+      "S2": {
+        "FBM - Devoluciones": {
+          "Expert": {
+            "p": 5,
+            "d": 2,
+            "s": 7,
+            "nps": 42.9
+          }
+        },
+        "FBM - Funcionalidades": {
+          "Expert": {
+            "p": 6,
+            "d": 1,
+            "s": 8,
+            "nps": 62.5
+          }
+        },
+        "FBM - Inventario": {
+          "Expert": {
+            "p": 25,
+            "d": 5,
+            "s": 33,
+            "nps": 60.6
+          }
+        },
+        "FBM - Outbound": {
+          "Expert": {
+            "p": 2,
+            "d": 1,
+            "s": 3,
+            "nps": 33.3
+          }
+        },
+        "FBM - Post Inbound": {
+          "Expert": {
+            "p": 19,
+            "d": 3,
+            "s": 23,
+            "nps": 69.6
+          },
+          "Newbie": {
+            "p": 1,
+            "d": 1,
+            "s": 2,
+            "nps": 0.0
+          }
+        },
+        "FBM - Pre Inbound": {
+          "Expert": {
+            "p": 34,
+            "d": 13,
+            "s": 51,
+            "nps": 41.2
+          }
+        },
+        "FBM - Retiro de Stock - Cx One": {
+          "Expert": {
+            "p": 11,
+            "d": 4,
+            "s": 16,
+            "nps": 43.8
+          }
+        }
+      },
+      "VIG": {
+        "FBM - Devoluciones": {
+          "Expert": {
+            "p": 3,
+            "d": 1,
+            "s": 4,
+            "nps": 50.0
+          }
+        },
+        "FBM - Funcionalidades": {
+          "Expert": {
+            "p": 4,
+            "d": 2,
+            "s": 6,
+            "nps": 33.3
+          }
+        },
+        "FBM - Inventario": {
+          "Expert": {
+            "p": 6,
+            "d": 1,
+            "s": 7,
+            "nps": 71.4
+          }
+        },
+        "FBM - Post Inbound": {
+          "Expert": {
+            "p": 8,
+            "d": 0,
+            "s": 8,
+            "nps": 100.0
+          }
+        },
+        "FBM - Pre Inbound": {
+          "Expert": {
+            "p": 19,
+            "d": 4,
+            "s": 26,
+            "nps": 57.7
+          },
+          "Newbie": {
+            "p": 1,
+            "d": 1,
+            "s": 2,
+            "nps": 0.0
+          }
+        },
+        "FBM - Retiro de Stock - Cx One": {
+          "Expert": {
+            "p": 5,
+            "d": 3,
+            "s": 9,
+            "nps": 22.2
+          }
         }
       }
     }
@@ -2983,7 +3260,8 @@
           "nps": 54.49
         }
       }
-    }
+    },
+    "Sr_P": {}
   },
   "ME Vendedor Meli Pro": {
     "P": {
@@ -3355,7 +3633,8 @@
           "nps": 61.77
         }
       }
-    }
+    },
+    "Sr_P": {}
   },
   "ME Vendedor Seller Dev": {
     "P": {
@@ -3878,17 +4157,151 @@
         }
       },
       "VIG": {
-        "NEWBIE": {
+        "Newbie": {
           "p": 61,
           "d": 15,
           "s": 82,
           "nps": 56.1
         },
-        "EXPERT": {
+        "Expert": {
           "p": 101,
           "d": 17,
           "s": 125,
           "nps": 67.2
+        }
+      }
+    },
+    "Sr_P": {
+      "S1": {
+        "Despacho Ventas y Publicaciones": {
+          "Expert": {
+            "p": 125,
+            "d": 24,
+            "s": 164,
+            "nps": 61.6
+          },
+          "Newbie": {
+            "p": 111,
+            "d": 25,
+            "s": 150,
+            "nps": 57.3
+          }
+        },
+        "Gestiones Operativas": {
+          "Expert": {
+            "p": 36,
+            "d": 5,
+            "s": 47,
+            "nps": 66.0
+          },
+          "Newbie": {
+            "p": 27,
+            "d": 6,
+            "s": 35,
+            "nps": 60.0
+          }
+        },
+        "Reversa": {
+          "Expert": {
+            "p": 38,
+            "d": 4,
+            "s": 44,
+            "nps": 77.3
+          },
+          "Newbie": {
+            "p": 24,
+            "d": 8,
+            "s": 36,
+            "nps": 44.4
+          }
+        }
+      },
+      "S2": {
+        "Despacho Ventas y Publicaciones": {
+          "Expert": {
+            "p": 179,
+            "d": 24,
+            "s": 227,
+            "nps": 68.3
+          },
+          "Newbie": {
+            "p": 97,
+            "d": 29,
+            "s": 148,
+            "nps": 45.9
+          }
+        },
+        "Gestiones Operativas": {
+          "Expert": {
+            "p": 51,
+            "d": 10,
+            "s": 66,
+            "nps": 62.1
+          },
+          "Newbie": {
+            "p": 20,
+            "d": 5,
+            "s": 29,
+            "nps": 51.7
+          }
+        },
+        "Reversa": {
+          "Expert": {
+            "p": 53,
+            "d": 8,
+            "s": 63,
+            "nps": 71.4
+          },
+          "Newbie": {
+            "p": 35,
+            "d": 11,
+            "s": 52,
+            "nps": 46.2
+          }
+        }
+      },
+      "VIG": {
+        "Despacho Ventas y Publicaciones": {
+          "Expert": {
+            "p": 65,
+            "d": 13,
+            "s": 83,
+            "nps": 62.7
+          },
+          "Newbie": {
+            "p": 46,
+            "d": 12,
+            "s": 65,
+            "nps": 52.3
+          }
+        },
+        "Gestiones Operativas": {
+          "Expert": {
+            "p": 12,
+            "d": 1,
+            "s": 14,
+            "nps": 78.6
+          },
+          "Newbie": {
+            "p": 9,
+            "d": 2,
+            "s": 11,
+            "nps": 63.6
+          }
+        },
+        "Reversa": {
+          "Expert": {
+            "p": 26,
+            "d": 3,
+            "s": 30,
+            "nps": 76.7
+          },
+          "Newbie": {
+            "p": 10,
+            "d": 1,
+            "s": 11,
+            "nps": 81.8
+          }
         }
       }
     }
@@ -6136,29 +6549,835 @@
         }
       },
       "VIG": {
-        "EXPERT": {
+        "Expert": {
           "p": 813,
           "d": 127,
           "s": 1053,
           "nps": 65.1
         },
-        "NEWBIE": {
-          "p": 646,
-          "d": 155,
-          "s": 894,
-          "nps": 54.9
-        },
-        "TRAINING": {
-          "p": 24,
-          "d": 13,
-          "s": 39,
-          "nps": 28.2
-        },
-        "UNAVAILABLE": {
+        "Newbie": {
           "p": 1,
           "d": 0,
           "s": 2,
           "nps": 50.0
+        }
+      }
+    },
+    "Sr_P": {
+      "S1": {
+        "Apelaciones buyer XDDS": {
+          "Expert": {
+            "p": 2,
+            "d": 1,
+            "s": 4,
+            "nps": 25.0
+          }
+        },
+        "Apelaciones retorno buyer XDDS": {
+          "Expert": {
+            "p": 5,
+            "d": 17,
+            "s": 23,
+            "nps": -52.2
+          }
+        },
+        "Chargeback Comprador": {
+          "Expert": {
+            "p": 28,
+            "d": 6,
+            "s": 36,
+            "nps": 61.1
+          },
+          "Newbie": {
+            "p": 30,
+            "d": 20,
+            "s": 55,
+            "nps": 18.2
+          }
+        },
+        "Conect Car": {
+          "Newbie": {
+            "p": 1,
+            "d": 0,
+            "s": 2,
+            "nps": 50.0
+          }
+        },
+        "Funcionalidades de Online Payments - Sellers": {
+          "Expert": {
+            "p": 2,
+            "d": 1,
+            "s": 3,
+            "nps": 33.3
+          },
+          "Newbie": {
+            "p": 11,
+            "d": 2,
+            "s": 15,
+            "nps": 60.0
+          }
+        },
+        "Funcionalidades de Seguros - Payers": {
+          "Expert": {
+            "p": 11,
+            "d": 1,
+            "s": 17,
+            "nps": 58.8
+          },
+          "Newbie": {
+            "p": 10,
+            "d": 5,
+            "s": 16,
+            "nps": 31.2
+          }
+        },
+        "KYC Services": {
+          "Expert": {
+            "p": 55,
+            "d": 5,
+            "s": 64,
+            "nps": 78.1
+          },
+          "Newbie": {
+            "p": 6,
+            "d": 0,
+            "s": 6,
+            "nps": 100.0
+          }
+        },
+        "KYC seg360": {
+          "Expert": {
+            "p": 116,
+            "d": 20,
+            "s": 152,
+            "nps": 63.2
+          },
+          "Newbie": {
+            "p": 145,
+            "d": 34,
+            "s": 186,
+            "nps": 59.7
+          }
+        },
+        "Merchant Credits": {
+          "Expert": {
+            "p": 12,
+            "d": 2,
+            "s": 16,
+            "nps": 62.5
+          },
+          "Newbie": {
+            "p": 43,
+            "d": 14,
+            "s": 60,
+            "nps": 48.3
+          }
+        },
+        "PNR - OP": {
+          "Expert": {
+            "p": 22,
+            "d": 12,
+            "s": 35,
+            "nps": 28.6
+          },
+          "Newbie": {
+            "p": 18,
+            "d": 5,
+            "s": 23,
+            "nps": 56.5
+          }
+        },
+        "Point - Como adquirir dispositivo": {
+          "Expert": {
+            "p": 6,
+            "d": 1,
+            "s": 8,
+            "nps": 62.5
+          },
+          "Newbie": {
+            "p": 17,
+            "d": 4,
+            "s": 22,
+            "nps": 59.1
+          }
+        },
+        "Portabilidade salarial": {
+          "Expert": {
+            "p": 13,
+            "d": 3,
+            "s": 17,
+            "nps": 58.8
+          },
+          "Newbie": {
+            "p": 16,
+            "d": 2,
+            "s": 19,
+            "nps": 73.7
+          }
+        },
+        "Problemas con acceso y factores": {
+          "Expert": {
+            "p": 244,
+            "d": 17,
+            "s": 280,
+            "nps": 81.1
+          },
+          "Newbie": {
+            "p": 229,
+            "d": 36,
+            "s": 283,
+            "nps": 68.2
+          }
+        },
+        "Problemas de seguridad": {
+          "Expert": {
+            "p": 311,
+            "d": 57,
+            "s": 399,
+            "nps": 63.7
+          },
+          "Newbie": {
+            "p": 332,
+            "d": 80,
+            "s": 453,
+            "nps": 55.6
+          }
+        },
+        "Registro": {
+          "Expert": {
+            "p": 24,
+            "d": 2,
+            "s": 27,
+            "nps": 81.5
+          },
+          "Newbie": {
+            "p": 21,
+            "d": 4,
+            "s": 27,
+            "nps": 63.0
+          }
+        },
+        "Restricciones": {
+          "Expert": {
+            "p": 105,
+            "d": 23,
+            "s": 145,
+            "nps": 56.6
+          },
+          "Newbie": {
+            "p": 114,
+            "d": 33,
+            "s": 166,
+            "nps": 48.8
+          }
+        },
+        "Seguros transaccional - Payers": {
+          "Expert": {
+            "p": 27,
+            "d": 13,
+            "s": 40,
+            "nps": 35.0
+          },
+          "Newbie": {
+            "p": 14,
+            "d": 3,
+            "s": 20,
+            "nps": 55.0
+          }
+        },
+        "Tasas e Incentivos Sellers": {
+          "Expert": {
+            "p": 34,
+            "d": 10,
+            "s": 47,
+            "nps": 51.1
+          },
+          "Newbie": {
+            "p": 60,
+            "d": 6,
+            "s": 72,
+            "nps": 75.0
+          }
+        },
+        "Transferencias de dinero": {
+          "Expert": {
+            "p": 158,
+            "d": 18,
+            "s": 194,
+            "nps": 72.2
+          },
+          "Newbie": {
+            "p": 208,
+            "d": 44,
+            "s": 283,
+            "nps": 58.0
+          }
+        },
+        "Viaje del paquete - Comprador": {
+          "Expert": {
+            "p": 1181,
+            "d": 247,
+            "s": 1652,
+            "nps": 56.5
+          },
+          "Newbie": {
+            "p": 726,
+            "d": 214,
+            "s": 1056,
+            "nps": 48.5
+          }
+        },
+        "Viaje del paquete - Vendedor": {
+          "Expert": {
+            "p": 37,
+            "d": 6,
+            "s": 45,
+            "nps": 68.9
+          },
+          "Newbie": {
+            "p": 18,
+            "d": 3,
+            "s": 26,
+            "nps": 57.7
+          }
+        }
+      },
+      "S2": {
+        "Apelaciones buyer XDDS": {
+          "Expert": {
+            "p": 2,
+            "d": 0,
+            "s": 2,
+            "nps": 100.0
+          },
+          "Newbie": {
+            "p": 0,
+            "d": 2,
+            "s": 2,
+            "nps": -100.0
+          }
+        },
+        "Apelaciones retorno buyer XDDS": {
+          "Expert": {
+            "p": 2,
+            "d": 11,
+            "s": 15,
+            "nps": -60.0
+          },
+          "Newbie": {
+            "p": 2,
+            "d": 2,
+            "s": 4,
+            "nps": 0.0
+          }
+        },
+        "Chargeback Comprador": {
+          "Expert": {
+            "p": 31,
+            "d": 12,
+            "s": 46,
+            "nps": 41.3
+          },
+          "Newbie": {
+            "p": 38,
+            "d": 11,
+            "s": 56,
+            "nps": 48.2
+          }
+        },
+        "Funcionalidades de Online Payments - Sellers": {
+          "Expert": {
+            "p": 5,
+            "d": 2,
+            "s": 7,
+            "nps": 42.9
+          },
+          "Newbie": {
+            "p": 19,
+            "d": 3,
+            "s": 23,
+            "nps": 69.6
+          }
+        },
+        "Funcionalidades de Seguros - Payers": {
+          "Expert": {
+            "p": 8,
+            "d": 1,
+            "s": 12,
+            "nps": 58.3
+          },
+          "Newbie": {
+            "p": 7,
+            "d": 9,
+            "s": 19,
+            "nps": -10.5
+          }
+        },
+        "KYC Services": {
+          "Expert": {
+            "p": 78,
+            "d": 3,
+            "s": 86,
+            "nps": 87.2
+          },
+          "Newbie": {
+            "p": 5,
+            "d": 1,
+            "s": 7,
+            "nps": 57.1
+          }
+        },
+        "KYC seg360": {
+          "Expert": {
+            "p": 133,
+            "d": 16,
+            "s": 168,
+            "nps": 69.6
+          },
+          "Newbie": {
+            "p": 162,
+            "d": 32,
+            "s": 215,
+            "nps": 60.5
+          }
+        },
+        "Merchant Credits": {
+          "Expert": {
+            "p": 13,
+            "d": 2,
+            "s": 17,
+            "nps": 64.7
+          },
+          "Newbie": {
+            "p": 64,
+            "d": 18,
+            "s": 87,
+            "nps": 52.9
+          }
+        },
+        "PNR - OP": {
+          "Expert": {
+            "p": 24,
+            "d": 5,
+            "s": 31,
+            "nps": 61.3
+          },
+          "Newbie": {
+            "p": 22,
+            "d": 8,
+            "s": 34,
+            "nps": 41.2
+          }
+        },
+        "Point - Como adquirir dispositivo": {
+          "Expert": {
+            "p": 13,
+            "d": 0,
+            "s": 13,
+            "nps": 100.0
+          },
+          "Newbie": {
+            "p": 19,
+            "d": 4,
+            "s": 25,
+            "nps": 60.0
+          }
+        },
+        "Portabilidade salarial": {
+          "Expert": {
+            "p": 19,
+            "d": 2,
+            "s": 21,
+            "nps": 81.0
+          },
+          "Newbie": {
+            "p": 30,
+            "d": 3,
+            "s": 40,
+            "nps": 67.5
+          }
+        },
+        "Problemas con acceso y factores": {
+          "Expert": {
+            "p": 232,
+            "d": 14,
+            "s": 272,
+            "nps": 80.1
+          },
+          "Newbie": {
+            "p": 240,
+            "d": 26,
+            "s": 294,
+            "nps": 72.8
+          }
+        },
+        "Problemas de seguridad": {
+          "Expert": {
+            "p": 349,
+            "d": 77,
+            "s": 463,
+            "nps": 58.7
+          },
+          "Newbie": {
+            "p": 451,
+            "d": 101,
+            "s": 599,
+            "nps": 58.4
+          }
+        },
+        "Registro": {
+          "Expert": {
+            "p": 15,
+            "d": 0,
+            "s": 17,
+            "nps": 88.2
+          },
+          "Newbie": {
+            "p": 19,
+            "d": 4,
+            "s": 23,
+            "nps": 65.2
+          }
+        },
+        "Restricciones": {
+          "Expert": {
+            "p": 86,
+            "d": 24,
+            "s": 132,
+            "nps": 47.0
+          },
+          "Newbie": {
+            "p": 108,
+            "d": 45,
+            "s": 166,
+            "nps": 38.0
+          }
+        },
+        "Seguros transaccional - Payers": {
+          "Expert": {
+            "p": 44,
+            "d": 13,
+            "s": 64,
+            "nps": 48.4
+          },
+          "Newbie": {
+            "p": 19,
+            "d": 6,
+            "s": 29,
+            "nps": 44.8
+          }
+        },
+        "Tasas e Incentivos Sellers": {
+          "Expert": {
+            "p": 37,
+            "d": 7,
+            "s": 47,
+            "nps": 63.8
+          },
+          "Newbie": {
+            "p": 82,
+            "d": 14,
+            "s": 107,
+            "nps": 63.6
+          }
+        },
+        "Transferencias de dinero": {
+          "Expert": {
+            "p": 145,
+            "d": 20,
+            "s": 195,
+            "nps": 64.1
+          },
+          "Newbie": {
+            "p": 208,
+            "d": 27,
+            "s": 258,
+            "nps": 70.2
+          }
+        },
+        "Viaje del paquete - Comprador": {
+          "Expert": {
+            "p": 1274,
+            "d": 317,
+            "s": 1827,
+            "nps": 52.4
+          },
+          "Newbie": {
+            "p": 983,
+            "d": 272,
+            "s": 1437,
+            "nps": 49.5
+          }
+        },
+        "Viaje del paquete - Vendedor": {
+          "Expert": {
+            "p": 35,
+            "d": 2,
+            "s": 39,
+            "nps": 84.6
+          },
+          "Newbie": {
+            "p": 13,
+            "d": 5,
+            "s": 21,
+            "nps": 38.1
+          }
+        }
+      },
+      "VIG": {
+        "Apelaciones buyer XDDS": {
+          "Expert": {
+            "p": 1,
+            "d": 1,
+            "s": 2,
+            "nps": 0.0
+          }
+        },
+        "Chargeback Comprador": {
+          "Expert": {
+            "p": 9,
+            "d": 0,
+            "s": 12,
+            "nps": 75.0
+          },
+          "Newbie": {
+            "p": 8,
+            "d": 10,
+            "s": 19,
+            "nps": -10.5
+          }
+        },
+        "Funcionalidades de Online Payments - Sellers": {
+          "Newbie": {
+            "p": 7,
+            "d": 0,
+            "s": 8,
+            "nps": 87.5
+          }
+        },
+        "Funcionalidades de Seguros - Payers": {
+          "Expert": {
+            "p": 3,
+            "d": 0,
+            "s": 4,
+            "nps": 75.0
+          },
+          "Newbie": {
+            "p": 8,
+            "d": 0,
+            "s": 9,
+            "nps": 88.9
+          }
+        },
+        "KYC Services": {
+          "Expert": {
+            "p": 33,
+            "d": 2,
+            "s": 39,
+            "nps": 79.5
+          },
+          "Newbie": {
+            "p": 1,
+            "d": 0,
+            "s": 2,
+            "nps": 50.0
+          }
+        },
+        "KYC seg360": {
+          "Expert": {
+            "p": 56,
+            "d": 6,
+            "s": 71,
+            "nps": 70.4
+          },
+          "Newbie": {
+            "p": 67,
+            "d": 15,
+            "s": 94,
+            "nps": 55.3
+          }
+        },
+        "Merchant Credits": {
+          "Expert": {
+            "p": 4,
+            "d": 0,
+            "s": 5,
+            "nps": 80.0
+          },
+          "Newbie": {
+            "p": 22,
+            "d": 5,
+            "s": 28,
+            "nps": 60.7
+          }
+        },
+        "PNR - OP": {
+          "Expert": {
+            "p": 4,
+            "d": 1,
+            "s": 5,
+            "nps": 60.0
+          },
+          "Newbie": {
+            "p": 1,
+            "d": 2,
+            "s": 3,
+            "nps": -33.3
+          }
+        },
+        "Point - Como adquirir dispositivo": {
+          "Expert": {
+            "p": 6,
+            "d": 0,
+            "s": 6,
+            "nps": 100.0
+          },
+          "Newbie": {
+            "p": 6,
+            "d": 1,
+            "s": 7,
+            "nps": 71.4
+          }
+        },
+        "Portabilidade salarial": {
+          "Expert": {
+            "p": 3,
+            "d": 0,
+            "s": 5,
+            "nps": 60.0
+          },
+          "Newbie": {
+            "p": 13,
+            "d": 0,
+            "s": 15,
+            "nps": 86.7
+          }
+        },
+        "Problemas con acceso y factores": {
+          "Expert": {
+            "p": 91,
+            "d": 8,
+            "s": 105,
+            "nps": 79.0
+          },
+          "Newbie": {
+            "p": 66,
+            "d": 5,
+            "s": 76,
+            "nps": 80.3
+          }
+        },
+        "Problemas de seguridad": {
+          "Expert": {
+            "p": 94,
+            "d": 22,
+            "s": 122,
+            "nps": 59.0
+          },
+          "Newbie": {
+            "p": 109,
+            "d": 29,
+            "s": 150,
+            "nps": 53.3
+          }
+        },
+        "Registro": {
+          "Expert": {
+            "p": 15,
+            "d": 3,
+            "s": 20,
+            "nps": 60.0
+          },
+          "Newbie": {
+            "p": 2,
+            "d": 0,
+            "s": 3,
+            "nps": 66.7
+          }
+        },
+        "Restricciones": {
+          "Expert": {
+            "p": 45,
+            "d": 9,
+            "s": 64,
+            "nps": 56.2
+          },
+          "Newbie": {
+            "p": 43,
+            "d": 15,
+            "s": 66,
+            "nps": 42.4
+          }
+        },
+        "Seguros transaccional - Payers": {
+          "Expert": {
+            "p": 15,
+            "d": 2,
+            "s": 17,
+            "nps": 76.5
+          },
+          "Newbie": {
+            "p": 10,
+            "d": 5,
+            "s": 16,
+            "nps": 31.2
+          }
+        },
+        "Tasas e Incentivos Sellers": {
+          "Expert": {
+            "p": 21,
+            "d": 5,
+            "s": 27,
+            "nps": 59.3
+          },
+          "Newbie": {
+            "p": 25,
+            "d": 5,
+            "s": 33,
+            "nps": 60.6
+          }
+        },
+        "Transferencias de dinero": {
+          "Expert": {
+            "p": 39,
+            "d": 5,
+            "s": 46,
+            "nps": 73.9
+          },
+          "Newbie": {
+            "p": 62,
+            "d": 10,
+            "s": 80,
+            "nps": 65.0
+          }
+        },
+        "Viaje del paquete - Comprador": {
+          "Expert": {
+            "p": 371,
+            "d": 65,
+            "s": 503,
+            "nps": 60.8
+          },
+          "Newbie": {
+            "p": 229,
+            "d": 71,
+            "s": 342,
+            "nps": 46.2
+          }
+        },
+        "Viaje del paquete - Vendedor": {
+          "Expert": {
+            "p": 16,
+            "d": 0,
+            "s": 18,
+            "nps": 88.9
+          },
+          "Newbie": {
+            "p": 7,
+            "d": 1,
+            "s": 8,
+            "nps": 75.0
+          }
         }
       }
     }
@@ -6449,7 +7668,8 @@
           "nps": 34.38
         }
       }
-    }
+    },
+    "Sr_P": {}
   },
   "PCF Vendedor Meli Pro": {
     "P": {
@@ -6719,7 +7939,8 @@
           "nps": 34.38
         }
       }
-    }
+    },
+    "Sr_P": {}
   },
   "PCF Vendedor Seller Dev": {
     "P": {
@@ -7128,17 +8349,67 @@
         }
       },
       "VIG": {
-        "EXPERT": {
+        "Expert": {
           "p": 64,
           "d": 14,
           "s": 83,
           "nps": 60.2
         },
-        "NEWBIE": {
+        "Newbie": {
           "p": 21,
           "d": 5,
           "s": 29,
           "nps": 55.2
+        }
+      }
+    },
+    "Sr_P": {
+      "S1": {
+        "Post Compra Funcionalidades Vendedor": {
+          "Expert": {
+            "p": 146,
+            "d": 30,
+            "s": 203,
+            "nps": 57.1
+          },
+          "Newbie": {
+            "p": 58,
+            "d": 23,
+            "s": 92,
+            "nps": 38.0
+          }
+        }
+      },
+      "S2": {
+        "Post Compra Funcionalidades Vendedor": {
+          "Expert": {
+            "p": 171,
+            "d": 42,
+            "s": 242,
+            "nps": 53.3
+          },
+          "Newbie": {
+            "p": 42,
+            "d": 18,
+            "s": 66,
+            "nps": 36.4
+          }
+        }
+      },
+      "VIG": {
+        "Post Compra Funcionalidades Vendedor": {
+          "Expert": {
+            "p": 64,
+            "d": 15,
+            "s": 84,
+            "nps": 58.3
+          },
+          "Newbie": {
+            "p": 21,
+            "d": 6,
+            "s": 30,
+            "nps": 50.0
+          }
         }
       }
     }
@@ -7850,17 +9121,337 @@
         }
       },
       "VIG": {
-        "EXPERT": {
+        "Expert": {
           "p": 178,
           "d": 35,
           "s": 222,
           "nps": 64.4
         },
-        "NEWBIE": {
+        "Newbie": {
           "p": 41,
           "d": 7,
           "s": 50,
           "nps": 68.0
+        }
+      }
+    },
+    "Sr_P": {
+      "S1": {
+        "Arrepentimiento - DS": {
+          "Expert": {
+            "p": 30,
+            "d": 14,
+            "s": 47,
+            "nps": 34.0
+          },
+          "Newbie": {
+            "p": 6,
+            "d": 6,
+            "s": 13,
+            "nps": 0.0
+          }
+        },
+        "Arrepentimiento - XD": {
+          "Expert": {
+            "p": 98,
+            "d": 16,
+            "s": 126,
+            "nps": 65.1
+          },
+          "Newbie": {
+            "p": 44,
+            "d": 5,
+            "s": 54,
+            "nps": 72.2
+          }
+        },
+        "Defectuoso - DS": {
+          "Expert": {
+            "p": 32,
+            "d": 20,
+            "s": 57,
+            "nps": 21.1
+          },
+          "Newbie": {
+            "p": 8,
+            "d": 3,
+            "s": 12,
+            "nps": 41.7
+          }
+        },
+        "Defectuoso - XD": {
+          "Expert": {
+            "p": 106,
+            "d": 18,
+            "s": 134,
+            "nps": 65.7
+          },
+          "Newbie": {
+            "p": 32,
+            "d": 8,
+            "s": 45,
+            "nps": 53.3
+          }
+        },
+        "Diferente - DS": {
+          "Expert": {
+            "p": 24,
+            "d": 9,
+            "s": 36,
+            "nps": 41.7
+          },
+          "Newbie": {
+            "p": 10,
+            "d": 4,
+            "s": 16,
+            "nps": 37.5
+          }
+        },
+        "Diferente - XD": {
+          "Expert": {
+            "p": 86,
+            "d": 33,
+            "s": 135,
+            "nps": 39.3
+          },
+          "Newbie": {
+            "p": 28,
+            "d": 7,
+            "s": 39,
+            "nps": 53.8
+          }
+        },
+        "Incompleto - DS": {
+          "Expert": {
+            "p": 20,
+            "d": 7,
+            "s": 28,
+            "nps": 46.4
+          },
+          "Newbie": {
+            "p": 9,
+            "d": 4,
+            "s": 15,
+            "nps": 33.3
+          }
+        },
+        "Incompleto - XD": {
+          "Expert": {
+            "p": 41,
+            "d": 13,
+            "s": 58,
+            "nps": 48.3
+          },
+          "Newbie": {
+            "p": 21,
+            "d": 5,
+            "s": 28,
+            "nps": 57.1
+          }
+        }
+      },
+      "S2": {
+        "Arrepentimiento - DS": {
+          "Expert": {
+            "p": 30,
+            "d": 10,
+            "s": 42,
+            "nps": 47.6
+          },
+          "Newbie": {
+            "p": 9,
+            "d": 5,
+            "s": 14,
+            "nps": 28.6
+          }
+        },
+        "Arrepentimiento - XD": {
+          "Expert": {
+            "p": 142,
+            "d": 26,
+            "s": 184,
+            "nps": 63.0
+          },
+          "Newbie": {
+            "p": 59,
+            "d": 14,
+            "s": 79,
+            "nps": 57.0
+          }
+        },
+        "Defectuoso - DS": {
+          "Expert": {
+            "p": 29,
+            "d": 13,
+            "s": 44,
+            "nps": 36.4
+          },
+          "Newbie": {
+            "p": 15,
+            "d": 1,
+            "s": 18,
+            "nps": 77.8
+          }
+        },
+        "Defectuoso - XD": {
+          "Expert": {
+            "p": 157,
+            "d": 39,
+            "s": 207,
+            "nps": 57.0
+          },
+          "Newbie": {
+            "p": 52,
+            "d": 11,
+            "s": 67,
+            "nps": 61.2
+          }
+        },
+        "Diferente - DS": {
+          "Expert": {
+            "p": 27,
+            "d": 10,
+            "s": 38,
+            "nps": 44.7
+          },
+          "Newbie": {
+            "p": 4,
+            "d": 3,
+            "s": 8,
+            "nps": 12.5
+          }
+        },
+        "Diferente - XD": {
+          "Expert": {
+            "p": 100,
+            "d": 39,
+            "s": 154,
+            "nps": 39.6
+          },
+          "Newbie": {
+            "p": 26,
+            "d": 17,
+            "s": 51,
+            "nps": 17.6
+          }
+        },
+        "Incompleto - DS": {
+          "Expert": {
+            "p": 23,
+            "d": 4,
+            "s": 27,
+            "nps": 70.4
+          },
+          "Newbie": {
+            "p": 11,
+            "d": 5,
+            "s": 16,
+            "nps": 37.5
+          }
+        },
+        "Incompleto - XD": {
+          "Expert": {
+            "p": 74,
+            "d": 30,
+            "s": 121,
+            "nps": 36.4
+          },
+          "Newbie": {
+            "p": 32,
+            "d": 9,
+            "s": 44,
+            "nps": 52.3
+          }
+        }
+      },
+      "VIG": {
+        "Arrepentimiento - DS": {
+          "Expert": {
+            "p": 9,
+            "d": 1,
+            "s": 11,
+            "nps": 72.7
+          }
+        },
+        "Arrepentimiento - XD": {
+          "Expert": {
+            "p": 68,
+            "d": 11,
+            "s": 82,
+            "nps": 69.5
+          },
+          "Newbie": {
+            "p": 21,
+            "d": 2,
+            "s": 24,
+            "nps": 79.2
+          }
+        },
+        "Defectuoso - DS": {
+          "Expert": {
+            "p": 9,
+            "d": 1,
+            "s": 10,
+            "nps": 80.0
+          },
+          "Newbie": {
+            "p": 2,
+            "d": 0,
+            "s": 2,
+            "nps": 100.0
+          }
+        },
+        "Defectuoso - XD": {
+          "Expert": {
+            "p": 15,
+            "d": 5,
+            "s": 22,
+            "nps": 45.5
+          }
+        },
+        "Diferente - DS": {
+          "Expert": {
+            "p": 5,
+            "d": 1,
+            "s": 6,
+            "nps": 66.7
+          }
+        },
+        "Diferente - XD": {
+          "Expert": {
+            "p": 47,
+            "d": 10,
+            "s": 58,
+            "nps": 63.8
+          },
+          "Newbie": {
+            "p": 17,
+            "d": 4,
+            "s": 21,
+            "nps": 61.9
+          }
+        },
+        "Incompleto - DS": {
+          "Expert": {
+            "p": 7,
+            "d": 1,
+            "s": 9,
+            "nps": 66.7
+          }
+        },
+        "Incompleto - XD": {
+          "Expert": {
+            "p": 24,
+            "d": 5,
+            "s": 32,
+            "nps": 59.4
+          },
+          "Newbie": {
+            "p": 6,
+            "d": 2,
+            "s": 9,
+            "nps": 44.4
+          }
         }
       }
     }
@@ -8536,17 +10127,371 @@
         }
       },
       "VIG": {
-        "EXPERT": {
+        "Expert": {
           "p": 79,
           "d": 17,
           "s": 104,
           "nps": 59.6
         },
-        "NEWBIE": {
+        "Newbie": {
           "p": 23,
           "d": 4,
           "s": 27,
           "nps": 70.4
+        }
+      }
+    },
+    "Sr_P": {
+      "S1": {
+        "Arrepentimiento - FBM": {
+          "Expert": {
+            "p": 72,
+            "d": 13,
+            "s": 88,
+            "nps": 67.0
+          },
+          "Newbie": {
+            "p": 12,
+            "d": 7,
+            "s": 20,
+            "nps": 25.0
+          }
+        },
+        "Arrepentimiento - Super - FBM": {
+          "Expert": {
+            "p": 6,
+            "d": 0,
+            "s": 6,
+            "nps": 100.0
+          },
+          "Newbie": {
+            "p": 3,
+            "d": 1,
+            "s": 4,
+            "nps": 50.0
+          }
+        },
+        "Defectuoso - FBM": {
+          "Expert": {
+            "p": 148,
+            "d": 24,
+            "s": 178,
+            "nps": 69.7
+          },
+          "Newbie": {
+            "p": 31,
+            "d": 4,
+            "s": 36,
+            "nps": 75.0
+          }
+        },
+        "Defectuoso - Super - FBM": {
+          "Expert": {
+            "p": 13,
+            "d": 3,
+            "s": 19,
+            "nps": 52.6
+          },
+          "Newbie": {
+            "p": 5,
+            "d": 0,
+            "s": 5,
+            "nps": 100.0
+          }
+        },
+        "Diferente - FBM": {
+          "Expert": {
+            "p": 23,
+            "d": 17,
+            "s": 43,
+            "nps": 14.0
+          },
+          "Newbie": {
+            "p": 7,
+            "d": 1,
+            "s": 8,
+            "nps": 75.0
+          }
+        },
+        "Diferente - Super - FBM": {
+          "Expert": {
+            "p": 5,
+            "d": 3,
+            "s": 8,
+            "nps": 25.0
+          },
+          "Newbie": {
+            "p": 1,
+            "d": 1,
+            "s": 2,
+            "nps": 0.0
+          }
+        },
+        "Incompleto - FBM": {
+          "Expert": {
+            "p": 40,
+            "d": 11,
+            "s": 54,
+            "nps": 53.7
+          },
+          "Newbie": {
+            "p": 24,
+            "d": 4,
+            "s": 31,
+            "nps": 64.5
+          }
+        },
+        "Incompleto - Super - FBM": {
+          "Expert": {
+            "p": 19,
+            "d": 4,
+            "s": 23,
+            "nps": 65.2
+          },
+          "Newbie": {
+            "p": 6,
+            "d": 3,
+            "s": 9,
+            "nps": 33.3
+          }
+        },
+        "MED - PDD Low cost": {
+          "Expert": {
+            "p": 10,
+            "d": 3,
+            "s": 13,
+            "nps": 53.8
+          }
+        }
+      },
+      "S2": {
+        "Arrepentimiento - FBM": {
+          "Expert": {
+            "p": 81,
+            "d": 19,
+            "s": 110,
+            "nps": 56.4
+          },
+          "Newbie": {
+            "p": 24,
+            "d": 6,
+            "s": 33,
+            "nps": 54.5
+          }
+        },
+        "Arrepentimiento - Super - FBM": {
+          "Expert": {
+            "p": 6,
+            "d": 0,
+            "s": 6,
+            "nps": 100.0
+          },
+          "Newbie": {
+            "p": 2,
+            "d": 0,
+            "s": 2,
+            "nps": 100.0
+          }
+        },
+        "Defectuoso - FBM": {
+          "Expert": {
+            "p": 235,
+            "d": 36,
+            "s": 292,
+            "nps": 68.2
+          },
+          "Newbie": {
+            "p": 33,
+            "d": 5,
+            "s": 46,
+            "nps": 60.9
+          }
+        },
+        "Defectuoso - Super - FBM": {
+          "Expert": {
+            "p": 10,
+            "d": 1,
+            "s": 12,
+            "nps": 75.0
+          },
+          "Newbie": {
+            "p": 5,
+            "d": 0,
+            "s": 5,
+            "nps": 100.0
+          }
+        },
+        "Diferente - FBM": {
+          "Expert": {
+            "p": 65,
+            "d": 23,
+            "s": 95,
+            "nps": 44.2
+          },
+          "Newbie": {
+            "p": 19,
+            "d": 7,
+            "s": 30,
+            "nps": 40.0
+          }
+        },
+        "Diferente - Super - FBM": {
+          "Expert": {
+            "p": 4,
+            "d": 0,
+            "s": 4,
+            "nps": 100.0
+          },
+          "Newbie": {
+            "p": 2,
+            "d": 1,
+            "s": 3,
+            "nps": 33.3
+          }
+        },
+        "Incompleto - FBM": {
+          "Expert": {
+            "p": 69,
+            "d": 14,
+            "s": 90,
+            "nps": 61.1
+          },
+          "Newbie": {
+            "p": 21,
+            "d": 5,
+            "s": 26,
+            "nps": 61.5
+          }
+        },
+        "Incompleto - Super - FBM": {
+          "Expert": {
+            "p": 14,
+            "d": 4,
+            "s": 20,
+            "nps": 50.0
+          },
+          "Newbie": {
+            "p": 3,
+            "d": 1,
+            "s": 5,
+            "nps": 40.0
+          }
+        },
+        "MED - PDD Low cost": {
+          "Expert": {
+            "p": 4,
+            "d": 2,
+            "s": 6,
+            "nps": 33.3
+          },
+          "Newbie": {
+            "p": 2,
+            "d": 0,
+            "s": 2,
+            "nps": 100.0
+          }
+        }
+      },
+      "VIG": {
+        "Arrepentimiento - FBM": {
+          "Expert": {
+            "p": 34,
+            "d": 8,
+            "s": 46,
+            "nps": 56.5
+          },
+          "Newbie": {
+            "p": 3,
+            "d": 0,
+            "s": 3,
+            "nps": 100.0
+          }
+        },
+        "Arrepentimiento - Super - FBM": {
+          "Expert": {
+            "p": 2,
+            "d": 1,
+            "s": 3,
+            "nps": 33.3
+          }
+        },
+        "Defectuoso - FBM": {
+          "Expert": {
+            "p": 24,
+            "d": 1,
+            "s": 26,
+            "nps": 88.5
+          },
+          "Newbie": {
+            "p": 13,
+            "d": 0,
+            "s": 13,
+            "nps": 100.0
+          }
+        },
+        "Defectuoso - Super - FBM": {
+          "Expert": {
+            "p": 5,
+            "d": 1,
+            "s": 6,
+            "nps": 66.7
+          },
+          "Newbie": {
+            "p": 2,
+            "d": 1,
+            "s": 3,
+            "nps": 33.3
+          }
+        },
+        "Diferente - FBM": {
+          "Expert": {
+            "p": 16,
+            "d": 8,
+            "s": 27,
+            "nps": 29.6
+          },
+          "Newbie": {
+            "p": 5,
+            "d": 1,
+            "s": 6,
+            "nps": 66.7
+          }
+        },
+        "Diferente - Super - FBM": {
+          "Expert": {
+            "p": 3,
+            "d": 0,
+            "s": 3,
+            "nps": 100.0
+          }
+        },
+        "Incompleto - FBM": {
+          "Expert": {
+            "p": 3,
+            "d": 3,
+            "s": 7,
+            "nps": 0.0
+          },
+          "Newbie": {
+            "p": 5,
+            "d": 1,
+            "s": 6,
+            "nps": 66.7
+          }
+        },
+        "Incompleto - Super - FBM": {
+          "Expert": {
+            "p": 2,
+            "d": 1,
+            "s": 3,
+            "nps": 33.3
+          },
+          "Newbie": {
+            "p": 1,
+            "d": 1,
+            "s": 2,
+            "nps": 0.0
+          }
         }
       }
     }
@@ -8811,6 +10756,34 @@
           "d": 2,
           "s": 7,
           "nps": 28.57
+        }
+      }
+    },
+    "Sr_P": {
+      "S1": {
+        "PDD - Fotos": {
+          "Expert": {
+            "p": 3,
+            "d": 0,
+            "s": 3,
+            "nps": 100.0
+          },
+          "Newbie": {
+            "p": 3,
+            "d": 0,
+            "s": 4,
+            "nps": 75.0
+          }
+        }
+      },
+      "S2": {
+        "PDD - Fotos": {
+          "Expert": {
+            "p": 3,
+            "d": 2,
+            "s": 6,
+            "nps": 16.7
+          }
         }
       }
     }
@@ -9402,17 +11375,253 @@
         }
       },
       "VIG": {
-        "EXPERT": {
+        "Expert": {
           "p": 36,
           "d": 3,
           "s": 41,
           "nps": 80.5
         },
-        "NEWBIE": {
+        "Newbie": {
           "p": 7,
           "d": 4,
           "s": 12,
           "nps": 25.0
+        }
+      }
+    },
+    "Sr_P": {
+      "S1": {
+        "Arrepentimiento - Flex": {
+          "Expert": {
+            "p": 8,
+            "d": 3,
+            "s": 14,
+            "nps": 35.7
+          },
+          "Newbie": {
+            "p": 1,
+            "d": 1,
+            "s": 2,
+            "nps": 0.0
+          }
+        },
+        "Arrepentimiento - MP": {
+          "Expert": {
+            "p": 37,
+            "d": 5,
+            "s": 45,
+            "nps": 71.1
+          },
+          "Newbie": {
+            "p": 6,
+            "d": 2,
+            "s": 8,
+            "nps": 50.0
+          }
+        },
+        "Defectuoso - Flex": {
+          "Expert": {
+            "p": 11,
+            "d": 7,
+            "s": 19,
+            "nps": 21.1
+          },
+          "Newbie": {
+            "p": 1,
+            "d": 1,
+            "s": 3,
+            "nps": 0.0
+          }
+        },
+        "Defectuoso - MP": {
+          "Expert": {
+            "p": 38,
+            "d": 8,
+            "s": 56,
+            "nps": 53.6
+          },
+          "Newbie": {
+            "p": 4,
+            "d": 2,
+            "s": 7,
+            "nps": 28.6
+          }
+        },
+        "Diferente - MP": {
+          "Expert": {
+            "p": 12,
+            "d": 4,
+            "s": 18,
+            "nps": 44.4
+          },
+          "Newbie": {
+            "p": 3,
+            "d": 2,
+            "s": 5,
+            "nps": 20.0
+          }
+        },
+        "Incompleto - Flex": {
+          "Expert": {
+            "p": 22,
+            "d": 2,
+            "s": 25,
+            "nps": 80.0
+          },
+          "Newbie": {
+            "p": 7,
+            "d": 4,
+            "s": 13,
+            "nps": 23.1
+          }
+        }
+      },
+      "S2": {
+        "Arrepentimiento - Flex": {
+          "Expert": {
+            "p": 6,
+            "d": 2,
+            "s": 9,
+            "nps": 44.4
+          }
+        },
+        "Arrepentimiento - MP": {
+          "Expert": {
+            "p": 44,
+            "d": 7,
+            "s": 57,
+            "nps": 64.9
+          },
+          "Newbie": {
+            "p": 7,
+            "d": 0,
+            "s": 7,
+            "nps": 100.0
+          }
+        },
+        "Defectuoso - Flex": {
+          "Expert": {
+            "p": 12,
+            "d": 5,
+            "s": 21,
+            "nps": 33.3
+          },
+          "Newbie": {
+            "p": 10,
+            "d": 0,
+            "s": 10,
+            "nps": 100.0
+          }
+        },
+        "Defectuoso - MP": {
+          "Expert": {
+            "p": 56,
+            "d": 15,
+            "s": 76,
+            "nps": 53.9
+          },
+          "Newbie": {
+            "p": 9,
+            "d": 2,
+            "s": 11,
+            "nps": 63.6
+          }
+        },
+        "Diferente - MP": {
+          "Expert": {
+            "p": 17,
+            "d": 4,
+            "s": 25,
+            "nps": 52.0
+          }
+        },
+        "Incompleto - Flex": {
+          "Expert": {
+            "p": 9,
+            "d": 6,
+            "s": 15,
+            "nps": 20.0
+          },
+          "Newbie": {
+            "p": 5,
+            "d": 1,
+            "s": 6,
+            "nps": 66.7
+          }
+        }
+      },
+      "VIG": {
+        "Arrepentimiento - Flex": {
+          "Expert": {
+            "p": 3,
+            "d": 0,
+            "s": 4,
+            "nps": 75.0
+          }
+        },
+        "Arrepentimiento - MP": {
+          "Expert": {
+            "p": 15,
+            "d": 2,
+            "s": 17,
+            "nps": 76.5
+          },
+          "Newbie": {
+            "p": 4,
+            "d": 2,
+            "s": 6,
+            "nps": 33.3
+          }
+        },
+        "Defectuoso - Flex": {
+          "Expert": {
+            "p": 7,
+            "d": 0,
+            "s": 7,
+            "nps": 100.0
+          },
+          "Newbie": {
+            "p": 2,
+            "d": 2,
+            "s": 4,
+            "nps": 0.0
+          }
+        },
+        "Defectuoso - MP": {
+          "Expert": {
+            "p": 12,
+            "d": 2,
+            "s": 15,
+            "nps": 66.7
+          },
+          "Newbie": {
+            "p": 1,
+            "d": 4,
+            "s": 6,
+            "nps": -50.0
+          }
+        },
+        "Diferente - MP": {
+          "Expert": {
+            "p": 3,
+            "d": 0,
+            "s": 3,
+            "nps": 100.0
+          }
+        },
+        "Incompleto - Flex": {
+          "Expert": {
+            "p": 6,
+            "d": 0,
+            "s": 6,
+            "nps": 100.0
+          },
+          "Newbie": {
+            "p": 1,
+            "d": 0,
+            "s": 2,
+            "nps": 50.0
+          }
         }
       }
     }
@@ -9878,17 +12087,173 @@
         }
       },
       "VIG": {
-        "EXPERT": {
+        "Expert": {
           "p": 13,
           "d": 2,
           "s": 16,
           "nps": 68.8
         },
-        "NEWBIE": {
+        "Newbie": {
           "p": 11,
           "d": 1,
           "s": 13,
           "nps": 76.9
+        }
+      }
+    },
+    "Sr_P": {
+      "S1": {
+        "PNR - Contradictorio - Flex": {
+          "Expert": {
+            "p": 14,
+            "d": 2,
+            "s": 17,
+            "nps": 70.6
+          },
+          "Newbie": {
+            "p": 11,
+            "d": 2,
+            "s": 13,
+            "nps": 69.2
+          }
+        },
+        "PNR - Contradictorio XD DS FBM": {
+          "Expert": {
+            "p": 26,
+            "d": 11,
+            "s": 38,
+            "nps": 39.5
+          },
+          "Newbie": {
+            "p": 17,
+            "d": 9,
+            "s": 30,
+            "nps": 26.7
+          }
+        },
+        "PNR - Low Cost": {
+          "Expert": {
+            "p": 2,
+            "d": 1,
+            "s": 4,
+            "nps": 25.0
+          }
+        },
+        "PNR - Previo al Despacho - Flex": {
+          "Expert": {
+            "p": 4,
+            "d": 1,
+            "s": 6,
+            "nps": 50.0
+          },
+          "Newbie": {
+            "p": 1,
+            "d": 2,
+            "s": 3,
+            "nps": -33.3
+          }
+        },
+        "PNR - Previo al despacho XD DS": {
+          "Expert": {
+            "p": 59,
+            "d": 22,
+            "s": 86,
+            "nps": 43.0
+          },
+          "Newbie": {
+            "p": 44,
+            "d": 14,
+            "s": 62,
+            "nps": 48.4
+          }
+        }
+      },
+      "S2": {
+        "PNR - Contradictorio - Flex": {
+          "Expert": {
+            "p": 8,
+            "d": 2,
+            "s": 11,
+            "nps": 54.5
+          },
+          "Newbie": {
+            "p": 3,
+            "d": 2,
+            "s": 5,
+            "nps": 20.0
+          }
+        },
+        "PNR - Contradictorio XD DS FBM": {
+          "Expert": {
+            "p": 50,
+            "d": 17,
+            "s": 72,
+            "nps": 45.8
+          },
+          "Newbie": {
+            "p": 28,
+            "d": 14,
+            "s": 43,
+            "nps": 32.6
+          }
+        },
+        "PNR - Previo al despacho XD DS": {
+          "Expert": {
+            "p": 32,
+            "d": 12,
+            "s": 46,
+            "nps": 43.5
+          },
+          "Newbie": {
+            "p": 14,
+            "d": 9,
+            "s": 25,
+            "nps": 20.0
+          }
+        }
+      },
+      "VIG": {
+        "PNR - Contradictorio - Flex": {
+          "Expert": {
+            "p": 1,
+            "d": 1,
+            "s": 2,
+            "nps": 0.0
+          },
+          "Newbie": {
+            "p": 2,
+            "d": 0,
+            "s": 3,
+            "nps": 66.7
+          }
+        },
+        "PNR - Contradictorio XD DS FBM": {
+          "Expert": {
+            "p": 10,
+            "d": 1,
+            "s": 12,
+            "nps": 75.0
+          },
+          "Newbie": {
+            "p": 8,
+            "d": 2,
+            "s": 10,
+            "nps": 60.0
+          }
+        },
+        "PNR - Previo al despacho XD DS": {
+          "Expert": {
+            "p": 5,
+            "d": 1,
+            "s": 6,
+            "nps": 66.7
+          },
+          "Newbie": {
+            "p": 3,
+            "d": 1,
+            "s": 4,
+            "nps": 50.0
+          }
         }
       }
     }
@@ -10246,17 +12611,67 @@
         }
       },
       "VIG": {
-        "EXPERT": {
+        "Expert": {
           "p": 43,
           "d": 10,
           "s": 59,
           "nps": 55.9
         },
-        "NEWBIE": {
+        "Newbie": {
           "p": 23,
           "d": 5,
           "s": 32,
           "nps": 56.2
+        }
+      }
+    },
+    "Sr_P": {
+      "S1": {
+        "PNR - MP": {
+          "Expert": {
+            "p": 114,
+            "d": 33,
+            "s": 159,
+            "nps": 50.9
+          },
+          "Newbie": {
+            "p": 91,
+            "d": 26,
+            "s": 129,
+            "nps": 50.4
+          }
+        }
+      },
+      "S2": {
+        "PNR - MP": {
+          "Expert": {
+            "p": 165,
+            "d": 27,
+            "s": 208,
+            "nps": 66.3
+          },
+          "Newbie": {
+            "p": 130,
+            "d": 28,
+            "s": 169,
+            "nps": 60.4
+          }
+        }
+      },
+      "VIG": {
+        "PNR - MP": {
+          "Expert": {
+            "p": 43,
+            "d": 10,
+            "s": 59,
+            "nps": 55.9
+          },
+          "Newbie": {
+            "p": 23,
+            "d": 6,
+            "s": 33,
+            "nps": 51.5
+          }
         }
       }
     }
@@ -10650,17 +13065,109 @@
         }
       },
       "VIG": {
-        "NEWBIE": {
+        "Newbie": {
           "p": 121,
           "d": 28,
           "s": 158,
           "nps": 58.9
         },
-        "EXPERT": {
+        "Expert": {
           "p": 84,
           "d": 17,
           "s": 112,
           "nps": 59.8
+        }
+      }
+    },
+    "Sr_P": {
+      "S1": {
+        "Drivers": {
+          "Expert": {
+            "p": 201,
+            "d": 38,
+            "s": 267,
+            "nps": 61.0
+          },
+          "Newbie": {
+            "p": 292,
+            "d": 41,
+            "s": 367,
+            "nps": 68.4
+          }
+        },
+        "Places Kangu": {
+          "Expert": {
+            "p": 33,
+            "d": 4,
+            "s": 40,
+            "nps": 72.5
+          },
+          "Newbie": {
+            "p": 45,
+            "d": 5,
+            "s": 53,
+            "nps": 75.5
+          }
+        }
+      },
+      "S2": {
+        "Drivers": {
+          "Expert": {
+            "p": 267,
+            "d": 28,
+            "s": 315,
+            "nps": 75.9
+          },
+          "Newbie": {
+            "p": 220,
+            "d": 47,
+            "s": 303,
+            "nps": 57.1
+          }
+        },
+        "Places Kangu": {
+          "Expert": {
+            "p": 51,
+            "d": 6,
+            "s": 61,
+            "nps": 73.8
+          },
+          "Newbie": {
+            "p": 47,
+            "d": 6,
+            "s": 58,
+            "nps": 70.7
+          }
+        }
+      },
+      "VIG": {
+        "Drivers": {
+          "Expert": {
+            "p": 72,
+            "d": 13,
+            "s": 94,
+            "nps": 62.8
+          },
+          "Newbie": {
+            "p": 105,
+            "d": 28,
+            "s": 140,
+            "nps": 55.0
+          }
+        },
+        "Places Kangu": {
+          "Expert": {
+            "p": 12,
+            "d": 4,
+            "s": 18,
+            "nps": 44.4
+          },
+          "Newbie": {
+            "p": 17,
+            "d": 0,
+            "s": 19,
+            "nps": 89.5
+          }
         }
       }
     }
@@ -10993,7 +13500,8 @@
           "nps": 76.97
         }
       }
-    }
+    },
+    "Sr_P": {}
   },
   "Post Venta Meli Pro": {
     "P": {
@@ -11293,7 +13801,8 @@
           "nps": 76.97
         }
       }
-    }
+    },
+    "Sr_P": {}
   },
   "Post Venta Seller Dev": {
     "P": {
@@ -11635,7 +14144,8 @@
           "nps": 76.97
         }
       }
-    }
+    },
+    "Sr_P": {}
   },
   "Publicaciones Mature": {
     "P": {
@@ -12091,7 +14601,8 @@
           "nps": 61.54
         }
       }
-    }
+    },
+    "Sr_P": {}
   },
   "Publicaciones Meli Pro": {
     "P": {
@@ -12499,7 +15010,8 @@
           "nps": 60.76
         }
       }
-    }
+    },
+    "Sr_P": {}
   },
   "Publicaciones Seller Dev": {
     "P": {
@@ -13124,23 +15636,261 @@
         }
       },
       "VIG": {
-        "EXPERT": {
+        "Expert": {
           "p": 50,
           "d": 3,
           "s": 57,
           "nps": 82.5
         },
-        "NEWBIE": {
-          "p": 48,
-          "d": 6,
-          "s": 59,
-          "nps": 71.2
-        },
-        "TRAINING": {
+        "Newbie": {
           "p": 5,
           "d": 3,
           "s": 10,
           "nps": 20.0
+        }
+      }
+    },
+    "Sr_P": {
+      "S1": {
+        "Afiliados ML": {
+          "Expert": {
+            "p": 83,
+            "d": 10,
+            "s": 100,
+            "nps": 73.0
+          },
+          "Newbie": {
+            "p": 94,
+            "d": 26,
+            "s": 130,
+            "nps": 52.3
+          }
+        },
+        "Antes de publicar": {
+          "Expert": {
+            "p": 4,
+            "d": 1,
+            "s": 6,
+            "nps": 50.0
+          },
+          "Newbie": {
+            "p": 33,
+            "d": 1,
+            "s": 38,
+            "nps": 84.2
+          }
+        },
+        "Calidad de foto": {
+          "Newbie": {
+            "p": 7,
+            "d": 0,
+            "s": 7,
+            "nps": 100.0
+          }
+        },
+        "Denuncia de usuario": {
+          "Expert": {
+            "p": 7,
+            "d": 1,
+            "s": 9,
+            "nps": 66.7
+          },
+          "Newbie": {
+            "p": 3,
+            "d": 4,
+            "s": 8,
+            "nps": -12.5
+          }
+        },
+        "PR - Datos Personales": {
+          "Newbie": {
+            "p": 6,
+            "d": 0,
+            "s": 6,
+            "nps": 100.0
+          }
+        },
+        "PR - Propiedad intelectual": {
+          "Expert": {
+            "p": 8,
+            "d": 0,
+            "s": 9,
+            "nps": 88.9
+          },
+          "Newbie": {
+            "p": 49,
+            "d": 5,
+            "s": 57,
+            "nps": 77.2
+          }
+        },
+        "Potenciar Ventas": {
+          "Expert": {
+            "p": 6,
+            "d": 3,
+            "s": 9,
+            "nps": 33.3
+          },
+          "Newbie": {
+            "p": 28,
+            "d": 9,
+            "s": 41,
+            "nps": 46.3
+          }
+        }
+      },
+      "S2": {
+        "Afiliados ML": {
+          "Expert": {
+            "p": 139,
+            "d": 9,
+            "s": 160,
+            "nps": 81.2
+          },
+          "Newbie": {
+            "p": 91,
+            "d": 36,
+            "s": 138,
+            "nps": 39.9
+          }
+        },
+        "Antes de publicar": {
+          "Expert": {
+            "p": 4,
+            "d": 2,
+            "s": 8,
+            "nps": 25.0
+          },
+          "Newbie": {
+            "p": 42,
+            "d": 3,
+            "s": 48,
+            "nps": 81.2
+          }
+        },
+        "Calidad de foto": {
+          "Expert": {
+            "p": 2,
+            "d": 1,
+            "s": 3,
+            "nps": 33.3
+          },
+          "Newbie": {
+            "p": 5,
+            "d": 0,
+            "s": 6,
+            "nps": 83.3
+          }
+        },
+        "Denuncia de usuario": {
+          "Expert": {
+            "p": 8,
+            "d": 1,
+            "s": 9,
+            "nps": 77.8
+          },
+          "Newbie": {
+            "p": 6,
+            "d": 0,
+            "s": 7,
+            "nps": 85.7
+          }
+        },
+        "PR - Datos Personales": {
+          "Newbie": {
+            "p": 2,
+            "d": 0,
+            "s": 2,
+            "nps": 100.0
+          }
+        },
+        "PR - Propiedad intelectual": {
+          "Expert": {
+            "p": 2,
+            "d": 0,
+            "s": 2,
+            "nps": 100.0
+          },
+          "Newbie": {
+            "p": 50,
+            "d": 7,
+            "s": 62,
+            "nps": 69.4
+          }
+        },
+        "Potenciar Ventas": {
+          "Expert": {
+            "p": 11,
+            "d": 3,
+            "s": 17,
+            "nps": 47.1
+          },
+          "Newbie": {
+            "p": 34,
+            "d": 10,
+            "s": 44,
+            "nps": 54.5
+          }
+        }
+      },
+      "VIG": {
+        "Afiliados ML": {
+          "Expert": {
+            "p": 41,
+            "d": 2,
+            "s": 46,
+            "nps": 84.8
+          },
+          "Newbie": {
+            "p": 22,
+            "d": 8,
+            "s": 35,
+            "nps": 40.0
+          }
+        },
+        "Antes de publicar": {
+          "Newbie": {
+            "p": 18,
+            "d": 1,
+            "s": 19,
+            "nps": 89.5
+          }
+        },
+        "Denuncia de usuario": {
+          "Newbie": {
+            "p": 2,
+            "d": 1,
+            "s": 3,
+            "nps": 33.3
+          }
+        },
+        "PR - Propiedad intelectual": {
+          "Expert": {
+            "p": 4,
+            "d": 0,
+            "s": 4,
+            "nps": 100.0
+          },
+          "Newbie": {
+            "p": 12,
+            "d": 0,
+            "s": 13,
+            "nps": 92.3
+          }
+        },
+        "Potenciar Ventas": {
+          "Expert": {
+            "p": 5,
+            "d": 1,
+            "s": 7,
+            "nps": 57.1
+          },
+          "Newbie": {
+            "p": 5,
+            "d": 2,
+            "s": 8,
+            "nps": 37.5
+          }
         }
       }
     }
