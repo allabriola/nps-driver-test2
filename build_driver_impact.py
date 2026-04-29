@@ -2110,110 +2110,165 @@ function buildBreakdownTable(drvData, dim, periodA, periodB, drvTarget, dimLabel
     var keys  = Array.from(new Set(Object.keys(dataA).concat(Object.keys(dataB))));
     if (keys.length === 0) return '<div class="dd-hint">Sem dados para este periodo</div>';
 
-    // Totais para share e NPS consolidado do driver
+    var lA = periodA==='M2'?M2_LABEL:(periodA==='S2'?S2_LABEL:(periodA==='S1'?S1_LABEL:periodA));
+    var lB = periodB==='M1'?M1_LABEL:(periodB==='S1'?S1_LABEL:(periodB==='VIG'?VIG_LABEL+' &#9889;':periodB));
+
+    // Helpers
+    function fN(v) {{ return v!==null&&v!==undefined ? v.toFixed(1)+'%' : '&mdash;'; }}
+    function pD(v) {{
+        if(v===null||v===undefined) return '<span class="pill pill-neu">&mdash;</span>';
+        var s=(v>=0?'+':'')+v.toFixed(2)+' pp';
+        var c=v>=1?'pill-pos-hi':v>=0?'pill-pos-lo':v>=-1?'pill-dn1':'pill-neg-hi';
+        return '<span class="pill '+c+'">'+s+'</span>';
+    }}
+    function pVT(nps) {{
+        if(nps===null||drvTarget===null||drvTarget===undefined) return '<span class="pill pill-neu">&mdash;</span>';
+        var g=nps-drvTarget; var s=(g>=0?'+':'')+g.toFixed(2)+' pp';
+        return '<span class="pill '+(g>=0?'pill-pos-hi':'pill-neg-hi')+'">'+s+'</span>';
+    }}
+    function pGap2(g) {{
+        if(g===null||g===undefined) return '<span style="color:#888">&mdash;</span>';
+        var abs=Math.abs(g), col=abs>10?'#b71c1c':abs>5?'#e65100':'#2e7d32';
+        return '<span style="font-weight:600;color:'+col+'">'+(g>=0?'+':'')+g.toFixed(1)+'pp</span>';
+    }}
+
+    // Totais para NPS consolidado
     var totA={{p:0,d:0,s:0}}, totB={{p:0,d:0,s:0}};
     keys.forEach(function(k) {{
         var a=dataA[k]||{{}}; var b=dataB[k]||{{}};
         totA.p+=a.p||0; totA.d+=a.d||0; totA.s+=a.s||0;
         totB.p+=b.p||0; totB.d+=b.d||0; totB.s+=b.s||0;
     }});
-    var npsA_tot = totA.s>0 ? (totA.p-totA.d)/totA.s*100 : null;
-    var npsB_tot = totB.s>0 ? (totB.p-totB.d)/totB.s*100 : null;
+    var npsA_tot=totA.s>0?(totA.p-totA.d)/totA.s*100:null;
+    var npsB_tot=totB.s>0?(totB.p-totB.d)/totB.s*100:null;
+    var totDelta=(npsA_tot!==null&&npsB_tot!==null)?Math.round((npsB_tot-npsA_tot)*100)/100:null;
 
-    // MIX+NETO por item
-    var items = keys.map(function(k) {{
+    // Para Canal (C) e Oficina (O): usar C_Sr / O_Sr para colunas Expert/Newbie
+    var srDim = dim==='C' ? 'C_Sr' : (dim==='O' ? 'O_Sr' : null);
+    var srA = (srDim && drvData[srDim]) ? (drvData[srDim][periodA]||{{}}) : null;
+    var srB = (srDim && drvData[srDim]) ? (drvData[srDim][periodB]||{{}}) : null;
+    var hasSr = srB && Object.keys(srB).length > 0;
+
+    if (hasSr) {{
+        // Formato combinado: NPS ant/atual + Expert/Newbie por linha
+        var items = keys.map(function(k) {{
+            var a=dataA[k]||{{nps:null,s:0}}, b=dataB[k]||{{nps:null,s:0}};
+            var srBk = (srB&&srB[k])||{{}}, srAk = (srA&&srA[k])||{{}};
+            var eB=srBk['Expert']||{{}}, nB=srBk['Newbie']||{{}};
+            var eA=srAk['Expert']||{{}}, nA=srAk['Newbie']||{{}};
+            return {{
+                k:k,
+                npsA:a.nps, npsB:b.nps, sB:b.s||0,
+                eNpsB:eB.nps, eSB:eB.s||0,
+                nNpsB:nB.nps, nSB:nB.s||0,
+                eNpsA:eA.nps, nNpsA:nA.nps
+            }};
+        }}).filter(function(x){{return x.sB>0||x.npsB!==null;}});
+        items.sort(function(a,b){{return b.sB-a.sB;}});
+
+        var html = '<div class="bk-wrap"><table class="bk-table">' +
+            '<colgroup>' +
+            '<col style="width:20%"><col style="width:8%"><col style="width:8%"><col style="width:9%">' +
+            '<col style="width:10%"><col style="width:5%"><col style="width:10%"><col style="width:5%">' +
+            '<col style="width:9%"><col style="width:8%"><col style="width:8%">' +
+            '</colgroup>' +
+            '<thead><tr>' +
+            '<th class="col-name">'+dimLabel+'</th>' +
+            '<th>'+lA+'</th><th>'+lB+'</th><th>&Delta; NPS</th>' +
+            '<th>&#127775; Expert</th><th>Srv</th>' +
+            '<th>&#128164; Newbie</th><th>Srv</th>' +
+            '<th>Gap E&minus;N</th><th>&Delta; Expert</th><th>&Delta; Newbie</th>' +
+            '</tr></thead><tbody>';
+
+        var totEp=0,totEd=0,totEs=0,totNp=0,totNd=0,totNs=0;
+        items.forEach(function(x) {{
+            var delta=(x.npsA!==null&&x.npsB!==null)?Math.round((x.npsB-x.npsA)*100)/100:null;
+            var gap=(x.eNpsB!==null&&x.nNpsB!==null)?Math.round((x.eNpsB-x.nNpsB)*100)/100:null;
+            var dE=(x.eNpsA!==null&&x.eNpsB!==null)?Math.round((x.eNpsB-x.eNpsA)*100)/100:null;
+            var dN=(x.nNpsA!==null&&x.nNpsB!==null)?Math.round((x.nNpsB-x.nNpsA)*100)/100:null;
+            var rowBg=(gap!==null&&Math.abs(gap)>10)?'background:#fff3e0;':'';
+            totEs+=x.eSB; totNs+=x.nSB;
+            html += '<tr style="'+rowBg+'">'+
+                '<td class="col-name">'+x.k+'</td>'+
+                '<td>'+fN(x.npsA)+'</td><td>'+fN(x.npsB)+'</td><td>'+pD(delta)+'</td>'+
+                '<td>'+fN(x.eNpsB)+'</td><td class="bk-surv">'+x.eSB+'</td>'+
+                '<td>'+fN(x.nNpsB)+'</td><td class="bk-surv">'+x.nSB+'</td>'+
+                '<td>'+pGap2(gap)+'</td>'+
+                '<td>'+pD(dE)+'</td><td>'+pD(dN)+'</td>'+
+            '</tr>';
+        }});
+        html += '<tr class="bk-total">'+
+            '<td class="col-name">Total driver</td>'+
+            '<td>'+fN(npsA_tot)+'</td><td>'+fN(npsB_tot)+'</td><td>'+pD(totDelta)+'</td>'+
+            '<td colspan="2" class="bk-surv">'+totEs+' surv</td>'+
+            '<td colspan="2" class="bk-surv">'+totNs+' surv</td>'+
+            '<td></td><td></td><td></td></tr>';
+        return html+'</tbody></table></div>';
+    }}
+
+    // Formato padrão (P = processo, ou sem dados Sr)
+    var npsB_totF = npsB_tot;
+    var items2 = keys.map(function(k) {{
         var a=dataA[k]||{{p:0,d:0,s:0,nps:null}};
         var b=dataB[k]||{{p:0,d:0,s:0,nps:null}};
         var shaA=totA.s>0?a.s/totA.s:0, shaB=totB.s>0?b.s/totB.s:0;
         var nA=a.nps, nB=b.nps;
         var neto=(shaA>0&&nA!==null&&nB!==null)?shaA*(nB-nA):0;
-        var mix=(nB!==null&&npsB_tot!==null)?(shaB-shaA)*(nB-npsB_tot):0;
-        return {{k:k,a:a,b:b,shaB:shaB,
-                 impact:Math.round((neto+mix)*100)/100}};
+        var mix=(nB!==null&&npsB_totF!==null)?(shaB-shaA)*(nB-npsB_totF):0;
+        return {{k:k,a:a,b:b,shaB:shaB,impact:Math.round((neto+mix)*100)/100}};
     }});
-    items.sort(function(x,y){{ return Math.abs(y.impact)-Math.abs(x.impact); }});
+    items2.sort(function(x,y){{ return Math.abs(y.impact)-Math.abs(x.impact); }});
 
-    var lA = periodA==='M2'?'Mar/26':(periodA==='S2'?'13/abr':periodA);
-    var lB = periodB==='M1'?'Abr/26':(periodB==='S1'?'20/abr':periodB);
-
-    // Helpers visuais
-    function fN(v) {{ return v!==null ? v.toFixed(2) : '&mdash;'; }}
-    function pillDelta(v) {{
-        if(v===null) return '<span class="pill pill-neu">&mdash;</span>';
-        var s=(v>=0?'+':'')+v.toFixed(2)+' pp';
-        var c=v>=1?'pill-pos-hi':v>=0?'pill-pos-lo':v>=-1?'pill-dn1':'pill-neg-hi';
-        return '<span class="pill '+c+'">'+s+'</span>';
-    }}
-    function pillVsTarget(nps) {{
-        if(nps===null||drvTarget===null||drvTarget===undefined)
-            return '<span class="pill pill-neu">&mdash;</span>';
-        var g=nps-drvTarget;
-        var s=(g>=0?'+':'')+g.toFixed(2)+' pp';
-        var c=g>=0?'pill-pos-hi':'pill-neg-hi';
-        return '<span class="pill '+c+'">'+s+'</span>';
-    }}
     function pillImpacto(v) {{
         if(v===0) return '<span class="pill pill-neu">0,00 pp</span>';
         var s=(v>=0?'+':'')+v.toFixed(2)+' pp';
         var c=v>=0.3?'pill-pos-hi':v>=0.05?'pill-pos-lo':v<=-0.3?'pill-neg-hi':v<=-0.05?'pill-dn1':'pill-neu';
         return '<span class="pill '+c+'">'+s+'</span>';
     }}
-    function pillTendencia(delta) {{
+    function pillTend(delta) {{
         if(delta===null) return '<span class="pill pill-neu">&mdash;</span>';
-        if(delta>=3)  return '<span class="pill pill-up2">&#8679;&#8679; Em alta</span>';
-        if(delta>=0.5)return '<span class="pill pill-up1">&#8679; Evolucao</span>';
-        if(delta>-0.5)return '<span class="pill pill-flat">&#8594; Estavel</span>';
-        if(delta>-3)  return '<span class="pill pill-dn1">&#8681; Queda</span>';
+        if(delta>=3)   return '<span class="pill pill-up2">&#8679;&#8679; Em alta</span>';
+        if(delta>=0.5) return '<span class="pill pill-up1">&#8679; Evolucao</span>';
+        if(delta>-0.5) return '<span class="pill pill-flat">&#8594; Estavel</span>';
+        if(delta>-3)   return '<span class="pill pill-dn1">&#8681; Queda</span>';
         return '<span class="pill pill-dn2">&#8681;&#8681; Em queda</span>';
     }}
 
-    var html = '<div class="bk-wrap"><table class="bk-table">' +
-        '<colgroup>' +
-        '<col style="width:24%"><col style="width:8%"><col style="width:8%">' +
+    var html2 = '<div class="bk-wrap"><table class="bk-table">' +
+        '<colgroup><col style="width:24%"><col style="width:8%"><col style="width:8%">' +
         '<col style="width:11%"><col style="width:8%"><col style="width:6%">' +
-        '<col style="width:11%"><col style="width:12%"><col style="width:12%">' +
-        '</colgroup>' +
-        '<thead><tr>' +
-        '<th class="col-name">' + (dimLabel||'Dimensao') + '</th>' +
-        '<th>' + lA + '</th><th>' + lB + '</th>' +
+        '<col style="width:11%"><col style="width:12%"><col style="width:12%"></colgroup>' +
+        '<thead><tr><th class="col-name">'+(dimLabel||'Dimensao')+'</th>' +
+        '<th>'+lA+'</th><th>'+lB+'</th>' +
         '<th>&Delta; NPS</th><th>Surveys</th><th>Share</th>' +
         '<th>Impacto</th><th>VS Target</th><th>Tendencia</th>' +
         '</tr></thead><tbody>';
 
     var totImpact=0;
-    items.forEach(function(item) {{
+    items2.forEach(function(item) {{
         var a=item.a, b=item.b;
         var delta=(a.nps!==null&&b.nps!==null)?Math.round((b.nps-a.nps)*100)/100:null;
         totImpact+=item.impact;
-        html += '<tr>' +
-            '<td class="col-name">' + item.k + '</td>' +
-            '<td>' + fN(a.nps) + '</td>' +
-            '<td>' + fN(b.nps) + '</td>' +
-            '<td>' + pillDelta(delta) + '</td>' +
-            '<td class="bk-surv">' + (b.s||0).toLocaleString('pt-BR') + '</td>' +
-            '<td class="bk-surv">' + (item.shaB*100).toFixed(1)+'%</td>' +
-            '<td>' + pillImpacto(item.impact) + '</td>' +
-            '<td>' + pillVsTarget(b.nps) + '</td>' +
-            '<td>' + pillTendencia(delta) + '</td>' +
-            '</tr>';
+        html2 += '<tr>'+
+            '<td class="col-name">'+item.k+'</td>'+
+            '<td>'+fN(a.nps)+'</td><td>'+fN(b.nps)+'</td>'+
+            '<td>'+pD(delta)+'</td>'+
+            '<td class="bk-surv">'+(b.s||0).toLocaleString('pt-BR')+'</td>'+
+            '<td class="bk-surv">'+(item.shaB*100).toFixed(1)+'%</td>'+
+            '<td>'+pillImpacto(item.impact)+'</td>'+
+            '<td>'+pVT(b.nps)+'</td>'+
+            '<td>'+pillTend(delta)+'</td></tr>';
     }});
-
-    var totDelta=(npsA_tot!==null&&npsB_tot!==null)?Math.round((npsB_tot-npsA_tot)*100)/100:null;
     totImpact=Math.round(totImpact*100)/100;
-    html += '<tr class="bk-total">' +
-        '<td class="col-name">Total driver</td>' +
-        '<td>' + fN(npsA_tot) + '</td>' +
-        '<td>' + fN(npsB_tot) + '</td>' +
-        '<td>' + pillDelta(totDelta) + '</td>' +
-        '<td class="bk-surv">' + totB.s.toLocaleString('pt-BR') + '</td>' +
-        '<td class="bk-surv">100%</td>' +
-        '<td>' + pillImpacto(totImpact) + '</td>' +
-        '<td>' + pillVsTarget(npsB_tot) + '</td>' +
-        '<td>' + pillTendencia(totDelta) + '</td>' +
-        '</tr>';
-
-    html += '</tbody></table></div>';
-    return html;
+    html2 += '<tr class="bk-total"><td class="col-name">Total driver</td>'+
+        '<td>'+fN(npsA_tot)+'</td><td>'+fN(npsB_tot)+'</td>'+
+        '<td>'+pD(totDelta)+'</td>'+
+        '<td class="bk-surv">'+totB.s.toLocaleString('pt-BR')+'</td>'+
+        '<td class="bk-surv">100%</td>'+
+        '<td>'+pillImpacto(totImpact)+'</td>'+
+        '<td>'+pVT(npsB_tot)+'</td>'+
+        '<td>'+pillTend(totDelta)+'</td></tr>';
+    return html2+'</tbody></table></div>';
 }}
 
 function sc_dd(label, val, delta, npsVal, tgt) {{
