@@ -393,13 +393,22 @@ def sc_nps(label, val, vs_tgt, vs_prev, prev_label, period_sub):
   <div class="sc-sub">{period_sub}</div>
 </div>"""
 
-def sc_target(val, label):
+def sc_target(val, label, current_nps=None):
+    if current_nps is not None:
+        gap = round(current_nps - val, 2)
+        if gap >= 0:
+            status_html = f'<div style="margin-top:6px;padding:5px 10px;border-radius:6px;background:#e8f5e9;color:#1b5e20;font-size:11px;font-weight:700;text-align:center">&#9989; Dentro da meta (+{gap:.1f}pp)</div>'
+        else:
+            status_html = f'<div style="margin-top:6px;padding:5px 10px;border-radius:6px;background:#ffebee;color:#b71c1c;font-size:11px;font-weight:700;text-align:center">&#9888; Fora da meta ({gap:.1f}pp)</div>'
+    else:
+        status_html = ''
     return f"""<div class="sc">
   <div class="sc-label">TARGET</div>
   <div class="sc-val">{val:.1f}%</div>
   <hr class="sc-sep">
   <div class="sc-sub">meta do periodo</div>
   <div class="sc-sub">{label}</div>
+  {status_html}
 </div>"""
 
 def sc_surveys(surveys, var_pct, period_sub):
@@ -523,7 +532,7 @@ def make_panes(pfx, v):
         wm = v["worst_mom"]; bm = v["best_mom"]
         return (
             sc_nps("NPS CONSOLIDADO", v["nM1"], v["vs_tgt_mom"], v["dM"], "mes ant.", M1_LABEL) +
-            sc_target(v["nps_target"], M1_LABEL) +
+            sc_target(v["nps_target"], M1_LABEL, v["nM1"]) +
             sc_surveys(v["sM1"], v["surv_mom_var"], M1_LABEL) +
             sc_driver("DRIVER MAIS OFENSOR", wm,
                       mD[wm]["nps_b"], mD[wm]["share_b"],
@@ -539,7 +548,7 @@ def make_panes(pfx, v):
         ww = v["worst_wow"]; bw = v["best_wow"]
         return (
             sc_nps("NPS CONSOLIDADO", v["nS1"], v["vs_tgt_wow"], v["dW"], "sem. ant.", S1_LABEL) +
-            sc_target(v["nps_target"], M1_LABEL) +
+            sc_target(v["nps_target"], M1_LABEL, v["nS1"]) +
             sc_surveys(v["sS1"], v["surv_wow_var"], S1_LABEL) +
             sc_driver("DRIVER MAIS OFENSOR", ww,
                       wD[ww]["nps_b"], wD[ww]["share_b"],
