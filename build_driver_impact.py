@@ -1766,16 +1766,162 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
     html += projHtml;
   }})();
 
-  // ── ANÁLISE ESTRATÉGICA (novo formato — todas as abas quando disponível) ──
-  if (sumNew) {{
-    try {{
+  // ── ANÁLISE ESTRATÉGICA — Claude (novo formato) ou Quantitativa (todos os drivers) ──
+  try {{
+    if (sumNew) {{
       html += buildAnaliseEstrategica(sumNew, lA, lB);
-    }} catch(e) {{
-      html += '<div style="padding:8px 12px;background:#ffebee;border-radius:6px;font-size:11px;color:#c62828;margin-top:12px">Erro Análise Estratégica: '+e.message+'</div>';
+    }} else {{
+      html += buildAnaliseQuant({{
+        drv:drv, isMes:isMes, lA:lA, lB:lB,
+        procs:procs, chans:chans, offices:offices, procsMix:procsMix,
+        npsA:npsA, npsB:npsB, delta:delta, gapTgt:gapTgt, tgt:tgt,
+        bVar:bVar, bDor:bDor, bRep:bRep, bPos:bPos, bOpp:bOpp,
+        cat:cat
+      }});
     }}
+  }} catch(e) {{
+    html += '<div style="padding:8px;background:#ffebee;border-radius:6px;font-size:11px;color:#c62828;margin-top:8px">Erro Análise: '+e.message+'</div>';
   }}
 
   return html;
+}}
+
+function buildAnaliseQuant(o) {{
+  var drv=o.drv, isMes=o.isMes, lA=o.lA, lB=o.lB;
+  var procs=o.procs, chans=o.chans, offices=o.offices;
+  var npsA=o.npsA, npsB=o.npsB, delta=o.delta, gapTgt=o.gapTgt, tgt=o.tgt;
+  var bVar=o.bVar, bDor=o.bDor, bRep=o.bRep, bPos=o.bPos, bOpp=o.bOpp, cat=o.cat;
+
+  function priTag(p) {{
+    var c=p==='Alta'?'#b71c1c':p==='Media'?'#e65100':'#388e3c';
+    return '<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:'+c+'22;color:'+c+'">'+p+'</span>';
+  }}
+  function nS(v){{ return (v!==null&&v!==undefined)?v.toFixed(1)+'%':'—'; }}
+  function dS(v){{ return v!==null?(v>=0?'+':'')+v.toFixed(2)+'pp':'—'; }}
+  function clr(v){{ return v>=0?'#1b5e20':'#b71c1c'; }}
+
+  var top3neg = procs.filter(function(p){{return p.impact<0;}}).slice(0,3);
+  var top2pos = procs.filter(function(p){{return p.impact>0;}}).slice(-2).reverse();
+  var abaixoTgt = procs.filter(function(p){{return p.gapT!==null&&p.gapT<0;}});
+  var acimaTgt  = procs.filter(function(p){{return p.gapT!==null&&p.gapT>=0;}});
+
+  // ── Panorama Executivo (quantitativo) ──
+  var situacao = (gapTgt!==null&&gapTgt>=0)
+    ? '<b style="color:#1b5e20">+'+gapTgt.toFixed(2)+'pp acima da meta</b>'
+    : '<b style="color:#b71c1c">'+Math.abs(gapTgt!==null?gapTgt:0).toFixed(2)+'pp abaixo da meta</b>';
+  var tendencia = delta===null?'estável':(delta>1?'em alta ('+dS(delta)+')':delta<-1?'em queda ('+dS(delta)+')':'estável ('+dS(delta)+')');
+  var panorama = 'O driver '+drv+' ('+cat+') apresentou NPS de '+nS(npsB)+' em '+lB+', variação de '+(delta!==null?dS(delta):'—')+' vs '+lA+', e encontra-se '+situacao+' de '+nS(tgt)+'. '+
+    'Tendência: '+tendencia+'. '+
+    (top3neg.length>0
+      ? 'Principais processos pressionando para baixo: '+top3neg.slice(0,2).map(function(p){{return p.k+' ('+nS(p.nB)+', '+dS(p.impact)+')';}}).join(' e ')+'.'
+      : 'Nenhum processo com impacto negativo relevante no período.');
+
+  var out = '<div style="margin-top:14px;border:2px solid #3949ab;border-radius:12px;overflow:hidden">'+
+    '<div style="background:#3949ab;padding:10px 16px;display:flex;align-items:center;gap:8px">'+
+      '<span style="font-size:15px">&#128202;</span>'+
+      '<span style="color:#fff;font-weight:700;font-size:13px">Análise Estratégica</span>'+
+      '<span style="color:#9fa8da;font-size:11px;margin-left:4px">— '+lA+' → '+lB+'</span>'+
+    '</div>'+
+    '<div style="padding:14px 16px;background:#f8f9ff">';
+
+  // Panorama
+  out += '<div style="background:#fff;border-radius:8px;padding:11px 14px;margin-bottom:12px;border-left:4px solid #3949ab">'+
+    '<div style="font-size:10px;font-weight:700;color:#3949ab;margin-bottom:4px">&#128203; PANORAMA EXECUTIVO</div>'+
+    '<p style="font-size:12px;color:#2d3561;line-height:1.6;margin:0">'+panorama+'</p>'+
+  '</div>';
+
+  // Top Detratores
+  if(top3neg.length>0) {{
+    out += '<div style="margin-bottom:12px">'+
+      '<div style="font-size:10px;font-weight:700;color:#b71c1c;margin-bottom:6px">&#128308; TOP CAUSAS DE QUEDA</div>'+
+      '<div style="display:flex;flex-direction:column;gap:5px">';
+    top3neg.forEach(function(p) {{
+      var pri = Math.abs(p.impact)>0.3?'Alta':Math.abs(p.impact)>0.1?'Media':'Baixa';
+      out += '<div style="background:#fff;border-radius:7px;padding:8px 12px;border:1px solid #e0e0e0">'+
+        '<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">'+priTag(pri)+
+          '<span style="font-size:11px;font-weight:600;color:#1a1e3c">'+p.k+'</span>'+
+        '</div>'+
+        '<div style="font-size:11px;color:#555">'+
+          'NPS '+nS(p.nB)+' ('+dS(p.delta)+' vs '+lA+') &nbsp;·&nbsp; '+
+          'Impacto no consolidado: <b style="color:#b71c1c">'+dS(p.impact)+'</b> &nbsp;·&nbsp; '+
+          p.shaB+'% do volume'+
+          (p.gapT!==null?' &nbsp;·&nbsp; Gap vs target: <b style="color:#b71c1c">'+p.gapT.toFixed(2)+'pp</b>':'')+
+        '</div>'+
+      '</div>';
+    }});
+    out += '</div></div>';
+  }}
+
+  // Top Promotores
+  if(top2pos.length>0) {{
+    out += '<div style="margin-bottom:12px">'+
+      '<div style="font-size:10px;font-weight:700;color:#1b5e20;margin-bottom:6px">&#128994; TOP PROCESSOS POSITIVOS</div>'+
+      '<div style="display:flex;flex-direction:column;gap:5px">';
+    top2pos.forEach(function(p) {{
+      out += '<div style="background:#fff;border-radius:7px;padding:8px 12px;border:1px solid #e0e0e0">'+
+        '<div style="font-size:11px;font-weight:600;color:#1b5e20;margin-bottom:2px">'+p.k+'</div>'+
+        '<div style="font-size:11px;color:#555">'+
+          'NPS '+nS(p.nB)+' ('+dS(p.delta)+' vs '+lA+') &nbsp;·&nbsp; '+
+          'Impacto: <b style="color:#1b5e20">'+dS(p.impact)+'</b> &nbsp;·&nbsp; '+p.shaB+'% do volume'+
+        '</div>'+
+      '</div>';
+    }});
+    out += '</div></div>';
+  }}
+
+  // Canal + Senioridade (2 colunas)
+  var topChan = chans.slice(0).sort(function(a,b){{return b.sB-a.sB;}}).slice(0,3);
+  if(topChan.length>0||bDor||bRep) {{
+    out += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">';
+    if(topChan.length>0) {{
+      out += '<div style="background:#fff;border-radius:7px;padding:9px 12px;border:1px solid #e0e0e0">'+
+        '<div style="font-size:10px;font-weight:700;color:#4a148c;margin-bottom:4px">&#128241; IMPACTO CANAL</div>';
+      topChan.forEach(function(c) {{
+        out += '<div style="font-size:11px;color:#333;margin-bottom:3px">'+
+          '<b>'+c.k+'</b>: NPS '+nS(c.nB)+'<span style="color:'+clr(c.delta||0)+'"> ('+dS(c.delta)+')</span> &nbsp;'+c.shaB+'% vol</div>';
+      }});
+      out += '</div>';
+    }}
+    var seniText = (bDor||bRep) ?
+      (bDor?'<b>Dor do cliente:</b> '+bDor:'') + (bRep?'<br><b>Padrão atendente:</b> '+bRep:'') :
+      'Dados de seniority disponíveis nas tabelas acima.';
+    out += '<div style="background:#fff;border-radius:7px;padding:9px 12px;border:1px solid #e0e0e0">'+
+      '<div style="font-size:10px;font-weight:700;color:#01579b;margin-bottom:4px">&#127775; INSIGHTS OPERACIONAIS</div>'+
+      '<p style="font-size:11px;color:#333;line-height:1.5;margin:0">'+seniText+'</p>'+
+    '</div>';
+    out += '</div>';
+  }}
+
+  // Sumário para diretoria + Conclusão (gerados quantitativamente)
+  var piorProc = top3neg[0]?top3neg[0].k:'N/A';
+  var melhorProc = top2pos[0]?top2pos[0].k:'N/A';
+  var sumLines = [
+    'NPS '+nS(npsB)+' em '+lB+', variação de '+dS(delta)+' vs '+lA+'.',
+    abaixoTgt.length>0 ? abaixoTgt.length+' processo(s) abaixo do target ('+nS(tgt)+'): '+abaixoTgt.slice(0,2).map(function(p){{return p.k;}})+'.':
+      'Todos os processos acima do target de '+nS(tgt)+'.',
+    top3neg.length>0 ? 'Principal fator de queda: '+piorProc+' (impacto '+dS(top3neg[0].impact)+', NPS '+nS(top3neg[0].nB)+').' : 'Nenhum processo com impacto negativo relevante.',
+    top2pos.length>0 ? 'Principal fator positivo: '+melhorProc+' (impacto '+dS(top2pos[0].impact)+', NPS '+nS(top2pos[0].nB)+').' : 'Volume positivo distribuído entre os processos.',
+    bOpp ? bOpp : 'Priorizar ações nos processos com maior gap vs target e maior volume.'
+  ];
+  var conclusao = (gapTgt!==null&&gapTgt<0)
+    ? 'Driver opera '+Math.abs(gapTgt).toFixed(2)+'pp abaixo da meta. '+
+      (top3neg.length>0?'Resolver '+piorProc+' é a ação de maior retorno individual.':'Ação distribuída entre múltiplos processos.')+
+      ' Sem intervenção nos próximos 30 dias, tendência se consolida.'
+    : 'Driver acima da meta em '+gapTgt.toFixed(2)+'pp. Manter '+melhorProc+' como referência e monitorar processos em queda.';
+
+  out += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'+
+    '<div style="background:#f3e5f5;border-radius:7px;padding:9px 12px;border:1px solid #ce93d8">'+
+      '<div style="font-size:10px;font-weight:700;color:#6a1a6a;margin-bottom:6px">&#127970; SUMÁRIO PARA DIRETORIA</div>'+
+      sumLines.map(function(l,i){{return '<div style="font-size:11px;color:#2d1259;margin-bottom:3px"><b>'+(i+1)+'.</b> '+l+'</div>';}}).join('')+
+    '</div>'+
+    '<div style="background:#e8f5e9;border-radius:7px;padding:9px 12px;border:1px solid #a5d6a7">'+
+      '<div style="font-size:10px;font-weight:700;color:#1b5e20;margin-bottom:4px">&#127919; CONCLUSÃO ESTRATÉGICA</div>'+
+      '<p style="font-size:11px;color:#1a3c1a;line-height:1.5;margin:0">'+conclusao+'</p>'+
+    '</div>'+
+  '</div>';
+
+  out += '</div></div>';
+  return out;
 }}
 
 function buildAnaliseEstrategica(s, lA, lB) {{
