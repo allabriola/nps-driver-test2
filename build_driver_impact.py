@@ -1866,6 +1866,60 @@ function buildExecSummary(drv, period) {{
   return html;
 }}
 
+function renderBreakdownTables(el) {{
+  var drv    = el.getAttribute('data-drv');
+  var period = el.getAttribute('data-period');
+  var pA     = el.getAttribute('data-pa');
+  var pB     = el.getAttribute('data-pb');
+  var tgtStr = el.getAttribute('data-tgt');
+  var tgt    = tgtStr !== '' ? parseFloat(tgtStr) : null;
+  var lSuf   = el.getAttribute('data-lsuf') || 'WoW';
+  var lWoW   = el.getAttribute('data-lwow') || '';
+  var proc   = el.value;
+  var cont   = document.getElementById('bk-tables-' + period);
+  if (!cont) return;
+
+  var bk  = DD_BREAKDOWN[drv];
+  var html = '';
+
+  // Tabela de Processos: sempre nivel driver (independente do filtro)
+  html += '<div class="dd-section-title">Processos — '+(lWoW||lSuf)+'</div>';
+  html += buildBreakdownTable(bk, 'P', pA, pB, tgt, 'Processo');
+
+  if (!proc) {{
+    // Sem filtro: nivel driver
+    html += '<div class="dd-section-title">Canal — '+lSuf+'</div>';
+    html += buildBreakdownTable(bk, 'C', pA, pB, tgt, 'Canal');
+    html += '<div class="dd-section-title">Oficina — '+lSuf+'</div>';
+    html += buildBreakdownTable(bk, 'O', pA, pB, tgt, 'Oficina');
+    html += '<div class="dd-section-title">Senioridade por processo — '+lSuf+'</div>';
+    html += buildSeniorityTable(bk, pA, pB, tgt);
+  }} else {{
+    // Com filtro: usar P_C / P_O / Sr_P para o processo selecionado
+    var pcA = (bk&&bk['P_C']&&bk['P_C'][pA]&&bk['P_C'][pA][proc]) ? bk['P_C'][pA][proc] : {{}};
+    var pcB = (bk&&bk['P_C']&&bk['P_C'][pB]&&bk['P_C'][pB][proc]) ? bk['P_C'][pB][proc] : {{}};
+    var poA = (bk&&bk['P_O']&&bk['P_O'][pA]&&bk['P_O'][pA][proc]) ? bk['P_O'][pA][proc] : {{}};
+    var poB = (bk&&bk['P_O']&&bk['P_O'][pB]&&bk['P_O'][pB][proc]) ? bk['P_O'][pB][proc] : {{}};
+    var srA = (bk&&bk['Sr_P']&&bk['Sr_P'][pA]&&bk['Sr_P'][pA][proc]) ? bk['Sr_P'][pA][proc] : {{}};
+    var srB = (bk&&bk['Sr_P']&&bk['Sr_P'][pB]&&bk['Sr_P'][pB][proc]) ? bk['Sr_P'][pB][proc] : {{}};
+
+    // Mock objects para reutilizar buildBreakdownTable
+    var mockC  = {{C: {{}}}};  mockC.C[pA] = pcA;  mockC.C[pB] = pcB;
+    var mockO  = {{O: {{}}}};  mockO.O[pA] = poA;  mockO.O[pB] = poB;
+    // Mock Sr sem Sr_P → buildSeniorityTable usa fallback Expert/Newbie rows
+    var mockSr = {{Sr: {{}}}};  mockSr.Sr[pA] = srA;  mockSr.Sr[pB] = srB;
+
+    html += '<div class="dd-section-title">Canal — '+proc+' ('+lSuf+')</div>';
+    html += buildBreakdownTable(mockC, 'C', pA, pB, tgt, 'Canal');
+    html += '<div class="dd-section-title">Oficina — '+proc+' ('+lSuf+')</div>';
+    html += buildBreakdownTable(mockO, 'O', pA, pB, tgt, 'Oficina');
+    html += '<div class="dd-section-title">Senioridade — '+proc+' ('+lSuf+')</div>';
+    html += buildSeniorityTable(mockSr, pA, pB, tgt);
+  }}
+
+  cont.innerHTML = html;
+}}
+
 function renderDD(period) {{
   var selectId = 'dd-select-' + period;
   var contentId = 'dd-content-' + period;
@@ -1967,20 +2021,44 @@ function renderDD(period) {{
       '</div>' +
       vigNote +
       (function() {{
-        var bk = DD_BREAKDOWN[drv];
+        var bk     = DD_BREAKDOWN[drv];
         var hasVig = isVig && bk && bk['P'] && bk['P']['VIG'];
-        var pA_bk = isVig ? (hasVig ? 'S1' : 'S2') : 'S2';
-        var pB_bk = isVig ? (hasVig ? 'VIG' : 'S1') : 'S1';
-        var lRef  = isVig ? (hasVig ? S1_LABEL+' &rarr; '+VIG_LABEL+' &#9889;' : 'Ref. S1 fechada ('+S2_LABEL+' &rarr; '+S1_LABEL+') &#9889;') : S2_LABEL+' vs '+S1_LABEL;
-        return buildExecutiveBrief(drv, period, d, bk) +
-          '<div class="dd-section-title">Processos — '+(isVig ? lRef : 'WoW ('+S2_LABEL+' vs '+S1_LABEL+')')+'</div>' +
-          buildBreakdownTable(bk, 'P', pA_bk, pB_bk, d.target, 'Processo') +
-          '<div class="dd-section-title">Canal — '+(isVig?(hasVig?'VIG &#9889;':'Ref. S1 fechada'):'WoW')+'</div>' +
-          buildBreakdownTable(bk, 'C', pA_bk, pB_bk, d.target, 'Canal') +
-          '<div class="dd-section-title">Oficina — '+(isVig?(hasVig?'VIG &#9889;':'Ref. S1 fechada'):'WoW')+'</div>' +
-          buildBreakdownTable(bk, 'O', pA_bk, pB_bk, d.target, 'Oficina') +
-          '<div class="dd-section-title">Senioridade — '+(isVig?(hasVig?'VIG &#9889;':'Ref. S1 fechada'):'WoW (Expert vs Newbie)')+'</div>' +
-          buildSeniorityTable(bk, pA_bk, pB_bk, d.target);
+        var pA_bk  = isVig ? (hasVig ? 'S1' : 'S2') : 'S2';
+        var pB_bk  = isVig ? (hasVig ? 'VIG' : 'S1') : 'S1';
+        var lWoW   = isVig ? (hasVig ? S1_LABEL+' &rarr; '+VIG_LABEL+' &#9889;' : 'Ref. S1 ('+S2_LABEL+' &rarr; '+S1_LABEL+')') : S2_LABEL+' vs '+S1_LABEL;
+        var lSufS  = isVig ? (hasVig ? 'VIG &#9889;' : 'Ref. S1') : 'WoW';
+
+        // Opcoes de processo para o filtro
+        var procKeys = (bk && bk['P_C'] && bk['P_C'][pB_bk]) ? Object.keys(bk['P_C'][pB_bk]).sort() :
+                       ((bk && bk['P'] && bk['P'][pB_bk]) ? Object.keys(bk['P'][pB_bk]).sort() : []);
+        var filterOpts = '<option value="">Todos os processos</option>' +
+          procKeys.map(function(p){{ return '<option value="'+p.replace(/"/g,"&quot;")+'">'+p+'</option>'; }}).join('');
+        var filterBar = '<div style="display:flex;align-items:center;gap:10px;margin:14px 0 4px;padding:8px 12px;background:#f5f7ff;border-radius:8px;border:1px solid #dde2f0">'+
+          '<span style="font-size:12px;font-weight:600;color:#3a3f6b;white-space:nowrap">&#128269; Filtrar por processo:</span>'+
+          '<select class="dd-select" style="flex:1;max-width:320px" '+
+            'onchange="renderBreakdownTables(this)" '+
+            'data-drv="'+drv+'" data-period="'+period+'" '+
+            'data-pa="'+pA_bk+'" data-pb="'+pB_bk+'" '+
+            'data-tgt="'+(d.target!=null?d.target:'')+'" '+
+            'data-lsuf="'+lSufS+'" data-lwow="'+lWoW.replace(/"/g,"&quot;")+'">'+
+            filterOpts+
+          '</select>'+
+          '</div>';
+
+        // Tabelas iniciais (sem filtro de processo = nivel driver)
+        var initTables =
+          '<div class="dd-section-title">Processos — '+(isVig ? lWoW : 'WoW ('+lWoW+')')+'</div>'+
+          buildBreakdownTable(bk,'P',pA_bk,pB_bk,d.target,'Processo')+
+          '<div class="dd-section-title">Canal — '+lSufS+'</div>'+
+          buildBreakdownTable(bk,'C',pA_bk,pB_bk,d.target,'Canal')+
+          '<div class="dd-section-title">Oficina — '+lSufS+'</div>'+
+          buildBreakdownTable(bk,'O',pA_bk,pB_bk,d.target,'Oficina')+
+          '<div class="dd-section-title">Senioridade por processo — '+lSufS+'</div>'+
+          buildSeniorityTable(bk,pA_bk,pB_bk,d.target);
+
+        return buildExecutiveBrief(drv,period,d,bk) +
+          filterBar +
+          '<div id="bk-tables-'+period+'">'+initTables+'</div>';
       }})()
 
     var labels = chartPts.map(function(p){{ return p.label; }});
@@ -2143,70 +2221,7 @@ function buildBreakdownTable(drvData, dim, periodA, periodB, drvTarget, dimLabel
     var npsB_tot=totB.s>0?(totB.p-totB.d)/totB.s*100:null;
     var totDelta=(npsA_tot!==null&&npsB_tot!==null)?Math.round((npsB_tot-npsA_tot)*100)/100:null;
 
-    // Para Canal (C) e Oficina (O): usar C_Sr / O_Sr para colunas Expert/Newbie
-    var srDim = dim==='C' ? 'C_Sr' : (dim==='O' ? 'O_Sr' : null);
-    var srA = (srDim && drvData[srDim]) ? (drvData[srDim][periodA]||{{}}) : null;
-    var srB = (srDim && drvData[srDim]) ? (drvData[srDim][periodB]||{{}}) : null;
-    var hasSr = srB && Object.keys(srB).length > 0;
-
-    if (hasSr) {{
-        // Formato combinado: NPS ant/atual + Expert/Newbie por linha
-        var items = keys.map(function(k) {{
-            var a=dataA[k]||{{nps:null,s:0}}, b=dataB[k]||{{nps:null,s:0}};
-            var srBk = (srB&&srB[k])||{{}}, srAk = (srA&&srA[k])||{{}};
-            var eB=srBk['Expert']||{{}}, nB=srBk['Newbie']||{{}};
-            var eA=srAk['Expert']||{{}}, nA=srAk['Newbie']||{{}};
-            return {{
-                k:k,
-                npsA:a.nps, npsB:b.nps, sB:b.s||0,
-                eNpsB:eB.nps, eSB:eB.s||0,
-                nNpsB:nB.nps, nSB:nB.s||0,
-                eNpsA:eA.nps, nNpsA:nA.nps
-            }};
-        }}).filter(function(x){{return x.sB>0||x.npsB!==null;}});
-        items.sort(function(a,b){{return b.sB-a.sB;}});
-
-        var html = '<div class="bk-wrap"><table class="bk-table">' +
-            '<colgroup>' +
-            '<col style="width:20%"><col style="width:8%"><col style="width:8%"><col style="width:9%">' +
-            '<col style="width:10%"><col style="width:5%"><col style="width:10%"><col style="width:5%">' +
-            '<col style="width:9%"><col style="width:8%"><col style="width:8%">' +
-            '</colgroup>' +
-            '<thead><tr>' +
-            '<th class="col-name">'+dimLabel+'</th>' +
-            '<th>'+lA+'</th><th>'+lB+'</th><th>&Delta; NPS</th>' +
-            '<th>&#127775; Expert</th><th>Srv</th>' +
-            '<th>&#128164; Newbie</th><th>Srv</th>' +
-            '<th>Gap E&minus;N</th><th>&Delta; Expert</th><th>&Delta; Newbie</th>' +
-            '</tr></thead><tbody>';
-
-        var totEp=0,totEd=0,totEs=0,totNp=0,totNd=0,totNs=0;
-        items.forEach(function(x) {{
-            var delta=(x.npsA!==null&&x.npsB!==null)?Math.round((x.npsB-x.npsA)*100)/100:null;
-            var gap=(x.eNpsB!==null&&x.nNpsB!==null)?Math.round((x.eNpsB-x.nNpsB)*100)/100:null;
-            var dE=(x.eNpsA!==null&&x.eNpsB!==null)?Math.round((x.eNpsB-x.eNpsA)*100)/100:null;
-            var dN=(x.nNpsA!==null&&x.nNpsB!==null)?Math.round((x.nNpsB-x.nNpsA)*100)/100:null;
-            var rowBg=(gap!==null&&Math.abs(gap)>10)?'background:#fff3e0;':'';
-            totEs+=x.eSB; totNs+=x.nSB;
-            html += '<tr style="'+rowBg+'">'+
-                '<td class="col-name">'+x.k+'</td>'+
-                '<td>'+fN(x.npsA)+'</td><td>'+fN(x.npsB)+'</td><td>'+pD(delta)+'</td>'+
-                '<td>'+fN(x.eNpsB)+'</td><td class="bk-surv">'+x.eSB+'</td>'+
-                '<td>'+fN(x.nNpsB)+'</td><td class="bk-surv">'+x.nSB+'</td>'+
-                '<td>'+pGap2(gap)+'</td>'+
-                '<td>'+pD(dE)+'</td><td>'+pD(dN)+'</td>'+
-            '</tr>';
-        }});
-        html += '<tr class="bk-total">'+
-            '<td class="col-name">Total driver</td>'+
-            '<td>'+fN(npsA_tot)+'</td><td>'+fN(npsB_tot)+'</td><td>'+pD(totDelta)+'</td>'+
-            '<td colspan="2" class="bk-surv">'+totEs+' surv</td>'+
-            '<td colspan="2" class="bk-surv">'+totNs+' surv</td>'+
-            '<td></td><td></td><td></td></tr>';
-        return html+'</tbody></table></div>';
-    }}
-
-    // Formato padrão (P = processo, ou sem dados Sr)
+    // Formato padrão para todos os dims (P, C, O)
     var npsB_totF = npsB_tot;
     var items2 = keys.map(function(k) {{
         var a=dataA[k]||{{p:0,d:0,s:0,nps:null}};
