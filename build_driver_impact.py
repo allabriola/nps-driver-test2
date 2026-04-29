@@ -581,7 +581,14 @@ def compute_driver_history():
         ]:
             t = src.get(drv, {}).get(key, (0,0,0))
             weekly.append({"label": label, "nps": nps_s(*t), "s": t[2]})
-        result[drv] = {"monthly": monthly, "weekly": weekly,
+        # Vigente: S1=VIG, S2=S1 (para o historico da aba vigente)
+        t_vig = weekly_driver.get(drv, {}).get("VIG", (0,0,0))
+        t_s1  = weekly_driver.get(drv, {}).get("S1",  (0,0,0))
+        weekly_vig = [
+            {"label": "20/abr (S1)", "nps": nps_s(*t_s1),  "s": t_s1[2]},
+            {"label": VIG_LABEL,     "nps": nps_s(*t_vig), "s": t_vig[2]},
+        ]
+        result[drv] = {"monthly": monthly, "weekly": weekly, "weekly_vig": weekly_vig,
                        "target": DRIVER_TARGETS.get(drv), "cat": CAT.get(drv,"?")}
     return result
 
@@ -1264,19 +1271,21 @@ var M1_LABEL = '{M1_LABEL}';
 var M2_LABEL = '{M2_LABEL}';
 var S1_LABEL = '{S1_LABEL}';
 var S2_LABEL = '{S2_LABEL}';
+var VIG_LABEL = '{VIG_LABEL}';
 var ddCharts = {{}};
 
 function buildExecutiveBrief(drv, period, drvData, bkData) {{
   var isMes = period === 'mes';
   var pA = isMes?'M2':'S2', pB = isMes?'M1':'S1';
-  var lA = isMes?M2_LABEL:S2_LABEL, lB = isMes?M1_LABEL:S1_LABEL;
+  var lA = isMes?M2_LABEL:(period==='vig'?S1_LABEL:S2_LABEL);
+  var lB = isMes?M1_LABEL:(period==='vig'?VIG_LABEL:S1_LABEL);
   var tgt = drvData?drvData.target:null;
   var cat = DRV_HIST[drv]?DRV_HIST[drv].cat:'';
 
   // NPS geral
   var hist = DRV_HIST[drv];
   var npsB=null, npsA=null;
-  if(hist){{ var arr=isMes?hist.monthly:hist.weekly; if(arr&&arr.length>=2){{npsB=arr[arr.length-1].nps; npsA=arr[arr.length-2].nps;}} }}
+  if(hist){{ var arr=isMes?hist.monthly:(period==='vig'?hist.weekly_vig:hist.weekly); if(arr&&arr.length>=2){{npsB=arr[arr.length-1].nps; npsA=arr[arr.length-2].nps;}} }}
   var delta = (npsA!==null&&npsB!==null) ? Math.round((npsB-npsA)*100)/100 : null;
   var gapTgt = (tgt!==null&&npsB!==null) ? Math.round((npsB-tgt)*100)/100 : null;
 
