@@ -224,7 +224,7 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 29/04/2026 17:58</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 29/04/2026 18:10</div>
 </header>
 
 <div class="nav-bar">
@@ -1470,18 +1470,57 @@ function renderBreakdownTables(el) {
     var srA = (bk&&bk['Sr_P']&&bk['Sr_P'][pA]&&bk['Sr_P'][pA][proc]) ? bk['Sr_P'][pA][proc] : {};
     var srB = (bk&&bk['Sr_P']&&bk['Sr_P'][pB]&&bk['Sr_P'][pB][proc]) ? bk['Sr_P'][pB][proc] : {};
 
-    // Mock objects para reutilizar buildBreakdownTable
+    // Mock objects para reutilizar buildBreakdownTable (Canal e Oficina)
     var mockC  = {C: {}};  mockC.C[pA] = pcA;  mockC.C[pB] = pcB;
     var mockO  = {O: {}};  mockO.O[pA] = poA;  mockO.O[pB] = poB;
-    // Mock Sr sem Sr_P \u2192 buildSeniorityTable usa fallback Expert/Newbie rows
-    var mockSr = {Sr: {}};  mockSr.Sr[pA] = srA;  mockSr.Sr[pB] = srB;
 
     html += '<div class="dd-section-title">Canal \u2014 '+proc+' ('+lSuf+')</div>';
     html += buildBreakdownTable(mockC, 'C', pA, pB, tgt, 'Canal');
     html += '<div class="dd-section-title">Oficina \u2014 '+proc+' ('+lSuf+')</div>';
     html += buildBreakdownTable(mockO, 'O', pA, pB, tgt, 'Oficina');
     html += '<div class="dd-section-title">Senioridade \u2014 '+proc+' ('+lSuf+')</div>';
-    html += buildSeniorityTable(mockSr, pA, pB, tgt);
+    // Renderizar Expert/Newbie diretamente para evitar ambiguidade no mockSr
+    html += (function() {
+      var lSrA = pA==='M2'?M2_LABEL:(pA==='S2'?S2_LABEL:(pA==='S1'?S1_LABEL:pA));
+      var lSrB = pB==='M1'?M1_LABEL:(pB==='S1'?S1_LABEL:(pB==='VIG'?VIG_LABEL+' \u26a1':pB));
+      function nS(v){ return (v!==null&&v!==undefined)?v.toFixed(1)+'%':'&mdash;'; }
+      function pD2(v){
+        if(v===null||v===undefined) return '<span class="pill pill-neu">&mdash;</span>';
+        var s=(v>=0?'+':'')+v.toFixed(2)+' pp';
+        var c=v>=1?'pill-pos-hi':v>=0?'pill-pos-lo':v>=-1?'pill-dn1':'pill-neg-hi';
+        return '<span class="pill '+c+'">'+s+'</span>';
+      }
+      function pVS(nps2){
+        if(nps2===null||!tgt) return '<span class="pill pill-neu">&mdash;</span>';
+        var g=nps2-tgt; return '<span class="pill '+(g>=0?'pill-pos-hi':'pill-neg-hi')+'">'+(g>=0?'+':'')+g.toFixed(2)+' pp</span>';
+      }
+      var rows = ['Expert','Newbie'];
+      var icons = {Expert:'&#127775;',Newbie:'&#128164;'};
+      var tbl = '<div class="bk-wrap"><table class="bk-table">'+
+        '<colgroup><col style="width:20%"><col style="width:13%"><col style="width:13%"><col style="width:13%"><col style="width:10%"><col style="width:13%"></colgroup>'+
+        '<thead><tr><th class="col-name">Senioridade</th><th>'+lSrA+'</th><th>'+lSrB+'</th>'+
+        '<th>&Delta; NPS</th><th>Surveys</th><th>vs Target</th></tr></thead><tbody>';
+      var expB = (srB['Expert']||{}), nwbB = (srB['Newbie']||{});
+      var expA = (srA['Expert']||{}), nwbA = (srA['Newbie']||{});
+      var data = [{k:'Expert',a:expA,b:expB},{k:'Newbie',a:nwbA,b:nwbB}];
+      data.forEach(function(r){
+        var npsA2 = (r.a.nps!==undefined?r.a.nps:null);
+        var npsB2 = (r.b.nps!==undefined?r.b.nps:null);
+        var delta2 = (npsA2!==null&&npsB2!==null)?Math.round((npsB2-npsA2)*100)/100:null;
+        tbl += '<tr><td class="col-name">'+(icons[r.k]||'')+' '+r.k+'</td>'+
+          '<td>'+nS(npsA2)+'</td><td>'+nS(npsB2)+'</td>'+
+          '<td>'+pD2(delta2)+'</td>'+
+          '<td class="bk-surv">'+(r.b.s||0)+'</td>'+
+          '<td>'+pVS(npsB2)+'</td></tr>';
+      });
+      // Gap Expert - Newbie
+      var gE = expB.nps!==undefined?expB.nps:null, gN = nwbB.nps!==undefined?nwbB.nps:null;
+      var gap = (gE!==null&&gN!==null)?Math.round((gE-gN)*100)/100:null;
+      tbl += '<tr class="bk-total"><td class="col-name">Gap E&minus;N ('+lSrB+')</td>'+
+        '<td colspan="2" style="font-weight:600;color:'+(gap!==null&&Math.abs(gap)>10?'#b71c1c':gap!==null&&Math.abs(gap)>5?'#e65100':'#2e7d32')+'">'+
+        (gap!==null?(gap>=0?'+':'')+gap.toFixed(1)+'pp':'&mdash;')+'</td><td colspan="3"></td></tr>';
+      return tbl+'</tbody></table></div>';
+    })();
   }
 
   cont.innerHTML = html;
