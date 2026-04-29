@@ -1969,15 +1969,33 @@ function renderDD(period) {{
         '<div class="dd-chart-sub">NPS mensal Jan–Abr 2026 vs target do driver</div>' +
         '<div class="dd-chart-wrap"><canvas id="c-dd-mes-chart"></canvas></div>' +
       '</div>' +
-      buildExecutiveBrief(drv, 'mes', d, DD_BREAKDOWN[drv]) +
-      '<div class="dd-section-title">Processos — MoM (' + M2_LABEL + ' vs ' + M1_LABEL + ')</div>' +
-      buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'M2', 'M1', d.target, 'Processo') +
-      '<div class="dd-section-title">Canal — MoM</div>' +
-      buildBreakdownTable(DD_BREAKDOWN[drv], 'C', 'M2', 'M1', d.target, 'Canal') +
-      '<div class="dd-section-title">Oficina — MoM</div>' +
-      buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'M2', 'M1', d.target, 'Oficina') +
-      '<div class="dd-section-title">Senioridade — MoM (Expert vs Newbie)</div>' +
-      buildSeniorityTable(DD_BREAKDOWN[drv], 'M2', 'M1', d.target);
+      (function() {{
+        var bkM = DD_BREAKDOWN[drv];
+        var procKeysMes = (bkM && bkM['P_C'] && bkM['P_C']['M1']) ? Object.keys(bkM['P_C']['M1']).sort() :
+                          ((bkM && bkM['P'] && bkM['P']['M1']) ? Object.keys(bkM['P']['M1']).sort() : []);
+        var filterOptsMes = '<option value="">Todos os processos</option>' +
+          procKeysMes.map(function(p){{ return '<option value="'+p.replace(/"/g,"&quot;")+'">'+p+'</option>'; }}).join('');
+        var filterBarMes = '<div style="display:flex;align-items:center;gap:10px;margin:14px 0 4px;padding:8px 12px;background:#f5f7ff;border-radius:8px;border:1px solid #dde2f0">'+
+          '<span style="font-size:12px;font-weight:600;color:#3a3f6b;white-space:nowrap">&#128269; Filtrar por processo:</span>'+
+          '<select class="dd-select" style="flex:1;max-width:320px" '+
+            'onchange="renderBreakdownTables(this)" '+
+            'data-drv="'+drv+'" data-period="mes" '+
+            'data-pa="M2" data-pb="M1" '+
+            'data-tgt="'+(d.target!=null?d.target:'')+'" '+
+            'data-lsuf="MoM" data-lwow="'+M2_LABEL+' vs '+M1_LABEL+'">'+
+            filterOptsMes+
+          '</select></div>';
+        var initTablesMes =
+          '<div class="dd-section-title">Processos — MoM ('+M2_LABEL+' vs '+M1_LABEL+')</div>'+
+          buildBreakdownTable(bkM,'P','M2','M1',d.target,'Processo')+
+          '<div class="dd-section-title">Canal — MoM</div>'+
+          buildBreakdownTable(bkM,'C','M2','M1',d.target,'Canal')+
+          '<div class="dd-section-title">Oficina — MoM</div>'+
+          buildBreakdownTable(bkM,'O','M2','M1',d.target,'Oficina')+
+          '<div class="dd-section-title">Senioridade por processo — MoM</div>'+
+          buildSeniorityTable(bkM,'M2','M1',d.target);
+        return buildExecutiveBrief(drv,'mes',d,bkM) + filterBarMes + '<div id="bk-tables-mes">'+initTablesMes+'</div>';
+      }})()
 
     var labels = pts.map(function(p){{ return p.label; }});
     var values = pts.map(function(p){{ return p.nps; }});

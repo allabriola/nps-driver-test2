@@ -936,10 +936,10 @@
     "P": {
       "M1": {
         "Emision de Nota Fiscal": {
-          "p": 227,
-          "d": 60,
-          "s": 316,
-          "nps": 52.85
+          "p": 257,
+          "d": 67,
+          "s": 359,
+          "nps": 52.9
         },
         "Facturación": {
           "p": 114,
@@ -948,10 +948,10 @@
           "nps": 41.95
         },
         "Datos fiscales": {
-          "p": 35,
-          "d": 7,
-          "s": 47,
-          "nps": 59.57
+          "p": 42,
+          "d": 12,
+          "s": 60,
+          "nps": 50.0
         },
         "Facturaci�n": {
           "p": 120,
@@ -968,24 +968,24 @@
           "nps": 28.51
         },
         "Emision de Nota Fiscal": {
-          "p": 129,
-          "d": 26,
-          "s": 177,
-          "nps": 58.19
+          "p": 161,
+          "d": 42,
+          "s": 233,
+          "nps": 51.1
         },
         "Datos fiscales": {
-          "p": 39,
-          "d": 7,
-          "s": 50,
-          "nps": 64.0
+          "p": 48,
+          "d": 8,
+          "s": 61,
+          "nps": 65.6
         }
       },
       "S1": {
         "Emision de Nota Fiscal": {
-          "p": 31,
-          "d": 14,
-          "s": 49,
-          "nps": 34.69
+          "p": 35,
+          "d": 13,
+          "s": 55,
+          "nps": 40.0
         },
         "Facturación": {
           "p": 19,
@@ -994,18 +994,18 @@
           "nps": 32.26
         },
         "Datos fiscales": {
-          "p": 7,
+          "p": 8,
           "d": 0,
           "s": 8,
-          "nps": 87.5
+          "nps": 100.0
         }
       },
       "S2": {
         "Emision de Nota Fiscal": {
-          "p": 61,
-          "d": 19,
-          "s": 88,
-          "nps": 47.73
+          "p": 68,
+          "d": 23,
+          "s": 100,
+          "nps": 45.0
         },
         "Facturación": {
           "p": 39,
@@ -1014,10 +1014,10 @@
           "nps": 46.55
         },
         "Datos fiscales": {
-          "p": 12,
-          "d": 2,
-          "s": 14,
-          "nps": 71.43
+          "p": 16,
+          "d": 4,
+          "s": 21,
+          "nps": 57.1
         }
       },
       "VIG": {
@@ -1028,10 +1028,10 @@
           "nps": 82.4
         },
         "Datos fiscales": {
-          "p": 1,
+          "p": 2,
           "d": 0,
-          "s": 3,
-          "nps": 33.3
+          "s": 4,
+          "nps": 50.0
         }
       }
     },
@@ -2808,46 +2808,46 @@
     "P": {
       "M1": {
         "FBM - Pre Inbound": {
-          "p": 125,
-          "d": 46,
-          "s": 184,
-          "nps": 42.93
+          "p": 169,
+          "d": 55,
+          "s": 243,
+          "nps": 46.9
         },
         "FBM - Inventario": {
-          "p": 58,
-          "d": 23,
-          "s": 90,
-          "nps": 38.89
+          "p": 88,
+          "d": 34,
+          "s": 134,
+          "nps": 40.3
         },
         "FBM - Post Inbound": {
-          "p": 61,
-          "d": 17,
-          "s": 85,
-          "nps": 51.76
+          "p": 80,
+          "d": 20,
+          "s": 107,
+          "nps": 56.1
         },
         "FBM - Retiro de Stock - Cx One": {
-          "p": 34,
-          "d": 7,
-          "s": 47,
-          "nps": 57.45
+          "p": 59,
+          "d": 13,
+          "s": 80,
+          "nps": 57.5
         },
         "FBM - Funcionalidades": {
-          "p": 21,
+          "p": 33,
           "d": 8,
-          "s": 32,
-          "nps": 40.62
+          "s": 44,
+          "nps": 56.8
         },
         "FBM - Devoluciones": {
-          "p": 9,
-          "d": 3,
-          "s": 14,
-          "nps": 42.86
+          "p": 19,
+          "d": 6,
+          "s": 28,
+          "nps": 46.4
         },
         "FBM - Outbound": {
-          "p": 3,
+          "p": 5,
           "d": 1,
-          "s": 5,
-          "nps": 40.0
+          "s": 7,
+          "nps": 57.1
         },
         "Asignación del Contáctanos FBM": {
           "p": 1,
@@ -2864,134 +2864,134 @@
       },
       "M2": {
         "FBM - Pre Inbound": {
-          "p": 126,
-          "d": 38,
-          "s": 188,
-          "nps": 46.81
+          "p": 171,
+          "d": 51,
+          "s": 259,
+          "nps": 46.3
         },
         "FBM - Inventario": {
-          "p": 74,
-          "d": 28,
-          "s": 110,
-          "nps": 41.82
+          "p": 104,
+          "d": 48,
+          "s": 170,
+          "nps": 32.9
         },
         "FBM - Post Inbound": {
-          "p": 57,
-          "d": 21,
-          "s": 84,
-          "nps": 42.86
+          "p": 81,
+          "d": 30,
+          "s": 119,
+          "nps": 42.9
         },
         "FBM - Retiro de Stock - Cx One": {
-          "p": 51,
-          "d": 19,
-          "s": 76,
-          "nps": 42.11
+          "p": 74,
+          "d": 26,
+          "s": 111,
+          "nps": 43.2
         },
         "FBM - Funcionalidades": {
-          "p": 20,
-          "d": 14,
-          "s": 38,
-          "nps": 15.79
+          "p": 32,
+          "d": 17,
+          "s": 53,
+          "nps": 28.3
         },
         "FBM - Devoluciones": {
-          "p": 13,
-          "d": 3,
-          "s": 19,
-          "nps": 52.63
+          "p": 24,
+          "d": 6,
+          "s": 33,
+          "nps": 54.5
         },
         "FBM - Outbound": {
-          "p": 6,
+          "p": 8,
           "d": 2,
-          "s": 9,
-          "nps": 44.44
+          "s": 11,
+          "nps": 54.5
         }
       },
       "S1": {
         "FBM - Pre Inbound": {
-          "p": 38,
-          "d": 12,
-          "s": 51,
-          "nps": 50.98
+          "p": 46,
+          "d": 14,
+          "s": 61,
+          "nps": 52.5
         },
         "FBM - Inventario": {
-          "p": 16,
-          "d": 8,
-          "s": 25,
-          "nps": 32.0
+          "p": 20,
+          "d": 10,
+          "s": 32,
+          "nps": 31.2
         },
         "FBM - Post Inbound": {
-          "p": 13,
+          "p": 19,
           "d": 5,
-          "s": 20,
-          "nps": 40.0
+          "s": 27,
+          "nps": 51.9
         },
         "FBM - Retiro de Stock - Cx One": {
-          "p": 11,
-          "d": 1,
-          "s": 13,
-          "nps": 76.92
+          "p": 19,
+          "d": 2,
+          "s": 22,
+          "nps": 77.3
         },
         "FBM - Funcionalidades": {
-          "p": 6,
+          "p": 8,
           "d": 3,
-          "s": 9,
-          "nps": 33.33
+          "s": 11,
+          "nps": 45.5
         },
         "FBM - Outbound": {
-          "p": 1,
+          "p": 3,
           "d": 0,
-          "s": 2,
-          "nps": 50.0
+          "s": 4,
+          "nps": 75.0
         },
         "FBM - Devoluciones": {
-          "p": 0,
+          "p": 4,
           "d": 0,
-          "s": 1,
-          "nps": 0.0
+          "s": 6,
+          "nps": 66.7
         }
       },
       "S2": {
         "FBM - Pre Inbound": {
-          "p": 25,
-          "d": 10,
-          "s": 38,
-          "nps": 39.47
+          "p": 35,
+          "d": 13,
+          "s": 52,
+          "nps": 42.3
         },
         "FBM - Post Inbound": {
-          "p": 18,
+          "p": 20,
           "d": 4,
-          "s": 24,
-          "nps": 58.33
+          "s": 25,
+          "nps": 64.0
         },
         "FBM - Inventario": {
-          "p": 13,
-          "d": 3,
-          "s": 19,
-          "nps": 52.63
+          "p": 25,
+          "d": 5,
+          "s": 33,
+          "nps": 60.6
         },
         "FBM - Retiro de Stock - Cx One": {
-          "p": 5,
+          "p": 12,
           "d": 4,
-          "s": 9,
-          "nps": 11.11
+          "s": 17,
+          "nps": 47.1
         },
         "FBM - Devoluciones": {
-          "p": 4,
-          "d": 1,
-          "s": 5,
-          "nps": 60.0
+          "p": 5,
+          "d": 2,
+          "s": 7,
+          "nps": 42.9
         },
         "FBM - Funcionalidades": {
-          "p": 1,
+          "p": 6,
           "d": 1,
-          "s": 3,
-          "nps": 0.0
+          "s": 8,
+          "nps": 62.5
         },
         "FBM - Outbound": {
           "p": 2,
           "d": 1,
           "s": 3,
-          "nps": 33.33
+          "nps": 33.3
         }
       },
       "VIG": {
@@ -3002,34 +3002,34 @@
           "nps": 53.6
         },
         "FBM - Post Inbound": {
-          "p": 7,
+          "p": 8,
           "d": 0,
-          "s": 7,
+          "s": 8,
           "nps": 100.0
         },
         "FBM - Retiro de Stock - Cx One": {
           "p": 5,
-          "d": 2,
-          "s": 8,
-          "nps": 37.5
+          "d": 3,
+          "s": 9,
+          "nps": 22.2
         },
         "FBM - Inventario": {
-          "p": 5,
-          "d": 1,
-          "s": 6,
-          "nps": 66.7
+          "p": 6,
+          "d": 2,
+          "s": 8,
+          "nps": 50.0
         },
         "FBM - Funcionalidades": {
-          "p": 3,
+          "p": 4,
           "d": 2,
-          "s": 5,
-          "nps": 20.0
+          "s": 6,
+          "nps": 33.3
         },
         "FBM - Devoluciones": {
           "p": 3,
-          "d": 0,
-          "s": 3,
-          "nps": 100.0
+          "d": 1,
+          "s": 4,
+          "nps": 50.0
         }
       }
     },
@@ -5480,10 +5480,10 @@
     "P": {
       "M1": {
         "Despacho Ventas y Publicaciones": {
-          "p": 2056,
-          "d": 406,
-          "s": 2754,
-          "nps": 59.91
+          "p": 1213,
+          "d": 241,
+          "s": 1611,
+          "nps": 60.3
         },
         "Reputación ME": {
           "p": 1894,
@@ -5492,16 +5492,16 @@
           "nps": 82.91
         },
         "Gestiones Operativas": {
-          "p": 384,
-          "d": 68,
-          "s": 502,
-          "nps": 62.95
+          "p": 274,
+          "d": 49,
+          "s": 359,
+          "nps": 62.7
         },
         "Reversa": {
-          "p": 324,
-          "d": 66,
-          "s": 428,
-          "nps": 60.28
+          "p": 313,
+          "d": 55,
+          "s": 399,
+          "nps": 64.7
         },
         "Viaje del paquete - Vendedor": {
           "p": 204,
@@ -5530,22 +5530,22 @@
           "nps": 80.43
         },
         "Despacho Ventas y Publicaciones": {
-          "p": 1520,
-          "d": 360,
-          "s": 2062,
-          "nps": 56.26
+          "p": 995,
+          "d": 241,
+          "s": 1381,
+          "nps": 54.6
         },
         "Gestiones Operativas": {
-          "p": 546,
-          "d": 74,
-          "s": 692,
-          "nps": 68.21
+          "p": 396,
+          "d": 65,
+          "s": 521,
+          "nps": 63.5
         },
         "Reversa": {
-          "p": 468,
-          "d": 128,
-          "s": 668,
-          "nps": 50.9
+          "p": 437,
+          "d": 105,
+          "s": 598,
+          "nps": 55.5
         },
         "Viaje del paquete - Vendedor": {
           "p": 344,
@@ -5562,10 +5562,10 @@
       },
       "S1": {
         "Despacho Ventas y Publicaciones": {
-          "p": 402,
-          "d": 80,
-          "s": 538,
-          "nps": 59.85
+          "p": 236,
+          "d": 49,
+          "s": 314,
+          "nps": 59.6
         },
         "Reputación ME": {
           "p": 440,
@@ -5574,16 +5574,16 @@
           "nps": 85.54
         },
         "Gestiones Operativas": {
-          "p": 94,
-          "d": 16,
-          "s": 122,
-          "nps": 63.93
+          "p": 63,
+          "d": 11,
+          "s": 82,
+          "nps": 63.4
         },
         "Reversa": {
-          "p": 64,
-          "d": 18,
-          "s": 86,
-          "nps": 53.49
+          "p": 62,
+          "d": 12,
+          "s": 80,
+          "nps": 62.5
         },
         "Viaje del paquete - Vendedor": {
           "p": 58,
@@ -5594,10 +5594,10 @@
       },
       "S2": {
         "Despacho Ventas y Publicaciones": {
-          "p": 476,
-          "d": 90,
-          "s": 654,
-          "nps": 59.02
+          "p": 276,
+          "d": 53,
+          "s": 375,
+          "nps": 59.5
         },
         "Reputación ME": {
           "p": 454,
@@ -5606,16 +5606,16 @@
           "nps": 82.95
         },
         "Gestiones Operativas": {
-          "p": 96,
-          "d": 26,
-          "s": 132,
-          "nps": 53.03
+          "p": 71,
+          "d": 15,
+          "s": 95,
+          "nps": 58.9
         },
         "Reversa": {
-          "p": 78,
-          "d": 28,
-          "s": 114,
-          "nps": 43.86
+          "p": 88,
+          "d": 19,
+          "s": 115,
+          "nps": 60.0
         },
         "Viaje del paquete - Vendedor": {
           "p": 50,
@@ -5628,20 +5628,20 @@
         "Despacho Ventas y Publicaciones": {
           "p": 111,
           "d": 25,
-          "s": 147,
-          "nps": 58.5
+          "s": 148,
+          "nps": 58.1
         },
         "Reversa": {
-          "p": 32,
+          "p": 36,
           "d": 4,
-          "s": 37,
-          "nps": 75.7
+          "s": 41,
+          "nps": 78.0
         },
         "Gestiones Operativas": {
-          "p": 19,
+          "p": 21,
           "d": 3,
-          "s": 23,
-          "nps": 69.6
+          "s": 25,
+          "nps": 72.0
         }
       }
     },
@@ -7310,16 +7310,16 @@
     "P": {
       "M1": {
         "KYC Services": {
-          "p": 330,
+          "p": 328,
           "d": 16,
-          "s": 373,
-          "nps": 84.18
+          "s": 370,
+          "nps": 84.3
         },
         "Apelaciones retorno buyer XDDS": {
-          "p": 17,
-          "d": 53,
-          "s": 74,
-          "nps": -48.65
+          "p": 16,
+          "d": 52,
+          "s": 72,
+          "nps": -50.0
         },
         "Asignación del contáctanos Buyers Post": {
           "p": 44,
@@ -7328,16 +7328,16 @@
           "nps": 35.29
         },
         "Viaje del paquete - Comprador": {
-          "p": 51,
-          "d": 16,
-          "s": 70,
-          "nps": 50.0
+          "p": 8277,
+          "d": 2195,
+          "s": 11943,
+          "nps": 50.9
         },
         "PNR - OP": {
-          "p": 18,
-          "d": 8,
-          "s": 26,
-          "nps": 38.46
+          "p": 150,
+          "d": 68,
+          "s": 229,
+          "nps": 35.8
         },
         "Reputación ML Masivos": {
           "p": 16,
@@ -7346,10 +7346,10 @@
           "nps": 65.0
         },
         "Problemas de seguridad": {
-          "p": 7,
-          "d": 11,
-          "s": 19,
-          "nps": -21.05
+          "p": 3144,
+          "d": 724,
+          "s": 4189,
+          "nps": 57.8
         },
         "Caja vacía - Flex": {
           "p": 10,
@@ -7364,16 +7364,16 @@
           "nps": 60.0
         },
         "Problemas con acceso y factores": {
-          "p": 14,
-          "d": 2,
-          "s": 17,
-          "nps": 70.59
+          "p": 1820,
+          "d": 184,
+          "s": 2162,
+          "nps": 75.7
         },
         "Apelaciones buyer XDDS": {
           "p": 8,
           "d": 7,
           "s": 16,
-          "nps": 6.25
+          "nps": 6.2
         },
         "Reputación ME Masivos": {
           "p": 6,
@@ -7382,10 +7382,10 @@
           "nps": -18.75
         },
         "KYC seg360": {
-          "p": 12,
-          "d": 1,
-          "s": 14,
-          "nps": 78.57
+          "p": 1070,
+          "d": 204,
+          "s": 1414,
+          "nps": 61.2
         },
         "CBT - Prohibited technique": {
           "p": 11,
@@ -7394,10 +7394,10 @@
           "nps": 83.33
         },
         "Viaje del paquete - Vendedor": {
-          "p": 5,
-          "d": 4,
-          "s": 11,
-          "nps": 9.09
+          "p": 179,
+          "d": 30,
+          "s": 238,
+          "nps": 62.6
         },
         "CBT - Prohibited items": {
           "p": 9,
@@ -7430,16 +7430,16 @@
           "nps": 25.0
         },
         "Transferencias de dinero": {
-          "p": 4,
-          "d": 3,
-          "s": 8,
-          "nps": 12.5
+          "p": 1490,
+          "d": 257,
+          "s": 1943,
+          "nps": 63.5
         },
         "Restricciones": {
-          "p": 6,
-          "d": 1,
-          "s": 7,
-          "nps": 71.43
+          "p": 839,
+          "d": 266,
+          "s": 1242,
+          "nps": 46.1
         },
         "CBT - Intellectual Property": {
           "p": 6,
@@ -7460,10 +7460,10 @@
           "nps": 0.0
         },
         "Seguros transaccional - Payers": {
-          "p": 1,
-          "d": 3,
-          "s": 4,
-          "nps": -50.0
+          "p": 215,
+          "d": 71,
+          "s": 315,
+          "nps": 45.7
         },
         "Afiliados ML": {
           "p": 1,
@@ -7484,10 +7484,10 @@
           "nps": 50.0
         },
         "Point - Como adquirir dispositivo": {
-          "p": 2,
-          "d": 1,
-          "s": 3,
-          "nps": 33.33
+          "p": 105,
+          "d": 16,
+          "s": 129,
+          "nps": 69.0
         },
         "Acreditación de Pagos - Payers": {
           "p": 2,
@@ -7496,10 +7496,10 @@
           "nps": 33.33
         },
         "Chargeback Comprador": {
-          "p": 0,
-          "d": 3,
-          "s": 3,
-          "nps": -100.0
+          "p": 242,
+          "d": 99,
+          "s": 379,
+          "nps": 37.7
         },
         "Post Compra Funcionalidades Vendedor": {
           "p": 0,
@@ -7526,10 +7526,10 @@
           "nps": 0.0
         },
         "Portabilidade salarial": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
+          "p": 178,
+          "d": 20,
+          "s": 225,
+          "nps": 70.2
         },
         "Consumer Credits": {
           "p": 1,
@@ -7538,10 +7538,10 @@
           "nps": 0.0
         },
         "Funcionalidades de Seguros - Payers": {
-          "p": 1,
-          "d": 1,
-          "s": 2,
-          "nps": 0.0
+          "p": 73,
+          "d": 21,
+          "s": 115,
+          "nps": 45.2
         },
         "Extractos y Reportes": {
           "p": 2,
@@ -7556,10 +7556,10 @@
           "nps": 50.0
         },
         "Tasas e Incentivos Sellers": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
+          "p": 463,
+          "d": 97,
+          "s": 610,
+          "nps": 60.0
         },
         "MED - Cambios FBM": {
           "p": 1,
@@ -7604,16 +7604,16 @@
           "nps": 100.0
         },
         "Merchant Credits": {
-          "p": 0,
-          "d": 2,
-          "s": 2,
-          "nps": -100.0
+          "p": 289,
+          "d": 84,
+          "s": 411,
+          "nps": 49.9
         },
         "Registro": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
+          "p": 164,
+          "d": 21,
+          "s": 202,
+          "nps": 70.8
         },
         "Asignación del Contáctanos Masivos": {
           "p": 0,
@@ -7658,10 +7658,10 @@
           "nps": 100.0
         },
         "Funcionalidades de Online Payments - Sellers": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
+          "p": 65,
+          "d": 11,
+          "s": 84,
+          "nps": 64.3
         },
         "Gestión de Publicación": {
           "p": 0,
@@ -7954,46 +7954,46 @@
       },
       "M2": {
         "KYC Services": {
-          "p": 460,
+          "p": 461,
           "d": 17,
-          "s": 517,
-          "nps": 85.69
+          "s": 518,
+          "nps": 85.7
         },
         "Viaje del paquete - Comprador": {
-          "p": 79,
-          "d": 22,
-          "s": 115,
-          "nps": 49.57
+          "p": 11226,
+          "d": 2740,
+          "s": 15868,
+          "nps": 53.5
         },
         "Apelaciones retorno buyer XDDS": {
-          "p": 7,
-          "d": 25,
-          "s": 33,
-          "nps": -54.55
+          "p": 1,
+          "d": 1,
+          "s": 2,
+          "nps": 0.0
         },
         "Problemas de seguridad": {
-          "p": 13,
-          "d": 14,
-          "s": 31,
-          "nps": -3.23
+          "p": 4191,
+          "d": 808,
+          "s": 5524,
+          "nps": 61.2
         },
         "Viaje del paquete - Vendedor": {
-          "p": 20,
-          "d": 9,
-          "s": 30,
-          "nps": 36.67
+          "p": 236,
+          "d": 32,
+          "s": 302,
+          "nps": 67.5
         },
         "Problemas con acceso y factores": {
-          "p": 17,
-          "d": 1,
-          "s": 21,
-          "nps": 76.19
+          "p": 2469,
+          "d": 221,
+          "s": 2892,
+          "nps": 77.7
         },
         "KYC seg360": {
-          "p": 10,
-          "d": 7,
-          "s": 18,
-          "nps": 16.67
+          "p": 1325,
+          "d": 246,
+          "s": 1719,
+          "nps": 62.8
         },
         "Caja vacía - Flex": {
           "p": 9,
@@ -8014,10 +8014,10 @@
           "nps": 50.0
         },
         "Restricciones": {
-          "p": 5,
-          "d": 7,
-          "s": 14,
-          "nps": -14.29
+          "p": 956,
+          "d": 300,
+          "s": 1387,
+          "nps": 47.3
         },
         "Post Compra Funcionalidades CBT": {
           "p": 7,
@@ -8038,10 +8038,10 @@
           "nps": 50.0
         },
         "CBT - Prohibited items": {
-          "p": 10,
+          "p": 0,
           "d": 2,
-          "s": 12,
-          "nps": 66.67
+          "s": 2,
+          "nps": -100.0
         },
         "Reputación ME Masivos": {
           "p": 1,
@@ -8086,10 +8086,10 @@
           "nps": 33.33
         },
         "Seguros transaccional - Payers": {
-          "p": 6,
-          "d": 0,
-          "s": 6,
-          "nps": 100.0
+          "p": 274,
+          "d": 88,
+          "s": 406,
+          "nps": 45.8
         },
         "Caja vacía - MP": {
           "p": 5,
@@ -8122,10 +8122,10 @@
           "nps": 80.0
         },
         "Transferencias de dinero": {
-          "p": 3,
-          "d": 0,
-          "s": 4,
-          "nps": 75.0
+          "p": 2346,
+          "d": 379,
+          "s": 3030,
+          "nps": 64.9
         },
         "Reembolso de la compra MP": {
           "p": 3,
@@ -8152,10 +8152,10 @@
           "nps": 33.33
         },
         "Tasas e Incentivos Sellers": {
-          "p": 3,
-          "d": 0,
-          "s": 3,
-          "nps": 100.0
+          "p": 501,
+          "d": 133,
+          "s": 705,
+          "nps": 52.2
         },
         "Extractos y Reportes": {
           "p": 3,
@@ -8164,10 +8164,10 @@
           "nps": 100.0
         },
         "Registro": {
-          "p": 1,
-          "d": 0,
-          "s": 3,
-          "nps": 33.33
+          "p": 223,
+          "d": 25,
+          "s": 273,
+          "nps": 72.5
         },
         "Gestiones Operativas": {
           "p": 2,
@@ -8182,10 +8182,10 @@
           "nps": -66.67
         },
         "Chargeback Comprador": {
-          "p": 2,
-          "d": 1,
-          "s": 3,
-          "nps": 33.33
+          "p": 345,
+          "d": 109,
+          "s": 508,
+          "nps": 46.5
         },
         "PR - Artículos prohibidos": {
           "p": 0,
@@ -8224,10 +8224,10 @@
           "nps": 0.0
         },
         "Funcionalidades de Seguros - Payers": {
-          "p": 1,
-          "d": 1,
-          "s": 2,
-          "nps": 0.0
+          "p": 71,
+          "d": 15,
+          "s": 95,
+          "nps": 58.9
         },
         "Prevención de Fraude - Vendedor - PNR C": {
           "p": 1,
@@ -8302,10 +8302,10 @@
           "nps": 100.0
         },
         "Merchant Credits": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
+          "p": 404,
+          "d": 118,
+          "s": 575,
+          "nps": 49.7
         },
         "Datos fiscales": {
           "p": 0,
@@ -8350,10 +8350,10 @@
           "nps": 100.0
         },
         "Point - Como adquirir dispositivo": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
+          "p": 120,
+          "d": 16,
+          "s": 148,
+          "nps": 70.3
         },
         "PR - Propiedad intelectual": {
           "p": 0,
@@ -8426,6 +8426,24 @@
           "d": 1,
           "s": 1,
           "nps": -100.0
+        },
+        "Funcionalidades de Online Payments - Sellers": {
+          "p": 65,
+          "d": 20,
+          "s": 99,
+          "nps": 45.5
+        },
+        "PNR - OP": {
+          "p": 116,
+          "d": 88,
+          "s": 211,
+          "nps": 13.3
+        },
+        "Portabilidade salarial": {
+          "p": 91,
+          "d": 20,
+          "s": 124,
+          "nps": 57.3
         }
       },
       "S1": {
@@ -8443,21 +8461,21 @@
         },
         "Apelaciones retorno buyer XDDS": {
           "p": 5,
-          "d": 18,
-          "s": 24,
-          "nps": -54.17
+          "d": 17,
+          "s": 23,
+          "nps": -52.2
         },
         "PNR - OP": {
-          "p": 13,
-          "d": 7,
-          "s": 20,
-          "nps": 30.0
+          "p": 40,
+          "d": 17,
+          "s": 58,
+          "nps": 39.7
         },
         "Viaje del paquete - Comprador": {
-          "p": 9,
-          "d": 1,
-          "s": 10,
-          "nps": 80.0
+          "p": 1907,
+          "d": 461,
+          "s": 2708,
+          "nps": 53.4
         },
         "Reputación ML Masivos": {
           "p": 8,
@@ -8472,10 +8490,10 @@
           "nps": 100.0
         },
         "KYC seg360": {
-          "p": 5,
-          "d": 1,
-          "s": 6,
-          "nps": 66.67
+          "p": 261,
+          "d": 54,
+          "s": 338,
+          "nps": 61.2
         },
         "Reputación ME Masivos": {
           "p": 1,
@@ -8502,16 +8520,16 @@
           "nps": 50.0
         },
         "Problemas con acceso y factores": {
-          "p": 3,
-          "d": 1,
-          "s": 4,
-          "nps": 50.0
+          "p": 473,
+          "d": 53,
+          "s": 563,
+          "nps": 74.6
         },
         "Viaje del paquete - Vendedor": {
-          "p": 2,
-          "d": 0,
-          "s": 3,
-          "nps": 66.67
+          "p": 55,
+          "d": 9,
+          "s": 71,
+          "nps": 64.8
         },
         "Funcionalidades de tarjetas de Crédito": {
           "p": 2,
@@ -8526,10 +8544,10 @@
           "nps": -33.33
         },
         "Problemas de seguridad": {
-          "p": 2,
-          "d": 1,
-          "s": 3,
-          "nps": 33.33
+          "p": 643,
+          "d": 137,
+          "s": 852,
+          "nps": 59.4
         },
         "Post Compra Funcionalidades Vendedor": {
           "p": 0,
@@ -8556,16 +8574,16 @@
           "nps": 50.0
         },
         "Chargeback Comprador": {
-          "p": 0,
-          "d": 2,
-          "s": 2,
-          "nps": -100.0
+          "p": 58,
+          "d": 26,
+          "s": 91,
+          "nps": 35.2
         },
         "Funcionalidades de Seguros - Payers": {
-          "p": 0,
-          "d": 1,
-          "s": 1,
-          "nps": -100.0
+          "p": 21,
+          "d": 6,
+          "s": 33,
+          "nps": 45.5
         },
         "Caja vacía - Flex": {
           "p": 1,
@@ -8574,10 +8592,10 @@
           "nps": 100.0
         },
         "Transferencias de dinero": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
+          "p": 366,
+          "d": 62,
+          "s": 477,
+          "nps": 63.7
         },
         "Tarjetas de crédito - Solicitud y Límites": {
           "p": 0,
@@ -8610,10 +8628,10 @@
           "nps": 100.0
         },
         "Point - Como adquirir dispositivo": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
+          "p": 23,
+          "d": 5,
+          "s": 30,
+          "nps": 60.0
         },
         "CBT - Intellectual Property": {
           "p": 1,
@@ -8634,10 +8652,10 @@
           "nps": 100.0
         },
         "Funcionalidades de Online Payments - Sellers": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
+          "p": 13,
+          "d": 3,
+          "s": 18,
+          "nps": 55.6
         },
         "Guardia Urbana": {
           "p": 1,
@@ -8652,40 +8670,40 @@
           "nps": -100.0
         },
         "Tasas e Incentivos Sellers": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
+          "p": 94,
+          "d": 16,
+          "s": 119,
+          "nps": 65.5
         },
         "Seguros transaccional - Payers": {
-          "p": 0,
-          "d": 1,
-          "s": 1,
-          "nps": -100.0
+          "p": 41,
+          "d": 16,
+          "s": 60,
+          "nps": 41.7
         },
         "Registro": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
+          "p": 45,
+          "d": 6,
+          "s": 54,
+          "nps": 72.2
         },
         "Portabilidade salarial": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
+          "p": 29,
+          "d": 5,
+          "s": 36,
+          "nps": 66.7
         },
         "Restricciones": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
+          "p": 219,
+          "d": 56,
+          "s": 311,
+          "nps": 52.4
         },
         "Merchant Credits": {
-          "p": 0,
-          "d": 1,
-          "s": 1,
-          "nps": -100.0
+          "p": 55,
+          "d": 16,
+          "s": 76,
+          "nps": 51.3
         },
         "CBT - Photo quality": {
           "p": 1,
@@ -8705,19 +8723,19 @@
           "p": 83,
           "d": 4,
           "s": 93,
-          "nps": 84.95
+          "nps": 84.9
         },
         "Viaje del paquete - Comprador": {
-          "p": 12,
-          "d": 7,
-          "s": 20,
-          "nps": 25.0
+          "p": 2257,
+          "d": 589,
+          "s": 3264,
+          "nps": 51.1
         },
         "Apelaciones retorno buyer XDDS": {
-          "p": 5,
-          "d": 11,
-          "s": 18,
-          "nps": -33.33
+          "p": 4,
+          "d": 13,
+          "s": 19,
+          "nps": -47.4
         },
         "Asignación del contáctanos Buyers Post": {
           "p": 3,
@@ -8726,10 +8744,10 @@
           "nps": 0.0
         },
         "Problemas con acceso y factores": {
-          "p": 5,
-          "d": 0,
-          "s": 6,
-          "nps": 83.33
+          "p": 472,
+          "d": 40,
+          "s": 566,
+          "nps": 76.3
         },
         "Post Compra Funcionalidades CBT": {
           "p": 4,
@@ -8738,10 +8756,10 @@
           "nps": 33.33
         },
         "Problemas de seguridad": {
-          "p": 2,
-          "d": 4,
-          "s": 6,
-          "nps": -33.33
+          "p": 800,
+          "d": 178,
+          "s": 1062,
+          "nps": 58.6
         },
         "Reputación ML Masivos": {
           "p": 3,
@@ -8750,10 +8768,10 @@
           "nps": 40.0
         },
         "Viaje del paquete - Vendedor": {
-          "p": 2,
-          "d": 2,
-          "s": 4,
-          "nps": 0.0
+          "p": 48,
+          "d": 7,
+          "s": 60,
+          "nps": 68.3
         },
         "Apelaciones buyer XDDS": {
           "p": 2,
@@ -8768,10 +8786,10 @@
           "nps": 33.33
         },
         "PNR - OP": {
-          "p": 3,
-          "d": 0,
-          "s": 3,
-          "nps": 100.0
+          "p": 46,
+          "d": 13,
+          "s": 65,
+          "nps": 50.8
         },
         "Caja vacía - Flex": {
           "p": 3,
@@ -8780,10 +8798,10 @@
           "nps": 100.0
         },
         "Restricciones": {
-          "p": 3,
-          "d": 0,
-          "s": 3,
-          "nps": 100.0
+          "p": 194,
+          "d": 69,
+          "s": 298,
+          "nps": 41.9
         },
         "Reputación ME Masivos": {
           "p": 2,
@@ -8792,10 +8810,10 @@
           "nps": 33.33
         },
         "KYC seg360": {
-          "p": 3,
-          "d": 0,
-          "s": 3,
-          "nps": 100.0
+          "p": 295,
+          "d": 48,
+          "s": 383,
+          "nps": 64.5
         },
         "Caja vacía - MP": {
           "p": 1,
@@ -8816,10 +8834,10 @@
           "nps": 33.33
         },
         "Seguros transaccional - Payers": {
-          "p": 1,
-          "d": 1,
-          "s": 2,
-          "nps": 0.0
+          "p": 63,
+          "d": 19,
+          "s": 93,
+          "nps": 47.3
         },
         "Tarjetas de crédito - Solicitud y Límites": {
           "p": 2,
@@ -8882,10 +8900,10 @@
           "nps": 100.0
         },
         "Transferencias de dinero": {
-          "p": 0,
-          "d": 1,
-          "s": 1,
-          "nps": -100.0
+          "p": 353,
+          "d": 47,
+          "s": 453,
+          "nps": 67.5
         },
         "Denuncia de usuario": {
           "p": 1,
@@ -8964,56 +8982,104 @@
           "d": 1,
           "s": 1,
           "nps": -100.0
+        },
+        "Chargeback Comprador": {
+          "p": 69,
+          "d": 23,
+          "s": 102,
+          "nps": 45.1
+        },
+        "Funcionalidades de Online Payments - Sellers": {
+          "p": 24,
+          "d": 5,
+          "s": 30,
+          "nps": 63.3
+        },
+        "Funcionalidades de Seguros - Payers": {
+          "p": 15,
+          "d": 10,
+          "s": 31,
+          "nps": 16.1
+        },
+        "Merchant Credits": {
+          "p": 77,
+          "d": 20,
+          "s": 104,
+          "nps": 54.8
+        },
+        "Point - Como adquirir dispositivo": {
+          "p": 32,
+          "d": 4,
+          "s": 38,
+          "nps": 73.7
+        },
+        "Portabilidade salarial": {
+          "p": 49,
+          "d": 5,
+          "s": 61,
+          "nps": 72.1
+        },
+        "Registro": {
+          "p": 34,
+          "d": 4,
+          "s": 40,
+          "nps": 75.0
+        },
+        "Tasas e Incentivos Sellers": {
+          "p": 119,
+          "d": 21,
+          "s": 154,
+          "nps": 63.6
         }
       },
       "VIG": {
         "Viaje del paquete - Comprador": {
           "p": 600,
-          "d": 134,
-          "s": 843,
-          "nps": 55.3
+          "d": 136,
+          "s": 845,
+          "nps": 54.9
         },
         "Problemas de seguridad": {
-          "p": 202,
+          "p": 203,
           "d": 51,
-          "s": 271,
-          "nps": 55.7
+          "s": 272,
+          "nps": 55.9
         },
         "KYC seg360": {
-          "p": 121,
+          "p": 123,
           "d": 21,
-          "s": 163,
-          "nps": 61.3
+          "s": 165,
+          "nps": 61.8
         },
         "KYC Services": {
-          "p": 33,
+          "p": 34,
           "d": 2,
-          "s": 40,
-          "nps": 77.5
+          "s": 41,
+          "nps": 78.0
         },
         "Problemas con acceso y factores": {
-          "p": 155,
+          "p": 157,
           "d": 13,
-          "s": 179,
-          "nps": 79.3
+          "s": 181,
+          "nps": 79.6
         },
         "Restricciones": {
           "p": 88,
-          "d": 21,
-          "s": 127,
-          "nps": 52.8
+          "d": 24,
+          "s": 130,
+          "nps": 49.2
         },
         "Transferencias de dinero": {
-          "p": 100,
-          "d": 14,
-          "s": 123,
-          "nps": 69.9
+          "p": 101,
+          "d": 15,
+          "s": 126,
+          "nps": 68.3
         },
         "Tasas e Incentivos Sellers": {
-          "p": 41,
+          "p": 46,
           "d": 10,
-          "s": 55,
-          "nps": 56.4
+          "s": 60,
+          "nps": 60.0
         },
         "Seguros transaccional - Payers": {
           "p": 25,
@@ -9022,58 +9088,58 @@
           "nps": 54.5
         },
         "Viaje del paquete - Vendedor": {
-          "p": 22,
+          "p": 23,
           "d": 1,
-          "s": 25,
-          "nps": 84.0
+          "s": 26,
+          "nps": 84.6
         },
         "Portabilidade salarial": {
-          "p": 15,
+          "p": 16,
           "d": 0,
-          "s": 19,
-          "nps": 78.9
+          "s": 20,
+          "nps": 80.0
         },
         "Chargeback Comprador": {
-          "p": 16,
-          "d": 9,
-          "s": 28,
-          "nps": 25.0
+          "p": 17,
+          "d": 10,
+          "s": 31,
+          "nps": 22.6
         },
         "Merchant Credits": {
-          "p": 22,
+          "p": 26,
           "d": 5,
-          "s": 28,
-          "nps": 60.7
+          "s": 33,
+          "nps": 63.6
         },
         "Registro": {
-          "p": 13,
+          "p": 17,
           "d": 3,
-          "s": 17,
-          "nps": 58.8
+          "s": 23,
+          "nps": 60.9
         },
         "Funcionalidades de Online Payments - Sellers": {
-          "p": 4,
+          "p": 7,
           "d": 0,
-          "s": 5,
-          "nps": 80.0
+          "s": 9,
+          "nps": 77.8
         },
         "Funcionalidades de Seguros - Payers": {
           "p": 11,
           "d": 0,
-          "s": 12,
-          "nps": 91.7
+          "s": 13,
+          "nps": 84.6
         },
         "Point - Como adquirir dispositivo": {
-          "p": 10,
+          "p": 12,
           "d": 1,
-          "s": 11,
-          "nps": 81.8
+          "s": 13,
+          "nps": 84.6
         },
         "PNR - OP": {
           "p": 5,
-          "d": 2,
-          "s": 7,
-          "nps": 42.9
+          "d": 3,
+          "s": 8,
+          "nps": 25.0
         },
         "Apelaciones buyer XDDS": {
           "p": 1,
@@ -15594,42 +15660,42 @@
     "P": {
       "M1": {
         "Post Compra Funcionalidades Vendedor": {
-          "p": 356,
-          "d": 106,
-          "s": 512,
-          "nps": 48.83
+          "p": 793,
+          "d": 212,
+          "s": 1122,
+          "nps": 51.8
         }
       },
       "M2": {
         "Post Compra Funcionalidades Vendedor": {
-          "p": 536,
-          "d": 166,
-          "s": 790,
-          "nps": 46.84
+          "p": 907,
+          "d": 264,
+          "s": 1314,
+          "nps": 48.9
         }
       },
       "S1": {
         "Post Compra Funcionalidades Vendedor": {
-          "p": 82,
-          "d": 30,
-          "s": 129,
-          "nps": 40.31
+          "p": 204,
+          "d": 53,
+          "s": 295,
+          "nps": 51.2
         }
       },
       "S2": {
         "Post Compra Funcionalidades Vendedor": {
-          "p": 95,
-          "d": 28,
-          "s": 137,
-          "nps": 48.91
+          "p": 213,
+          "d": 60,
+          "s": 308,
+          "nps": 49.7
         }
       },
       "VIG": {
         "Post Compra Funcionalidades Vendedor": {
           "p": 85,
-          "d": 19,
-          "s": 112,
-          "nps": 58.9
+          "d": 21,
+          "s": 114,
+          "nps": 56.1
         }
       }
     },
@@ -16816,52 +16882,52 @@
     "P": {
       "M1": {
         "Arrepentimiento - XD": {
-          "p": 82,
-          "d": 72,
-          "s": 178,
-          "nps": 5.62
+          "p": 738,
+          "d": 137,
+          "s": 956,
+          "nps": 62.9
         },
         "Arrepentimiento - DS": {
-          "p": 82,
-          "d": 55,
-          "s": 153,
-          "nps": 17.65
+          "p": 136,
+          "d": 57,
+          "s": 208,
+          "nps": 38.0
         },
         "Defectuoso - XD": {
-          "p": 51,
-          "d": 69,
-          "s": 132,
-          "nps": -13.64
+          "p": 709,
+          "d": 166,
+          "s": 935,
+          "nps": 58.1
         },
         "Diferente - XD": {
-          "p": 64,
-          "d": 55,
-          "s": 129,
-          "nps": 6.98
+          "p": 570,
+          "d": 181,
+          "s": 826,
+          "nps": 47.1
         },
         "Defectuoso - DS": {
-          "p": 60,
-          "d": 51,
-          "s": 123,
-          "nps": 7.32
+          "p": 165,
+          "d": 64,
+          "s": 251,
+          "nps": 40.2
         },
         "Diferente - DS": {
-          "p": 42,
-          "d": 27,
-          "s": 79,
-          "nps": 18.99
+          "p": 119,
+          "d": 51,
+          "s": 191,
+          "nps": 35.6
         },
         "Incompleto - XD": {
-          "p": 44,
-          "d": 24,
-          "s": 74,
-          "nps": 27.03
+          "p": 408,
+          "d": 129,
+          "s": 584,
+          "nps": 47.8
         },
         "Incompleto - DS": {
-          "p": 42,
-          "d": 22,
-          "s": 67,
-          "nps": 29.85
+          "p": 106,
+          "d": 41,
+          "s": 156,
+          "nps": 41.7
         },
         "Caja Vacía - DS": {
           "p": 16,
@@ -16902,52 +16968,52 @@
       },
       "M2": {
         "Arrepentimiento - XD": {
-          "p": 104,
-          "d": 97,
-          "s": 227,
-          "nps": 3.08
+          "p": 777,
+          "d": 178,
+          "s": 1041,
+          "nps": 57.5
         },
         "Arrepentimiento - DS": {
-          "p": 122,
-          "d": 62,
-          "s": 217,
-          "nps": 27.65
+          "p": 162,
+          "d": 46,
+          "s": 244,
+          "nps": 47.5
         },
         "Defectuoso - DS": {
-          "p": 104,
-          "d": 78,
-          "s": 203,
-          "nps": 12.81
+          "p": 211,
+          "d": 91,
+          "s": 324,
+          "nps": 37.0
         },
         "Defectuoso - XD": {
-          "p": 74,
-          "d": 62,
-          "s": 150,
-          "nps": 8.0
+          "p": 936,
+          "d": 236,
+          "s": 1253,
+          "nps": 55.9
         },
         "Diferente - XD": {
-          "p": 60,
-          "d": 67,
-          "s": 136,
-          "nps": -5.15
+          "p": 601,
+          "d": 203,
+          "s": 889,
+          "nps": 44.8
         },
         "Diferente - DS": {
-          "p": 57,
-          "d": 41,
-          "s": 113,
-          "nps": 14.16
+          "p": 167,
+          "d": 51,
+          "s": 235,
+          "nps": 49.4
         },
         "Incompleto - XD": {
-          "p": 44,
-          "d": 37,
-          "s": 94,
-          "nps": 7.45
+          "p": 568,
+          "d": 159,
+          "s": 793,
+          "nps": 51.6
         },
         "Incompleto - DS": {
-          "p": 40,
-          "d": 26,
-          "s": 79,
-          "nps": 17.72
+          "p": 138,
+          "d": 46,
+          "s": 203,
+          "nps": 45.3
         },
         "Caja Vacía - DS": {
           "p": 20,
@@ -16970,52 +17036,52 @@
       },
       "S1": {
         "Arrepentimiento - XD": {
-          "p": 23,
-          "d": 13,
-          "s": 40,
-          "nps": 25.0
+          "p": 142,
+          "d": 21,
+          "s": 180,
+          "nps": 67.2
         },
         "Arrepentimiento - DS": {
-          "p": 17,
-          "d": 12,
-          "s": 34,
-          "nps": 14.71
+          "p": 36,
+          "d": 20,
+          "s": 60,
+          "nps": 26.7
         },
         "Defectuoso - DS": {
-          "p": 13,
-          "d": 11,
-          "s": 29,
-          "nps": 6.9
+          "p": 40,
+          "d": 23,
+          "s": 69,
+          "nps": 24.6
         },
         "Defectuoso - XD": {
-          "p": 12,
-          "d": 12,
-          "s": 27,
-          "nps": 0.0
+          "p": 138,
+          "d": 26,
+          "s": 179,
+          "nps": 62.6
         },
         "Incompleto - DS": {
-          "p": 13,
-          "d": 5,
-          "s": 20,
-          "nps": 40.0
+          "p": 29,
+          "d": 11,
+          "s": 43,
+          "nps": 41.9
         },
         "Diferente - XD": {
-          "p": 9,
-          "d": 9,
-          "s": 18,
-          "nps": 0.0
+          "p": 114,
+          "d": 40,
+          "s": 174,
+          "nps": 42.5
         },
         "Diferente - DS": {
-          "p": 10,
-          "d": 5,
-          "s": 17,
-          "nps": 29.41
+          "p": 34,
+          "d": 13,
+          "s": 52,
+          "nps": 40.4
         },
         "Incompleto - XD": {
-          "p": 6,
-          "d": 6,
-          "s": 14,
-          "nps": 0.0
+          "p": 62,
+          "d": 18,
+          "s": 86,
+          "nps": 51.2
         },
         "Caja Vacía - DS": {
           "p": 6,
@@ -17032,52 +17098,52 @@
       },
       "S2": {
         "Arrepentimiento - XD": {
-          "p": 22,
-          "d": 20,
-          "s": 47,
-          "nps": 4.26
+          "p": 201,
+          "d": 40,
+          "s": 263,
+          "nps": 61.2
         },
         "Arrepentimiento - DS": {
-          "p": 20,
+          "p": 39,
           "d": 15,
-          "s": 40,
-          "nps": 12.5
+          "s": 56,
+          "nps": 42.9
         },
         "Defectuoso - XD": {
-          "p": 16,
-          "d": 20,
-          "s": 40,
-          "nps": -10.0
+          "p": 209,
+          "d": 50,
+          "s": 274,
+          "nps": 58.0
         },
         "Diferente - XD": {
-          "p": 15,
-          "d": 19,
-          "s": 38,
-          "nps": -10.53
+          "p": 126,
+          "d": 56,
+          "s": 205,
+          "nps": 34.1
         },
         "Defectuoso - DS": {
-          "p": 18,
-          "d": 9,
-          "s": 28,
-          "nps": 32.14
+          "p": 44,
+          "d": 14,
+          "s": 62,
+          "nps": 48.4
         },
         "Diferente - DS": {
-          "p": 11,
-          "d": 9,
-          "s": 20,
-          "nps": 10.0
+          "p": 31,
+          "d": 13,
+          "s": 46,
+          "nps": 39.1
         },
         "Incompleto - XD": {
-          "p": 15,
-          "d": 5,
-          "s": 20,
-          "nps": 50.0
+          "p": 106,
+          "d": 39,
+          "s": 165,
+          "nps": 40.6
         },
         "Incompleto - DS": {
-          "p": 12,
-          "d": 6,
-          "s": 18,
-          "nps": 33.33
+          "p": 34,
+          "d": 9,
+          "s": 43,
+          "nps": 58.1
         },
         "Caja Vacía - DS": {
           "p": 6,
@@ -17100,52 +17166,52 @@
       },
       "VIG": {
         "Arrepentimiento - XD": {
-          "p": 86,
+          "p": 89,
           "d": 13,
-          "s": 102,
-          "nps": 71.6
+          "s": 106,
+          "nps": 71.7
         },
         "Diferente - XD": {
-          "p": 62,
-          "d": 13,
-          "s": 76,
-          "nps": 64.5
+          "p": 64,
+          "d": 14,
+          "s": 79,
+          "nps": 63.3
         },
         "Incompleto - XD": {
-          "p": 29,
+          "p": 30,
           "d": 7,
-          "s": 40,
-          "nps": 55.0
+          "s": 41,
+          "nps": 56.1
         },
         "Defectuoso - XD": {
-          "p": 15,
+          "p": 16,
           "d": 5,
-          "s": 21,
-          "nps": 47.6
+          "s": 23,
+          "nps": 47.8
         },
         "Arrepentimiento - DS": {
-          "p": 9,
-          "d": 1,
-          "s": 11,
-          "nps": 72.7
-        },
-        "Incompleto - DS": {
-          "p": 6,
-          "d": 1,
-          "s": 8,
-          "nps": 62.5
-        },
-        "Defectuoso - DS": {
           "p": 10,
           "d": 1,
-          "s": 11,
-          "nps": 81.8
+          "s": 12,
+          "nps": 75.0
+        },
+        "Incompleto - DS": {
+          "p": 7,
+          "d": 1,
+          "s": 9,
+          "nps": 66.7
+        },
+        "Defectuoso - DS": {
+          "p": 11,
+          "d": 1,
+          "s": 12,
+          "nps": 83.3
         },
         "Diferente - DS": {
-          "p": 2,
-          "d": 1,
-          "s": 3,
-          "nps": 33.3
+          "p": 5,
+          "d": 2,
+          "s": 7,
+          "nps": 42.9
         }
       }
     },
@@ -20000,16 +20066,16 @@
     "P": {
       "M1": {
         "Defectuoso - FBM": {
-          "p": 38,
-          "d": 35,
-          "s": 82,
-          "nps": 3.66
+          "p": 919,
+          "d": 143,
+          "s": 1134,
+          "nps": 68.4
         },
         "Arrepentimiento - FBM": {
-          "p": 34,
-          "d": 9,
-          "s": 47,
-          "nps": 53.19
+          "p": 402,
+          "d": 88,
+          "s": 529,
+          "nps": 59.4
         },
         "Asignación del Contáctanos PDD FBM": {
           "p": 14,
@@ -20018,22 +20084,22 @@
           "nps": -11.43
         },
         "Diferente - FBM": {
-          "p": 25,
-          "d": 6,
-          "s": 34,
-          "nps": 55.88
+          "p": 300,
+          "d": 92,
+          "s": 425,
+          "nps": 48.9
         },
         "Incompleto - FBM": {
-          "p": 11,
-          "d": 8,
-          "s": 21,
-          "nps": 14.29
+          "p": 310,
+          "d": 70,
+          "s": 403,
+          "nps": 59.6
         },
         "MED - PDD Low cost": {
-          "p": 10,
-          "d": 4,
-          "s": 16,
-          "nps": 37.5
+          "p": 21,
+          "d": 9,
+          "s": 30,
+          "nps": 40.0
         },
         "Caja Vacía - FBM": {
           "p": 8,
@@ -20042,22 +20108,22 @@
           "nps": 77.78
         },
         "Arrepentimiento - Super - FBM": {
-          "p": 9,
-          "d": 0,
-          "s": 9,
-          "nps": 100.0
+          "p": 34,
+          "d": 4,
+          "s": 38,
+          "nps": 78.9
         },
         "Incompleto - Super - FBM": {
-          "p": 4,
-          "d": 1,
-          "s": 6,
-          "nps": 50.0
+          "p": 83,
+          "d": 18,
+          "s": 105,
+          "nps": 61.9
         },
         "Diferente - Super - FBM": {
-          "p": 4,
-          "d": 0,
-          "s": 4,
-          "nps": 100.0
+          "p": 26,
+          "d": 6,
+          "s": 32,
+          "nps": 62.5
         },
         "Low Cost -  Dry": {
           "p": 1,
@@ -20072,10 +20138,10 @@
           "nps": -100.0
         },
         "Defectuoso - Super - FBM": {
-          "p": 1,
-          "d": 0,
-          "s": 2,
-          "nps": 50.0
+          "p": 84,
+          "d": 9,
+          "s": 99,
+          "nps": 75.8
         },
         "Asignaci�n del Cont�ctanos PDD FBM": {
           "p": 14,
@@ -20092,16 +20158,16 @@
       },
       "M2": {
         "Defectuoso - FBM": {
-          "p": 66,
-          "d": 38,
-          "s": 118,
-          "nps": 23.73
+          "p": 1192,
+          "d": 179,
+          "s": 1454,
+          "nps": 69.7
         },
         "Arrepentimiento - FBM": {
-          "p": 35,
-          "d": 13,
-          "s": 50,
-          "nps": 44.0
+          "p": 367,
+          "d": 99,
+          "s": 496,
+          "nps": 54.0
         },
         "Asignación del Contáctanos PDD FBM": {
           "p": 21,
@@ -20110,16 +20176,16 @@
           "nps": 7.14
         },
         "Incompleto - FBM": {
-          "p": 27,
-          "d": 9,
-          "s": 38,
-          "nps": 47.37
+          "p": 446,
+          "d": 98,
+          "s": 592,
+          "nps": 58.8
         },
         "Diferente - FBM": {
-          "p": 20,
-          "d": 6,
-          "s": 28,
-          "nps": 50.0
+          "p": 387,
+          "d": 92,
+          "s": 535,
+          "nps": 55.1
         },
         "Caja Vacía - FBM": {
           "p": 7,
@@ -20128,34 +20194,34 @@
           "nps": 75.0
         },
         "Defectuoso - Super - FBM": {
-          "p": 5,
-          "d": 1,
-          "s": 6,
-          "nps": 66.67
+          "p": 113,
+          "d": 11,
+          "s": 129,
+          "nps": 79.1
         },
         "Arrepentimiento - Super - FBM": {
-          "p": 4,
-          "d": 1,
-          "s": 5,
-          "nps": 60.0
+          "p": 53,
+          "d": 6,
+          "s": 63,
+          "nps": 74.6
         },
         "MED - PDD Low cost": {
-          "p": 3,
-          "d": 1,
-          "s": 4,
-          "nps": 50.0
+          "p": 8,
+          "d": 8,
+          "s": 17,
+          "nps": 0.0
         },
         "Incompleto - Super - FBM": {
-          "p": 3,
-          "d": 0,
-          "s": 3,
-          "nps": 100.0
+          "p": 115,
+          "d": 15,
+          "s": 131,
+          "nps": 76.3
         },
         "Diferente - Super - FBM": {
-          "p": 1,
-          "d": 1,
-          "s": 2,
-          "nps": 0.0
+          "p": 29,
+          "d": 8,
+          "s": 38,
+          "nps": 55.3
         },
         "Low Cost -  Dry": {
           "p": 1,
@@ -20166,28 +20232,28 @@
       },
       "S1": {
         "Defectuoso - FBM": {
-          "p": 6,
-          "d": 11,
-          "s": 19,
-          "nps": -26.32
+          "p": 179,
+          "d": 28,
+          "s": 214,
+          "nps": 70.6
         },
         "Arrepentimiento - FBM": {
-          "p": 7,
-          "d": 3,
-          "s": 10,
-          "nps": 40.0
+          "p": 84,
+          "d": 20,
+          "s": 108,
+          "nps": 59.3
         },
         "MED - PDD Low cost": {
-          "p": 7,
-          "d": 1,
-          "s": 9,
-          "nps": 66.67
+          "p": 10,
+          "d": 3,
+          "s": 13,
+          "nps": 53.8
         },
         "Diferente - FBM": {
-          "p": 6,
-          "d": 1,
-          "s": 8,
-          "nps": 62.5
+          "p": 30,
+          "d": 18,
+          "s": 51,
+          "nps": 23.5
         },
         "Asignación del Contáctanos PDD FBM": {
           "p": 2,
@@ -20196,10 +20262,10 @@
           "nps": -42.86
         },
         "Incompleto - FBM": {
-          "p": 2,
-          "d": 3,
-          "s": 6,
-          "nps": -16.67
+          "p": 64,
+          "d": 15,
+          "s": 85,
+          "nps": 57.6
         },
         "Caja Vacía - FBM": {
           "p": 5,
@@ -20208,28 +20274,28 @@
           "nps": 100.0
         },
         "Diferente - Super - FBM": {
-          "p": 4,
-          "d": 0,
-          "s": 4,
-          "nps": 100.0
+          "p": 6,
+          "d": 4,
+          "s": 10,
+          "nps": 20.0
         },
         "Incompleto - Super - FBM": {
-          "p": 1,
-          "d": 1,
-          "s": 3,
-          "nps": 0.0
+          "p": 25,
+          "d": 7,
+          "s": 32,
+          "nps": 56.2
         },
         "Arrepentimiento - Super - FBM": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
+          "p": 9,
+          "d": 1,
+          "s": 10,
+          "nps": 80.0
         },
         "Defectuoso - Super - FBM": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
+          "p": 18,
+          "d": 3,
+          "s": 24,
+          "nps": 62.5
         },
         "Low Cost -  Dry": {
           "p": 1,
@@ -20240,10 +20306,10 @@
       },
       "S2": {
         "Defectuoso - FBM": {
-          "p": 11,
-          "d": 7,
-          "s": 21,
-          "nps": 19.05
+          "p": 268,
+          "d": 41,
+          "s": 338,
+          "nps": 67.2
         },
         "Asignación del Contáctanos PDD FBM": {
           "p": 6,
@@ -20252,33 +20318,33 @@
           "nps": 0.0
         },
         "Arrepentimiento - FBM": {
-          "p": 6,
-          "d": 3,
-          "s": 13,
-          "nps": 23.08
+          "p": 105,
+          "d": 25,
+          "s": 143,
+          "nps": 55.9
         },
         "Diferente - FBM": {
-          "p": 8,
-          "d": 3,
-          "s": 11,
-          "nps": 45.45
+          "p": 84,
+          "d": 30,
+          "s": 125,
+          "nps": 43.2
         },
         "Incompleto - FBM": {
-          "p": 4,
-          "d": 3,
-          "s": 8,
-          "nps": 12.5
+          "p": 90,
+          "d": 19,
+          "s": 116,
+          "nps": 61.2
         },
         "MED - PDD Low cost": {
-          "p": 0,
-          "d": 3,
-          "s": 3,
-          "nps": -100.0
+          "p": 6,
+          "d": 2,
+          "s": 8,
+          "nps": 50.0
         },
         "Arrepentimiento - Super - FBM": {
-          "p": 2,
+          "p": 8,
           "d": 0,
-          "s": 2,
+          "s": 8,
           "nps": 100.0
         },
         "Caja Vacía - FBM": {
@@ -20286,20 +20352,38 @@
           "d": 0,
           "s": 1,
           "nps": 100.0
+        },
+        "Defectuoso - Super - FBM": {
+          "p": 15,
+          "d": 1,
+          "s": 17,
+          "nps": 82.4
+        },
+        "Diferente - Super - FBM": {
+          "p": 6,
+          "d": 1,
+          "s": 7,
+          "nps": 71.4
+        },
+        "Incompleto - Super - FBM": {
+          "p": 17,
+          "d": 5,
+          "s": 25,
+          "nps": 48.0
         }
       },
       "VIG": {
         "Arrepentimiento - FBM": {
-          "p": 36,
+          "p": 37,
           "d": 8,
-          "s": 48,
-          "nps": 58.3
+          "s": 49,
+          "nps": 59.2
         },
         "Diferente - FBM": {
-          "p": 16,
-          "d": 8,
-          "s": 27,
-          "nps": 29.6
+          "p": 21,
+          "d": 9,
+          "s": 33,
+          "nps": 36.4
         },
         "Defectuoso - FBM": {
           "p": 37,
@@ -20308,22 +20392,34 @@
           "nps": 92.3
         },
         "Incompleto - FBM": {
+          "p": 8,
+          "d": 4,
+          "s": 13,
+          "nps": 30.8
+        },
+        "Incompleto - Super - FBM": {
+          "p": 3,
+          "d": 2,
+          "s": 5,
+          "nps": 20.0
+        },
+        "Defectuoso - Super - FBM": {
           "p": 7,
           "d": 2,
           "s": 9,
           "nps": 55.6
         },
-        "Incompleto - Super - FBM": {
-          "p": 1,
+        "Arrepentimiento - Super - FBM": {
+          "p": 3,
           "d": 1,
-          "s": 2,
-          "nps": 0.0
+          "s": 4,
+          "nps": 50.0
         },
-        "Defectuoso - Super - FBM": {
-          "p": 5,
-          "d": 1,
-          "s": 6,
-          "nps": 66.7
+        "Diferente - Super - FBM": {
+          "p": 4,
+          "d": 0,
+          "s": 4,
+          "nps": 100.0
         }
       }
     },
@@ -22994,34 +23090,34 @@
     "P": {
       "M1": {
         "PDD - Fotos": {
-          "p": 31,
-          "d": 23,
-          "s": 59,
-          "nps": 13.56
+          "p": 14,
+          "d": 3,
+          "s": 20,
+          "nps": 55.0
         }
       },
       "M2": {
         "PDD - Fotos": {
-          "p": 46,
-          "d": 22,
-          "s": 72,
-          "nps": 33.33
+          "p": 8,
+          "d": 5,
+          "s": 14,
+          "nps": 21.4
         }
       },
       "S1": {
         "PDD - Fotos": {
-          "p": 10,
-          "d": 7,
-          "s": 20,
-          "nps": 15.0
+          "p": 6,
+          "d": 0,
+          "s": 7,
+          "nps": 85.7
         }
       },
       "S2": {
         "PDD - Fotos": {
-          "p": 8,
-          "d": 8,
-          "s": 17,
-          "nps": 0.0
+          "p": 4,
+          "d": 2,
+          "s": 7,
+          "nps": 28.6
         }
       }
     },
@@ -23568,40 +23664,40 @@
     "P": {
       "M1": {
         "Arrepentimiento - MP": {
-          "p": 15,
-          "d": 11,
-          "s": 27,
-          "nps": 14.81
+          "p": 179,
+          "d": 28,
+          "s": 221,
+          "nps": 68.3
         },
         "Defectuoso - Flex": {
-          "p": 8,
-          "d": 11,
-          "s": 21,
-          "nps": -14.29
+          "p": 77,
+          "d": 25,
+          "s": 113,
+          "nps": 46.0
         },
         "Defectuoso - MP": {
-          "p": 8,
-          "d": 4,
-          "s": 16,
-          "nps": 25.0
+          "p": 249,
+          "d": 56,
+          "s": 333,
+          "nps": 58.0
         },
         "Incompleto - Flex": {
-          "p": 7,
-          "d": 5,
-          "s": 13,
-          "nps": 15.38
+          "p": 79,
+          "d": 30,
+          "s": 115,
+          "nps": 42.6
         },
         "Arrepentimiento - Flex": {
-          "p": 7,
-          "d": 3,
-          "s": 13,
-          "nps": 30.77
+          "p": 30,
+          "d": 10,
+          "s": 46,
+          "nps": 43.5
         },
         "Diferente - MP": {
-          "p": 3,
-          "d": 5,
-          "s": 9,
-          "nps": -22.22
+          "p": 70,
+          "d": 12,
+          "s": 93,
+          "nps": 62.4
         },
         "Diferente - Flex": {
           "p": 3,
@@ -23636,34 +23732,34 @@
       },
       "M2": {
         "Arrepentimiento - MP": {
-          "p": 23,
-          "d": 13,
-          "s": 42,
-          "nps": 23.81
+          "p": 222,
+          "d": 37,
+          "s": 287,
+          "nps": 64.5
         },
         "Defectuoso - Flex": {
-          "p": 20,
-          "d": 12,
-          "s": 36,
-          "nps": 22.22
+          "p": 113,
+          "d": 35,
+          "s": 158,
+          "nps": 49.4
         },
         "Defectuoso - MP": {
-          "p": 14,
-          "d": 13,
-          "s": 27,
-          "nps": 3.7
+          "p": 348,
+          "d": 71,
+          "s": 444,
+          "nps": 62.4
         },
         "Arrepentimiento - Flex": {
-          "p": 9,
-          "d": 6,
-          "s": 16,
-          "nps": 18.75
+          "p": 51,
+          "d": 19,
+          "s": 75,
+          "nps": 42.7
         },
         "Incompleto - Flex": {
-          "p": 8,
-          "d": 5,
-          "s": 15,
-          "nps": 20.0
+          "p": 127,
+          "d": 26,
+          "s": 168,
+          "nps": 60.1
         },
         "Diferente - Flex": {
           "p": 7,
@@ -23672,10 +23768,10 @@
           "nps": 33.33
         },
         "Diferente - MP": {
-          "p": 1,
-          "d": 3,
-          "s": 8,
-          "nps": -25.0
+          "p": 113,
+          "d": 22,
+          "s": 149,
+          "nps": 61.1
         },
         "Asignación del Contáctanos PDDMP Flex": {
           "p": 3,
@@ -23698,60 +23794,60 @@
       },
       "S1": {
         "Incompleto - Flex": {
-          "p": 3,
-          "d": 2,
-          "s": 5,
-          "nps": 20.0
+          "p": 29,
+          "d": 6,
+          "s": 38,
+          "nps": 60.5
         },
         "Arrepentimiento - Flex": {
-          "p": 2,
-          "d": 1,
-          "s": 3,
-          "nps": 33.33
+          "p": 9,
+          "d": 4,
+          "s": 16,
+          "nps": 31.2
         },
         "Defectuoso - Flex": {
-          "p": 1,
-          "d": 2,
-          "s": 3,
-          "nps": -33.33
+          "p": 12,
+          "d": 8,
+          "s": 22,
+          "nps": 18.2
         },
         "Diferente - MP": {
-          "p": 0,
-          "d": 3,
-          "s": 3,
-          "nps": -100.0
+          "p": 15,
+          "d": 6,
+          "s": 23,
+          "nps": 39.1
         },
         "Defectuoso - MP": {
-          "p": 2,
-          "d": 1,
-          "s": 3,
-          "nps": 33.33
+          "p": 42,
+          "d": 10,
+          "s": 63,
+          "nps": 50.8
         },
         "Arrepentimiento - MP": {
-          "p": 0,
-          "d": 1,
-          "s": 2,
-          "nps": -50.0
+          "p": 43,
+          "d": 7,
+          "s": 53,
+          "nps": 67.9
         }
       },
       "S2": {
         "Arrepentimiento - MP": {
-          "p": 7,
-          "d": 3,
-          "s": 10,
-          "nps": 40.0
+          "p": 51,
+          "d": 7,
+          "s": 64,
+          "nps": 68.8
         },
         "Defectuoso - Flex": {
-          "p": 4,
-          "d": 4,
-          "s": 9,
-          "nps": 0.0
+          "p": 22,
+          "d": 5,
+          "s": 31,
+          "nps": 54.8
         },
         "Defectuoso - MP": {
-          "p": 4,
-          "d": 1,
-          "s": 7,
-          "nps": 42.86
+          "p": 65,
+          "d": 17,
+          "s": 87,
+          "nps": 55.2
         },
         "Asignación del Contáctanos PDDMP Flex": {
           "p": 3,
@@ -23760,22 +23856,22 @@
           "nps": 100.0
         },
         "Arrepentimiento - Flex": {
-          "p": 0,
-          "d": 1,
-          "s": 3,
-          "nps": -33.33
+          "p": 6,
+          "d": 2,
+          "s": 9,
+          "nps": 44.4
         },
         "Incompleto - Flex": {
-          "p": 2,
-          "d": 1,
-          "s": 3,
-          "nps": 33.33
+          "p": 14,
+          "d": 7,
+          "s": 21,
+          "nps": 33.3
         },
         "Diferente - MP": {
-          "p": 0,
-          "d": 1,
-          "s": 2,
-          "nps": -50.0
+          "p": 18,
+          "d": 4,
+          "s": 26,
+          "nps": 53.8
         },
         "Diferente - Flex": {
           "p": 1,
@@ -23792,22 +23888,22 @@
       },
       "VIG": {
         "Arrepentimiento - MP": {
-          "p": 17,
-          "d": 3,
-          "s": 20,
-          "nps": 70.0
+          "p": 19,
+          "d": 4,
+          "s": 23,
+          "nps": 65.2
         },
         "Defectuoso - MP": {
-          "p": 11,
-          "d": 3,
-          "s": 15,
-          "nps": 53.3
+          "p": 13,
+          "d": 6,
+          "s": 21,
+          "nps": 33.3
         },
         "Defectuoso - Flex": {
-          "p": 7,
-          "d": 1,
-          "s": 8,
-          "nps": 75.0
+          "p": 9,
+          "d": 2,
+          "s": 11,
+          "nps": 63.6
         },
         "Arrepentimiento - Flex": {
           "p": 3,
@@ -23816,10 +23912,16 @@
           "nps": 75.0
         },
         "Incompleto - Flex": {
-          "p": 5,
+          "p": 7,
           "d": 0,
-          "s": 6,
-          "nps": 83.3
+          "s": 8,
+          "nps": 87.5
+        },
+        "Diferente - MP": {
+          "p": 3,
+          "d": 0,
+          "s": 3,
+          "nps": 100.0
         }
       }
     },
@@ -25760,34 +25862,34 @@
     "P": {
       "M1": {
         "PNR - Previo al despacho XD DS": {
-          "p": 98,
-          "d": 57,
-          "s": 164,
-          "nps": 25.0
+          "p": 210,
+          "d": 84,
+          "s": 313,
+          "nps": 40.3
         },
         "PNR - Contradictorio XD DS FBM": {
-          "p": 17,
-          "d": 10,
-          "s": 31,
-          "nps": 22.58
+          "p": 224,
+          "d": 90,
+          "s": 336,
+          "nps": 39.9
         },
         "PNR - Low Cost": {
-          "p": 15,
-          "d": 9,
-          "s": 25,
-          "nps": 24.0
+          "p": 5,
+          "d": 2,
+          "s": 8,
+          "nps": 37.5
         },
         "PNR - Contradictorio - Flex": {
-          "p": 8,
-          "d": 3,
-          "s": 13,
-          "nps": 38.46
+          "p": 59,
+          "d": 14,
+          "s": 80,
+          "nps": 56.2
         },
         "PNR - Previo al Despacho - Flex": {
-          "p": 0,
-          "d": 3,
-          "s": 3,
-          "nps": -100.0
+          "p": 5,
+          "d": 4,
+          "s": 10,
+          "nps": 10.0
         },
         "PNR - Contradictorio - XD": {
           "p": 0,
@@ -25804,22 +25906,22 @@
       },
       "M2": {
         "PNR - Previo al despacho XD DS": {
-          "p": 63,
-          "d": 48,
-          "s": 125,
-          "nps": 12.0
+          "p": 153,
+          "d": 71,
+          "s": 241,
+          "nps": 34.0
         },
         "PNR - Contradictorio XD DS FBM": {
-          "p": 16,
-          "d": 9,
-          "s": 30,
-          "nps": 23.33
+          "p": 192,
+          "d": 83,
+          "s": 296,
+          "nps": 36.8
         },
         "PNR - Contradictorio - Flex": {
-          "p": 9,
-          "d": 6,
-          "s": 15,
-          "nps": 20.0
+          "p": 59,
+          "d": 22,
+          "s": 85,
+          "nps": 43.5
         },
         "PNR - Contradictorio - DS": {
           "p": 8,
@@ -25846,62 +25948,62 @@
           "nps": -100.0
         },
         "PNR - Previo al Despacho - Flex": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
+          "p": 11,
+          "d": 5,
+          "s": 16,
+          "nps": 37.5
         }
       },
       "S1": {
         "PNR - Previo al despacho XD DS": {
-          "p": 46,
-          "d": 25,
-          "s": 76,
-          "nps": 27.63
+          "p": 103,
+          "d": 36,
+          "s": 148,
+          "nps": 45.3
         },
         "PNR - Low Cost": {
-          "p": 10,
-          "d": 6,
-          "s": 17,
-          "nps": 23.53
+          "p": 3,
+          "d": 1,
+          "s": 5,
+          "nps": 40.0
         },
         "PNR - Contradictorio XD DS FBM": {
-          "p": 4,
-          "d": 4,
-          "s": 8,
-          "nps": 0.0
+          "p": 43,
+          "d": 20,
+          "s": 68,
+          "nps": 33.8
         },
         "PNR - Contradictorio - Flex": {
-          "p": 2,
-          "d": 2,
-          "s": 4,
-          "nps": 0.0
+          "p": 25,
+          "d": 4,
+          "s": 30,
+          "nps": 70.0
         },
         "PNR - Previo al Despacho - Flex": {
-          "p": 0,
-          "d": 2,
-          "s": 2,
-          "nps": -100.0
+          "p": 5,
+          "d": 3,
+          "s": 9,
+          "nps": 22.2
         }
       },
       "S2": {
         "PNR - Previo al despacho XD DS": {
-          "p": 13,
-          "d": 7,
-          "s": 22,
-          "nps": 27.27
+          "p": 46,
+          "d": 21,
+          "s": 71,
+          "nps": 35.2
         },
         "PNR - Contradictorio XD DS FBM": {
-          "p": 7,
-          "d": 3,
-          "s": 12,
-          "nps": 33.33
+          "p": 78,
+          "d": 31,
+          "s": 115,
+          "nps": 40.9
         },
         "PNR - Contradictorio - Flex": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
+          "p": 11,
+          "d": 4,
+          "s": 16,
+          "nps": 43.8
         },
         "PNR - Low Cost": {
           "p": 1,
@@ -25912,22 +26014,22 @@
       },
       "VIG": {
         "PNR - Contradictorio XD DS FBM": {
-          "p": 17,
-          "d": 2,
-          "s": 20,
-          "nps": 75.0
+          "p": 18,
+          "d": 3,
+          "s": 22,
+          "nps": 68.2
         },
         "PNR - Previo al despacho XD DS": {
-          "p": 6,
-          "d": 1,
-          "s": 7,
-          "nps": 71.4
+          "p": 8,
+          "d": 2,
+          "s": 10,
+          "nps": 60.0
         },
         "PNR - Contradictorio - Flex": {
-          "p": 1,
-          "d": 0,
-          "s": 2,
-          "nps": 50.0
+          "p": 3,
+          "d": 1,
+          "s": 5,
+          "nps": 40.0
         }
       }
     },
@@ -27402,42 +27504,42 @@
     "P": {
       "M1": {
         "PNR - MP": {
-          "p": 148,
-          "d": 67,
-          "s": 236,
-          "nps": 34.32
+          "p": 1009,
+          "d": 234,
+          "s": 1369,
+          "nps": 56.6
         }
       },
       "M2": {
         "PNR - MP": {
-          "p": 140,
-          "d": 90,
-          "s": 266,
-          "nps": 18.8
+          "p": 1129,
+          "d": 319,
+          "s": 1645,
+          "nps": 49.2
         }
       },
       "S1": {
         "PNR - MP": {
-          "p": 27,
-          "d": 24,
-          "s": 54,
-          "nps": 5.56
+          "p": 205,
+          "d": 59,
+          "s": 288,
+          "nps": 50.7
         }
       },
       "S2": {
         "PNR - MP": {
-          "p": 32,
-          "d": 13,
-          "s": 49,
-          "nps": 38.78
+          "p": 295,
+          "d": 55,
+          "s": 377,
+          "nps": 63.7
         }
       },
       "VIG": {
         "PNR - MP": {
           "p": 66,
-          "d": 15,
-          "s": 91,
-          "nps": 56.0
+          "d": 16,
+          "s": 92,
+          "nps": 54.3
         }
       }
     },
@@ -28484,66 +28586,66 @@
     "P": {
       "M1": {
         "Drivers": {
-          "p": 1689,
-          "d": 280,
-          "s": 2169,
-          "nps": 64.96
+          "p": 1716,
+          "d": 282,
+          "s": 2199,
+          "nps": 65.2
         },
         "Places Kangu": {
-          "p": 381,
-          "d": 53,
-          "s": 469,
-          "nps": 69.94
+          "p": 382,
+          "d": 54,
+          "s": 471,
+          "nps": 69.6
         }
       },
       "M2": {
         "Drivers": {
-          "p": 1797,
-          "d": 278,
-          "s": 2277,
-          "nps": 66.71
+          "p": 1836,
+          "d": 284,
+          "s": 2330,
+          "nps": 66.6
         },
         "Places Kangu": {
-          "p": 431,
-          "d": 59,
-          "s": 529,
-          "nps": 70.32
+          "p": 443,
+          "d": 58,
+          "s": 540,
+          "nps": 71.3
         }
       },
       "S1": {
         "Drivers": {
-          "p": 489,
-          "d": 76,
-          "s": 626,
-          "nps": 65.97
+          "p": 493,
+          "d": 79,
+          "s": 634,
+          "nps": 65.3
         },
         "Places Kangu": {
           "p": 78,
           "d": 9,
           "s": 93,
-          "nps": 74.19
+          "nps": 74.2
         }
       },
       "S2": {
         "Drivers": {
-          "p": 478,
-          "d": 74,
-          "s": 608,
-          "nps": 66.45
+          "p": 487,
+          "d": 75,
+          "s": 618,
+          "nps": 66.7
         },
         "Places Kangu": {
-          "p": 97,
-          "d": 11,
-          "s": 117,
-          "nps": 73.5
+          "p": 98,
+          "d": 12,
+          "s": 119,
+          "nps": 72.3
         }
       },
       "VIG": {
         "Drivers": {
-          "p": 176,
+          "p": 177,
           "d": 41,
-          "s": 233,
-          "nps": 57.9
+          "s": 234,
+          "nps": 58.1
         },
         "Places Kangu": {
           "p": 29,
@@ -31671,10 +31773,10 @@
     "P": {
       "M1": {
         "Afiliados ML": {
-          "p": 919,
-          "d": 149,
-          "s": 1163,
-          "nps": 66.21
+          "p": 958,
+          "d": 158,
+          "s": 1217,
+          "nps": 65.7
         },
         "Gestión de Publicación": {
           "p": 184,
@@ -31689,22 +31791,22 @@
           "nps": 68.58
         },
         "PR - Propiedad intelectual": {
-          "p": 154,
-          "d": 26,
-          "s": 191,
-          "nps": 67.02
+          "p": 209,
+          "d": 34,
+          "s": 261,
+          "nps": 67.0
         },
         "Potenciar Ventas": {
-          "p": 126,
-          "d": 37,
-          "s": 181,
-          "nps": 49.17
+          "p": 160,
+          "d": 49,
+          "s": 235,
+          "nps": 47.2
         },
         "Antes de publicar": {
-          "p": 155,
-          "d": 13,
-          "s": 184,
-          "nps": 77.17
+          "p": 168,
+          "d": 17,
+          "s": 206,
+          "nps": 73.3
         },
         "PR - Artículos prohibidos": {
           "p": 90,
@@ -31713,22 +31815,22 @@
           "nps": 50.81
         },
         "Denuncia de usuario": {
-          "p": 51,
-          "d": 11,
-          "s": 67,
-          "nps": 59.7
+          "p": 62,
+          "d": 16,
+          "s": 84,
+          "nps": 54.8
         },
         "Calidad de foto": {
-          "p": 17,
-          "d": 3,
-          "s": 22,
-          "nps": 63.64
+          "p": 28,
+          "d": 4,
+          "s": 34,
+          "nps": 70.6
         },
         "PR - Datos Personales": {
-          "p": 10,
-          "d": 5,
-          "s": 16,
-          "nps": 31.25
+          "p": 15,
+          "d": 6,
+          "s": 23,
+          "nps": 39.1
         },
         "Gesti�n de Publicaci�n": {
           "p": 187,
@@ -31751,10 +31853,10 @@
       },
       "M2": {
         "Afiliados ML": {
-          "p": 1362,
-          "d": 180,
-          "s": 1687,
-          "nps": 70.07
+          "p": 1419,
+          "d": 190,
+          "s": 1757,
+          "nps": 69.9
         },
         "PR - Técnica prohibida": {
           "p": 235,
@@ -31769,22 +31871,22 @@
           "nps": 61.27
         },
         "Antes de publicar": {
-          "p": 219,
-          "d": 19,
-          "s": 267,
-          "nps": 74.91
+          "p": 240,
+          "d": 22,
+          "s": 294,
+          "nps": 74.1
         },
         "Potenciar Ventas": {
-          "p": 196,
-          "d": 43,
-          "s": 265,
-          "nps": 57.74
+          "p": 239,
+          "d": 58,
+          "s": 331,
+          "nps": 54.7
         },
         "PR - Propiedad intelectual": {
-          "p": 198,
-          "d": 25,
-          "s": 235,
-          "nps": 73.62
+          "p": 265,
+          "d": 38,
+          "s": 322,
+          "nps": 70.5
         },
         "PR - Artículos prohibidos": {
           "p": 77,
@@ -31793,22 +31895,22 @@
           "nps": 46.02
         },
         "Denuncia de usuario": {
-          "p": 85,
-          "d": 12,
-          "s": 109,
-          "nps": 66.97
+          "p": 92,
+          "d": 18,
+          "s": 124,
+          "nps": 59.7
         },
         "Calidad de foto": {
-          "p": 43,
-          "d": 2,
-          "s": 47,
-          "nps": 87.23
+          "p": 56,
+          "d": 3,
+          "s": 63,
+          "nps": 84.1
         },
         "PR - Datos Personales": {
-          "p": 11,
+          "p": 13,
           "d": 4,
-          "s": 15,
-          "nps": 46.67
+          "s": 17,
+          "nps": 52.9
         },
         "Asignación del Contáctanos - Prustomer": {
           "p": 0,
@@ -31819,10 +31921,10 @@
       },
       "S1": {
         "Afiliados ML": {
-          "p": 165,
-          "d": 32,
-          "s": 214,
-          "nps": 62.15
+          "p": 177,
+          "d": 36,
+          "s": 230,
+          "nps": 61.3
         },
         "Gestión de Publicación": {
           "p": 46,
@@ -31837,22 +31939,22 @@
           "nps": 72.0
         },
         "Potenciar Ventas": {
-          "p": 29,
+          "p": 34,
           "d": 12,
-          "s": 45,
-          "nps": 37.78
+          "s": 50,
+          "nps": 44.0
         },
         "PR - Propiedad intelectual": {
-          "p": 38,
-          "d": 3,
-          "s": 43,
-          "nps": 81.4
+          "p": 57,
+          "d": 5,
+          "s": 66,
+          "nps": 78.8
         },
         "Antes de publicar": {
-          "p": 34,
-          "d": 1,
-          "s": 38,
-          "nps": 86.84
+          "p": 37,
+          "d": 2,
+          "s": 44,
+          "nps": 79.5
         },
         "PR - Artículos prohibidos": {
           "p": 22,
@@ -31861,15 +31963,15 @@
           "nps": 38.24
         },
         "Denuncia de usuario": {
-          "p": 9,
-          "d": 3,
-          "s": 13,
-          "nps": 46.15
+          "p": 10,
+          "d": 5,
+          "s": 17,
+          "nps": 29.4
         },
         "Calidad de foto": {
-          "p": 6,
+          "p": 8,
           "d": 0,
-          "s": 6,
+          "s": 8,
           "nps": 100.0
         },
         "PR - Datos Personales": {
@@ -31881,10 +31983,10 @@
       },
       "S2": {
         "Afiliados ML": {
-          "p": 220,
-          "d": 43,
-          "s": 284,
-          "nps": 62.32
+          "p": 230,
+          "d": 45,
+          "s": 298,
+          "nps": 62.1
         },
         "Gestión de Publicación": {
           "p": 37,
@@ -31899,22 +32001,22 @@
           "nps": 62.96
         },
         "PR - Propiedad intelectual": {
-          "p": 41,
-          "d": 5,
-          "s": 51,
-          "nps": 70.59
+          "p": 52,
+          "d": 7,
+          "s": 64,
+          "nps": 70.3
         },
         "Antes de publicar": {
-          "p": 44,
-          "d": 3,
-          "s": 50,
-          "nps": 82.0
+          "p": 46,
+          "d": 5,
+          "s": 56,
+          "nps": 73.2
         },
         "Potenciar Ventas": {
-          "p": 36,
-          "d": 6,
-          "s": 43,
-          "nps": 69.77
+          "p": 45,
+          "d": 13,
+          "s": 61,
+          "nps": 52.5
         },
         "PR - Artículos prohibidos": {
           "p": 20,
@@ -31923,21 +32025,21 @@
           "nps": 44.83
         },
         "Denuncia de usuario": {
-          "p": 10,
+          "p": 14,
           "d": 1,
-          "s": 12,
-          "nps": 75.0
+          "s": 16,
+          "nps": 81.2
         },
         "Calidad de foto": {
-          "p": 5,
-          "d": 0,
-          "s": 6,
-          "nps": 83.33
+          "p": 7,
+          "d": 1,
+          "s": 9,
+          "nps": 66.7
         },
         "PR - Datos Personales": {
-          "p": 1,
+          "p": 2,
           "d": 0,
-          "s": 1,
+          "s": 2,
           "nps": 100.0
         }
       },
@@ -31949,22 +32051,34 @@
           "nps": 65.4
         },
         "Antes de publicar": {
-          "p": 16,
+          "p": 19,
           "d": 1,
-          "s": 17,
-          "nps": 88.2
+          "s": 20,
+          "nps": 90.0
         },
         "PR - Propiedad intelectual": {
-          "p": 15,
+          "p": 16,
           "d": 0,
-          "s": 16,
-          "nps": 93.8
+          "s": 17,
+          "nps": 94.1
         },
         "Potenciar Ventas": {
-          "p": 9,
-          "d": 1,
-          "s": 12,
-          "nps": 66.7
+          "p": 10,
+          "d": 3,
+          "s": 15,
+          "nps": 46.7
+        },
+        "Denuncia de usuario": {
+          "p": 2,
+          "d": 2,
+          "s": 4,
+          "nps": 0.0
+        },
+        "PR - Datos Personales": {
+          "p": 1,
+          "d": 0,
+          "s": 2,
+          "nps": 50.0
         }
       }
     },
