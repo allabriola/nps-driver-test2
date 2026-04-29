@@ -14,6 +14,7 @@ M1_LABEL          = "Abril 2026"
 M2_LABEL          = "Marco 2026"
 S1_LABEL          = "20/abr - 26/abr"
 S2_LABEL          = "13/abr - 19/abr"
+VIG_LABEL         = "27/abr - 29/abr"   # semana atual (parcial)
 NPS_TARGET_ALL = 52.49   # SUM(NUM_TARGET)/SUM(DENOM_TARGET) — 27 drivers — Abril 2026
 NPS_TARGET_SEL = 56.04   # SUM(NUM_TARGET)/SUM(DENOM_TARGET) — 20 drivers (sem Med) — Abril 2026
 REPORT_DATE       = datetime.now().strftime("%d/%m/%Y %H:%M")
@@ -104,33 +105,33 @@ monthly_driver = {
 }
 
 weekly_driver = {
-    "CBT":                               {"S2": (87, 15, 102),    "S1": (77, 16, 96)},
-    "Experiencia Impositiva Mature":     {"S2": (6, 2, 8),        "S1": (2, 0, 4)},
-    "Experiencia Impositiva Meli Pro":   {"S2": (2, 1, 4),        "S1": (3, 0, 3)},
-    "Experiencia Impositiva Seller Dev": {"S2": (112, 33, 160),   "S1": (57, 23, 88)},
-    "FBM-S Mature":                      {"S2": (23, 4, 29),      "S1": (17, 4, 21)},
-    "FBM-S Meli Pro":                    {"S2": (14, 6, 20),      "S1": (17, 0, 20)},
-    "FBM-S Seller Dev":                  {"S2": (68, 24, 101),    "S1": (85, 29, 121)},
-    "ME Vendedor Mature":                {"S2": (222, 44, 286),   "S1": (146, 34, 186)},
-    "ME Vendedor Meli Pro":              {"S2": (76, 4, 83),      "S1": (104, 10, 120)},
-    "ME Vendedor Seller Dev":            {"S2": (1154, 178, 1482),"S1": (1058, 152, 1308)},
-    "Otros CV":                          {"S2": (158, 56, 230),   "S1": (182, 68, 259)},
-    "PCF Vendedor Mature":               {"S2": (51, 19, 81),     "S1": (21, 9, 34)},
-    "PCF Vendedor Meli Pro":             {"S2": (67, 12, 89),     "S1": (101, 14, 131)},
-    "PCF Vendedor Seller Dev":           {"S2": (95, 28, 137),    "S1": (82, 30, 129)},
-    "PDD DS&XD - Vendedor":              {"S2": (135, 107, 261),  "S1": (112, 75, 210)},
-    "PDD FBM - Vendedor":                {"S2": (38, 25, 72),     "S1": (43, 25, 74)},
-    "PDD Fotos - Vendedor":              {"S2": (8, 8, 17),       "S1": (10, 7, 20)},
-    "PDD MP,FLEX & CBT - Vendedor":      {"S2": (21, 11, 39),     "S1": (8, 10, 19)},
-    "PNR ME - Vendedor":                 {"S2": (23, 10, 37),     "S1": (62, 39, 107)},
-    "PNR MP - Vendedor":                 {"S2": (32, 13, 49),     "S1": (27, 24, 54)},
-    "Partners":                          {"S2": (575, 85, 725),   "S1": (567, 85, 719)},
-    "Post Venta Mature":                 {"S2": (76, 11, 97),     "S1": (46, 6, 58)},
-    "Post Venta Meli Pro":               {"S2": (104, 5, 112),    "S1": (149, 1, 152)},
-    "Post Venta Seller Dev":             {"S2": (194, 23, 233),   "S1": (177, 18, 209)},
-    "Publicaciones Mature":              {"S2": (37, 14, 57),     "S1": (25, 3, 30)},
-    "Publicaciones Meli Pro":            {"S2": (37, 4, 44),      "S1": (59, 4, 64)},
-    "Publicaciones Seller Dev":          {"S2": (453, 80, 587),   "S1": (398, 75, 511)},
+    "CBT":                               {"S2": (87, 15, 102),    "S1": (77, 16, 96),     "VIG": (19, 3, 22)},
+    "Experiencia Impositiva Mature":     {"S2": (6, 2, 8),        "S1": (2, 0, 4),        "VIG": (3, 0, 3)},
+    "Experiencia Impositiva Meli Pro":   {"S2": (2, 1, 4),        "S1": (3, 0, 3),        "VIG": (5, 1, 6)},
+    "Experiencia Impositiva Seller Dev": {"S2": (112, 33, 160),   "S1": (57, 23, 88),     "VIG": (18, 2, 25)},
+    "FBM-S Mature":                      {"S2": (23, 4, 29),      "S1": (17, 4, 21),      "VIG": (6, 2, 9)},
+    "FBM-S Meli Pro":                    {"S2": (14, 6, 20),      "S1": (17, 0, 20),      "VIG": (8, 1, 10)},
+    "FBM-S Seller Dev":                  {"S2": (68, 24, 101),    "S1": (85, 29, 121),    "VIG": (32, 10, 44)},
+    "ME Vendedor Mature":                {"S2": (222, 44, 286),   "S1": (146, 34, 186),   "VIG": (36, 14, 54)},
+    "ME Vendedor Meli Pro":              {"S2": (76, 4, 83),      "S1": (104, 10, 120),   "VIG": (75, 3, 81)},
+    "ME Vendedor Seller Dev":            {"S2": (1154, 178, 1482),"S1": (1058, 152, 1308),"VIG": (430, 64, 542)},
+    "Otros CV":                          {"S2": (158, 56, 230),   "S1": (182, 68, 259),   "VIG": (65, 15, 87)},
+    "PCF Vendedor Mature":               {"S2": (51, 19, 81),     "S1": (21, 9, 34),      "VIG": (11, 2, 16)},
+    "PCF Vendedor Meli Pro":             {"S2": (67, 12, 89),     "S1": (101, 14, 131),   "VIG": (42, 7, 53)},
+    "PCF Vendedor Seller Dev":           {"S2": (95, 28, 137),    "S1": (82, 30, 129),    "VIG": (32, 13, 46)},
+    "PDD DS&XD - Vendedor":              {"S2": (135, 107, 261),  "S1": (112, 75, 210),   "VIG": (29, 27, 60)},
+    "PDD FBM - Vendedor":                {"S2": (38, 25, 72),     "S1": (43, 25, 74),     "VIG": (12, 5, 19)},
+    "PDD Fotos - Vendedor":              {"S2": (8, 8, 17),       "S1": (10, 7, 20),      "VIG": (1, 1, 2)},
+    "PDD MP,FLEX & CBT - Vendedor":      {"S2": (21, 11, 39),     "S1": (8, 10, 19),      "VIG": (4, 4, 9)},
+    "PNR ME - Vendedor":                 {"S2": (23, 10, 37),     "S1": (62, 39, 107),    "VIG": (18, 9, 29)},
+    "PNR MP - Vendedor":                 {"S2": (32, 13, 49),     "S1": (27, 24, 54),     "VIG": (11, 1, 16)},
+    "Partners":                          {"S2": (575, 85, 725),   "S1": (567, 85, 719),   "VIG": (203, 46, 269)},
+    "Post Venta Mature":                 {"S2": (76, 11, 97),     "S1": (46, 6, 58),      "VIG": (16, 0, 19)},
+    "Post Venta Meli Pro":               {"S2": (104, 5, 112),    "S1": (149, 1, 152),    "VIG": (52, 5, 59)},
+    "Post Venta Seller Dev":             {"S2": (194, 23, 233),   "S1": (177, 18, 209),   "VIG": (71, 12, 93)},
+    "Publicaciones Mature":              {"S2": (37, 14, 57),     "S1": (25, 3, 30),      "VIG": (10, 1, 12)},
+    "Publicaciones Meli Pro":            {"S2": (37, 4, 44),      "S1": (59, 4, 64),      "VIG": (41, 5, 48)},
+    "Publicaciones Seller Dev":          {"S2": (453, 80, 587),   "S1": (398, 75, 511),   "VIG": (133, 23, 171)},
 }
 
 # Histórico mensal (Jan-Fev para chart do Deep Dive; Mar=M2, Abr=M1 já existem)
@@ -376,6 +377,89 @@ def compute_view(monthly_data, weekly_data, nps_target_consol):
 V_ALL = compute_view(monthly_driver,     weekly_driver,     NPS_TARGET_ALL)
 V_SEL = compute_view(monthly_driver_sel, weekly_driver_sel, NPS_TARGET_SEL)
 
+# View VIGENTE: usa VIG como periodo "atual" comparado com S1
+def compute_vig(monthly_data, weekly_data, nps_target_consol):
+    """Calcula NPS vigente (semana atual parcial) vs S1 (semana fechada)."""
+    def nps_s(p, d, s): return round(100*(p-d)/s, 2) if s > 0 else None
+    pVig = sum(weekly_data[d]["VIG"][0] for d in weekly_data if "VIG" in weekly_data[d])
+    dVig = sum(weekly_data[d]["VIG"][1] for d in weekly_data if "VIG" in weekly_data[d])
+    sVig = sum(weekly_data[d]["VIG"][2] for d in weekly_data if "VIG" in weekly_data[d])
+    pS1  = sum(weekly_data[d]["S1"][2] and weekly_data[d]["S1"][0] for d in weekly_data)
+    dS1  = sum(weekly_data[d]["S1"][1] for d in weekly_data)
+    sS1  = sum(weekly_data[d]["S1"][2] for d in weekly_data)
+    nVig = nps_s(pVig, dVig, sVig)
+    nS1  = nps_s(sum(weekly_data[d]["S1"][0] for d in weekly_data), dS1, sS1)
+    dW   = round(nVig - nS1, 2) if nVig is not None and nS1 is not None else 0
+    mD   = mix_neto({d: {"M2": monthly_data[d]["M2"], "M1": monthly_data[d]["M1"]}
+                     for d in monthly_data}, "M2", "M1",
+                    sum(monthly_data[d]["M2"][2] for d in monthly_data),
+                    sum(monthly_data[d]["M1"][2] for d in monthly_data),
+                    nps_s(sum(monthly_data[d]["M1"][0] for d in monthly_data),
+                          sum(monthly_data[d]["M1"][1] for d in monthly_data),
+                          sum(monthly_data[d]["M1"][2] for d in monthly_data)))
+    # WoW vigente: VIG vs S1
+    wD_vig = {}
+    for d in weekly_data:
+        if "VIG" not in weekly_data[d]: continue
+        vig = weekly_data[d]["VIG"]; s1 = weekly_data[d]["S1"]
+        nv = nps_s(*vig); ns = nps_s(*s1)
+        sha_s = s1[2]/sS1 if sS1 else 0; sha_v = vig[2]/sVig if sVig else 0
+        nt = round(sha_s*(nv-ns), 2) if nv is not None and ns is not None else 0.0
+        mx = round((sha_v-sha_s)*(nv-nVig), 2) if nv is not None and nVig is not None else 0.0
+        wD_vig[d] = dict(surv_a=s1[2], nps_a=ns, share_a=round(sha_s*100,1),
+                         surv_b=vig[2], nps_b=nv, share_b=round(sha_v*100,1),
+                         neto=nt, mix=mx, var=round(nt+mx,2))
+    tt = round(sum(DRIVER_TARGETS[d] * (monthly_data[d]["M1"][2] /
+               sum(monthly_data[d]["M1"][2] for d in monthly_data))
+               for d in monthly_data if d in DRIVER_TARGETS), 2)
+    vt = {}
+    sM1 = sum(monthly_data[d]["M1"][2] for d in monthly_data)
+    nM1 = nps_s(sum(monthly_data[d]["M1"][0] for d in monthly_data),
+                sum(monthly_data[d]["M1"][1] for d in monthly_data), sM1)
+    for drv in monthly_data:
+        b = monthly_data[drv]["M1"]; nb = nps_s(*b)
+        tgt = DRIVER_TARGETS.get(drv); sh = b[2]/sM1 if sM1 else 0
+        gap_d = round(nb - tgt, 2) if nb is not None and tgt is not None else 0.0
+        vt[drv] = {"var": round(gap_d * sh, 2), "nps": nb, "target": tgt,
+                   "gap": gap_d, "share": round(sh * 100, 1)}
+    wd_sorted = sorted_impacts(wD_vig)
+    return dict(
+        nM1=nM1, nM2=nps_s(sum(monthly_data[d]["M2"][0] for d in monthly_data),
+                            sum(monthly_data[d]["M2"][1] for d in monthly_data),
+                            sum(monthly_data[d]["M2"][2] for d in monthly_data)),
+        dM=round(nM1 - nps_s(sum(monthly_data[d]["M2"][0] for d in monthly_data),
+                              sum(monthly_data[d]["M2"][1] for d in monthly_data),
+                              sum(monthly_data[d]["M2"][2] for d in monthly_data)), 2)
+            if nM1 is not None else 0,
+        sM1=sM1, sM2=sum(monthly_data[d]["M2"][2] for d in monthly_data),
+        nS1=nVig, nS2=nS1, dW=dW, sS1=sVig, sS2=sS1,
+        nps_target=nps_target_consol,
+        vs_tgt_mom=round(nM1 - nps_target_consol, 2) if nM1 is not None else 0,
+        vs_tgt_wow=round(nVig - nps_target_consol, 2) if nVig is not None else 0,
+        surv_mom_var=0, surv_wow_var=round((sVig - sS1)/sS1*100, 1) if sS1 else 0,
+        mD=mD, wD=wD_vig, vt=vt, tt=tt,
+        worst_mom=min(mD, key=lambda d: mD[d]["var"]),
+        best_mom =max(mD, key=lambda d: mD[d]["var"]),
+        worst_wow=min(wD_vig, key=lambda d: wD_vig[d]["var"]) if wD_vig else next(iter(monthly_data)),
+        best_wow =max(wD_vig, key=lambda d: wD_vig[d]["var"]) if wD_vig else next(iter(monthly_data)),
+        rec_worst_mom={"below_m":0,"below_w":0,"trend_m":0,"consec_w":0},
+        rec_best_mom ={"below_m":0,"below_w":0,"trend_m":0,"consec_w":0},
+        rec_worst_wow={"below_m":0,"below_w":0,"trend_m":0,"consec_w":0},
+        rec_best_wow ={"below_m":0,"below_w":0,"trend_m":0,"consec_w":0},
+        mom_json=json.dumps(sorted_impacts(mD), ensure_ascii=False),
+        wow_json=json.dumps(wd_sorted, ensure_ascii=False),
+        vt_json =json.dumps(sorted_impacts(vt),  ensure_ascii=False),
+        mom_ybase=calc_y_base(nps_s(sum(monthly_data[d]["M2"][0] for d in monthly_data),
+                                    sum(monthly_data[d]["M2"][1] for d in monthly_data),
+                                    sum(monthly_data[d]["M2"][2] for d in monthly_data)) or 50,
+                              sorted_impacts(mD)),
+        wow_ybase=calc_y_base(nS1 or 50, wd_sorted),
+        vt_ybase =calc_y_base(tt, sorted_impacts(vt)),
+    )
+
+V_ALL_VIG = compute_vig(monthly_driver,     weekly_driver,     NPS_TARGET_ALL)
+V_SEL_VIG = compute_vig(monthly_driver_sel, weekly_driver_sel, NPS_TARGET_SEL)
+
 # ─── HTML ─────────────────────────────────────────────────────────────────────
 def _arr(v): return "&#9650;" if v >= 0 else "&#9660;"
 def _cls(v): return "pos" if v >= 0 else "neg"
@@ -524,8 +608,8 @@ def compute_history(drivers):
         weekly.append({"label": label, "nps": nps_safe(p,det,s), "s": s})
     return {"monthly": monthly, "weekly": weekly}
 
-def make_panes(pfx, v):
-    """Gera os dois panes (MES + SEMANA) para um conjunto de dados."""
+def make_panes(pfx, v, is_vig=False):
+    """Gera os panes para um conjunto de dados. is_vig=True para semana vigente."""
     mD, wD, vt = v["mD"], v["wD"], v["vt"]
 
     def cards_mes():
@@ -592,6 +676,17 @@ def make_panes(pfx, v):
       <div class="chart-title">NPS por Driver — Evolucao Semanal (23/mar – 20/abr)</div>
       <div class="chart-sub">NPS por driver nas ultimas 5 semanas | target consolidado: {v['nps_target']:.1f}%</div>
       <div id="evol-sem-{pfx}"></div>
+    </div>
+  </div>
+  <div id="pane-{pfx}-vig" class="tab-pane">
+    <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:8px 16px;margin-bottom:12px;font-size:12px;color:#f57f17">
+      &#9889; <strong>Semana vigente parcial</strong> — {VIG_LABEL} ({v['sS1']:,} surveys acumuladas. Dados em tempo real, podem variar ao longo da semana.)
+    </div>
+    <div class="sc-grid">{cards_sem()}</div>
+    <div class="chart-section">
+      <div class="chart-title">Impacto WoW — Semana Vigente vs Fechada</div>
+      <div class="chart-sub">Contribuicao de cada driver (pp): {S1_LABEL} (fechada) &rarr; {VIG_LABEL} (vigente).</div>
+      <div class="chart-wrap"><canvas id="c-{pfx}-vig-wow"></canvas></div>
     </div>
   </div>"""
 
@@ -665,6 +760,37 @@ def build_html():
 
     panes_all = make_panes("all", V_ALL)
     panes_sel = make_panes("sel", V_SEL)
+    def make_vig_pane(view, v):
+        wm = v["worst_wow"]; bm = v["best_wow"]
+        wD, mD, vt = v["wD"], v["mD"], v["vt"]
+        cards = (
+            sc_nps("NPS VIGENTE", v["nS1"], v["vs_tgt_wow"], v["dW"], "sem. fechada", VIG_LABEL) +
+            sc_target(v["nps_target"], M1_LABEL, v["nS1"]) +
+            sc_surveys(v["sS1"], v["surv_wow_var"], VIG_LABEL) +
+            sc_driver("DRIVER MAIS OFENSOR", wm,
+                      wD[wm]["nps_b"], wD[wm]["share_b"],
+                      "VIG", wD[wm]["var"], "S1 fechada", mD.get(wm,{}).get("var",0), vt.get(wm,{}).get("gap",0),
+                      v["rec_worst_wow"], is_worst=True) +
+            sc_driver("DRIVER MAIS PROMOTOR", bm,
+                      wD[bm]["nps_b"], wD[bm]["share_b"],
+                      "VIG", wD[bm]["var"], "S1 fechada", mD.get(bm,{}).get("var",0), vt.get(bm,{}).get("gap",0),
+                      v["rec_best_wow"], is_worst=False)
+        )
+        return f"""
+  <div id="pane-{view}-vig" class="tab-pane">
+    <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:8px 16px;margin-bottom:12px;font-size:12px;color:#f57f17">
+      &#9889; <strong>Semana vigente parcial</strong> — {VIG_LABEL} ({v['sS1']:,} surveys. Dados em tempo real, podem variar ao longo da semana.)
+    </div>
+    <div class="sc-grid">{cards}</div>
+    <div class="chart-section">
+      <div class="chart-title">Impacto WoW — Semana Vigente vs Fechada</div>
+      <div class="chart-sub">Contribuicao de cada driver (pp): {S1_LABEL} (fechada) &rarr; {VIG_LABEL} (vigente).</div>
+      <div class="chart-wrap"><canvas id="c-{view}-vig-wow"></canvas></div>
+    </div>
+  </div>"""
+
+    panes_all_vig = make_vig_pane("all", V_ALL_VIG)
+    panes_sel_vig = make_vig_pane("sel", V_SEL_VIG)
 
     # Historico NPS consolidado para os graficos de evolucao
     hist_all = compute_history(list(monthly_driver.keys()))
@@ -697,7 +823,7 @@ def build_html():
 <script>
 /* NAV: este bloco nao depende de Chart.js nem de dados externos */
 var currentView='all',currentPeriod='mes';
-var PERIOD_LABELS={{mes:'{M1_LABEL}',sem:'{S1_LABEL}'}};
+var PERIOD_LABELS={{mes:'{M1_LABEL}',sem:'{S1_LABEL}',vig:'{VIG_LABEL} &#9889;'}};
 function updatePanes(){{
   document.querySelectorAll('.tab-pane').forEach(function(p){{p.classList.remove('active');}});
   var el=document.getElementById('pane-'+currentView+'-'+currentPeriod);
@@ -897,6 +1023,7 @@ header h1{{font-size:16px;font-weight:700}}
     <div class="period-tabs">
       <button class="period-btn active" data-period="mes" onclick="setPeriod(this)">MES</button>
       <button class="period-btn"        data-period="sem" onclick="setPeriod(this)">SEMANA</button>
+      <button class="period-btn"        data-period="vig" onclick="setPeriod(this)" style="background:#ff8f00;color:#fff">&#9889; VIGENTE</button>
     </div>
     <div class="period-label" id="period-label">{M1_LABEL}</div>
   </div>
@@ -905,6 +1032,8 @@ header h1{{font-size:16px;font-weight:700}}
 <div class="page">
   {panes_all}
   {panes_sel}
+  {panes_all_vig}
+  {panes_sel_vig}
 
   <!-- ── DEEP DIVE ──────────────────────────────────────────────── -->
   <div id="pane-dd-mes" class="tab-pane">
@@ -1100,6 +1229,8 @@ try {{ Chart.register(ChartDataLabels); }} catch(e) {{ console.warn('Chart.regis
 requestAnimationFrame(function() {{
   requestAnimationFrame(function() {{
     {js_charts("all", V_ALL)}{js_charts("sel", V_SEL)}
+    try {{ buildWaterfall('c-all-vig-wow',{V_ALL_VIG['nS2']},{V_ALL_VIG['nS1']},'{S1_LABEL}','{VIG_LABEL} ⚡',{V_ALL_VIG['wow_json']},{V_ALL_VIG['wow_ybase']}); }} catch(e) {{}}
+    try {{ buildWaterfall('c-sel-vig-wow',{V_SEL_VIG['nS2']},{V_SEL_VIG['nS1']},'{S1_LABEL}','{VIG_LABEL} ⚡',{V_SEL_VIG['wow_json']},{V_SEL_VIG['wow_ybase']}); }} catch(e) {{}}
     var allDrvs = Object.keys(DRV_HIST);
     var selDrvs = allDrvs.filter(function(d){{ return {json.dumps(list(monthly_driver_sel.keys()))}.indexOf(d)>=0; }});
     try {{ buildEvolTable('evol-mes-all', allDrvs, 'monthly', {V_ALL['nps_target']}); }} catch(e) {{ console.warn('evol-mes-all',e); }}
