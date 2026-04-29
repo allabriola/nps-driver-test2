@@ -1,0 +1,73 @@
+{
+  "resumo_executivo": "Partners encerrou a semana de 20-26/abr com NPS de 67,0% (-0,55pp vs semana anterior), sustentado pelo crescimento de Places Kangu (+0,69pp) que parcialmente compensou a queda em Drivers (-0,48pp). O principal vetor de insatisfação continua sendo o processo de ativação e gestão de conta de motoristas: conta inativada pelo Digital Account (sem ferramenta de reativação pelo atendente) e bugs de cadastro geram NPS crítico de 57-62% nos CDUs de maior volume. Um achado operacional relevante: Newbies superam Experts no CDU de conta inativada (76,5% vs 57,4%), sugerindo que o script básico é mais eficaz do que improvisações dos seniors sem a ferramenta adequada.",
+
+  "top_detratores": [
+    {
+      "causa": "Conta inativada por Digital Account sem ferramenta de reativação (CDU principal com 146 surveys)",
+      "impacto": "NPS Expert 57,4% — gap de 19pp vs Newbie (76,5%). Atendente identifica o problema mas não pode resolver, gerando NPS baixo mesmo em atendimento empático.",
+      "frequencia": "alta",
+      "sugestao": "Habilitar ferramenta de reativação de conta para todos os níveis de atendimento, não apenas backoffice. Criar SLA de 2h para casos de inativação Digital Account.",
+      "prioridade": "Alta"
+    },
+    {
+      "causa": "Transferências em cadeia sem resolução — motorista recontata sem resposta concreta",
+      "impacto": "Comentário direto: 'atendentes são educados mas só transferem e ninguém dá resposta concreta'. Cria recontato e NPS 0.",
+      "frequencia": "alta",
+      "sugestao": "Limite de 2 transferências por caso Partners/Drivers. Após 2ª transferência, criar owner fixo com prazo de resposta de 24h.",
+      "prioridade": "Alta"
+    },
+    {
+      "causa": "IA como 1ª linha gerando loops e respostas desconexas em caso de conta suspensa",
+      "impacto": "Motorista recebe resposta automática repetitiva antes do humano. Comentário: 'parece IA que fica repetindo sem resolver'. Gera frustração antes mesmo do atendimento real.",
+      "frequencia": "media",
+      "sugestao": "Retirar IA como 1ª linha para Partners ou treinar modelo para identificar CDUs críticos (conta suspensa, pagamento) e escalar direto para humano.",
+      "prioridade": "Alta"
+    },
+    {
+      "causa": "Bug de cadastro ANTT (categoria errada TAC vs ETC) — impossível alterar durante análise",
+      "impacto": "Motorista bloqueado no onboarding por seleção errada de categoria. REP orienta aguardar sem SLA definido. Gera desistência e NPS 0 na criação de conta.",
+      "frequencia": "media",
+      "sugestao": "Criar fluxo de correção manual de categoria ANTT com SLA de 48h. REP deve ter acesso ao formulário de correção, sem dependência de análise interna.",
+      "prioridade": "Alta"
+    },
+    {
+      "causa": "Erro operacional: sistema carrega rota com volume de utilitário para carro de passeio",
+      "impacto": "Motorista aceita rota baseado no valor prometido mas recebe quantidade incompatível com seu veículo. REP confunde o contato com pagamento MP ao invés de problema logístico.",
+      "frequencia": "baixa",
+      "sugestao": "Validação automática de compatibilidade veículo x rota antes do aceite. Treinar REP para identificar CDU de rota vs pagamento desde o primeiro contato.",
+      "prioridade": "Media"
+    }
+  ],
+
+  "top_promotores": [
+    {
+      "causa": "Places Kangu com NPS 74,2% (+0,69pp): onboarding de agências Meli gera NPS 93% — atendimento consultivo e clareza sobre o processo de cadastro como ponto Place.",
+      "impacto": "CDU 'Quiere ser Agencia MELI' é o maior gerador de NPS 10 do driver. Motoristas que recebem orientação completa no 1º contato dão nota máxima sistematicamente."
+    },
+    {
+      "causa": "CDU 'não recebe rotas' resolvido pelo Newbie com NPS 90,9%: motorista que recebe confirmação rápida sobre status de rota disponível fica satisfeito mesmo aguardando.",
+      "impacto": "Comunicação clara e direta sobre status do sistema supera expectativa do motorista. Newbie supera Expert aqui por seguir o script objetivo sem criar expectativas incorretas."
+    }
+  ],
+
+  "padroes_operacionais": "Padrões identificados nas transcrições: (1) REP NEWBIE outperforms EXPERT em CDU de conta inativada — Newbie segue script sem improvisar, gerando NPS 76% vs 57% do Expert que tenta solucionar sem ferramenta; (2) Contexto de produto confuso: REP não distingue corretamente entre Envios Extra, Places Kangu e Transportadora, orientando motorista para o fluxo errado (caso: cadastro de placa vermelha que vira conta Kangu); (3) IA de 1ª linha cria loop: motorista com conta suspensa recebe respostas automáticas repetitivas antes de atingir atendente humano, chegando ao humano já frustrado; (4) Sem owner nos casos críticos: casos de conta inativada e erro de cadastro passam por 3-4 atendentes sem resolução — nenhum assume a responsabilidade de fechar o caso.",
+
+  "senioridade_insight": "Achado contraintuitivo: NEWBIE supera EXPERT em 3 dos 5 CDUs de maior volume. No CDU de maior impacto (conta inativada, 146 surveys), Expert NPS 57,4% vs Newbie 76,5% — gap de 19pp. Hipótese: Expert tenta customizar a solução mas não tem ferramenta para executar, gerando promessas não cumpridas e NPS 0; Newbie segue o script (informa que não pode resolver e registra) de forma mais transparente, gerando NPS mais alto. Único CDU onde Expert ganha claramente: métricas de Nivel de Lealtad (55,6% vs 21,4% Newbie) — conhecimento técnico do produto é necessário. Recomendação: treinar Experts em comunicação transparente de limitações, não apenas em produto.",
+
+  "sumario_diretoria": "Partners fechou a semana com NPS de 67,0%, -0,55pp vs semana anterior, sustentado por Places Kangu mas pressionado por Drivers.\nO CDU crítico é conta inativada (146 surveys): sem ferramenta de reativação, atendente Expert performa 19pp abaixo do Newbie — paradoxo que indica problema de processo, não de conhecimento.\nO principal risco é o padrão de transferências em cadeia sem owner: motoristas recontactam múltiplas vezes sem resolução, gerando recontato sistêmico e desgaste de equipe.\nA oportunidade imediata é habilitar reativação de conta para todos os níveis: isso sozinho pode recuperar 5-8pp de NPS no CDU dominante.\nPrioridade dos próximos 30 dias: ferramenta de reativação, remover IA da 1ª linha Partners e limitar transferências a 2 por caso.",
+
+  "conclusao_estrategica": "Partners opera com NPS 3,15pp abaixo do target de 70,19% e enfrenta um bloqueio estrutural claro: o problema não é de atendimento, é de ferramenta. Atendentes identificam o problema do motorista corretamente mas não têm poder de ação, gerando empatia sem resolução — o pior cenário para NPS. Se não houver desbloqueio de ferramenta de reativação nos próximos 30 dias, o driver deve encerrar abril entre 65-67%, consolidando 2 meses consecutivos abaixo do target sem reversão possível apenas via treinamento.",
+
+  "acoes_30_dias": [
+    {"acao": "Habilitar ferramenta de reativação de conta Digital Account para todos os níveis de atendimento Partners/Drivers", "prioridade": "Alta", "responsavel": "Produto"},
+    {"acao": "Remover IA como 1ª linha para CDUs críticos de Partners (conta suspensa, pagamento de rota, cadastro) — escalar direto para humano", "prioridade": "Alta", "responsavel": "Operacao"},
+    {"acao": "Implementar limite de 2 transferências por caso com owner fixo e SLA de 24h — monitorar KPI de recontato Partners", "prioridade": "Alta", "responsavel": "Gestao"}
+  ],
+
+  "alertas_criticos": [
+    "ALERTA: 2º mês consecutivo abaixo do target (67,0% vs meta 70,19%, -3,15pp). Sem desbloqueio de ferramenta, tendência de queda se consolida em maio.",
+    "ALERTA: Expert NPS 19pp abaixo de Newbie no CDU dominante — indica problema sistêmico de ferramenta/processo, não de treinamento individual."
+  ],
+
+  "bullets_legado": "▶ Partners -0,55pp WoW: queda concentrada em Drivers (-0,48pp, 87% do volume) parcialmente compensada por Places Kangu (+0,69pp). CDU dominante é conta inativada por Digital Account sem ferramenta de reativação — 146 surveys com NPS crítico de 57-77%.\n▶ Dor central do motorista: após múltiplas transferências, ninguém resolve o problema. Comentário recorrente: 'atendentes são educados mas só transferem e ninguém dá resposta concreta' — padrão de empatia sem resolução que gera NPS 0.\n▶ Achado crítico: Newbie supera Expert em 3 de 5 CDUs. No CDU de conta inativada, Expert NPS 57,4% vs Newbie 76,5% — Expert improvisa sem ferramenta, gerando promessas não cumpridas; Newbie segue script com transparência.\n▶ Ponto positivo: Places Kangu com NPS 74,2% e CDU Agência MELI atingindo 93% — onboarding consultivo claro é o principal motor de promotores do driver.\n▶ Oportunidade imediata: habilitar reativação de conta para todos os níveis pode recuperar 5-8pp no CDU dominante. Remover IA da 1ª linha e limitar transferências a 2 por caso são ações de 30 dias de alto impacto."
+}

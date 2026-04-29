@@ -1347,10 +1347,14 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   var procsMix = getMixData('P');
 
   // ── BULLETS QUALITATIVOS ──
-  var sumKey = isMes?'mom':'wow';
+  var sumKey = isMes?'mom':(isVigPeriod?'wow':'wow');
   var sumObj = DD_SUMMARIES[drv];
-  var sumText = sumObj&&sumObj[sumKey]?sumObj[sumKey]:(sumObj&&sumObj.mom?sumObj.mom:null);
-  var bullets = (sumText||'').split('\\n').map(function(b){{return b.replace(/^[\s▶•]+/,'').trim();}}).filter(function(b){{return b.length>15;}});
+  var sumRaw = sumObj&&sumObj[sumKey]?sumObj[sumKey]:(sumObj&&sumObj.mom?sumObj.mom:null);
+  // Suporte a novo formato (objeto) e legado (string)
+  var isNewFormat = sumRaw && typeof sumRaw === 'object';
+  var sumText = isNewFormat ? (sumRaw.bullets_legado||'') : (sumRaw||'');
+  var sumNew  = isNewFormat ? sumRaw : null;
+  var bullets = sumText.split('\\n').map(function(b){{return b.replace(/^[\s▶•]+/,'').trim();}}).filter(function(b){{return b.length>15;}});
   function getBullet(kws){{
     for(var i=0;i<bullets.length;i++){{ var bl=bullets[i].toLowerCase(); for(var j=0;j<kws.length;j++){{if(bl.indexOf(kws[j])>=0) return bullets[i];}} }}
     return null;
@@ -1722,7 +1726,148 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   }}
 
   html+='</div></div>';
+
+  // ── ANÁLISE ESTRATÉGICA (novo formato) — exibe na aba SEM como teste ──
+  if (sumNew && !isMes) {{
+    html += buildAnaliseEstrategica(sumNew, lA, lB);
+  }}
+
   return html;
+}}
+
+function buildAnaliseEstrategica(s, lA, lB) {{
+  function priTag(p) {{
+    var c = p==='Alta'?'#b71c1c':p==='Media'?'#e65100':'#388e3c';
+    return '<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:'+c+'22;color:'+c+'">'+p+'</span>';
+  }}
+  function freqTag(f) {{
+    var c = f==='alta'?'#6a1a6a':f==='media'?'#1a5276':'#1a6a2a';
+    var l = f==='alta'?'Alta':f==='media'?'Média':'Baixa';
+    return '<span style="display:inline-block;padding:2px 6px;border-radius:8px;font-size:10px;background:'+c+'18;color:'+c+';font-weight:600">'+l+'</span>';
+  }}
+  function respTag(r) {{
+    var c = r==='Produto'?'#1a237e':r==='Gestao'?'#4a148c':'#006064';
+    return '<span style="display:inline-block;padding:2px 6px;border-radius:8px;font-size:10px;background:'+c+'18;color:'+c+';font-weight:600">'+r+'</span>';
+  }}
+
+  var out = '<div style="margin-top:18px;border:2px solid #3949ab;border-radius:12px;overflow:hidden">'+
+    '<div style="background:#3949ab;padding:10px 16px;display:flex;align-items:center;gap:8px">'+
+      '<span style="font-size:15px">&#128202;</span>'+
+      '<span style="color:#fff;font-weight:700;font-size:13px">Análise Estratégica</span>'+
+      '<span style="color:#9fa8da;font-size:11px;margin-left:4px">— novo framework analítico (teste)</span>'+
+    '</div>'+
+    '<div style="padding:14px 16px;background:#f8f9ff">';
+
+  // Resumo Executivo
+  if(s.resumo_executivo) {{
+    out += '<div style="background:#fff;border-radius:8px;padding:12px 14px;margin-bottom:12px;border-left:4px solid #3949ab">'+
+      '<div style="font-size:10px;font-weight:700;color:#3949ab;margin-bottom:4px">&#128203; PANORAMA EXECUTIVO</div>'+
+      '<p style="font-size:12px;color:#2d3561;line-height:1.6;margin:0">'+s.resumo_executivo+'</p>'+
+    '</div>';
+  }}
+
+  // Alertas Críticos
+  if(s.alertas_criticos && s.alertas_criticos.length) {{
+    out += '<div style="background:#fff8e1;border:1px solid #ff8f00;border-radius:8px;padding:10px 14px;margin-bottom:12px">';
+    out += '<div style="font-size:10px;font-weight:700;color:#e65100;margin-bottom:6px">&#9888; ALERTAS CRÍTICOS</div>';
+    s.alertas_criticos.forEach(function(a) {{
+      out += '<div style="font-size:11px;color:#5d3b00;margin-bottom:4px">• '+a+'</div>';
+    }});
+    out += '</div>';
+  }}
+
+  // Top Detratores
+  if(s.top_detratores && s.top_detratores.length) {{
+    out += '<div style="margin-bottom:12px">'+
+      '<div style="font-size:10px;font-weight:700;color:#b71c1c;margin-bottom:6px">&#128308; TOP CAUSAS DE INSATISFAÇÃO</div>'+
+      '<div style="display:flex;flex-direction:column;gap:6px">';
+    s.top_detratores.forEach(function(d) {{
+      out += '<div style="background:#fff;border-radius:7px;padding:9px 12px;border:1px solid #e0e0e0">'+
+        '<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">'+
+          priTag(d.prioridade||'Media')+' '+freqTag(d.frequencia||'media')+
+          '<span style="font-size:11px;font-weight:600;color:#1a1e3c;flex:1">'+d.causa+'</span>'+
+        '</div>'+
+        '<div style="font-size:11px;color:#555;margin-bottom:3px"><b>Impacto:</b> '+d.impacto+'</div>'+
+        '<div style="font-size:11px;color:#1a5276"><b>&#9679; Sugestão:</b> '+d.sugestao+'</div>'+
+      '</div>';
+    }});
+    out += '</div></div>';
+  }}
+
+  // Top Promotores
+  if(s.top_promotores && s.top_promotores.length) {{
+    out += '<div style="margin-bottom:12px">'+
+      '<div style="font-size:10px;font-weight:700;color:#1b5e20;margin-bottom:6px">&#128994; TOP DRIVERS DE SATISFAÇÃO</div>'+
+      '<div style="display:flex;flex-direction:column;gap:6px">';
+    s.top_promotores.forEach(function(p) {{
+      out += '<div style="background:#fff;border-radius:7px;padding:8px 12px;border:1px solid #e0e0e0">'+
+        '<div style="font-size:11px;font-weight:600;color:#1b5e20;margin-bottom:2px">'+p.causa+'</div>'+
+        '<div style="font-size:11px;color:#555">'+p.impacto+'</div>'+
+      '</div>';
+    }});
+    out += '</div></div>';
+  }}
+
+  // Grid: Padrões + Senioridade
+  var hasPatterns = s.padroes_operacionais || s.senioridade_insight;
+  if(hasPatterns) {{
+    out += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">';
+    if(s.padroes_operacionais) {{
+      out += '<div style="background:#fff;border-radius:7px;padding:9px 12px;border:1px solid #e0e0e0">'+
+        '<div style="font-size:10px;font-weight:700;color:#4a148c;margin-bottom:4px">&#128241; PADRÕES OPERACIONAIS</div>'+
+        '<p style="font-size:11px;color:#333;line-height:1.5;margin:0">'+s.padroes_operacionais+'</p>'+
+      '</div>';
+    }}
+    if(s.senioridade_insight) {{
+      out += '<div style="background:#fff;border-radius:7px;padding:9px 12px;border:1px solid #e0e0e0">'+
+        '<div style="font-size:10px;font-weight:700;color:#01579b;margin-bottom:4px">&#127775; SENIORIDADE</div>'+
+        '<p style="font-size:11px;color:#333;line-height:1.5;margin:0">'+s.senioridade_insight+'</p>'+
+      '</div>';
+    }}
+    out += '</div>';
+  }}
+
+  // Ações 30 Dias
+  if(s.acoes_30_dias && s.acoes_30_dias.length) {{
+    out += '<div style="margin-bottom:12px">'+
+      '<div style="font-size:10px;font-weight:700;color:#1a237e;margin-bottom:6px">&#128203; AÇÕES PRIORITÁRIAS — 30 DIAS</div>'+
+      '<div style="display:flex;flex-direction:column;gap:5px">';
+    s.acoes_30_dias.forEach(function(a,i) {{
+      out += '<div style="background:#fff;border-radius:6px;padding:8px 12px;border:1px solid #e0e0e0;display:flex;align-items:flex-start;gap:8px">'+
+        '<span style="font-weight:700;color:#3949ab;min-width:14px">'+(i+1)+'.</span>'+
+        '<div style="flex:1">'+
+          '<span style="font-size:11px;color:#1a1e3c">'+a.acao+'</span>'+
+          '<span style="margin-left:8px">'+priTag(a.prioridade||'')+'</span>'+
+          '<span style="margin-left:4px">'+respTag(a.responsavel||'')+'</span>'+
+        '</div>'+
+      '</div>';
+    }});
+    out += '</div></div>';
+  }}
+
+  // Sumário + Conclusão (grid 2 colunas)
+  if(s.sumario_diretoria || s.conclusao_estrategica) {{
+    out += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+    if(s.sumario_diretoria) {{
+      var lines = s.sumario_diretoria.split('\\n').filter(function(l){{return l.trim();}});
+      out += '<div style="background:#f3e5f5;border-radius:7px;padding:9px 12px;border:1px solid #ce93d8">'+
+        '<div style="font-size:10px;font-weight:700;color:#6a1a6a;margin-bottom:6px">&#127970; SUMÁRIO PARA DIRETORIA</div>'+
+        lines.map(function(l,i){{
+          return '<div style="font-size:11px;color:#2d1259;margin-bottom:3px"><b>'+(i+1)+'.</b> '+l.trim()+'</div>';
+        }}).join('')+
+      '</div>';
+    }}
+    if(s.conclusao_estrategica) {{
+      out += '<div style="background:#e8f5e9;border-radius:7px;padding:9px 12px;border:1px solid #a5d6a7">'+
+        '<div style="font-size:10px;font-weight:700;color:#1b5e20;margin-bottom:4px">&#127919; CONCLUSÃO ESTRATÉGICA</div>'+
+        '<p style="font-size:11px;color:#1a3c1a;line-height:1.5;margin:0">'+s.conclusao_estrategica+'</p>'+
+      '</div>';
+    }}
+    out += '</div>';
+  }}
+
+  out += '</div></div>';
+  return out;
 }}
 
 function buildAnalysisCards(drv, period, drvData, bkData) {{
