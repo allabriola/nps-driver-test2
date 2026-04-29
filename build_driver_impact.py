@@ -838,8 +838,11 @@ function setPeriod(btn){{
   updatePanes();
   if(currentView==='dd'){{
     var sel=document.getElementById('dd-select-'+currentPeriod);
-    var other=document.getElementById('dd-select-'+(currentPeriod==='mes'?'sem':'mes'));
-    if(sel&&other&&other.value){{sel.value=other.value;if(typeof renderDD!=='undefined')renderDD(currentPeriod);}}
+    // Sincronizar driver selecionado entre abas
+    var periods=['mes','sem','vig'];
+    var curDrv='';
+    periods.forEach(function(p){{var el=document.getElementById('dd-select-'+p);if(el&&el.value)curDrv=el.value;}});
+    if(sel&&curDrv){{sel.value=curDrv;if(typeof renderDD!=='undefined')renderDD(currentPeriod);}}
   }}
 }}
 document.addEventListener('DOMContentLoaded',function(){{updatePanes();}});
@@ -1052,6 +1055,22 @@ header h1{{font-size:16px;font-weight:700}}
       </select>
     </div>
     <div id="dd-content-sem" class="dd-placeholder">
+      <div class="dd-hint">Selecione um driver acima para ver o detalhamento</div>
+    </div>
+  </div>
+
+  <div id="pane-dd-vig" class="tab-pane">
+    <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:7px 14px;margin-bottom:12px;font-size:12px;color:#f57f17">
+      &#9889; <strong>Semana vigente ({VIG_LABEL})</strong> — Resumo executivo usa dados VIG vs S1. Breakdowns detalhados usam S1/S2 como referencia.
+    </div>
+    <div class="dd-bar">
+      <label class="dd-label">Driver</label>
+      <select id="dd-select-vig" class="dd-select" onchange="callRenderDD('vig')">
+        <option value="">Selecione um driver...</option>
+        {options_html}
+      </select>
+    </div>
+    <div id="dd-content-vig" class="dd-placeholder">
       <div class="dd-hint">Selecione um driver acima para ver o detalhamento</div>
     </div>
   </div>
@@ -1820,13 +1839,15 @@ function buildExecSummary(drv, period) {{
 }}
 
 function renderDD(period) {{
+  // 'vig' usa os mesmos breakdowns de 'sem' (S1/S2) mas com label vigente
+  var effectivePeriod = period === 'vig' ? 'sem' : period;
   var selectId = 'dd-select-' + period;
   var contentId = 'dd-content-' + period;
   var drv = document.getElementById(selectId).value;
   var content = document.getElementById(contentId);
 
-  // Sincronizar selects
-  var otherPeriod = period === 'mes' ? 'sem' : 'mes';
+  // Sincronizar todos os selects (mes, sem, vig)
+  var otherPeriod = effectivePeriod === 'mes' ? 'sem' : 'mes';
   var otherSelect = document.getElementById('dd-select-' + otherPeriod);
   if (otherSelect) otherSelect.value = drv;
 
@@ -1845,7 +1866,7 @@ function renderDD(period) {{
   function fmtNPS(v) {{ return v !== null ? v.toFixed(1)+'%' : '—'; }}
   function fmtDelta(v) {{ if(v===null||v===undefined) return '—'; var s=v>=0?'+':''; return s+v.toFixed(2)+' pp'; }}
 
-  if (period === 'mes') {{
+  if (effectivePeriod === 'mes') {{
     var pts = d.monthly;
     var cur = pts[pts.length-1];
     var prev = pts[pts.length-2];
@@ -1902,9 +1923,9 @@ function renderDD(period) {{
       '<div class="dd-chart-section">' +
         '<div class="dd-chart-title">Historico Semanal — '+drv+'</div>' +
         '<div class="dd-chart-sub">NPS semanal 6 semanas vs target do driver</div>' +
-        '<div class="dd-chart-wrap"><canvas id="c-dd-sem-chart"></canvas></div>' +
+        '<div class="dd-chart-wrap"><canvas id="c-dd-'+period+'-chart"></canvas></div>' +
       '</div>' +
-      buildExecutiveBrief(drv, 'sem', d, DD_BREAKDOWN[drv]) +
+      buildExecutiveBrief(drv, period, d, DD_BREAKDOWN[drv]) +
       '<div class="dd-section-title">Processos — WoW (' + S2_LABEL + ' vs ' + S1_LABEL + ')</div>' +
       buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'S2', 'S1', d.target, 'Processo') +
       '<div class="dd-section-title">Canal — WoW</div>' +
@@ -1917,7 +1938,7 @@ function renderDD(period) {{
     var labels = pts.map(function(p){{ return p.label; }});
     var values = pts.map(function(p){{ return p.nps; }});
     var colors = values.map(function(v){{ return (tgt && v !== null && v < tgt) ? 'rgba(210,45,45,0.82)' : 'rgba(30,65,150,0.82)'; }});
-    ddCharts[period].push(buildDDChart('c-dd-sem-chart', labels, values, colors, tgt, 'semanal'));
+    ddCharts[period].push(buildDDChart('c-dd-'+period+'-chart', labels, values, colors, tgt, 'semanal'));
   }}
 }}
 

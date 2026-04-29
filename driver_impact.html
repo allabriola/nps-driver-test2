@@ -28,8 +28,11 @@ function setPeriod(btn){
   updatePanes();
   if(currentView==='dd'){
     var sel=document.getElementById('dd-select-'+currentPeriod);
-    var other=document.getElementById('dd-select-'+(currentPeriod==='mes'?'sem':'mes'));
-    if(sel&&other&&other.value){sel.value=other.value;if(typeof renderDD!=='undefined')renderDD(currentPeriod);}
+    // Sincronizar driver selecionado entre abas
+    var periods=['mes','sem','vig'];
+    var curDrv='';
+    periods.forEach(function(p){var el=document.getElementById('dd-select-'+p);if(el&&el.value)curDrv=el.value;});
+    if(sel&&curDrv){sel.value=curDrv;if(typeof renderDD!=='undefined')renderDD(currentPeriod);}
   }
 }
 document.addEventListener('DOMContentLoaded',function(){updatePanes();});
@@ -221,7 +224,7 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 29/04/2026 08:53</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 29/04/2026 09:09</div>
 </header>
 
 <div class="nav-bar">
@@ -621,6 +624,22 @@ header h1{font-size:16px;font-weight:700}
       </select>
     </div>
     <div id="dd-content-sem" class="dd-placeholder">
+      <div class="dd-hint">Selecione um driver acima para ver o detalhamento</div>
+    </div>
+  </div>
+
+  <div id="pane-dd-vig" class="tab-pane">
+    <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:7px 14px;margin-bottom:12px;font-size:12px;color:#f57f17">
+      &#9889; <strong>Semana vigente (27/abr - 29/abr)</strong> — Resumo executivo usa dados VIG vs S1. Breakdowns detalhados usam S1/S2 como referencia.
+    </div>
+    <div class="dd-bar">
+      <label class="dd-label">Driver</label>
+      <select id="dd-select-vig" class="dd-select" onchange="callRenderDD('vig')">
+        <option value="">Selecione um driver...</option>
+        <optgroup label="Longtail"><option value="Experiencia Impositiva Seller Dev">Experiencia Impositiva Seller Dev</option><option value="ME Vendedor Seller Dev">ME Vendedor Seller Dev</option><option value="PCF Vendedor Seller Dev">PCF Vendedor Seller Dev</option><option value="Partners">Partners</option><option value="Post Venta Seller Dev">Post Venta Seller Dev</option><option value="Publicaciones Seller Dev">Publicaciones Seller Dev</option></optgroup><optgroup label="Mature"><option value="Experiencia Impositiva Mature">Experiencia Impositiva Mature</option><option value="ME Vendedor Mature">ME Vendedor Mature</option><option value="PCF Vendedor Mature">PCF Vendedor Mature</option><option value="Post Venta Mature">Post Venta Mature</option><option value="Publicaciones Mature">Publicaciones Mature</option></optgroup><optgroup label="Meli Pro"><option value="Experiencia Impositiva Meli Pro">Experiencia Impositiva Meli Pro</option><option value="ME Vendedor Meli Pro">ME Vendedor Meli Pro</option><option value="PCF Vendedor Meli Pro">PCF Vendedor Meli Pro</option><option value="Post Venta Meli Pro">Post Venta Meli Pro</option><option value="Publicaciones Meli Pro">Publicaciones Meli Pro</option></optgroup><optgroup label="FBM"><option value="FBM-S Mature">FBM-S Mature</option><option value="FBM-S Meli Pro">FBM-S Meli Pro</option><option value="FBM-S Seller Dev">FBM-S Seller Dev</option></optgroup><optgroup label="Buyers"><option value="CBT">CBT</option><option value="PDD DS&XD - Vendedor">PDD DS&XD - Vendedor</option><option value="PDD FBM - Vendedor">PDD FBM - Vendedor</option><option value="PDD Fotos - Vendedor">PDD Fotos - Vendedor</option><option value="PDD MP,FLEX & CBT - Vendedor">PDD MP,FLEX & CBT - Vendedor</option><option value="PNR ME - Vendedor">PNR ME - Vendedor</option><option value="PNR MP - Vendedor">PNR MP - Vendedor</option></optgroup><optgroup label="Otros CV"><option value="Otros CV">Otros CV</option></optgroup>
+      </select>
+    </div>
+    <div id="dd-content-vig" class="dd-placeholder">
       <div class="dd-hint">Selecione um driver acima para ver o detalhamento</div>
     </div>
   </div>
@@ -1395,13 +1414,15 @@ function buildExecSummary(drv, period) {
 }
 
 function renderDD(period) {
+  // 'vig' usa os mesmos breakdowns de 'sem' (S1/S2) mas com label vigente
+  var effectivePeriod = period === 'vig' ? 'sem' : period;
   var selectId = 'dd-select-' + period;
   var contentId = 'dd-content-' + period;
   var drv = document.getElementById(selectId).value;
   var content = document.getElementById(contentId);
 
-  // Sincronizar selects
-  var otherPeriod = period === 'mes' ? 'sem' : 'mes';
+  // Sincronizar todos os selects (mes, sem, vig)
+  var otherPeriod = effectivePeriod === 'mes' ? 'sem' : 'mes';
   var otherSelect = document.getElementById('dd-select-' + otherPeriod);
   if (otherSelect) otherSelect.value = drv;
 
@@ -1420,7 +1441,7 @@ function renderDD(period) {
   function fmtNPS(v) { return v !== null ? v.toFixed(1)+'%' : '\u2014'; }
   function fmtDelta(v) { if(v===null||v===undefined) return '\u2014'; var s=v>=0?'+':''; return s+v.toFixed(2)+' pp'; }
 
-  if (period === 'mes') {
+  if (effectivePeriod === 'mes') {
     var pts = d.monthly;
     var cur = pts[pts.length-1];
     var prev = pts[pts.length-2];
@@ -1477,9 +1498,9 @@ function renderDD(period) {
       '<div class="dd-chart-section">' +
         '<div class="dd-chart-title">Historico Semanal \u2014 '+drv+'</div>' +
         '<div class="dd-chart-sub">NPS semanal 6 semanas vs target do driver</div>' +
-        '<div class="dd-chart-wrap"><canvas id="c-dd-sem-chart"></canvas></div>' +
+        '<div class="dd-chart-wrap"><canvas id="c-dd-'+period+'-chart"></canvas></div>' +
       '</div>' +
-      buildExecutiveBrief(drv, 'sem', d, DD_BREAKDOWN[drv]) +
+      buildExecutiveBrief(drv, period, d, DD_BREAKDOWN[drv]) +
       '<div class="dd-section-title">Processos \u2014 WoW (' + S2_LABEL + ' vs ' + S1_LABEL + ')</div>' +
       buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'S2', 'S1', d.target, 'Processo') +
       '<div class="dd-section-title">Canal \u2014 WoW</div>' +
@@ -1492,7 +1513,7 @@ function renderDD(period) {
     var labels = pts.map(function(p){ return p.label; });
     var values = pts.map(function(p){ return p.nps; });
     var colors = values.map(function(v){ return (tgt && v !== null && v < tgt) ? 'rgba(210,45,45,0.82)' : 'rgba(30,65,150,0.82)'; });
-    ddCharts[period].push(buildDDChart('c-dd-sem-chart', labels, values, colors, tgt, 'semanal'));
+    ddCharts[period].push(buildDDChart('c-dd-'+period+'-chart', labels, values, colors, tgt, 'semanal'));
   }
 }
 
