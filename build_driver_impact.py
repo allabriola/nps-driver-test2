@@ -2135,6 +2135,7 @@ function renderDD(period) {{
   function fmtNPS(v) {{ return v !== null ? v.toFixed(1)+'%' : '—'; }}
   function fmtDelta(v) {{ if(v===null||v===undefined) return '—'; var s=v>=0?'+':''; return s+v.toFixed(2)+' pp'; }}
 
+  try {{
   if (period === 'mes') {{
     var pts = d.monthly;
     var cur = pts[pts.length-1];
@@ -2274,6 +2275,10 @@ function renderDD(period) {{
       return (tgt && v !== null && v < tgt) ? 'rgba(210,45,45,0.82)' : 'rgba(30,65,150,0.82)';
     }});
     ddCharts[period].push(buildDDChart('c-dd-'+period+'-chart', labels, values, colors, tgt, 'semanal'));
+  }}
+  }} catch(e) {{
+    content.innerHTML = '<div style="padding:16px;margin:12px;background:#ffebee;border:1px solid #ef9a9a;border-radius:8px;font-size:12px;color:#c62828">' +
+      '<b>Erro ao renderizar Deep Dive:</b> ' + e.message + '<br><small>' + (e.stack||'').split('\\n').slice(0,3).join(' | ') + '</small></div>';
   }}
 }}
 
