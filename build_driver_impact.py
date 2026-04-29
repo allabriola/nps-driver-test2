@@ -1275,9 +1275,9 @@ var ddCharts = {{}};
 
 function buildExecutiveBrief(drv, period, drvData, bkData) {{
   var isMes = period === 'mes';
-  var pA = isMes?'M2':'S2', pB = isMes?'M1':'S1';
-  var lA = isMes?M2_LABEL:(period==='vig'?S1_LABEL:S2_LABEL);
-  var lB = isMes?M1_LABEL:(period==='vig'?VIG_LABEL:S1_LABEL);
+  var isVigPeriod = period === 'vig';
+  var lA = isMes?M2_LABEL:(isVigPeriod?S1_LABEL:S2_LABEL);
+  var lB = isMes?M1_LABEL:(isVigPeriod?VIG_LABEL:S1_LABEL);
   var tgt = drvData?drvData.target:null;
   var cat = DRV_HIST[drv]?DRV_HIST[drv].cat:'';
 
@@ -1290,6 +1290,11 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
 
   function kpiCls(v){{ return v===null?'neutral':v>=0?'pos':'neg'; }}
   function fV(v,dec){{ return v!==null?(v>=0?'+':'')+v.toFixed(dec||1)+'pp':'—'; }}
+
+  // Para VIG: usar S1 como base e VIG como atual (se disponivel); senao S2/S1
+  var hasVigBk = isVigPeriod && bkData && bkData['P'] && bkData['P']['VIG'];
+  var pA = isMes ? 'M2' : (isVigPeriod ? (hasVigBk ? 'S1' : 'S2') : 'S2');
+  var pB = isMes ? 'M1' : (isVigPeriod ? (hasVigBk ? 'VIG' : 'S1') : 'S1');
 
   // ── DADOS QUANTITATIVOS (estrutura correta: bkData[dim][periodo][nome]) ──
   function getDimData(dim) {{
@@ -1382,7 +1387,6 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
     '<div class="exec-brief-body">';
 
   // ── 1: VARIACAO MOM/WOW — narrativa executiva ──
-  var isVigPeriod = period === 'vig';
   var s1Title = isMes ? 'Variacao MoM' : (isVigPeriod ? 'Variacao VIG vs S1 &#9889;' : 'Variacao WoW');
   var s1='<div class="exec-section-title" style="color:#555">&#128201; '+s1Title+'</div>';
   var top3neg = procs.filter(function(p){{return p.impact<0;}}).slice(0,3);
@@ -1390,17 +1394,13 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   if(procs.length>0){{
     s1+='<p class="exec-narrative">O NPS do driver '+(delta!==null?(delta>=0?'subiu':'caiu')+' '+Math.abs(delta).toFixed(2)+'pp':'variou')+
         ' de '+nStr(npsA)+' ('+lA+') para '+nStr(npsB)+' ('+lB+')</b>.';
-    if(isVigPeriod){{
-      s1+=' Referencia de processos abaixo baseada na semana fechada ('+S2_LABEL+' &rarr; '+S1_LABEL+') — breakdown VIG por processo indisponivel.</p>';
+    if(isVigPeriod && !hasVigBk){{
+      s1+=' <em style="color:#888">(Breakdown VIG indisponivel — referencia: '+S2_LABEL+' &rarr; '+S1_LABEL+')</em></p>';
       if(top3neg.length>0){{
         s1+='<p class="exec-narrative"><b>Processos de atencao (S1 fechada):</b> ';
         s1+=top3neg.map(function(p){{
-          return '<b>'+p.k+'</b> (NPS '+nStr(p.nB)+', '+p.shaB+'% vol, '+tag(p.impact)+' MoM)';
+          return '<b>'+p.k+'</b> (NPS '+nStr(p.nB)+', '+p.shaB+'% vol)';
         }}).join('; ')+'.';
-        if(top2pos.length>0){{
-          s1+=' Em alta na S1: '+top2pos.map(function(p){{return '<b>'+p.k+'</b> ('+tag(p.impact)+')';
-          }}).join(', ')+'.';
-        }}
         s1+='</p>';
       }}
     }} else {{
@@ -1423,7 +1423,8 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   }}
 
   // ── 2: VS TARGET — narrativa executiva ──
-  var s2='<div class="exec-section-title" style="color:#555">&#127919; Analise vs Target'+(isVigPeriod?' (NPS VIG)':'')+'</div>';
+  var tgtPeriodNote = isVigPeriod ? (hasVigBk ? ' (NPS VIG &#9889;)' : ' (NPS VIG)') : '';
+  var s2='<div class="exec-section-title" style="color:#555">&#127919; Analise vs Target'+tgtPeriodNote+'</div>';
   if(procs.length>0&&tgt!==null){{
     var abTgt=procs.filter(function(p){{return p.gapT!==null&&p.gapT<0;}}).sort(function(a,b){{return a.gapT-b.gapT;}});
     var acTgt=procs.filter(function(p){{return p.gapT!==null&&p.gapT>=0;}}).sort(function(a,b){{return b.gapT-a.gapT;}});
@@ -1452,7 +1453,8 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   html+='<div class="exec-section">'+s2+'</div>';
 
   // ── 3: CANAL — narrativa ──
-  var s3='<div class="exec-section-title" style="color:#555">&#128241; Canal'+(isVigPeriod?' (ref. S1 fechada)':'')+'</div>';
+  var canalNote = isVigPeriod ? (hasVigBk ? ' (VIG &#9889;)' : ' (ref. S1 fechada)') : '';
+  var s3='<div class="exec-section-title" style="color:#555">&#128241; Canal'+canalNote+'</div>';
   if(chans.length>0){{
     var chSort=chans.slice().sort(function(a,b){{return b.sB-a.sB;}}).slice(0,4);
     s3+='<p class="exec-narrative">';
@@ -1465,7 +1467,8 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   }} else s3+='<p class="exec-narrative" style="color:#aaa">Sem dados de canal.</p>';
 
   // ── 4: OFICINA — narrativa ──
-  var s4='<div class="exec-section-title" style="color:#555">&#127970; Oficina'+(isVigPeriod?' (ref. S1 fechada)':'')+'</div>';
+  var oficNote = isVigPeriod ? (hasVigBk ? ' (VIG &#9889;)' : ' (ref. S1 fechada)') : '';
+  var s4='<div class="exec-section-title" style="color:#555">&#127970; Oficina'+oficNote+'</div>';
   if(offices.length>0){{
     var oSort=offices.slice().sort(function(a,b){{return b.sB-a.sB;}}).slice(0,4);
     var oBest=offices.slice().sort(function(a,b){{return (b.nB||0)-(a.nB||0);}})[0];
@@ -1963,15 +1966,22 @@ function renderDD(period) {{
         '<div class="dd-chart-wrap"><canvas id="c-dd-'+period+'-chart"></canvas></div>' +
       '</div>' +
       vigNote +
-      buildExecutiveBrief(drv, period, d, DD_BREAKDOWN[drv]) +
-      '<div class="dd-section-title">Processos — '+(isVig?'Ref. S1 fechada ('+S2_LABEL+' &rarr; '+S1_LABEL+') &#9889;':'WoW ('+S2_LABEL+' vs '+S1_LABEL+')')+'</div>' +
-      buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'S2', 'S1', d.target, 'Processo') +
-      '<div class="dd-section-title">'+(isVig?'Canal — Ref. S1 fechada':'Canal — WoW')+'</div>' +
-      buildBreakdownTable(DD_BREAKDOWN[drv], 'C', 'S2', 'S1', d.target, 'Canal') +
-      '<div class="dd-section-title">'+(isVig?'Oficina — Ref. S1 fechada':'Oficina — WoW')+'</div>' +
-      buildBreakdownTable(DD_BREAKDOWN[drv], 'O', 'S2', 'S1', d.target, 'Oficina') +
-      '<div class="dd-section-title">'+(isVig?'Senioridade — Ref. S1 fechada':'Senioridade — WoW (Expert vs Newbie)')+'</div>' +
-      buildSeniorityTable(DD_BREAKDOWN[drv], 'S2', 'S1', d.target);
+      (function() {{
+        var bk = DD_BREAKDOWN[drv];
+        var hasVig = isVig && bk && bk['P'] && bk['P']['VIG'];
+        var pA_bk = isVig ? (hasVig ? 'S1' : 'S2') : 'S2';
+        var pB_bk = isVig ? (hasVig ? 'VIG' : 'S1') : 'S1';
+        var lRef  = isVig ? (hasVig ? S1_LABEL+' &rarr; '+VIG_LABEL+' &#9889;' : 'Ref. S1 fechada ('+S2_LABEL+' &rarr; '+S1_LABEL+') &#9889;') : S2_LABEL+' vs '+S1_LABEL;
+        return buildExecutiveBrief(drv, period, d, bk) +
+          '<div class="dd-section-title">Processos — '+(isVig ? lRef : 'WoW ('+S2_LABEL+' vs '+S1_LABEL+')')+'</div>' +
+          buildBreakdownTable(bk, 'P', pA_bk, pB_bk, d.target, 'Processo') +
+          '<div class="dd-section-title">Canal — '+(isVig?(hasVig?'VIG &#9889;':'Ref. S1 fechada'):'WoW')+'</div>' +
+          buildBreakdownTable(bk, 'C', pA_bk, pB_bk, d.target, 'Canal') +
+          '<div class="dd-section-title">Oficina — '+(isVig?(hasVig?'VIG &#9889;':'Ref. S1 fechada'):'WoW')+'</div>' +
+          buildBreakdownTable(bk, 'O', pA_bk, pB_bk, d.target, 'Oficina') +
+          '<div class="dd-section-title">Senioridade — '+(isVig?(hasVig?'VIG &#9889;':'Ref. S1 fechada'):'WoW (Expert vs Newbie)')+'</div>' +
+          buildSeniorityTable(bk, pA_bk, pB_bk, d.target);
+      }})()
 
     var labels = chartPts.map(function(p){{ return p.label; }});
     var values = chartPts.map(function(p){{ return p.nps; }});
