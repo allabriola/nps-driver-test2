@@ -681,17 +681,8 @@ def make_panes(pfx, v, is_vig=False):
       <div id="evol-sem-{pfx}"></div>
     </div>
   </div>
-  <div id="pane-{pfx}-vig" class="tab-pane">
-    <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:8px 16px;margin-bottom:12px;font-size:12px;color:#f57f17">
-      &#9889; <strong>Semana vigente parcial</strong> — {VIG_LABEL} ({v['sS1']:,} surveys acumuladas. Dados em tempo real, podem variar ao longo da semana.)
-    </div>
-    <div class="sc-grid">{cards_sem()}</div>
-    <div class="chart-section">
-      <div class="chart-title">Impacto WoW — Semana Vigente vs Fechada</div>
-      <div class="chart-sub">Contribuicao de cada driver (pp): {S1_LABEL} (fechada) &rarr; {VIG_LABEL} (vigente).</div>
-      <div class="chart-wrap"><canvas id="c-{pfx}-vig-wow"></canvas></div>
-    </div>
-  </div>"""
+  <!-- canvas vig (oculto aqui, pane real gerado por make_vig_pane) -->
+  <div style="display:none"><canvas id="c-{pfx}-vig-wow"></canvas></div>"""
 
 def build_html():
 
