@@ -659,6 +659,7 @@ def make_panes(pfx, v, is_vig=False):
     return f"""
   <div id="pane-{pfx}-mes" class="tab-pane{initial_class}">
     <div class="sc-grid">{cards_mes()}</div>
+    <div id="strategic-{pfx}-mes"></div>
     <div class="chart-section">
       <div class="chart-title">Impacto MoM - Abertura Driver</div>
       <div class="chart-sub">Contribuicao de cada driver (pp) na variacao consolidada {M2_LABEL} &rarr; {M1_LABEL}.</div>
@@ -674,10 +675,10 @@ def make_panes(pfx, v, is_vig=False):
       <div class="chart-sub">NPS por driver nos ultimos 3 meses | target consolidado: {v['nps_target']:.1f}%</div>
       <div id="evol-mes-{pfx}"></div>
     </div>
-    <div id="strategic-{pfx}-mes"></div>
   </div>
   <div id="pane-{pfx}-sem" class="tab-pane">
     <div class="sc-grid">{cards_sem()}</div>
+    <div id="strategic-{pfx}-sem"></div>
     <div class="chart-section">
       <div class="chart-title">Impacto WoW - Abertura Driver</div>
       <div class="chart-sub">Contribuicao de cada driver (pp) na variacao consolidada {S2_LABEL} &rarr; {S1_LABEL}.</div>
@@ -688,7 +689,6 @@ def make_panes(pfx, v, is_vig=False):
       <div class="chart-sub">NPS por driver nas ultimas 5 semanas | target consolidado: {v['nps_target']:.1f}%</div>
       <div id="evol-sem-{pfx}"></div>
     </div>
-    <div id="strategic-{pfx}-sem"></div>
   </div>
 """
 
@@ -784,12 +784,12 @@ def build_html():
       &#9889; <strong>Semana vigente parcial</strong> — {VIG_LABEL} ({v['sS1']:,} surveys. Dados em tempo real, podem variar ao longo da semana.)
     </div>
     <div class="sc-grid">{cards}</div>
+    <div id="strategic-{view}-vig"></div>
     <div class="chart-section">
       <div class="chart-title">Impacto WoW — Semana Vigente vs Fechada</div>
       <div class="chart-sub">Contribuicao de cada driver (pp): {S1_LABEL} (fechada) &rarr; {VIG_LABEL} (vigente).</div>
       <div class="chart-wrap"><canvas id="c-{view}-vig-wow"></canvas></div>
     </div>
-    <div id="strategic-{view}-vig"></div>
   </div>"""
 
     panes_all_vig = make_vig_pane("all", V_ALL_VIG)
@@ -2462,6 +2462,7 @@ function renderDD(period) {{
     var delta = (nCur !== null && nPrev !== null) ? parseFloat((nCur - nPrev).toFixed(2)) : null;
     var gapTgt = (nCur !== null && tgt) ? parseFloat((nCur - tgt).toFixed(2)) : null;
 
+    var bkMesDD = DD_BREAKDOWN[drv];
     content.innerHTML =
       '<div class="dd-sc-grid">' +
         sc_dd('NPS '+cur.label, fmtNPS(nCur), null, nCur, tgt) +
@@ -2470,13 +2471,14 @@ function renderDD(period) {{
         sc_dd('Target', tgt ? tgt.toFixed(1)+'%' : '—', null, null, null) +
         sc_dd('Gap vs Target', fmtDelta(gapTgt), gapTgt, null, null) +
       '</div>' +
+      buildExecutiveBrief(drv,'mes',d,bkMesDD) +
       '<div class="dd-chart-section">' +
         '<div class="dd-chart-title">Historico Mensal — '+drv+'</div>' +
         '<div class="dd-chart-sub">NPS mensal Jan–Abr 2026 vs target do driver</div>' +
         '<div class="dd-chart-wrap"><canvas id="c-dd-mes-chart"></canvas></div>' +
       '</div>' +
       (function() {{
-        var bkM = DD_BREAKDOWN[drv];
+        var bkM = bkMesDD;
         var procKeysMes = (bkM && bkM['P_C'] && bkM['P_C']['M1']) ? Object.keys(bkM['P_C']['M1']).sort() :
                           ((bkM && bkM['P'] && bkM['P']['M1']) ? Object.keys(bkM['P']['M1']).sort() : []);
         var filterOptsMes = '<option value="">Todos os processos</option>' +
@@ -2500,7 +2502,7 @@ function renderDD(period) {{
           buildBreakdownTable(bkM,'O','M2','M1',d.target,'Oficina')+
           '<div class="dd-section-title">Senioridade por processo — MoM</div>'+
           buildSeniorityTable(bkM,'M2','M1',d.target);
-        return filterBarMes + '<div id="bk-tables-mes">'+initTablesMes+'</div>' + buildExecutiveBrief(drv,'mes',d,bkM);
+        return filterBarMes + '<div id="bk-tables-mes">'+initTablesMes+'</div>';
       }})()
 
     var labels = pts.map(function(p){{ return p.label; }});
@@ -2530,6 +2532,7 @@ function renderDD(period) {{
       ? '<div style="margin:6px 0 14px;padding:6px 12px;background:#fff8e1;border:1px solid #ffe082;border-radius:6px;font-size:11px;color:#f57f17">&#9889; Vigente parcial ({VIG_LABEL}). Breakdowns mostram semana fechada (S1 vs S2).</div>'
       : '';
 
+    var bkSemDD = DD_BREAKDOWN[drv];
     content.innerHTML =
       '<div class="dd-sc-grid">' +
         sc_dd('NPS '+(cur?cur.label:''), fmtNPS(nCur), null, nCur, tgt) +
@@ -2538,6 +2541,7 @@ function renderDD(period) {{
         sc_dd('Target', tgt ? tgt.toFixed(1)+'%' : '—', null, null, null) +
         sc_dd('Gap vs Target', fmtDelta(gapTgt), gapTgt, null, null) +
       '</div>' +
+      buildExecutiveBrief(drv,period,d,bkSemDD) +
       '<div class="dd-chart-section">' +
         '<div class="dd-chart-title">Historico Semanal — '+drv+(isVig?' + Vigente':'')+'</div>' +
         '<div class="dd-chart-sub">NPS semanal vs target do driver'+(isVig?' | ⚡ = vigente parcial ({VIG_LABEL})':'')+'</div>' +
@@ -2545,7 +2549,7 @@ function renderDD(period) {{
       '</div>' +
       vigNote +
       (function() {{
-        var bk     = DD_BREAKDOWN[drv];
+        var bk     = bkSemDD;
         var hasVig = isVig && bk && bk['P'] && bk['P']['VIG'];
         var pA_bk  = isVig ? (hasVig ? 'S1' : 'S2') : 'S2';
         var pB_bk  = isVig ? (hasVig ? 'VIG' : 'S1') : 'S1';
@@ -2581,8 +2585,7 @@ function renderDD(period) {{
           buildSeniorityTable(bk,pA_bk,pB_bk,d.target);
 
         return filterBar +
-          '<div id="bk-tables-'+period+'">'+initTables+'</div>' +
-          buildExecutiveBrief(drv,period,d,bk);
+          '<div id="bk-tables-'+period+'">'+initTables+'</div>';
       }})()
 
     var labels = chartPts.map(function(p){{ return p.label; }});
