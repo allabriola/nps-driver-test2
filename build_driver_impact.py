@@ -688,8 +688,7 @@ def make_panes(pfx, v, is_vig=False):
       <div id="evol-sem-{pfx}"></div>
     </div>
   </div>
-  <!-- canvas vig (oculto aqui, pane real gerado por make_vig_pane) -->
-  <div style="display:none"><canvas id="c-{pfx}-vig-wow"></canvas></div>"""
+"""
 
 def build_html():
 
@@ -1848,17 +1847,16 @@ function buildExecSummary(drv, period) {{
 }}
 
 function renderDD(period) {{
-  // 'vig' usa os mesmos breakdowns de 'sem' (S1/S2) mas com label vigente
-  var effectivePeriod = period === 'vig' ? 'sem' : period;
   var selectId = 'dd-select-' + period;
   var contentId = 'dd-content-' + period;
   var drv = document.getElementById(selectId).value;
   var content = document.getElementById(contentId);
 
   // Sincronizar todos os selects (mes, sem, vig)
-  var otherPeriod = effectivePeriod === 'mes' ? 'sem' : 'mes';
-  var otherSelect = document.getElementById('dd-select-' + otherPeriod);
-  if (otherSelect) otherSelect.value = drv;
+  ['mes','sem','vig'].forEach(function(p) {{
+    var el = document.getElementById('dd-select-' + p);
+    if (el && p !== period) el.value = drv;
+  }});
 
   if (!drv || !DD_DATA[drv]) {{
     content.innerHTML = '<div class="dd-placeholder"><div class="dd-hint">Selecione um driver acima para ver o detalhamento</div></div>';
@@ -1875,7 +1873,7 @@ function renderDD(period) {{
   function fmtNPS(v) {{ return v !== null ? v.toFixed(1)+'%' : '—'; }}
   function fmtDelta(v) {{ if(v===null||v===undefined) return '—'; var s=v>=0?'+':''; return s+v.toFixed(2)+' pp'; }}
 
-  if (effectivePeriod === 'mes') {{
+  if (period === 'mes') {{
     var pts = d.monthly;
     var cur = pts[pts.length-1];
     var prev = pts[pts.length-2];
@@ -1913,27 +1911,39 @@ function renderDD(period) {{
     ddCharts[period].push(buildDDChart('c-dd-mes-chart', labels, values, colors, tgt, 'mensal'));
 
   }} else {{
-    var pts = d.weekly;
-    var cur = pts[pts.length-1];
-    var prev = pts[pts.length-2];
-    var nCur  = cur.nps;
-    var nPrev = prev.nps;
-    var delta = (nCur !== null && nPrev !== null) ? parseFloat((nCur - nPrev).toFixed(2)) : null;
+    var isVig = period === 'vig';
+    // VIG: scorecards e chart usam weekly_vig (20/abr → VIG); 'sem' usa weekly (6 semanas)
+    var pts    = isVig ? d.weekly_vig : d.weekly;
+    var cur    = pts[pts.length-1];
+    var prev   = pts[pts.length-2];
+    var nCur   = cur ? cur.nps : null;
+    var nPrev  = prev ? prev.nps : null;
+    var delta  = (nCur !== null && nPrev !== null) ? parseFloat((nCur - nPrev).toFixed(2)) : null;
     var gapTgt = (nCur !== null && tgt) ? parseFloat((nCur - tgt).toFixed(2)) : null;
+
+    // Para o chart vigente: histograma semanal completo + ponto VIG no final
+    var chartPts = isVig
+      ? d.weekly.concat([{{label: VIG_LABEL+' ⚡', nps: nCur, s: cur ? cur.s : 0}}])
+      : d.weekly;
+
+    var vigNote = isVig
+      ? '<div style="margin:6px 0 14px;padding:6px 12px;background:#fff8e1;border:1px solid #ffe082;border-radius:6px;font-size:11px;color:#f57f17">&#9889; Vigente parcial ({VIG_LABEL}). Breakdowns mostram semana fechada (S1 vs S2).</div>'
+      : '';
 
     content.innerHTML =
       '<div class="dd-sc-grid">' +
-        sc_dd('NPS '+cur.label, fmtNPS(nCur), null, nCur, tgt) +
-        sc_dd('NPS '+prev.label, fmtNPS(nPrev), null, nPrev, tgt) +
-        sc_dd('Variacao WoW', fmtDelta(delta), delta, null, null) +
+        sc_dd('NPS '+(cur?cur.label:''), fmtNPS(nCur), null, nCur, tgt) +
+        sc_dd('NPS '+(prev?prev.label:''), fmtNPS(nPrev), null, nPrev, tgt) +
+        sc_dd(isVig?'Variacao VIG vs S1':'Variacao WoW', fmtDelta(delta), delta, null, null) +
         sc_dd('Target', tgt ? tgt.toFixed(1)+'%' : '—', null, null, null) +
         sc_dd('Gap vs Target', fmtDelta(gapTgt), gapTgt, null, null) +
       '</div>' +
       '<div class="dd-chart-section">' +
-        '<div class="dd-chart-title">Historico Semanal — '+drv+'</div>' +
-        '<div class="dd-chart-sub">NPS semanal 6 semanas vs target do driver</div>' +
+        '<div class="dd-chart-title">Historico Semanal — '+drv+(isVig?' + Vigente':'')+'</div>' +
+        '<div class="dd-chart-sub">NPS semanal vs target do driver'+(isVig?' | ⚡ = vigente parcial ({VIG_LABEL})':'')+'</div>' +
         '<div class="dd-chart-wrap"><canvas id="c-dd-'+period+'-chart"></canvas></div>' +
       '</div>' +
+      vigNote +
       buildExecutiveBrief(drv, period, d, DD_BREAKDOWN[drv]) +
       '<div class="dd-section-title">Processos — WoW (' + S2_LABEL + ' vs ' + S1_LABEL + ')</div>' +
       buildBreakdownTable(DD_BREAKDOWN[drv], 'P', 'S2', 'S1', d.target, 'Processo') +
@@ -1944,9 +1954,12 @@ function renderDD(period) {{
       '<div class="dd-section-title">Senioridade — WoW (Expert vs Newbie)</div>' +
       buildSeniorityTable(DD_BREAKDOWN[drv], 'S2', 'S1', d.target);
 
-    var labels = pts.map(function(p){{ return p.label; }});
-    var values = pts.map(function(p){{ return p.nps; }});
-    var colors = values.map(function(v){{ return (tgt && v !== null && v < tgt) ? 'rgba(210,45,45,0.82)' : 'rgba(30,65,150,0.82)'; }});
+    var labels = chartPts.map(function(p){{ return p.label; }});
+    var values = chartPts.map(function(p){{ return p.nps; }});
+    var colors = values.map(function(v,i){{
+      if(isVig && i===chartPts.length-1) return 'rgba(230,130,0,0.85)';
+      return (tgt && v !== null && v < tgt) ? 'rgba(210,45,45,0.82)' : 'rgba(30,65,150,0.82)';
+    }});
     ddCharts[period].push(buildDDChart('c-dd-'+period+'-chart', labels, values, colors, tgt, 'semanal'));
   }}
 }}
