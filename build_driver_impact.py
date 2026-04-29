@@ -1729,7 +1729,11 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
 
   // ── ANÁLISE ESTRATÉGICA (novo formato) — exibe na aba SEM como teste ──
   if (sumNew && !isMes) {{
-    html += buildAnaliseEstrategica(sumNew, lA, lB);
+    try {{
+      html += buildAnaliseEstrategica(sumNew, lA, lB);
+    }} catch(e) {{
+      html += '<div style="padding:8px 12px;background:#ffebee;border-radius:6px;font-size:11px;color:#c62828;margin-top:12px">Erro ao renderizar Análise Estratégica: '+e.message+'</div>';
+    }}
   }}
 
   return html;

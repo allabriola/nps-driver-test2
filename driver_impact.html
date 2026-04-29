@@ -224,7 +224,7 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 29/04/2026 18:24</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 29/04/2026 18:47</div>
 </header>
 
 <div class="nav-bar">
@@ -1296,7 +1296,11 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {
 
   // \u2500\u2500 AN\u00c1LISE ESTRAT\u00c9GICA (novo formato) \u2014 exibe na aba SEM como teste \u2500\u2500
   if (sumNew && !isMes) {
-    html += buildAnaliseEstrategica(sumNew, lA, lB);
+    try {
+      html += buildAnaliseEstrategica(sumNew, lA, lB);
+    } catch(e) {
+      html += '<div style="padding:8px 12px;background:#ffebee;border-radius:6px;font-size:11px;color:#c62828;margin-top:12px">Erro ao renderizar An\u00e1lise Estrat\u00e9gica: '+e.message+'</div>';
+    }
   }
 
   return html;
