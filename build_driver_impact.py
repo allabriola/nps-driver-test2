@@ -1729,12 +1729,49 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
 
   html+='</div></div>';
 
-  // ── ANÁLISE ESTRATÉGICA (novo formato) — exibe na aba SEM como teste ──
-  if (sumNew && !isMes) {{
+  // ── PROJEÇÃO DE GANHO NPS (todas as abas, todos os drivers) ──
+  (function() {{
+    // Processos abaixo do target: se chegassem ao target, quanto ganharíamos?
+    var belowTgt = procs.filter(function(p){{return p.gapT!==null&&p.gapT<0&&p.shaB>0;}});
+    if(belowTgt.length===0||!tgt) return;
+
+    // Ganho potencial = sum(shaB/100 * |gapT|) para processos abaixo do target
+    var gainTotal = 0;
+    belowTgt.forEach(function(p){{gainTotal += (p.shaB/100)*Math.abs(p.gapT);}});
+    gainTotal = Math.round(gainTotal*100)/100;
+
+    // Ganho se resolvêssemos só o top 2 piores
+    var top2 = belowTgt.slice(0,2);
+    var gainTop2 = 0;
+    top2.forEach(function(p){{gainTop2 += (p.shaB/100)*Math.abs(p.gapT);}});
+    gainTop2 = Math.round(gainTop2*100)/100;
+
+    var npsAtual = npsB !== null ? npsB : 0;
+    var npsComGain = Math.round((npsAtual+gainTotal)*10)/10;
+    var npsComTop2 = Math.round((npsAtual+gainTop2)*10)/10;
+    var atingeMeta = (npsAtual+gainTotal) >= tgt;
+
+    var projHtml = '<div style="margin-top:14px;background:#e8f5e9;border:1px solid #a5d6a7;border-radius:10px;padding:12px 16px">'+
+      '<div style="font-size:10px;font-weight:700;color:#1b5e20;margin-bottom:6px">&#128200; PROJEÇÃO DE GANHO DE NPS</div>'+
+      '<p style="font-size:12px;color:#1b5e20;margin:0 0 6px">'+
+        'Se os <b>'+belowTgt.length+' processo'+(belowTgt.length>1?'s':'')+' abaixo do target</b> atingissem '+tgt.toFixed(1)+'% (meta do driver), '+
+        'o NPS consolidado subiria <b>+'+gainTotal.toFixed(2)+'pp</b> (de '+npsAtual.toFixed(1)+'% → <b>'+npsComGain+'%</b>).'+
+        (atingeMeta?' <b style="color:#2e7d32">&#10003; Suficiente para superar a meta.</b>':' <span style="color:#e65100">Ainda '+Math.abs(Math.round((npsComGain-tgt)*100)/100).toFixed(2)+'pp abaixo da meta.</span>')+
+      '</p>'+
+      '<p style="font-size:11px;color:#2e7d32;margin:0">'+
+        '&#128204; <b>Foco nos top 2:</b> '+top2.map(function(p){{return p.k+' ('+tag(Math.abs(p.gapT)).replace('<span','<span').replace('</span>','pp</span>')+')';}}).join(' e ')+
+        ' representaria +'+gainTop2.toFixed(2)+'pp e NPS de '+npsComTop2+'%.'+
+      '</p>'+
+    '</div>';
+    html += projHtml;
+  }})();
+
+  // ── ANÁLISE ESTRATÉGICA (novo formato — todas as abas quando disponível) ──
+  if (sumNew) {{
     try {{
       html += buildAnaliseEstrategica(sumNew, lA, lB);
     }} catch(e) {{
-      html += '<div style="padding:8px 12px;background:#ffebee;border-radius:6px;font-size:11px;color:#c62828;margin-top:12px">Erro ao renderizar Análise Estratégica: '+e.message+'</div>';
+      html += '<div style="padding:8px 12px;background:#ffebee;border-radius:6px;font-size:11px;color:#c62828;margin-top:12px">Erro Análise Estratégica: '+e.message+'</div>';
     }}
   }}
 
@@ -2185,7 +2222,7 @@ function renderDD(period) {{
           buildBreakdownTable(bkM,'O','M2','M1',d.target,'Oficina')+
           '<div class="dd-section-title">Senioridade por processo — MoM</div>'+
           buildSeniorityTable(bkM,'M2','M1',d.target);
-        return buildExecutiveBrief(drv,'mes',d,bkM) + filterBarMes + '<div id="bk-tables-mes">'+initTablesMes+'</div>';
+        return filterBarMes + '<div id="bk-tables-mes">'+initTablesMes+'</div>' + buildExecutiveBrief(drv,'mes',d,bkM);
       }})()
 
     var labels = pts.map(function(p){{ return p.label; }});
@@ -2265,9 +2302,9 @@ function renderDD(period) {{
           '<div class="dd-section-title">Senioridade por processo — '+lSufS+'</div>'+
           buildSeniorityTable(bk,pA_bk,pB_bk,d.target);
 
-        return buildExecutiveBrief(drv,period,d,bk) +
-          filterBar +
-          '<div id="bk-tables-'+period+'">'+initTables+'</div>';
+        return filterBar +
+          '<div id="bk-tables-'+period+'">'+initTables+'</div>' +
+          buildExecutiveBrief(drv,period,d,bk);
       }})()
 
     var labels = chartPts.map(function(p){{ return p.label; }});
