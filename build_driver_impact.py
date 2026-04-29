@@ -1913,7 +1913,8 @@ function renderDD(period) {{
   }} else {{
     var isVig = period === 'vig';
     // VIG: scorecards e chart usam weekly_vig (20/abr → VIG); 'sem' usa weekly (6 semanas)
-    var pts    = isVig ? d.weekly_vig : d.weekly;
+    var vigData = (DRV_HIST[drv] && DRV_HIST[drv].weekly_vig) ? DRV_HIST[drv].weekly_vig : [];
+    var pts    = isVig ? vigData : d.weekly;
     var cur    = pts[pts.length-1];
     var prev   = pts[pts.length-2];
     var nCur   = cur ? cur.nps : null;
@@ -1922,8 +1923,9 @@ function renderDD(period) {{
     var gapTgt = (nCur !== null && tgt) ? parseFloat((nCur - tgt).toFixed(2)) : null;
 
     // Para o chart vigente: histograma semanal completo + ponto VIG no final
+    var weeklyFull = (DRV_HIST[drv] && DRV_HIST[drv].weekly) ? DRV_HIST[drv].weekly : d.weekly;
     var chartPts = isVig
-      ? d.weekly.concat([{{label: VIG_LABEL+' ⚡', nps: nCur, s: cur ? cur.s : 0}}])
+      ? weeklyFull.concat([{{label: VIG_LABEL+' ⚡', nps: nCur, s: cur ? cur.s : 0}}])
       : d.weekly;
 
     var vigNote = isVig
