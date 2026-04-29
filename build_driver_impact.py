@@ -457,8 +457,11 @@ def compute_vig(monthly_data, weekly_data, nps_target_consol):
         vt_ybase =calc_y_base(tt, sorted_impacts(vt)),
     )
 
-V_ALL_VIG = compute_vig(monthly_driver,     weekly_driver,     NPS_TARGET_ALL)
-V_SEL_VIG = compute_vig(monthly_driver_sel, weekly_driver_sel, NPS_TARGET_SEL)
+# Para a view vigente: S1=VIG (semana atual), S2=S1 (semana fechada) - reutiliza compute_view
+weekly_driver_vig     = {d: {"S1": v.get("VIG",(0,0,0)), "S2": v.get("S1",(0,0,0))} for d,v in weekly_driver.items()}
+weekly_driver_sel_vig = {d: v for d,v in weekly_driver_vig.items() if d not in DRIVERS_EXCLUIDOS}
+V_ALL_VIG = compute_view(monthly_driver,     weekly_driver_vig,     NPS_TARGET_ALL)
+V_SEL_VIG = compute_view(monthly_driver_sel, weekly_driver_sel_vig, NPS_TARGET_SEL)
 
 # ─── HTML ─────────────────────────────────────────────────────────────────────
 def _arr(v): return "&#9650;" if v >= 0 else "&#9660;"
