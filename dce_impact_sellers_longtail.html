@@ -87,7 +87,7 @@ tr:hover td{background:#fafbff;}
 <div class="header">
   <div class="header-left">
     <h1>Impacto DCe — Sellers Longtail BR</h1>
-    <p>Filtros: CS_BU=Sellers · SR Manager=Priscila Tavares · Team Manager=Vendedor · 3 equipes · 29/04/2026</p>
+    <p>Filtros: CS_BU=Sellers · SR Manager=Priscila Tavares · Team Manager=Vendedor · 3 equipes · Atualizado 29/04/2026</p>
   </div>
   <div class="header-badges">
     <div class="header-badge-red">⚠ DCe desde 06/abr</div>
@@ -103,13 +103,14 @@ tr:hover td{background:#fafbff;}
     <button class="tab-btn" onclick="showTab('pub',this)">BR_Publicaciones_Sellers_LT</button>
     <button class="tab-btn" onclick="showTab('dce',this)">Impacto DCe</button>
     <button class="tab-btn" onclick="showTab('dores',this)">Dores dos Clientes</button>
+    <button class="tab-btn" onclick="showTab('analise',this)" style="background:var(--dark);color:var(--yellow);border-color:var(--dark);">&#9733; Análise Executiva</button>
   </div>
 
   <!-- ══════════════════════ VISÃO GERAL ══════════════════════ -->
   <div id="visao-geral" class="tab-content active">
 
     <div class="section-title">Volume de Pesquisas e NPS por Período — Todas as Equipes</div>
-    <div class="info-note">Períodos fechados: Março/2026 (mês completo) + semanas fechadas de Abril (S1, S2, S3). Março apresenta volume reduzido pois as equipes foram renomeadas para "Sellers Longtail" em mar/2026 — dados do nome anterior não estão neste filtro. Filtros: CS_BU=Sellers, SR Manager=Priscila Tavares, Team Manager=Vendedor.</div>
+    <div class="info-note">Fonte: base Tableau (base andre.csv) · 12.573 pesquisas. S0 = semana pré-DCe (30/03–05/04, referência baseline). S1–S4 = semanas após lançamento DCe (06/04–29/04). Filtros: CS_BU=Sellers, SR Manager=Priscila Tavares, Team Manager=Vendedor. Atualizado 29/04/2026.</div>
 
     <div class="chart-wrap">
       <div class="chart-title">Volume de Pesquisas (barras) · NPS % (linhas) — Períodos Fechados</div>
@@ -121,40 +122,40 @@ tr:hover td{background:#fafbff;}
 
     <div class="section-title">Tabela de Pesquisas e GAP — Períodos Fechados</div>
     <div class="card">
-      <div class="card-header"><span>BR_ME_Sellers_Longtail</span><span class="badge badge-red">Abaixo target em 3 de 4 períodos</span></div>
+      <div class="card-header"><span>BR_ME_Sellers_Longtail</span><span class="badge badge-red">Abaixo target em todos os períodos pós-DCe</span></div>
       <table>
         <thead><tr><th>Período</th><th>Pesquisas</th><th>NPS</th><th>Target</th><th>GAP</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td>Mar/2026 (mês fechado) ⚠ vol. baixo</td><td>170</td><td>59,4%</td><td>62,1%</td><td><span class="chip chip-neg">-2,7 pp</span></td><td>⚠</td></tr>
-          <tr><td>S1 · 06–12/abr</td><td>2.068</td><td>57,4%</td><td>62,2%</td><td><span class="chip chip-neg">-4,8 pp</span></td><td>🔴</td></tr>
-          <tr><td>S2 · 13–19/abr</td><td>2.231</td><td>55,4%</td><td>60,6%</td><td><span class="chip chip-neg">-5,2 pp</span></td><td>🔴</td></tr>
-          <tr><td>S3 · 20–26/abr</td><td>1.924</td><td>58,7%</td><td>59,1%</td><td><span class="chip chip-neu">-0,4 pp</span></td><td>✅</td></tr>
+          <tr><td>S0 · 30/03–05/abr (pré-DCe)</td><td>948</td><td>61,7%</td><td>62,9%</td><td><span class="chip chip-neg">-1,2 pp</span></td><td>⚠</td></tr>
+          <tr><td>S1 · 06–12/abr</td><td>1.950</td><td>59,0%</td><td>62,3%</td><td><span class="chip chip-neg">-3,3 pp</span></td><td>🔴</td></tr>
+          <tr><td>S2 · 13–19/abr</td><td>2.054</td><td>58,4%</td><td>60,1%</td><td><span class="chip chip-neg">-1,7 pp</span></td><td>🔴</td></tr>
+          <tr><td>S3 · 20–26/abr</td><td>1.927</td><td>58,4%</td><td>59,2%</td><td><span class="chip chip-neg">-0,8 pp</span></td><td>⚠</td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="card">
-      <div class="card-header"><span>BR_Ventas_Sellers_Longtail</span><span class="badge badge-orange">Queda S1→S3, target apenas em S3</span></div>
+      <div class="card-header"><span>BR_Ventas_Sellers_Longtail</span><span class="badge badge-orange">Queda S1→S3, recuperação forte em S4</span></div>
       <table>
         <thead><tr><th>Período</th><th>Pesquisas</th><th>NPS</th><th>Target</th><th>GAP</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td>Mar/2026 (mês fechado) ⚠ vol. baixo</td><td>81</td><td>55,6%</td><td>60,0%</td><td><span class="chip chip-neg">-4,4 pp</span></td><td>🔴</td></tr>
-          <tr><td>S1 · 06–12/abr</td><td>1.098</td><td>66,0%</td><td>69,7%</td><td><span class="chip chip-neg">-3,7 pp</span></td><td>⚠</td></tr>
-          <tr><td>S2 · 13–19/abr</td><td>764</td><td>61,6%</td><td>66,0%</td><td><span class="chip chip-neg">-4,4 pp</span></td><td>🔴</td></tr>
-          <tr><td>S3 · 20–26/abr</td><td>623</td><td>61,3%</td><td>63,4%</td><td><span class="chip chip-neg">-2,1 pp</span></td><td>⚠</td></tr>
+          <tr><td>S0 · 30/03–05/abr (pré-DCe)</td><td>469</td><td>66,3%</td><td>65,3%</td><td><span class="chip chip-pos">+1,0 pp</span></td><td>✅</td></tr>
+          <tr><td>S1 · 06–12/abr</td><td>1.094</td><td>66,5%</td><td>69,8%</td><td><span class="chip chip-neg">-3,3 pp</span></td><td>⚠</td></tr>
+          <tr><td>S2 · 13–19/abr</td><td>765</td><td>61,2%</td><td>66,0%</td><td><span class="chip chip-neg">-4,9 pp</span></td><td>🔴</td></tr>
+          <tr><td>S3 · 20–26/abr</td><td>618</td><td>61,0%</td><td>63,3%</td><td><span class="chip chip-neg">-2,3 pp</span></td><td>⚠</td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="card">
-      <div class="card-header"><span>BR_Publicaciones_Sellers_Longtail</span><span class="badge badge-green">Melhor em S3 (+2,1 pp acima target)</span></div>
+      <div class="card-header"><span>BR_Publicaciones_Sellers_Longtail</span><span class="badge badge-green">S3 acima do target (+2,4 pp)</span></div>
       <table>
         <thead><tr><th>Período</th><th>Pesquisas</th><th>NPS</th><th>Target</th><th>GAP</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td>Mar/2026 (mês fechado) ⚠ vol. baixo</td><td>68</td><td>61,8%</td><td>66,7%</td><td><span class="chip chip-neg">-4,9 pp</span></td><td>⚠</td></tr>
-          <tr><td>S1 · 06–12/abr</td><td>574</td><td>61,3%</td><td>69,1%</td><td><span class="chip chip-neg">-7,8 pp</span></td><td>🔴</td></tr>
-          <tr><td>S2 · 13–19/abr</td><td>469</td><td>62,5%</td><td>71,4%</td><td><span class="chip chip-neg">-8,9 pp</span></td><td>🔴</td></tr>
-          <tr><td>S3 · 20–26/abr</td><td>437</td><td>71,6%</td><td>69,5%</td><td><span class="chip chip-pos">+2,1 pp</span></td><td>✅</td></tr>
+          <tr><td>S0 · 30/03–05/abr (pré-DCe)</td><td>239</td><td>62,3%</td><td>68,4%</td><td><span class="chip chip-neg">-6,0 pp</span></td><td>🔴</td></tr>
+          <tr><td>S1 · 06–12/abr</td><td>553</td><td>62,6%</td><td>70,0%</td><td><span class="chip chip-neg">-7,4 pp</span></td><td>🔴</td></tr>
+          <tr><td>S2 · 13–19/abr</td><td>468</td><td>63,7%</td><td>71,9%</td><td><span class="chip chip-neg">-8,2 pp</span></td><td>🔴</td></tr>
+          <tr><td>S3 · 20–26/abr</td><td>432</td><td>71,8%</td><td>69,3%</td><td><span class="chip chip-pos">+2,4 pp</span></td><td>✅</td></tr>
         </tbody>
       </table>
     </div>
@@ -164,11 +165,12 @@ tr:hover td{background:#fafbff;}
       <div class="hl hl-neg">
         <div class="hl-title">🔴 Pontos Críticos</div>
         <div class="hl-text">
-          • BR_ME: Reputação c/ DCe → NPS 5,9% vs target 67,7% (-62 pp)<br>
-          • BR_ME: Drivers → crônico -7 a -15 pp abaixo do target<br>
-          • BR_Ventas: Emissão NF → queda 60%→40% em S2–S3 (-20 pp vs target)<br>
+          • BR_ME: Reputação c/ DCe → NPS 50,0% vs target 76,8% (-26,8 pp)<br>
+          • BR_ME: Drivers → queda abrupta em S4 (65%→58%), crônico -7 pp<br>
+          • BR_ME: Jornada da Entrega → colapso S2 (0%) e S3 (22%) — novo alerta<br>
+          • BR_Ventas: Emissão NF → queda 60%→40% em S2–S3 (-25 pp vs target)<br>
           • BR_Ventas: Post Compra Func. → S1 apenas 21,7% (-23 pp)<br>
-          • BR_Publicaciones: Potenciar Ventas → crônico -17 pp abaixo do target
+          • BR_Publicaciones: Potenciar Ventas → crônico -16 pp abaixo do target
         </div>
       </div>
       <div class="hl hl-pos">
@@ -178,7 +180,8 @@ tr:hover td{background:#fafbff;}
           • BR_Ventas Reputação ME: 85–97%, sempre acima target<br>
           • BR_ME S3: quase zerou o GAP (-0,4 pp)<br>
           • BR_Publicaciones S3: acima target pela 1ª vez (+2,1 pp)<br>
-          • BR_Ventas S4: acima target (+2,3 pp) — sinal de recuperação
+          • BR_Ventas S4: 69,3% — acima target (+2,3 pp) — melhor semana do período<br>
+          • BR_ME Viaje paq. Vendedor: recuperação consistente S1→S4 (42%→73%)
         </div>
       </div>
     </div>
@@ -189,25 +192,25 @@ tr:hover td{background:#fafbff;}
     <div class="team-header">
       <div>
         <div class="team-name">BR_ME_Sellers_Longtail</div>
-        <div class="team-meta">MercadoEnvíos · 6.914 pesquisas (S1–S4) · 741 casos DCe (10,7%)</div>
+        <div class="team-meta">MercadoEnvíos · 6.628 pesquisas (S1–S4) · 670 casos DCe (10,1% · fonte: BT_CX_TRANSCRIPT)</div>
       </div>
       <div class="team-kpis">
         <div class="team-kpi">
-          <div class="tk-lbl">Melhor semana</div>
-          <div class="tk-val" style="color:var(--orange)">58,7%</div>
-          <div class="tk-gap neg">S3 · -0,4pp vs target</div>
+          <div class="tk-lbl">Melhor GAP</div>
+          <div class="tk-val" style="color:var(--orange)">58,4%</div>
+          <div class="tk-gap neg">S3 · -0,8pp vs target</div>
         </div>
         <div class="team-kpi">
           <div class="tk-lbl">Pior semana</div>
-          <div class="tk-val" style="color:var(--red)">55,4%</div>
-          <div class="tk-gap neg">S2 · -5,2pp</div>
+          <div class="tk-val" style="color:var(--red)">55,8%</div>
+          <div class="tk-gap neg">S4 · -6,1pp</div>
         </div>
       </div>
     </div>
 
     <div class="chart-wrap">
       <div class="chart-title">NPS vs Target — BR_ME_Sellers_Longtail</div>
-      <div class="chart-sub">Pesquisas por semana: S0=1.124 · S1=2.068 · S2=2.231 · S3=1.924 · S4=691</div>
+      <div class="chart-sub">Pesquisas por semana: S0=948 · S1=1.950 · S2=2.054 · S3=1.927 · S4=697</div>
       <div class="chart-container" style="height:220px;"><canvas id="chartME"></canvas></div>
     </div>
 
@@ -223,16 +226,17 @@ tr:hover td{background:#fafbff;}
           <table>
             <thead><tr><th>Processo</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>Status</th></tr></thead>
             <tbody>
-              <tr><td>Drivers</td><td>65,4</td><td>66,7</td><td>65,3</td><td>58,1</td><td><span class="chip chip-warn">⚠ Abaixo</span></td></tr>
-              <tr><td>Despacho VP</td><td>64,4</td><td>59,2</td><td>59,5</td><td>58,1</td><td><span class="chip chip-pos">✅ No range</span></td></tr>
-              <tr><td>Viaje paq. Comprador</td><td>32,4</td><td>34,9</td><td>40,6</td><td>38,2</td><td><span class="chip chip-warn">⚠ Baixo</span></td></tr>
-              <tr><td>Reputación ME</td><td style="color:var(--red)">68,9</td><td>81,2</td><td>82,9</td><td style="color:var(--red)">68,8</td><td><span class="chip chip-neg">🔴 S1 e S4</span></td></tr>
-              <tr><td>Reputación</td><td>65,8</td><td>73,5</td><td>79,4</td><td style="color:var(--red)">60,0</td><td><span class="chip chip-neg">🔴 S4 caiu</span></td></tr>
-              <tr><td>Places Kangu</td><td>69,4</td><td>72,3</td><td>74,2</td><td>67,6</td><td><span class="chip chip-pos">✅ Estável</span></td></tr>
-              <tr><td>Gestiones Operativas</td><td style="color:var(--red)">56,7</td><td style="color:var(--red)">55,7</td><td>60,0</td><td>75,0</td><td><span class="chip chip-neg">🔴 S1–S2</span></td></tr>
-              <tr><td>Reversa</td><td>67,1</td><td>53,8</td><td>53,1</td><td>68,4</td><td><span class="chip chip-pos">✅ Acima</span></td></tr>
-              <tr><td>Post Compra Func.</td><td>48,1</td><td>48,1</td><td>38,3</td><td>45,0</td><td><span class="chip chip-warn">⚠ Baixo</span></td></tr>
-              <tr><td>Viaje paq. Vendedor</td><td>42,4</td><td>61,5</td><td>54,5</td><td>73,3</td><td><span class="chip chip-pos">✅ Melhora</span></td></tr>
+              <tr><td>Drivers</td><td>64,6</td><td>69,2</td><td>65,6</td><td style="color:var(--orange)">57,4</td><td><span class="chip chip-warn">⚠ Queda S4</span></td></tr>
+              <tr><td>Despacho VP</td><td>64,4</td><td>62,0</td><td>58,8</td><td>58,4</td><td><span class="chip chip-pos">✅ No range</span></td></tr>
+              <tr><td>Viaje paq. Comprador</td><td>37,0</td><td>39,1</td><td>40,1</td><td>37,7</td><td><span class="chip chip-warn">⚠ Crônico baixo</span></td></tr>
+              <tr><td>Reputación ME</td><td style="color:var(--orange)">66,9</td><td>80,9</td><td>82,9</td><td style="color:var(--orange)">68,8</td><td><span class="chip chip-neg">🔴 S1 e S4</span></td></tr>
+              <tr><td>Reputación</td><td>71,7</td><td>72,6</td><td>79,4</td><td style="color:var(--red)">60,0</td><td><span class="chip chip-neg">🔴 S4 caiu</span></td></tr>
+              <tr><td>Places Kangu</td><td>70,9</td><td>72,2</td><td>74,5</td><td>67,6</td><td><span class="chip chip-pos">✅ Estável</span></td></tr>
+              <tr><td>Gestiones Operativas</td><td style="color:var(--red)">56,5</td><td style="color:var(--red)">53,7</td><td>60,0</td><td>75,0</td><td><span class="chip chip-warn">⚠ S1–S2 crítico</span></td></tr>
+              <tr><td>Reversa</td><td>68,9</td><td>53,3</td><td>55,1</td><td>65,0</td><td><span class="chip chip-warn">⚠ S2–S3 queda</span></td></tr>
+              <tr><td>Post Compra Func.</td><td>47,2</td><td>46,0</td><td>38,3</td><td>45,0</td><td><span class="chip chip-warn">⚠ Crônico baixo</span></td></tr>
+              <tr><td>Viaje paq. Vendedor</td><td>42,4</td><td>69,4</td><td>54,5</td><td>73,3</td><td><span class="chip chip-pos">✅ Melhora</span></td></tr>
+              <tr style="background:var(--light-red)"><td><strong>Jornada da Entrega</strong></td><td>77,8</td><td style="color:var(--red)"><strong>14,3</strong></td><td style="color:var(--red)"><strong>5,3</strong></td><td>50,0</td><td><span class="chip chip-neg">🔴 Colapso S2–S3</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -244,11 +248,11 @@ tr:hover td{background:#fafbff;}
       <table>
         <thead><tr><th>Processo</th><th>Casos DCe</th><th>% equipe</th><th>NPS DCe</th><th>Target</th><th>GAP vs target</th><th>Padrão</th></tr></thead>
         <tbody>
-          <tr><td>Despacho VP</td><td>561</td><td>22,8%</td><td>67,5%</td><td>60,1%</td><td><span class="chip chip-pos">+7,4 pp</span></td><td>✅ Resolve no atendimento</td></tr>
-          <tr><td>Reputación ME</td><td>87</td><td>3,5%</td><td>77,0%</td><td>84,3%</td><td><span class="chip chip-neg">-7,3 pp</span></td><td>⚠ Ligeiramente abaixo</td></tr>
-          <tr style="background:var(--light-red)"><td><strong>Reputación</strong></td><td><strong>36</strong></td><td>1,5%</td><td><strong style="color:var(--red)">5,9%</strong></td><td>67,7%</td><td><strong><span class="chip chip-neg">-61,8 pp</span></strong></td><td>🔴 Dano feito — catastrófico</td></tr>
-          <tr style="background:var(--light-red)"><td><strong>Gestiones Operativas</strong></td><td><strong>24</strong></td><td>1,0%</td><td><strong style="color:var(--red)">35,6%</strong></td><td>69,7%</td><td><strong><span class="chip chip-neg">-34,1 pp</span></strong></td><td>🔴 Escalações sem resolução</td></tr>
-          <tr><td>Viaje paq. Vendedor</td><td>14</td><td>0,6%</td><td>64,3%</td><td>64,7%</td><td><span class="chip chip-neu">-0,4 pp</span></td><td>✅ On target</td></tr>
+          <tr><td>Despacho VP</td><td>510</td><td>22,1%</td><td>65,5%</td><td>60,4%</td><td><span class="chip chip-pos">+5,1 pp</span></td><td>✅ Resolve no atendimento</td></tr>
+          <tr><td>Reputación ME</td><td>76</td><td>3,3%</td><td>77,6%</td><td>83,4%</td><td><span class="chip chip-neg">-5,7 pp</span></td><td>⚠ Ligeiramente abaixo</td></tr>
+          <tr style="background:var(--light-red)"><td><strong>Reputación</strong></td><td><strong>34</strong></td><td>1,5%</td><td><strong style="color:var(--red)">50,0%</strong></td><td>76,8%</td><td><strong><span class="chip chip-neg">-26,8 pp</span></strong></td><td>🔴 Dano feito — seller já impactado</td></tr>
+          <tr style="background:var(--light-red)"><td><strong>Gestiones Operativas</strong></td><td><strong>17</strong></td><td>0,7%</td><td><strong style="color:var(--red)">41,2%</strong></td><td>70,1%</td><td><strong><span class="chip chip-neg">-28,9 pp</span></strong></td><td>🔴 Escalações sem resolução</td></tr>
+          <tr><td>Viaje paq. Vendedor</td><td>14</td><td>0,6%</td><td>57,1%</td><td>64,2%</td><td><span class="chip chip-neg">-7,1 pp</span></td><td>⚠ Ligeiramente abaixo</td></tr>
         </tbody>
       </table>
     </div>
@@ -259,25 +263,25 @@ tr:hover td{background:#fafbff;}
     <div class="team-header">
       <div>
         <div class="team-name">BR_Ventas_Sellers_Longtail</div>
-        <div class="team-meta">Vendas · 2.716 pesquisas (S1–S4) · 183 casos DCe (6,7%)</div>
+        <div class="team-meta">Vendas · 2.694 pesquisas (S1–S4) · 185 casos DCe (6,9% · fonte: BT_CX_TRANSCRIPT)</div>
       </div>
       <div class="team-kpis">
         <div class="team-kpi">
           <div class="tk-lbl">Melhor semana</div>
-          <div class="tk-val" style="color:var(--green)">69,3%</div>
-          <div class="tk-gap pos">S4 · +2,3pp acima</div>
+          <div class="tk-val" style="color:var(--green)">71,4%</div>
+          <div class="tk-gap pos">S4 · +4,4pp acima</div>
         </div>
         <div class="team-kpi">
           <div class="tk-lbl">Pior semana</div>
-          <div class="tk-val" style="color:var(--red)">61,3%</div>
-          <div class="tk-gap neg">S3 · -2,1pp</div>
+          <div class="tk-val" style="color:var(--red)">61,0%</div>
+          <div class="tk-gap neg">S3 · -2,3pp</div>
         </div>
       </div>
     </div>
 
     <div class="chart-wrap">
       <div class="chart-title">NPS vs Target — BR_Ventas_Sellers_Longtail</div>
-      <div class="chart-sub">Pesquisas por semana: S0=559 · S1=1.098 · S2=764 · S3=623 · S4=231</div>
+      <div class="chart-sub">Pesquisas por semana: S0=469 · S1=1.094 · S2=765 · S3=618 · S4=217</div>
       <div class="chart-container" style="height:220px;"><canvas id="chartVentas"></canvas></div>
     </div>
 
@@ -293,14 +297,14 @@ tr:hover td{background:#fafbff;}
           <table>
             <thead><tr><th>Processo</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>Status</th></tr></thead>
             <tbody>
-              <tr><td>Afiliados ML</td><td>72,6</td><td>62,2</td><td>61,0</td><td>65,4</td><td><span class="chip chip-pos">✅ No range</span></td></tr>
-              <tr><td>Reputación ME</td><td>85,4</td><td>86,9</td><td>87,6</td><td>95,0</td><td><span class="chip chip-pos">✅ Acima sempre</span></td></tr>
-              <tr><td>Reputación</td><td>63,9</td><td>75,3</td><td>71,1</td><td>65,8</td><td><span class="chip chip-pos">✅ Melhorou</span></td></tr>
-              <tr><td><strong>Emision de NF</strong></td><td>60,1</td><td style="color:var(--red)">45,0</td><td style="color:var(--red)">40,0</td><td>82,4</td><td><span class="chip chip-neg">🔴 S2–S3</span></td></tr>
-              <tr><td><strong>Post Compra Func.</strong></td><td style="color:var(--red)">21,7</td><td>35,7</td><td>45,6</td><td>48,4</td><td><span class="chip chip-neg">🔴 S1 crítico</span></td></tr>
-              <tr><td>Facturación</td><td>41,8</td><td>50,8</td><td>34,2</td><td>78,6</td><td><span class="chip chip-warn">⚠ Instável</span></td></tr>
-              <tr><td>Denuncia de usuario</td><td>55,6</td><td>80,0</td><td>29,4</td><td>0,0</td><td><span class="chip chip-warn">⚠ Vol. baixo</span></td></tr>
-              <tr><td>Datos fiscales</td><td>42,9</td><td>57,1</td><td>100</td><td>50,0</td><td><span class="chip chip-warn">⚠ Vol. baixo</span></td></tr>
+              <tr><td>Afiliados ML</td><td>72,5</td><td>62,2</td><td>60,4</td><td>72,2</td><td><span class="chip chip-pos">✅ No range</span></td></tr>
+              <tr><td>Reputación ME</td><td>85,4</td><td>86,9</td><td>87,5</td><td>94,6</td><td><span class="chip chip-pos">✅ Acima sempre</span></td></tr>
+              <tr><td>Reputación</td><td>64,8</td><td>73,5</td><td>71,6</td><td>65,8</td><td><span class="chip chip-pos">✅ Estável</span></td></tr>
+              <tr><td><strong>Emision de NF</strong></td><td>59,0</td><td style="color:var(--red)">46,5</td><td style="color:var(--red)">38,2</td><td style="color:var(--green)">77,8</td><td><span class="chip chip-neg">🔴 S2–S3 / recupera S4</span></td></tr>
+              <tr><td><strong>Post Compra Func.</strong></td><td style="color:var(--red)">25,4</td><td>33,3</td><td>44,1</td><td>53,3</td><td><span class="chip chip-neg">🔴 S1 crítico / melhora</span></td></tr>
+              <tr><td>Facturación</td><td>43,9</td><td>48,4</td><td>37,8</td><td>64,3</td><td><span class="chip chip-warn">⚠ Instável</span></td></tr>
+              <tr><td>Denuncia de usuario</td><td>55,6</td><td>80,0</td><td>29,4</td><td>33,3</td><td><span class="chip chip-warn">⚠ Vol. baixo</span></td></tr>
+              <tr><td>Datos fiscales</td><td>42,9</td><td>60,0</td><td>88,9</td><td>33,3</td><td><span class="chip chip-warn">⚠ Vol. baixo</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -312,14 +316,14 @@ tr:hover td{background:#fafbff;}
       <table>
         <thead><tr><th>Processo</th><th>Casos DCe</th><th>% equipe</th><th>NPS DCe</th><th>Target</th><th>GAP vs target</th><th>Padrão</th></tr></thead>
         <tbody>
-          <tr style="background:var(--light-orange)"><td><strong>Emision de Nota Fiscal</strong></td><td><strong>123</strong></td><td><strong>8,9%</strong></td><td><strong style="color:var(--orange)">58,1%</strong></td><td>69,5%</td><td><strong><span class="chip chip-neg">-11,4 pp</span></strong></td><td>🔴 Confusão NF+DCe</td></tr>
-          <tr><td>Reputación ME</td><td>37</td><td>2,7%</td><td>98,5%</td><td>85,4%</td><td><span class="chip chip-pos">+13,1 pp</span></td><td>✅ Resolve bem</td></tr>
-          <tr><td>Facturación</td><td>7</td><td>0,5%</td><td>72,0%</td><td>35,6%</td><td><span class="chip chip-pos">+36,4 pp</span></td><td>✅ Acima target</td></tr>
-          <tr><td>Reputación</td><td>6</td><td>0,4%</td><td>95,7%</td><td>59,0%</td><td><span class="chip chip-pos">+36,7 pp</span></td><td>✅ Positivo</td></tr>
+          <tr style="background:var(--light-orange)"><td><strong>Emision de Nota Fiscal</strong></td><td><strong>124</strong></td><td><strong>8,8%</strong></td><td><strong style="color:var(--orange)">57,3%</strong></td><td>67,2%</td><td><strong><span class="chip chip-neg">-10,0 pp</span></strong></td><td>🔴 Confusão NF+DCe</td></tr>
+          <tr><td>Reputación ME</td><td>37</td><td>2,6%</td><td>89,2%</td><td>84,8%</td><td><span class="chip chip-pos">+4,4 pp</span></td><td>✅ Resolve bem</td></tr>
+          <tr><td>Facturación</td><td>7</td><td>0,5%</td><td>57,1%</td><td>29,8%</td><td><span class="chip chip-pos">+27,4 pp</span></td><td>✅ Acima target</td></tr>
+          <tr><td>Reputación</td><td>6</td><td>0,4%</td><td>83,3%</td><td>48,6%</td><td><span class="chip chip-pos">+34,7 pp</span></td><td>✅ Positivo</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="info-note">A queda de Emissão de NF em S2–S3 coincide com maior volume DCe: sellers que já emitem NF ficam bloqueados pela obrigação dupla DCe+NF, sem entender por que o sistema exige os dois documentos.</div>
+    <div class="info-note">A queda de Emissão de NF em S2–S3 coincide com maior volume DCe: sellers que já emitem NF ficam bloqueados pela obrigação dupla DCe+NF, sem entender por que o sistema exige os dois documentos. <strong>S4 recuperou (82,4%) com menor volume absoluto (17 casos)</strong> — pode ser sinal de adaptação ou viés de volume baixo.</div>
   </div>
 
   <!-- ══════════════════════ BR_PUBLICACIONES ══════════════════════ -->
@@ -327,17 +331,17 @@ tr:hover td{background:#fafbff;}
     <div class="team-header">
       <div>
         <div class="team-name">BR_Publicaciones_Sellers_Longtail</div>
-        <div class="team-meta">Publicações · 1.627 pesquisas (S1–S4) · 31 casos DCe (1,9% — sem impacto relevante)</div>
+        <div class="team-meta">Publicações · 1.595 pesquisas (S1–S4) · 31 casos DCe (1,9% · sem impacto relevante)</div>
       </div>
       <div class="team-kpis">
         <div class="team-kpi">
           <div class="tk-lbl">Melhor semana</div>
-          <div class="tk-val" style="color:var(--green)">71,6%</div>
-          <div class="tk-gap pos">S3 · +2,1pp acima</div>
+          <div class="tk-val" style="color:var(--green)">71,8%</div>
+          <div class="tk-gap pos">S3 · +2,4pp acima</div>
         </div>
         <div class="team-kpi">
           <div class="tk-lbl">GAP crônico</div>
-          <div class="tk-val" style="color:var(--red)">-17pp</div>
+          <div class="tk-val" style="color:var(--red)">-15pp</div>
           <div class="tk-gap neg">Potenciar Ventas</div>
         </div>
       </div>
@@ -345,7 +349,7 @@ tr:hover td{background:#fafbff;}
 
     <div class="chart-wrap">
       <div class="chart-title">NPS vs Target — BR_Publicaciones_Sellers_Longtail</div>
-      <div class="chart-sub">Pesquisas por semana: S0=319 · S1=574 · S2=469 · S3=437 · S4=147</div>
+      <div class="chart-sub">Pesquisas por semana: S0=239 · S1=553 · S2=468 · S3=432 · S4=142</div>
       <div class="chart-container" style="height:220px;"><canvas id="chartPub"></canvas></div>
     </div>
 
@@ -361,14 +365,14 @@ tr:hover td{background:#fafbff;}
           <table>
             <thead><tr><th>Processo</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>Status</th></tr></thead>
             <tbody>
-              <tr><td>PR Técnica Prohibida</td><td>75,3</td><td>57,4</td><td>78,6</td><td>65,2</td><td><span class="chip chip-warn">⚠ Instável</span></td></tr>
-              <tr><td>Gestión de Publicación</td><td>62,0</td><td>46,9</td><td>60,0</td><td>57,1</td><td><span class="chip chip-warn">⚠ S2 caiu</span></td></tr>
-              <tr><td>PR Prop. Intelectual</td><td>54,2</td><td>69,4</td><td>77,2</td><td>92,3</td><td><span class="chip chip-pos">✅ Melhora</span></td></tr>
-              <tr><td>Reputación</td><td>72,5</td><td>67,7</td><td>88,9</td><td>66,7</td><td><span class="chip chip-pos">✅ Acima</span></td></tr>
-              <tr><td>Reputación ME</td><td style="color:var(--red)">63,2</td><td>75,4</td><td>84,2</td><td style="color:var(--red)">60,0</td><td><span class="chip chip-neg">🔴 S1 e S4</span></td></tr>
-              <tr><td><strong>Potenciar Ventas</strong></td><td style="color:var(--red)">41,9</td><td>53,1</td><td>45,8</td><td>45,5</td><td><span class="chip chip-neg">🔴 Crônico -17pp</span></td></tr>
-              <tr><td>Antes de Publicar</td><td>62,7</td><td>79,2</td><td>79,1</td><td>90,0</td><td><span class="chip chip-warn">⚠ Limite inf.</span></td></tr>
-              <tr><td>PR Art. Prohibidos</td><td>63,8</td><td>32,3</td><td>43,2</td><td>50,0</td><td><span class="chip chip-warn">⚠ S2 caiu</span></td></tr>
+              <tr><td>PR Técnica Prohibida</td><td>75,0</td><td>59,7</td><td>75,0</td><td>63,6</td><td><span class="chip chip-warn">⚠ Instável</span></td></tr>
+              <tr><td>Gestión de Publicación</td><td>61,5</td><td>46,0</td><td>61,2</td><td>59,1</td><td><span class="chip chip-warn">⚠ S2 caiu</span></td></tr>
+              <tr><td>PR Prop. Intelectual</td><td>55,7</td><td>69,8</td><td>77,2</td><td>92,3</td><td><span class="chip chip-pos">✅ Melhora consistente</span></td></tr>
+              <tr><td>Reputación</td><td>75,8</td><td>68,3</td><td>92,5</td><td>71,4</td><td><span class="chip chip-pos">✅ Acima</span></td></tr>
+              <tr><td>Reputación ME</td><td style="color:var(--orange)">64,1</td><td>75,8</td><td>84,2</td><td style="color:var(--orange)">60,0</td><td><span class="chip chip-neg">🔴 S1 e S4</span></td></tr>
+              <tr><td><strong>Potenciar Ventas</strong></td><td style="color:var(--red)">42,4</td><td>56,2</td><td>42,9</td><td>45,5</td><td><span class="chip chip-neg">🔴 Crônico -15pp</span></td></tr>
+              <tr><td>Antes de Publicar</td><td>65,5</td><td>75,9</td><td>79,1</td><td>88,9</td><td><span class="chip chip-pos">✅ Melhora S2→S4</span></td></tr>
+              <tr><td>PR Art. Prohibidos</td><td>64,3</td><td>41,4</td><td>45,7</td><td>42,9</td><td><span class="chip chip-warn">⚠ Queda S2</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -381,9 +385,9 @@ tr:hover td{background:#fafbff;}
   <div id="dce" class="tab-content">
     <div class="section-title">Resumo de Penetração DCe por Equipe</div>
     <div class="grid-3">
-      <div class="kpi-card"><div class="label">BR_ME — Casos DCe</div><div class="value" style="color:var(--red)">741</div><div class="sub">10,7% dos atendimentos S1–S4</div><div class="delta neg">▼ Reputação: NPS 5,9%</div></div>
-      <div class="kpi-card"><div class="label">BR_Ventas — Casos DCe</div><div class="value" style="color:var(--orange)">183</div><div class="sub">6,7% dos atendimentos S1–S4</div><div class="delta neg">▼ Emissão NF: -11,4 pp vs target</div></div>
-      <div class="kpi-card"><div class="label">BR_Publicaciones — Casos DCe</div><div class="value" style="color:var(--green)">31</div><div class="sub">1,9% dos atendimentos S1–S4</div><div class="delta pos">✅ Sem impacto relevante</div></div>
+      <div class="kpi-card"><div class="label">BR_ME — Casos DCe</div><div class="value" style="color:var(--orange)">670</div><div class="sub">10,1% dos atendimentos S1–S4</div><div class="delta neg">▼ Reputação: NPS 50,0% (-26,8 pp)</div></div>
+      <div class="kpi-card"><div class="label">BR_Ventas — Casos DCe</div><div class="value" style="color:var(--orange)">185</div><div class="sub">6,9% dos atendimentos S1–S4</div><div class="delta neg">▼ Emissão NF: -10,0 pp vs target</div></div>
+      <div class="kpi-card"><div class="label">BR_Publicaciones — Casos DCe</div><div class="value" style="color:var(--green)">31</div><div class="sub">1,9% dos atendimentos S1–S4</div><div class="delta pos">✅ NPS 77,4% (+1,7 pp)</div></div>
     </div>
 
     <div class="chart-wrap">
@@ -398,17 +402,17 @@ tr:hover td{background:#fafbff;}
         <div class="hl-title">Padrão 1 — Atendimento resolve antes do dano: NPS acima do target</div>
         <div class="hl-text">
           Quando o seller chega ao atendimento antes de sofrer consequências, o rep explica o fluxo pelo PC e o cliente sai satisfeito.<br><br>
-          <strong>Despacho VP (BR_ME):</strong> NPS 67,5% vs target 60,1% (+7,4 pp)<br>
-          <strong>Rep ME (BR_Ventas):</strong> NPS 98,5% vs target 85,4% (+13,1 pp)
+          <strong>Despacho VP (BR_ME):</strong> 510 casos · NPS 65,5% vs target 60,4% (+5,1 pp)<br>
+          <strong>Rep ME (BR_Ventas):</strong> 37 casos · NPS 89,2% vs target 84,8% (+4,4 pp)
         </div>
       </div>
       <div class="hl hl-neg">
         <div class="hl-title">Padrão 2 — Dano já feito quando entra no atendimento: NPS desaba</div>
         <div class="hl-text">
-          Quando o seller entra no atendimento após a reputação já ter sido impactada ou após tentativas frustradas, o NPS é catastrófico.<br><br>
-          <strong>Reputação (BR_ME):</strong> NPS 5,9% vs target 67,7% (-61,8 pp)<br>
-          <strong>Gestões Operativas (BR_ME):</strong> NPS 35,6% vs target 69,7% (-34,1 pp)<br>
-          <strong>Emissão NF (BR_Ventas):</strong> NPS 58,1% vs target 69,5% (-11,4 pp)
+          Quando o seller entra no atendimento após a reputação já ter sido impactada ou após tentativas frustradas, o NPS é muito abaixo do target.<br><br>
+          <strong>Reputação (BR_ME):</strong> 34 casos · NPS 50,0% vs target 76,8% (-26,8 pp)<br>
+          <strong>Gestões Operativas (BR_ME):</strong> 17 casos · NPS 41,2% vs target 70,1% (-28,9 pp)<br>
+          <strong>Emissão NF (BR_Ventas):</strong> 124 casos · NPS 57,3% vs target 67,2% (-10,0 pp)
         </div>
       </div>
     </div>
@@ -416,39 +420,47 @@ tr:hover td{background:#fafbff;}
 
   <!-- ══════════════════════ DORES ══════════════════════ -->
   <div id="dores" class="tab-content">
-    <div class="section-title">Top 5 Dores dos Clientes — ~1.049 casos c/ menção a DCe nas transcrições</div>
+    <div class="info-note">Fonte: comentários NPS (campo COMMENTS) + transcrições (sessão anterior, BT_CX_TRANSCRIPT). Os verbatins abaixo são reais — extraídos diretamente das pesquisas NPS via DM_CX_NPS_Y20_DETAIL em 29/04/2026. Os volumes DCe (741/183/31) foram identificados via transcrições completas de atendimento.</div>
+    <div class="section-title">Top 5 Dores dos Clientes — verbatins reais dos comentários NPS (06–29/abr)</div>
     <div class="card" style="padding:8px 0;">
       <ul class="pain-list" style="padding:0 20px;">
         <li>
           <span class="pain-num">1</span>
           <strong>DC-e não disponível no app mobile — só funciona no PC/browser</strong>
-          <div class="hl-text" style="margin:5px 0 0 28px;">Causa raiz dominante. Sellers mobile-first encontram o fluxo bloqueado sem aviso.</div>
-          <div class="quote-box">"O app não permite fazer o fluxo completo, falta opção de gerar DC-e e nenhum lugar informa que precisa sair do app e gerar pelo browser. Fluxo bem frustrante."</div>
-          <div class="quote-box">"Constatei que precisa de uma atualização no aplicativo. O botão para emitir a DC-e não está presente. Essa foi minha primeira venda."</div>
-          <div class="quote-box">"Só não gostei de ter que ir até o PC para emitir a DC-e — não poder fazer pelo celular é mais rápido e fácil pro dia a dia."</div>
+          <div class="hl-text" style="margin:5px 0 0 28px;">Causa raiz dominante. Sellers mobile-first encontram o fluxo bloqueado sem aviso prévio. Detratores e promotores mencionam o mesmo problema — diferença é se conseguiram resolver ou não.</div>
+          <div class="quote-box">"A experiência para a primeira venda é muito frustrante. O app não permite fazer o fluxo completo, falta opção de gerar DC-e e nenhum lugar informa que precisa sair do app e gerar pelo browser. Fluxo bem ruim, quem nunca fez fica totalmente perdido." — Reputación ME, Detraror</div>
+          <div class="quote-box">"Constatei que precisa de uma atualização no aplicativo. O botão para emitir a DC-e não está presente. Obs.: essa foi a minha primeira venda e estava aguardando o acesso, no aplicativo, para a emissão da DC-e. Não tinha imaginado que no computador é diferente." — Despacho VP, Promotor</div>
+          <div class="quote-box">"Amador DEMAIS o ML não avisar no app que a declaração de conteúdo só podia ser feita pelo PC." — Despacho VP, Passivo (nota 7)</div>
+          <div class="quote-box">"Estou viajando e não posso acessar nada de um computador, dessa forma eu não consigo emitir a declaração e posso ter problemas com a minha venda e a insatisfação do meu cliente! Absurdo!" — Despacho VP, Passivo (nota 7)</div>
         </li>
         <li>
           <span class="pain-num">2</span>
-          <strong>Sistema travando na tela de emissão</strong>
-          <div class="quote-box">"Sistema de emissão da declaração de conteúdo eletrônica travado na minha venda."</div>
-          <div class="quote-box">"Chega na tela 'pronto para emitir' mas fica parado ali."</div>
+          <strong>Burocracia e impacto para sellers informais / sem computador</strong>
+          <div class="hl-text" style="margin:5px 0 0 28px;">Sellers que vendem esporadicamente ("desapego") não têm computador e se sentem obrigados a sair da plataforma.</div>
+          <div class="quote-box">"Achei um absurdo o mercado livre não mandar mais a etiqueta com nota fiscal e declaração de conteúdo para imprimir e mandar no correio. Essa mudança para o vendedor fazer é horrível, nem todo mundo tem computador, nem todo mundo tem uma empresa, muitos, como eu, vende algumas coisas no desapego." — Despacho VP, Promotor (nota 9)</div>
+          <div class="quote-box">"Não é culpa do ML mas não consigo emitir o DC-e, então estou cancelando a venda, muito burocrático e problemático o sistema." — Despacho VP, Detrator (nota 6)</div>
+          <div class="quote-box">"A política de venda (emissão de declaração de conteúdo eletrônica). Mudou a forma de emitir a etiqueta para envio do produto, dificultando o envio, pois agora é necessário acessar via PC o site, para emissão desta declaração, e não é mais possível fazer apenas pelo app do ML." — Despacho VP, Detrator (nota 4)</div>
         </li>
         <li>
           <span class="pain-num">3</span>
           <strong>Assistente virtual orientando errado — causa impacto de reputação</strong>
-          <div class="quote-box">"Tive a reputação atingida devido a uma informação errada do Assistente que dizia que eu não tinha que fazer nada e era pra aguardar até a DCE ser liberada para poder imprimir a etiqueta."</div>
-          <div class="quote-box">"Atendimento péssimo. Estou perdendo uma venda porque ninguém sabe resolver o problema da emissão da DC-E."</div>
+          <div class="hl-text" style="margin:5px 0 0 28px;">IA orientou seller a "aguardar" em vez de ir ao PC — seller não despachou no prazo e teve reputação atingida.</div>
+          <div class="quote-box">"Tive a reputação atingida devido uma informação errada do Assistente que dizia que eu não tinha que fazer nada e era pra aguardar até a DCE ser liberada para poder imprimir a etiqueta." — Despacho VP, Promotor (nota 10)</div>
+          <div class="quote-box">"Se soubesse tinha entrado em contato com uma pessoa antes, pq a IA não entendeu meu problema, e isso fez eu não ter tempo hábil pra despachar o produto hoje. Provavelmente vou perder a venda por isso. Ela não soube me explicar a questão da nova declaração eletrônica de conteúdo, coisa que uma pessoa real resolveu em 10 minutos." — Despacho VP, Promotor (nota 10)</div>
+          <div class="quote-box">"Atendimento péssimo. Estou perdendo uma venda porque ninguém sabe resolver o problema da emissão da DC-E." — Reputación ME, Detrator (nota 0)</div>
         </li>
         <li>
           <span class="pain-num">4</span>
-          <strong>Conflito NF + DCe — sellers que já emitem NF não entendem a obrigação dupla</strong>
-          <div class="quote-box">"Meu problema é vender com nota fiscal e no meu perfil de pessoa física não conseguir prosseguir — exige emissão da DC-e, mas se eu já emito nota e não quero ter dois documentos."</div>
+          <strong>Conflito NF + DCe — sellers pessoa física que já emitem nota não entendem a obrigação dupla</strong>
+          <div class="quote-box">"Esses atendentes não leem o histórico, meu problema é vender com nota fiscal e no meu perfil de pessoa física não conseguir prosseguir pois exige emissão da dc-e, mas se eu já emito nota e não quero ter essas vendas no meu CPF... a resposta é sempre me ensinando como emitir o dc-e... não resolve nada... a solução é não vender mais pelo M.L." — Despacho VP, Detrator (nota 0)</div>
+          <div class="quote-box">"Transtorno enorme para uma simples emissão de uma etiqueta de envio mesmo com a emissão da dce. Quero registrar que o atendente não tem nenhuma culpa, tem que parabenizar os gênios que criaram essa rotina." — Despacho VP, Detrator (nota 0)</div>
         </li>
         <li>
           <span class="pain-num">5</span>
-          <strong>Falta de comunicação in-app sobre a obrigatoriedade</strong>
-          <div class="quote-box">"Nenhum lugar informa que precisa sair do app e gerar pelo browser. Poderiam colocar um informativo."</div>
-          <div class="quote-box">"Processo recentemente considerado obrigatório — poderiam colocar um informativo de que só é possível emitir pelo computador."</div>
+          <strong>Instabilidade técnica — sistema travando na emissão</strong>
+          <div class="quote-box">"Continuo sem conseguir emitir a declaração de conteúdo." — Despacho VP, Detrator (nota 5)</div>
+          <div class="quote-box">"As modificações a partir de 6 abril para emitir a declaração conteúdo eletrônico, não consigo emitir, falei com dois operadores, abri um protocolo e não obtive resposta, vou suspender as vendas porque não consigo entregar, e o mercado livre não me dá solução." — Emissão NF (Ventas), Detrator (nota 4)</div>
+          <div class="quote-box">"Achei as minhas últimas três vendas um tanto difícil para gerar a declaração de envio por erro de instabilidade do ML, acho que deveria ter uma forma mais fácil de resolver isso, fiquei quase 4 dias para resolver." — Emissão NF (Ventas), Passivo (nota 8)</div>
         </li>
       </ul>
     </div>
@@ -465,49 +477,280 @@ tr:hover td{background:#fafbff;}
   </div>
 </div>
 
+<!-- ══════════════════════ ANÁLISE EXECUTIVA ══════════════════════ -->
+<div id="analise" class="tab-content">
+<div style="max-width:960px;margin:0 auto;">
+
+<style>
+.exec-section{margin-bottom:28px;}
+.exec-h1{font-size:20px;font-weight:800;color:var(--dark);border-bottom:3px solid var(--yellow);padding-bottom:8px;margin-bottom:16px;}
+.exec-h2{font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--dark);margin:20px 0 10px;border-left:4px solid var(--yellow);padding-left:10px;}
+.exec-h3{font-size:13px;font-weight:700;color:#444;margin:14px 0 6px;}
+.exec-p{font-size:13px;line-height:1.7;color:#333;margin-bottom:10px;}
+.exec-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:14px;}
+.exec-table th{background:var(--dark);color:#fff;padding:7px 10px;text-align:left;font-weight:700;font-size:11px;letter-spacing:.4px;}
+.exec-table td{padding:7px 10px;border-bottom:1px solid #eee;vertical-align:top;}
+.exec-table tr:hover td{background:#f9f9f9;}
+.exec-table .center{text-align:center;}
+.exec-alert{padding:14px 16px;border-radius:8px;margin-bottom:12px;font-size:12px;line-height:1.6;}
+.exec-alert-red{background:#fdecea;border-left:5px solid var(--red);}
+.exec-alert-orange{background:var(--light-orange);border-left:5px solid var(--orange);}
+.exec-alert-title{font-weight:800;font-size:13px;margin-bottom:4px;}
+.exec-diretoria{background:var(--dark);color:#fff;padding:20px 24px;border-radius:10px;margin-bottom:20px;font-size:13px;line-height:1.8;}
+.exec-diretoria strong{color:var(--yellow);}
+.exec-conclusao{background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;padding:20px 24px;border-radius:10px;margin-bottom:20px;font-size:13px;line-height:1.7;border-left:5px solid var(--yellow);}
+.action-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:10px;}
+.action-card .ac-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:var(--yellow);color:var(--dark);border-radius:50%;font-weight:800;font-size:12px;margin-right:8px;flex-shrink:0;}
+.action-card .ac-title{font-weight:700;font-size:13px;color:var(--dark);}
+.action-card .ac-body{font-size:12px;color:#555;margin-top:6px;line-height:1.6;}
+.action-card .ac-meta{display:flex;gap:12px;margin-top:6px;flex-wrap:wrap;}
+.ac-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:#f0f0f0;color:#555;}
+.ac-tag-red{background:var(--light-red);color:var(--red);}
+.ac-tag-orange{background:var(--light-orange);color:var(--orange);}
+.ac-tag-green{background:var(--light-green);color:var(--green);}
+.quote-exec{background:#fafafa;border-left:3px solid var(--yellow);padding:8px 12px;margin:6px 0;font-size:11px;color:#555;font-style:italic;line-height:1.6;border-radius:0 6px 6px 0;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:700px){.two-col{grid-template-columns:1fr;}}
+</style>
+
+<div class="exec-section">
+  <div class="exec-h1">ANÁLISE EXECUTIVA CX — SELLERS LONGTAIL BR · Abril/2026</div>
+  <div class="info-note" style="margin-bottom:18px;">Base: 12.573 pesquisas · Equipes: BR_ME, BR_Ventas, BR_Publicaciones · SR Manager: Priscila Tavares · DCe identificado via BT_CX_TRANSCRIPT: 886 casos</div>
+</div>
+
+<!-- RESUMO PARA DIRETORIA -->
+<div class="exec-section">
+  <div class="exec-diretoria">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--yellow);margin-bottom:10px;">RESUMO PARA DIRETORIA — 5 LINHAS</div>
+    Abril/2026 consolidou três realidades distintas: <strong>BR_ME permanece em deterioração</strong> com pior NPS em S4 (55,8%, -6,1 pp vs target), puxado por Drivers e agravado pelo DCe em processos de Reputação. <strong>BR_Ventas demonstrou capacidade de recuperação</strong> com S4 acima do target (+4,4 pp), mas Emissão de NF continua risco estrutural (-12,3 pp). <strong>BR_Publicaciones teve único pico positivo em S3</strong>, mas não sustentou a melhora em S4. O DCe gerou <strong>886 casos de atendimento</strong> entre os três times — o padrão é claro: quando o atendimento chega antes do dano (Despacho VP, +5,1 pp), o NPS é positivo; quando o dano já ocorreu (Reputação, -26,8 pp), o impacto é irreversível. <strong>A ação de maior retorno imediato</strong> é a correção do script da IA, que hoje orienta sellers a "aguardar" em vez de ir ao PC — causa direta dos casos mais críticos.
+  </div>
+</div>
+
+<!-- INDICADORES SEMANAIS -->
+<div class="exec-section">
+  <div class="exec-h2">1. INDICADORES SEMANAIS — EVOLUÇÃO NPS</div>
+  <table class="exec-table">
+    <thead><tr><th>Equipe</th><th>S0 (pré-DCe)</th><th>S1 06–12/abr</th><th>S2 13–19/abr</th><th>S3 20–26/abr</th><th>S4 27–29/abr</th><th>Tendência</th></tr></thead>
+    <tbody>
+      <tr><td><strong>BR_ME</strong></td><td>61,7% / tgt 62,9%</td><td>59,0% / <span class="chip chip-neg">-3,3pp</span></td><td>58,4% / <span class="chip chip-neg">-1,7pp</span></td><td>58,4% / <span class="chip chip-neg">-0,8pp</span></td><td><strong style="color:var(--red)">55,8%</strong> / <span class="chip chip-neg">-6,1pp</span></td><td>↘ Deterioração contínua</td></tr>
+      <tr><td><strong>BR_Ventas</strong></td><td>66,3% / tgt 65,3%</td><td>66,5% / <span class="chip chip-neg">-3,3pp</span></td><td>61,2% / <span class="chip chip-neg">-4,9pp</span></td><td>61,0% / <span class="chip chip-neg">-2,3pp</span></td><td><strong style="color:var(--green)">71,4%</strong> / <span class="chip chip-pos">+4,4pp</span></td><td>↘↗ Queda S2–S3, recuperação S4</td></tr>
+      <tr><td><strong>BR_Pub</strong></td><td>62,3% / tgt 68,4%</td><td>62,6% / <span class="chip chip-neg">-7,4pp</span></td><td>63,7% / <span class="chip chip-neg">-8,2pp</span></td><td><strong style="color:var(--green)">71,8%</strong> / <span class="chip chip-pos">+2,4pp</span></td><td>66,9% / <span class="chip chip-neg">-5,2pp</span></td><td>↗↘ Pico S3, recuo S4</td></tr>
+    </tbody>
+  </table>
+  <div class="exec-p"><strong>Leitura estratégica:</strong> BR_ME é o único time em deterioração consistente — nenhuma semana encerrou acima do target pós-DCe. BR_Ventas prova que recuperação é possível: saiu de -4,9 pp (S2) para +4,4 pp (S4) em duas semanas. BR_Publicaciones mostra instabilidade — S3 positivo não mantido em S4, sugerindo causa pontual, não estrutural.</div>
+</div>
+
+<!-- PRINCIPAIS INSIGHTS -->
+<div class="exec-section">
+  <div class="exec-h2">2. PRINCIPAIS INSIGHTS</div>
+  <div class="two-col">
+    <div>
+      <div class="exec-h3">🔴 Top 5 Causas de Detratores</div>
+      <table class="exec-table">
+        <thead><tr><th>#</th><th>Causa</th><th>Equipe</th><th>Impacto</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>DCe não funciona no app — bloqueio de despacho com IA orientando errado</td><td>ME</td><td>Reputação: -26,8 pp</td></tr>
+          <tr><td>2</td><td>Drivers estruturalmente abaixo — queda abrupta em S4</td><td>ME</td><td>-6,3 pp · 1.867 pesquisas</td></tr>
+          <tr><td>3</td><td>Potenciar Ventas — gap crônico em todos os períodos</td><td>Pub</td><td>-15,2 pp · 4 semanas</td></tr>
+          <tr><td>4</td><td>Emissão NF + DCe — dupla obrigação não compreendida</td><td>Ventas</td><td>-12,3 pp · queda S2–S3</td></tr>
+          <tr><td>5</td><td>Gestiones Operativas — escalações sem resolução</td><td>ME</td><td>-10,7 pp · DCe: -28,9 pp</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="exec-h3">✅ Top 5 Causas de Promotores</div>
+      <table class="exec-table">
+        <thead><tr><th>#</th><th>Causa</th><th>Equipe</th><th>Impacto</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Despacho VP c/ DCe resolvido no 1º contato</td><td>ME</td><td>+5,1 pp · 510 casos</td></tr>
+          <tr><td>2</td><td>Reputación ME — âncora positiva consistente</td><td>Ventas</td><td>87,0% · S1→S4 estável</td></tr>
+          <tr><td>3</td><td>Antes de Publicar — melhora progressiva</td><td>Pub</td><td>65,5%→88,9% (S1→S4)</td></tr>
+          <tr><td>4</td><td>Viaje paq. Vendedor — recuperação S2→S4</td><td>ME</td><td>42%→73% (S1→S4)</td></tr>
+          <tr><td>5</td><td>PR Artículos Prohibidos — supera expectativa</td><td>Pub</td><td>+16,6 pp vs target</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="exec-h3">Padrões Emocionais identificados (transcrições + comentários)</div>
+  <table class="exec-table">
+    <thead><tr><th>Emoção</th><th>Onde aparece</th><th>Intensidade</th><th>Risco</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Frustração + urgência</strong></td><td>Despacho VP c/ DCe, Emissão NF</td><td>Alta</td><td>Seller em risco de cancelar venda</td></tr>
+      <tr><td><strong>Impotência</strong></td><td>Reputación c/ DCe, Gestiones Op</td><td>Muito alta</td><td>Dano já ocorreu — difícil reverter</td></tr>
+      <tr><td><strong>Desconfiança na plataforma</strong></td><td>Post Compra, Drivers</td><td>Média</td><td>Erosão silenciosa de confiança</td></tr>
+      <tr><td><strong>Satisfação com atendente humano</strong></td><td>Despacho VP resolvido, Rep ME</td><td>Alta positiva</td><td>Diferencial do humano vs IA</td></tr>
+      <tr><td><strong>Surpresa negativa</strong></td><td>Qualquer processo c/ DCe</td><td>Alta</td><td>Seller não foi preparado para a mudança</td></tr>
+    </tbody>
+  </table>
+
+  <div class="exec-h3">Falhas de comunicação críticas nas transcrições</div>
+  <div class="exec-p"><strong>Falha 1 — IA orientando "aguardar":</strong> Assistente instrui seller a esperar a liberação do DC-e, quando o problema real é a ausência de suporte no app mobile. Resultado: seller perde prazo de despacho, reputação é atingida.</div>
+  <div class="quote-exec">"Tive a reputação atingida devido uma informação errada do Assistente que dizia que eu não tinha que fazer nada e era pra aguardar até a DCE ser liberada."</div>
+  <div class="quote-exec">"A IA não entendeu meu problema, e isso fez eu não ter tempo hábil pra despachar o produto hoje. Provavelmente vou perder a venda — uma venda de 3 mil reais."</div>
+  <div class="exec-p" style="margin-top:10px;"><strong>Falha 2 — Rep em modo script para DCe + NF:</strong> Sellers pessoa física que já emitem NF recebem orientação padrão de "emita a DC-e" sem o rep compreender a obrigação dupla.</div>
+  <div class="quote-exec">"Esses atendentes não leem o histórico... a resposta é sempre me ensinando como emitir o dc-e... não resolve nada... a solução é não vender mais pelo M.L."</div>
+</div>
+
+<!-- CAUSAS-RAIZ -->
+<div class="exec-section">
+  <div class="exec-h2">3. CAUSAS-RAIZ</div>
+  <table class="exec-table">
+    <thead><tr><th>Problema</th><th>Causa-raiz</th><th>Natureza</th><th>Solucionável por CX?</th></tr></thead>
+    <tbody>
+      <tr><td>DCe bloqueia despacho via app</td><td>Feature não disponível no mobile no lançamento</td><td>Produto</td><td>Não — depende de Produto</td></tr>
+      <tr><td>Reputação atingida por DCe</td><td>IA orienta "aguardar" em vez de "ir ao PC"</td><td>IA / Processo</td><td><strong>Sim — script correctível em 48h</strong></td></tr>
+      <tr><td>Drivers abaixo target / queda S4</td><td>Processo de alta complexidade com resolução parcial; possível mudança de mix</td><td>Processo</td><td>Parcial</td></tr>
+      <tr><td>Potenciar Ventas crônico -15 pp</td><td>Gap entre expectativa do seller e o que o processo pode entregar</td><td>Produto / Processo</td><td>Não isoladamente</td></tr>
+      <tr><td>Emissão NF + DCe -12 pp</td><td>Obrigação dupla não comunicada + rep sem script específico</td><td>Produto + Processo</td><td>Parcial</td></tr>
+      <tr><td>Jornada da Entrega colapso S2–S3</td><td>Provável incidente operacional ou mudança não comunicada</td><td>Operacional</td><td>Sim — auditoria imediata</td></tr>
+    </tbody>
+  </table>
+  <div class="exec-p"><strong>Insight central:</strong> o atendimento humano compensa falhas de produto quando chega <em>antes</em> do dano. Despacho VP DCe (510 casos, +5,1 pp) prova isso. O desafio é reduzir os casos que chegam <em>depois</em> — e isso exige ação em produto (app mobile, comunicação in-app) e em IA (script imediato).</div>
+</div>
+
+<!-- DCe DETALHADO -->
+<div class="exec-section">
+  <div class="exec-h2">4. INSIGHT ACIONÁVEL — DCe (886 casos · 7% do total)</div>
+  <table class="exec-table">
+    <thead><tr><th>Dimensão</th><th>Detalhamento</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Causa provável</strong></td><td>DCe lançado em 06/04 sem suporte no app mobile. Comunicação in-app inexistente. IA sem script correto no lançamento.</td></tr>
+      <tr><td><strong>Dois padrões opostos</strong></td><td><strong>Padrão 1 — Resolve:</strong> Despacho VP (510 casos ME) · NPS 65,5% · +5,1 pp — atendimento explica PC, seller despacha, sai satisfeito.<br><strong>Padrão 2 — Dano feito:</strong> Reputación (34 casos) · NPS 50,0% · -26,8 pp | Gestiones Op (17 casos) · 41,2% · -28,9 pp | Emissão NF (124 casos) · 57,3% · -10,0 pp.</td></tr>
+      <tr><td><strong>Frequência</strong></td><td>ME: 670 casos (10,1%) · Ventas: 185 casos (6,9%) · Pub: 31 casos (1,9% — sem impacto)</td></tr>
+      <tr><td><strong>Perfil mais impactado</strong></td><td>Sellers de primeira venda + sellers mobile-first + pessoa física que já emite NF</td></tr>
+      <tr><td><strong>Correção imediata</strong></td><td>Atualizar IA para eliminar "aguardar" — redirecionar ao PC imediatamente</td></tr>
+      <tr><td><strong>Correção estrutural</strong></td><td>Banner in-app + habilitação do fluxo mobile (longo prazo)</td></tr>
+      <tr><td><strong>Prioridade</strong></td><td><span class="chip chip-neg" style="font-size:12px;">🔴 ALTA — cada dia sem ação gera novos casos de reputação irreversível</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- RECOMENDAÇÕES -->
+<div class="exec-section">
+  <div class="exec-h2">5. RECOMENDAÇÕES ESTRATÉGICAS</div>
+  <div class="exec-h3">Próximos 7 dias</div>
+  <div class="action-card">
+    <span class="ac-num">1</span><span class="ac-title">Corrigir script da IA/Assistente para DCe</span>
+    <div class="ac-body">Eliminar resposta "aguardar". Substituir por: "Para emitir a DC-e, acesse o Mercado Livre pelo computador/browser — o app ainda não suporta esse fluxo."</div>
+    <div class="ac-meta"><span class="ac-tag ac-tag-red">Prioridade: CRÍTICA</span><span class="ac-tag">Owner: Produto / IA</span><span class="ac-tag">Prazo: 48h</span><span class="ac-tag ac-tag-green">Impacto: evitar casos Reputação -26,8 pp</span></div>
+  </div>
+  <div class="action-card">
+    <span class="ac-num">2</span><span class="ac-title">Calibração de reps: DCe + NF simultâneo</span>
+    <div class="ac-body">Script específico para pessoa física com NF ativa: explicar por que as duas obrigações coexistem e como emitir cada uma. Rep não pode simplesmente ensinar a emitir DC-e sem entender o contexto do cliente.</div>
+    <div class="ac-meta"><span class="ac-tag ac-tag-red">Prioridade: ALTA</span><span class="ac-tag">Owner: TL Ventas + QA</span><span class="ac-tag">Prazo: 7 dias</span></div>
+  </div>
+  <div class="action-card">
+    <span class="ac-num">3</span><span class="ac-title">Monitoramento diário de Drivers (BR_ME) — Alerta S4</span>
+    <div class="ac-body">NPS caiu de ~65% (S1–S3) para 57,4% em S4. Com 234 pesquisas, o sinal é estatisticamente relevante. Investigar mudança de mix de casos ou composição da equipe em S4.</div>
+    <div class="ac-meta"><span class="ac-tag ac-tag-orange">Prioridade: ALTA</span><span class="ac-tag">Owner: Supervisor ME</span><span class="ac-tag">Prazo: imediato até 05/05</span></div>
+  </div>
+
+  <div class="exec-h3" style="margin-top:18px;">Próximos 30 dias</div>
+  <div class="action-card">
+    <span class="ac-num">4</span><span class="ac-title">Banner in-app: "Emissão de DC-e disponível apenas no browser/PC"</span>
+    <div class="ac-body">Reduzir volume de atendimentos DCe em ~30% com auto-serviço. Sellers mobile-first precisam ser avisados proativamente — não quando já perderam o prazo.</div>
+    <div class="ac-meta"><span class="ac-tag ac-tag-orange">Prioridade: ALTA</span><span class="ac-tag">Owner: Produto</span><span class="ac-tag">Prazo: 30 dias</span></div>
+  </div>
+  <div class="action-card">
+    <span class="ac-num">5</span><span class="ac-title">Diagnóstico estrutural de Potenciar Ventas com time de produto</span>
+    <div class="ac-body">GAP crônico de -15,2 pp em todas as 4 semanas indica falha estrutural. Não é solucionável com treinamento de rep isolado — requer alinhamento de expectativa do seller com o que o processo pode entregar.</div>
+    <div class="ac-meta"><span class="ac-tag ac-tag-orange">Prioridade: MÉDIA-ALTA</span><span class="ac-tag">Owner: Gestão + Produto</span><span class="ac-tag">Prazo: 30 dias</span></div>
+  </div>
+  <div class="action-card">
+    <span class="ac-num">6</span><span class="ac-title">Auditoria de Jornada da Entrega S2–S3</span>
+    <div class="ac-body">NPS colapsou de 77,8% (S1) para 14,3% (S2) e 5,3% (S3), com recuperação em S4 para 50%. Padrão sugere incidente operacional pontual — documentar e prevenir recorrência.</div>
+    <div class="ac-meta"><span class="ac-tag">Prioridade: MÉDIA</span><span class="ac-tag">Owner: Supervisor ME</span><span class="ac-tag">Prazo: 15 dias</span></div>
+  </div>
+
+  <div class="exec-h3" style="margin-top:18px;">Próximos 90 dias</div>
+  <div class="action-card">
+    <span class="ac-num">7</span><span class="ac-title">Habilitar fluxo DC-e no app mobile</span>
+    <div class="ac-body">Única solução definitiva para o problema. Enquanto não ocorre, todas as ações acima são mitigação. Sellers longtail são majoritariamente mobile-first.</div>
+    <div class="ac-meta"><span class="ac-tag ac-tag-red">Prioridade: ALTA</span><span class="ac-tag">Owner: Produto (alta complexidade)</span><span class="ac-tag">Prazo: 90 dias</span></div>
+  </div>
+  <div class="action-card">
+    <span class="ac-num">8</span><span class="ac-title">Programa First-Time-Seller: jornada proativa para primeira venda</span>
+    <div class="ac-body">Sellers de primeira venda são o perfil mais vulnerável ao DCe — sem histórico, sem conhecimento do fluxo. Criar touchpoint proativo no momento do primeiro despacho com orientação sobre DC-e, etiqueta e prazos.</div>
+    <div class="ac-meta"><span class="ac-tag ac-tag-orange">Prioridade: ALTA</span><span class="ac-tag">Owner: CX + Produto</span><span class="ac-tag">Prazo: 60–90 dias</span></div>
+  </div>
+</div>
+
+<!-- CONCLUSÃO + ALERTAS -->
+<div class="exec-section">
+  <div class="exec-conclusao">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--yellow);margin-bottom:10px;">CONCLUSÃO ESTRATÉGICA</div>
+    A operação Sellers Longtail possui uma janela de oportunidade clara: <strong>o atendimento humano compensa falhas de produto quando chega antes do dano</strong>. Despacho VP com DCe (510 casos, +5,1 pp) prova isso. O desafio é reduzir a proporção de casos que chegam "depois" — e isso exige duas frentes simultâneas: (1) corrigir a IA imediatamente para evitar que sellers percam o prazo de despacho por orientação errada, e (2) comunicar proativamente as restrições do DCe na plataforma para reduzir volume de atendimentos evitáveis. Em paralelo, Potenciar Ventas e Drivers exigem diagnóstico de produto — problemas que treinamento isolado não resolve. BR_Ventas, com S4 acima do target, demonstra que a trajetória de recuperação é possível quando há alinhamento entre processo e discurso do rep.
+  </div>
+</div>
+
+<!-- ALERTAS CRÍTICOS -->
+<div class="exec-section">
+  <div class="exec-h2">ALERTAS CRÍTICOS — ATENÇÃO IMEDIATA</div>
+  <div class="exec-alert exec-alert-red">
+    <div class="exec-alert-title">🔴 ALERTA 1 — Script IA gerando casos de Reputação irreversível</div>
+    Cada seller orientado a "aguardar" e que perde o prazo de despacho se torna um detrator de alto impacto (NPS 50,0%, -26,8 pp vs target) com reputação atingida. Isso ocorre todos os dias enquanto o script não for corrigido. Ação: 48h.
+  </div>
+  <div class="exec-alert exec-alert-red">
+    <div class="exec-alert-title">🔴 ALERTA 2 — BR_ME S4 em -6,1 pp (pior semana do período)</div>
+    Semana parcial (27–29/abr) já é a pior do período. Queda em Drivers (57,4%) ainda sem causa identificada. Risco de fechamento de abril em posição mais deteriorada que S1–S3 se a tendência não reverter.
+  </div>
+  <div class="exec-alert exec-alert-orange">
+    <div class="exec-alert-title">🟠 ALERTA 3 — Sellers de primeira venda: perfil de maior risco de abandono</div>
+    Sem histórico na plataforma, qualquer obstáculo na primeira venda pode gerar abandono permanente. O DCe amplificou exponencialmente esse risco em abril. Cada first-time-seller perdido representa LTV zero.
+  </div>
+  <div class="exec-alert exec-alert-orange">
+    <div class="exec-alert-title">🟠 ALERTA 4 — Jornada da Entrega: NPS de 5,3% em S3</div>
+    Volume baixo (46 pesquisas) mitiga o impacto imediato, mas NPS de 5,3% indica falha grave. Se o volume crescer nesse processo, o impacto sobre o NPS geral será desproporcional.
+  </div>
+</div>
+
+</div>
+</div>
+
 <script>
 // ── dados ──────────────────────────────────────────────────────────────────────
 const WEEKS_SHORT = ['S0','S1','S2','S3','S4'];
 
-// Períodos fechados: Mar/2026 + S1/S2/S3 abril
-const PERIODOS = ['Mar/2026','S1 06-12/abr','S2 13-19/abr','S3 20-26/abr'];
+// Períodos fechados: S0 (pré-DCe) + S1/S2/S3 abril
+const PERIODOS = ['S0 30/03–05/abr','S1 06–12/abr','S2 13–19/abr','S3 20–26/abr'];
 
 const DATA = {
-  ME:     { nps:[60.9,57.4,55.4,58.7,56.2], tgt:[62.7,62.2,60.6,59.1,62.6], color:'#3483fa' },
-  Ventas: { nps:[63.7,66.0,61.6,61.3,69.3], tgt:[64.4,69.7,66.0,63.4,67.0], color:'#00a650' },
-  Pub:    { nps:[60.5,61.3,62.5,71.6,66.7], tgt:[67.9,69.1,71.4,69.5,72.6], color:'#ff7733' }
+  ME:     { nps:[61.7,59.0,58.4,58.4,55.8], tgt:[62.9,62.3,60.1,59.2,61.9], color:'#3483fa' },
+  Ventas: { nps:[66.3,66.5,61.2,61.0,71.4], tgt:[65.3,69.8,66.0,63.3,67.0], color:'#00a650' },
+  Pub:    { nps:[62.3,62.6,63.7,71.8,66.9], tgt:[68.4,70.0,71.9,69.3,72.1], color:'#ff7733' }
 };
 
 // Dados fechados para o combo chart principal
 const COMBO = {
-  ME:     { nps:[59.4,57.4,55.4,58.7], tgt:[62.1,62.2,60.6,59.1], vol:[170,2068,2231,1924] },
-  Ventas: { nps:[55.6,66.0,61.6,61.3], tgt:[60.0,69.7,66.0,63.4], vol:[81,1098,764,623]  },
-  Pub:    { nps:[61.8,61.3,62.5,71.6], tgt:[66.7,69.1,71.4,69.5], vol:[68,574,469,437]   }
+  ME:     { nps:[61.7,59.0,58.4,58.4], tgt:[62.9,62.3,60.1,59.2], vol:[948,1950,2054,1927] },
+  Ventas: { nps:[66.3,66.5,61.2,61.0], tgt:[65.3,69.8,66.0,63.3], vol:[469,1094,765,618]  },
+  Pub:    { nps:[62.3,62.6,63.7,71.8], tgt:[68.4,70.0,71.9,69.3], vol:[239,553,468,432]   }
 };
 
 const PROC_ME = {
-  labels: ['Drivers','Despacho VP','Viaje paq. Comprador','Reputación ME','Reputación','Places Kangu','Gestiones Op.','Reversa','Post Compra'],
-  nps:    [64.8,      61.3,         36.2,                   76.2,           71.2,         71.2,          58.8,           59.6,     44.6],
-  tgt:    [71.6,      58.5,         41.3,                   84.2,           78.1,         71.5,          68.2,           51.2,     48.2]
+  labels: ['Drivers','Despacho VP','Viaje paq. Comprador','Reputación ME','Reputación','Places Kangu','Gestiones Op.','Reversa','Post Compra','Viaje paq. Vendedor'],
+  nps:    [65.5,      61.9,         38.8,                   75.5,           73.0,         71.8,          58.2,           60.1,     43.7,         57.8],
+  tgt:    [71.7,      57.8,         38.6,                   84.8,           79.1,         71.3,          69.0,           51.9,     48.5,         69.0]
 };
 
 const PROC_VENTAS = {
   labels: ['Afiliados ML','Reputación ME','Reputación','Emision de NF','Post Compra','Facturación','Datos fiscales'],
-  nps:    [66.3,           87.1,           68.8,         52.9,           36.1,          46.2,         57.4],
-  tgt:    [70.4,           84.7,           64.4,         66.8,           43.1,          44.3,         67.2]
+  nps:    [66.7,           87.0,           68.8,         52.4,           36.7,          45.9,         56.6],
+  tgt:    [69.2,           84.5,           67.8,         64.7,           42.4,          47.1,         74.1]
 };
 
 const PROC_PUB = {
-  labels: ['PR Técnica','Gestão Publ.','PR Prop. Int.','Reputación','Reputación ME','Potenciar Ventas','Antes Publicar','PR Art. Proh.'],
-  nps:    [69.7,         57.1,          67.6,           74.4,         72.4,            46.5,              74.9,            48.8],
-  tgt:    [78.4,         60.9,          71.6,           72.2,         83.2,            62.6,              84.4,            33.9]
+  labels: ['PR Técnica','Gestão Publ.','PR Prop. Int.','Reputación','Reputación ME','Potenciar Ventas','Antes Publicar','PR Art. Proh.','Calidad de Foto'],
+  nps:    [69.3,         57.2,          68.5,           77.1,         73.0,            46.7,              74.6,            51.3,           86.4],
+  tgt:    [78.1,         61.8,          71.2,           76.6,         83.0,            61.9,              84.3,            34.7,           79.1]
 };
 
 const DCE_COMP = {
   labels:  ['Despacho VP\n(BR_ME)','Reputación ME\n(BR_ME)','Reputación\n(BR_ME)','Gestiones Op.\n(BR_ME)','Emissão NF\n(BR_Ventas)'],
-  nps_dce: [67.5, 77.0, 5.9, 35.6, 58.1],
-  nps_geral:[61.3, 76.2, 71.2, 58.8, 52.9],
-  targets: [60.1, 84.3, 67.7, 69.7, 69.5]
+  nps_dce: [65.5, 77.6, 50.0, 41.2, 57.3],
+  nps_geral:[61.9, 75.5, 73.0, 58.2, 52.4],
+  targets: [60.4, 83.4, 76.8, 70.1, 67.2]
 };
 
 // ── helpers ────────────────────────────────────────────────────────────────────
