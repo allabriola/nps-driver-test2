@@ -108,56 +108,53 @@ tr:hover td{background:#fafbff;}
   <!-- ══════════════════════ VISÃO GERAL ══════════════════════ -->
   <div id="visao-geral" class="tab-content active">
 
-    <div class="section-title">NPS Semanal — Todas as Equipes</div>
-    <div class="info-note">S0 = semana pré-DCe (baseline) · S1–S4 = pós-lançamento (06–29/abr) · Filtros: CS_BU=Sellers, SR Manager=Priscila Tavares, Team Manager=Vendedor</div>
+    <div class="section-title">Volume de Pesquisas e NPS por Período — Todas as Equipes</div>
+    <div class="info-note">Períodos fechados: Março/2026 (mês completo) + semanas fechadas de Abril (S1, S2, S3). Março apresenta volume reduzido pois as equipes foram renomeadas para "Sellers Longtail" em mar/2026 — dados do nome anterior não estão neste filtro. Filtros: CS_BU=Sellers, SR Manager=Priscila Tavares, Team Manager=Vendedor.</div>
 
     <div class="chart-wrap">
-      <div class="chart-title">NPS vs Target — Evolução Semanal por Equipe</div>
-      <div class="chart-sub">Linhas sólidas = NPS realizado · Linhas tracejadas = target</div>
-      <div class="chart-container" style="height:320px;">
+      <div class="chart-title">Volume de Pesquisas (barras) · NPS % (linhas) — Períodos Fechados</div>
+      <div class="chart-sub">Barras = volume de pesquisas por equipe (eixo direito) · Linhas = NPS realizado (eixo esquerdo)</div>
+      <div class="chart-container" style="height:360px;">
         <canvas id="chartOverview"></canvas>
       </div>
     </div>
 
-    <div class="section-title">Pesquisas e GAP por Semana</div>
+    <div class="section-title">Tabela de Pesquisas e GAP — Períodos Fechados</div>
     <div class="card">
-      <div class="card-header"><span>BR_ME_Sellers_Longtail</span><span class="badge badge-red">Abaixo target em 4 de 5 semanas</span></div>
+      <div class="card-header"><span>BR_ME_Sellers_Longtail</span><span class="badge badge-red">Abaixo target em 3 de 4 períodos</span></div>
       <table>
-        <thead><tr><th>Semana</th><th>Pesquisas</th><th>NPS</th><th>Target</th><th>GAP</th><th>Status</th></tr></thead>
+        <thead><tr><th>Período</th><th>Pesquisas</th><th>NPS</th><th>Target</th><th>GAP</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td>S0 · 30mar–05abr (baseline)</td><td>1.124</td><td>60,9%</td><td>62,7%</td><td><span class="chip chip-warn">-1,8 pp</span></td><td>⚠</td></tr>
+          <tr><td>Mar/2026 (mês fechado) ⚠ vol. baixo</td><td>170</td><td>59,4%</td><td>62,1%</td><td><span class="chip chip-neg">-2,7 pp</span></td><td>⚠</td></tr>
           <tr><td>S1 · 06–12/abr</td><td>2.068</td><td>57,4%</td><td>62,2%</td><td><span class="chip chip-neg">-4,8 pp</span></td><td>🔴</td></tr>
           <tr><td>S2 · 13–19/abr</td><td>2.231</td><td>55,4%</td><td>60,6%</td><td><span class="chip chip-neg">-5,2 pp</span></td><td>🔴</td></tr>
           <tr><td>S3 · 20–26/abr</td><td>1.924</td><td>58,7%</td><td>59,1%</td><td><span class="chip chip-neu">-0,4 pp</span></td><td>✅</td></tr>
-          <tr><td>S4 · 27–29/abr (parcial)</td><td>691</td><td>56,2%</td><td>62,6%</td><td><span class="chip chip-neg">-6,4 pp</span></td><td>🔴</td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="card">
-      <div class="card-header"><span>BR_Ventas_Sellers_Longtail</span><span class="badge badge-orange">Queda S2–S3, recuperando em S4</span></div>
+      <div class="card-header"><span>BR_Ventas_Sellers_Longtail</span><span class="badge badge-orange">Queda S1→S3, target apenas em S3</span></div>
       <table>
-        <thead><tr><th>Semana</th><th>Pesquisas</th><th>NPS</th><th>Target</th><th>GAP</th><th>Status</th></tr></thead>
+        <thead><tr><th>Período</th><th>Pesquisas</th><th>NPS</th><th>Target</th><th>GAP</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td>S0 · 30mar–05abr (baseline)</td><td>559</td><td>63,7%</td><td>64,4%</td><td><span class="chip chip-neu">-0,7 pp</span></td><td>✅</td></tr>
+          <tr><td>Mar/2026 (mês fechado) ⚠ vol. baixo</td><td>81</td><td>55,6%</td><td>60,0%</td><td><span class="chip chip-neg">-4,4 pp</span></td><td>🔴</td></tr>
           <tr><td>S1 · 06–12/abr</td><td>1.098</td><td>66,0%</td><td>69,7%</td><td><span class="chip chip-neg">-3,7 pp</span></td><td>⚠</td></tr>
           <tr><td>S2 · 13–19/abr</td><td>764</td><td>61,6%</td><td>66,0%</td><td><span class="chip chip-neg">-4,4 pp</span></td><td>🔴</td></tr>
           <tr><td>S3 · 20–26/abr</td><td>623</td><td>61,3%</td><td>63,4%</td><td><span class="chip chip-neg">-2,1 pp</span></td><td>⚠</td></tr>
-          <tr><td>S4 · 27–29/abr (parcial)</td><td>231</td><td>69,3%</td><td>67,0%</td><td><span class="chip chip-pos">+2,3 pp</span></td><td>✅</td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="card">
-      <div class="card-header"><span>BR_Publicaciones_Sellers_Longtail</span><span class="badge badge-green">Melhor semana em S3 (+2,1 pp)</span></div>
+      <div class="card-header"><span>BR_Publicaciones_Sellers_Longtail</span><span class="badge badge-green">Melhor em S3 (+2,1 pp acima target)</span></div>
       <table>
-        <thead><tr><th>Semana</th><th>Pesquisas</th><th>NPS</th><th>Target</th><th>GAP</th><th>Status</th></tr></thead>
+        <thead><tr><th>Período</th><th>Pesquisas</th><th>NPS</th><th>Target</th><th>GAP</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td>S0 · 30mar–05abr (baseline)</td><td>319</td><td>60,5%</td><td>67,9%</td><td><span class="chip chip-neg">-7,4 pp</span></td><td>🔴</td></tr>
+          <tr><td>Mar/2026 (mês fechado) ⚠ vol. baixo</td><td>68</td><td>61,8%</td><td>66,7%</td><td><span class="chip chip-neg">-4,9 pp</span></td><td>⚠</td></tr>
           <tr><td>S1 · 06–12/abr</td><td>574</td><td>61,3%</td><td>69,1%</td><td><span class="chip chip-neg">-7,8 pp</span></td><td>🔴</td></tr>
           <tr><td>S2 · 13–19/abr</td><td>469</td><td>62,5%</td><td>71,4%</td><td><span class="chip chip-neg">-8,9 pp</span></td><td>🔴</td></tr>
           <tr><td>S3 · 20–26/abr</td><td>437</td><td>71,6%</td><td>69,5%</td><td><span class="chip chip-pos">+2,1 pp</span></td><td>✅</td></tr>
-          <tr><td>S4 · 27–29/abr (parcial)</td><td>147</td><td>66,7%</td><td>72,6%</td><td><span class="chip chip-neg">-5,9 pp</span></td><td>⚠</td></tr>
         </tbody>
       </table>
     </div>
@@ -470,13 +467,22 @@ tr:hover td{background:#fafbff;}
 
 <script>
 // ── dados ──────────────────────────────────────────────────────────────────────
-const WEEKS = ['S0\n30mar-05abr','S1\n06-12abr','S2\n13-19abr','S3\n20-26abr','S4\n27-29abr'];
 const WEEKS_SHORT = ['S0','S1','S2','S3','S4'];
+
+// Períodos fechados: Mar/2026 + S1/S2/S3 abril
+const PERIODOS = ['Mar/2026','S1 06-12/abr','S2 13-19/abr','S3 20-26/abr'];
 
 const DATA = {
   ME:     { nps:[60.9,57.4,55.4,58.7,56.2], tgt:[62.7,62.2,60.6,59.1,62.6], color:'#3483fa' },
   Ventas: { nps:[63.7,66.0,61.6,61.3,69.3], tgt:[64.4,69.7,66.0,63.4,67.0], color:'#00a650' },
   Pub:    { nps:[60.5,61.3,62.5,71.6,66.7], tgt:[67.9,69.1,71.4,69.5,72.6], color:'#ff7733' }
+};
+
+// Dados fechados para o combo chart principal
+const COMBO = {
+  ME:     { nps:[59.4,57.4,55.4,58.7], tgt:[62.1,62.2,60.6,59.1], vol:[170,2068,2231,1924] },
+  Ventas: { nps:[55.6,66.0,61.6,61.3], tgt:[60.0,69.7,66.0,63.4], vol:[81,1098,764,623]  },
+  Pub:    { nps:[61.8,61.3,62.5,71.6], tgt:[66.7,69.1,71.4,69.5], vol:[68,574,469,437]   }
 };
 
 const PROC_ME = {
@@ -539,15 +545,48 @@ function mkBar(id, labels, datasets, horizontal=true){
 }
 
 // ── gráficos ───────────────────────────────────────────────────────────────────
-// Overview — todas as 3 equipes
-mkLine('chartOverview', WEEKS_SHORT, [
-  {label:'BR_ME NPS',     data:DATA.ME.nps,     borderColor:'#3483fa', backgroundColor:'#3483fa22', tension:.3, borderWidth:2.5, pointRadius:4},
-  {label:'BR_ME Target',  data:DATA.ME.tgt,     borderColor:'#3483fa', borderDash:[5,4], tension:.3, borderWidth:1.5, pointRadius:0, fill:false},
-  {label:'BR_Ventas NPS', data:DATA.Ventas.nps, borderColor:'#00a650', backgroundColor:'#00a65022', tension:.3, borderWidth:2.5, pointRadius:4},
-  {label:'BR_Ventas Target',data:DATA.Ventas.tgt,borderColor:'#00a650',borderDash:[5,4],tension:.3,borderWidth:1.5,pointRadius:0,fill:false},
-  {label:'BR_Pub NPS',    data:DATA.Pub.nps,    borderColor:'#ff7733', backgroundColor:'#ff773322', tension:.3, borderWidth:2.5, pointRadius:4},
-  {label:'BR_Pub Target', data:DATA.Pub.tgt,    borderColor:'#ff7733', borderDash:[5,4], tension:.3, borderWidth:1.5, pointRadius:0, fill:false}
-], 40);
+// Overview — combo chart: barras = volume, linhas = NPS (períodos fechados)
+(function(){
+  const ctx = document.getElementById('chartOverview');
+  if(!ctx) return;
+  new Chart(ctx, {
+    data: {
+      labels: PERIODOS,
+      datasets: [
+        // Barras — volume por equipe
+        { type:'bar', label:'Vol BR_ME',     data:COMBO.ME.vol,     backgroundColor:'#3483fa44', borderColor:'#3483fa88', borderWidth:1, borderRadius:4, yAxisID:'yVol', order:3 },
+        { type:'bar', label:'Vol BR_Ventas', data:COMBO.Ventas.vol, backgroundColor:'#00a65044', borderColor:'#00a65088', borderWidth:1, borderRadius:4, yAxisID:'yVol', order:3 },
+        { type:'bar', label:'Vol BR_Pub',    data:COMBO.Pub.vol,    backgroundColor:'#ff773344', borderColor:'#ff773388', borderWidth:1, borderRadius:4, yAxisID:'yVol', order:3 },
+        // Linhas — NPS
+        { type:'line', label:'NPS BR_ME',     data:COMBO.ME.nps,     borderColor:'#3483fa', backgroundColor:'transparent', tension:.3, borderWidth:2.5, pointRadius:5, pointBackgroundColor:'#3483fa', yAxisID:'yNPS', order:1 },
+        { type:'line', label:'NPS BR_Ventas', data:COMBO.Ventas.nps, borderColor:'#00a650', backgroundColor:'transparent', tension:.3, borderWidth:2.5, pointRadius:5, pointBackgroundColor:'#00a650', yAxisID:'yNPS', order:1 },
+        { type:'line', label:'NPS BR_Pub',    data:COMBO.Pub.nps,    borderColor:'#ff7733', backgroundColor:'transparent', tension:.3, borderWidth:2.5, pointRadius:5, pointBackgroundColor:'#ff7733', yAxisID:'yNPS', order:1 },
+        // Target (linhas tracejadas)
+        { type:'line', label:'Target BR_ME',     data:COMBO.ME.tgt,     borderColor:'#3483fa', borderDash:[4,3], tension:.3, borderWidth:1.5, pointRadius:0, yAxisID:'yNPS', order:2 },
+        { type:'line', label:'Target BR_Ventas', data:COMBO.Ventas.tgt, borderColor:'#00a650', borderDash:[4,3], tension:.3, borderWidth:1.5, pointRadius:0, yAxisID:'yNPS', order:2 },
+        { type:'line', label:'Target BR_Pub',    data:COMBO.Pub.tgt,    borderColor:'#ff7733', borderDash:[4,3], tension:.3, borderWidth:1.5, pointRadius:0, yAxisID:'yNPS', order:2 },
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ mode:'index', intersect:false },
+      plugins:{
+        legend:{ position:'bottom', labels:{ font:{size:11}, padding:10, filter: item => !item.text.startsWith('Target') } },
+        tooltip:{ callbacks:{ label: ctx => {
+          const v = ctx.parsed.y;
+          return ctx.dataset.yAxisID==='yVol'
+            ? `${ctx.dataset.label}: ${v.toLocaleString('pt-BR')} pesquisas`
+            : `${ctx.dataset.label}: ${v.toFixed(1)}%`;
+        }}}
+      },
+      scales:{
+        x:{ grid:{display:false}, ticks:{font:{size:11}} },
+        yNPS:{ position:'left',  min:40, max:80, ticks:{callback:v=>v+'%', font:{size:10}}, grid:{color:'#f0f0f0'}, title:{display:true, text:'NPS %', font:{size:10}} },
+        yVol:{ position:'right', min:0,  ticks:{font:{size:10}}, grid:{display:false}, title:{display:true, text:'Pesquisas', font:{size:10}} }
+      }
+    }
+  });
+})();
 
 // BR_ME semanal
 mkLine('chartME', WEEKS_SHORT, [
