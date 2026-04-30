@@ -4,86 +4,82 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Impacto DCe — Sellers Longtail BR — 29/04/2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-:root{--yellow:#FFE600;--dark:#1a1a2e;--gray:#f5f5f5;--border:#e0e0e0;--green:#00a650;--red:#e84142;--blue:#3483fa;--orange:#ff7733;--text:#333;--light-green:#e6f7ee;--light-red:#fdecea;--light-orange:#fff3ec;--light-blue:#e8f0fe;}
+:root{--yellow:#FFE600;--dark:#1a1a2e;--gray:#f5f5f5;--border:#e0e0e0;--green:#00a650;--red:#e84142;--blue:#3483fa;--orange:#ff7733;--purple:#9b59b6;--text:#333;--light-green:#e6f7ee;--light-red:#fdecea;--light-orange:#fff3ec;--light-blue:#e8f0fe;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Proxima Nova',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f5;color:var(--text);font-size:14px;}
-.header{background:var(--dark);color:#fff;padding:24px 40px;display:flex;align-items:center;justify-content:space-between;}
-.header-left h1{font-size:22px;font-weight:800;letter-spacing:-.3px;}
-.header-left p{font-size:13px;color:#aaa;margin-top:4px;}
-.header-badges{display:flex;gap:8px;align-items:center;}
-.header-badge{background:var(--yellow);color:#000;font-weight:700;font-size:12px;padding:6px 14px;border-radius:20px;}
-.header-badge-red{background:var(--red);color:#fff;font-weight:700;font-size:12px;padding:6px 14px;border-radius:20px;}
-.container{max-width:1280px;margin:0 auto;padding:28px 24px 60px;}
-.tabs{display:flex;gap:4px;border-bottom:3px solid var(--border);margin-bottom:28px;flex-wrap:wrap;}
-.tab-btn{padding:11px 24px;border:none;background:#fff;font-size:13px;font-weight:700;color:#999;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-3px;border-radius:8px 8px 0 0;transition:all .15s;border:1px solid var(--border);border-bottom:3px solid transparent;}
+.header{background:var(--dark);color:#fff;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;}
+.header-left h1{font-size:20px;font-weight:800;letter-spacing:-.3px;}
+.header-left p{font-size:12px;color:#aaa;margin-top:3px;}
+.header-badges{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.header-badge{background:var(--yellow);color:#000;font-weight:700;font-size:11px;padding:5px 12px;border-radius:20px;}
+.header-badge-red{background:var(--red);color:#fff;font-weight:700;font-size:11px;padding:5px 12px;border-radius:20px;}
+.container{max-width:1280px;margin:0 auto;padding:24px 24px 60px;}
+.tabs{display:flex;gap:4px;border-bottom:3px solid var(--border);margin-bottom:24px;flex-wrap:wrap;}
+.tab-btn{padding:10px 20px;border:1px solid var(--border);background:#fff;font-size:13px;font-weight:700;color:#999;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-3px;border-radius:8px 8px 0 0;transition:all .15s;}
 .tab-btn.active{color:var(--dark);border-bottom-color:var(--yellow);background:#fff;}
 .tab-btn:hover:not(.active){color:var(--dark);background:#f5f5f5;}
 .tab-content{display:none;}
 .tab-content.active{display:block;}
-.section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin:28px 0 12px;border-left:3px solid var(--yellow);padding-left:10px;}
-.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
-.kpi-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
-@media(max-width:900px){.kpi-grid{grid-template-columns:repeat(3,1fr);}.kpi-grid-3{grid-template-columns:1fr 1fr;}}
-.kpi-card{background:#fff;border-radius:10px;padding:16px 18px;border:1px solid var(--border);}
-.kpi-card.highlight{border-top:3px solid var(--yellow);}
-.kpi-card .label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:#999;margin-bottom:5px;}
-.kpi-card .value{font-size:26px;font-weight:800;line-height:1;}
-.kpi-card .sub{font-size:12px;color:#888;margin-top:5px;}
-.kpi-card .delta{display:inline-flex;align-items:center;gap:3px;font-size:12px;font-weight:700;margin-top:5px;}
+.section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin:24px 0 10px;border-left:3px solid var(--yellow);padding-left:10px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
+.grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px;}
+@media(max-width:900px){.grid-2,.grid-3,.grid-5{grid-template-columns:1fr 1fr;}}
+.kpi-card{background:#fff;border-radius:10px;padding:14px 16px;border:1px solid var(--border);}
+.kpi-card .label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#999;margin-bottom:4px;}
+.kpi-card .value{font-size:24px;font-weight:800;line-height:1;}
+.kpi-card .sub{font-size:11px;color:#888;margin-top:4px;}
+.kpi-card .delta{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;margin-top:4px;}
 .pos{color:var(--green);}.neg{color:var(--red);}.neu{color:#888;}
-.card{background:#fff;border-radius:10px;border:1px solid var(--border);overflow:hidden;margin-bottom:16px;}
-.card-header{padding:13px 18px;border-bottom:1px solid var(--border);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.card-header-left{display:flex;align-items:center;gap:10px;}
-.badge{background:var(--gray);color:#666;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;}
+.card{background:#fff;border-radius:10px;border:1px solid var(--border);overflow:hidden;margin-bottom:14px;}
+.card-header{padding:12px 16px;border-bottom:1px solid var(--border);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.card-header-left{display:flex;align-items:center;gap:8px;}
+.badge{background:var(--gray);color:#666;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;}
 .badge-red{background:var(--light-red);color:var(--red);}
 .badge-green{background:var(--light-green);color:var(--green);}
 .badge-orange{background:var(--light-orange);color:var(--orange);}
-.badge-blue{background:var(--light-blue);color:var(--blue);}
 table{width:100%;border-collapse:collapse;}
-th{background:#fafafa;padding:9px 14px;text-align:right;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#888;border-bottom:1px solid var(--border);}
+th{background:#fafafa;padding:8px 12px;text-align:right;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#888;border-bottom:1px solid var(--border);}
 th:first-child{text-align:left;}
-td{padding:9px 14px;text-align:right;border-bottom:1px solid #f5f5f5;font-size:13px;}
+td{padding:8px 12px;text-align:right;border-bottom:1px solid #f5f5f5;font-size:12px;}
 td:first-child{text-align:left;font-weight:600;}
 tr:last-child td{border-bottom:none;}
-tr.total-row td{background:#fafafa;font-weight:700;border-top:2px solid var(--border);}
 tr:hover td{background:#fafbff;}
-.chip{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;}
+.chip{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;}
 .chip-pos{background:var(--light-green);color:var(--green);}
 .chip-neg{background:var(--light-red);color:var(--red);}
 .chip-neu{background:#f5f5f5;color:#888;}
 .chip-warn{background:var(--light-orange);color:var(--orange);}
-.summary-box{background:#fff;border-radius:10px;border:1px solid var(--border);padding:22px 26px;margin-bottom:16px;}
-.summary-title{font-size:16px;font-weight:800;color:var(--dark);margin-bottom:12px;}
-.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
 @media(max-width:700px){.insight-grid{grid-template-columns:1fr;}}
-.hl-pos{padding:14px 16px;background:var(--light-green);border-radius:8px;border-left:4px solid var(--green);}
-.hl-neg{padding:14px 16px;background:var(--light-red);border-radius:8px;border-left:4px solid var(--red);}
-.hl-warn{padding:14px 16px;background:var(--light-orange);border-radius:8px;border-left:4px solid var(--orange);}
-.hl-title{font-weight:700;font-size:13px;margin-bottom:6px;}
+.hl{padding:14px 16px;border-radius:8px;}
+.hl-pos{background:var(--light-green);border-left:4px solid var(--green);}
+.hl-neg{background:var(--light-red);border-left:4px solid var(--red);}
+.hl-warn{background:var(--light-orange);border-left:4px solid var(--orange);}
+.hl-title{font-weight:700;font-size:12px;margin-bottom:6px;}
 .hl-pos .hl-title{color:var(--green);}
 .hl-neg .hl-title{color:var(--red);}
 .hl-warn .hl-title{color:var(--orange);}
 .hl-text{font-size:12px;color:#333;line-height:1.6;}
+.chart-wrap{background:#fff;border-radius:10px;border:1px solid var(--border);padding:18px 20px;margin-bottom:14px;}
+.chart-title{font-size:13px;font-weight:700;color:var(--dark);margin-bottom:4px;}
+.chart-sub{font-size:11px;color:#888;margin-bottom:14px;}
+.chart-container{position:relative;}
+.team-header{display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:10px;border:1px solid var(--border);padding:14px 18px;margin-bottom:14px;}
+.team-name{font-size:15px;font-weight:800;color:var(--dark);}
+.team-meta{font-size:11px;color:#888;margin-top:2px;}
+.team-kpis{display:flex;gap:18px;}
+.team-kpi .tk-val{font-size:20px;font-weight:800;}
+.team-kpi .tk-lbl{font-size:10px;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.team-kpi .tk-gap{font-size:11px;font-weight:700;margin-top:1px;}
+.info-note{font-size:11px;color:#777;background:#fafafa;border-radius:6px;border-left:3px solid var(--yellow);padding:7px 11px;margin-bottom:12px;}
 .pain-list{list-style:none;padding:0;}
-.pain-list li{padding:12px 0;border-bottom:1px solid #f5f5f5;font-size:13px;line-height:1.6;color:#333;}
+.pain-list li{padding:12px 0;border-bottom:1px solid #f5f5f5;font-size:12px;line-height:1.6;}
 .pain-list li:last-child{border-bottom:none;}
-.pain-list li strong{color:var(--dark);}
-.pain-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--red);color:#fff;border-radius:50%;font-size:11px;font-weight:700;margin-right:8px;flex-shrink:0;vertical-align:middle;}
-.quote-box{background:#fafafa;border-left:3px solid var(--border);border-radius:0 6px 6px 0;padding:10px 14px;margin:6px 0 0 30px;font-size:12px;color:#555;font-style:italic;line-height:1.6;}
-.team-header{display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:10px;border:1px solid var(--border);padding:16px 20px;margin-bottom:16px;}
-.team-name{font-size:16px;font-weight:800;color:var(--dark);}
-.team-meta{font-size:12px;color:#888;margin-top:3px;}
-.team-kpis{display:flex;gap:20px;}
-.team-kpi{text-align:right;}
-.team-kpi .tk-val{font-size:22px;font-weight:800;}
-.team-kpi .tk-lbl{font-size:11px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px;}
-.team-kpi .tk-gap{font-size:12px;font-weight:700;margin-top:2px;}
-.status-icon{font-size:16px;margin-right:6px;}
-.info-note{font-size:12px;color:#777;background:#fafafa;border-radius:6px;border-left:3px solid var(--yellow);padding:8px 12px;margin-bottom:12px;}
-.trend-sparkline{display:inline-flex;gap:3px;align-items:flex-end;margin-left:8px;vertical-align:middle;}
-.spark-bar{width:8px;border-radius:2px 2px 0 0;}
-.section-divider{height:1px;background:var(--border);margin:24px 0;}
+.pain-num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;background:var(--red);color:#fff;border-radius:50%;font-size:10px;font-weight:700;margin-right:8px;flex-shrink:0;vertical-align:middle;}
+.quote-box{background:#fafafa;border-left:3px solid var(--border);border-radius:0 6px 6px 0;padding:9px 12px;margin:6px 0 0 28px;font-size:11px;color:#555;font-style:italic;line-height:1.6;}
 </style>
 </head>
 <body>
@@ -91,45 +87,45 @@ tr:hover td{background:#fafbff;}
 <div class="header">
   <div class="header-left">
     <h1>Impacto DCe — Sellers Longtail BR</h1>
-    <p>NPS vs Target · Análise 06/04 – 29/04/2026 · BR_ME · BR_Ventas · BR_Publicaciones</p>
+    <p>Filtros: CS_BU=Sellers · SR Manager=Priscila Tavares · Team Manager=Vendedor · 3 equipes · 29/04/2026</p>
   </div>
   <div class="header-badges">
-    <div class="header-badge-red">⚠ DCe Ativo desde 06/abr</div>
+    <div class="header-badge-red">⚠ DCe desde 06/abr</div>
     <div class="header-badge">29/04/2026</div>
   </div>
 </div>
 
 <div class="container">
-
   <div class="tabs">
-    <button class="tab-btn active" onclick="showTab('visao-geral')">Visão Geral</button>
-    <button class="tab-btn" onclick="showTab('me')">BR_ME_Sellers_LT</button>
-    <button class="tab-btn" onclick="showTab('ventas')">BR_Ventas_Sellers_LT</button>
-    <button class="tab-btn" onclick="showTab('pub')">BR_Publicaciones_Sellers_LT</button>
-    <button class="tab-btn" onclick="showTab('dce')">Impacto DCe</button>
-    <button class="tab-btn" onclick="showTab('dores')">Dores dos Clientes</button>
+    <button class="tab-btn active" onclick="showTab('visao-geral',this)">Visão Geral</button>
+    <button class="tab-btn" onclick="showTab('me',this)">BR_ME_Sellers_LT</button>
+    <button class="tab-btn" onclick="showTab('ventas',this)">BR_Ventas_Sellers_LT</button>
+    <button class="tab-btn" onclick="showTab('pub',this)">BR_Publicaciones_Sellers_LT</button>
+    <button class="tab-btn" onclick="showTab('dce',this)">Impacto DCe</button>
+    <button class="tab-btn" onclick="showTab('dores',this)">Dores dos Clientes</button>
   </div>
 
-  <!-- ═══════════════════════════════ TAB: VISÃO GERAL ════════════════════════════ -->
+  <!-- ══════════════════════ VISÃO GERAL ══════════════════════ -->
   <div id="visao-geral" class="tab-content active">
 
-    <div class="section-title">NPS Consolidado por Equipe — Semana a Semana</div>
-    <div class="info-note">S0 = baseline pré-DCe (30/mar–05/abr) · S1–S4 = período pós-lançamento DCe (06–29/abr)</div>
+    <div class="section-title">NPS Semanal — Todas as Equipes</div>
+    <div class="info-note">S0 = semana pré-DCe (baseline) · S1–S4 = pós-lançamento (06–29/abr) · Filtros: CS_BU=Sellers, SR Manager=Priscila Tavares, Team Manager=Vendedor</div>
 
-    <div class="card">
-      <div class="card-header">
-        <div class="card-header-left">
-          <span>BR_ME_Sellers_Longtail</span>
-          <span class="badge">6.914 pesquisas S1–S4</span>
-        </div>
-        <span class="badge-red badge">⚠ Abaixo target em 4 de 5 semanas</span>
+    <div class="chart-wrap">
+      <div class="chart-title">NPS vs Target — Evolução Semanal por Equipe</div>
+      <div class="chart-sub">Linhas sólidas = NPS realizado · Linhas tracejadas = target</div>
+      <div class="chart-container" style="height:320px;">
+        <canvas id="chartOverview"></canvas>
       </div>
+    </div>
+
+    <div class="section-title">Pesquisas e GAP por Semana</div>
+    <div class="card">
+      <div class="card-header"><span>BR_ME_Sellers_Longtail</span><span class="badge badge-red">Abaixo target em 4 de 5 semanas</span></div>
       <table>
-        <thead><tr>
-          <th>Semana</th><th>Pesquisas</th><th>NPS</th><th>Target</th><th>GAP</th><th>Status</th>
-        </tr></thead>
+        <thead><tr><th>Semana</th><th>Pesquisas</th><th>NPS</th><th>Target</th><th>GAP</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td>S0 · 30mar–05abr (baseline)</td><td>1.125</td><td>60,8%</td><td>62,8%</td><td><span class="chip chip-neg">-2,0 pp</span></td><td>⚠</td></tr>
+          <tr><td>S0 · 30mar–05abr (baseline)</td><td>1.124</td><td>60,9%</td><td>62,7%</td><td><span class="chip chip-warn">-1,8 pp</span></td><td>⚠</td></tr>
           <tr><td>S1 · 06–12/abr</td><td>2.068</td><td>57,4%</td><td>62,2%</td><td><span class="chip chip-neg">-4,8 pp</span></td><td>🔴</td></tr>
           <tr><td>S2 · 13–19/abr</td><td>2.231</td><td>55,4%</td><td>60,6%</td><td><span class="chip chip-neg">-5,2 pp</span></td><td>🔴</td></tr>
           <tr><td>S3 · 20–26/abr</td><td>1.924</td><td>58,7%</td><td>59,1%</td><td><span class="chip chip-neu">-0,4 pp</span></td><td>✅</td></tr>
@@ -139,17 +135,9 @@ tr:hover td{background:#fafbff;}
     </div>
 
     <div class="card">
-      <div class="card-header">
-        <div class="card-header-left">
-          <span>BR_Ventas_Sellers_Longtail</span>
-          <span class="badge">2.716 pesquisas S1–S4</span>
-        </div>
-        <span class="badge-orange badge">⚠ Queda em S2–S3, recuperando</span>
-      </div>
+      <div class="card-header"><span>BR_Ventas_Sellers_Longtail</span><span class="badge badge-orange">Queda S2–S3, recuperando em S4</span></div>
       <table>
-        <thead><tr>
-          <th>Semana</th><th>Pesquisas</th><th>NPS</th><th>Target</th><th>GAP</th><th>Status</th>
-        </tr></thead>
+        <thead><tr><th>Semana</th><th>Pesquisas</th><th>NPS</th><th>Target</th><th>GAP</th><th>Status</th></tr></thead>
         <tbody>
           <tr><td>S0 · 30mar–05abr (baseline)</td><td>559</td><td>63,7%</td><td>64,4%</td><td><span class="chip chip-neu">-0,7 pp</span></td><td>✅</td></tr>
           <tr><td>S1 · 06–12/abr</td><td>1.098</td><td>66,0%</td><td>69,7%</td><td><span class="chip chip-neg">-3,7 pp</span></td><td>⚠</td></tr>
@@ -161,17 +149,9 @@ tr:hover td{background:#fafbff;}
     </div>
 
     <div class="card">
-      <div class="card-header">
-        <div class="card-header-left">
-          <span>BR_Publicaciones_Sellers_Longtail</span>
-          <span class="badge">1.627 pesquisas S1–S4</span>
-        </div>
-        <span class="badge-green badge">✅ Melhor semana em S3</span>
-      </div>
+      <div class="card-header"><span>BR_Publicaciones_Sellers_Longtail</span><span class="badge badge-green">Melhor semana em S3 (+2,1 pp)</span></div>
       <table>
-        <thead><tr>
-          <th>Semana</th><th>Pesquisas</th><th>NPS</th><th>Target</th><th>GAP</th><th>Status</th>
-        </tr></thead>
+        <thead><tr><th>Semana</th><th>Pesquisas</th><th>NPS</th><th>Target</th><th>GAP</th><th>Status</th></tr></thead>
         <tbody>
           <tr><td>S0 · 30mar–05abr (baseline)</td><td>319</td><td>60,5%</td><td>67,9%</td><td><span class="chip chip-neg">-7,4 pp</span></td><td>🔴</td></tr>
           <tr><td>S1 · 06–12/abr</td><td>574</td><td>61,3%</td><td>69,1%</td><td><span class="chip chip-neg">-7,8 pp</span></td><td>🔴</td></tr>
@@ -184,365 +164,440 @@ tr:hover td{background:#fafbff;}
 
     <div class="section-title">Resumo Executivo</div>
     <div class="insight-grid">
-      <div class="hl-neg">
+      <div class="hl hl-neg">
         <div class="hl-title">🔴 Pontos Críticos</div>
         <div class="hl-text">
-          • BR_ME_Sellers_LT: Reputação c/ DCe → NPS 5,9% vs target 67,7% (-62 pp)<br>
-          • BR_ME_Sellers_LT: Gestões Operativas com DCe → 35,6% vs 69,7% (-34 pp)<br>
-          • BR_Ventas: Emissão de NF → queda de 60% → 40% em S2–S3 (-20 pp vs target)<br>
-          • BR_Ventas: Post Compra Func. → S1 apenas 21,7% vs target 44,8% (-23 pp)<br>
-          • BR_Publicaciones: Potenciar Ventas crônico → ~45% vs target 62% (-17 pp)
+          • BR_ME: Reputação c/ DCe → NPS 5,9% vs target 67,7% (-62 pp)<br>
+          • BR_ME: Drivers → crônico -7 a -15 pp abaixo do target<br>
+          • BR_Ventas: Emissão NF → queda 60%→40% em S2–S3 (-20 pp vs target)<br>
+          • BR_Ventas: Post Compra Func. → S1 apenas 21,7% (-23 pp)<br>
+          • BR_Publicaciones: Potenciar Ventas → crônico -17 pp abaixo do target
         </div>
       </div>
-      <div class="hl-pos">
+      <div class="hl hl-pos">
         <div class="hl-title">✅ Pontos Positivos</div>
         <div class="hl-text">
-          • Despacho VP (ME): atendimento resolve DCe, NPS 67,5% acima do target<br>
-          • BR_Ventas Reputação ME: consistente 85–97%, sempre acima target<br>
-          • BR_ME S3: quase zerou o GAP (-0,4 pp vs target)<br>
-          • BR_Publicaciones S3: única semana acima do target (+2,1 pp)<br>
-          • BR_Ventas S4: acima do target (+2,3 pp) — sinal de recuperação
+          • BR_ME Despacho VP c/ DCe: NPS 67,5% acima target (atendimento resolve)<br>
+          • BR_Ventas Reputação ME: 85–97%, sempre acima target<br>
+          • BR_ME S3: quase zerou o GAP (-0,4 pp)<br>
+          • BR_Publicaciones S3: acima target pela 1ª vez (+2,1 pp)<br>
+          • BR_Ventas S4: acima target (+2,3 pp) — sinal de recuperação
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════ TAB: BR_ME ════════════════════════════════ -->
+  <!-- ══════════════════════ BR_ME ══════════════════════ -->
   <div id="me" class="tab-content">
-
     <div class="team-header">
       <div>
         <div class="team-name">BR_ME_Sellers_Longtail</div>
-        <div class="team-meta">MercadoEnvíos · Sellers · 6.914 pesquisas (S1–S4)</div>
+        <div class="team-meta">MercadoEnvíos · 6.914 pesquisas (S1–S4) · 741 casos DCe (10,7%)</div>
       </div>
       <div class="team-kpis">
         <div class="team-kpi">
-          <div class="tk-lbl">NPS S3</div>
+          <div class="tk-lbl">Melhor semana</div>
           <div class="tk-val" style="color:var(--orange)">58,7%</div>
-          <div class="tk-gap neu">target 59,1%</div>
+          <div class="tk-gap neg">S3 · -0,4pp vs target</div>
         </div>
         <div class="team-kpi">
           <div class="tk-lbl">Pior semana</div>
           <div class="tk-val" style="color:var(--red)">55,4%</div>
-          <div class="tk-gap neg">S2 · -5,2 pp</div>
-        </div>
-        <div class="team-kpi">
-          <div class="tk-lbl">Casos DCe</div>
-          <div class="tk-val" style="color:var(--red)">741</div>
-          <div class="tk-gap neg">10,7% do total</div>
+          <div class="tk-gap neg">S2 · -5,2pp</div>
         </div>
       </div>
     </div>
 
-    <div class="section-title">NPS por Processo — Semana a Semana</div>
-    <div class="card">
-      <table>
-        <thead><tr>
-          <th>Processo</th><th>S0 baseline</th><th>S1 06-12abr</th><th>S2 13-19abr</th><th>S3 20-26abr</th><th>S4 27-29abr</th><th>Target ref.</th><th>Tendência</th>
-        </tr></thead>
-        <tbody>
-          <tr><td>Drivers</td><td>67,7%</td><td>65,4%</td><td>66,7%</td><td>65,3%</td><td>58,1%</td><td>69–73%</td><td><span class="chip chip-warn">⚠ Abaixo</span></td></tr>
-          <tr><td>Despacho Ventas y Publ.</td><td>54,7%</td><td>64,4%</td><td>59,2%</td><td>59,5%</td><td>58,1%</td><td>53–61%</td><td><span class="chip chip-pos">✅ No range</span></td></tr>
-          <tr><td>Viaje paquete - Comprador</td><td>40,9%</td><td>32,4%</td><td>34,9%</td><td>40,6%</td><td>38,2%</td><td>34–46%</td><td><span class="chip chip-warn">⚠ Limite inf.</span></td></tr>
-          <tr><td>Reputación ME</td><td><strong>93,2%</strong></td><td><span style="color:var(--red)">68,9%</span></td><td>81,2%</td><td>82,9%</td><td><span style="color:var(--red)">68,8%</span></td><td>81–86%</td><td><span class="chip chip-neg">🔴 S1 e S4</span></td></tr>
-          <tr><td>Reputación</td><td>59,5%</td><td>65,8%</td><td>73,5%</td><td>79,4%</td><td><span style="color:var(--red)">60,0%</span></td><td>74–82%</td><td><span class="chip chip-neg">🔴 S4 caiu</span></td></tr>
-          <tr><td>Gestiones Operativas</td><td>76,5%</td><td><span style="color:var(--red)">56,7%</span></td><td><span style="color:var(--red)">55,7%</span></td><td>60,0%</td><td>75,0%</td><td>66–70%</td><td><span class="chip chip-neg">🔴 S1–S2</span></td></tr>
-          <tr><td>Places Kangu</td><td>64,1%</td><td>69,4%</td><td>72,3%</td><td>74,2%</td><td>67,6%</td><td>70–73%</td><td><span class="chip chip-pos">✅ Estável</span></td></tr>
-          <tr><td>Reversa</td><td>70,0%</td><td>67,1%</td><td>53,8%</td><td>53,1%</td><td>68,4%</td><td>42–57%</td><td><span class="chip chip-pos">✅ Acima</span></td></tr>
-          <tr><td>Post Compra Func. Vend.</td><td>37,8%</td><td>48,1%</td><td>48,1%</td><td>38,3%</td><td>45,0%</td><td>46–52%</td><td><span class="chip chip-warn">⚠ Limite inf.</span></td></tr>
-          <tr><td>Viaje paquete - Vendedor</td><td>35,7%</td><td>42,4%</td><td>61,5%</td><td>54,5%</td><td>73,3%</td><td>59–75%</td><td><span class="chip chip-pos">✅ Melhorando</span></td></tr>
-        </tbody>
-      </table>
+    <div class="chart-wrap">
+      <div class="chart-title">NPS vs Target — BR_ME_Sellers_Longtail</div>
+      <div class="chart-sub">Pesquisas por semana: S0=1.124 · S1=2.068 · S2=2.231 · S3=1.924 · S4=691</div>
+      <div class="chart-container" style="height:220px;"><canvas id="chartME"></canvas></div>
     </div>
 
-    <div class="section-title">DCe nesta equipe — 741 casos (10,7% dos atendimentos)</div>
+    <div class="grid-2">
+      <div class="chart-wrap" style="margin-bottom:0">
+        <div class="chart-title">NPS por Processo (S1–S4 consolidado)</div>
+        <div class="chart-sub">vs target médio do período</div>
+        <div class="chart-container" style="height:280px;"><canvas id="chartMEProc"></canvas></div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:0">
+          <div class="card-header"><span>Processos — Semana a Semana</span></div>
+          <table>
+            <thead><tr><th>Processo</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Drivers</td><td>65,4</td><td>66,7</td><td>65,3</td><td>58,1</td><td><span class="chip chip-warn">⚠ Abaixo</span></td></tr>
+              <tr><td>Despacho VP</td><td>64,4</td><td>59,2</td><td>59,5</td><td>58,1</td><td><span class="chip chip-pos">✅ No range</span></td></tr>
+              <tr><td>Viaje paq. Comprador</td><td>32,4</td><td>34,9</td><td>40,6</td><td>38,2</td><td><span class="chip chip-warn">⚠ Baixo</span></td></tr>
+              <tr><td>Reputación ME</td><td style="color:var(--red)">68,9</td><td>81,2</td><td>82,9</td><td style="color:var(--red)">68,8</td><td><span class="chip chip-neg">🔴 S1 e S4</span></td></tr>
+              <tr><td>Reputación</td><td>65,8</td><td>73,5</td><td>79,4</td><td style="color:var(--red)">60,0</td><td><span class="chip chip-neg">🔴 S4 caiu</span></td></tr>
+              <tr><td>Places Kangu</td><td>69,4</td><td>72,3</td><td>74,2</td><td>67,6</td><td><span class="chip chip-pos">✅ Estável</span></td></tr>
+              <tr><td>Gestiones Operativas</td><td style="color:var(--red)">56,7</td><td style="color:var(--red)">55,7</td><td>60,0</td><td>75,0</td><td><span class="chip chip-neg">🔴 S1–S2</span></td></tr>
+              <tr><td>Reversa</td><td>67,1</td><td>53,8</td><td>53,1</td><td>68,4</td><td><span class="chip chip-pos">✅ Acima</span></td></tr>
+              <tr><td>Post Compra Func.</td><td>48,1</td><td>48,1</td><td>38,3</td><td>45,0</td><td><span class="chip chip-warn">⚠ Baixo</span></td></tr>
+              <tr><td>Viaje paq. Vendedor</td><td>42,4</td><td>61,5</td><td>54,5</td><td>73,3</td><td><span class="chip chip-pos">✅ Melhora</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:18px">Impacto DCe — 741 casos (10,7% dos atendimentos)</div>
     <div class="card">
       <table>
-        <thead><tr>
-          <th>Processo</th><th>Casos DCe</th><th>% do total</th><th>NPS DCe</th><th>Target</th><th>GAP vs target</th><th>Impacto</th>
-        </tr></thead>
+        <thead><tr><th>Processo</th><th>Casos DCe</th><th>% equipe</th><th>NPS DCe</th><th>Target</th><th>GAP vs target</th><th>Padrão</th></tr></thead>
         <tbody>
-          <tr><td>Despacho Ventas y Publ.</td><td>561</td><td>22,8%</td><td>67,5%</td><td>60,1%</td><td><span class="chip chip-pos">+7,4 pp</span></td><td>✅ Resolve no atendimento</td></tr>
-          <tr><td>Reputación ME</td><td>87</td><td>3,5%</td><td>77,0%</td><td>84,3%</td><td><span class="chip chip-neg">-7,3 pp</span></td><td>⚠ Abaixo target</td></tr>
-          <tr><td><strong>Reputación</strong></td><td><strong>36</strong></td><td>1,5%</td><td><strong style="color:var(--red)">5,9%</strong></td><td>67,7%</td><td><span class="chip chip-neg">-61,8 pp</span></td><td>🔴 CRÍTICO — dano feito</td></tr>
-          <tr><td><strong>Gestiones Operativas</strong></td><td><strong>24</strong></td><td>1,0%</td><td><strong style="color:var(--red)">35,6%</strong></td><td>69,7%</td><td><span class="chip chip-neg">-34,1 pp</span></td><td>🔴 Escalações sem resolução</td></tr>
-          <tr><td>Viaje paquete - Vendedor</td><td>14</td><td>0,6%</td><td>64,3%</td><td>64,7%</td><td><span class="chip chip-neu">-0,4 pp</span></td><td>✅ On target</td></tr>
-          <tr><td>Reversa</td><td>9</td><td>0,4%</td><td>100%</td><td>49,2%</td><td><span class="chip chip-pos">+50,8 pp</span></td><td>✅ Positivo</td></tr>
+          <tr><td>Despacho VP</td><td>561</td><td>22,8%</td><td>67,5%</td><td>60,1%</td><td><span class="chip chip-pos">+7,4 pp</span></td><td>✅ Resolve no atendimento</td></tr>
+          <tr><td>Reputación ME</td><td>87</td><td>3,5%</td><td>77,0%</td><td>84,3%</td><td><span class="chip chip-neg">-7,3 pp</span></td><td>⚠ Ligeiramente abaixo</td></tr>
+          <tr style="background:var(--light-red)"><td><strong>Reputación</strong></td><td><strong>36</strong></td><td>1,5%</td><td><strong style="color:var(--red)">5,9%</strong></td><td>67,7%</td><td><strong><span class="chip chip-neg">-61,8 pp</span></strong></td><td>🔴 Dano feito — catastrófico</td></tr>
+          <tr style="background:var(--light-red)"><td><strong>Gestiones Operativas</strong></td><td><strong>24</strong></td><td>1,0%</td><td><strong style="color:var(--red)">35,6%</strong></td><td>69,7%</td><td><strong><span class="chip chip-neg">-34,1 pp</span></strong></td><td>🔴 Escalações sem resolução</td></tr>
+          <tr><td>Viaje paq. Vendedor</td><td>14</td><td>0,6%</td><td>64,3%</td><td>64,7%</td><td><span class="chip chip-neu">-0,4 pp</span></td><td>✅ On target</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="info-note">Leitura: Despacho VP com DCe tem NPS acima do target — o atendimento humano está compensando a falha do produto. O problema real é Reputação: quando o despacho atrasa por DCe e a reputação do seller já foi atingida, o NPS desaba para 5,9%.</div>
   </div>
 
-  <!-- ═══════════════════════════════ TAB: BR_VENTAS ════════════════════════════ -->
+  <!-- ══════════════════════ BR_VENTAS ══════════════════════ -->
   <div id="ventas" class="tab-content">
-
     <div class="team-header">
       <div>
         <div class="team-name">BR_Ventas_Sellers_Longtail</div>
-        <div class="team-meta">Vendas · Sellers · 2.716 pesquisas (S1–S4)</div>
+        <div class="team-meta">Vendas · 2.716 pesquisas (S1–S4) · 183 casos DCe (6,7%)</div>
       </div>
       <div class="team-kpis">
         <div class="team-kpi">
-          <div class="tk-lbl">NPS S4</div>
+          <div class="tk-lbl">Melhor semana</div>
           <div class="tk-val" style="color:var(--green)">69,3%</div>
-          <div class="tk-gap pos">+2,3 pp vs target</div>
+          <div class="tk-gap pos">S4 · +2,3pp acima</div>
         </div>
         <div class="team-kpi">
           <div class="tk-lbl">Pior semana</div>
           <div class="tk-val" style="color:var(--red)">61,3%</div>
-          <div class="tk-gap neg">S3 · -2,1 pp</div>
-        </div>
-        <div class="team-kpi">
-          <div class="tk-lbl">Casos DCe</div>
-          <div class="tk-val" style="color:var(--orange)">183</div>
-          <div class="tk-gap neg">6,7% do total</div>
+          <div class="tk-gap neg">S3 · -2,1pp</div>
         </div>
       </div>
     </div>
 
-    <div class="section-title">NPS por Processo — Semana a Semana</div>
-    <div class="card">
-      <table>
-        <thead><tr>
-          <th>Processo</th><th>S0 baseline</th><th>S1 06-12abr</th><th>S2 13-19abr</th><th>S3 20-26abr</th><th>S4 27-29abr</th><th>Target ref.</th><th>Tendência</th>
-        </tr></thead>
-        <tbody>
-          <tr><td>Afiliados ML</td><td>63,9%</td><td>72,6%</td><td>62,2%</td><td>61,0%</td><td>65,4%</td><td>63–72%</td><td><span class="chip chip-pos">✅ No range</span></td></tr>
-          <tr><td>Reputación ME</td><td>97,0%</td><td>85,4%</td><td>86,9%</td><td>87,6%</td><td>95,0%</td><td>83–85%</td><td><span class="chip chip-pos">✅ Consistente acima</span></td></tr>
-          <tr><td>Reputación</td><td>51,4%</td><td>63,9%</td><td>75,3%</td><td>71,1%</td><td>65,8%</td><td>59–68%</td><td><span class="chip chip-pos">✅ Melhorando</span></td></tr>
-          <tr><td><strong>Emision de Nota Fiscal</strong></td><td>56,9%</td><td>60,1%</td><td><span style="color:var(--red)">45,0%</span></td><td><span style="color:var(--red)">40,0%</span></td><td>82,4%</td><td>55–67%</td><td><span class="chip chip-neg">🔴 S2–S3 crítico</span></td></tr>
-          <tr><td><strong>Post Compra Func. Vend.</strong></td><td>60,4%</td><td><span style="color:var(--red)">21,7%</span></td><td>35,7%</td><td>45,6%</td><td>48,4%</td><td>38–50%</td><td><span class="chip chip-neg">🔴 S1 catastrófico</span></td></tr>
-          <tr><td>Facturación</td><td>16,7%</td><td>41,8%</td><td>50,8%</td><td>34,2%</td><td>78,6%</td><td>30–49%</td><td><span class="chip chip-warn">⚠ Muito instável</span></td></tr>
-          <tr><td>Denuncia de usuario</td><td>60,0%</td><td>55,6%</td><td>80,0%</td><td>29,4%</td><td>0%</td><td>46–78%</td><td><span class="chip chip-warn">⚠ Vol. baixo</span></td></tr>
-          <tr><td>Datos fiscales</td><td>-16,7%</td><td>42,9%</td><td>57,1%</td><td>100%</td><td>50,0%</td><td>40–77%</td><td><span class="chip chip-warn">⚠ Vol. baixo</span></td></tr>
-          <tr><td>Anulación de Venta</td><td>60,0%</td><td>75,0%</td><td>100%</td><td>16,7%</td><td>100%</td><td>38–67%</td><td><span class="chip chip-warn">⚠ Vol. baixo</span></td></tr>
-        </tbody>
-      </table>
+    <div class="chart-wrap">
+      <div class="chart-title">NPS vs Target — BR_Ventas_Sellers_Longtail</div>
+      <div class="chart-sub">Pesquisas por semana: S0=559 · S1=1.098 · S2=764 · S3=623 · S4=231</div>
+      <div class="chart-container" style="height:220px;"><canvas id="chartVentas"></canvas></div>
     </div>
 
-    <div class="section-title">DCe nesta equipe — 183 casos (6,7% dos atendimentos)</div>
+    <div class="grid-2">
+      <div class="chart-wrap" style="margin-bottom:0">
+        <div class="chart-title">NPS por Processo (S1–S4 consolidado)</div>
+        <div class="chart-sub">vs target médio do período</div>
+        <div class="chart-container" style="height:260px;"><canvas id="chartVentasProc"></canvas></div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:0">
+          <div class="card-header"><span>Processos — Semana a Semana</span></div>
+          <table>
+            <thead><tr><th>Processo</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Afiliados ML</td><td>72,6</td><td>62,2</td><td>61,0</td><td>65,4</td><td><span class="chip chip-pos">✅ No range</span></td></tr>
+              <tr><td>Reputación ME</td><td>85,4</td><td>86,9</td><td>87,6</td><td>95,0</td><td><span class="chip chip-pos">✅ Acima sempre</span></td></tr>
+              <tr><td>Reputación</td><td>63,9</td><td>75,3</td><td>71,1</td><td>65,8</td><td><span class="chip chip-pos">✅ Melhorou</span></td></tr>
+              <tr><td><strong>Emision de NF</strong></td><td>60,1</td><td style="color:var(--red)">45,0</td><td style="color:var(--red)">40,0</td><td>82,4</td><td><span class="chip chip-neg">🔴 S2–S3</span></td></tr>
+              <tr><td><strong>Post Compra Func.</strong></td><td style="color:var(--red)">21,7</td><td>35,7</td><td>45,6</td><td>48,4</td><td><span class="chip chip-neg">🔴 S1 crítico</span></td></tr>
+              <tr><td>Facturación</td><td>41,8</td><td>50,8</td><td>34,2</td><td>78,6</td><td><span class="chip chip-warn">⚠ Instável</span></td></tr>
+              <tr><td>Denuncia de usuario</td><td>55,6</td><td>80,0</td><td>29,4</td><td>0,0</td><td><span class="chip chip-warn">⚠ Vol. baixo</span></td></tr>
+              <tr><td>Datos fiscales</td><td>42,9</td><td>57,1</td><td>100</td><td>50,0</td><td><span class="chip chip-warn">⚠ Vol. baixo</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:18px">Impacto DCe — 183 casos (6,7% dos atendimentos)</div>
     <div class="card">
       <table>
-        <thead><tr>
-          <th>Processo</th><th>Casos DCe</th><th>% do total</th><th>NPS DCe</th><th>Target</th><th>GAP vs target</th><th>Impacto</th>
-        </tr></thead>
+        <thead><tr><th>Processo</th><th>Casos DCe</th><th>% equipe</th><th>NPS DCe</th><th>Target</th><th>GAP vs target</th><th>Padrão</th></tr></thead>
         <tbody>
-          <tr><td><strong>Emision de Nota Fiscal</strong></td><td><strong>123</strong></td><td><strong>8,9%</strong></td><td><strong style="color:var(--orange)">58,1%</strong></td><td>69,5%</td><td><span class="chip chip-neg">-11,4 pp</span></td><td>🔴 Queda persistente S2–S3</td></tr>
+          <tr style="background:var(--light-orange)"><td><strong>Emision de Nota Fiscal</strong></td><td><strong>123</strong></td><td><strong>8,9%</strong></td><td><strong style="color:var(--orange)">58,1%</strong></td><td>69,5%</td><td><strong><span class="chip chip-neg">-11,4 pp</span></strong></td><td>🔴 Confusão NF+DCe</td></tr>
           <tr><td>Reputación ME</td><td>37</td><td>2,7%</td><td>98,5%</td><td>85,4%</td><td><span class="chip chip-pos">+13,1 pp</span></td><td>✅ Resolve bem</td></tr>
           <tr><td>Facturación</td><td>7</td><td>0,5%</td><td>72,0%</td><td>35,6%</td><td><span class="chip chip-pos">+36,4 pp</span></td><td>✅ Acima target</td></tr>
           <tr><td>Reputación</td><td>6</td><td>0,4%</td><td>95,7%</td><td>59,0%</td><td><span class="chip chip-pos">+36,7 pp</span></td><td>✅ Positivo</td></tr>
-          <tr><td>Post Compra Func.</td><td>3</td><td>0,2%</td><td>-22,2%</td><td>50,0%</td><td><span class="chip chip-neg">-72,2 pp</span></td><td>⚠ Vol. baixo, mas relevante</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="info-note">O impacto DCe em Emissão de NF reflete a confusão dos sellers que já emitem Nota Fiscal e enfrentam a obrigação dupla com o DCe — eles não entendem por que precisam dos dois documentos.</div>
+    <div class="info-note">A queda de Emissão de NF em S2–S3 coincide com maior volume DCe: sellers que já emitem NF ficam bloqueados pela obrigação dupla DCe+NF, sem entender por que o sistema exige os dois documentos.</div>
   </div>
 
-  <!-- ═══════════════════════════════ TAB: BR_PUBLICACIONES ════════════════════ -->
+  <!-- ══════════════════════ BR_PUBLICACIONES ══════════════════════ -->
   <div id="pub" class="tab-content">
-
     <div class="team-header">
       <div>
         <div class="team-name">BR_Publicaciones_Sellers_Longtail</div>
-        <div class="team-meta">Publicações · Sellers · 1.627 pesquisas (S1–S4)</div>
+        <div class="team-meta">Publicações · 1.627 pesquisas (S1–S4) · 31 casos DCe (1,9% — sem impacto relevante)</div>
       </div>
       <div class="team-kpis">
         <div class="team-kpi">
           <div class="tk-lbl">Melhor semana</div>
           <div class="tk-val" style="color:var(--green)">71,6%</div>
-          <div class="tk-gap pos">S3 · +2,1 pp acima</div>
+          <div class="tk-gap pos">S3 · +2,1pp acima</div>
         </div>
         <div class="team-kpi">
           <div class="tk-lbl">GAP crônico</div>
           <div class="tk-val" style="color:var(--red)">-17pp</div>
           <div class="tk-gap neg">Potenciar Ventas</div>
         </div>
-        <div class="team-kpi">
-          <div class="tk-lbl">Casos DCe</div>
-          <div class="tk-val" style="color:var(--green)">31</div>
-          <div class="tk-gap pos">1,9% — sem impacto</div>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <div class="chart-title">NPS vs Target — BR_Publicaciones_Sellers_Longtail</div>
+      <div class="chart-sub">Pesquisas por semana: S0=319 · S1=574 · S2=469 · S3=437 · S4=147</div>
+      <div class="chart-container" style="height:220px;"><canvas id="chartPub"></canvas></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="chart-wrap" style="margin-bottom:0">
+        <div class="chart-title">NPS por Processo (S1–S4 consolidado)</div>
+        <div class="chart-sub">vs target médio do período</div>
+        <div class="chart-container" style="height:280px;"><canvas id="chartPubProc"></canvas></div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:0">
+          <div class="card-header"><span>Processos — Semana a Semana</span></div>
+          <table>
+            <thead><tr><th>Processo</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>PR Técnica Prohibida</td><td>75,3</td><td>57,4</td><td>78,6</td><td>65,2</td><td><span class="chip chip-warn">⚠ Instável</span></td></tr>
+              <tr><td>Gestión de Publicación</td><td>62,0</td><td>46,9</td><td>60,0</td><td>57,1</td><td><span class="chip chip-warn">⚠ S2 caiu</span></td></tr>
+              <tr><td>PR Prop. Intelectual</td><td>54,2</td><td>69,4</td><td>77,2</td><td>92,3</td><td><span class="chip chip-pos">✅ Melhora</span></td></tr>
+              <tr><td>Reputación</td><td>72,5</td><td>67,7</td><td>88,9</td><td>66,7</td><td><span class="chip chip-pos">✅ Acima</span></td></tr>
+              <tr><td>Reputación ME</td><td style="color:var(--red)">63,2</td><td>75,4</td><td>84,2</td><td style="color:var(--red)">60,0</td><td><span class="chip chip-neg">🔴 S1 e S4</span></td></tr>
+              <tr><td><strong>Potenciar Ventas</strong></td><td style="color:var(--red)">41,9</td><td>53,1</td><td>45,8</td><td>45,5</td><td><span class="chip chip-neg">🔴 Crônico -17pp</span></td></tr>
+              <tr><td>Antes de Publicar</td><td>62,7</td><td>79,2</td><td>79,1</td><td>90,0</td><td><span class="chip chip-warn">⚠ Limite inf.</span></td></tr>
+              <tr><td>PR Art. Prohibidos</td><td>63,8</td><td>32,3</td><td>43,2</td><td>50,0</td><td><span class="chip chip-warn">⚠ S2 caiu</span></td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
-
-    <div class="section-title">NPS por Processo — Semana a Semana</div>
-    <div class="card">
-      <table>
-        <thead><tr>
-          <th>Processo</th><th>S0 baseline</th><th>S1 06-12abr</th><th>S2 13-19abr</th><th>S3 20-26abr</th><th>S4 27-29abr</th><th>Target ref.</th><th>Tendência</th>
-        </tr></thead>
-        <tbody>
-          <tr><td>PR - Técnica Prohibida</td><td>63,2%</td><td>75,3%</td><td>57,4%</td><td>78,6%</td><td>65,2%</td><td>77–80%</td><td><span class="chip chip-warn">⚠ Instável</span></td></tr>
-          <tr><td>Gestión de Publicación</td><td>61,7%</td><td>62,0%</td><td>46,9%</td><td>60,0%</td><td>57,1%</td><td>58–62%</td><td><span class="chip chip-warn">⚠ S2 caiu</span></td></tr>
-          <tr><td>PR - Prop. Intelectual</td><td>55,0%</td><td>54,2%</td><td>69,4%</td><td>77,2%</td><td>92,3%</td><td>68–76%</td><td><span class="chip chip-pos">✅ Melhora contínua</span></td></tr>
-          <tr><td>Reputación</td><td>38,9%</td><td>72,5%</td><td>67,7%</td><td>88,9%</td><td>66,7%</td><td>57–79%</td><td><span class="chip chip-pos">✅ Recuperou</span></td></tr>
-          <tr><td><strong>Reputación ME</strong></td><td>93,3%</td><td><span style="color:var(--red)">63,2%</span></td><td>75,4%</td><td>84,2%</td><td><span style="color:var(--red)">60,0%</span></td><td>81–85%</td><td><span class="chip chip-neg">🔴 S1 e S4 caíram</span></td></tr>
-          <tr><td><strong>Potenciar Ventas</strong></td><td>45,2%</td><td>41,9%</td><td>53,1%</td><td>45,8%</td><td>45,5%</td><td>62–64%</td><td><span class="chip chip-neg">🔴 Crônico -17 pp</span></td></tr>
-          <tr><td>Antes de Publicar</td><td>76,3%</td><td>62,7%</td><td>79,2%</td><td>79,1%</td><td>90,0%</td><td>82–86%</td><td><span class="chip chip-warn">⚠ Limite inferior</span></td></tr>
-          <tr><td>PR - Artículos Prohibidos</td><td>57,7%</td><td>63,8%</td><td>32,3%</td><td>43,2%</td><td>50,0%</td><td>29–39%</td><td><span class="chip chip-pos">✅ Acima target</span></td></tr>
-          <tr><td>Calidad de foto</td><td>40,0%</td><td>63,6%</td><td>83,3%</td><td>100%</td><td>—</td><td>71–82%</td><td><span class="chip chip-pos">✅ Melhorando</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="info-note">BR_Publicaciones tem impacto DCe mínimo (31 casos, 1,9%). O problema estrutural desta equipe é o <strong>Potenciar Ventas</strong>, que está cronicamente ~17 pp abaixo do target independentemente do DCe — investigação separada recomendada.</div>
+    <div class="info-note" style="margin-top:14px">DCe tem impacto mínimo nesta equipe (1,9% dos casos). O problema estrutural é Potenciar Ventas — cronicamente -17 pp abaixo do target em todas as semanas — tema independente do DCe.</div>
   </div>
 
-  <!-- ═══════════════════════════════ TAB: IMPACTO DCe ════════════════════════ -->
+  <!-- ══════════════════════ IMPACTO DCe ══════════════════════ -->
   <div id="dce" class="tab-content">
-
-    <div class="section-title">Volume e Penetração de DCe por Equipe</div>
-    <div class="kpi-grid-3">
-      <div class="kpi-card">
-        <div class="label">BR_ME — Casos DCe</div>
-        <div class="value" style="color:var(--red)">741</div>
-        <div class="sub">10,7% dos atendimentos S1–S4</div>
-        <div class="delta neg">▼ Reputação: NPS 5,9%</div>
-      </div>
-      <div class="kpi-card">
-        <div class="label">BR_Ventas — Casos DCe</div>
-        <div class="value" style="color:var(--orange)">183</div>
-        <div class="sub">6,7% dos atendimentos S1–S4</div>
-        <div class="delta neg">▼ Emissão NF: -11,4 pp vs target</div>
-      </div>
-      <div class="kpi-card">
-        <div class="label">BR_Publicaciones — Casos DCe</div>
-        <div class="value" style="color:var(--green)">31</div>
-        <div class="sub">1,9% dos atendimentos S1–S4</div>
-        <div class="delta pos">✅ Sem impacto relevante</div>
-      </div>
+    <div class="section-title">Resumo de Penetração DCe por Equipe</div>
+    <div class="grid-3">
+      <div class="kpi-card"><div class="label">BR_ME — Casos DCe</div><div class="value" style="color:var(--red)">741</div><div class="sub">10,7% dos atendimentos S1–S4</div><div class="delta neg">▼ Reputação: NPS 5,9%</div></div>
+      <div class="kpi-card"><div class="label">BR_Ventas — Casos DCe</div><div class="value" style="color:var(--orange)">183</div><div class="sub">6,7% dos atendimentos S1–S4</div><div class="delta neg">▼ Emissão NF: -11,4 pp vs target</div></div>
+      <div class="kpi-card"><div class="label">BR_Publicaciones — Casos DCe</div><div class="value" style="color:var(--green)">31</div><div class="sub">1,9% dos atendimentos S1–S4</div><div class="delta pos">✅ Sem impacto relevante</div></div>
     </div>
 
-    <div class="section-title">Detalhamento por Processo — Todos os Casos DCe</div>
-    <div class="card">
-      <div class="card-header"><span>BR_ME_Sellers_Longtail · 741 casos DCe</span></div>
-      <table>
-        <thead><tr><th>Processo</th><th>Casos DCe</th><th>% equipe</th><th>NPS DCe</th><th>Target</th><th>GAP</th></tr></thead>
-        <tbody>
-          <tr><td>Despacho Ventas y Publ.</td><td>561</td><td>22,8%</td><td>67,5%</td><td>60,1%</td><td><span class="chip chip-pos">+7,4 pp</span></td></tr>
-          <tr><td>Reputación ME</td><td>87</td><td>3,5%</td><td>77,0%</td><td>84,3%</td><td><span class="chip chip-neg">-7,3 pp</span></td></tr>
-          <tr style="background:var(--light-red)"><td><strong>Reputación</strong></td><td><strong>36</strong></td><td>1,5%</td><td><strong>5,9%</strong></td><td>67,7%</td><td><strong><span class="chip chip-neg">-61,8 pp</span></strong></td></tr>
-          <tr style="background:var(--light-red)"><td><strong>Gestiones Operativas</strong></td><td><strong>24</strong></td><td>1,0%</td><td><strong>35,6%</strong></td><td>69,7%</td><td><strong><span class="chip chip-neg">-34,1 pp</span></strong></td></tr>
-          <tr><td>Viaje paquete - Vendedor</td><td>14</td><td>0,6%</td><td>64,3%</td><td>64,7%</td><td><span class="chip chip-neu">-0,4 pp</span></td></tr>
-          <tr><td>Reversa</td><td>9</td><td>0,4%</td><td>100%</td><td>49,2%</td><td><span class="chip chip-pos">+50,8 pp</span></td></tr>
-          <tr><td>Post Compra Func. Vend.</td><td>6</td><td>0,2%</td><td>66,7%</td><td>52,8%</td><td><span class="chip chip-pos">+13,9 pp</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="card">
-      <div class="card-header"><span>BR_Ventas_Sellers_Longtail · 183 casos DCe</span></div>
-      <table>
-        <thead><tr><th>Processo</th><th>Casos DCe</th><th>% equipe</th><th>NPS DCe</th><th>Target</th><th>GAP</th></tr></thead>
-        <tbody>
-          <tr style="background:var(--light-orange)"><td><strong>Emision de Nota Fiscal</strong></td><td><strong>123</strong></td><td><strong>8,9%</strong></td><td><strong>58,1%</strong></td><td>69,5%</td><td><strong><span class="chip chip-neg">-11,4 pp</span></strong></td></tr>
-          <tr><td>Reputación ME</td><td>37</td><td>2,7%</td><td>98,5%</td><td>85,4%</td><td><span class="chip chip-pos">+13,1 pp</span></td></tr>
-          <tr><td>Facturación</td><td>7</td><td>0,5%</td><td>72,0%</td><td>35,6%</td><td><span class="chip chip-pos">+36,4 pp</span></td></tr>
-          <tr><td>Reputación</td><td>6</td><td>0,4%</td><td>95,7%</td><td>59,0%</td><td><span class="chip chip-pos">+36,7 pp</span></td></tr>
-        </tbody>
-      </table>
+    <div class="chart-wrap">
+      <div class="chart-title">NPS DCe vs NPS Geral — Processos mais impactados</div>
+      <div class="chart-sub">Comparação entre NPS dos casos que mencionam DCe e o NPS geral do processo no período</div>
+      <div class="chart-container" style="height:280px;"><canvas id="chartDCeComp"></canvas></div>
     </div>
 
     <div class="section-title">Dois Padrões de Impacto</div>
     <div class="insight-grid">
-      <div class="hl-pos">
-        <div class="hl-title">Padrão 1 — Atendimento resolve: NPS OK</div>
+      <div class="hl hl-pos">
+        <div class="hl-title">Padrão 1 — Atendimento resolve antes do dano: NPS acima do target</div>
         <div class="hl-text">
-          Quando o seller chega ao atendimento antes de sofrer consequências, o representante explica o fluxo do PC, o problema é resolvido e o NPS fica acima do target.<br><br>
-          <strong>Despacho VP:</strong> 67,5% vs target 60,1% (+7,4 pp)<br>
-          <strong>Reputação ME (Ventas):</strong> 98,5% vs target 85,4% (+13,1 pp)
+          Quando o seller chega ao atendimento antes de sofrer consequências, o rep explica o fluxo pelo PC e o cliente sai satisfeito.<br><br>
+          <strong>Despacho VP (BR_ME):</strong> NPS 67,5% vs target 60,1% (+7,4 pp)<br>
+          <strong>Rep ME (BR_Ventas):</strong> NPS 98,5% vs target 85,4% (+13,1 pp)
         </div>
       </div>
-      <div class="hl-neg">
-        <div class="hl-title">Padrão 2 — Dano já feito: NPS desaba</div>
+      <div class="hl hl-neg">
+        <div class="hl-title">Padrão 2 — Dano já feito quando entra no atendimento: NPS desaba</div>
         <div class="hl-text">
-          Quando o seller entra no atendimento após a reputação já ter sido impactada ou após tentativas frustradas de resolver sozinho, o NPS é catastrófico.<br><br>
-          <strong>Reputação (ME):</strong> 5,9% vs target 67,7% (-61,8 pp)<br>
-          <strong>Gestões Operativas:</strong> 35,6% vs target 69,7% (-34,1 pp)<br>
-          <strong>Emissão de NF:</strong> 58,1% vs target 69,5% (-11,4 pp)
+          Quando o seller entra no atendimento após a reputação já ter sido impactada ou após tentativas frustradas, o NPS é catastrófico.<br><br>
+          <strong>Reputação (BR_ME):</strong> NPS 5,9% vs target 67,7% (-61,8 pp)<br>
+          <strong>Gestões Operativas (BR_ME):</strong> NPS 35,6% vs target 69,7% (-34,1 pp)<br>
+          <strong>Emissão NF (BR_Ventas):</strong> NPS 58,1% vs target 69,5% (-11,4 pp)
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════ TAB: DORES ═══════════════════════════════ -->
+  <!-- ══════════════════════ DORES ══════════════════════ -->
   <div id="dores" class="tab-content">
-
-    <div class="section-title">Dores dos Clientes — Baseado em Transcrições (~1.049 casos, 06–29/abr)</div>
-    <div class="info-note">Fonte: transcrições de atendimento cruzadas com pesquisas NPS. Verbatins preservados em português.</div>
-
-    <div class="summary-box">
-      <div class="summary-title">Top 5 Dores Relacionadas ao DCe</div>
-      <ul class="pain-list">
-
+    <div class="section-title">Top 5 Dores dos Clientes — ~1.049 casos c/ menção a DCe nas transcrições</div>
+    <div class="card" style="padding:8px 0;">
+      <ul class="pain-list" style="padding:0 20px;">
         <li>
           <span class="pain-num">1</span>
-          <strong>DC-e não funciona no app mobile — obrigação apenas pelo PC/browser</strong>
-          <div class="hl-text" style="margin:6px 0 0 30px;">Causa raiz dominante. Sellers móbile-first encontram o fluxo bloqueado sem aviso prévio.</div>
+          <strong>DC-e não disponível no app mobile — só funciona no PC/browser</strong>
+          <div class="hl-text" style="margin:5px 0 0 28px;">Causa raiz dominante. Sellers mobile-first encontram o fluxo bloqueado sem aviso.</div>
           <div class="quote-box">"O app não permite fazer o fluxo completo, falta opção de gerar DC-e e nenhum lugar informa que precisa sair do app e gerar pelo browser. Fluxo bem frustrante."</div>
           <div class="quote-box">"Constatei que precisa de uma atualização no aplicativo. O botão para emitir a DC-e não está presente. Essa foi minha primeira venda."</div>
           <div class="quote-box">"Só não gostei de ter que ir até o PC para emitir a DC-e — não poder fazer pelo celular é mais rápido e fácil pro dia a dia."</div>
         </li>
-
         <li>
           <span class="pain-num">2</span>
           <strong>Sistema travando na tela de emissão</strong>
-          <div class="hl-text" style="margin:6px 0 0 30px;">Sellers chegam à tela de emissão mas o sistema congela, sem mensagem de erro.</div>
           <div class="quote-box">"Sistema de emissão da declaração de conteúdo eletrônica travado na minha venda."</div>
-          <div class="quote-box">"Chega na tela 'pronto para emitir' mas fica parado ali. De momento entendi que é um problema do sistema a não emissão da DCe."</div>
+          <div class="quote-box">"Chega na tela 'pronto para emitir' mas fica parado ali."</div>
         </li>
-
         <li>
           <span class="pain-num">3</span>
-          <strong>Orientação errada do assistente virtual — causando impacto de reputação</strong>
-          <div class="hl-text" style="margin:6px 0 0 30px;">O assistente instrui o seller a aguardar, sem perceber que o bloqueio é por DCe pendente. Isso atrasa o despacho e gera impacto de reputação.</div>
+          <strong>Assistente virtual orientando errado — causa impacto de reputação</strong>
           <div class="quote-box">"Tive a reputação atingida devido a uma informação errada do Assistente que dizia que eu não tinha que fazer nada e era pra aguardar até a DCE ser liberada para poder imprimir a etiqueta."</div>
-          <div class="quote-box">"Atendimento péssimo. Resolveram nada. Estou perdendo uma venda porque ninguém sabe resolver o problema da emissão da DC-E."</div>
+          <div class="quote-box">"Atendimento péssimo. Estou perdendo uma venda porque ninguém sabe resolver o problema da emissão da DC-E."</div>
         </li>
-
         <li>
           <span class="pain-num">4</span>
-          <strong>Conflito com Nota Fiscal — sellers que já emitem NF não entendem a obrigação dupla</strong>
-          <div class="hl-text" style="margin:6px 0 0 30px;">Sellers pessoa física com NF ativa ficam bloqueados pois o sistema exige DCe mesmo quando NF já foi emitida.</div>
+          <strong>Conflito NF + DCe — sellers que já emitem NF não entendem a obrigação dupla</strong>
           <div class="quote-box">"Meu problema é vender com nota fiscal e no meu perfil de pessoa física não conseguir prosseguir — exige emissão da DC-e, mas se eu já emito nota e não quero ter dois documentos."</div>
-          <div class="quote-box">"Muito demorado para liberar etiqueta DCe. Me sentindo frustrada."</div>
         </li>
-
         <li>
           <span class="pain-num">5</span>
-          <strong>Falta de comunicação in-app sobre a nova obrigatoriedade</strong>
-          <div class="hl-text" style="margin:6px 0 0 30px;">Sellers — especialmente os de primeira venda — desconhecem a exigência e descobrem o problema apenas quando tentam despachar.</div>
-          <div class="quote-box">"Nenhum lugar informa que precisa sair do app e gerar pelo browser. Poderiam colocar um informativo de que só é possível emitir pelo computador."</div>
-          <div class="quote-box">"Transtorno enorme para uma simples emissão de etiqueta mesmo com a emissão da DCe. Quero registrar que o atendente não tem nenhuma culpa — tem que parabenizar os gênios que criaram essa rotina."</div>
+          <strong>Falta de comunicação in-app sobre a obrigatoriedade</strong>
+          <div class="quote-box">"Nenhum lugar informa que precisa sair do app e gerar pelo browser. Poderiam colocar um informativo."</div>
+          <div class="quote-box">"Processo recentemente considerado obrigatório — poderiam colocar um informativo de que só é possível emitir pelo computador."</div>
         </li>
-
       </ul>
     </div>
-
-    <div class="section-title">Recomendação de Produto</div>
-    <div class="hl-neg" style="margin-bottom:14px;">
-      <div class="hl-title">Ação prioritária: habilitar fluxo DC-e no app mobile</div>
-      <div class="hl-text">
-        Enquanto o produto não for atualizado, o assistente virtual precisa orientar imediatamente para o PC em qualquer contato com menção à etiqueta bloqueada — hoje a orientação errada de "aguardar" é a principal causa de impacto de reputação, que é o caso com NPS mais destrutivo da operação (5,9%).
+    <div class="insight-grid" style="margin-top:14px;">
+      <div class="hl hl-neg">
+        <div class="hl-title">Ação prioritária de produto</div>
+        <div class="hl-text">Habilitar fluxo DC-e no app mobile. Enquanto isso não ocorre, o assistente virtual precisa orientar imediatamente para o PC — a orientação errada de "aguardar" é a principal causa dos casos de reputação (NPS 5,9%).</div>
       </div>
-    </div>
-    <div class="hl-warn">
-      <div class="hl-title">Perfil mais impactado: sellers de primeira venda</div>
-      <div class="hl-text">
-        Sellers que estão realizando sua primeira venda são os mais afetados: não conhecem o fluxo, encontram o bloqueio na hora do despacho e correm risco de reputação antes mesmo de estabelecer histórico positivo na plataforma.
+      <div class="hl hl-warn">
+        <div class="hl-title">Perfil mais impactado: first-time sellers</div>
+        <div class="hl-text">Sellers na primeira venda: não conhecem o fluxo, encontram o bloqueio na hora do despacho e correm risco de reputação antes de ter qualquer histórico positivo na plataforma.</div>
       </div>
     </div>
   </div>
-
-</div><!-- /container -->
+</div>
 
 <script>
-function showTab(id){
+// ── dados ──────────────────────────────────────────────────────────────────────
+const WEEKS = ['S0\n30mar-05abr','S1\n06-12abr','S2\n13-19abr','S3\n20-26abr','S4\n27-29abr'];
+const WEEKS_SHORT = ['S0','S1','S2','S3','S4'];
+
+const DATA = {
+  ME:     { nps:[60.9,57.4,55.4,58.7,56.2], tgt:[62.7,62.2,60.6,59.1,62.6], color:'#3483fa' },
+  Ventas: { nps:[63.7,66.0,61.6,61.3,69.3], tgt:[64.4,69.7,66.0,63.4,67.0], color:'#00a650' },
+  Pub:    { nps:[60.5,61.3,62.5,71.6,66.7], tgt:[67.9,69.1,71.4,69.5,72.6], color:'#ff7733' }
+};
+
+const PROC_ME = {
+  labels: ['Drivers','Despacho VP','Viaje paq. Comprador','Reputación ME','Reputación','Places Kangu','Gestiones Op.','Reversa','Post Compra'],
+  nps:    [64.8,      61.3,         36.2,                   76.2,           71.2,         71.2,          58.8,           59.6,     44.6],
+  tgt:    [71.6,      58.5,         41.3,                   84.2,           78.1,         71.5,          68.2,           51.2,     48.2]
+};
+
+const PROC_VENTAS = {
+  labels: ['Afiliados ML','Reputación ME','Reputación','Emision de NF','Post Compra','Facturación','Datos fiscales'],
+  nps:    [66.3,           87.1,           68.8,         52.9,           36.1,          46.2,         57.4],
+  tgt:    [70.4,           84.7,           64.4,         66.8,           43.1,          44.3,         67.2]
+};
+
+const PROC_PUB = {
+  labels: ['PR Técnica','Gestão Publ.','PR Prop. Int.','Reputación','Reputación ME','Potenciar Ventas','Antes Publicar','PR Art. Proh.'],
+  nps:    [69.7,         57.1,          67.6,           74.4,         72.4,            46.5,              74.9,            48.8],
+  tgt:    [78.4,         60.9,          71.6,           72.2,         83.2,            62.6,              84.4,            33.9]
+};
+
+const DCE_COMP = {
+  labels:  ['Despacho VP\n(BR_ME)','Reputación ME\n(BR_ME)','Reputación\n(BR_ME)','Gestiones Op.\n(BR_ME)','Emissão NF\n(BR_Ventas)'],
+  nps_dce: [67.5, 77.0, 5.9, 35.6, 58.1],
+  nps_geral:[61.3, 76.2, 71.2, 58.8, 52.9],
+  targets: [60.1, 84.3, 67.7, 69.7, 69.5]
+};
+
+// ── helpers ────────────────────────────────────────────────────────────────────
+const lineOpts = (title) => ({
+  responsive:true, maintainAspectRatio:false,
+  plugins:{ legend:{position:'bottom',labels:{font:{size:11},padding:12}}, title:{display:false}, tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`}} },
+  scales:{
+    x:{grid:{display:false},ticks:{font:{size:10}}},
+    y:{min:20,max:100,ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'#f0f0f0'}}
+  }
+});
+
+function mkLine(id, labels, datasets, yMin=20){
+  const ctx=document.getElementById(id);
+  if(!ctx) return;
+  new Chart(ctx,{type:'line',data:{labels,datasets},options:{...lineOpts(),scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{min:yMin,max:100,ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'#f0f0f0'}}}}});
+}
+
+function mkBar(id, labels, datasets, horizontal=true){
+  const ctx=document.getElementById(id);
+  if(!ctx) return;
+  new Chart(ctx,{
+    type:'bar',
+    data:{labels,datasets},
+    options:{
+      indexAxis: horizontal ? 'y':'x',
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:10}}, tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.x!==undefined?ctx.parsed.x:ctx.parsed.y}%`}}},
+      scales:{
+        x:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'#f0f0f0'}},
+        y:{ticks:{font:{size:10}},grid:{display:false}}
+      }
+    }
+  });
+}
+
+// ── gráficos ───────────────────────────────────────────────────────────────────
+// Overview — todas as 3 equipes
+mkLine('chartOverview', WEEKS_SHORT, [
+  {label:'BR_ME NPS',     data:DATA.ME.nps,     borderColor:'#3483fa', backgroundColor:'#3483fa22', tension:.3, borderWidth:2.5, pointRadius:4},
+  {label:'BR_ME Target',  data:DATA.ME.tgt,     borderColor:'#3483fa', borderDash:[5,4], tension:.3, borderWidth:1.5, pointRadius:0, fill:false},
+  {label:'BR_Ventas NPS', data:DATA.Ventas.nps, borderColor:'#00a650', backgroundColor:'#00a65022', tension:.3, borderWidth:2.5, pointRadius:4},
+  {label:'BR_Ventas Target',data:DATA.Ventas.tgt,borderColor:'#00a650',borderDash:[5,4],tension:.3,borderWidth:1.5,pointRadius:0,fill:false},
+  {label:'BR_Pub NPS',    data:DATA.Pub.nps,    borderColor:'#ff7733', backgroundColor:'#ff773322', tension:.3, borderWidth:2.5, pointRadius:4},
+  {label:'BR_Pub Target', data:DATA.Pub.tgt,    borderColor:'#ff7733', borderDash:[5,4], tension:.3, borderWidth:1.5, pointRadius:0, fill:false}
+], 40);
+
+// BR_ME semanal
+mkLine('chartME', WEEKS_SHORT, [
+  {label:'NPS',   data:DATA.ME.nps, borderColor:'#3483fa', backgroundColor:'#3483fa15', tension:.3, borderWidth:2.5, pointRadius:5, fill:true},
+  {label:'Target',data:DATA.ME.tgt, borderColor:'#e84142', borderDash:[5,4], tension:.3, borderWidth:2, pointRadius:0}
+], 40);
+
+// BR_Ventas semanal
+mkLine('chartVentas', WEEKS_SHORT, [
+  {label:'NPS',   data:DATA.Ventas.nps, borderColor:'#00a650', backgroundColor:'#00a65015', tension:.3, borderWidth:2.5, pointRadius:5, fill:true},
+  {label:'Target',data:DATA.Ventas.tgt, borderColor:'#e84142', borderDash:[5,4], tension:.3, borderWidth:2, pointRadius:0}
+], 40);
+
+// BR_Publicaciones semanal
+mkLine('chartPub', WEEKS_SHORT, [
+  {label:'NPS',   data:DATA.Pub.nps, borderColor:'#ff7733', backgroundColor:'#ff773315', tension:.3, borderWidth:2.5, pointRadius:5, fill:true},
+  {label:'Target',data:DATA.Pub.tgt, borderColor:'#e84142', borderDash:[5,4], tension:.3, borderWidth:2, pointRadius:0}
+], 40);
+
+// Processos ME
+mkBar('chartMEProc', PROC_ME.labels, [
+  {label:'NPS realizado',data:PROC_ME.nps,backgroundColor:'#3483facc',borderRadius:3},
+  {label:'Target',       data:PROC_ME.tgt,backgroundColor:'#e8414244',borderRadius:3}
+]);
+
+// Processos Ventas
+mkBar('chartVentasProc', PROC_VENTAS.labels, [
+  {label:'NPS realizado',data:PROC_VENTAS.nps,backgroundColor:'#00a650cc',borderRadius:3},
+  {label:'Target',       data:PROC_VENTAS.tgt,backgroundColor:'#e8414244',borderRadius:3}
+]);
+
+// Processos Publicaciones
+mkBar('chartPubProc', PROC_PUB.labels, [
+  {label:'NPS realizado',data:PROC_PUB.nps,backgroundColor:'#ff7733cc',borderRadius:3},
+  {label:'Target',       data:PROC_PUB.tgt,backgroundColor:'#e8414244',borderRadius:3}
+]);
+
+// Comparação DCe vs Geral
+mkBar('chartDCeComp', DCE_COMP.labels, [
+  {label:'NPS casos DCe',    data:DCE_COMP.nps_dce,   backgroundColor:'#e84142cc',borderRadius:3},
+  {label:'NPS geral processo',data:DCE_COMP.nps_geral, backgroundColor:'#3483facc',borderRadius:3},
+  {label:'Target',            data:DCE_COMP.targets,   backgroundColor:'#ff773366',borderRadius:3}
+]);
+
+// ── tab navigation ─────────────────────────────────────────────────────────────
+function showTab(id, btn){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  event.target.classList.add('active');
+  if(btn) btn.classList.add('active');
 }
 </script>
 </body>
