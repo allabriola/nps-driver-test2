@@ -1917,7 +1917,7 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   // ── ANÁLISE ESTRATÉGICA — Claude (novo formato) ou Quantitativa (todos os drivers) ──
   try {{
     if (sumNew) {{
-      html += buildAnaliseEstrategica(sumNew, lA, lB);
+      html += buildAnaliseEstrategica(sumNew, lA, lB, drv);
     }} else {{
       html += buildAnaliseQuant({{
         drv:drv, isMes:isMes, lA:lA, lB:lB,
@@ -1932,6 +1932,76 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   }}
 
   return html;
+}}
+
+// ── CDU Insight: top CDU de queda e alta com conclusão de transcrições ─────────
+function buildCDUInsight(drv, lA, lB) {{
+  var sumObj = (typeof DD_SUMMARIES !== 'undefined' ? DD_SUMMARIES : {{}})[drv];
+  if (!sumObj) return '';
+  var wow = sumObj.wow || sumObj;
+  if (!wow || typeof wow !== 'object') return '';
+  var cdqD = wow.cdu_queda || null;
+  var cdqA = wow.cdu_alta  || null;
+  if (!cdqD && !cdqA) return '';
+
+  function nS(v) {{ return v !== null && v !== undefined ? parseFloat(v).toFixed(1)+'%' : '—'; }}
+  function dS(v) {{ return v !== null ? (v >= 0 ? '+' : '') + parseFloat(v).toFixed(2) + 'pp' : '—'; }}
+
+  function cardCDU(item, isQueda) {{
+    if (!item) return '';
+    var bColor  = isQueda ? '#b71c1c'  : '#1b5e20';
+    var bgColor = isQueda ? '#fff5f5'  : '#f1f8f3';
+    var bdrColor= isQueda ? '#ffcdd2'  : '#c8e6c9';
+    var icon    = isQueda ? '&#128201;' : '&#128200;';
+    var titulo  = isQueda ? 'MAIOR QUEDA' : 'MAIOR AUMENTO';
+    var delta   = item.delta != null ? parseFloat(item.delta) : null;
+    var hasTranscr = item.conclusao && item.conclusao.length > 80 &&
+                     item.conclusao.indexOf('Análise qualitativa pendente') < 0;
+    return (
+      '<div style="background:'+bgColor+';border-radius:9px;padding:11px 13px;border:1px solid '+bdrColor+'">'+
+        '<div style="display:flex;align-items:center;gap:6px;margin-bottom:7px">'+
+          '<span style="font-size:13px">'+icon+'</span>'+
+          '<span style="font-size:10px;font-weight:700;color:'+bColor+'">'+titulo+'</span>'+
+          (delta !== null ?
+            '<span style="font-size:10px;color:'+bColor+';font-weight:600;margin-left:auto">'+
+            dS(delta)+'</span>' : '')+
+        '</div>'+
+        '<div style="font-size:11px;font-weight:600;color:#1a1e3c;margin-bottom:3px">'+
+          (item.cdu || '')+'</div>'+
+        '<div style="font-size:10px;color:#555;margin-bottom:7px">'+
+          (item.sol ? item.sol.substring(0,70)+(item.sol.length>70?'…':'') : '')+
+          (item.nps_s2 != null && item.nps_s1 != null ?
+            ' &nbsp;&middot;&nbsp; NPS: '+nS(item.nps_s2)+' → <b style="color:'+bColor+'">'+nS(item.nps_s1)+'</b>':'')+
+          (item.surveys ? ' &nbsp;&middot;&nbsp; '+item.surveys+' surveys' : '')+
+        '</div>'+
+        (item.conclusao ?
+          '<div style="font-size:11px;color:#1a1e3c;line-height:1.6;background:#fff;border-radius:6px;padding:7px 10px;border-left:3px solid '+bColor+'">'+
+            (hasTranscr ?
+              '<span style="font-size:9px;font-weight:700;color:#888;display:block;margin-bottom:3px">ANÁLISE DE TRANSCRIÇÕES</span>' : '')+
+            item.conclusao+
+          '</div>' : '')+
+        (item.padrao && hasTranscr ?
+          '<div style="margin-top:6px;font-size:10px;color:'+bColor+';font-style:italic;border-top:1px dashed '+bdrColor+';padding-top:5px">'+
+            '&#128270; Padrão: '+item.padrao+
+          '</div>' : '')+
+      '</div>'
+    );
+  }}
+
+  return (
+    '<div style="margin-top:14px;border:2px solid #5c6bc0;border-radius:12px;overflow:hidden">'+
+    '<div style="background:#5c6bc0;padding:9px 16px;display:flex;align-items:center;gap:8px">'+
+      '<span style="font-size:14px">&#128172;</span>'+
+      '<span style="color:#fff;font-weight:700;font-size:12px">Conclus&#227;o por CDU &mdash; Transcri&#231;&#245;es</span>'+
+      '<span style="color:#c5cae9;font-size:11px">'+lA+' &rarr; '+lB+'</span>'+
+    '</div>'+
+    '<div style="padding:12px 16px;background:#f5f6ff">'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">'+
+      cardCDU(cdqD, true)+
+      cardCDU(cdqA, false)+
+    '</div>'+
+    '</div></div>'
+  );
 }}
 
 function buildAnaliseQuant(o) {{
@@ -2141,10 +2211,14 @@ function buildAnaliseQuant(o) {{
   '</div>';
 
   out += '</div></div>';
+
+  // ── CDU Insights (de DD_SUMMARIES se disponível) ────────────────────────────
+  out += buildCDUInsight(drv, lA, lB);
+
   return out;
 }}
 
-function buildAnaliseEstrategica(s, lA, lB) {{
+function buildAnaliseEstrategica(s, lA, lB, drv) {{
   function priTag(p) {{
     var c = p==='Alta'?'#b71c1c':p==='Media'?'#e65100':'#388e3c';
     return '<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:'+c+'22;color:'+c+'">'+p+'</span>';
@@ -2276,6 +2350,10 @@ function buildAnaliseEstrategica(s, lA, lB) {{
   }}
 
   out += '</div></div>';
+
+  // ── CDU Insights ────────────────────────────────────────────────────────────
+  if (drv) out += buildCDUInsight(drv, lA, lB);
+
   return out;
 }}
 
