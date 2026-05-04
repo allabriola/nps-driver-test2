@@ -224,7 +224,7 @@ header h1{font-size:16px;font-weight:700}
     <h1>NPS Driver Impact - All Sellers BR</h1>
     <div class="hd-meta">Sellers | CENTER=BR | E-Commerce</div>
   </div>
-  <div class="hd-meta" style="text-align:right">Gerado em 04/05/2026 12:40</div>
+  <div class="hd-meta" style="text-align:right">Gerado em 04/05/2026 13:09</div>
 </header>
 
 <div class="nav-bar">
@@ -903,15 +903,35 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {
     var dd = (bkData||{})[dim] || {};
     var dA = dd[pA] || {};  // {nome_processo: {p,d,s,nps}}
     var dB = dd[pB] || {};
-    var keys = Object.keys(Object.assign({}, dA, dB));
+    // Normalizar chaves para evitar duplicatas por encoding (ex: "Reputaci\u00c3\u00b3n" vs "Reputaci\u00f3n")
+    function normKey(k){ return k.normalize('NFC').trim(); }
+    var mergedA={}, mergedB={};
+    Object.keys(dA).forEach(function(k){
+      var nk=normKey(k); var v=dA[k]||{p:0,d:0,s:0,nps:null};
+      if(mergedA[nk]){ mergedA[nk].p+=(v.p||0); mergedA[nk].d+=(v.d||0); mergedA[nk].s+=(v.s||0); }
+      else { mergedA[nk]={p:v.p||0,d:v.d||0,s:v.s||0,nps:v.nps}; }
+    });
+    Object.keys(dB).forEach(function(k){
+      var nk=normKey(k); var v=dB[k]||{p:0,d:0,s:0,nps:null};
+      if(mergedB[nk]){ mergedB[nk].p+=(v.p||0); mergedB[nk].d+=(v.d||0); mergedB[nk].s+=(v.s||0); }
+      else { mergedB[nk]={p:v.p||0,d:v.d||0,s:v.s||0,nps:v.nps}; }
+    });
+    // Recomputar nps a partir de p/d/s nos grupos mergeados
+    function recomputeNps(obj){
+      Object.keys(obj).forEach(function(k){
+        var v=obj[k]; obj[k].nps=v.s>0?(v.p-v.d)/v.s*100:null;
+      });
+    }
+    recomputeNps(mergedA); recomputeNps(mergedB);
+    var keys = Object.keys(Object.assign({}, mergedA, mergedB));
     var totSA=0, totSB=0, totPB=0, totDB=0;
     keys.forEach(function(k){
-      var a=dA[k]||{p:0,d:0,s:0}; var b=dB[k]||{p:0,d:0,s:0};
+      var a=mergedA[k]||{p:0,d:0,s:0}; var b=mergedB[k]||{p:0,d:0,s:0};
       totSA+=a.s||0; totSB+=b.s||0; totPB+=b.p||0; totDB+=b.d||0;
     });
     var npsAllB = totSB>0 ? (totPB-totDB)/totSB*100 : null;
     return keys.map(function(k){
-      var a=dA[k]||{p:0,d:0,s:0,nps:null}; var b=dB[k]||{p:0,d:0,s:0,nps:null};
+      var a=mergedA[k]||{p:0,d:0,s:0,nps:null}; var b=mergedB[k]||{p:0,d:0,s:0,nps:null};
       var shaA=totSA>0?(a.s||0)/totSA:0; var shaB=totSB>0?(b.s||0)/totSB:0;
       var nA=a.nps, nB=b.nps;
       var neto=(shaA>0&&nA!==null&&nB!==null)?shaA*(nB-nA):0;
@@ -998,8 +1018,8 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {
   // \u2500\u2500 1: VARIACAO MOM/WOW \u2014 narrativa executiva \u2500\u2500
   var s1Title = isMes ? 'Variacao MoM' : (isVigPeriod ? 'Variacao VIG vs S1 &#9889;' : 'Variacao WoW');
   var s1='<div class="exec-section-title" style="color:#555">&#128201; '+s1Title+'</div>';
-  var top3neg = procs.filter(function(p){return p.impact<0;}).slice(0,3);
-  var top2pos = procs.filter(function(p){return p.impact>0;}).slice(-2).reverse();
+  var top3neg = procs.filter(function(p){return p.impact<-0.05;}).slice(0,3);
+  var top2pos = procs.filter(function(p){return p.impact>0.05;}).slice(-2).reverse();
   if(procs.length>0){
     s1+='<p class="exec-narrative">O NPS do driver '+(delta!==null?(delta>=0?'subiu':'caiu')+' '+Math.abs(delta).toFixed(2)+'pp':'variou')+
         ' de '+nStr(npsA)+' ('+lA+') para '+nStr(npsB)+' ('+lB+')</b>.';
@@ -1031,29 +1051,44 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {
     s1+='<p class="exec-narrative" style="color:#aaa">Sem dados de processo para este periodo.</p>';
   }
 
-  // \u2500\u2500 2: VS TARGET \u2014 narrativa executiva \u2500\u2500
+  // \u2500\u2500 2: VS TARGET \u2014 narrativa executiva com contribui\u00e7\u00e3o ponderada e CDU \u2500\u2500
   var tgtPeriodNote = isVigPeriod ? (hasVigBk ? ' (NPS VIG &#9889;)' : ' (NPS VIG)') : '';
   var s2='<div class="exec-section-title" style="color:#555">&#127919; Analise vs Target'+tgtPeriodNote+'</div>';
   if(procs.length>0&&tgt!==null){
-    var abTgt=procs.filter(function(p){return p.gapT!==null&&p.gapT<0;}).sort(function(a,b){return a.gapT-b.gapT;});
-    var acTgt=procs.filter(function(p){return p.gapT!==null&&p.gapT>=0;}).sort(function(a,b){return b.gapT-a.gapT;});
+    // Contribuicao ponderada ao gap do target: (processNPS - targetNPS) \u00d7 processShare/100
+    var procsWithWt = procs.filter(function(p){return p.gapT!==null&&p.shaB>0;}).map(function(p){
+      return {k:p.k, gapT:p.gapT, shaB:p.shaB, nB:p.nB, wt:Math.round(p.gapT*(p.shaB/100)*100)/100};
+    });
+    var wtPos = procsWithWt.filter(function(p){return p.wt>0;}).sort(function(a,b){return b.wt-a.wt;});
+    var wtNeg = procsWithWt.filter(function(p){return p.wt<0;}).sort(function(a,b){return a.wt-b.wt;});
     s2+='<p class="exec-narrative">O driver esta '+
         (gapTgt>=0?'<b style="color:#1a7a1a">'+fV(gapTgt)+' acima do target</b>':'<b style="color:#c0321a">'+fV(gapTgt)+' abaixo do target</b>')+
         ' ('+tgt.toFixed(1)+'%).';
-    if(abTgt.length>0){
-      s2+=(isVigPeriod?' Processos abaixo do target na S1 (ref. fechada): ':' Processos que mais pressionam o gap: ');
-      s2+=abTgt.slice(0,3).map(function(p){
-        return '<b>'+p.k+'</b> ('+p.gapT.toFixed(1)+'pp abaixo, NPS '+nStr(p.nB)+')';
-      }).join('; ')+'.';
+    // Principal sustentaculo (maior contribuicao positiva ponderada)
+    if(wtPos.length>0){
+      var anchor=wtPos[0];
+      s2+=' O principal sustentaculo do driver acima da meta e <b>'+anchor.k+'</b> (+'+anchor.gapT.toFixed(1)+'pp vs target, '+anchor.shaB+'% vol).';
     }
-    if(acTgt.length>0&&abTgt.length>0){
-      s2+=' Compensam positivamente: ';
-      s2+=acTgt.slice(0,2).map(function(p){
-        return '<b>'+p.k+'</b> (+'+p.gapT.toFixed(1)+'pp)';
-      }).join(', ')+'.';
+    // Maior gargalo (maior drag negativo ponderado)
+    if(wtNeg.length>0){
+      var drag=wtNeg[0];
+      s2+=' <b>'+drag.k+'</b> e o maior gargalo ('+drag.gapT.toFixed(1)+'pp abaixo da meta, '+drag.shaB+'% vol).';
+      if(wtNeg.length>1){
+        s2+=' Tambem pressionam: '+wtNeg.slice(1,3).map(function(p){return '<b>'+p.k+'</b> ('+p.gapT.toFixed(1)+'pp)';}).join(', ')+'.';
+      }
     }
-    if(abTgt.length===0) s2+=' Todos os processos estao acima do target.';
+    if(wtNeg.length===0&&wtPos.length>0) s2+=' Todos os processos com volume expressivo estao acima do target.';
     s2+='</p>';
+    // Contexto CDU qualitativo
+    var cduSumObj = DD_SUMMARIES[drv];
+    var cduSumRaw = cduSumObj&&cduSumObj[sumKey]?cduSumObj[sumKey]:(cduSumObj&&cduSumObj.mom?cduSumObj.mom:null);
+    if(cduSumRaw&&typeof cduSumRaw==='object'){
+      var cduQ = cduSumRaw.cdu_queda&&cduSumRaw.cdu_queda.conclusao?cduSumRaw.cdu_queda.conclusao:null;
+      var cduA = cduSumRaw.cdu_alta&&cduSumRaw.cdu_alta.conclusao?cduSumRaw.cdu_alta.conclusao:null;
+      if(cduQ||cduA){
+        s2+='<p class="exec-narrative" style="font-style:italic;color:#555;border-left:3px solid #ddd;padding-left:8px;margin-top:6px">Pelo lado qualitativo: '+(cduQ?cduQ:'')+(cduA&&cduQ?' | '+(cduA):(cduA||''))+'</p>';
+      }
+    }
   } else {
     s2+='<p class="exec-narrative" style="color:#aaa">'+(tgt===null?'Target nao definido para este driver.':'Sem dados de processo.')+'</p>';
   }
@@ -1073,6 +1108,36 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {
           (d2!==null?' ('+tag(d2,1)+')':'')+ ' \u2014 '+c.shaB+'% do volume';
     });
     s3+='.</p>';
+    // Contexto de processo por canal (P_C)
+    var pcData = (bkData&&bkData['P_C'])||{};
+    if(Object.keys(pcData).length>0){
+      // pcData keyed by processo, each has periods, each has canais
+      // Inverte: canal -> processo dominante e processo com maior queda
+      var canalProcMap={};
+      var pcPeriod = pcData;
+      // Iterar processos para montar mapa canal->{procs}
+      Object.keys(pcPeriod).forEach(function(proc){
+        var pcPerB = (pcPeriod[proc]&&pcPeriod[proc][pB])||{};
+        Object.keys(pcPerB).forEach(function(canal){
+          var v=pcPerB[canal];
+          if(!canalProcMap[canal]) canalProcMap[canal]=[];
+          canalProcMap[canal].push({k:proc,s:v.s||0,nps:v.nps!==null?v.nps:null});
+        });
+      });
+      var canalInsights='';
+      chSort.forEach(function(c){
+        var cp=canalProcMap[c.k];
+        if(!cp||cp.length===0) return;
+        cp.sort(function(a,b){return b.s-a.s;});
+        var dom=cp[0];
+        var falling=cp.filter(function(p){return p.nps!==null&&c.nB!==null&&p.nps<c.nB-5;}).sort(function(a,b){return (a.nps||0)-(b.nps||0);})[0];
+        var ins='';
+        if(dom) ins+='<b>'+c.k+'</b> e dominado por <em>'+dom.k.substring(0,30)+'</em>';
+        if(falling&&falling.k!==dom.k) ins+=' \u2014 <em>'+falling.k.substring(0,30)+'</em> puxa o canal para baixo (NPS '+nStr(falling.nps)+')';
+        if(ins) canalInsights+='<span style="display:block;font-size:11.5px;color:#444;margin-top:3px">'+ins+'.</span>';
+      });
+      if(canalInsights) s3+='<div style="margin-top:4px">'+canalInsights+'</div>';
+    }
   } else s3+='<p class="exec-narrative" style="color:#aaa">Sem dados de canal.</p>';
 
   // \u2500\u2500 4: OFICINA \u2014 narrativa \u2500\u2500
@@ -1088,6 +1153,32 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {
           (d2!==null?' ('+tag(d2,1)+')':'')+ ' \u2014 '+o.shaB+'% vol';
     });
     s4+='.</p>';
+    // Contexto de processo por oficina (P_O)
+    var poData = (bkData&&bkData['P_O'])||{};
+    if(Object.keys(poData).length>0){
+      var oficProcMap={};
+      Object.keys(poData).forEach(function(proc){
+        var poPerB = (poData[proc]&&poData[proc][pB])||{};
+        Object.keys(poPerB).forEach(function(ofic){
+          var v=poPerB[ofic];
+          if(!oficProcMap[ofic]) oficProcMap[ofic]=[];
+          oficProcMap[ofic].push({k:proc,s:v.s||0,nps:v.nps!==null?v.nps:null});
+        });
+      });
+      var oficInsights='';
+      oSort.forEach(function(o){
+        var op=oficProcMap[o.k];
+        if(!op||op.length===0) return;
+        op.sort(function(a,b){return b.s-a.s;});
+        var dom=op[0];
+        var falling=op.filter(function(p){return p.nps!==null&&o.nB!==null&&p.nps<o.nB-5;}).sort(function(a,b){return (a.nps||0)-(b.nps||0);})[0];
+        var ins='';
+        if(dom) ins+='<b>'+o.k+'</b> e dominado por <em>'+dom.k.substring(0,30)+'</em>';
+        if(falling&&falling.k!==dom.k) ins+=' \u2014 <em>'+falling.k.substring(0,30)+'</em> pressiona para baixo (NPS '+nStr(falling.nps)+')';
+        if(ins) oficInsights+='<span style="display:block;font-size:11.5px;color:#444;margin-top:3px">'+ins+'.</span>';
+      });
+      if(oficInsights) s4+='<div style="margin-top:4px">'+oficInsights+'</div>';
+    }
   } else s4+='<p class="exec-narrative" style="color:#aaa">Sem dados de oficina.</p>';
 
   html+='<div class="exec-section">'+s3+'</div>';
@@ -1108,11 +1199,17 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {
   var totalMix=Math.round(procsMix.reduce(function(s,p){return s+p.mix;},0)*100)/100;
   var totalNeto=Math.round(procsMix.reduce(function(s,p){return s+p.neto;},0)*100)/100;
 
+  // Top NETO contributor (maior ganho de qualidade pura) e maior MIX drag
+  var topNetoWin=procsMix.filter(function(p){return p.neto>0.05;}).sort(function(a,b){return b.neto-a.neto;})[0];
+  var topMixDrag=procsMix.filter(function(p){return p.mix<-0.05;}).sort(function(a,b){return a.mix-b.mix;})[0];
+
   var s5='<div class="exec-section-title" style="color:#555">&#128257; Mix de Pesquisas \u2014 Efeito Volume</div>';
   s5+='<p class="exec-narrative">NETO (qualidade): <strong style="color:'+(totalNeto>=0?'#1a7a1a':'#c0321a')+'">'+(totalNeto>=0?'+':'')+totalNeto.toFixed(2)+'pp</strong> &nbsp;|&nbsp; MIX (volume): <strong style="color:'+(totalMix>=0?'#1a7a1a':'#c0321a')+'">'+(totalMix>=0?'+':'')+totalMix.toFixed(2)+'pp</strong>.';
+  if(topNetoWin) s5+=' Principal ganho de qualidade pura: <b>'+topNetoWin.k.substring(0,35)+'</b> (+'+topNetoWin.neto.toFixed(2)+'pp NETO).';
+  if(topMixDrag) s5+=' Principal arrasto de mix: <b>'+topMixDrag.k.substring(0,35)+'</b> ('+topMixDrag.mix.toFixed(2)+'pp MIX, share '+topMixDrag.deltaSha.toFixed(1)+'pp).';
   if(badMixItems.length>0) s5+=' Volume cresceu em processos abaixo da media: '+badMixItems.map(function(p){return '<b>'+p.k.substring(0,30)+'</b> (+'+p.deltaSha.toFixed(1)+'pp share) &rarr; '+tag(p.mix);}).join('; ')+'.';
   if(goodMixItems.length>0) s5+=' Volume caiu em processos acima da media: '+goodMixItems.map(function(p){return '<b>'+p.k.substring(0,30)+'</b> ('+p.deltaSha.toFixed(1)+'pp share) &rarr; '+tag(p.mix);}).join('; ')+'.';
-  if(badMixItems.length===0&&goodMixItems.length===0) s5+=' Sem redistribuicao significativa de volume neste periodo.';
+  if(badMixItems.length===0&&goodMixItems.length===0&&!topNetoWin&&!topMixDrag) s5+=' Sem redistribuicao significativa de volume neste periodo.';
   s5+='</p>';
 
   // Senioridade
@@ -1142,6 +1239,25 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {
       'Gap Expert&minus;Newbie: <strong style="color:'+(gapB!==null&&Math.abs(gapB)>5?'#c0321a':'#1a7a1a')+'">'+(gapB!==null?(gapB>=0?'+':'')+gapB.toFixed(1)+'pp':'\u2014')+'</strong>'+
       (gapDelta!==null?' &nbsp;(gap '+(gapDelta>=0?'ampliou':'reduziu')+' '+Math.abs(gapDelta).toFixed(1)+'pp vs '+lA+')':'')+
     '</p>';
+    // Contexto de processo por senioridade (Sr_P) \u2014 processos com maior divergencia Expert/Newbie
+    var srpData = (bkData&&bkData['Sr_P'])||{};
+    if(Object.keys(srpData).length>0){
+      // srpData keyed by senioridade, each has periodos, each has processos
+      var srpExpB = (srpData['Expert']&&srpData['Expert'][pB])||{};
+      var srpNbB  = (srpData['Newbie']&&srpData['Newbie'][pB])||{};
+      var srpProcs = Object.keys(Object.assign({},srpExpB,srpNbB));
+      var srpGaps = srpProcs.map(function(k){
+        var eNps = srpExpB[k]?srpExpB[k].nps:null;
+        var nNps = srpNbB[k]?srpNbB[k].nps:null;
+        var gap = (eNps!==null&&nNps!==null)?Math.round((eNps-nNps)*100)/100:null;
+        return {k:k,eNps:eNps,nNps:nNps,gap:gap};
+      }).filter(function(x){return x.gap!==null;}).sort(function(a,b){return Math.abs(b.gap)-Math.abs(a.gap);});
+      if(srpGaps.length>0){
+        var topGap=srpGaps[0];
+        s6+='<p class="exec-narrative" style="font-size:11.5px;color:#555">Processo com maior divergencia Expert&minus;Newbie: <b>'+topGap.k.substring(0,35)+'</b> '+
+          '(Expert '+nStr(topGap.eNps)+' vs Newbie '+nStr(topGap.nNps)+', gap '+(topGap.gap>=0?'+':'')+topGap.gap.toFixed(1)+'pp)</p>';
+      }
+    }
   } else {
     s6+='<p class="exec-narrative" style="color:#aaa">Sem dados de senioridade para este periodo.</p>';
   }
