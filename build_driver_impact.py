@@ -1333,11 +1333,11 @@ function buildStrategicDriverCards(strat, period) {{
             '<div style="font-size:9px;font-weight:700;color:'+mainColor+';margin-bottom:3px">&#127919; OPORTUNIDADE OPERACIONAL</div>'+
             '<p style="font-size:11px;color:#333;line-height:1.5;margin:0">'+data.oportunidade+'</p>'+
           '</div>' : '')+
-        // VoC
-        (data.voc_det || data.voc_pro ?
-          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">'+
-            (data.voc_pro && data.voc_pro.length ? '<div>'+vocLines(data.voc_pro,'pro')+'</div>' : '<div></div>')+
-            (data.voc_det && data.voc_det.length ? '<div>'+vocLines(data.voc_det,'det')+'</div>' : '<div></div>')+
+        // Insight adicional (ex: o que mudou num CDU especifico)
+        (data.insight_adicional ?
+          '<div style="background:#fff;border-radius:7px;padding:8px 10px;border:1px solid '+bdrColor+';border-left:3px solid '+mainColor+'">'+
+            '<div style="font-size:9px;font-weight:700;color:'+mainColor+';margin-bottom:3px">&#128269; O QUE MUDOU</div>'+
+            '<p style="font-size:11px;color:#1a1e3c;line-height:1.6;margin:0">'+data.insight_adicional+'</p>'+
           '</div>' : '')+
       '</div>'+
     '</div>';

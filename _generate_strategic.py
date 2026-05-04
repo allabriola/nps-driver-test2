@@ -156,9 +156,20 @@ strategic = {
             ),
             "conclusao": (
                 "Reputacao ME lidera crescimento mensal (+2.22pp MoM, +2.40pp de contribuicao ao consolidado). "
-                "Logistica Places reverteu drasticamente — investigar o que mudou na operacao em Abril. "
-                "CDU Desativar ME acumulou -14.9pp MoM — deterioracao progressiva por restricao sistemica. "
+                "O que mudou em Logistica Places foi identificado via BQ: solucao 'Nao excluimos' subiu de "
+                "-13.2% para +34.8% (+48pp). CDU Desativar ME acumulou -14.9pp MoM — restricao sistemica. "
                 "Driver opera 10.4pp acima do target com trajetoria consistente ha 5 meses."
+            ),
+            "insight_adicional": (
+                "LOGISTICA PLACES +48pp: a analise BQ revelou duas solucoes opostas neste CDU. "
+                "'Logistica Places - Excluimos' (reputacao PROTEGIDA contra atraso de Places): estavel em ~88% NPS nos dois meses. "
+                "'Logistica Places - Nao excluimos' (Places afeta reputacao sem excluir): saltou de -13.2% (Marco, 53 surveys) "
+                "para +34.8% (Abril, 46 surveys), alta de +48pp. Volume caiu 13% (53 -> 46 casos). "
+                "Hipotese: ajuste nos criterios de elegibilidade para exclusao de reputacao por culpa logistica de Places em Abril "
+                "— menos casos chegando na classificacao 'nao excluimos' E comunicacao melhorada pelo agente "
+                "sobre o que o vendedor pode fazer quando nao e possivel excluir. "
+                "ACAO: confirmar com time de Places se houve mudanca de politica de blindagem em Abril. "
+                "Se confirmada, comunicar ao time como sustentabilidade da pratica."
             ),
             "voc_pro": extract_comments("ME Vendedor Seller Dev", "pro"),
             "voc_det": extract_comments("ME Vendedor Seller Dev", "det"),
