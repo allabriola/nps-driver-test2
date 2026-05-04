@@ -1931,10 +1931,6 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
     html += '<div style="padding:8px;background:#ffebee;border-radius:6px;font-size:11px;color:#c62828;margin-top:8px">Erro Análise: '+e.message+'</div>';
   }}
 
-  }} catch(eC) {{
-    // Silencioso — conclusao nao critica
-  }}
-
   return html;
 }}
 
