@@ -392,9 +392,9 @@
           "nps": 46.67
         },
         "Facturación": {
-          "p": 5,
-          "d": 1,
-          "s": 6,
+          "p": 10,
+          "d": 2,
+          "s": 12,
           "nps": 66.67
         },
         "Datos fiscales": {
@@ -402,12 +402,6 @@
           "d": 0,
           "s": 2,
           "nps": 50.0
-        },
-        "Facturaci�n": {
-          "p": 5,
-          "d": 1,
-          "s": 6,
-          "nps": 66.67
         }
       },
       "M2": {
@@ -685,9 +679,9 @@
     "P": {
       "M1": {
         "Facturación": {
-          "p": 6,
-          "d": 1,
-          "s": 8,
+          "p": 12,
+          "d": 2,
+          "s": 16,
           "nps": 62.5
         },
         "Emision de Nota Fiscal": {
@@ -695,12 +689,6 @@
           "d": 1,
           "s": 9,
           "nps": 66.67
-        },
-        "Facturaci�n": {
-          "p": 6,
-          "d": 1,
-          "s": 8,
-          "nps": 62.5
         }
       },
       "M2": {
@@ -942,22 +930,16 @@
           "nps": 52.9
         },
         "Facturación": {
-          "p": 114,
-          "d": 41,
-          "s": 174,
-          "nps": 41.95
+          "p": 234,
+          "d": 82,
+          "s": 355,
+          "nps": 42.82
         },
         "Datos fiscales": {
           "p": 42,
           "d": 12,
           "s": 60,
           "nps": 50.0
-        },
-        "Facturaci�n": {
-          "p": 120,
-          "d": 41,
-          "s": 181,
-          "nps": 43.65
         }
       },
       "M2": {
@@ -2914,12 +2896,6 @@
           "d": 0,
           "s": 1,
           "nps": 100.0
-        },
-        "Asignaci�n del Cont�ctanos FBM": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
         }
       },
       "M2": {
@@ -4866,10 +4842,10 @@
     "P": {
       "M1": {
         "Reputación ME": {
-          "p": 414,
-          "d": 70,
-          "s": 506,
-          "nps": 67.98
+          "p": 842,
+          "d": 144,
+          "s": 1030,
+          "nps": 67.77
         },
         "Despacho Ventas y Publicaciones": {
           "p": 244,
@@ -4906,12 +4882,6 @@
           "d": 2,
           "s": 2,
           "nps": -100.0
-        },
-        "Reputaci�n ME": {
-          "p": 428,
-          "d": 74,
-          "s": 524,
-          "nps": 67.56
         }
       },
       "M2": {
@@ -5333,10 +5303,10 @@
     "P": {
       "M1": {
         "Reputación ME": {
-          "p": 88,
-          "d": 8,
-          "s": 99,
-          "nps": 80.81
+          "p": 192,
+          "d": 16,
+          "s": 215,
+          "nps": 81.86
         },
         "Reversa": {
           "p": 61,
@@ -5361,12 +5331,6 @@
           "d": 3,
           "s": 27,
           "nps": 70.37
-        },
-        "Reputaci�n ME": {
-          "p": 104,
-          "d": 8,
-          "s": 116,
-          "nps": 82.76
         }
       },
       "M2": {
@@ -5716,10 +5680,10 @@
           "nps": 60.3
         },
         "Reputación ME": {
-          "p": 1894,
-          "d": 118,
-          "s": 2142,
-          "nps": 82.91
+          "p": 3856,
+          "d": 246,
+          "s": 4368,
+          "nps": 82.65
         },
         "Gestiones Operativas": {
           "p": 274,
@@ -5744,12 +5708,6 @@
           "d": 0,
           "s": 2,
           "nps": 100.0
-        },
-        "Reputaci�n ME": {
-          "p": 1962,
-          "d": 128,
-          "s": 2226,
-          "nps": 82.39
         }
       },
       "M2": {
@@ -7658,10 +7616,10 @@
           "nps": 35.8
         },
         "Reputación ML Masivos": {
-          "p": 16,
-          "d": 3,
-          "s": 20,
-          "nps": 65.0
+          "p": 34,
+          "d": 6,
+          "s": 42,
+          "nps": 66.67
         },
         "Problemas de seguridad": {
           "p": 3144,
@@ -7694,9 +7652,9 @@
           "nps": 6.2
         },
         "Reputación ME Masivos": {
-          "p": 6,
-          "d": 9,
-          "s": 16,
+          "p": 12,
+          "d": 18,
+          "s": 32,
           "nps": -18.75
         },
         "KYC seg360": {
@@ -7724,10 +7682,10 @@
           "nps": 72.73
         },
         "Configuración de la cuenta": {
-          "p": 8,
-          "d": 1,
-          "s": 11,
-          "nps": 63.64
+          "p": 16,
+          "d": 2,
+          "s": 23,
+          "nps": 60.87
         },
         "Tarjetas de crédito - Solicitud y Límites": {
           "p": 6,
@@ -7796,9 +7754,9 @@
           "nps": 100.0
         },
         "Cancelación de cuenta": {
-          "p": 3,
-          "d": 1,
-          "s": 4,
+          "p": 6,
+          "d": 2,
+          "s": 8,
           "nps": 50.0
         },
         "Point - Como adquirir dispositivo": {
@@ -7808,9 +7766,9 @@
           "nps": 69.0
         },
         "Acreditación de Pagos - Payers": {
-          "p": 2,
-          "d": 1,
-          "s": 3,
+          "p": 4,
+          "d": 2,
+          "s": 6,
           "nps": 33.33
         },
         "Chargeback Comprador": {
@@ -7983,20 +7941,20 @@
         },
         "Gestión de Publicación": {
           "p": 0,
-          "d": 1,
-          "s": 1,
+          "d": 2,
+          "s": 2,
           "nps": -100.0
         },
         "Asignación del Contactanos MP Cards": {
           "p": 0,
-          "d": 1,
-          "s": 1,
+          "d": 2,
+          "s": 2,
           "nps": -100.0
         },
         "Prevención de Fraude - Vendedor - PNR C": {
           "p": 0,
-          "d": 1,
-          "s": 1,
+          "d": 2,
+          "s": 2,
           "nps": -100.0
         },
         "Potenciar Ventas": {
@@ -8018,9 +7976,9 @@
           "nps": 0.0
         },
         "Asignación del Contactanos Cuenta Marketplace": {
-          "p": 1,
+          "p": 2,
           "d": 0,
-          "s": 1,
+          "s": 2,
           "nps": 100.0
         },
         "CDB Investments": {
@@ -8084,9 +8042,9 @@
           "nps": -100.0
         },
         "Facturación": {
-          "p": 1,
+          "p": 2,
           "d": 0,
-          "s": 1,
+          "s": 2,
           "nps": 100.0
         },
         "Asignación del contáctanos Mature Ventas": {
@@ -8119,155 +8077,11 @@
           "s": 1,
           "nps": 100.0
         },
-        "Asignaci�n del cont�ctanos Buyers Post": {
-          "p": 48,
-          "d": 24,
-          "s": 76,
-          "nps": 31.58
-        },
-        "Reputaci�n ML Masivos": {
-          "p": 18,
-          "d": 3,
-          "s": 22,
-          "nps": 68.18
-        },
-        "Caja vac�a - Flex": {
-          "p": 11,
-          "d": 6,
-          "s": 20,
-          "nps": 25.0
-        },
-        "Reputaci�n ME Masivos": {
-          "p": 6,
-          "d": 9,
-          "s": 16,
-          "nps": -18.75
-        },
-        "Configuraci�n de la cuenta": {
-          "p": 8,
-          "d": 1,
-          "s": 12,
-          "nps": 58.33
-        },
-        "Caja vac�a - MP": {
-          "p": 7,
-          "d": 3,
-          "s": 11,
-          "nps": 36.36
-        },
-        "Tarjetas de cr�dito - Solicitud y L�mites": {
-          "p": 6,
-          "d": 3,
-          "s": 9,
-          "nps": 33.33
-        },
-        "Funcionalidades de tarjetas de Cr�dito": {
-          "p": 5,
-          "d": 3,
-          "s": 8,
-          "nps": 25.0
-        },
-        "Cancelaci�n de cuenta": {
-          "p": 3,
-          "d": 1,
-          "s": 4,
-          "nps": 50.0
-        },
-        "Acreditaci�n de Pagos - Payers": {
-          "p": 2,
-          "d": 1,
-          "s": 3,
-          "nps": 33.33
-        },
-        "Point - Log�stica": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
-        },
-        "Consumer Credits - Solicitud y L�mites": {
-          "p": 1,
-          "d": 1,
-          "s": 2,
-          "nps": 0.0
-        },
-        "Merchant Credits - Solicitud y L�mites": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
-        },
-        "Prevenci�n de Fraude - Vendedor - PNR C": {
-          "p": 0,
-          "d": 1,
-          "s": 1,
-          "nps": -100.0
-        },
-        "Funcionalidades de tarjetas de d�bito": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
-        },
-        "Gesti�n de Publicaci�n": {
-          "p": 0,
-          "d": 1,
-          "s": 1,
-          "nps": -100.0
-        },
-        "PR - T�cnica prohibida Masivos": {
-          "p": 0,
-          "d": 1,
-          "s": 1,
-          "nps": -100.0
-        },
         "SHS - MED - Funcionalidades": {
           "p": 1,
           "d": 0,
           "s": 1,
           "nps": 100.0
-        },
-        "Asignaci�n del Contactanos Cuenta Marketplace": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
-        },
-        "Asignaci�n del Cont�ctanos Masivos": {
-          "p": 0,
-          "d": 1,
-          "s": 1,
-          "nps": -100.0
-        },
-        "Financiamiento de veh�culos - Prendarios": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
-        },
-        "Funcionalidades de tarjetas de D�bito y Cr�dito": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
-        },
-        "Facturaci�n": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
-        },
-        "Asignaci�n del cont�ctanos Mature Ventas": {
-          "p": 0,
-          "d": 0,
-          "s": 1,
-          "nps": 0.0
-        },
-        "Asignaci�n del Contactanos MP Cards": {
-          "p": 0,
-          "d": 1,
-          "s": 1,
-          "nps": -100.0
         }
       },
       "M2": {
@@ -17864,24 +17678,6 @@
           "d": 1,
           "s": 1,
           "nps": -100.0
-        },
-        "Caja Vac�a - DS": {
-          "p": 16,
-          "d": 7,
-          "s": 24,
-          "nps": 37.5
-        },
-        "Caja Vac�a - XD": {
-          "p": 9,
-          "d": 4,
-          "s": 13,
-          "nps": 38.46
-        },
-        "Asignaci�n del Cont�ctanos PDD DS&XD": {
-          "p": 0,
-          "d": 1,
-          "s": 1,
-          "nps": -100.0
         }
       },
       "M2": {
@@ -21288,18 +21084,6 @@
           "d": 9,
           "s": 99,
           "nps": 75.8
-        },
-        "Asignaci�n del Cont�ctanos PDD FBM": {
-          "p": 14,
-          "d": 19,
-          "s": 36,
-          "nps": -13.89
-        },
-        "Caja Vac�a - FBM": {
-          "p": 8,
-          "d": 1,
-          "s": 9,
-          "nps": 77.78
         }
       },
       "M2": {
@@ -25155,12 +24939,6 @@
           "p": 1,
           "d": 0,
           "s": 1,
-          "nps": 100.0
-        },
-        "Asignaci�n del Cont�ctanos PDDMP Flex": {
-          "p": 3,
-          "d": 0,
-          "s": 3,
           "nps": 100.0
         }
       },
@@ -31740,27 +31518,15 @@
     "P": {
       "M1": {
         "Reputación": {
-          "p": 264,
-          "d": 43,
-          "s": 339,
-          "nps": 65.19
+          "p": 534,
+          "d": 86,
+          "s": 686,
+          "nps": 65.31
         },
         "Anulación de Venta": {
-          "p": 5,
-          "d": 2,
-          "s": 7,
-          "nps": 42.86
-        },
-        "Reputaci�n": {
-          "p": 270,
-          "d": 43,
-          "s": 347,
-          "nps": 65.42
-        },
-        "Anulaci�n de Venta": {
-          "p": 5,
-          "d": 2,
-          "s": 7,
+          "p": 10,
+          "d": 4,
+          "s": 14,
           "nps": 42.86
         }
       },
@@ -32075,27 +31841,15 @@
     "P": {
       "M1": {
         "Reputación": {
-          "p": 309,
-          "d": 11,
-          "s": 328,
-          "nps": 90.85
+          "p": 642,
+          "d": 24,
+          "s": 684,
+          "nps": 90.35
         },
         "Anulación de Venta": {
-          "p": 1,
+          "p": 2,
           "d": 0,
-          "s": 1,
-          "nps": 100.0
-        },
-        "Reputaci�n": {
-          "p": 333,
-          "d": 13,
-          "s": 356,
-          "nps": 89.89
-        },
-        "Anulaci�n de Venta": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
+          "s": 2,
           "nps": 100.0
         }
       },
@@ -32380,28 +32134,16 @@
     "P": {
       "M1": {
         "Reputación": {
-          "p": 720,
-          "d": 101,
-          "s": 891,
-          "nps": 69.47
+          "p": 1472,
+          "d": 207,
+          "s": 1824,
+          "nps": 69.35
         },
         "Anulación de Venta": {
-          "p": 27,
-          "d": 5,
-          "s": 33,
-          "nps": 66.67
-        },
-        "Reputaci�n": {
-          "p": 752,
-          "d": 106,
-          "s": 933,
-          "nps": 69.24
-        },
-        "Anulaci�n de Venta": {
-          "p": 28,
-          "d": 5,
-          "s": 34,
-          "nps": 67.65
+          "p": 55,
+          "d": 10,
+          "s": 67,
+          "nps": 67.16
         }
       },
       "M2": {
@@ -32727,9 +32469,9 @@
     "P": {
       "M1": {
         "Gestión de Publicación": {
-          "p": 43,
-          "d": 8,
-          "s": 63,
+          "p": 86,
+          "d": 16,
+          "s": 126,
           "nps": 55.56
         },
         "PR - Técnica prohibida": {
@@ -32779,24 +32521,6 @@
           "d": 1,
           "s": 5,
           "nps": 60.0
-        },
-        "Gesti�n de Publicaci�n": {
-          "p": 43,
-          "d": 8,
-          "s": 63,
-          "nps": 55.56
-        },
-        "PR - T�cnica prohibida": {
-          "p": 44,
-          "d": 7,
-          "s": 57,
-          "nps": 64.91
-        },
-        "PR - Art�culos prohibidos": {
-          "p": 15,
-          "d": 5,
-          "s": 21,
-          "nps": 47.62
         }
       },
       "M2": {
@@ -33194,10 +32918,10 @@
           "nps": 87.34
         },
         "Gestión de Publicación": {
-          "p": 15,
-          "d": 5,
-          "s": 20,
-          "nps": 50.0
+          "p": 32,
+          "d": 12,
+          "s": 44,
+          "nps": 45.45
         },
         "PR - Propiedad intelectual": {
           "p": 17,
@@ -33235,31 +32959,7 @@
           "s": 1,
           "nps": 100.0
         },
-        "PR - T�cnica prohibida": {
-          "p": 93,
-          "d": 5,
-          "s": 100,
-          "nps": 88.0
-        },
-        "Gesti�n de Publicaci�n": {
-          "p": 17,
-          "d": 7,
-          "s": 24,
-          "nps": 41.67
-        },
-        "PR - Art�culos prohibidos": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
-        },
         "PR - Datos Personales": {
-          "p": 1,
-          "d": 0,
-          "s": 1,
-          "nps": 100.0
-        },
-        "Asignaci�n del Cont�ctanos - Prustomer": {
           "p": 1,
           "d": 0,
           "s": 1,
@@ -33607,10 +33307,10 @@
           "nps": 65.7
         },
         "Gestión de Publicación": {
-          "p": 184,
-          "d": 34,
-          "s": 247,
-          "nps": 60.73
+          "p": 371,
+          "d": 68,
+          "s": 498,
+          "nps": 60.84
         },
         "PR - Técnica prohibida": {
           "p": 180,
@@ -33659,24 +33359,6 @@
           "d": 6,
           "s": 23,
           "nps": 39.1
-        },
-        "Gesti�n de Publicaci�n": {
-          "p": 187,
-          "d": 34,
-          "s": 251,
-          "nps": 60.96
-        },
-        "PR - T�cnica prohibida": {
-          "p": 188,
-          "d": 27,
-          "s": 237,
-          "nps": 67.93
-        },
-        "PR - Art�culos prohibidos": {
-          "p": 91,
-          "d": 29,
-          "s": 127,
-          "nps": 48.82
         }
       },
       "M2": {

@@ -1444,30 +1444,37 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   var pA = isMes ? 'M2' : (isVigPeriod ? (hasVigBk ? 'S1' : 'S2') : 'S2');
   var pB = isMes ? 'M1' : (isVigPeriod ? (hasVigBk ? 'VIG' : 'S1') : 'S1');
 
+  // ── Helper: normaliza chaves (elimina mojibake/FFFD) ──
+  function normKey(k){{
+    return k.replace(/�/g,'o')
+            .normalize('NFD').replace(/[̀-ͯ]/g,'')
+            .toLowerCase().trim();
+  }}
+  function recomputeNps(obj){{
+    Object.keys(obj).forEach(function(k){{
+      var v=obj[k]; obj[k].nps=v.s>0?(v.p-v.d)/v.s*100:null;
+    }});
+  }}
+
   // ── DADOS QUANTITATIVOS (estrutura correta: bkData[dim][periodo][nome]) ──
   function getDimData(dim) {{
     var dd = (bkData||{{}})[dim] || {{}};
-    var dA = dd[pA] || {{}};  // {{nome_processo: {{p,d,s,nps}}}}
+    var dA = dd[pA] || {{}};
     var dB = dd[pB] || {{}};
-    // Normalizar chaves para evitar duplicatas por encoding (ex: "ReputaciÃ³n" vs "Reputación")
-    function normKey(k){{ return k.normalize('NFC').trim(); }}
-    var mergedA={{}}, mergedB={{}};
+    var mergedA={{}}, mergedB={{}}, dispKeys={{}};
     Object.keys(dA).forEach(function(k){{
       var nk=normKey(k); var v=dA[k]||{{p:0,d:0,s:0,nps:null}};
+      // Guardar o nome de display mais limpo (sem FFFD)
+      if(!dispKeys[nk]||k.indexOf('�')<0) dispKeys[nk]=k;
       if(mergedA[nk]){{ mergedA[nk].p+=(v.p||0); mergedA[nk].d+=(v.d||0); mergedA[nk].s+=(v.s||0); }}
       else {{ mergedA[nk]={{p:v.p||0,d:v.d||0,s:v.s||0,nps:v.nps}}; }}
     }});
     Object.keys(dB).forEach(function(k){{
       var nk=normKey(k); var v=dB[k]||{{p:0,d:0,s:0,nps:null}};
+      if(!dispKeys[nk]||k.indexOf('�')<0) dispKeys[nk]=k;
       if(mergedB[nk]){{ mergedB[nk].p+=(v.p||0); mergedB[nk].d+=(v.d||0); mergedB[nk].s+=(v.s||0); }}
       else {{ mergedB[nk]={{p:v.p||0,d:v.d||0,s:v.s||0,nps:v.nps}}; }}
     }});
-    // Recomputar nps a partir de p/d/s nos grupos mergeados
-    function recomputeNps(obj){{
-      Object.keys(obj).forEach(function(k){{
-        var v=obj[k]; obj[k].nps=v.s>0?(v.p-v.d)/v.s*100:null;
-      }});
-    }}
     recomputeNps(mergedA); recomputeNps(mergedB);
     var keys = Object.keys(Object.assign({{}}, mergedA, mergedB));
     var totSA=0, totSB=0, totPB=0, totDB=0;
@@ -1485,7 +1492,7 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
       var impact=Math.round((neto+mix)*100)/100;
       var gapT=(tgt!==null&&nB!==null)?Math.round((nB-tgt)*100)/100:null;
       var delta=(nA!==null&&nB!==null)?Math.round((nB-nA)*100)/100:null;
-      return {{k:k, nA:nA, nB:nB, shaB:Math.round(shaB*1000)/10, impact:impact, gapT:gapT, delta:delta, sB:b.s||0}};
+      return {{k:dispKeys[k]||k, nA:nA, nB:nB, shaB:Math.round(shaB*1000)/10, impact:impact, gapT:gapT, delta:delta, sB:b.s||0}};
     }}).filter(function(x){{return x.sB>0||x.nB!==null;}}).sort(function(a,b){{return a.impact-b.impact;}});
   }}
   var procs   = getDimData('P');
@@ -1496,18 +1503,23 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   function getMixData(dim) {{
     var dd=(bkData||{{}})[dim]||{{}};
     var dA=dd[pA]||{{}}, dB=dd[pB]||{{}};
-    var keys=Object.keys(Object.assign({{}},dA,dB));
+    // Merge duplicates by normKey
+    var mA={{}},mB={{}},mDisp={{}};
+    Object.keys(dA).forEach(function(k){{var nk=normKey(k);if(!mDisp[nk]||k.indexOf('�')<0)mDisp[nk]=k;var v=dA[k]||{{s:0,p:0,d:0,nps:null}};if(mA[nk]){{mA[nk].s+=(v.s||0);mA[nk].p+=(v.p||0);mA[nk].d+=(v.d||0);}}else{{mA[nk]={{s:v.s||0,p:v.p||0,d:v.d||0,nps:v.nps}};}}}});
+    Object.keys(dB).forEach(function(k){{var nk=normKey(k);if(!mDisp[nk]||k.indexOf('�')<0)mDisp[nk]=k;var v=dB[k]||{{s:0,p:0,d:0,nps:null}};if(mB[nk]){{mB[nk].s+=(v.s||0);mB[nk].p+=(v.p||0);mB[nk].d+=(v.d||0);}}else{{mB[nk]={{s:v.s||0,p:v.p||0,d:v.d||0,nps:v.nps}};}}}});
+    recomputeNps(mA); recomputeNps(mB);
+    var keys=Object.keys(Object.assign({{}},mA,mB));
     var totSA=0,totSB=0,totPB=0,totDB=0;
-    keys.forEach(function(k){{var a=dA[k]||{{s:0}};var b=dB[k]||{{s:0,p:0,d:0}};totSA+=a.s||0;totSB+=b.s||0;totPB+=b.p||0;totDB+=b.d||0;}});
+    keys.forEach(function(k){{var a=mA[k]||{{s:0}};var b=mB[k]||{{s:0,p:0,d:0}};totSA+=a.s||0;totSB+=b.s||0;totPB+=b.p||0;totDB+=b.d||0;}});
     var npsConsol=totSB>0?(totPB-totDB)/totSB*100:null;
     return keys.map(function(k){{
-      var a=dA[k]||{{s:0,nps:null}};var b=dB[k]||{{s:0,nps:null}};
+      var a=mA[k]||{{s:0,nps:null}};var b=mB[k]||{{s:0,nps:null}};
       var shaA=totSA>0?(a.s||0)/totSA:0;var shaB=totSB>0?(b.s||0)/totSB:0;
-      var deltaSha=Math.round((shaB-shaA)*1000)/10;  // mudanca de share em pp
+      var deltaSha=Math.round((shaB-shaA)*1000)/10;
       var nA=a.nps,nB=b.nps;
       var neto=shaA>0&&nA!==null&&nB!==null?Math.round(shaA*(nB-nA)*100)/100:0;
       var mix=nB!==null&&npsConsol!==null?Math.round((shaB-shaA)*(nB-npsConsol)*100)/100:0;
-      return {{k:k,nA:nA,nB:nB,shaA:Math.round(shaA*1000)/10,shaB:Math.round(shaB*1000)/10,
+      return {{k:mDisp[k]||k,nA:nA,nB:nB,shaA:Math.round(shaA*1000)/10,shaB:Math.round(shaB*1000)/10,
                deltaSha:deltaSha,neto:neto,mix:mix,sB:b.s||0,
                aboveAvg:nB!==null&&npsConsol!==null?nB>npsConsol:null}};
     }}).filter(function(x){{return x.sB>0||x.nB!==null;}});
