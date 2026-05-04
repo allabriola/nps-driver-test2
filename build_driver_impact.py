@@ -1518,8 +1518,8 @@ try {{ Chart.register(ChartDataLabels); }} catch(e) {{ console.warn('Chart.regis
 requestAnimationFrame(function() {{
   requestAnimationFrame(function() {{
     {js_charts("all", V_ALL)}{js_charts("sel", V_SEL)}
-    try {{ buildWaterfall('c-all-vig-wow',{V_ALL_VIG['nS2']},{V_ALL_VIG['nS1']},'{S1_LABEL}','{VIG_LABEL} ⚡',{V_ALL_VIG['wow_json']},{V_ALL_VIG['wow_ybase']}); }} catch(e) {{}}
-    try {{ buildWaterfall('c-sel-vig-wow',{V_SEL_VIG['nS2']},{V_SEL_VIG['nS1']},'{S1_LABEL}','{VIG_LABEL} ⚡',{V_SEL_VIG['wow_json']},{V_SEL_VIG['wow_ybase']}); }} catch(e) {{}}
+    try {{ buildWaterfall('c-all-vig-wow',{V_ALL_VIG['nS2'] or 'null'},{V_ALL_VIG['nS1'] or 'null'},'{S1_LABEL}','{VIG_LABEL} ⚡',{V_ALL_VIG['wow_json']},{V_ALL_VIG['wow_ybase'] or 'null'}); }} catch(e) {{}}
+    try {{ buildWaterfall('c-sel-vig-wow',{V_SEL_VIG['nS2'] or 'null'},{V_SEL_VIG['nS1'] or 'null'},'{S1_LABEL}','{VIG_LABEL} ⚡',{V_SEL_VIG['wow_json']},{V_SEL_VIG['wow_ybase'] or 'null'}); }} catch(e) {{}}
     var allDrvs = Object.keys(DRV_HIST);
     var selDrvs = allDrvs.filter(function(d){{ return {json.dumps(list(monthly_driver_sel.keys()))}.indexOf(d)>=0; }});
     try {{ buildEvolTable('evol-mes-all', allDrvs, 'monthly', {V_ALL['nps_target']}); }} catch(e) {{ console.warn('evol-mes-all',e); }}
@@ -1529,10 +1529,10 @@ requestAnimationFrame(function() {{
     // Visao Estrategica — inicializar apos graficos
     try {{ buildStrategicSummary('strategic-sel-mes','mes',{V_SEL['mom_json']},{V_SEL['vt_json']},{V_SEL['nM1']},{V_SEL['nM2']},{V_SEL['nps_target']}); }} catch(e) {{}}
     try {{ buildStrategicSummary('strategic-sel-sem','sem',{V_SEL['wow_json']},{V_SEL['vt_json']},{V_SEL['nS1']},{V_SEL['nS2']},{V_SEL['nps_target']}); }} catch(e) {{}}
-    try {{ buildStrategicSummary('strategic-sel-vig','vig',{V_SEL_VIG['wow_json']},{V_SEL_VIG['vt_json']},{V_SEL_VIG['nS1']},{V_SEL_VIG['nS2']},{V_SEL_VIG['nps_target']}); }} catch(e) {{}}
+    try {{ buildStrategicSummary('strategic-sel-vig','vig',{V_SEL_VIG['wow_json']},{V_SEL_VIG['vt_json']},{V_SEL_VIG['nS1'] or 'null'},{V_SEL_VIG['nS2'] or 'null'},{V_SEL_VIG['nps_target']}); }} catch(e) {{}}
     try {{ buildStrategicSummary('strategic-all-mes','mes',{V_ALL['mom_json']},{V_ALL['vt_json']},{V_ALL['nM1']},{V_ALL['nM2']},{V_ALL['nps_target']}); }} catch(e) {{}}
     try {{ buildStrategicSummary('strategic-all-sem','sem',{V_ALL['wow_json']},{V_ALL['vt_json']},{V_ALL['nS1']},{V_ALL['nS2']},{V_ALL['nps_target']}); }} catch(e) {{}}
-    try {{ buildStrategicSummary('strategic-all-vig','vig',{V_ALL_VIG['wow_json']},{V_ALL_VIG['vt_json']},{V_ALL_VIG['nS1']},{V_ALL_VIG['nS2']},{V_ALL_VIG['nps_target']}); }} catch(e) {{}}
+    try {{ buildStrategicSummary('strategic-all-vig','vig',{V_ALL_VIG['wow_json']},{V_ALL_VIG['vt_json']},{V_ALL_VIG['nS1'] or 'null'},{V_ALL_VIG['nS2'] or 'null'},{V_ALL_VIG['nps_target']}); }} catch(e) {{}}
   }});
 }});
 
