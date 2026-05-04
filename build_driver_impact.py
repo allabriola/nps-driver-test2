@@ -1219,17 +1219,146 @@ function buildStrategicSummary(containerId, period, drvData, vtData, npsB, npsA,
 
   // Conclusao
   var concl=atRisk.length===0&&watchList.length===0
-    ? '✅ Todos os drivers estão acima do target neste período. Manter monitoramento semanal.'
+    ? '&#9989; Todos os drivers estao acima do target neste periodo. Manter monitoramento semanal.'
     : 'Prioridade: <b>'+atRisk.slice(0,2).join(' e ')+(atRisk.length>2?' e mais '+(atRisk.length-2):'')+
-      '</b>. Acesse o Deep Dive de cada driver para causa-raiz e plano de ação.'+
-      (watchList.length>0?' Em observação: '+watchList.slice(0,2).join(', ')+'.':'');
+      '</b>. Acesse o Deep Dive de cada driver para causa-raiz e plano de acao.'+
+      (watchList.length>0?' Em observacao: '+watchList.slice(0,2).join(', ')+'.':'');
   html+='<div style="background:#e8f5e9;border-radius:8px;padding:8px 12px;border:1px solid #a5d6a7">'+
-    '<div style="font-size:10px;font-weight:700;color:#1b5e20;margin-bottom:3px">◎ CONCLUSÃO ESTRATÉGICA</div>'+
+    '<div style="font-size:10px;font-weight:700;color:#1b5e20;margin-bottom:3px">&#9711; CONCLUSAO ESTRATEGICA</div>'+
     '<div style="font-size:11px;color:#1a3c1a;line-height:1.5">'+concl+'</div>'+
   '</div>';
 
+  // ── RESUMO EXECUTIVO: PROMOTOR vs OFENSOR ──────────────────────────────────
+  var strat = (typeof DD_SUMMARIES !== 'undefined' && DD_SUMMARIES['_strategic']) ?
+              DD_SUMMARIES['_strategic'][period] : null;
+  if (strat && (strat.best || strat.worst)) {{
+    html += buildStrategicDriverCards(strat, period);
+  }}
+
   html+='</div></div>';
   el.innerHTML=html;
+}}
+
+// ── Resumo Executivo dos drivers Promotor e Ofensor ────────────────────────
+function buildStrategicDriverCards(strat, period) {{
+  function fN(v){{ return v!=null?parseFloat(v).toFixed(1)+'%':'—'; }}
+  function fD(v){{ return v!=null?(parseFloat(v)>=0?'+':'')+parseFloat(v).toFixed(2)+'pp':'—'; }}
+  function fI(v){{ return v!=null?(parseFloat(v)>=0?'+':'')+parseFloat(v).toFixed(3)+'pp':'—'; }}
+
+  function cduLine(cdu_obj, dir) {{
+    if (!cdu_obj || (!cdu_obj.cdu && !cdu_obj.sol)) return '';
+    var col = dir==='queda'?'#b71c1c':'#1b5e20';
+    var icon = dir==='queda'?'&#9660;':'&#9650;';
+    var lbl = dir==='queda'?'CDU em queda':'CDU em alta';
+    var delta = cdu_obj.delta != null ? fD(cdu_obj.delta) : '';
+    return '<div style="font-size:10px;margin-top:4px;padding:3px 7px;background:'+(dir==='queda'?'#fff5f5':'#f1f8f3')+';border-radius:5px;border-left:2px solid '+col+'">'+
+      icon+' <b style="color:'+col+'">'+lbl+':</b> '+
+      (cdu_obj.cdu?cdu_obj.cdu.substring(0,40):'')+
+      (cdu_obj.sol?' / '+cdu_obj.sol.substring(0,40):'')+
+      (delta?' <span style="color:'+col+';font-weight:600">('+delta+')</span>':'')+
+    '</div>';
+  }}
+
+  function vocLines(lines, tipo) {{
+    if (!lines || !lines.length) return '';
+    var col = tipo==='det'?'#b71c1c':'#1b5e20';
+    return '<div style="margin-top:5px">'+
+      '<div style="font-size:9px;font-weight:700;color:'+col+';margin-bottom:3px">'+(tipo==='det'?'&#128308; DETRATORES':'&#128994; PROMOTORES')+'</div>'+
+      lines.slice(0,2).map(function(l){{
+        return '<div style="font-size:10px;color:#333;padding:2px 5px;background:'+(tipo==='det'?'#fff5f5':'#f1f8f3')+';border-radius:4px;margin-bottom:2px">'+l.substring(0,110)+'</div>';
+      }}).join('')+
+    '</div>';
+  }}
+
+  function driverCard(data, isBest) {{
+    if (!data) return '';
+    var mainColor = isBest ? '#1b5e20' : '#b71c1c';
+    var bgColor   = isBest ? '#f1f8f3' : '#fff5f5';
+    var bdrColor  = isBest ? '#a5d6a7' : '#ffcdd2';
+    var icon      = isBest ? '&#128200;' : '&#128201;';
+    var title     = isBest ? 'DRIVER MAIS PROMOTOR' : 'DRIVER MAIS OFENSOR';
+    var delta     = data.delta != null ? parseFloat(data.delta) : null;
+    var contrib   = data.contribution != null ? parseFloat(data.contribution) : null;
+
+    return '<div style="border:1px solid '+bdrColor+';border-radius:10px;overflow:hidden">'+
+      // Header
+      '<div style="background:'+mainColor+';padding:8px 13px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px">'+
+        '<div style="display:flex;align-items:center;gap:6px">'+
+          '<span style="font-size:13px">'+icon+'</span>'+
+          '<span style="color:#fff;font-weight:700;font-size:11px">'+title+'</span>'+
+          '<span style="color:rgba(255,255,255,.75);font-size:10px">&mdash; '+data.driver+'</span>'+
+        '</div>'+
+        '<div style="color:#fff;font-size:10px;font-weight:600">'+
+          'NPS '+fN(data.nps_a)+'&rarr;'+fN(data.nps_b)+
+          ' <span style="font-size:11px">('+fD(delta)+')</span>'+
+          ' &middot; Contrib.: '+fI(contrib)+
+        '</div>'+
+      '</div>'+
+      // Body
+      '<div style="padding:10px 13px;background:'+bgColor+'">'+
+        // Processo + impacto
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">'+
+          '<div style="background:#fff;border-radius:7px;padding:8px 10px;border:1px solid '+bdrColor+'">'+
+            '<div style="font-size:9px;font-weight:700;color:'+mainColor+';margin-bottom:4px">PROCESSO MAIS IMPACTANTE</div>'+
+            '<div style="font-size:11px;font-weight:600;color:#1a1e3c;margin-bottom:3px">'+data.top_process+'</div>'+
+            '<div style="font-size:10px;color:#555">'+
+              'NPS: '+fN(data.process_nps_a)+'&rarr;<b style="color:'+mainColor+'">'+fN(data.process_nps_b)+'</b>'+
+              ' ('+fD(data.process_delta)+')<br>'+
+              'Impacto: <b style="color:'+mainColor+'">'+fI(data.process_impact)+'</b>'+
+              ' &middot; '+data.process_share+'% do vol.'+
+            '</div>'+
+            cduLine(data.top_cdu_queda, 'queda')+
+            cduLine(data.top_cdu_alta, 'alta')+
+          '</div>'+
+          // Canal + Senioridade
+          '<div style="background:#fff;border-radius:7px;padding:8px 10px;border:1px solid '+bdrColor+'">'+
+            (data.canal ?
+              '<div style="font-size:9px;font-weight:700;color:'+mainColor+';margin-bottom:3px">CANAL</div>'+
+              '<div style="font-size:10px;color:#333;margin-bottom:6px">'+data.canal+'</div>' : '')+
+            (data.senioridade ?
+              '<div style="font-size:9px;font-weight:700;color:'+mainColor+';margin-bottom:3px">SENIORIDADE</div>'+
+              (data.senioridade.Expert ? '<div style="font-size:10px;color:#333">&#127775; Expert: '+data.senioridade.Expert+'</div>' : '')+
+              (data.senioridade.Newbie ? '<div style="font-size:10px;color:#333">&#128164; Newbie: '+data.senioridade.Newbie+'</div>' : '') : '')+
+          '</div>'+
+        '</div>'+
+        // Conclusão
+        (data.conclusao ?
+          '<div style="background:#fff;border-radius:7px;padding:8px 10px;margin-bottom:6px;border:1px solid '+bdrColor+';border-left:3px solid '+mainColor+'">'+
+            '<div style="font-size:9px;font-weight:700;color:'+mainColor+';margin-bottom:3px">CONCLUSAO &mdash; POR QUE '+(isBest?'SUBIMOS':'CA&Iacute;MOS')+'</div>'+
+            '<p style="font-size:11px;color:#1a1e3c;line-height:1.6;margin:0">'+data.conclusao+'</p>'+
+          '</div>' : '')+
+        // Oportunidade operacional
+        (data.oportunidade ?
+          '<div style="background:#fff;border-radius:7px;padding:8px 10px;margin-bottom:6px;border:1px solid '+bdrColor+'">'+
+            '<div style="font-size:9px;font-weight:700;color:'+mainColor+';margin-bottom:3px">&#127919; OPORTUNIDADE OPERACIONAL</div>'+
+            '<p style="font-size:11px;color:#333;line-height:1.5;margin:0">'+data.oportunidade+'</p>'+
+          '</div>' : '')+
+        // VoC
+        (data.voc_det || data.voc_pro ?
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">'+
+            (data.voc_pro && data.voc_pro.length ? '<div>'+vocLines(data.voc_pro,'pro')+'</div>' : '<div></div>')+
+            (data.voc_det && data.voc_det.length ? '<div>'+vocLines(data.voc_det,'det')+'</div>' : '<div></div>')+
+          '</div>' : '')+
+      '</div>'+
+    '</div>';
+  }}
+
+  return (
+    '<div style="margin-top:14px;border:2px solid #546e7a;border-radius:12px;overflow:hidden">'+
+    '<div style="background:#546e7a;padding:9px 16px;display:flex;align-items:center;justify-content:space-between">'+
+      '<div style="display:flex;align-items:center;gap:8px">'+
+        '<span style="font-size:14px">&#128172;</span>'+
+        '<span style="color:#fff;font-weight:700;font-size:12px">Resumo Executivo &mdash; Driver Promotor vs Ofensor</span>'+
+      '</div>'+
+      '<span style="color:#b0bec5;font-size:10px">'+strat.periodo+'</span>'+
+    '</div>'+
+    '<div style="padding:12px 16px;background:#f5f6f8">'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">'+
+      driverCard(strat.best, true)+
+      driverCard(strat.worst, false)+
+    '</div>'+
+    '</div></div>'
+  );
 }}
 
 function shorten(s, n) {{

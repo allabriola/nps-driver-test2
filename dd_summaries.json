@@ -1428,5 +1428,283 @@
         "gerado_em": "2026-05-04 — S1 27/abr-03/mai"
       }
     }
+  },
+  "_strategic": {
+    "sem": {
+      "periodo": "WoW: S2 (20/abr-26/abr) vs S1 (27/abr-03/mai)",
+      "best_driver": "ME Vendedor Seller Dev",
+      "worst_driver": "Publicaciones Seller Dev",
+      "best": {
+        "driver": "ME Vendedor Seller Dev",
+        "nps_a": 69.27,
+        "nps_b": 72.68,
+        "delta": 3.41,
+        "contribution": 1.249,
+        "top_process": "Reputação ME",
+        "process_nps_a": 82.95,
+        "process_nps_b": 85.54,
+        "process_delta": 2.59,
+        "process_impact": 1.468,
+        "process_share": 46.6,
+        "top_cdu_queda": {
+          "cdu": "",
+          "sol": "",
+          "delta": 0
+        },
+        "top_cdu_alta": {
+          "cdu": "",
+          "sol": "",
+          "delta": 0
+        },
+        "canal": "MULTICANAL CHAT: 69.6% (+3.1pp, 83% vol) | MULTICANAL C2C: 67.9% (+3.2pp, 17% vol)",
+        "senioridade": {
+          "Expert": "NPS 70.8% (-0.5pp, 472 surv)",
+          "Newbie": "NPS 67.0% (+5.2pp, 412 surv)"
+        },
+        "oportunidade": "Educacao proativa em categorias especiais de envio gerou +53pp no CDU correspondente. Canal Chat (+3.1pp) performa acima da media — boas praticas replicaveis. Newbie cresceu +5.2pp WoW — metodologia de desenvolvimento escalavel. Logistica Places com NPS 87.5%: entender mudanca operacional que sustenta o resultado.",
+        "conclusao": "Reputacao ME e o principal motor do driver, sustentando NPS 85.5% com ganho de +2.6pp WoW. CDU 'Envio pelo V: categorias especiais' subiu +53pp quando rep explica regras de custo proativamente. Risco: CDU 'Desativar ME' caiu -30pp — restricao sistemica sem solucao para o agente, gerando detratores estruturais independente da qualidade do atendimento.",
+        "voc_pro": [
+          "[EXPERT] Atendimento solícito por parta da atendente Ronsangela. Ótima experiência e conclusão do problema. ",
+          "[EXPERT] Atenção e resolução eficiente! Recomendo ",
+          "[EXPERT] Houve uma situação que pode ser solociobada vom o atendimento pelo whatsapp e tudo ficou resolvido r",
+          "[NEWBIE] Super atencioso educado com muita paciência, porem nao conseguiu resolver meu problema "
+        ],
+        "voc_det": [
+          "[NEWBIE] Não resolveu mas me ajudou",
+          "[EXPERT] Esse IA não funciona, o mercado livre não gera etiqueta correta e só dá transtorno ao vendedor",
+          "[NEWBIE] Demora no atendimento WhatsApp e numca resolvem nada",
+          "[EXPERT] Muitas questões são resolvidas com IA , fica complicado obter uma resposta mais acertiva. "
+        ],
+        "gerado_em": "2026-05-04"
+      },
+      "worst": {
+        "driver": "Publicaciones Seller Dev",
+        "nps_a": 62.89,
+        "nps_b": 56.67,
+        "delta": -6.22,
+        "contribution": -0.781,
+        "top_process": "Denuncia de usuario",
+        "process_nps_a": 81.2,
+        "process_nps_b": 29.4,
+        "process_delta": -51.8,
+        "process_impact": -1.457,
+        "process_share": 3.0,
+        "top_cdu_queda": {
+          "cdu": "",
+          "sol": "",
+          "delta": 0
+        },
+        "top_cdu_alta": {
+          "cdu": "",
+          "sol": "",
+          "delta": 0
+        },
+        "canal": "MULTICANAL CHAT: 71.5% (+1.3pp, 82% vol) | MULTICANAL C2C: 23.6% (-0.5pp, 17% vol)",
+        "senioridade": {
+          "Expert": "NPS 75.3% (+4.2pp, 194 surv)",
+          "Newbie": "NPS 61.8% (+6.7pp, 437 surv)"
+        },
+        "oportunidade": "Gestao de Publicacao (+13.9pp WoW) mostra que orientacao clara de publicacao melhora NPS. PR-Propiedad Intelectual (+8.5pp) — fluxo de rollback funcionando bem. Afiliados ML concentra 40% do volume: criar SLA de moderacao de videos resolvia o maior gargalo.",
+        "conclusao": "Denuncia de usuario colapsou -51.8pp WoW (NPS 81% para 29%) em apenas 17 surveys. Potenciar Ventas caiu -8.5pp: CDU Clips/Potencializador sem resposta adequada do agente. Afiliados ML (40% vol) apresenta instabilidade estrutural: metricas de comissao opacas e campanhas de video sumindo sem SLA visivel. VoC dominante: nao resolvem, redundancia. Acao urgente: FAQ de elegibilidade + notificacao de moderacao com prazo no app.",
+        "voc_pro": [
+          "[EXPERT] Minha pergunta foi resolvida e muito atenciosos",
+          "[EXPERT] Atendimento excelente, sempre deixa tudo muito bem claro ",
+          "[NEWBIE] muito agil e inteligente",
+          "[NEWBIE] Fui muito bem atendida .Super indico !Deus abençoe ����"
+        ],
+        "voc_det": [
+          "[NEWBIE] Estou como afiliado e minhas porcentagens não entraram e alegaram que eram pessoas que estavam na mi",
+          "[NEWBIE] Gleice ótima atendente ,só isso mesmo ",
+          "[NEWBIE] Não fizeram questão de resolver meu problema e me enrolaram ",
+          "[NEWBIE] Simplesmente não resolvem o problema. Respondem os questionamentos com redundância e o problema nunc"
+        ],
+        "gerado_em": "2026-05-04"
+      },
+      "gerado_em": "2026-05-04"
+    },
+    "mes": {
+      "periodo": "MoM: M2 (Marco 2026) vs M1 (Abril 2026)",
+      "best_driver": "ME Vendedor Seller Dev",
+      "worst_driver": "Publicaciones Seller Dev",
+      "best": {
+        "driver": "ME Vendedor Seller Dev",
+        "nps_a": 67.1,
+        "nps_b": 68.2,
+        "delta": 1.12,
+        "contribution": 0.48,
+        "top_process": "Reputacao ME",
+        "process_nps_a": 80.43,
+        "process_nps_b": 82.65,
+        "process_delta": 2.22,
+        "process_impact": 2.402,
+        "process_share": 62.2,
+        "top_cdu_queda": {
+          "cdu": "Problemas para despachar un paquete/producto",
+          "sol": "Desativar ME: desativamos",
+          "delta": -14.92
+        },
+        "top_cdu_alta": {
+          "cdu": "HT - Ventas",
+          "sol": "Reputação ME Vendas: Logística Places - Não excluímos",
+          "delta": 47.99
+        },
+        "canal": "MULTICANAL CHAT: 70.6% (-0.2pp, 81% vol) | MULTICANAL C2C: 59.1% (+8.9pp, 18% vol) | CHAT: 57.1% (-42.9pp, 0% vol) | (sem canal): -66.7% (-16.7pp, 0% vol)",
+        "senioridade": {
+          "Expert": "NPS 69.5% (+2.1pp, 2403 surv)",
+          "Newbie": "NPS 66.2% (+6.1pp, 1704 surv)"
+        },
+        "oportunidade": "ME Places (Logistica Places) reverteu de NPS -13% para +34.8% (+48pp MoM) — mudanca operacional identificada que e replicavel a outros CDUs de logistica. Despacho Ventas y Publicacoes cresceu +5.7pp MoM — segundo maior ganho de qualidade.",
+        "conclusao": "Reputacao ME lidera crescimento mensal (+2.22pp MoM, +2.40pp de contribuicao ao consolidado). Logistica Places reverteu drasticamente — investigar o que mudou na operacao em Abril. CDU Desativar ME acumulou -14.9pp MoM — deterioracao progressiva por restricao sistemica. Driver opera 10.4pp acima do target com trajetoria consistente ha 5 meses.",
+        "voc_pro": [
+          "[EXPERT] Atendimento solícito por parta da atendente Ronsangela. Ótima experiência e conclusão do problema. ",
+          "[EXPERT] Atenção e resolução eficiente! Recomendo ",
+          "[EXPERT] Houve uma situação que pode ser solociobada vom o atendimento pelo whatsapp e tudo ficou resolvido r",
+          "[NEWBIE] Super atencioso educado com muita paciência, porem nao conseguiu resolver meu problema "
+        ],
+        "voc_det": [
+          "[NEWBIE] Não resolveu mas me ajudou",
+          "[EXPERT] Esse IA não funciona, o mercado livre não gera etiqueta correta e só dá transtorno ao vendedor",
+          "[NEWBIE] Demora no atendimento WhatsApp e numca resolvem nada",
+          "[EXPERT] Muitas questões são resolvidas com IA , fica complicado obter uma resposta mais acertiva. "
+        ],
+        "gerado_em": "2026-05-04"
+      },
+      "worst": {
+        "driver": "Publicaciones Seller Dev",
+        "nps_a": 68.52,
+        "nps_b": 64.13,
+        "delta": -4.33,
+        "contribution": -0.702,
+        "top_process": "Afiliados ML",
+        "process_nps_a": 69.9,
+        "process_nps_b": 65.7,
+        "process_delta": -4.2,
+        "process_impact": -2.233,
+        "process_share": 41.9,
+        "top_cdu_queda": {
+          "cdu": "Clips",
+          "sol": "Potencializador (Clips) - Como funciona",
+          "delta": -52.86
+        },
+        "top_cdu_alta": {
+          "cdu": "Modificar",
+          "sol": "Funcionalidade Preço por variação: Vantagens, posicionamento e participação",
+          "delta": 39.1
+        },
+        "canal": "MULTICANAL CHAT: 70.5% (-1.1pp, 86% vol) | MULTICANAL C2C: 25.7% (-23.4pp, 14% vol)",
+        "senioridade": {
+          "Expert": "NPS 72.3% (+2.1pp, 1018 surv)",
+          "Newbie": "NPS 59.0% (-4.7pp, 1929 surv)"
+        },
+        "oportunidade": "Gestao de Publicacao (+1.1pp MoM) e PR-Articulos prohibidos (+4.8pp) mostram que moderacao com criterio claro gera NPS alto. Criar padroes de resposta para Afiliados ML reduziria o principal gargalo do driver.",
+        "conclusao": "Afiliados ML (42% do volume) e o maior ofensor mensal: -4.2pp MoM, -2.23pp contribuicao. CDU Clips/Potencializador colapsou -52.9pp em Abril — mudanca de produto sem treinamento. CDU Funcionalidade Preco por variacao subiu +39pp: quando produto e bem explicado, NPS e alto. VoC: metricas de comissao nao entrando, redundancia de resposta em casos de Afiliados. Acao: FAQ de elegibilidade de indicacoes + notificacao de status de moderacao com prazo.",
+        "voc_pro": [
+          "[EXPERT] Minha pergunta foi resolvida e muito atenciosos",
+          "[EXPERT] Atendimento excelente, sempre deixa tudo muito bem claro ",
+          "[NEWBIE] muito agil e inteligente",
+          "[NEWBIE] Fui muito bem atendida .Super indico !Deus abençoe ����"
+        ],
+        "voc_det": [
+          "[NEWBIE] Estou como afiliado e minhas porcentagens não entraram e alegaram que eram pessoas que estavam na mi",
+          "[NEWBIE] Gleice ótima atendente ,só isso mesmo ",
+          "[NEWBIE] Não fizeram questão de resolver meu problema e me enrolaram ",
+          "[NEWBIE] Simplesmente não resolvem o problema. Respondem os questionamentos com redundância e o problema nunc"
+        ],
+        "gerado_em": "2026-05-04"
+      },
+      "gerado_em": "2026-05-04"
+    },
+    "vig": {
+      "periodo": "Vigente (referencia: S1 27/abr-03/mai)",
+      "best_driver": "ME Vendedor Seller Dev",
+      "worst_driver": "Publicaciones Seller Dev",
+      "best": {
+        "driver": "ME Vendedor Seller Dev",
+        "nps_a": 69.27,
+        "nps_b": 72.68,
+        "delta": 3.41,
+        "contribution": 1.249,
+        "top_process": "Reputação ME",
+        "process_nps_a": 82.95,
+        "process_nps_b": 85.54,
+        "process_delta": 2.59,
+        "process_impact": 1.468,
+        "process_share": 46.6,
+        "top_cdu_queda": {
+          "cdu": "",
+          "sol": "",
+          "delta": 0
+        },
+        "top_cdu_alta": {
+          "cdu": "",
+          "sol": "",
+          "delta": 0
+        },
+        "canal": "MULTICANAL CHAT: 69.6% (+3.1pp, 83% vol) | MULTICANAL C2C: 67.9% (+3.2pp, 17% vol)",
+        "senioridade": {
+          "Expert": "NPS 70.8% (-0.5pp, 472 surv)",
+          "Newbie": "NPS 67.0% (+5.2pp, 412 surv)"
+        },
+        "oportunidade": "Educacao proativa em categorias especiais de envio gerou +53pp no CDU correspondente. Canal Chat (+3.1pp) performa acima da media — boas praticas replicaveis. Newbie cresceu +5.2pp WoW — metodologia de desenvolvimento escalavel. Logistica Places com NPS 87.5%: entender mudanca operacional que sustenta o resultado.",
+        "conclusao": "Reputacao ME e o principal motor do driver, sustentando NPS 85.5% com ganho de +2.6pp WoW. CDU 'Envio pelo V: categorias especiais' subiu +53pp quando rep explica regras de custo proativamente. Risco: CDU 'Desativar ME' caiu -30pp — restricao sistemica sem solucao para o agente, gerando detratores estruturais independente da qualidade do atendimento.",
+        "voc_pro": [
+          "[EXPERT] Atendimento solícito por parta da atendente Ronsangela. Ótima experiência e conclusão do problema. ",
+          "[EXPERT] Atenção e resolução eficiente! Recomendo ",
+          "[EXPERT] Houve uma situação que pode ser solociobada vom o atendimento pelo whatsapp e tudo ficou resolvido r",
+          "[NEWBIE] Super atencioso educado com muita paciência, porem nao conseguiu resolver meu problema "
+        ],
+        "voc_det": [
+          "[NEWBIE] Não resolveu mas me ajudou",
+          "[EXPERT] Esse IA não funciona, o mercado livre não gera etiqueta correta e só dá transtorno ao vendedor",
+          "[NEWBIE] Demora no atendimento WhatsApp e numca resolvem nada",
+          "[EXPERT] Muitas questões são resolvidas com IA , fica complicado obter uma resposta mais acertiva. "
+        ],
+        "gerado_em": "2026-05-04"
+      },
+      "worst": {
+        "driver": "Publicaciones Seller Dev",
+        "nps_a": 62.89,
+        "nps_b": 56.67,
+        "delta": -6.22,
+        "contribution": -0.781,
+        "top_process": "Denuncia de usuario",
+        "process_nps_a": 81.2,
+        "process_nps_b": 29.4,
+        "process_delta": -51.8,
+        "process_impact": -1.457,
+        "process_share": 3.0,
+        "top_cdu_queda": {
+          "cdu": "",
+          "sol": "",
+          "delta": 0
+        },
+        "top_cdu_alta": {
+          "cdu": "",
+          "sol": "",
+          "delta": 0
+        },
+        "canal": "MULTICANAL CHAT: 71.5% (+1.3pp, 82% vol) | MULTICANAL C2C: 23.6% (-0.5pp, 17% vol)",
+        "senioridade": {
+          "Expert": "NPS 75.3% (+4.2pp, 194 surv)",
+          "Newbie": "NPS 61.8% (+6.7pp, 437 surv)"
+        },
+        "oportunidade": "Gestao de Publicacao (+13.9pp WoW) mostra que orientacao clara de publicacao melhora NPS. PR-Propiedad Intelectual (+8.5pp) — fluxo de rollback funcionando bem. Afiliados ML concentra 40% do volume: criar SLA de moderacao de videos resolvia o maior gargalo.",
+        "conclusao": "Denuncia de usuario colapsou -51.8pp WoW (NPS 81% para 29%) em apenas 17 surveys. Potenciar Ventas caiu -8.5pp: CDU Clips/Potencializador sem resposta adequada do agente. Afiliados ML (40% vol) apresenta instabilidade estrutural: metricas de comissao opacas e campanhas de video sumindo sem SLA visivel. VoC dominante: nao resolvem, redundancia. Acao urgente: FAQ de elegibilidade + notificacao de moderacao com prazo no app.",
+        "voc_pro": [
+          "[EXPERT] Minha pergunta foi resolvida e muito atenciosos",
+          "[EXPERT] Atendimento excelente, sempre deixa tudo muito bem claro ",
+          "[NEWBIE] muito agil e inteligente",
+          "[NEWBIE] Fui muito bem atendida .Super indico !Deus abençoe ����"
+        ],
+        "voc_det": [
+          "[NEWBIE] Estou como afiliado e minhas porcentagens não entraram e alegaram que eram pessoas que estavam na mi",
+          "[NEWBIE] Gleice ótima atendente ,só isso mesmo ",
+          "[NEWBIE] Não fizeram questão de resolver meu problema e me enrolaram ",
+          "[NEWBIE] Simplesmente não resolvem o problema. Respondem os questionamentos com redundância e o problema nunc"
+        ],
+        "gerado_em": "2026-05-04"
+      },
+      "gerado_em": "2026-05-04"
+    }
   }
 }
