@@ -12,9 +12,9 @@ from datetime import datetime
 # ─── METADATA ────────────────────────────────────────────────────────────────
 M1_LABEL          = "Abril 2026"
 M2_LABEL          = "Marco 2026"
-S1_LABEL          = "20/abr - 26/abr"
-S2_LABEL          = "13/abr - 19/abr"
-VIG_LABEL         = "27/abr - 29/abr"   # semana atual (parcial)
+S1_LABEL          = "27/abr - 03/mai"
+S2_LABEL          = "20/abr - 26/abr"
+VIG_LABEL         = "04/mai"             # semana atual (parcial)
 NPS_TARGET_ALL = 52.49   # SUM(NUM_TARGET)/SUM(DENOM_TARGET) — 27 drivers — Abril 2026
 NPS_TARGET_SEL = 56.04   # SUM(NUM_TARGET)/SUM(DENOM_TARGET) — 20 drivers (sem Med) — Abril 2026
 REPORT_DATE       = datetime.now().strftime("%d/%m/%Y %H:%M")
@@ -105,33 +105,33 @@ monthly_driver = {
 }
 
 weekly_driver = {
-    "CBT":                               {"S2": (87, 15, 102),    "S1": (77, 16, 96),     "VIG": (19, 3, 22)},
-    "Experiencia Impositiva Mature":     {"S2": (6, 2, 8),        "S1": (2, 0, 4),        "VIG": (3, 0, 3)},
-    "Experiencia Impositiva Meli Pro":   {"S2": (2, 1, 4),        "S1": (3, 0, 3),        "VIG": (5, 1, 6)},
-    "Experiencia Impositiva Seller Dev": {"S2": (112, 33, 160),   "S1": (57, 23, 88),     "VIG": (18, 2, 25)},
-    "FBM-S Mature":                      {"S2": (23, 4, 29),      "S1": (17, 4, 21),      "VIG": (6, 2, 9)},
-    "FBM-S Meli Pro":                    {"S2": (14, 6, 20),      "S1": (17, 0, 20),      "VIG": (8, 1, 10)},
-    "FBM-S Seller Dev":                  {"S2": (68, 24, 101),    "S1": (85, 29, 121),    "VIG": (32, 10, 44)},
-    "ME Vendedor Mature":                {"S2": (222, 44, 286),   "S1": (146, 34, 186),   "VIG": (36, 14, 54)},
-    "ME Vendedor Meli Pro":              {"S2": (76, 4, 83),      "S1": (104, 10, 120),   "VIG": (75, 3, 81)},
-    "ME Vendedor Seller Dev":            {"S2": (1154, 178, 1482),"S1": (1058, 152, 1308),"VIG": (430, 64, 542)},
-    "Otros CV":                          {"S2": (158, 56, 230),   "S1": (182, 68, 259),   "VIG": (65, 15, 87)},
-    "PCF Vendedor Mature":               {"S2": (51, 19, 81),     "S1": (21, 9, 34),      "VIG": (11, 2, 16)},
-    "PCF Vendedor Meli Pro":             {"S2": (67, 12, 89),     "S1": (101, 14, 131),   "VIG": (42, 7, 53)},
-    "PCF Vendedor Seller Dev":           {"S2": (95, 28, 137),    "S1": (82, 30, 129),    "VIG": (32, 13, 46)},
-    "PDD DS&XD - Vendedor":              {"S2": (135, 107, 261),  "S1": (112, 75, 210),   "VIG": (29, 27, 60)},
-    "PDD FBM - Vendedor":                {"S2": (38, 25, 72),     "S1": (43, 25, 74),     "VIG": (12, 5, 19)},
-    "PDD Fotos - Vendedor":              {"S2": (8, 8, 17),       "S1": (10, 7, 20),      "VIG": (1, 1, 2)},
-    "PDD MP,FLEX & CBT - Vendedor":      {"S2": (21, 11, 39),     "S1": (8, 10, 19),      "VIG": (4, 4, 9)},
-    "PNR ME - Vendedor":                 {"S2": (23, 10, 37),     "S1": (62, 39, 107),    "VIG": (18, 9, 29)},
-    "PNR MP - Vendedor":                 {"S2": (32, 13, 49),     "S1": (27, 24, 54),     "VIG": (11, 1, 16)},
-    "Partners":                          {"S2": (575, 85, 725),   "S1": (567, 85, 719),   "VIG": (203, 46, 269)},
-    "Post Venta Mature":                 {"S2": (76, 11, 97),     "S1": (46, 6, 58),      "VIG": (16, 0, 19)},
-    "Post Venta Meli Pro":               {"S2": (104, 5, 112),    "S1": (149, 1, 152),    "VIG": (52, 5, 59)},
-    "Post Venta Seller Dev":             {"S2": (194, 23, 233),   "S1": (177, 18, 209),   "VIG": (71, 12, 93)},
-    "Publicaciones Mature":              {"S2": (37, 14, 57),     "S1": (25, 3, 30),      "VIG": (10, 1, 12)},
-    "Publicaciones Meli Pro":            {"S2": (37, 4, 44),      "S1": (59, 4, 64),      "VIG": (41, 5, 48)},
-    "Publicaciones Seller Dev":          {"S2": (453, 80, 587),   "S1": (398, 75, 511),   "VIG": (133, 23, 171)},
+    "CBT":                               {"S2": (77, 16, 96),     "S1": (56, 10, 67),     "VIG": (0, 0, 0)},
+    "Experiencia Impositiva Mature":     {"S2": (2, 0, 4),        "S1": (5, 0, 5),        "VIG": (0, 0, 0)},
+    "Experiencia Impositiva Meli Pro":   {"S2": (3, 0, 3),        "S1": (5, 2, 7),        "VIG": (0, 0, 0)},
+    "Experiencia Impositiva Seller Dev": {"S2": (57, 23, 88),     "S1": (50, 13, 70),     "VIG": (0, 0, 0)},
+    "FBM-S Mature":                      {"S2": (17, 4, 21),      "S1": (13, 3, 20),      "VIG": (0, 0, 0)},
+    "FBM-S Meli Pro":                    {"S2": (17, 0, 20),      "S1": (13, 1, 18),      "VIG": (0, 0, 0)},
+    "FBM-S Seller Dev":                  {"S2": (85, 29, 121),    "S1": (79, 25, 107),    "VIG": (0, 0, 0)},
+    "ME Vendedor Mature":                {"S2": (146, 34, 186),   "S1": (96, 22, 130),    "VIG": (0, 0, 0)},
+    "ME Vendedor Meli Pro":              {"S2": (104, 10, 120),   "S1": (110, 4, 120),    "VIG": (0, 0, 0)},
+    "ME Vendedor Seller Dev":            {"S2": (1058, 152, 1308),"S1": (1166, 134, 1420),"VIG": (0, 0, 0)},
+    "Otros CV":                          {"S2": (183, 68, 260),   "S1": (159, 41, 220),   "VIG": (0, 0, 0)},
+    "PCF Vendedor Mature":               {"S2": (21, 9, 34),      "S1": (23, 7, 33),      "VIG": (0, 0, 0)},
+    "PCF Vendedor Meli Pro":             {"S2": (101, 14, 131),   "S1": (91, 12, 111),    "VIG": (0, 0, 0)},
+    "PCF Vendedor Seller Dev":           {"S2": (82, 30, 129),    "S1": (81, 26, 119),    "VIG": (0, 0, 0)},
+    "PDD DS&XD - Vendedor":              {"S2": (115, 76, 214),   "S1": (111, 94, 219),   "VIG": (0, 0, 0)},
+    "PDD FBM - Vendedor":                {"S2": (43, 25, 74),     "S1": (38, 18, 63),     "VIG": (0, 0, 0)},
+    "PDD Fotos - Vendedor":              {"S2": (10, 7, 20),      "S1": (7, 2, 12),       "VIG": (0, 0, 0)},
+    "PDD MP,FLEX & CBT - Vendedor":      {"S2": (8, 10, 19),      "S1": (19, 12, 37),     "VIG": (0, 0, 0)},
+    "PNR ME - Vendedor":                 {"S2": (63, 41, 110),    "S1": (37, 24, 66),     "VIG": (0, 0, 0)},
+    "PNR MP - Vendedor":                 {"S2": (28, 25, 57),     "S1": (38, 12, 61),     "VIG": (0, 0, 0)},
+    "Partners":                          {"S2": (567, 85, 719),   "S1": (548, 99, 717),   "VIG": (0, 0, 0)},
+    "Post Venta Mature":                 {"S2": (46, 6, 58),      "S1": (42, 8, 57),      "VIG": (0, 0, 0)},
+    "Post Venta Meli Pro":               {"S2": (149, 1, 152),    "S1": (135, 7, 150),    "VIG": (0, 0, 0)},
+    "Post Venta Seller Dev":             {"S2": (177, 18, 209),   "S1": (175, 19, 217),   "VIG": (0, 0, 0)},
+    "Publicaciones Mature":              {"S2": (25, 3, 30),      "S1": (19, 1, 22),      "VIG": (0, 0, 0)},
+    "Publicaciones Meli Pro":            {"S2": (59, 4, 64),      "S1": (81, 5, 89),      "VIG": (0, 0, 0)},
+    "Publicaciones Seller Dev":          {"S2": (398, 76, 512),   "S1": (381, 88, 517),   "VIG": (0, 0, 0)},
 }
 
 # Histórico mensal (Jan-Fev para chart do Deep Dive; Mar=M2, Abr=M1 já existem)
@@ -196,35 +196,35 @@ weekly_hist_extra2 = {
     "Publicaciones Seller Dev":          {"16/mar":(591,92,748), "23/mar":(574,74,718)},
 }
 
-# S3 = 06/abr-12/abr  |  S4 = 30/mar-05/abr  (histórico fechado)
+# S2_old=13/abr-19/abr | S3=06/abr-12/abr | S4=30/mar-05/abr  (histórico fechado)
 weekly_hist_extra = {
-    "CBT":                               {"S3": (87, 12, 101),   "S4": (75, 9, 86)},
-    "Experiencia Impositiva Mature":     {"S3": (9, 3, 13),      "S4": (12, 5, 20)},
-    "Experiencia Impositiva Meli Pro":   {"S3": (1, 0, 2),       "S4": (2, 1, 3)},
-    "Experiencia Impositiva Seller Dev": {"S3": (150, 36, 208),  "S4": (66, 25, 100)},
-    "FBM-S Mature":                      {"S3": (28, 7, 40),     "S4": (30, 13, 48)},
-    "FBM-S Meli Pro":                    {"S3": (9, 2, 12),      "S4": (0, 2, 2)},
-    "FBM-S Seller Dev":                  {"S3": (74, 24, 115),   "S4": (73, 23, 104)},
-    "ME Vendedor Mature":                {"S3": (374, 82, 492),  "S4": (340, 56, 438)},
-    "ME Vendedor Meli Pro":              {"S3": (24, 6, 30),     "S4": (10, 6, 17)},
-    "ME Vendedor Seller Dev":            {"S3": (1676, 224, 2106),"S4": (1016, 158, 1270)},
-    "Otros CV":                          {"S3": (181, 63, 259),  "S4": (139, 36, 195)},
-    "PCF Vendedor Mature":               {"S3": (97, 24, 131),   "S4": (68, 14, 91)},
-    "PCF Vendedor Meli Pro":             {"S3": (13, 3, 19),     "S4": (4, 3, 7)},
-    "PCF Vendedor Seller Dev":           {"S3": (98, 29, 136),   "S4": (84, 23, 125)},
-    "PDD DS&XD - Vendedor":              {"S3": (113, 95, 236),  "S4": (136, 106, 275)},
-    "PDD FBM - Vendedor":                {"S3": (40, 18, 65),    "S4": (45, 16, 63)},
-    "PDD Fotos - Vendedor":              {"S3": (7, 5, 12),      "S4": (9, 5, 15)},
-    "PDD MP,FLEX & CBT - Vendedor":      {"S3": (16, 9, 28),     "S4": (14, 7, 24)},
-    "PNR ME - Vendedor":                 {"S3": (21, 15, 38),    "S4": (18, 9, 30)},
-    "PNR MP - Vendedor":                 {"S3": (54, 16, 74),    "S4": (33, 15, 56)},
-    "Partners":                          {"S3": (460, 76, 587),  "S4": (448, 77, 574)},
-    "Post Venta Mature":                 {"S3": (89, 15, 117),   "S4": (88, 20, 114)},
-    "Post Venta Meli Pro":               {"S3": (25, 2, 29),     "S4": (8, 0, 9)},
-    "Post Venta Seller Dev":             {"S3": (239, 39, 301),  "S4": (176, 39, 233)},
-    "Publicaciones Mature":              {"S3": (72, 12, 101),   "S4": (61, 13, 87)},
-    "Publicaciones Meli Pro":            {"S3": (6, 1, 8),       "S4": (6, 1, 8)},
-    "Publicaciones Seller Dev":          {"S3": (607, 103, 769), "S4": (502, 88, 653)},
+    "CBT":                               {"S2_old": (87, 15, 102),  "S3": (87, 12, 101),   "S4": (75, 9, 86)},
+    "Experiencia Impositiva Mature":     {"S2_old": (6, 2, 8),      "S3": (9, 3, 13),      "S4": (12, 5, 20)},
+    "Experiencia Impositiva Meli Pro":   {"S2_old": (2, 1, 4),      "S3": (1, 0, 2),       "S4": (2, 1, 3)},
+    "Experiencia Impositiva Seller Dev": {"S2_old": (112, 33, 160), "S3": (150, 36, 208),  "S4": (66, 25, 100)},
+    "FBM-S Mature":                      {"S2_old": (23, 4, 29),    "S3": (28, 7, 40),     "S4": (30, 13, 48)},
+    "FBM-S Meli Pro":                    {"S2_old": (14, 6, 20),    "S3": (9, 2, 12),      "S4": (0, 2, 2)},
+    "FBM-S Seller Dev":                  {"S2_old": (68, 24, 101),  "S3": (74, 24, 115),   "S4": (73, 23, 104)},
+    "ME Vendedor Mature":                {"S2_old": (222, 44, 286), "S3": (374, 82, 492),  "S4": (340, 56, 438)},
+    "ME Vendedor Meli Pro":              {"S2_old": (76, 4, 83),    "S3": (24, 6, 30),     "S4": (10, 6, 17)},
+    "ME Vendedor Seller Dev":            {"S2_old": (1154,178,1482),"S3": (1676,224,2106), "S4": (1016,158,1270)},
+    "Otros CV":                          {"S2_old": (158, 56, 230), "S3": (181, 63, 259),  "S4": (139, 36, 195)},
+    "PCF Vendedor Mature":               {"S2_old": (51, 19, 81),   "S3": (97, 24, 131),   "S4": (68, 14, 91)},
+    "PCF Vendedor Meli Pro":             {"S2_old": (67, 12, 89),   "S3": (13, 3, 19),     "S4": (4, 3, 7)},
+    "PCF Vendedor Seller Dev":           {"S2_old": (95, 28, 137),  "S3": (98, 29, 136),   "S4": (84, 23, 125)},
+    "PDD DS&XD - Vendedor":              {"S2_old": (135,107, 261), "S3": (113, 95, 236),  "S4": (136,106, 275)},
+    "PDD FBM - Vendedor":                {"S2_old": (38, 25, 72),   "S3": (40, 18, 65),    "S4": (45, 16, 63)},
+    "PDD Fotos - Vendedor":              {"S2_old": (8, 8, 17),     "S3": (7, 5, 12),      "S4": (9, 5, 15)},
+    "PDD MP,FLEX & CBT - Vendedor":      {"S2_old": (21, 11, 39),   "S3": (16, 9, 28),     "S4": (14, 7, 24)},
+    "PNR ME - Vendedor":                 {"S2_old": (23, 10, 37),   "S3": (21, 15, 38),    "S4": (18, 9, 30)},
+    "PNR MP - Vendedor":                 {"S2_old": (32, 13, 49),   "S3": (54, 16, 74),    "S4": (33, 15, 56)},
+    "Partners":                          {"S2_old": (575, 85, 725), "S3": (460, 76, 587),  "S4": (448, 77, 574)},
+    "Post Venta Mature":                 {"S2_old": (76, 11, 97),   "S3": (89, 15, 117),   "S4": (88, 20, 114)},
+    "Post Venta Meli Pro":               {"S2_old": (104, 5, 112),  "S3": (25, 2, 29),     "S4": (8, 0, 9)},
+    "Post Venta Seller Dev":             {"S2_old": (194, 23, 233), "S3": (239, 39, 301),  "S4": (176, 39, 233)},
+    "Publicaciones Mature":              {"S2_old": (37, 14, 57),   "S3": (72, 12, 101),   "S4": (61, 13, 87)},
+    "Publicaciones Meli Pro":            {"S2_old": (37, 4, 44),    "S3": (6, 1, 8),       "S4": (6, 1, 8)},
+    "Publicaciones Seller Dev":          {"S2_old": (453, 80, 587), "S3": (607,103, 769),  "S4": (502, 88, 653)},
 }
 
 # ─── FILTRO SELLERS (sem drivers de mediacao) ────────────────────────────────
@@ -283,8 +283,8 @@ def compute_view(monthly_data, weekly_data, nps_target_consol):
                sum(v["S2"][1] for v in weekly_data.values()), sS2_)
     nS1_ = nps(sum(v["S1"][0] for v in weekly_data.values()),
                sum(v["S1"][1] for v in weekly_data.values()), sS1_)
-    dW_  = round(nS1_ - nS2_, 2)
-    wD_  = mix_neto(weekly_data, "S2", "S1", sS2_, sS1_, nS1_)
+    dW_  = round((nS1_ or 0) - (nS2_ or 0), 2)
+    wD_  = mix_neto(weekly_data, "S2", "S1", sS2_, sS1_, nS1_ or 0)
 
     # vs Target
     tt_ = round(sum(DRIVER_TARGETS[d] * (monthly_data[d]["M1"][2] / sM1_)
@@ -357,8 +357,8 @@ def compute_view(monthly_data, weekly_data, nps_target_consol):
         nM1=nM1_, nM2=nM2_, dM=dM_, sM1=sM1_, sM2=sM2_,
         nS1=nS1_, nS2=nS2_, dW=dW_, sS1=sS1_, sS2=sS2_,
         nps_target=nps_target_consol,
-        vs_tgt_mom=round(nM1_ - nps_target_consol, 2),
-        vs_tgt_wow=round(nS1_ - nps_target_consol, 2),
+        vs_tgt_mom=round((nM1_ or 0) - nps_target_consol, 2),
+        vs_tgt_wow=round((nS1_ or 0) - nps_target_consol, 2),
         surv_mom_var=round((sM1_ - sM2_) / sM2_ * 100, 1) if sM2_ else 0,
         surv_wow_var=round((sS1_ - sS2_) / sS2_ * 100, 1) if sS2_ else 0,
         mD=mD_, wD=wD_, vt=vt_, tt=tt_,
@@ -470,7 +470,15 @@ def _pp(v):  return f"{v:+.2f} pp"
 def _pct(v): return f"{v:+.1f}%"
 
 def sc_nps(label, val, vs_tgt, vs_prev, prev_label, period_sub):
-    val_color = "#1a7a1a" if vs_tgt >= 0 else "#c0321a"
+    if val is None:
+        return f"""<div class="sc">
+  <div class="sc-label">{label}</div>
+  <div class="sc-val" style="color:#999">—</div>
+  <hr class="sc-sep">
+  <div class="sc-sub">Sem dados ainda</div>
+  <div class="sc-sub">{period_sub}</div>
+</div>"""
+    val_color = "#1a7a1a" if (vs_tgt or 0) >= 0 else "#c0321a"
     return f"""<div class="sc">
   <div class="sc-label">{label}</div>
   <div class="sc-val" style="color:{val_color}">{val:.1f}%</div>
@@ -574,10 +582,10 @@ def compute_driver_history():
         weekly = []
         for label, src, key in [
             ("23/mar", weekly_hist_extra2, "23/mar"),
-            ("30/mar", weekly_hist_extra,  "S4"),
             ("06/abr", weekly_hist_extra,  "S3"),
-            ("13/abr", weekly_driver,      "S2"),
-            ("20/abr", weekly_driver,      "S1"),
+            ("13/abr", weekly_hist_extra,  "S2_old"),
+            ("20/abr", weekly_driver,      "S2"),
+            ("27/abr", weekly_driver,      "S1"),
         ]:
             t = src.get(drv, {}).get(key, (0,0,0))
             weekly.append({"label": label, "nps": nps_s(*t), "s": t[2]})
@@ -585,7 +593,7 @@ def compute_driver_history():
         t_vig = weekly_driver.get(drv, {}).get("VIG", (0,0,0))
         t_s1  = weekly_driver.get(drv, {}).get("S1",  (0,0,0))
         weekly_vig = [
-            {"label": "20/abr (S1)", "nps": nps_s(*t_s1),  "s": t_s1[2]},
+            {"label": "27/abr (S1)", "nps": nps_s(*t_s1),  "s": t_s1[2]},
             {"label": VIG_LABEL,     "nps": nps_s(*t_vig), "s": t_vig[2]},
         ]
         result[drv] = {"monthly": monthly, "weekly": weekly, "weekly_vig": weekly_vig,
@@ -608,9 +616,9 @@ def compute_history(drivers):
         monthly.append({"label": label, "nps": nps_safe(p,det,s), "s": s})
     weekly = []
     for label, src, key in [
-        ("16/mar", weekly_hist_extra2, "16/mar"),("23/mar", weekly_hist_extra2, "23/mar"),
-        ("30/mar", weekly_hist_extra,  "S4"),    ("06/abr", weekly_hist_extra,  "S3"),
-        ("13/abr", weekly_driver,      "S2"),    ("20/abr", weekly_driver,      "S1"),
+        ("23/mar", weekly_hist_extra2, "23/mar"),("06/abr", weekly_hist_extra,  "S3"),
+        ("13/abr", weekly_hist_extra,  "S2_old"),("20/abr", weekly_driver,      "S2"),
+        ("27/abr", weekly_driver,      "S1"),
     ]:
         p   = sum(src.get(d,{}).get(key,(0,0,0))[0] for d in drivers)
         det = sum(src.get(d,{}).get(key,(0,0,0))[1] for d in drivers)
@@ -713,12 +721,11 @@ def build_html():
     dd_data = {}
     MONTH_KEYS = [("Jan","Jan"),("Fev","Fev"),("Mar","M2"),("Abr","M1")]
     WEEK_KEYS  = [
-        ("16/mar", "16/mar", weekly_hist_extra2),
-        ("23/mar", "23/mar", weekly_hist_extra2),
-        ("30/mar", "S4",     weekly_hist_extra),
-        ("06/abr", "S3",     weekly_hist_extra),
-        ("13/abr", "S2",     weekly_driver),
-        ("20/abr", "S1",     weekly_driver),
+        ("23/mar", "23/mar",  weekly_hist_extra2),
+        ("06/abr", "S3",      weekly_hist_extra),
+        ("13/abr", "S2_old",  weekly_hist_extra),
+        ("20/abr", "S2",      weekly_driver),
+        ("27/abr", "S1",      weekly_driver),
     ]
 
     for drv in monthly_driver:
@@ -763,6 +770,15 @@ def build_html():
     panes_all = make_panes("all", V_ALL)
     panes_sel = make_panes("sel", V_SEL)
     def make_vig_pane(view, v):
+        # If no VIG data yet (start of week), show placeholder
+        if v["sS1"] == 0:
+            return f"""
+  <div id="pane-{view}-vig" class="tab-pane">
+    <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:16px;margin-bottom:12px;font-size:13px;color:#f57f17;text-align:center">
+      &#9889; <strong>Semana vigente {VIG_LABEL}</strong> — Dados ainda nao disponiveis (inicio da semana).<br>
+      Verifique novamente mais tarde.
+    </div>
+  </div>"""
         wm = v["worst_wow"]; bm = v["best_wow"]
         wD, mD, vt = v["wD"], v["mD"], v["vt"]
         cards = (
