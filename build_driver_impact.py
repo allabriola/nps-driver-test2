@@ -1924,136 +1924,13 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
         procs:procs, chans:chans, offices:offices, procsMix:procsMix,
         npsA:npsA, npsB:npsB, delta:delta, gapTgt:gapTgt, tgt:tgt,
         bVar:bVar, bDor:bDor, bRep:bRep, bPos:bPos, bOpp:bOpp,
-        cat:cat
+        cat:cat, bkData:bkData, pA:pA, pB:pB
       }});
     }}
   }} catch(e) {{
     html += '<div style="padding:8px;background:#ffebee;border-radius:6px;font-size:11px;color:#c62828;margin-top:8px">Erro Análise: '+e.message+'</div>';
   }}
 
-  // ── CONCLUSÃO: Por que melhoramos / o que sustenta o resultado ────────────
-  try {{
-    var conclusaoHtml = '';
-
-    // 1. Canal — quais canais melhoraram ou caíram
-    var canalMelhores = chans.filter(function(c){{return c.delta!==null&&c.delta>0&&c.sB>=5;}})
-                             .sort(function(a,b){{return b.impact-a.impact;}}).slice(0,3);
-    var canalPiores   = chans.filter(function(c){{return c.delta!==null&&c.delta<0&&c.sB>=5;}})
-                             .sort(function(a,b){{return a.impact-b.impact;}}).slice(0,2);
-    var temCanal = canalMelhores.length>0 || canalPiores.length>0;
-
-    // 2. Senioridade (Sr geral: Expert vs Newbie)
-    var srPer = (bkData && bkData['Sr']) ? bkData['Sr'] : null;
-    var srA = srPer ? (srPer[pA]||{{}}) : {{}};
-    var srB = srPer ? (srPer[pB]||{{}}) : {{}};
-    var expA=srA['Expert']||null, expB=srB['Expert']||null;
-    var nwbA=srA['Newbie']||null, nwbB=srB['Newbie']||null;
-    var expDelta=(expA&&expB&&expA.nps!==null&&expB.nps!==null)?Math.round((expB.nps-expA.nps)*100)/100:null;
-    var nwbDelta=(nwbA&&nwbB&&nwbA.nps!==null&&nwbB.nps!==null)?Math.round((nwbB.nps-nwbA.nps)*100)/100:null;
-    var temSr = expB!==null || nwbB!==null;
-
-    // 3. Insight qualitativo de promotores/transcriptions
-    var promoText = '';
-    var senText   = '';
-    if (isNewFormat && sumNew) {{
-      promoText = sumNew.top_promotores || '';
-      senText   = sumNew.senioridade_insight || '';
-    }} else {{
-      promoText = bPos || '';
-    }}
-
-    if (temCanal || temSr || promoText) {{
-      var titleColor = (delta!==null&&delta>=0) ? '#1b5e20' : '#e65100';
-      var titleIcon  = (delta!==null&&delta>=0) ? '&#128200;' : '&#128201;';
-      var titleText  = (delta!==null&&delta>=0) ? 'Conclus&atilde;o &mdash; Por que melhoramos'
-                                                : 'Conclus&atilde;o &mdash; Fatores do per&iacute;odo';
-
-      conclusaoHtml +=
-        '<div style="margin-top:14px;border:2px solid '+titleColor+';border-radius:12px;overflow:hidden">'+
-        '<div style="background:'+titleColor+';padding:9px 16px;display:flex;align-items:center;gap:8px">'+
-          '<span style="font-size:14px">'+titleIcon+'</span>'+
-          '<span style="color:#fff;font-weight:700;font-size:12px">'+titleText+'</span>'+
-          '<span style="color:rgba(255,255,255,.75);font-size:11px">'+dS(delta)+' &nbsp;&middot;&nbsp; '+lA+' &rarr; '+lB+'</span>'+
-        '</div>'+
-        '<div style="padding:12px 16px;background:#f9fdf9">';
-
-      // Grid 2 ou 3 colunas dependendo do conteúdo
-      conclusaoHtml += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">';
-
-      // Bloco Canal
-      if (temCanal) {{
-        conclusaoHtml +=
-          '<div style="background:#fff;border-radius:8px;padding:10px 12px;border:1px solid #c8e6c9">'+
-          '<div style="font-size:10px;font-weight:700;color:#2e7d32;margin-bottom:6px">&#128241; CANAL</div>';
-        if (canalMelhores.length > 0) {{
-          conclusaoHtml += '<div style="font-size:10px;color:#2e7d32;font-weight:600;margin-bottom:3px">Melhores:</div>';
-          canalMelhores.forEach(function(c) {{
-            conclusaoHtml +=
-              '<div style="font-size:11px;color:#333;margin-bottom:3px;padding:3px 7px;background:#f1f8f3;border-radius:5px">'+
-                '&#9650; <b>'+c.k+'</b>: '+nS(c.nB)+
-                ' <span style="color:#1b5e20">('+dS(c.delta)+')</span>'+
-                ' &middot; '+c.shaB+'% vol'+
-              '</div>';
-          }});
-        }}
-        if (canalPiores.length > 0) {{
-          conclusaoHtml += '<div style="font-size:10px;color:#b71c1c;font-weight:600;margin:4px 0 3px">Em queda:</div>';
-          canalPiores.forEach(function(c) {{
-            conclusaoHtml +=
-              '<div style="font-size:11px;color:#333;margin-bottom:3px;padding:3px 7px;background:#fff5f5;border-radius:5px">'+
-                '&#9660; <b>'+c.k+'</b>: '+nS(c.nB)+
-                ' <span style="color:#b71c1c">('+dS(c.delta)+')</span>'+
-                ' &middot; '+c.shaB+'% vol'+
-              '</div>';
-          }});
-        }}
-        conclusaoHtml += '</div>';
-      }}
-
-      // Bloco Senioridade
-      if (temSr) {{
-        conclusaoHtml +=
-          '<div style="background:#fff;border-radius:8px;padding:10px 12px;border:1px solid #c8e6c9">'+
-          '<div style="font-size:10px;font-weight:700;color:#2e7d32;margin-bottom:6px">&#127775; SENIORIDADE</div>';
-        if (expB) {{
-          var expClr = expDelta!==null ? clr(expDelta) : '#333';
-          conclusaoHtml +=
-            '<div style="font-size:11px;color:#333;margin-bottom:5px;padding:4px 8px;background:#f1f8f3;border-radius:5px">'+
-              '<b>Expert</b>: '+nS(expB.nps)+
-              (expDelta!==null?' <span style="color:'+expClr+'">('+(expDelta>=0?'+':'')+expDelta.toFixed(2)+'pp)</span>':'')+
-              ' &middot; '+(expB.s||0)+' pesq.'+
-            '</div>';
-        }}
-        if (nwbB) {{
-          var nwbClr = nwbDelta!==null ? clr(nwbDelta) : '#333';
-          conclusaoHtml +=
-            '<div style="font-size:11px;color:#333;margin-bottom:5px;padding:4px 8px;background:#f1f8f3;border-radius:5px">'+
-              '<b>Newbie</b>: '+nS(nwbB.nps)+
-              (nwbDelta!==null?' <span style="color:'+nwbClr+'">('+(nwbDelta>=0?'+':'')+nwbDelta.toFixed(2)+'pp)</span>':'')+
-              ' &middot; '+(nwbB.s||0)+' pesq.'+
-            '</div>';
-        }}
-        if (senText) {{
-          conclusaoHtml += '<div style="font-size:11px;color:#2d5a2e;margin-top:4px;font-style:italic">'+senText+'</div>';
-        }}
-        conclusaoHtml += '</div>';
-      }}
-
-      // Bloco Fator Positivo (Transcricoes / Promotores)
-      if (promoText) {{
-        conclusaoHtml +=
-          '<div style="background:#fff;border-radius:8px;padding:10px 12px;border:1px solid #c8e6c9;'+
-              ((!temCanal&&!temSr)?'':'grid-column:1/-1')+'">'+
-          '<div style="font-size:10px;font-weight:700;color:#2e7d32;margin-bottom:6px">'+
-            '&#128172; FATOR POSITIVO &mdash; TRANSCRI&Ccedil;&Otilde;ES / PROMOTORES'+
-          '</div>'+
-          '<p style="font-size:11px;color:#1a3c1a;line-height:1.6;margin:0">'+promoText+'</p>'+
-          '</div>';
-      }}
-
-      conclusaoHtml += '</div></div></div>';
-      html += conclusaoHtml;
-    }}
   }} catch(eC) {{
     // Silencioso — conclusao nao critica
   }}
@@ -2066,6 +1943,7 @@ function buildAnaliseQuant(o) {{
   var procs=o.procs, chans=o.chans, offices=o.offices;
   var npsA=o.npsA, npsB=o.npsB, delta=o.delta, gapTgt=o.gapTgt, tgt=o.tgt;
   var bVar=o.bVar, bDor=o.bDor, bRep=o.bRep, bPos=o.bPos, bOpp=o.bOpp, cat=o.cat;
+  var bkData=o.bkData||null, pA=o.pA||'S2', pB=o.pB||'S1';
 
   function priTag(p) {{
     var c=p==='Alta'?'#b71c1c':p==='Media'?'#e65100':'#388e3c';
@@ -2105,66 +1983,137 @@ function buildAnaliseQuant(o) {{
     '<p style="font-size:12px;color:#2d3561;line-height:1.6;margin:0">'+panorama+'</p>'+
   '</div>';
 
-  // Top Detratores
-  if(top3neg.length>0) {{
-    out += '<div style="margin-bottom:12px">'+
-      '<div style="font-size:10px;font-weight:700;color:#b71c1c;margin-bottom:6px">&#128308; TOP CAUSAS DE QUEDA</div>'+
-      '<div style="display:flex;flex-direction:column;gap:5px">';
-    top3neg.forEach(function(p) {{
-      var pri = Math.abs(p.impact)>0.3?'Alta':Math.abs(p.impact)>0.1?'Media':'Baixa';
-      out += '<div style="background:#fff;border-radius:7px;padding:8px 12px;border:1px solid #e0e0e0">'+
-        '<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">'+priTag(pri)+
-          '<span style="font-size:11px;font-weight:600;color:#1a1e3c">'+p.k+'</span>'+
-        '</div>'+
-        '<div style="font-size:11px;color:#555">'+
-          'NPS '+nS(p.nB)+' ('+dS(p.delta)+' vs '+lA+') &nbsp;·&nbsp; '+
-          'Impacto no consolidado: <b style="color:#b71c1c">'+dS(p.impact)+'</b> &nbsp;·&nbsp; '+
-          p.shaB+'% do volume'+
-          (p.gapT!==null?' &nbsp;·&nbsp; Gap vs target: <b style="color:#b71c1c">'+p.gapT.toFixed(2)+'pp</b>':'')+
-        '</div>'+
-      '</div>';
-    }});
-    out += '</div></div>';
-  }}
+  // ── Senioridade (Expert / Newbie) via bkData.Sr ──────────────────────────
+  var srPer = (bkData && bkData['Sr']) ? bkData['Sr'] : null;
+  var srA = srPer ? (srPer[pA]||{{}}) : {{}};
+  var srB = srPer ? (srPer[pB]||{{}}) : {{}};
+  var expA=srA['Expert']||null, expB=srB['Expert']||null;
+  var nwbA=srA['Newbie']||null, nwbB=srB['Newbie']||null;
+  var expDelta=(expA&&expB&&expA.nps!==null&&expB.nps!==null)?Math.round((expB.nps-expA.nps)*100)/100:null;
+  var nwbDelta=(nwbA&&nwbB&&nwbA.nps!==null&&nwbB.nps!==null)?Math.round((nwbB.nps-nwbA.nps)*100)/100:null;
 
-  // Top Promotores
-  if(top2pos.length>0) {{
-    out += '<div style="margin-bottom:12px">'+
-      '<div style="font-size:10px;font-weight:700;color:#1b5e20;margin-bottom:6px">&#128994; TOP PROCESSOS POSITIVOS</div>'+
-      '<div style="display:flex;flex-direction:column;gap:5px">';
-    top2pos.forEach(function(p) {{
-      out += '<div style="background:#fff;border-radius:7px;padding:8px 12px;border:1px solid #e0e0e0">'+
-        '<div style="font-size:11px;font-weight:600;color:#1b5e20;margin-bottom:2px">'+p.k+'</div>'+
-        '<div style="font-size:11px;color:#555">'+
-          'NPS '+nS(p.nB)+' ('+dS(p.delta)+' vs '+lA+') &nbsp;·&nbsp; '+
-          'Impacto: <b style="color:#1b5e20">'+dS(p.impact)+'</b> &nbsp;·&nbsp; '+p.shaB+'% do volume'+
-        '</div>'+
-      '</div>';
-    }});
-    out += '</div></div>';
-  }}
+  // Canal por direção
+  var canalNeg = chans.filter(function(c){{return c.delta!==null&&c.delta<0&&c.sB>=5;}})
+                      .sort(function(a,b){{return a.impact-b.impact;}}).slice(0,3);
+  var canalPos = chans.filter(function(c){{return c.delta!==null&&c.delta>0&&c.sB>=5;}})
+                      .sort(function(a,b){{return b.impact-a.impact;}}).slice(0,3);
 
-  // Canal + Senioridade (2 colunas)
-  var topChan = chans.slice(0).sort(function(a,b){{return b.sB-a.sB;}}).slice(0,3);
-  if(topChan.length>0||bDor||bRep) {{
-    out += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">';
-    if(topChan.length>0) {{
-      out += '<div style="background:#fff;border-radius:7px;padding:9px 12px;border:1px solid #e0e0e0">'+
-        '<div style="font-size:10px;font-weight:700;color:#4a148c;margin-bottom:4px">&#128241; IMPACTO CANAL</div>';
-      topChan.forEach(function(c) {{
-        out += '<div style="font-size:11px;color:#333;margin-bottom:3px">'+
-          '<b>'+c.k+'</b>: NPS '+nS(c.nB)+'<span style="color:'+clr(c.delta||0)+'"> ('+dS(c.delta)+')</span> &nbsp;'+c.shaB+'% vol</div>';
+  // ── GRID SIMÉTRICO: QUEDA | AUMENTO ──────────────────────────────────────
+  var hasQueda  = top3neg.length>0 || canalNeg.length>0 || (expDelta!==null&&expDelta<0) || (nwbDelta!==null&&nwbDelta<0);
+  var hasAumento= top2pos.length>0 || canalPos.length>0 || (expDelta!==null&&expDelta>0) || (nwbDelta!==null&&nwbDelta>0);
+
+  if (hasQueda || hasAumento) {{
+    out += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">';
+
+    // ── Coluna QUEDA ──
+    out += '<div style="border:1px solid #ef9a9a;border-radius:10px;overflow:hidden">';
+    out += '<div style="background:#b71c1c;padding:8px 12px">'+
+      '<span style="color:#fff;font-weight:700;font-size:11px">&#128308; TOP FATORES DE QUEDA</span>'+
+    '</div><div style="padding:10px 12px;display:flex;flex-direction:column;gap:7px">';
+
+    // Processos em queda
+    if (top3neg.length > 0) {{
+      out += '<div style="font-size:10px;font-weight:700;color:#b71c1c;margin-bottom:2px">Processos</div>';
+      top3neg.forEach(function(p) {{
+        var pri=Math.abs(p.impact)>0.3?'Alta':Math.abs(p.impact)>0.1?'Media':'Baixa';
+        out += '<div style="background:#fff5f5;border-radius:7px;padding:7px 10px;border:1px solid #ffcdd2">'+
+          '<div style="display:flex;align-items:center;gap:5px;margin-bottom:3px">'+priTag(pri)+
+            '<span style="font-size:11px;font-weight:600;color:#1a1e3c">'+p.k+'</span>'+
+          '</div>'+
+          '<div style="font-size:10px;color:#555;line-height:1.5">'+
+            'NPS&nbsp;<b>'+nS(p.nB)+'</b>&nbsp;<span style="color:#b71c1c">('+dS(p.delta)+')</span>'+
+            '&nbsp;&middot;&nbsp;Impacto:&nbsp;<b style="color:#b71c1c">'+dS(p.impact)+'</b>'+
+            '&nbsp;&middot;&nbsp;'+p.shaB+'%&nbsp;vol'+
+            (p.gapT!==null?'&nbsp;&middot;&nbsp;Gap:&nbsp;<b style="color:#b71c1c">'+p.gapT.toFixed(2)+'pp</b>':'')+
+          '</div>'+
+        '</div>';
       }});
-      out += '</div>';
     }}
-    var seniText = (bDor||bRep) ?
-      (bDor?'<b>Dor do cliente:</b> '+bDor:'') + (bRep?'<br><b>Padrão atendente:</b> '+bRep:'') :
-      'Dados de seniority disponíveis nas tabelas acima.';
-    out += '<div style="background:#fff;border-radius:7px;padding:9px 12px;border:1px solid #e0e0e0">'+
-      '<div style="font-size:10px;font-weight:700;color:#01579b;margin-bottom:4px">&#127775; INSIGHTS OPERACIONAIS</div>'+
-      '<p style="font-size:11px;color:#333;line-height:1.5;margin:0">'+seniText+'</p>'+
-    '</div>';
-    out += '</div>';
+
+    // Canal em queda
+    if (canalNeg.length > 0) {{
+      out += '<div style="font-size:10px;font-weight:700;color:#b71c1c;margin:4px 0 2px">Canal</div>';
+      canalNeg.forEach(function(c) {{
+        out += '<div style="background:#fff5f5;border-radius:6px;padding:5px 9px;border:1px solid #ffcdd2;font-size:10px;color:#333">'+
+          '<b>'+c.k+'</b>: NPS&nbsp;'+nS(c.nB)+'&nbsp;<span style="color:#b71c1c">('+dS(c.delta)+')</span>'+
+          '&nbsp;&middot;&nbsp;'+c.shaB+'%&nbsp;vol&nbsp;&middot;&nbsp;Impacto:&nbsp;<b style="color:#b71c1c">'+dS(c.impact)+'</b>'+
+        '</div>';
+      }});
+    }}
+
+    // Senioridade em queda
+    var srNegLines = [];
+    if(expDelta!==null&&expDelta<0) srNegLines.push('<b>Expert</b>: '+nS(expB?expB.nps:null)+'&nbsp;<span style="color:#b71c1c">('+dS(expDelta)+')</span>&nbsp;&middot;&nbsp;'+(expB?expB.s||0:0)+'&nbsp;pesq.');
+    if(nwbDelta!==null&&nwbDelta<0) srNegLines.push('<b>Newbie</b>: '+nS(nwbB?nwbB.nps:null)+'&nbsp;<span style="color:#b71c1c">('+dS(nwbDelta)+')</span>&nbsp;&middot;&nbsp;'+(nwbB?nwbB.s||0:0)+'&nbsp;pesq.');
+    if(srNegLines.length>0) {{
+      out += '<div style="font-size:10px;font-weight:700;color:#b71c1c;margin:4px 0 2px">Senioridade</div>';
+      srNegLines.forEach(function(l) {{
+        out += '<div style="background:#fff5f5;border-radius:6px;padding:5px 9px;border:1px solid #ffcdd2;font-size:10px;color:#333">'+l+'</div>';
+      }});
+    }}
+
+    if(!hasQueda) out += '<div style="font-size:11px;color:#888;padding:4px 0">Nenhum fator negativo relevante.</div>';
+    out += '</div></div>'; // fim coluna queda
+
+    // ── Coluna AUMENTO ──
+    out += '<div style="border:1px solid #a5d6a7;border-radius:10px;overflow:hidden">';
+    out += '<div style="background:#1b5e20;padding:8px 12px">'+
+      '<span style="color:#fff;font-weight:700;font-size:11px">&#128994; TOP FATORES DE AUMENTO</span>'+
+    '</div><div style="padding:10px 12px;display:flex;flex-direction:column;gap:7px">';
+
+    // Processos em alta
+    if (top2pos.length > 0) {{
+      out += '<div style="font-size:10px;font-weight:700;color:#1b5e20;margin-bottom:2px">Processos</div>';
+      top2pos.forEach(function(p) {{
+        var pri=Math.abs(p.impact)>0.3?'Alta':Math.abs(p.impact)>0.1?'Media':'Baixa';
+        var priGreen=p==='Alta'?'#1b5e20':p==='Media'?'#2e7d32':'#388e3c';
+        var priTagG='<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:#1b5e2022;color:#1b5e20">'+pri+'</span>';
+        out += '<div style="background:#f1f8f3;border-radius:7px;padding:7px 10px;border:1px solid #c8e6c9">'+
+          '<div style="display:flex;align-items:center;gap:5px;margin-bottom:3px">'+priTagG+
+            '<span style="font-size:11px;font-weight:600;color:#1a1e3c">'+p.k+'</span>'+
+          '</div>'+
+          '<div style="font-size:10px;color:#555;line-height:1.5">'+
+            'NPS&nbsp;<b>'+nS(p.nB)+'</b>&nbsp;<span style="color:#1b5e20">('+dS(p.delta)+')</span>'+
+            '&nbsp;&middot;&nbsp;Impacto:&nbsp;<b style="color:#1b5e20">'+dS(p.impact)+'</b>'+
+            '&nbsp;&middot;&nbsp;'+p.shaB+'%&nbsp;vol'+
+            (p.gapT!==null?'&nbsp;&middot;&nbsp;Gap:&nbsp;<b style="color:'+(p.gapT>=0?'#1b5e20':'#b71c1c')+'">'+p.gapT.toFixed(2)+'pp</b>':'')+
+          '</div>'+
+        '</div>';
+      }});
+    }}
+
+    // Canal em alta
+    if (canalPos.length > 0) {{
+      out += '<div style="font-size:10px;font-weight:700;color:#1b5e20;margin:4px 0 2px">Canal</div>';
+      canalPos.forEach(function(c) {{
+        out += '<div style="background:#f1f8f3;border-radius:6px;padding:5px 9px;border:1px solid #c8e6c9;font-size:10px;color:#333">'+
+          '<b>'+c.k+'</b>: NPS&nbsp;'+nS(c.nB)+'&nbsp;<span style="color:#1b5e20">('+dS(c.delta)+')</span>'+
+          '&nbsp;&middot;&nbsp;'+c.shaB+'%&nbsp;vol&nbsp;&middot;&nbsp;Impacto:&nbsp;<b style="color:#1b5e20">'+dS(c.impact)+'</b>'+
+        '</div>';
+      }});
+    }}
+
+    // Senioridade em alta
+    var srPosLines = [];
+    if(expDelta!==null&&expDelta>0) srPosLines.push('<b>Expert</b>: '+nS(expB?expB.nps:null)+'&nbsp;<span style="color:#1b5e20">('+dS(expDelta)+')</span>&nbsp;&middot;&nbsp;'+(expB?expB.s||0:0)+'&nbsp;pesq.');
+    if(nwbDelta!==null&&nwbDelta>0) srPosLines.push('<b>Newbie</b>: '+nS(nwbB?nwbB.nps:null)+'&nbsp;<span style="color:#1b5e20">('+dS(nwbDelta)+')</span>&nbsp;&middot;&nbsp;'+(nwbB?nwbB.s||0:0)+'&nbsp;pesq.');
+    if(srPosLines.length>0) {{
+      out += '<div style="font-size:10px;font-weight:700;color:#1b5e20;margin:4px 0 2px">Senioridade</div>';
+      srPosLines.forEach(function(l) {{
+        out += '<div style="background:#f1f8f3;border-radius:6px;padding:5px 9px;border:1px solid #c8e6c9;font-size:10px;color:#333">'+l+'</div>';
+      }});
+    }}
+
+    // Fator positivo qualitativo (transcrições / promotores)
+    if (bPos) {{
+      out += '<div style="font-size:10px;font-weight:700;color:#1b5e20;margin:4px 0 2px">Fator Positivo (Transcri&#231;&#245;es)</div>'+
+        '<div style="background:#f1f8f3;border-radius:6px;padding:6px 9px;border:1px solid #c8e6c9;font-size:11px;color:#1a3c1a;line-height:1.5">'+bPos+'</div>';
+    }}
+
+    if(!hasAumento) out += '<div style="font-size:11px;color:#888;padding:4px 0">Nenhum fator positivo relevante.</div>';
+    out += '</div></div>'; // fim coluna aumento
+
+    out += '</div>'; // fim grid
   }}
 
   // Sumário para diretoria + Conclusão (gerados quantitativamente)
