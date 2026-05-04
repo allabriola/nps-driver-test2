@@ -1531,7 +1531,7 @@ function buildExecutiveBrief(drv, period, drvData, bkData) {{
   }}
 
   // ── ANÁLISE EXECUTIVA COMPLETA (framework consultivo) — mostrar primeiro ──
-  var execFull = buildExecutiveAnalysis(drv, lA, lB);
+  var execFull = buildExecutiveAnalysis(drv, lA, lB, period);
 
   // ── HEADER ──
   var html='<div class="exec-brief">'+
@@ -2225,11 +2225,15 @@ function buildAnaliseQuant(o) {{
 }}
 
 // ── Análise Executiva Completa (framework consultivo) ─────────────────────────
-function buildExecutiveAnalysis(drv, lA, lB) {{
+function buildExecutiveAnalysis(drv, lA, lB, period) {{
   var sumObj = (typeof DD_SUMMARIES !== 'undefined' ? DD_SUMMARIES : {{}})[drv];
   if (!sumObj) return '';
-  var wow = typeof sumObj.wow === 'object' && sumObj.wow ? sumObj.wow : {{}};
-  var ea = wow.executive_analysis || null;
+  var isMes = period === 'mes';
+  // Selecionar analise correta: mom para aba Mes, wow para Semana/Vigente
+  var bucket = isMes
+    ? (typeof sumObj.mom === 'object' && sumObj.mom ? sumObj.mom : {{}})
+    : (typeof sumObj.wow === 'object' && sumObj.wow ? sumObj.wow : {{}});
+  var ea = bucket.executive_analysis || null;
   if (!ea) return '';
 
   function badge(txt, col) {{

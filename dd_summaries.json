@@ -89,7 +89,88 @@
     }
   },
   "ME Vendedor Seller Dev": {
-    "mom": "▶ Variação MoM: Viaje del paquete - Vendedor caiu -11.7pp (NPS 57.25% Abr vs 68.95% Mar, 276 surveys) — maior queda do driver e maior volume; Reversa subiu +8.43pp (NPS 59.33%, 418 surveys) como principal vetor positivo.\n▶ Dor do cliente: Sellers relatam envio parado sem atualização, falta de retorno por WhatsApp, e percepção de que o rep não assumiu responsabilidade — CDU 'Tiene dudas sobre el estado del envío' com comentários como '60 dias enrolado com uma venda' e 'não obtive retorno'.\n▶ Comportamento REP: Reps abrem protocolo por e-mail sem fechar o chat com solução; em casos de frete particular, orientam mas não confirmam estorno — seller percebe atendimento insatisfatório mesmo com rep cordial por falta de resolução definitiva.\n▶ Ponto positivo: Reversa com +8.43pp e promotores elogiando 'atendimento de qualidade, atendente super atenciosa, me ajudou o tempo todo' — quando o rep tem acesso ao caso de devolução, resolve com cordialidade e gera forte satisfação.\n▶ Oportunidade de melhoria: Integrar rastreio em tempo real no chat para CDU de rastreio pode recuperar boa parte dos -11.7pp — o problema é a ausência de informação objetiva sobre o envio, não a qualidade do rep em si.",
+    "mom": {
+      "bullets_legado": "▶ Variação MoM: Viaje del paquete - Vendedor caiu -11.7pp (NPS 57.25% Abr vs 68.95% Mar, 276 surveys) — maior queda do driver e maior volume; Reversa subiu +8.43pp (NPS 59.33%, 418 surveys) como principal vetor positivo.\n▶ Dor do cliente: Sellers relatam envio parado sem atualização, falta de retorno por WhatsApp, e percepção de que o rep não assumiu responsabilidade — CDU 'Tiene dudas sobre el estado del envío' com comentários como '60 dias enrolado com uma venda' e 'não obtive retorno'.\n▶ Comportamento REP: Reps abrem protocolo por e-mail sem fechar o chat com solução; em casos de frete particular, orientam mas não confirmam estorno — seller percebe atendimento insatisfatório mesmo com rep cordial por falta de resolução definitiva.\n▶ Ponto positivo: Reversa com +8.43pp e promotores elogiando 'atendimento de qualidade, atendente super atenciosa, me ajudou o tempo todo' — quando o rep tem acesso ao caso de devolução, resolve com cordialidade e gera forte satisfação.\n▶ Oportunidade de melhoria: Integrar rastreio em tempo real no chat para CDU de rastreio pode recuperar boa parte dos -11.7pp — o problema é a ausência de informação objetiva sobre o envio, não a qualidade do rep em si.",
+      "executive_analysis": {
+        "periodo": "MoM: Marco 2026 vs Abril 2026",
+        "resumo_executivo": "ME Vendedor Seller Dev fechou Abril com NPS de 68.2% (+1.1pp MoM vs Marco 67.1%), 10.4pp acima do target de 57.8% — quinto mes consecutivo acima da meta. Volume mensal de 6.196 surveys (+2.1% vs Marco). A melhora mensal foi modesta mas consistente, sustentada por Reputacao ME (NPS 82.9% em Abril). Dois movimentos a monitorar: (1) CDU 'Desativar ME' caiu 14.9pp MoM (85.3%→70.4%) — tendencia de deterioracao que se acelerou na semana; (2) CDU 'Reputacao ME Vendas: Logistica Places' reverteu de negativo para +34.8% NPS, sinalizando melhora de qualidade no segmento de integracao com Places.",
+        "destaques_positivos": [
+          "MoM +1.1pp: evolucao consistente — quinto mes acima do target",
+          "Acima do target em +10.4pp — maior margem de seguranca no historico recente",
+          "CDU Reputacao ME Vendas Logistica Places reverteu: de -13.2% para +34.8% NPS (+48pp MoM)",
+          "Volume +2.1% MoM: crescimento saudavel sem diluicao de qualidade",
+          "Reputacao ME mantém lideranca: NPS 82.9% e processo mais promotor do driver"
+        ],
+        "destaques_negativos": [
+          "CDU Desativar ME -14.9pp MoM (85.3%→70.4%): deterioracao acumulada com aceleracao na semana",
+          "Despacho Ventas y Publicacoes (maior processo por volume apos Rep. ME) ainda abaixo do otimo",
+          "Melhora mensal de +1.1pp e modesta versus o potencial do driver — ainda ha aceleracao possivel",
+          "Sem dados de senioridade comparativos MoM disponiveis neste relatorio"
+        ],
+        "impacto_estrategico": "CLIENTE: O driver e o maior responsavel pela experiencia de Sellers com o Mercado Envios — qualquer deterioracao tem impacto direto no ecossistema de vendas. OPERACAO: Tendencia de queda em Desativar ME ao longo do mes exige correcao sistemica. MARCA: Reputacao ME com NPS alto sustenta a percepcao de qualidade do servico ME junto a vendedores. EFICIENCIA: O CDU Logistica Places subiu 48pp — validar se mudanca operacional sustenta a melhora.",
+        "voc_positivos": "Padrao mensal de promotores: resolucao rapida, agentes com conhecimento do processo e clareza na comunicacao de status de envio. Reputacao ME e o processo com maior reconhecimento de qualidade pelos vendedores — NPS 82.9% consistente ao longo do mes.",
+        "voc_negativos": "Detratores de Desativar ME: vendedores buscando desativar configuracoes de envio encontram restricoes sistemicas que o agente nao consegue resolver. Frustracao acumulada ao longo do mes — nao com o atendente, mas com a ferramenta e o processo.",
+        "causas_raiz": [
+          {
+            "problema": "CDU Desativar ME com deterioracao acumulada de -14.9pp MoM",
+            "evidencia_quant": "CDU caiu de 85.3% (Marco) para 70.4% (Abril) — 54 surveys afetados",
+            "evidencia_qual": "Vendedores buscando desativar ME encontram restricoes sistemicas sem saida",
+            "causa": "Restricao de produto: desativacao de ME nao e disponivel em todos os cenarios e o agente nao tem tool adequada",
+            "impacto": "Deterioracao mes a mes — risco de cruzar abaixo de 60% se tendencia continuar em Maio",
+            "urgencia": "Alta",
+            "acao": "Mapear cenarios de desativacao de ME e criar tool especifica para o agente resolver on-the-spot"
+          },
+          {
+            "problema": "Melhora mensal modesta (+1.1pp) em relacao ao potencial do driver",
+            "evidencia_quant": "Driver opera 10.4pp acima do target mas cresce apenas 1pp/mes",
+            "evidencia_qual": "Sem aceleracao visivel nos processos de medio NPS (Despacho, Reversa)",
+            "causa": "Potencial de crescimento concentrado em processos que nao tem atencao operacional dedicada",
+            "impacto": "Oportunidade de ganho de 3-5pp adicional nao aproveitada",
+            "urgencia": "Media",
+            "acao": "Revisao de processos de NPS 55-65% (Despacho, Viaje Vendedor) para identificar quick wins"
+          }
+        ],
+        "recomendacoes_curto": [
+          {
+            "acao": "Tool especifica para cenarios de desativacao de ME — eliminar principal CDU de queda",
+            "impacto": "+5pp no CDU afetado",
+            "facilidade": "Baixa",
+            "prioridade": "1"
+          },
+          {
+            "acao": "Investigar causa da melhora em Logistica Places (+48pp) para replicar",
+            "impacto": "Confirmar se melhora e sustentavel",
+            "facilidade": "Alta",
+            "prioridade": "2"
+          },
+          {
+            "acao": "Revisao de qualidade em Despacho Ventas y Publicacoes — maior processo de volume",
+            "impacto": "+2pp NPS no processo",
+            "facilidade": "Media",
+            "prioridade": "3"
+          }
+        ],
+        "resumo_diretoria": "ME Vendedor Seller Dev fechou Abril com NPS 68.2% (+1.1pp MoM), 10.4pp acima da meta. O driver e o maior por volume (6.196 surveys) e opera consistentemente acima do target ha 5 meses. Ponto de atencao: CDU Desativar ME acumulou -14.9pp de queda ao longo do mes — deterioracao sistemica. Destaque positivo: CDU Logistica Places reverteu de negativo para NPS 34.8% (+48pp). Acao prioritaria: criar tool para agente resolver cenarios de desativacao ME on-the-spot.",
+        "conclusao_estrategica": "ME Vendedor Seller Dev consolida posicao de lideranca com 10.4pp acima da meta, mas o crescimento mensal modesto (+1.1pp) indica que ha potencial nao aproveitado. A prioridade de Maio deve ser dupla: corrigir a deterioracao em Desativar ME antes que cruce abaixo de 60%, e investigar a melhora em Logistica Places para confirmar se e estrutural e replicavel.",
+        "ganhos_a_escalar": [
+          "Reputacao ME com NPS 82.9% como processo de referencia — identificar boas praticas e escalar",
+          "CDU Logistica Places reverteu +48pp MoM — investigar e replicar o que mudou operacionalmente",
+          "Modelo de atendimento ME consolidado: 5 meses acima do target — documentar como best practice"
+        ],
+        "problemas_a_corrigir": [
+          "CDU Desativar ME em deterioracao acumulada -14.9pp MoM — exige tool especifica de produto",
+          "Crescimento modesto de +1.1pp vs potencial maior — revisar processos de NPS 55-65%",
+          "Despacho Ventas y Publicacoes sem evolucao visivel no mes"
+        ],
+        "acoes_30_dias": [
+          "Mapear cenarios de desativacao de ME e criar tool para agente resolver os principais on-the-spot",
+          "Investigar melhora em Logistica Places (+48pp MoM): mudanca operacional ou variacao de amostra?",
+          "Revisao de qualidade em Despacho Ventas y Publicacoes — maior processo de volume apos Rep. ME"
+        ],
+        "alertas_criticos": "ATENCAO: CDU Desativar ME acumulou -14.9pp MoM — se tendencia continuar em Maio, pode cruzar abaixo de 60% NPS e tornar-se driver de queda sistematica. Requer acao antes do proximo relatorio mensal.",
+        "gerado_em": "2026-05-04 — MoM Marco vs Abril 2026"
+      }
+    },
     "generated_at": "2026-04-28",
     "wow": {
       "bullets_legado": "▶ Variação WoW: Gestiones Operativas +20.76pp (78.26% S1); Reversa +16.93pp (92.31%, s=39) — melhoras expressivas; Viaje del paquete - Vendedor caiu -10.42pp (81.58%, s=38) e Reputacion ME -2.80pp (83.5%, s=303).\n▶ Dor do cliente: Detratores em Viaje Vendedor relatam envio preso ('produto preso no Rio Grande do Sul') e rep que solicita ID do envio mas não consegue localizá-lo — frustração por falta de resposta objetiva sobre o paradeiro do pacote.\n▶ Comportamento REP: Rep solicita ID do envio corretamente mas não tem rastreio em tempo real; em Reversa, rep usa template de devolução estruturado — diferença de NPS (92% vs 81%) mostra que acesso à informação define a qualidade percebida.\n▶ Ponto positivo: Reversa com NPS 92.31% (s=39) é o melhor desempenho WoW do driver — quando o rep tem fluxo claro de devolução com dados completos, resolve com eficiência mesmo para sellers novos do segmento Seller Dev.\n▶ Oportunidade: Rastreio integrado para CDU 'estado del envío' em Viaje Vendedor pode reverter a queda de -10.42pp — processo com 38 surveys e alto impacto por detrator convertido em promotor desta semana.",
@@ -300,7 +381,89 @@
     }
   },
   "PCF Vendedor Seller Dev": {
-    "mom": "▶ Variação MoM: Único processo subiu +2.64pp (NPS 49.48% Abr vs 46.84% Mar, 485 surveys) — leve melhora com o maior volume de PCF; NPS ainda abaixo de 50%, com Mediación abierta (245 surveys) e Devoluciones (216 surveys) como CDUs críticas.\n▶ Dor do cliente: Sellers relatam IA inútil em trocas ('opções não são viáveis à minha operação'), mediação fechada sem resultado, e dificuldade de acesso ao atendente humano — mesma dor estrutural dos outros segmentos PCF, mais volumosa aqui.\n▶ Comportamento REP: Quando o rep humano atende, resolve bem e gera satisfação; o gargalo está na jornada de acesso ao rep, não na qualidade do atendimento — sellers que chegam ao humano tendem a ser promotores.\n▶ Ponto positivo: Melhora de +2.64pp com o maior volume do grupo (485 surveys) é significativa; promotores elogiam resolução de devolução com comprovante e mediações encerradas com reembolso comunicado claramente.\n▶ Oportunidade de melhoria: Para Seller Dev, priorizar redução do TMA de espera por atendente humano em mediações abertas — a frustração com a IA é o maior driver de detração e o seller novo tem ainda menos paciência para a automação.",
+    "mom": {
+      "bullets_legado": "▶ Variação MoM: Único processo subiu +2.64pp (NPS 49.48% Abr vs 46.84% Mar, 485 surveys) — leve melhora com o maior volume de PCF; NPS ainda abaixo de 50%, com Mediación abierta (245 surveys) e Devoluciones (216 surveys) como CDUs críticas.\n▶ Dor do cliente: Sellers relatam IA inútil em trocas ('opções não são viáveis à minha operação'), mediação fechada sem resultado, e dificuldade de acesso ao atendente humano — mesma dor estrutural dos outros segmentos PCF, mais volumosa aqui.\n▶ Comportamento REP: Quando o rep humano atende, resolve bem e gera satisfação; o gargalo está na jornada de acesso ao rep, não na qualidade do atendimento — sellers que chegam ao humano tendem a ser promotores.\n▶ Ponto positivo: Melhora de +2.64pp com o maior volume do grupo (485 surveys) é significativa; promotores elogiam resolução de devolução com comprovante e mediações encerradas com reembolso comunicado claramente.\n▶ Oportunidade de melhoria: Para Seller Dev, priorizar redução do TMA de espera por atendente humano em mediações abertas — a frustração com a IA é o maior driver de detração e o seller novo tem ainda menos paciência para a automação.",
+      "executive_analysis": {
+        "periodo": "MoM: Marco 2026 vs Abril 2026",
+        "resumo_executivo": "PCF Vendedor Seller Dev fechou Abril com NPS 48.8% (+2.0pp MoM vs Marco 46.8%), 8.9pp acima do target de 39.9%. Volume mensal: 512 surveys (-35% vs Marco). O crescimento mensal de +2pp e o segundo menor entre os drivers prioritarios, mas a trajetoria e positiva: o driver estava abaixo do target em Janeiro e agora opera com folga de 8.9pp. CDU de maior queda: 'Devolucoes - Dentro da promessa de entrega' -47.5pp MoM (69.2%→21.7%) — devolucoes dentro do prazo mas com problemas de execucao. CDU de maior alta: 'Mediacao encerrada - Produto danificado' +40.6pp — quando a mediacao de produto danificado e resolvida com criterio claro, o vendedor promove.",
+        "destaques_positivos": [
+          "MoM +2.0pp: segundo mes positivo seguido — trajetoria ascendente consolidada",
+          "+8.9pp vs target — driver operando acima da meta apos historico de dificuldades",
+          "CDU Mediacao encerrada Produto danificado +40.6pp MoM (0%→40.6%): resolucao clara de mediacao gera alto NPS",
+          "Volume estavel no segmento principal — base suficiente para analise confiavel",
+          "Trajetoria: de abaixo do target em Jan/Fev para +8.9pp em Abril — melhora estrutural"
+        ],
+        "destaques_negativos": [
+          "CDU Devolucoes dentro da promessa -47.5pp MoM (69.2%→21.7%): colapso em devolucoes teoricamente ok",
+          "Volume -35% MoM (512 vs 790 surveys): queda acentuada de base em um mes",
+          "NPS absoluto de 48.8% ainda e o mais baixo entre os cinco drivers prioritarios",
+          "Base de 512 surveys e a menor entre os prioritarios — volatilidade amplificada",
+          "Sem dados de canal e senioridade comparativos MoM para analise completa"
+        ],
+        "impacto_estrategico": "CLIENTE: Devolucao dentro do prazo mas com problemas de execucao frustra o vendedor que esperava resolucao automatica — expectativa vs realidade. OPERACAO: Mediacao de produto danificado com criterio claro gera alto NPS — validar e escalar. FINANCEIRO: CDU devolucao impacta diretamente o fluxo de caixa do vendedor. EFICIENCIA: O +40.6pp em mediacao de produto danificado mostra que criterio claro e comunicado tem alto impacto com baixo custo operacional.",
+        "voc_positivos": "Promotores de mediacao de produto danificado: quando a mediacao e encerrada com criterio explicito e justo (produto danificado com evidencias = responsabilidade clara), o vendedor aceita o desfecho e promove o servico. A transparencia no criterio e o driver principal.",
+        "voc_negativos": "Detratores de devolucoes dentro da promessa: a devolucao 'dentro do prazo' nao significa resolucao satisfatoria — o vendedor recebe produto de volta mas com danos, embalagem errada ou processo confuso. A promessa de 'dentro do prazo' cria expectativa de resolucao perfeita que nao se cumpre.",
+        "causas_raiz": [
+          {
+            "problema": "CDU Devolucoes dentro da promessa de entrega colapsou -47.5pp MoM",
+            "evidencia_quant": "CDU: 69.2% (Marco)→21.7% (Abril) — 23 surveys",
+            "evidencia_qual": "Devolucao 'dentro do prazo' mas com problemas de execucao (produto danificado, embalagem errada)",
+            "causa": "Expectativa criada pelo SLA 'dentro da promessa' nao corresponde a qualidade de execucao da devolucao",
+            "impacto": "Vendedor com produto devolvido com avaria ou processo confuso — impacto financeiro direto",
+            "urgencia": "Alta",
+            "acao": "Revisar criterios de qualidade na execucao de devolucoes dentro do prazo — nao apenas o prazo, mas a integridade"
+          },
+          {
+            "problema": "Volume -35% MoM (512 vs 790 surveys) — queda acentuada de base",
+            "evidencia_quant": "-278 surveys em um mes — queda estatisticamente relevante",
+            "evidencia_qual": "Pode indicar deflexao aumentada, reducao de contatos ou mudanca de roteamento",
+            "causa": "Possivel melhora de deflexao no processo de devolucao ou sazonalidade",
+            "impacto": "Base pequena de 512 surveys amplifica volatilidade — variacao de 15 cases muda NPS 3pp",
+            "urgencia": "Media",
+            "acao": "Investigar causa da queda de volume — confirmar se e deflexao real ou mudanca de roteamento"
+          }
+        ],
+        "recomendacoes_curto": [
+          {
+            "acao": "Revisar criterios de qualidade na execucao de devolucoes: integridade do produto, embalagem e processo",
+            "impacto": "Recuperacao do CDU que colapsou -47.5pp",
+            "facilidade": "Media",
+            "prioridade": "1"
+          },
+          {
+            "acao": "Documentar e escalar o modelo de mediacao de produto danificado que gerou +40.6pp",
+            "impacto": "Replicar best practice de criterio claro em outros CDUs de mediacao",
+            "facilidade": "Alta",
+            "prioridade": "2"
+          },
+          {
+            "acao": "Investigar causa da queda de volume -35% em Abril",
+            "impacto": "Estabilidade da base de analise",
+            "facilidade": "Alta",
+            "prioridade": "3"
+          }
+        ],
+        "resumo_diretoria": "PCF Vendedor Seller Dev fechou Abril com NPS 48.8% (+2.0pp MoM), 8.9pp acima da meta — segundo mes positivo seguido. CDU critico: Devolucoes dentro da promessa colapsou -47.5pp — devolucao 'no prazo' mas com execucao problemática. CDU positivo: Mediacao de produto danificado +40.6pp — criterio claro de resolucao gera alto NPS. Acao prioritaria: revisar criterios de qualidade na execucao de devolucoes.",
+        "conclusao_estrategica": "PCF Vendedor Seller Dev confirma trajetoria positiva em Abril (+2pp MoM, +8.9pp vs target). A melhora estrutural vem de mediacoes com criterio claro — o time sabe atender quando o processo e bem definido. O proximo nivel de crescimento exige resolver a qualidade de execucao das devolucoes, que colapsou 47.5pp no mes e pode erodir os ganhos conquistados.",
+        "ganhos_a_escalar": [
+          "Modelo de mediacao com criterio claro: +40.6pp MoM — documentar e escalar para todo o time",
+          "Trajetoria positiva de 3 meses: de abaixo do target para +8.9pp — identificar o que mudou",
+          "Criterio explicito de resolucao de produto danificado como best practice de mediacao"
+        ],
+        "problemas_a_corrigir": [
+          "Devolucoes dentro do prazo mas com execucao problematica: integridade do produto e processo confuso",
+          "Volume -35% MoM: confirmar se deflexao e estrutural ou pontual",
+          "NPS absoluto de 48.8% ainda e o mais baixo entre os prioritarios — espaco para crescimento"
+        ],
+        "acoes_30_dias": [
+          "Revisar qualidade de execucao de devolucoes: integridade do produto devolvido e clareza do processo",
+          "Documentar modelo de mediacao de produto danificado que gerou +40.6pp e escalar",
+          "Investigar queda de volume -35% em Abril — confirmar se e deflexao ou mudanca de roteamento"
+        ],
+        "alertas_criticos": "ATENCAO: CDU Devolucoes dentro da promessa colapsou -47.5pp MoM — se a queda continuar em Maio, pode neutralizar a trajetoria positiva mensal. O criterio de qualidade de execucao de devolucoes precisa ser revisado antes do proximo ciclo de relatorios.",
+        "gerado_em": "2026-05-04 — MoM Marco vs Abril 2026"
+      }
+    },
     "generated_at": "2026-04-28",
     "wow": {
       "bullets_legado": "▶ Variação WoW: Post Compra Funcionalidades Vendedor subiu +8.60pp (NPS 63.27% S1 vs 54.67% S2, s=147) — alta expressiva; para Seller Dev, onde NPS histórico é mais baixo, esta melhora tem impacto proporcional maior.\n▶ Dor do cliente: Seller novato relata dificuldade com trocas ('preciso falar com humano sobre troca que não poderei realizar') — seller Seller Dev tem menos familiaridade com o processo de pós-compra e mais frustração com automação.\n▶ Comportamento REP: Rep estrutura triagem com perguntas objetivas ('troca ou devolução? venda ou compra?') antes de resolver — correto do ponto de vista de processo, mas pode ser percebido como demora desnecessária por seller novo.\n▶ Ponto positivo: Melhora de +8.60pp com 147 surveys é a maior variação positiva WoW em PCF — algo concreto melhorou no atendimento ou roteamento para pós-compra nesta semana; alta pode refletir redução de TMA.\n▶ Oportunidade: Para Seller Dev, simplificar fluxo de triagem em Cambios (menos perguntas no bot antes do rep) pode sustentar e ampliar o +8.60pp — seller novo tem baixa paciência para automação antes do atendimento humano.",
@@ -547,7 +710,88 @@
     }
   },
   "Partners": {
-    "mom": "▶ Variação MoM: Drivers caiu -1.14pp (NPS 65.57% Abr vs 66.71% Mar, 2.074 surveys); Places Kangu caiu -0.16pp (NPS 70.16%, 449 surveys) — driver estável com variação mínima; CDU mais crítica é 'Quiere saber por qué se inactivó su cuenta' (582 surveys).\n▶ Dor do cliente: Drivers relatam conta inativada sem explicação clara, bloqueio de cadastro por exigência de ANTT (frota fixa), rotas canceladas após horas de espera, e app de envios Extra travado após entrega — problemas operacionais recorrentes sem resolução definitiva.\n▶ Comportamento REP: Em casos positivos, rep se apresenta por nome e resolve rapidamente; em negativos, rep verifica sistema e não encontra a restrição mesmo o driver relatando o problema — gap entre o que o rep vê e o problema real do driver.\n▶ Ponto positivo: Places Kangu com NPS 70.16% e promotores elogiando 'muito bom, me ajudou no meu problema' — rep de Kangu tem boa capacidade de orientar sobre credenciamento e funcionamento; onboarding de pontos de coleta bem avaliado.\n▶ Oportunidade de melhoria: Criar protocolo específico para reativação de conta em Drivers (maior CDU com 582 surveys) com prazo definido e comunicação proativa pode reduzir a principal frustração e sustentar o NPS acima de 65%.",
+    "mom": {
+      "bullets_legado": "▶ Variação MoM: Drivers caiu -1.14pp (NPS 65.57% Abr vs 66.71% Mar, 2.074 surveys); Places Kangu caiu -0.16pp (NPS 70.16%, 449 surveys) — driver estável com variação mínima; CDU mais crítica é 'Quiere saber por qué se inactivó su cuenta' (582 surveys).\n▶ Dor do cliente: Drivers relatam conta inativada sem explicação clara, bloqueio de cadastro por exigência de ANTT (frota fixa), rotas canceladas após horas de espera, e app de envios Extra travado após entrega — problemas operacionais recorrentes sem resolução definitiva.\n▶ Comportamento REP: Em casos positivos, rep se apresenta por nome e resolve rapidamente; em negativos, rep verifica sistema e não encontra a restrição mesmo o driver relatando o problema — gap entre o que o rep vê e o problema real do driver.\n▶ Ponto positivo: Places Kangu com NPS 70.16% e promotores elogiando 'muito bom, me ajudou no meu problema' — rep de Kangu tem boa capacidade de orientar sobre credenciamento e funcionamento; onboarding de pontos de coleta bem avaliado.\n▶ Oportunidade de melhoria: Criar protocolo específico para reativação de conta em Drivers (maior CDU com 582 surveys) com prazo definido e comunicação proativa pode reduzir a principal frustração e sustentar o NPS acima de 65%.",
+      "executive_analysis": {
+        "periodo": "MoM: Marco 2026 vs Abril 2026",
+        "resumo_executivo": "Partners fechou Abril com NPS de 65.8% (-1.5pp MoM vs Marco 67.4%), 4.3pp abaixo do target de 70.2%. O volume mensal e de 2.638 surveys. O recuo mensal e o segundo consecutivo abaixo do target — o driver nunca atingiu a meta em 2026. CDU mais critico: 'Pago de ruta / ME Extra: pagamento nao realizado' despencou 60pp MoM (86.7%→26.7%). Em contraste, CDU 'ME Places: Situacao atual do seu Place' subiu +35.7pp, sinalizando que o segmento de Places responde bem quando a informacao e clara e objetiva.",
+        "destaques_positivos": [
+          "CDU ME Places: Situacao atual do Place +35.7pp MoM (55.6%→91.3%): best practice do driver no mes",
+          "Volume mensal estavel (2.638 surveys vs 2.806 em Marco — -6%)",
+          "Qualidade do time reconhecida consistentemente nos promotores ao longo do mes",
+          "Segmento Places com NPS 91.3% em Abril — maior subgrupo de satisfacao do driver"
+        ],
+        "destaques_negativos": [
+          "MoM -1.5pp: segundo mes seguido em queda — tendencia de deterioracao mensal",
+          "4.3pp abaixo do target — driver sem meta atingida em nenhum mes de 2026",
+          "CDU Pago de ruta / Pagamento nao realizado -60pp MoM: colapso em CDU de alto volume",
+          "Partners opera abaixo do target enquanto outros drivers do grupo superam com folga",
+          "Volume caindo -6% MoM — base menor amplifica volatilidade"
+        ],
+        "impacto_estrategico": "CLIENTE: Motoristas com pagamento nao realizado ficam sem renda — urgencia financeira maxima. OPERACAO: Dois meses consecutivos abaixo do target sem acao corretiva visivel — risco de consolidacao. MARCA: Partners e o driver mais proximo do cliente final (entregador) — insatisfacao tem impacto em qualidade de entrega e reputacao do servico como um todo. FINANCEIRO: Pagamento nao realizado e uma reclamacao de impacto direto na renda do parceiro.",
+        "voc_positivos": "Promotores do segmento Places: informacao clara sobre situacao do ponto de entrega resolve na primeira interacao (NPS 91.3%). O driver tem capacidade tecnica de excelencia quando o agente tem a informacao e a ferramenta corretas.",
+        "voc_negativos": "O CDU de pagamento nao realizado traz relatos de motoristas com rota concluida mas sem recebimento. Sem transparencia sobre o processo de correcao e sem prazo de resolucao. Frustracao financeira direta — o impacto e na renda do parceiro, nao apenas na experiencia.",
+        "causas_raiz": [
+          {
+            "problema": "CDU Pago de ruta / ME Extra Pagamento nao realizado colapsou -60pp MoM",
+            "evidencia_quant": "CDU: 86.7% (Marco)→26.7% (Abril) — 15 surveys; pior CDU mensal do driver",
+            "evidencia_qual": "Motoristas com rota concluida sem recebimento — impacto financeiro direto",
+            "causa": "Falha no processo de liberacao de pagamento de rotas — seja sistematica ou por criterios opacos de aprovacao",
+            "impacto": "Motorista sem renda esperada — risco de desengajamento imediato e churn",
+            "urgencia": "Critica",
+            "acao": "Investigar root cause do bloqueio de pagamento de rotas em Abril — e criar SLA de resolucao em 48h"
+          },
+          {
+            "problema": "Driver sem meta atingida em nenhum mes de 2026 com tendencia de queda MoM",
+            "evidencia_quant": "Janeiro: ~65%, Fevereiro: ~67%, Marco: 67.4%, Abril: 65.8% — sem meta em 2026",
+            "evidencia_qual": "Gap estrutural de 4.3pp vs target — nao e questao operacional pontual",
+            "causa": "Target de 70.2% acima da capacidade atual do driver sem acao estrutural de produto",
+            "impacto": "Risco de consolidacao do gap como gap permanente se nao tratado",
+            "urgencia": "Alta",
+            "acao": "Revisao do target vs capacidade ou plano de melhoria estrutural com prazo definido"
+          }
+        ],
+        "recomendacoes_curto": [
+          {
+            "acao": "Investigar e corrigir processo de pagamento nao realizado — SLA de resolucao 48h",
+            "impacto": "Recuperacao do CDU que colapsou -60pp",
+            "facilidade": "Media",
+            "prioridade": "1"
+          },
+          {
+            "acao": "Replicar script do CDU ME Places (NPS 91.3%) para outros CDUs de informacao",
+            "impacto": "+5pp em CDUs de consulta",
+            "facilidade": "Alta",
+            "prioridade": "2"
+          },
+          {
+            "acao": "Criar ownership de casos de pagamento para garantir resolucao sem multi-atendimento",
+            "impacto": "Reducao de detratores por escalada sem resolucao",
+            "facilidade": "Media",
+            "prioridade": "3"
+          }
+        ],
+        "resumo_diretoria": "Partners fechou Abril com NPS 65.8% (-1.5pp MoM), 4.3pp abaixo da meta — segundo mes seguido abaixo do target. CDU mais critico: pagamento de rota nao realizado colapsou 60pp no mes — impacto financeiro direto no parceiro. Contraponto: CDU ME Places com NPS 91.3% (+35.7pp) mostra que o time tem excelencia quando tem ferramenta. Acao prioritaria: investigar e corrigir o processo de pagamento de rotas antes do relatorio de Maio.",
+        "conclusao_estrategica": "Partners e o unico driver prioritario sem meta atingida em 2026, com tendencia de queda consecutiva. O gap nao e operacional — e de produto: o agente performa com excelencia (91.3% em Places) quando tem ferramenta, mas fica paralisado em pagamentos e conflitos de conta. A prioridade maxima de Maio e resolver o CDU de pagamento de rota que colapsou 60pp — impacto financeiro direto no parceiro.",
+        "ganhos_a_escalar": [
+          "CDU ME Places com NPS 91.3% (+35.7pp MoM) — identificar o que mudou e replicar em outros CDUs",
+          "Qualidade do time quando tem ferramenta — ampliar tool coverage para CDUs criticos",
+          "Segmento de consulta sobre status tem melhor performance — padronizar fluxo de informacao"
+        ],
+        "problemas_a_corrigir": [
+          "Pagamento de rota nao realizado colapsou -60pp — investigacao urgente de root cause",
+          "Driver sem meta atingida em 2026 — plano estrutural necessario",
+          "Volume caindo -6% MoM — base menor amplifica volatilidade do NPS"
+        ],
+        "acoes_30_dias": [
+          "URGENTE: Investigar root cause do bloqueio de pagamento de rotas em Abril e criar SLA de 48h",
+          "Replicar script e fluxo do CDU ME Places (NPS 91.3%) para CDUs de informacao e status",
+          "Revisao do plano de atingimento do target: o que precisa mudar para chegar a 70%+ em Junho"
+        ],
+        "alertas_criticos": "CRITICO: Pagamento de rota nao realizado com NPS 26.7% — impacto financeiro direto no parceiro e risco de churn de motoristas se nao resolvido em 30 dias. ATENCAO: Segundo mes consecutivo abaixo do target com tendencia de queda — risco de consolidacao do gap.",
+        "gerado_em": "2026-05-04 — MoM Marco vs Abril 2026"
+      }
+    },
     "generated_at": "2026-04-29 18:20",
     "wow": {
       "resumo_executivo": "Partners encerrou a semana de 20-26/abr com NPS de 67,0% (-0,55pp vs semana anterior), sustentado pelo crescimento de Places Kangu (+0,69pp) que parcialmente compensou a queda em Drivers (-0,48pp). O principal vetor de insatisfação continua sendo o processo de ativação e gestão de conta de motoristas: conta inativada pelo Digital Account (sem ferramenta de reativação pelo atendente) e bugs de cadastro geram NPS crítico de 57-62% nos CDUs de maior volume. Um achado operacional relevante: Newbies superam Experts no CDU de conta inativada (76,5% vs 57,4%), sugerindo que o script básico é mais eficaz do que improvisações dos seniors sem a ferramenta adequada.",
@@ -780,7 +1024,88 @@
     }
   },
   "Post Venta Seller Dev": {
-    "mom": "▶ Variação MoM: Reputación subiu +5.26pp (NPS 69.47% Abr vs 64.21% Mar, 891 surveys — maior volume de Post Venta); Anulación de Venta subiu +25.37pp (NPS 66.67%, 33 surveys — volume pequeno); movimento geral positivo no driver.\n▶ Dor do cliente: Sem transcrições disponíveis; em Reputação Seller Dev o padrão de dor tende a ser penalização por atraso de envio sem reconhecimento de excepcionalidade (ex: logística, catástrofe), impactando especialmente sellers novos com pouca margem de erro.\n▶ Comportamento REP: Sem transcrições; a melhora de +5.26pp no processo mais volumoso (891 surveys) indica que o rep está comunicando melhor os prazos de recuperação de reputação ou resolvendo mais casos de penalização indevida em Abril.\n▶ Ponto positivo: Anulación de Venta com +25.37pp (NPS 66.67%) é o maior salto do driver — quando vendas são canceladas sem penalização ao seller, a satisfação é alta; processo com alto impacto positivo por survey.\n▶ Oportunidade de melhoria: Focar em cases de reputação Seller Dev com queda há mais de 30 dias sem recuperação — provavelmente o subgrupo com NPS mais baixo dentro do processo e o maior potencial de retorno com orientação personalizada do rep.",
+    "mom": {
+      "bullets_legado": "▶ Variação MoM: Reputación subiu +5.26pp (NPS 69.47% Abr vs 64.21% Mar, 891 surveys — maior volume de Post Venta); Anulación de Venta subiu +25.37pp (NPS 66.67%, 33 surveys — volume pequeno); movimento geral positivo no driver.\n▶ Dor do cliente: Sem transcrições disponíveis; em Reputação Seller Dev o padrão de dor tende a ser penalização por atraso de envio sem reconhecimento de excepcionalidade (ex: logística, catástrofe), impactando especialmente sellers novos com pouca margem de erro.\n▶ Comportamento REP: Sem transcrições; a melhora de +5.26pp no processo mais volumoso (891 surveys) indica que o rep está comunicando melhor os prazos de recuperação de reputação ou resolvendo mais casos de penalização indevida em Abril.\n▶ Ponto positivo: Anulación de Venta com +25.37pp (NPS 66.67%) é o maior salto do driver — quando vendas são canceladas sem penalização ao seller, a satisfação é alta; processo com alto impacto positivo por survey.\n▶ Oportunidade de melhoria: Focar em cases de reputação Seller Dev com queda há mais de 30 dias sem recuperação — provavelmente o subgrupo com NPS mais baixo dentro do processo e o maior potencial de retorno com orientação personalizada do rep.",
+      "executive_analysis": {
+        "periodo": "MoM: Marco 2026 vs Abril 2026",
+        "resumo_executivo": "Post Venta Seller Dev fechou Abril com NPS 69.2% (+5.9pp MoM vs Marco 63.3%), 15.8pp acima do target de 53.4% — melhor resultado mensal do driver em 2026. Volume mensal de 967 surveys (-18% vs Marco). O crescimento mensal foi o maior entre os drivers prioritarios. CDU mais positivo: 'Analisamos reputacao - Reclamacao revisada' +42.5pp (13.2%→55.7%, 61 surveys) — revisao de reclamacoes com criterio justo gera alto impacto. CDU em queda: 'Criterios de reputacao - Como ser Loja Oficial' -26.7pp — expectativa de ascensao de status nao cumprida.",
+        "destaques_positivos": [
+          "MoM +5.9pp: maior crescimento mensal entre os drivers prioritarios em Abril",
+          "CDU Reclamacao revisada +42.5pp MoM (13.2%→55.7%): revisao justa de reclamacoes gera alto NPS",
+          "+15.8pp vs target — segundo maior gap positivo vs meta",
+          "Melhor resultado mensal de 2026 para o driver — trajetoria ascendente confirmada",
+          "Revisao de reclamacoes como driver de satisfacao: quando o vendedor ve justicia, promove o servico"
+        ],
+        "destaques_negativos": [
+          "CDU Criterios de reputacao - Como ser Loja Oficial -26.7pp MoM: expectativa de progressao nao cumprida",
+          "Volume -18% MoM (967 vs 1.186): queda de base — monitorar continuidade",
+          "Queda WoW subsequente de -4.2pp sugere que o crescimento mensal pode estar arrefecendo",
+          "Newbies com menor qualidade em casos complexos de mediacao ao longo do mes"
+        ],
+        "impacto_estrategico": "CLIENTE: Revisao justa de reclamacoes e um poderoso gerador de confianca do vendedor no ML. OPERACAO: O resultado positivo do mes valida que o processo de revisao de reclamacoes esta funcionando. MARCA: Vendedor que teve reclamacao revisada justa torna-se advogado da marca — alto potencial de NPS positive. EFICIENCIA: O CDU de Loja Oficial sugere oportunidade de criar programa de orientacao de progressao de status.",
+        "voc_positivos": "Promotores do CDU Reclamacao revisada: vendedores que tiveram reclamacoes revisadas de forma justa expressam gratidao e confianca no processo do ML. A percepcao de justicia e o principal driver de satisfacao neste CDU. Quando o vendedor sente que o ML esta do seu lado, o NPS e muito alto.",
+        "voc_negativos": "CDU Loja Oficial: vendedores que querem entender os criterios para se tornar Loja Oficial encontram barreiras ou criterios vagos. A expectativa de progressao nao cumprida e o principal gerador de frustracoes neste CDU — o vendedor sente que a meta nao e clara.",
+        "causas_raiz": [
+          {
+            "problema": "CDU Como ser Loja Oficial -26.7pp MoM: expectativa de progressao de status frustrada",
+            "evidencia_quant": "CDU: 84.6% (Marco)→57.9% (Abril) — 19 surveys",
+            "evidencia_qual": "Vendedores buscando criterios de Loja Oficial encontram informacao vaga ou barreiras",
+            "causa": "Criterios de progressao de status de vendedor nao comunicados com clareza e objetividade",
+            "impacto": "Vendedores que aspiram crescer no ML insatisfeitos — risco de reducao de engajamento",
+            "urgencia": "Media",
+            "acao": "Criar FAQ claro sobre criterios de progressao para Loja Oficial com exemplos e prazos"
+          },
+          {
+            "problema": "Volume -18% MoM — base menor pode amplificar volatilidade",
+            "evidencia_quant": "967 surveys em Abril vs 1.186 em Marco",
+            "evidencia_qual": "Reducao de volume pode indicar deflexao aumentada ou sazonalidade",
+            "causa": "Possivelmente deflexao mais eficaz ou sazonalidade de reclamacoes pos-periodo de alta",
+            "impacto": "Menor base torna o NPS mais sensivel a variacao pontual",
+            "urgencia": "Baixa — monitorar",
+            "acao": "Monitorar volume em Maio para confirmar se e tendencia ou sazonalidade"
+          }
+        ],
+        "recomendacoes_curto": [
+          {
+            "acao": "Criar FAQ claro de criterios de progressao para Loja Oficial com exemplos e prazos",
+            "impacto": "Recuperacao do CDU -26.7pp",
+            "facilidade": "Alta",
+            "prioridade": "1"
+          },
+          {
+            "acao": "Escalar o modelo de revisao justa de reclamacoes como best practice de atendimento",
+            "impacto": "Replicar o +42.5pp do CDU de revisao",
+            "facilidade": "Media",
+            "prioridade": "2"
+          },
+          {
+            "acao": "Monitorar volume em Maio — confirmar se queda de -18% e tendencia estrutural",
+            "impacto": "Estabilidade da base de calculo",
+            "facilidade": "Alta",
+            "prioridade": "3"
+          }
+        ],
+        "resumo_diretoria": "Post Venta Seller Dev fechou Abril com NPS 69.2% (+5.9pp MoM), 15.8pp acima da meta — melhor resultado do driver em 2026. O crescimento foi liderado pelo CDU Reclamacao Revisada (+42.5pp): vendedores que recebem revisao justa tornam-se promotores fortes. Ponto de atencao: criterios de Loja Oficial com queda de -26.7pp — expectativa de progressao de status nao cumprida. Acao prioritaria: FAQ claro de criterios de Loja Oficial com exemplos e prazos.",
+        "conclusao_estrategica": "Post Venta Seller Dev confirma em Abril que revisao justa de reclamacoes e o maior driver de satisfacao neste processo — +42.5pp no CDU correspondente. O driver opera 15.8pp acima da meta com trajetoria ascendente. O foco de Maio deve ser manter o padrao de revisao justa e corrigir o CDU de Loja Oficial antes que a queda acumule mais.",
+        "ganhos_a_escalar": [
+          "Modelo de revisao justa de reclamacoes — +42.5pp MoM: documentar e escalar como best practice",
+          "Trajetoria de crescimento MoM (+5.9pp): identificar o que mudou operacionalmente em Abril",
+          "Margem de +15.8pp vs target: usar como base para elevar target em Julho"
+        ],
+        "problemas_a_corrigir": [
+          "CDU Criterios Loja Oficial -26.7pp MoM: expectativa de progressao de status sem informacao clara",
+          "Queda WoW subsequente de -4.2pp: monitorar se crescimento mensal esta arrefecendo",
+          "Volume -18% MoM: confirmar se e estrutural ou sazonalidade"
+        ],
+        "acoes_30_dias": [
+          "Criar FAQ claro de criterios de progressao para Loja Oficial com exemplos concretos e prazos",
+          "Documentar o processo de revisao justa de reclamacoes que gerou +42.5pp e escalar para todo o time",
+          "Monitorar volume de contatos em Maio — confirmar se queda de -18% e tendencia estrutural"
+        ],
+        "alertas_criticos": "ATENCAO: Queda WoW de -4.2pp logo apos melhor mes do driver — monitorar se e reversao de tendencia ou correcao pontual. Se WoW seguir negativo, o crescimento mensal pode ser neutralizado em Maio.",
+        "gerado_em": "2026-05-04 — MoM Marco vs Abril 2026"
+      }
+    },
     "generated_at": "2026-04-28",
     "wow": {
       "bullets_legado": "▶ Variação WoW: Reputación subiu +6.20pp (NPS 90.91% S1 vs 84.71% S2, s=341) — alta robusta; para Seller Dev, onde reputação é crítica para o seller novato, esta melhora tem impacto estratégico maior que nos outros segmentos.\n▶ Dor do cliente: Sem transcrições; Seller Dev com queda de reputação frequentemente não compreende os critérios de penalização — dor residual é falta de clareza sobre 'como recuperar' mesmo após orientação do rep.\n▶ Comportamento REP: Sem transcrições; melhora de +6.20pp com 341 surveys é consistente — rep está orientando melhor sellers novos sobre prazos e critérios de recuperação, possivelmente com exemplos práticos mais didáticos.\n▶ Ponto positivo: NPS 90.91% é excepcional para Seller Dev em reputação — sellers novos normalmente têm maior frustração com penalização; a alta indica que o rep conseguiu transformar a frustração em entendimento e satisfação nesta semana.\n▶ Oportunidade: Sustentar o +6.20pp requer entender o gatilho — se for campanha específica de suporte a sellers com reputação baixa, antecipar a próxima onda e replicar o modelo pode manter NPS acima de 90% de forma contínua.",
@@ -919,7 +1244,87 @@
     "wow": "▶ Variação WoW: PR Técnica prohibida +15.58pp (96.43%, s=56); Gestión de Publicación +31.38pp (64.71%, s=17, base S2 pequena s=6); PR Artículos -31.11pp (46.67%, s=15) e Potenciar Ventas -17.60pp — semana mista.\n▶ Dor do cliente: Detratores em Calidad de foto relatam fotos pretas no upload — bug técnico sem resolução disponível no rep; em PR Artículos, critério de proibição sem explicação clara é a dor mais frequente nesta semana.\n▶ Comportamento REP: Rep de Rollback verifica status de anúncio em tempo real e comunica prazo de análise — fluxo correto; em Calidad de foto, bug técnico sem resolução disponível; em PR Técnica, rep especializado MeLi Pro tem excelente calibragem.\n▶ Ponto positivo: PR Técnica prohibida com NPS 96.43% e Antes de publicar com 89.66% (s=29) — MeLi Pro recebe orientação técnica de alta qualidade em processos de publicação complexos; rep especializado performa com excelência.\n▶ Oportunidade: PR Artículos prohibidos com queda -31.11pp (s=15) — com volume pequeno pode ser pontual; monitorar próxima semana e investigar se há nova política que não foi comunicada ao rep MeLi Pro de publicações."
   },
   "Publicaciones Seller Dev": {
-    "mom": "▶ Variação MoM: Calidad de foto caiu -23.59pp (NPS 63.64% Abr vs 87.23% Mar, 22 surveys — amostra pequena); PR - Artículos prohibidos subiu +4.79pp (NPS 50.81%, 124 surveys); CDU maior é 'Afiliados ML - Métricas y comisiones' (874 surveys).\n▶ Dor do cliente: Em Calidad de foto, sellers relatam aviso indevido de foto irregular e fotos que ficam pretas ao tentar adicionar — 'profissionais despreparados, orientações incorretas'; seller percebe critério injusto sem canal de contestação.\n▶ Comportamento REP: Transcrições mostram rep que não consegue resolver o aviso de foto indevida e encaminha sem solução; em outro caso, rep orienta mas o problema técnico de foto preta não tem resolução disponível no chat — falta de acesso técnico para corrigir.\n▶ Ponto positivo: PR - Artículos prohibidos com +4.79pp e NPS 50.81% — melhora consistente; CDU 'Afiliados ML - Métricas y comisiones' (874 surveys) domina o volume e tende a ter resolução positiva quando rep explica métricas e comissões com dados concretos.\n▶ Oportunidade de melhoria: Criar fluxo de contestação para aviso de Calidad de foto com revisão humana em até 24h pode recuperar os -23.59pp — sellers frustrados com critério percebido como injusto sem canal de recurso são forte fonte de detração.",
+    "mom": {
+      "bullets_legado": "▶ Variação MoM: Calidad de foto caiu -23.59pp (NPS 63.64% Abr vs 87.23% Mar, 22 surveys — amostra pequena); PR - Artículos prohibidos subiu +4.79pp (NPS 50.81%, 124 surveys); CDU maior é 'Afiliados ML - Métricas y comisiones' (874 surveys).\n▶ Dor do cliente: Em Calidad de foto, sellers relatam aviso indevido de foto irregular e fotos que ficam pretas ao tentar adicionar — 'profissionais despreparados, orientações incorretas'; seller percebe critério injusto sem canal de contestação.\n▶ Comportamento REP: Transcrições mostram rep que não consegue resolver o aviso de foto indevida e encaminha sem solução; em outro caso, rep orienta mas o problema técnico de foto preta não tem resolução disponível no chat — falta de acesso técnico para corrigir.\n▶ Ponto positivo: PR - Artículos prohibidos com +4.79pp e NPS 50.81% — melhora consistente; CDU 'Afiliados ML - Métricas y comisiones' (874 surveys) domina o volume e tende a ter resolução positiva quando rep explica métricas e comissões com dados concretos.\n▶ Oportunidade de melhoria: Criar fluxo de contestação para aviso de Calidad de foto com revisão humana em até 24h pode recuperar os -23.59pp — sellers frustrados com critério percebido como injusto sem canal de recurso são forte fonte de detração.",
+      "executive_analysis": {
+        "periodo": "MoM: Marco 2026 vs Abril 2026",
+        "resumo_executivo": "Publicaciones Seller Dev fechou Abril com NPS 64.1% (-4.3pp MoM vs Marco 68.5%), mas mantém +11.3pp acima do target de 52.9% — maior margem positiva entre os drivers analisados. Volume mensal: 2.439 surveys (-26% vs Marco — queda relevante de base). A queda mensal de -4.3pp e a maior entre os drivers prioritarios em Abril. CDU mais critico: 'Clips / Potencializador (Clips) - Como funciona' colapsou -52.9pp MoM. Em contraste, funcionalidade 'Preco por variacao' subiu +39pp, indicando que features de pricing melhoradas geram alta satisfacao.",
+        "destaques_positivos": [
+          "+11.3pp vs target — maior margem positiva entre os drivers prioritarios de Abril",
+          "CDU Funcionalidade Preco por variacao +39.1pp MoM (25%→64.1%): feature de pricing em ascensao",
+          "Driver acima do target ha todos os meses de 2026 — consistencia estrategica",
+          "Margem de 11.3pp oferece buffer para absorver variacao sem risco de ruptura de meta"
+        ],
+        "destaques_negativos": [
+          "MoM -4.3pp: maior queda mensal entre os drivers prioritarios em Abril",
+          "CDU Clips / Potencializador Como funciona -52.9pp MoM (82.9%→30%): colapso em feature especifica",
+          "Volume -26% MoM (2.439 vs 3.309): queda significativa de base — monitorar continuidade",
+          "A queda -4.3pp no mes anticipa a queda -6.2pp na semana — tendencia de deterioracao acelerada"
+        ],
+        "impacto_estrategico": "CLIENTE: Criadores de conteudo com Clips nao entendendo como a ferramenta funciona perdem receita. PRODUTO: A queda em Clips sugere mudanca recente na feature (nova UX, nova politica) sem treinamento adequado. MARCA: Publicacoes e o driver com mais contato com criadores — insatisfacao aqui impacta o ecossistema de conteudo do ML. EFICIENCIA: Feature de Preco por variacao com +39pp mostra que quando o produto e bem explicado, a satisfacao e alta.",
+        "voc_positivos": "Promotores de funcionalidades de pricing: quando o agente explica claramente as vantagens da funcionalidade (preco por variacao, categorias de produto), o vendedor fica satisfeito e promove o servico. Padrao: educacao proativa sobre features monetarias gera alto NPS.",
+        "voc_negativos": "Detratores de Clips: vendedores/criadores que nao entendem como funciona o Potencializador de Clips — seja porque a feature mudou, porque o agente tambem nao sabe, ou porque a UX e confusa. Expectativa de receita via Clips nao sendo cumprida.",
+        "causas_raiz": [
+          {
+            "problema": "CDU Clips / Potencializador Como funciona colapsou -52.9pp MoM",
+            "evidencia_quant": "CDU: 82.9% (Marco)→30% (Abril) — 20 surveys; maior queda de CDU no mes",
+            "evidencia_qual": "Criadores com duvidas sobre funcionamento do Clips/Potencializador sem resposta adequada",
+            "causa": "Possivelmente mudanca na feature ou nova politica de Clips sem treinamento do time de atendimento",
+            "impacto": "Criadores de conteudo insatisfeitos — risco de reducao de producao de Clips",
+            "urgencia": "Alta",
+            "acao": "Verificar se houve mudanca de produto em Clips/Potencializador em Abril e atualizar script de atendimento"
+          },
+          {
+            "problema": "Volume mensal caiu -26% (2.439 vs 3.309 surveys em Marco)",
+            "evidencia_quant": "-870 surveys MoM — queda abrupta de base",
+            "evidencia_qual": "Pode indicar reducao real de volume de contatos ou mudanca de roteamento",
+            "causa": "Reduzao de contatos de moderacao (menor volume de anuncios criados) ou deflexao aumentada",
+            "impacto": "Base menor amplifica volatilidade — variacao de 10 cases pode mover o NPS 1pp",
+            "urgencia": "Media",
+            "acao": "Verificar se queda de volume e estrutural ou pontual — analisar origem dos contatos"
+          }
+        ],
+        "recomendacoes_curto": [
+          {
+            "acao": "Verificar mudanca de produto em Clips em Abril e atualizar script de atendimento urgentemente",
+            "impacto": "Recuperacao do CDU que colapsou -52.9pp",
+            "facilidade": "Alta",
+            "prioridade": "1"
+          },
+          {
+            "acao": "Replicar abordagem de educacao proativa de features de pricing (Preco por variacao)",
+            "impacto": "+5pp em CDUs de funcionalidade",
+            "facilidade": "Media",
+            "prioridade": "2"
+          },
+          {
+            "acao": "Investigar queda de volume -26% MoM — estrutural ou pontual",
+            "impacto": "Estabilidade da base para calculos de NPS",
+            "facilidade": "Alta",
+            "prioridade": "3"
+          }
+        ],
+        "resumo_diretoria": "Publicaciones Seller Dev fechou Abril com NPS 64.1% (-4.3pp MoM), 11.3pp acima da meta. E o driver com maior margem vs target, mas tambem com a maior queda mensal em Abril. O CDU Clips/Potencializador colapsou -52.9pp — possivelmente mudanca de produto sem treinamento adequado. Preco por variacao subiu +39pp — quando o produto e bem explicado, a satisfacao e alta. Acao prioritaria: verificar mudanca em Clips em Abril e atualizar script do time.",
+        "conclusao_estrategica": "Publicaciones Seller Dev tem a maior margem vs target (11.3pp) e pode absorver variacao, mas a queda mensal de -4.3pp seguida pela queda semanal de -6.2pp sinaliza tendencia de deterioracao. O CDU Clips e o epicentro — uma mudanca de produto nao comunicada ao atendimento e a causa mais provavel. Corrigindo este ponto, o driver pode reverter a tendencia em 30 dias.",
+        "ganhos_a_escalar": [
+          "CDU Preco por variacao +39.1pp MoM — replicar script de educacao proativa de features de pricing",
+          "Margem de +11.3pp vs target: usar como base para elevar exigencia operacional",
+          "Consistencia acima do target em todo o historico de 2026 — padrao a manter"
+        ],
+        "problemas_a_corrigir": [
+          "CDU Clips/Potencializador colapsou -52.9pp MoM — mudanca de produto sem treinamento do time",
+          "Queda consecutiva: -4.3pp MoM seguido de -6.2pp WoW — tendencia de aceleracao negativa",
+          "Volume -26% MoM — verificar se e estrutural ou pontual"
+        ],
+        "acoes_30_dias": [
+          "Verificar se houve mudanca em Clips/Potencializador em Abril e atualizar script urgentemente",
+          "Replicar abordagem proativa de features de pricing para outros CDUs de funcionalidade",
+          "Monitorar volume semanal de Publicacoes em Maio — confirmar se queda e estrutural"
+        ],
+        "alertas_criticos": "ATENCAO: Queda acelerada — -4.3pp MoM seguido de -6.2pp WoW — se tendencia continuar, driver pode cruzar abaixo do target em Junho. CDU Clips com NPS 30% e o sinal mais critico do mes.",
+        "gerado_em": "2026-05-04 — MoM Marco vs Abril 2026"
+      }
+    },
     "generated_at": "2026-04-28",
     "wow": {
       "bullets_legado": "▶ Variação WoW: PR Técnica prohibida +15.58pp (96.43%, s=56); PR Propiedad +12.05pp (96.43%, s=28) — altas; Afiliados ML -3.54pp (61.46%, s=192) e PR Artículos -31.11pp (46.67%, s=15) — maior volume e maior queda, respectivamente.\n▶ Dor do cliente: Detratores em Calidad de foto relatam foto preta ao fazer upload e aviso indevido de foto irregular — seller Seller Dev com menor experiência técnica fica sem solução e percebe atendimento como inútil.\n▶ Comportamento REP: Rep orienta Calidad de foto com pedido do link do anúncio para verificar — correto mas sem resolução técnica do bug; em PR Técnica, rep tem script completo de critério técnico com alta eficácia (96.43%).\n▶ Ponto positivo: PR Técnica prohibida com NPS 96.43% (s=56, +15.58pp) é excelência para Seller Dev — rep consegue explicar critérios técnicos de forma clara mesmo para sellers novos, gerando alta satisfação nesta CDU crítica.\n▶ Oportunidade: Afiliados ML com queda -3.54pp (s=192, maior volume do driver) é a maior oportunidade de impacto — identificar o gatilho de detração nesta semana (métricas, comissões ou funcionalidades) pode recuperar o NPS no processo de maior volume.",
