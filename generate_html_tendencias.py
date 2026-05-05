@@ -189,40 +189,57 @@ def chart_bar_monthly(cid):
     j = _json.dumps(cfg).replace('"__FMT__"', _FMT)
     return _chart_script(cid, j, 240)
 
-def chart_line_cats(cid, hist_cat, cons_data, labels, height=280):
-    datasets = [
-        {"label": "Consolidado", "data": cons_data,
-         "borderColor": "#1a1a2e", "borderWidth": 3,
-         "pointRadius": 5, "fill": False, "tension": 0.3,
-         "datalabels": {"display": False}},
-    ]
+def chart_grouped_cats(cid, hist_cat, cons_data, labels, show_labels=False, height=300):
+    # Bar datasets: one per category
+    datasets = []
     for cat, color in CAT_COLORS.items():
+        dl = {"display": show_labels, "anchor": "end", "align": "end",
+              "offset": 2, "color": "#555", "font": {"size": 8, "weight": "600"},
+              "formatter": "__FMT__"} if show_labels else {"display": False}
         datasets.append({
-            "label": cat, "data": hist_cat[cat],
-            "borderColor": color, "borderWidth": 2,
-            "pointRadius": 4, "fill": False, "tension": 0.3,
-            "datalabels": {"display": False},
+            "type": "bar", "label": cat, "data": hist_cat[cat],
+            "backgroundColor": color + "bb", "borderColor": color,
+            "borderWidth": 1, "borderRadius": 3,
+            "datalabels": dl,
         })
+    # Consolidated line overlay
     datasets.append({
+        "type": "line", "label": "Consolidado",
+        "data": cons_data,
+        "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22",
+        "borderWidth": 2.5, "pointRadius": 5, "pointBackgroundColor": "#1a1a2e",
+        "fill": False, "tension": 0.3, "order": 0,
+        "datalabels": {"display": True, "anchor": "top", "align": "top",
+                       "offset": 4, "color": "#1a1a2e",
+                       "font": {"size": 9, "weight": "700"},
+                       "formatter": "__FMT__"},
+    })
+    # Target dashed line
+    datasets.append({
+        "type": "line",
         "label": f"Target ({str(NPS_TARGET).replace('.', ',')}%)",
         "data": [NPS_TARGET] * len(labels),
         "borderColor": "#E84142", "borderDash": [6, 3],
-        "borderWidth": 1.5, "pointRadius": 0, "fill": False,
+        "borderWidth": 1.5, "pointRadius": 0, "fill": False, "order": 0,
         "datalabels": {"display": False},
     })
-    cfg = {"type": "line",
+
+    cfg = {"type": "bar",
            "data": {"labels": labels, "datasets": datasets},
            "options": {
                "responsive": True, "maintainAspectRatio": False,
-               "layout": {"padding": {"top": 12}},
+               "layout": {"padding": {"top": 28, "bottom": 4}},
                "interaction": {"mode": "index", "intersect": False},
                "plugins": {
-                   "legend": {"position": "bottom", "labels": {"boxWidth": 10, "padding": 10, "font": {"size": 10}}},
-                   "datalabels": {"display": False}},
+                   "legend": {"position": "bottom",
+                              "labels": {"boxWidth": 10, "padding": 10, "font": {"size": 10}}},
+                   "datalabels": {}},
                "scales": {
-                   "y": {"min": -20, "max": 100, "ticks": {"stepSize": 20}, "grid": {"color": "#f0f0f0"}},
+                   "y": {"min": -20, "max": 100,
+                         "ticks": {"stepSize": 20}, "grid": {"color": "#f0f0f0"}},
                    "x": {"grid": {"display": False}}}}}
-    return _chart_script(cid, _json.dumps(cfg), height)
+    j = _json.dumps(cfg).replace('"__FMT__"', _FMT)
+    return _chart_script(cid, j, height)
 
 # ══════════════════════════════════════════════════════════════════════
 # 6. CONTEUDO DAS ABAS
@@ -297,7 +314,7 @@ def _tab_exec():
 def _tab_mensal():
     chart_sec = f"""<div class="section-block">
   <div class="section-title">Evolu&#231;&#227;o NPS por Categoria &mdash; Mensal</div>
-  {chart_line_cats("c_mon_cat", cat_mon, mon_cons, MONTH_LABELS, 290)}
+  {chart_grouped_cats("c_mon_cat", cat_mon, mon_cons, MONTH_LABELS, show_labels=True, height=310)}
 </div>"""
 
     rows = ""
@@ -340,7 +357,7 @@ def _tab_mensal():
 def _tab_semanal():
     chart_sec = f"""<div class="section-block">
   <div class="section-title">Evolu&#231;&#227;o NPS por Categoria &mdash; Semanal</div>
-  {chart_line_cats("c_wk_cat", cat_wk, wk_cons, WEEK_LABELS, 290)}
+  {chart_grouped_cats("c_wk_cat", cat_wk, wk_cons, WEEK_LABELS, show_labels=False, height=310)}
 </div>"""
 
     rows = ""
