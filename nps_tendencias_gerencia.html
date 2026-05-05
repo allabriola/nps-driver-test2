@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NPS Tend&#234;ncias Ger&#234;ncia &mdash; Sellers BR</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>Chart.register(ChartDataLabels);</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', sans-serif;
+       font-size: 13px; background: #f4f6f9; color: #222; }
+
+.header { background: linear-gradient(135deg,#3483FA 0%,#1C5BBD 100%);
+          color:#fff; padding:16px 24px; display:flex; align-items:center;
+          justify-content:space-between; }
+.header-title { font-size:18px; font-weight:700; letter-spacing:.3px; }
+.header-sub   { font-size:11px; opacity:.85; margin-top:2px; }
+.header-date  { font-size:11px; opacity:.8; text-align:right; line-height:1.7; }
+
+.tabs { display:flex; background:#fff; border-bottom:2px solid #e8eaf0;
+        padding:0 24px; position:sticky; top:0; z-index:100;
+        box-shadow:0 2px 8px rgba(0,0,0,.07); overflow-x:auto; }
+.tab-btn { padding:12px 20px; font-size:13px; font-weight:500; cursor:pointer;
+           border:none; background:none; color:#666; white-space:nowrap;
+           border-bottom:3px solid transparent; margin-bottom:-2px; transition:all .2s; }
+.tab-btn:hover  { color:#3483FA; background:#f0f4ff; }
+.tab-btn.active { color:#3483FA; border-bottom-color:#3483FA; font-weight:700; }
+
+.tab-pane { display:none; padding:20px 24px; max-width:1400px; margin:0 auto; }
+.tab-pane.active { display:block; }
+
+.kpi-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:20px; }
+.kpi-card  { background:#fff; border-radius:10px; padding:18px 20px;
+             box-shadow:0 1px 8px rgba(0,0,0,.06); border-top:4px solid #3483FA; }
+.kpi-label { font-size:11px; color:#888; text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px; }
+.kpi-value { font-size:28px; font-weight:700; color:#1a1a2e; }
+.kpi-sub   { font-size:11px; color:#aaa; margin-top:4px; }
+.kpi-pos   { color:#00A650 !important; }
+.kpi-neg   { color:#E84142 !important; }
+
+.section-block { background:#fff; border-radius:10px; padding:18px 20px; margin-bottom:20px;
+                 box-shadow:0 1px 8px rgba(0,0,0,.06); }
+.section-title { font-size:14px; font-weight:700; color:#333; margin-bottom:14px; }
+
+.cat-hdr { font-size:11px; font-weight:700; color:#555; padding:5px 10px;
+           background:#f4f6f9; border-radius:6px; margin-bottom:10px; margin-top:14px;
+           text-transform:uppercase; letter-spacing:.5px; }
+
+.card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(145px,1fr));
+             gap:10px; margin-bottom:4px; }
+.cdu-card  { background:#fafbfc; border-radius:8px; padding:12px 13px;
+             box-shadow:0 1px 4px rgba(0,0,0,.05); }
+.cdu-name  { font-size:11px; font-weight:600; color:#555; margin-bottom:4px;
+             display:flex; justify-content:space-between; align-items:center; }
+.cdu-nps   { font-size:22px; font-weight:700; color:#1a1a2e; margin-bottom:4px; }
+.cdu-det   { font-size:10px; color:#888; }
+
+.chip     { display:inline-block; padding:1px 7px; border-radius:10px; font-size:11px;
+            font-weight:600; white-space:nowrap; }
+.chip-pos { background:#e6f9ee; color:#1a7a42; }
+.chip-neg { background:#fde8e8; color:#a01010; }
+.chip-neu { background:#f0f0f0; color:#666; }
+
+.arr     { font-size:12px; font-weight:700; }
+.arr-pos { color:#00A650; }
+.arr-neg { color:#E84142; }
+.arr-neu { color:#aaa; }
+
+.tbl-wrap { overflow-x:auto; }
+.dtbl { width:100%; border-collapse:collapse; font-size:12px; }
+.dtbl th { background:#f4f6f9; padding:8px 10px; text-align:center;
+           font-weight:600; color:#555; border-bottom:2px solid #e0e4ec; white-space:nowrap; }
+.dtbl th:first-child, .dtbl th:nth-child(2) { text-align:left; }
+.dtbl td { padding:7px 10px; text-align:center; border-bottom:1px solid #f0f2f5; }
+.dtbl td:first-child, .dtbl td:nth-child(2) { text-align:left; }
+.dtbl tr:hover td { background:#f8f9ff !important; }
+.cons-row td { background:#f0f4ff !important; border-top:2px solid #3483FA; }
+.row-crit td { background:#fff8f8 !important; }
+
+.drv-cell { white-space:nowrap; }
+.cat-cell  { color:#888; font-size:11px; white-space:nowrap; }
+.dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; flex-shrink:0; vertical-align:middle; }
+
+.rk-tbl td { padding:8px 10px; }
+.rk-num    { color:#bbb; font-weight:700; width:30px; }
+.st-ok     { color:#00A650; font-weight:600; }
+.st-near   { color:#7a5800; font-weight:600; }
+.st-below  { color:#c05700; font-weight:600; }
+.st-crit   { color:#E84142; font-weight:700; }
+
+@media (max-width:768px) {
+  .kpi-strip { grid-template-columns:1fr; }
+  .card-grid { grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-title">NPS Tend&#234;ncias Ger&#234;ncia &mdash; Sellers BR</div>
+    <div class="header-sub">Evolu&#231;&#227;o mensal &amp; semanal &middot; Tend&#234;ncias &middot; Ranking por CDU &middot; 27 drivers</div>
+  </div>
+  <div class="header-date">
+    Atualizado: 05/05/2026<br>
+    Semana fechada: 20/abr – 26/abr<br>
+    M&#234;s fechado: Abril 2026<br>
+    Target: 52,22%
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab(0)">&#x1F4CA; Vis&#227;o Executiva</button>
+  <button class="tab-btn" onclick="showTab(1)">&#x1F4C5; Evolu&#231;&#227;o Mensal</button>
+  <button class="tab-btn" onclick="showTab(2)">&#x1F4C6; Evolu&#231;&#227;o Semanal</button>
+  <button class="tab-btn" onclick="showTab(3)">&#x1F3C6; Ranking CDUs</button>
+</div>
+
+<div class="tab-pane active"><div class="kpi-strip">
+  <div class="kpi-card">
+    <div class="kpi-label">NPS Consolidado &mdash; Abr</div>
+    <div class="kpi-value">59,9%</div>
+    <div class="kpi-sub">Target: 52,22%</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Varia&#231;&#227;o M/M (Mar &rarr; Abr)</div>
+    <div class="kpi-value kpi-pos">+1,6pp</div>
+    <div class="kpi-sub">58,4% &rarr; 59,9%</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">&#916; vs Target</div>
+    <div class="kpi-value kpi-pos">+7,7pp</div>
+    <div class="kpi-sub">Acima &#x2713; do target</div>
+  </div>
+</div><div class="section-block">
+  <div class="section-title">Evolu&#231;&#227;o NPS Consolidado &mdash; Mensal YTD</div>
+  <div style="position:relative;height:240px;"><canvas id="c_exec_mon"></canvas></div><script>new Chart(document.getElementById("c_exec_mon"),{"type": "bar", "data": {"labels": ["Jan", "Fev", "Mar", "Abr"], "datasets": [{"type": "bar", "label": "NPS Consolidado", "data": [60.63, 59.88, 58.37, 59.92], "backgroundColor": "#3483FAcc", "borderColor": "#3483FA", "borderWidth": 1, "borderRadius": 5, "datalabels": {"display": true, "anchor": "end", "align": "end", "offset": 3, "color": "#333", "font": {"size": 11, "weight": "700"}, "formatter": function(v){return v!=null?v.toFixed(1).replace(".",",")+"%":""}}}, {"type": "line", "label": "Target (52,22%)", "data": [52.22, 52.22, 52.22, 52.22], "borderColor": "#E84142", "borderDash": [6, 3], "borderWidth": 2, "pointRadius": 0, "fill": false, "datalabels": {"display": false}}]}, "options": {"responsive": true, "maintainAspectRatio": false, "layout": {"padding": {"top": 28, "bottom": 4}}, "plugins": {"legend": {"position": "bottom", "labels": {"boxWidth": 10, "padding": 8, "font": {"size": 10}}}, "datalabels": {}}, "scales": {"y": {"min": 30, "max": 80, "ticks": {"stepSize": 10}, "grid": {"color": "#f0f0f0"}}, "x": {"grid": {"display": false}}}}});</script>
+</div><div class="section-block"><div class="section-title">Status por CDU &mdash; Abr</div><div class="cat-hdr" style="border-left:4px solid #3483FA">Longtail</div><div class="card-grid"><div class="cdu-card" style="border-left:4px solid #FF6B35">
+  <div class="cdu-name">ExpImp Dev <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">49,7%</div>
+  <div class="cdu-det">Tgt: 59,0% &nbsp;<span class="chip chip-neg">-9,3pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #00A650">
+  <div class="cdu-name">ME Dev <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">68,3%</div>
+  <div class="cdu-det">Tgt: 57,8% &nbsp;<span class="chip chip-pos">+10,5pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #FF6B35">
+  <div class="cdu-name">Partners <span class="arr arr-neg">&#9660;</span></div>
+  <div class="cdu-nps">66,7%</div>
+  <div class="cdu-det">Tgt: 70,2% &nbsp;<span class="chip chip-neg">-3,5pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #00A650">
+  <div class="cdu-name">PCF Dev <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">49,6%</div>
+  <div class="cdu-det">Tgt: 39,9% &nbsp;<span class="chip chip-pos">+9,6pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #00A650">
+  <div class="cdu-name">PV Dev <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">69,8%</div>
+  <div class="cdu-det">Tgt: 53,4% &nbsp;<span class="chip chip-pos">+16,4pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #00A650">
+  <div class="cdu-name">Publi Dev <span class="arr arr-neg">&#9660;</span></div>
+  <div class="cdu-nps">64,2%</div>
+  <div class="cdu-det">Tgt: 52,9% &nbsp;<span class="chip chip-pos">+11,3pp</span></div>
+</div></div><div class="cat-hdr" style="border-left:4px solid #00A650">Mature</div><div class="card-grid"><div class="cdu-card" style="border-left:4px solid #FF6B35">
+  <div class="cdu-name">ExpImp Mat <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">45,7%</div>
+  <div class="cdu-det">Tgt: 53,6% &nbsp;<span class="chip chip-neg">-7,9pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #00A650">
+  <div class="cdu-name">ME Mat <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">62,0%</div>
+  <div class="cdu-det">Tgt: 49,0% &nbsp;<span class="chip chip-pos">+13,0pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #00A650">
+  <div class="cdu-name">PCF Mat <span class="arr arr-neg">&#9660;</span></div>
+  <div class="cdu-nps">47,6%</div>
+  <div class="cdu-det">Tgt: 28,3% &nbsp;<span class="chip chip-pos">+19,4pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #00A650">
+  <div class="cdu-name">PV Mat <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">63,9%</div>
+  <div class="cdu-det">Tgt: 50,1% &nbsp;<span class="chip chip-pos">+13,8pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #00A650">
+  <div class="cdu-name">Publi Mat <span class="arr arr-neg">&#9660;</span></div>
+  <div class="cdu-nps">56,2%</div>
+  <div class="cdu-det">Tgt: 47,4% &nbsp;<span class="chip chip-pos">+8,8pp</span></div>
+</div></div><div class="cat-hdr" style="border-left:4px solid #FF7733">Meli Pro</div><div class="card-grid"><div class="cdu-card" style="border-left:4px solid #00A650">
+  <div class="cdu-name">ExpImp Pro <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">63,6%</div>
+  <div class="cdu-det">Tgt: 38,6% &nbsp;<span class="chip chip-pos">+25,1pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #FF6B35">
+  <div class="cdu-name">ME Pro <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">78,0%</div>
+  <div class="cdu-det">Tgt: 81,6% &nbsp;<span class="chip chip-neg">-3,6pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #F39C12">
+  <div class="cdu-name">PCF Pro <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">62,9%</div>
+  <div class="cdu-det">Tgt: 63,6% &nbsp;<span class="chip chip-neg">-0,7pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #00A650">
+  <div class="cdu-name">PV Pro <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">92,0%</div>
+  <div class="cdu-det">Tgt: 87,8% &nbsp;<span class="chip chip-pos">+4,2pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #F39C12">
+  <div class="cdu-name">Publi Pro <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">79,0%</div>
+  <div class="cdu-det">Tgt: 81,4% &nbsp;<span class="chip chip-neg">-2,4pp</span></div>
+</div></div><div class="cat-hdr" style="border-left:4px solid #F39C12">FBM</div><div class="card-grid"><div class="cdu-card" style="border-left:4px solid #00A650">
+  <div class="cdu-name">FBM-S Mat <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">51,7%</div>
+  <div class="cdu-det">Tgt: 19,6% &nbsp;<span class="chip chip-pos">+32,1pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #00A650">
+  <div class="cdu-name">FBM-S Pro <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">61,5%</div>
+  <div class="cdu-det">Tgt: 48,7% &nbsp;<span class="chip chip-pos">+12,8pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #00A650">
+  <div class="cdu-name">FBM-S Dev <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">44,7%</div>
+  <div class="cdu-det">Tgt: 42,1% &nbsp;<span class="chip chip-pos">+2,6pp</span></div>
+</div></div><div class="cat-hdr" style="border-left:4px solid #9B59B6">PDD/PNR/CBT</div><div class="card-grid"><div class="cdu-card" style="border-left:4px solid #F39C12">
+  <div class="cdu-name">CBT <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">72,1%</div>
+  <div class="cdu-det">Tgt: 74,6% &nbsp;<span class="chip chip-neg">-2,5pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #FF6B35">
+  <div class="cdu-name">PDD DS&amp;XD <span class="arr arr-neg">&#9660;</span></div>
+  <div class="cdu-nps">11,4%</div>
+  <div class="cdu-det">Tgt: 16,4% &nbsp;<span class="chip chip-neg">-5,0pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #E84142">
+  <div class="cdu-name">PDD FBM <span class="arr arr-neg">&#9660;</span></div>
+  <div class="cdu-nps">26,7%</div>
+  <div class="cdu-det">Tgt: 40,7% &nbsp;<span class="chip chip-neg">-13,9pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #E84142">
+  <div class="cdu-name">PDD Fotos <span class="arr arr-neg">&#9660;</span></div>
+  <div class="cdu-nps">14,3%</div>
+  <div class="cdu-det">Tgt: 33,1% &nbsp;<span class="chip chip-neg">-18,8pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #00A650">
+  <div class="cdu-name">PDD MP/CBT <span class="arr arr-neg">&#9660;</span></div>
+  <div class="cdu-nps">14,8%</div>
+  <div class="cdu-det">Tgt: 12,3% &nbsp;<span class="chip chip-pos">+2,5pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #FF6B35">
+  <div class="cdu-name">PNR ME <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">22,8%</div>
+  <div class="cdu-det">Tgt: 27,2% &nbsp;<span class="chip chip-neg">-4,5pp</span></div>
+</div><div class="cdu-card" style="border-left:4px solid #00A650">
+  <div class="cdu-name">PNR MP <span class="arr arr-pos">&#9650;</span></div>
+  <div class="cdu-nps">32,7%</div>
+  <div class="cdu-det">Tgt: 29,6% &nbsp;<span class="chip chip-pos">+3,1pp</span></div>
+</div></div><div class="cat-hdr" style="border-left:4px solid #95A5A6">Otros CV</div><div class="card-grid"><div class="cdu-card" style="border-left:4px solid #FF6B35">
+  <div class="cdu-name">Otros CV <span class="arr arr-neg">&#9660;</span></div>
+  <div class="cdu-nps">46,4%</div>
+  <div class="cdu-det">Tgt: 53,8% &nbsp;<span class="chip chip-neg">-7,4pp</span></div>
+</div></div></div></div>
+<div class="tab-pane"><div class="section-block">
+  <div class="section-title">Evolu&#231;&#227;o NPS por Categoria &mdash; Mensal</div>
+  <div style="position:relative;height:290px;"><canvas id="c_mon_cat"></canvas></div><script>new Chart(document.getElementById("c_mon_cat"),{"type": "line", "data": {"labels": ["Jan", "Fev", "Mar", "Abr"], "datasets": [{"label": "Consolidado", "data": [60.63, 59.88, 58.37, 59.92], "borderColor": "#1a1a2e", "borderWidth": 3, "pointRadius": 5, "fill": false, "tension": 0.3, "datalabels": {"display": false}}, {"label": "Longtail", "data": [67.27, 66.79, 65.32, 65.8], "borderColor": "#3483FA", "borderWidth": 2, "pointRadius": 4, "fill": false, "tension": 0.3, "datalabels": {"display": false}}, {"label": "Mature", "data": [57.49, 57.68, 58.5, 59.36], "borderColor": "#00A650", "borderWidth": 2, "pointRadius": 4, "fill": false, "tension": 0.3, "datalabels": {"display": false}}, {"label": "Meli Pro", "data": [71.02, 72.87, 62.34, 78.55], "borderColor": "#FF7733", "borderWidth": 2, "pointRadius": 4, "fill": false, "tension": 0.3, "datalabels": {"display": false}}, {"label": "FBM", "data": [43.29, 42.88, 41.39, 47.61], "borderColor": "#F39C12", "borderWidth": 2, "pointRadius": 4, "fill": false, "tension": 0.3, "datalabels": {"display": false}}, {"label": "PDD/PNR/CBT", "data": [29.96, 23.84, 24.76, 27.23], "borderColor": "#9B59B6", "borderWidth": 2, "pointRadius": 4, "fill": false, "tension": 0.3, "datalabels": {"display": false}}, {"label": "Otros CV", "data": [34.99, 50.0, 56.64, 46.41], "borderColor": "#95A5A6", "borderWidth": 2, "pointRadius": 4, "fill": false, "tension": 0.3, "datalabels": {"display": false}}, {"label": "Target (52,22%)", "data": [52.22, 52.22, 52.22, 52.22], "borderColor": "#E84142", "borderDash": [6, 3], "borderWidth": 1.5, "pointRadius": 0, "fill": false, "datalabels": {"display": false}}]}, "options": {"responsive": true, "maintainAspectRatio": false, "layout": {"padding": {"top": 12}}, "interaction": {"mode": "index", "intersect": false}, "plugins": {"legend": {"position": "bottom", "labels": {"boxWidth": 10, "padding": 10, "font": {"size": 10}}}, "datalabels": {"display": false}}, "scales": {"y": {"min": -20, "max": 100, "ticks": {"stepSize": 20}, "grid": {"color": "#f0f0f0"}}, "x": {"grid": {"display": false}}}}});</script>
+</div><div class="section-block">
+  <div class="section-title">Detalhe por CDU &mdash; Mensal</div>
+  <div class="tbl-wrap"><table class="dtbl"><thead>
+    <tr><th>CDU</th><th>Categoria</th><th>Jan</th><th>Fev</th><th>Mar</th><th>Abr</th><th>&#916; M/M</th><th>&#916; vs Tgt</th><th>Tend.</th></tr>
+  </thead><tbody>
+<tr><td class="drv-cell"><span class="dot" style="background:#1ABC9C"></span>CBT</td><td class="cat-cell">PDD/PNR/CBT</td><td style='background:#e6f9ee;color:#1a7a42'>77,2%</td><td style='background:#e6f9ee;color:#1a7a42'>77,6%</td><td style='background:#fff0e0;color:#7a3a00'>67,1%</td><td style='background:#fffae6;color:#7a5800'>72,1%</td><td><span class="chip chip-pos">+5,0pp</span></td><td><span class="chip chip-neg">-2,5pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#5DADE2"></span>ExpImp Mat</td><td class="cat-cell">Mature</td><td style='background:#e6f9ee;color:#1a7a42'>55,8%</td><td style='background:#fff0e0;color:#7a3a00'>50,0%</td><td style='background:#fde8e8;color:#a01010'>34,7%</td><td style='background:#fff0e0;color:#7a3a00'>45,7%</td><td><span class="chip chip-pos">+11,0pp</span></td><td><span class="chip chip-neg">-7,9pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#2E86C1"></span>ExpImp Pro</td><td class="cat-cell">Meli Pro</td><td style='background:#fde8e8;color:#a01010'>12,5%</td><td style='background:#fde8e8;color:#a01010'>-40,0%</td><td style='background:#fff0e0;color:#7a3a00'>30,8%</td><td style='background:#e6f9ee;color:#1a7a42'>63,6%</td><td><span class="chip chip-pos">+32,9pp</span></td><td><span class="chip chip-pos">+25,1pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#3483FA"></span>ExpImp Dev</td><td class="cat-cell">Longtail</td><td style='background:#e6f9ee;color:#1a7a42'>62,2%</td><td style='background:#fff0e0;color:#7a3a00'>55,4%</td><td style='background:#fde8e8;color:#a01010'>43,5%</td><td style='background:#fff0e0;color:#7a3a00'>49,7%</td><td><span class="chip chip-pos">+6,2pp</span></td><td><span class="chip chip-neg">-9,3pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#E59866"></span>FBM-S Mat</td><td class="cat-cell">FBM</td><td style='background:#e6f9ee;color:#1a7a42'>32,2%</td><td style='background:#e6f9ee;color:#1a7a42'>34,3%</td><td style='background:#e6f9ee;color:#1a7a42'>41,9%</td><td style='background:#e6f9ee;color:#1a7a42'>51,7%</td><td><span class="chip chip-pos">+9,8pp</span></td><td><span class="chip chip-pos">+32,1pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#CA6F1E"></span>FBM-S Pro</td><td class="cat-cell">FBM</td><td style='background:#e6f9ee;color:#1a7a42'>66,7%</td><td style='background:#e6f9ee;color:#1a7a42'>51,9%</td><td style='background:#fde8e8;color:#a01010'>13,6%</td><td style='background:#e6f9ee;color:#1a7a42'>61,5%</td><td><span class="chip chip-pos">+47,9pp</span></td><td><span class="chip chip-pos">+12,8pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#F39C12"></span>FBM-S Dev</td><td class="cat-cell">FBM</td><td style='background:#e6f9ee;color:#1a7a42'>46,5%</td><td style='background:#e6f9ee;color:#1a7a42'>46,1%</td><td style='background:#e6f9ee;color:#1a7a42'>42,4%</td><td style='background:#e6f9ee;color:#1a7a42'>44,7%</td><td><span class="chip chip-pos">+2,3pp</span></td><td><span class="chip chip-pos">+2,6pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#58D68D"></span>ME Mat</td><td class="cat-cell">Mature</td><td style='background:#e6f9ee;color:#1a7a42'>61,8%</td><td style='background:#e6f9ee;color:#1a7a42'>58,4%</td><td style='background:#e6f9ee;color:#1a7a42'>59,7%</td><td style='background:#e6f9ee;color:#1a7a42'>62,0%</td><td><span class="chip chip-pos">+2,3pp</span></td><td><span class="chip chip-pos">+13,0pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#1E8449"></span>ME Pro</td><td class="cat-cell">Meli Pro</td><td style='background:#fff0e0;color:#7a3a00'>73,2%</td><td style='background:#fff0e0;color:#7a3a00'>77,1%</td><td style='background:#fde8e8;color:#a01010'>66,7%</td><td style='background:#fff0e0;color:#7a3a00'>78,0%</td><td><span class="chip chip-pos">+11,3pp</span></td><td><span class="chip chip-neg">-3,6pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#00A650"></span>ME Dev</td><td class="cat-cell">Longtail</td><td style='background:#e6f9ee;color:#1a7a42'>70,4%</td><td style='background:#e6f9ee;color:#1a7a42'>68,9%</td><td style='background:#e6f9ee;color:#1a7a42'>67,1%</td><td style='background:#e6f9ee;color:#1a7a42'>68,3%</td><td><span class="chip chip-pos">+1,2pp</span></td><td><span class="chip chip-pos">+10,5pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#95A5A6"></span>Otros CV</td><td class="cat-cell">Otros CV</td><td style='background:#fde8e8;color:#a01010'>35,0%</td><td style='background:#fff0e0;color:#7a3a00'>50,0%</td><td style='background:#e6f9ee;color:#1a7a42'>56,6%</td><td style='background:#fff0e0;color:#7a3a00'>46,4%</td><td><span class="chip chip-neg">-10,2pp</span></td><td><span class="chip chip-neg">-7,4pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#F1948A"></span>PCF Mat</td><td class="cat-cell">Mature</td><td style='background:#e6f9ee;color:#1a7a42'>38,2%</td><td style='background:#e6f9ee;color:#1a7a42'>50,4%</td><td style='background:#e6f9ee;color:#1a7a42'>52,9%</td><td style='background:#e6f9ee;color:#1a7a42'>47,6%</td><td><span class="chip chip-neg">-5,3pp</span></td><td><span class="chip chip-pos">+19,4pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#C0392B"></span>PCF Pro</td><td class="cat-cell">Meli Pro</td><td style='background:#e6f9ee;color:#1a7a42'>65,3%</td><td style='background:#fffae6;color:#7a5800'>63,0%</td><td style='background:#fff0e0;color:#7a3a00'>54,5%</td><td style='background:#fffae6;color:#7a5800'>62,9%</td><td><span class="chip chip-pos">+8,4pp</span></td><td><span class="chip chip-neg">-0,7pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#FF7733"></span>PCF Dev</td><td class="cat-cell">Longtail</td><td style='background:#e6f9ee;color:#1a7a42'>42,8%</td><td style='background:#e6f9ee;color:#1a7a42'>46,4%</td><td style='background:#e6f9ee;color:#1a7a42'>46,8%</td><td style='background:#e6f9ee;color:#1a7a42'>49,6%</td><td><span class="chip chip-pos">+2,7pp</span></td><td><span class="chip chip-pos">+9,6pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#A569BD"></span>PDD DS&amp;XD</td><td class="cat-cell">PDD/PNR/CBT</td><td style='background:#fff0e0;color:#7a3a00'>9,9%</td><td style='background:#fff0e0;color:#7a3a00'>13,2%</td><td style='background:#fff0e0;color:#7a3a00'>12,4%</td><td style='background:#fff0e0;color:#7a3a00'>11,4%</td><td><span class="chip chip-neg">-1,0pp</span></td><td><span class="chip chip-neg">-5,0pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#7D3C98"></span>PDD FBM</td><td class="cat-cell">PDD/PNR/CBT</td><td style='background:#fff0e0;color:#7a3a00'>35,3%</td><td style='background:#fffae6;color:#7a5800'>38,1%</td><td style='background:#fff0e0;color:#7a3a00'>34,0%</td><td style='background:#fde8e8;color:#a01010'>26,7%</td><td><span class="chip chip-neg">-7,3pp</span></td><td><span class="chip chip-neg">-13,9pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#C39BD3"></span>PDD Fotos</td><td class="cat-cell">PDD/PNR/CBT</td><td style='background:#fff0e0;color:#7a3a00'>28,8%</td><td style='background:#fde8e8;color:#a01010'>21,3%</td><td style='background:#e6f9ee;color:#1a7a42'>33,3%</td><td style='background:#fde8e8;color:#a01010'>14,3%</td><td><span class="chip chip-neg">-19,0pp</span></td><td><span class="chip chip-neg">-18,8pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#D7BDE2"></span>PDD MP/CBT</td><td class="cat-cell">PDD/PNR/CBT</td><td style='background:#fff0e0;color:#7a3a00'>2,4%</td><td style='background:#fff0e0;color:#7a3a00'>9,3%</td><td style='background:#e6f9ee;color:#1a7a42'>17,5%</td><td style='background:#e6f9ee;color:#1a7a42'>14,8%</td><td><span class="chip chip-neg">-2,6pp</span></td><td><span class="chip chip-pos">+2,5pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#17A589"></span>PNR ME</td><td class="cat-cell">PDD/PNR/CBT</td><td style='background:#fde8e8;color:#a01010'>11,2%</td><td style='background:#fde8e8;color:#a01010'>3,8%</td><td style='background:#fde8e8;color:#a01010'>16,6%</td><td style='background:#fff0e0;color:#7a3a00'>22,8%</td><td><span class="chip chip-pos">+6,2pp</span></td><td><span class="chip chip-neg">-4,5pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#0E6655"></span>PNR MP</td><td class="cat-cell">PDD/PNR/CBT</td><td style='background:#fde8e8;color:#a01010'>15,5%</td><td style='background:#fff0e0;color:#7a3a00'>22,9%</td><td style='background:#fde8e8;color:#a01010'>18,8%</td><td style='background:#e6f9ee;color:#1a7a42'>32,7%</td><td><span class="chip chip-pos">+13,9pp</span></td><td><span class="chip chip-pos">+3,1pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#9B59B6"></span>Partners</td><td class="cat-cell">Longtail</td><td style='background:#fffae6;color:#7a5800'>68,4%</td><td style='background:#e6f9ee;color:#1a7a42'>72,4%</td><td style='background:#fffae6;color:#7a5800'>67,4%</td><td style='background:#fff0e0;color:#7a3a00'>66,7%</td><td><span class="chip chip-neg">-0,7pp</span></td><td><span class="chip chip-neg">-3,5pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#F1948A"></span>PV Mat</td><td class="cat-cell">Mature</td><td style='background:#e6f9ee;color:#1a7a42'>53,2%</td><td style='background:#e6f9ee;color:#1a7a42'>56,4%</td><td style='background:#e6f9ee;color:#1a7a42'>60,8%</td><td style='background:#e6f9ee;color:#1a7a42'>63,9%</td><td><span class="chip chip-pos">+3,1pp</span></td><td><span class="chip chip-pos">+13,8pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#EC7063"></span>PV Pro</td><td class="cat-cell">Meli Pro</td><td style='background:#fff0e0;color:#7a3a00'>81,2%</td><td style='background:#fff0e0;color:#7a3a00'>78,2%</td><td style='background:#fde8e8;color:#a01010'>74,1%</td><td style='background:#e6f9ee;color:#1a7a42'>92,0%</td><td><span class="chip chip-pos">+17,9pp</span></td><td><span class="chip chip-pos">+4,2pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#E84142"></span>PV Dev</td><td class="cat-cell">Longtail</td><td style='background:#e6f9ee;color:#1a7a42'>59,4%</td><td style='background:#e6f9ee;color:#1a7a42'>60,0%</td><td style='background:#e6f9ee;color:#1a7a42'>63,3%</td><td style='background:#e6f9ee;color:#1a7a42'>69,8%</td><td><span class="chip chip-pos">+6,5pp</span></td><td><span class="chip chip-pos">+16,4pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#F9E79F"></span>Publi Mat</td><td class="cat-cell">Mature</td><td style='background:#e6f9ee;color:#1a7a42'>57,8%</td><td style='background:#e6f9ee;color:#1a7a42'>66,0%</td><td style='background:#e6f9ee;color:#1a7a42'>60,0%</td><td style='background:#e6f9ee;color:#1a7a42'>56,2%</td><td><span class="chip chip-neg">-3,8pp</span></td><td><span class="chip chip-pos">+8,8pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#D4AC0D"></span>Publi Pro</td><td class="cat-cell">Meli Pro</td><td style='background:#fde8e8;color:#a01010'>66,0%</td><td style='background:#fffae6;color:#7a5800'>80,0%</td><td style='background:#fde8e8;color:#a01010'>42,3%</td><td style='background:#fffae6;color:#7a5800'>79,0%</td><td><span class="chip chip-pos">+36,7pp</span></td><td><span class="chip chip-neg">-2,4pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#B7950B"></span>Publi Dev</td><td class="cat-cell">Longtail</td><td style='background:#e6f9ee;color:#1a7a42'>69,3%</td><td style='background:#e6f9ee;color:#1a7a42'>68,1%</td><td style='background:#e6f9ee;color:#1a7a42'>68,5%</td><td style='background:#e6f9ee;color:#1a7a42'>64,2%</td><td><span class="chip chip-neg">-4,3pp</span></td><td><span class="chip chip-pos">+11,3pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr class="cons-row"><td colspan="2"><strong>Consolidado</strong></td><td style='background:#e6f9ee;color:#1a7a42'><strong>60,6%</strong></td><td style='background:#e6f9ee;color:#1a7a42'><strong>59,9%</strong></td><td style='background:#e6f9ee;color:#1a7a42'><strong>58,4%</strong></td><td style='background:#e6f9ee;color:#1a7a42'><strong>59,9%</strong></td><td><span class="chip chip-pos">+1,6pp</span></td><td><span class="chip chip-pos">+7,7pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+  </tbody></table></div>
+</div></div>
+<div class="tab-pane"><div class="section-block">
+  <div class="section-title">Evolu&#231;&#227;o NPS por Categoria &mdash; Semanal</div>
+  <div style="position:relative;height:290px;"><canvas id="c_wk_cat"></canvas></div><script>new Chart(document.getElementById("c_wk_cat"),{"type": "line", "data": {"labels": ["16/mar", "23/mar", "30/mar", "06/abr", "13/abr", "20/abr"], "datasets": [{"label": "Consolidado", "data": [59.43, 56.08, 57.95, 60.52, 59.24, 60.66], "borderColor": "#1a1a2e", "borderWidth": 3, "pointRadius": 5, "fill": false, "tension": 0.3, "datalabels": {"display": false}}, {"label": "Longtail", "data": [67.53, 65.54, 63.69, 66.3, 64.86, 65.99], "borderColor": "#3483FA", "borderWidth": 2, "pointRadius": 4, "fill": false, "tension": 0.3, "datalabels": {"display": false}}, {"label": "Mature", "data": [58.86, 57.57, 61.47, 59.13, 57.09, 60.26], "borderColor": "#00A650", "borderWidth": 2, "pointRadius": 4, "fill": false, "tension": 0.3, "datalabels": {"display": false}}, {"label": "Meli Pro", "data": [62.71, 63.46, 43.18, 64.77, 78.31, 82.34], "borderColor": "#FF7733", "borderWidth": 2, "pointRadius": 4, "fill": false, "tension": 0.3, "datalabels": {"display": false}}, {"label": "FBM", "data": [39.75, 49.08, 42.21, 46.71, 47.33, 53.09], "borderColor": "#F39C12", "borderWidth": 2, "pointRadius": 4, "fill": false, "tension": 0.3, "datalabels": {"display": false}}, {"label": "PDD/PNR/CBT", "data": [21.13, 7.88, 29.69, 30.32, 26.86, 24.78], "borderColor": "#9B59B6", "borderWidth": 2, "pointRadius": 4, "fill": false, "tension": 0.3, "datalabels": {"display": false}}, {"label": "Otros CV", "data": [56.17, 43.87, 52.82, 45.56, 44.35, 43.8], "borderColor": "#95A5A6", "borderWidth": 2, "pointRadius": 4, "fill": false, "tension": 0.3, "datalabels": {"display": false}}, {"label": "Target (52,22%)", "data": [52.22, 52.22, 52.22, 52.22, 52.22, 52.22], "borderColor": "#E84142", "borderDash": [6, 3], "borderWidth": 1.5, "pointRadius": 0, "fill": false, "datalabels": {"display": false}}]}, "options": {"responsive": true, "maintainAspectRatio": false, "layout": {"padding": {"top": 12}}, "interaction": {"mode": "index", "intersect": false}, "plugins": {"legend": {"position": "bottom", "labels": {"boxWidth": 10, "padding": 10, "font": {"size": 10}}}, "datalabels": {"display": false}}, "scales": {"y": {"min": -20, "max": 100, "ticks": {"stepSize": 20}, "grid": {"color": "#f0f0f0"}}, "x": {"grid": {"display": false}}}}});</script>
+</div><div class="section-block">
+  <div class="section-title">Detalhe por CDU &mdash; Semanal</div>
+  <div class="tbl-wrap"><table class="dtbl"><thead>
+    <tr><th>CDU</th><th>Categoria</th><th>16/mar</th><th>23/mar</th><th>30/mar</th><th>06/abr</th><th>13/abr</th><th>20/abr</th><th>&#916; W/W</th><th>Tend.</th></tr>
+  </thead><tbody>
+<tr><td class="drv-cell"><span class="dot" style="background:#1ABC9C"></span>CBT</td><td class="cat-cell">PDD/PNR/CBT</td><td>60,3%</td><td>60,0%</td><td>76,7%</td><td>74,3%</td><td>70,6%</td><td>62,8%</td><td><span class="chip chip-neg">-7,8pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#5DADE2"></span>ExpImp Mat</td><td class="cat-cell">Mature</td><td>33,3%</td><td>33,3%</td><td>35,0%</td><td>46,1%</td><td>50,0%</td><td>50,0%</td><td><span class="chip chip-neu">0,0pp</span></td><td><span class="arr arr-neu">&#8594;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#2E86C1"></span>ExpImp Pro</td><td class="cat-cell">Meli Pro</td><td>100,0%</td><td>33,3%</td><td>33,3%</td><td>50,0%</td><td>25,0%</td><td>100,0%</td><td><span class="chip chip-pos">+75,0pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#3483FA"></span>ExpImp Dev</td><td class="cat-cell">Longtail</td><td>54,9%</td><td>45,6%</td><td>41,0%</td><td>54,8%</td><td>49,4%</td><td>38,6%</td><td><span class="chip chip-neg">-10,7pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#E59866"></span>FBM-S Mat</td><td class="cat-cell">FBM</td><td>42,1%</td><td>58,7%</td><td>35,4%</td><td>52,5%</td><td>65,5%</td><td>61,9%</td><td><span class="chip chip-neg">-3,6pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#CA6F1E"></span>FBM-S Pro</td><td class="cat-cell">FBM</td><td>-11,1%</td><td>100,0%</td><td>-100,0%</td><td>58,3%</td><td>40,0%</td><td>85,0%</td><td><span class="chip chip-pos">+45,0pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#F39C12"></span>FBM-S Dev</td><td class="cat-cell">FBM</td><td>43,0%</td><td>44,4%</td><td>48,1%</td><td>43,5%</td><td>43,6%</td><td>46,3%</td><td><span class="chip chip-pos">+2,7pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#58D68D"></span>ME Mat</td><td class="cat-cell">Mature</td><td>58,9%</td><td>57,8%</td><td>64,8%</td><td>59,4%</td><td>62,2%</td><td>60,2%</td><td><span class="chip chip-neg">-2,0pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#1E8449"></span>ME Pro</td><td class="cat-cell">Meli Pro</td><td>66,7%</td><td>82,3%</td><td>23,5%</td><td>60,0%</td><td>86,8%</td><td>78,3%</td><td><span class="chip chip-neg">-8,4pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#00A650"></span>ME Dev</td><td class="cat-cell">Longtail</td><td>68,9%</td><td>68,0%</td><td>67,6%</td><td>69,0%</td><td>65,9%</td><td>69,3%</td><td><span class="chip chip-pos">+3,4pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#95A5A6"></span>Otros CV</td><td class="cat-cell">Otros CV</td><td>56,2%</td><td>43,9%</td><td>52,8%</td><td>45,6%</td><td>44,4%</td><td>43,8%</td><td><span class="chip chip-neg">-0,6pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#F1948A"></span>PCF Mat</td><td class="cat-cell">Mature</td><td>54,4%</td><td>49,0%</td><td>59,3%</td><td>55,7%</td><td>39,5%</td><td>35,3%</td><td><span class="chip chip-neg">-4,2pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#C0392B"></span>PCF Pro</td><td class="cat-cell">Meli Pro</td><td>53,3%</td><td>33,3%</td><td>14,3%</td><td>52,6%</td><td>61,8%</td><td>66,4%</td><td><span class="chip chip-pos">+4,6pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#FF7733"></span>PCF Dev</td><td class="cat-cell">Longtail</td><td>53,6%</td><td>44,9%</td><td>48,8%</td><td>50,7%</td><td>48,9%</td><td>40,3%</td><td><span class="chip chip-neg">-8,6pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#A569BD"></span>PDD DS&amp;XD</td><td class="cat-cell">PDD/PNR/CBT</td><td>11,2%</td><td>-4,0%</td><td>10,9%</td><td>7,6%</td><td>10,7%</td><td>19,0%</td><td><span class="chip chip-pos">+8,3pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#7D3C98"></span>PDD FBM</td><td class="cat-cell">PDD/PNR/CBT</td><td>34,5%</td><td>25,0%</td><td>46,0%</td><td>33,9%</td><td>18,1%</td><td>23,9%</td><td><span class="chip chip-pos">+5,9pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#C39BD3"></span>PDD Fotos</td><td class="cat-cell">PDD/PNR/CBT</td><td>29,4%</td><td>23,8%</td><td>26,7%</td><td>16,7%</td><td>0,0%</td><td>15,8%</td><td><span class="chip chip-pos">+15,8pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#D7BDE2"></span>PDD MP/CBT</td><td class="cat-cell">PDD/PNR/CBT</td><td>24,4%</td><td>-3,1%</td><td>29,2%</td><td>25,0%</td><td>25,6%</td><td>-10,5%</td><td><span class="chip chip-neg">-36,2pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#17A589"></span>PNR ME</td><td class="cat-cell">PDD/PNR/CBT</td><td>25,9%</td><td>-3,7%</td><td>30,0%</td><td>15,8%</td><td>35,1%</td><td>20,4%</td><td><span class="chip chip-neg">-14,8pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#0E6655"></span>PNR MP</td><td class="cat-cell">PDD/PNR/CBT</td><td>12,7%</td><td>-2,0%</td><td>32,1%</td><td>51,4%</td><td>38,8%</td><td>5,6%</td><td><span class="chip chip-neg">-33,2pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#9B59B6"></span>Partners</td><td class="cat-cell">Longtail</td><td>69,7%</td><td>65,5%</td><td>64,6%</td><td>65,4%</td><td>67,6%</td><td>67,0%</td><td><span class="chip chip-neg">-0,6pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#F1948A"></span>PV Mat</td><td class="cat-cell">Mature</td><td>72,6%</td><td>63,9%</td><td>59,6%</td><td>63,2%</td><td>67,0%</td><td>69,0%</td><td><span class="chip chip-pos">+2,0pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#EC7063"></span>PV Pro</td><td class="cat-cell">Meli Pro</td><td>63,2%</td><td>71,4%</td><td>88,9%</td><td>79,3%</td><td>88,4%</td><td>97,4%</td><td><span class="chip chip-pos">+9,0pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#E84142"></span>PV Dev</td><td class="cat-cell">Longtail</td><td>71,7%</td><td>61,8%</td><td>58,8%</td><td>66,5%</td><td>73,4%</td><td>76,1%</td><td><span class="chip chip-pos">+2,7pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#F9E79F"></span>Publi Mat</td><td class="cat-cell">Mature</td><td>52,9%</td><td>61,6%</td><td>55,2%</td><td>59,4%</td><td>40,4%</td><td>73,3%</td><td><span class="chip chip-pos">+33,0pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#D4AC0D"></span>Publi Pro</td><td class="cat-cell">Meli Pro</td><td>60,0%</td><td>20,0%</td><td>62,5%</td><td>62,5%</td><td>75,0%</td><td>85,9%</td><td><span class="chip chip-pos">+10,9pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+<tr><td class="drv-cell"><span class="dot" style="background:#B7950B"></span>Publi Dev</td><td class="cat-cell">Longtail</td><td>66,7%</td><td>69,6%</td><td>63,4%</td><td>65,5%</td><td>63,5%</td><td>63,2%</td><td><span class="chip chip-neg">-0,3pp</span></td><td><span class="arr arr-neg">&#9660;</span></td></tr>
+<tr class="cons-row"><td colspan="2"><strong>Consolidado</strong></td><td><strong>59,4%</strong></td><td><strong>56,1%</strong></td><td><strong>58,0%</strong></td><td><strong>60,5%</strong></td><td><strong>59,2%</strong></td><td><strong>60,7%</strong></td><td><span class="chip chip-pos">+1,4pp</span></td><td><span class="arr arr-pos">&#9650;</span></td></tr>
+  </tbody></table></div>
+</div></div>
+<div class="tab-pane"><div class="section-block">
+  <div class="section-title">Ranking CDUs &mdash; Abr (ordenado por &#916; vs Target)</div>
+  <div class="tbl-wrap"><table class="dtbl rk-tbl"><thead>
+    <tr>
+      <th>#</th><th>CDU</th><th>Categoria</th>
+      <th>NPS (Abr)</th><th>Target</th>
+      <th>&#916; vs Tgt</th><th>&#916; M/M</th><th>&#916; W/W</th><th>Status</th>
+    </tr>
+  </thead><tbody>
+<tr>
+  <td class="rk-num">1</td>
+  <td class="drv-cell"><span class="dot" style="background:#E59866"></span>FBM-S Mat</td>
+  <td class="cat-cell">FBM</td>
+  <td><strong>51,7%</strong></td>
+  <td>19,6%</td>
+  <td><span class="chip chip-pos">+32,1pp</span></td>
+  <td><span class="chip chip-pos">+9,8pp</span></td>
+  <td><span class="chip chip-neg">-3,6pp</span></td>
+  <td><span class="st-ok">&#x2713; Acima</span></td>
+</tr>
+<tr>
+  <td class="rk-num">2</td>
+  <td class="drv-cell"><span class="dot" style="background:#2E86C1"></span>ExpImp Pro</td>
+  <td class="cat-cell">Meli Pro</td>
+  <td><strong>63,6%</strong></td>
+  <td>38,6%</td>
+  <td><span class="chip chip-pos">+25,1pp</span></td>
+  <td><span class="chip chip-pos">+32,9pp</span></td>
+  <td><span class="chip chip-pos">+75,0pp</span></td>
+  <td><span class="st-ok">&#x2713; Acima</span></td>
+</tr>
+<tr>
+  <td class="rk-num">3</td>
+  <td class="drv-cell"><span class="dot" style="background:#F1948A"></span>PCF Mat</td>
+  <td class="cat-cell">Mature</td>
+  <td><strong>47,6%</strong></td>
+  <td>28,3%</td>
+  <td><span class="chip chip-pos">+19,4pp</span></td>
+  <td><span class="chip chip-neg">-5,3pp</span></td>
+  <td><span class="chip chip-neg">-4,2pp</span></td>
+  <td><span class="st-ok">&#x2713; Acima</span></td>
+</tr>
+<tr>
+  <td class="rk-num">4</td>
+  <td class="drv-cell"><span class="dot" style="background:#E84142"></span>PV Dev</td>
+  <td class="cat-cell">Longtail</td>
+  <td><strong>69,8%</strong></td>
+  <td>53,4%</td>
+  <td><span class="chip chip-pos">+16,4pp</span></td>
+  <td><span class="chip chip-pos">+6,5pp</span></td>
+  <td><span class="chip chip-pos">+2,7pp</span></td>
+  <td><span class="st-ok">&#x2713; Acima</span></td>
+</tr>
+<tr>
+  <td class="rk-num">5</td>
+  <td class="drv-cell"><span class="dot" style="background:#F1948A"></span>PV Mat</td>
+  <td class="cat-cell">Mature</td>
+  <td><strong>63,9%</strong></td>
+  <td>50,1%</td>
+  <td><span class="chip chip-pos">+13,8pp</span></td>
+  <td><span class="chip chip-pos">+3,1pp</span></td>
+  <td><span class="chip chip-pos">+2,0pp</span></td>
+  <td><span class="st-ok">&#x2713; Acima</span></td>
+</tr>
+<tr>
+  <td class="rk-num">6</td>
+  <td class="drv-cell"><span class="dot" style="background:#58D68D"></span>ME Mat</td>
+  <td class="cat-cell">Mature</td>
+  <td><strong>62,0%</strong></td>
+  <td>49,0%</td>
+  <td><span class="chip chip-pos">+13,0pp</span></td>
+  <td><span class="chip chip-pos">+2,3pp</span></td>
+  <td><span class="chip chip-neg">-2,0pp</span></td>
+  <td><span class="st-ok">&#x2713; Acima</span></td>
+</tr>
+<tr>
+  <td class="rk-num">7</td>
+  <td class="drv-cell"><span class="dot" style="background:#CA6F1E"></span>FBM-S Pro</td>
+  <td class="cat-cell">FBM</td>
+  <td><strong>61,5%</strong></td>
+  <td>48,7%</td>
+  <td><span class="chip chip-pos">+12,8pp</span></td>
+  <td><span class="chip chip-pos">+47,9pp</span></td>
+  <td><span class="chip chip-pos">+45,0pp</span></td>
+  <td><span class="st-ok">&#x2713; Acima</span></td>
+</tr>
+<tr>
+  <td class="rk-num">8</td>
+  <td class="drv-cell"><span class="dot" style="background:#B7950B"></span>Publi Dev</td>
+  <td class="cat-cell">Longtail</td>
+  <td><strong>64,2%</strong></td>
+  <td>52,9%</td>
+  <td><span class="chip chip-pos">+11,3pp</span></td>
+  <td><span class="chip chip-neg">-4,3pp</span></td>
+  <td><span class="chip chip-neg">-0,3pp</span></td>
+  <td><span class="st-ok">&#x2713; Acima</span></td>
+</tr>
+<tr>
+  <td class="rk-num">9</td>
+  <td class="drv-cell"><span class="dot" style="background:#00A650"></span>ME Dev</td>
+  <td class="cat-cell">Longtail</td>
+  <td><strong>68,3%</strong></td>
+  <td>57,8%</td>
+  <td><span class="chip chip-pos">+10,5pp</span></td>
+  <td><span class="chip chip-pos">+1,2pp</span></td>
+  <td><span class="chip chip-pos">+3,4pp</span></td>
+  <td><span class="st-ok">&#x2713; Acima</span></td>
+</tr>
+<tr>
+  <td class="rk-num">10</td>
+  <td class="drv-cell"><span class="dot" style="background:#FF7733"></span>PCF Dev</td>
+  <td class="cat-cell">Longtail</td>
+  <td><strong>49,6%</strong></td>
+  <td>39,9%</td>
+  <td><span class="chip chip-pos">+9,6pp</span></td>
+  <td><span class="chip chip-pos">+2,7pp</span></td>
+  <td><span class="chip chip-neg">-8,6pp</span></td>
+  <td><span class="st-ok">&#x2713; Acima</span></td>
+</tr>
+<tr>
+  <td class="rk-num">11</td>
+  <td class="drv-cell"><span class="dot" style="background:#F9E79F"></span>Publi Mat</td>
+  <td class="cat-cell">Mature</td>
+  <td><strong>56,2%</strong></td>
+  <td>47,4%</td>
+  <td><span class="chip chip-pos">+8,8pp</span></td>
+  <td><span class="chip chip-neg">-3,8pp</span></td>
+  <td><span class="chip chip-pos">+33,0pp</span></td>
+  <td><span class="st-ok">&#x2713; Acima</span></td>
+</tr>
+<tr>
+  <td class="rk-num">12</td>
+  <td class="drv-cell"><span class="dot" style="background:#EC7063"></span>PV Pro</td>
+  <td class="cat-cell">Meli Pro</td>
+  <td><strong>92,0%</strong></td>
+  <td>87,8%</td>
+  <td><span class="chip chip-pos">+4,2pp</span></td>
+  <td><span class="chip chip-pos">+17,9pp</span></td>
+  <td><span class="chip chip-pos">+9,0pp</span></td>
+  <td><span class="st-ok">&#x2713; Acima</span></td>
+</tr>
+<tr>
+  <td class="rk-num">13</td>
+  <td class="drv-cell"><span class="dot" style="background:#0E6655"></span>PNR MP</td>
+  <td class="cat-cell">PDD/PNR/CBT</td>
+  <td><strong>32,7%</strong></td>
+  <td>29,6%</td>
+  <td><span class="chip chip-pos">+3,1pp</span></td>
+  <td><span class="chip chip-pos">+13,9pp</span></td>
+  <td><span class="chip chip-neg">-33,2pp</span></td>
+  <td><span class="st-ok">&#x2713; Acima</span></td>
+</tr>
+<tr>
+  <td class="rk-num">14</td>
+  <td class="drv-cell"><span class="dot" style="background:#F39C12"></span>FBM-S Dev</td>
+  <td class="cat-cell">FBM</td>
+  <td><strong>44,7%</strong></td>
+  <td>42,1%</td>
+  <td><span class="chip chip-pos">+2,6pp</span></td>
+  <td><span class="chip chip-pos">+2,3pp</span></td>
+  <td><span class="chip chip-pos">+2,7pp</span></td>
+  <td><span class="st-ok">&#x2713; Acima</span></td>
+</tr>
+<tr>
+  <td class="rk-num">15</td>
+  <td class="drv-cell"><span class="dot" style="background:#D7BDE2"></span>PDD MP/CBT</td>
+  <td class="cat-cell">PDD/PNR/CBT</td>
+  <td><strong>14,8%</strong></td>
+  <td>12,3%</td>
+  <td><span class="chip chip-pos">+2,5pp</span></td>
+  <td><span class="chip chip-neg">-2,6pp</span></td>
+  <td><span class="chip chip-neg">-36,2pp</span></td>
+  <td><span class="st-ok">&#x2713; Acima</span></td>
+</tr>
+<tr>
+  <td class="rk-num">16</td>
+  <td class="drv-cell"><span class="dot" style="background:#C0392B"></span>PCF Pro</td>
+  <td class="cat-cell">Meli Pro</td>
+  <td><strong>62,9%</strong></td>
+  <td>63,6%</td>
+  <td><span class="chip chip-neg">-0,7pp</span></td>
+  <td><span class="chip chip-pos">+8,4pp</span></td>
+  <td><span class="chip chip-pos">+4,6pp</span></td>
+  <td><span class="st-near">~ Pr&#243;ximo</span></td>
+</tr>
+<tr>
+  <td class="rk-num">17</td>
+  <td class="drv-cell"><span class="dot" style="background:#D4AC0D"></span>Publi Pro</td>
+  <td class="cat-cell">Meli Pro</td>
+  <td><strong>79,0%</strong></td>
+  <td>81,4%</td>
+  <td><span class="chip chip-neg">-2,4pp</span></td>
+  <td><span class="chip chip-pos">+36,7pp</span></td>
+  <td><span class="chip chip-pos">+10,9pp</span></td>
+  <td><span class="st-near">~ Pr&#243;ximo</span></td>
+</tr>
+<tr>
+  <td class="rk-num">18</td>
+  <td class="drv-cell"><span class="dot" style="background:#1ABC9C"></span>CBT</td>
+  <td class="cat-cell">PDD/PNR/CBT</td>
+  <td><strong>72,1%</strong></td>
+  <td>74,6%</td>
+  <td><span class="chip chip-neg">-2,5pp</span></td>
+  <td><span class="chip chip-pos">+5,0pp</span></td>
+  <td><span class="chip chip-neg">-7,8pp</span></td>
+  <td><span class="st-near">~ Pr&#243;ximo</span></td>
+</tr>
+<tr>
+  <td class="rk-num">19</td>
+  <td class="drv-cell"><span class="dot" style="background:#9B59B6"></span>Partners</td>
+  <td class="cat-cell">Longtail</td>
+  <td><strong>66,7%</strong></td>
+  <td>70,2%</td>
+  <td><span class="chip chip-neg">-3,5pp</span></td>
+  <td><span class="chip chip-neg">-0,7pp</span></td>
+  <td><span class="chip chip-neg">-0,6pp</span></td>
+  <td><span class="st-below">&#9660; Abaixo</span></td>
+</tr>
+<tr>
+  <td class="rk-num">20</td>
+  <td class="drv-cell"><span class="dot" style="background:#1E8449"></span>ME Pro</td>
+  <td class="cat-cell">Meli Pro</td>
+  <td><strong>78,0%</strong></td>
+  <td>81,6%</td>
+  <td><span class="chip chip-neg">-3,6pp</span></td>
+  <td><span class="chip chip-pos">+11,3pp</span></td>
+  <td><span class="chip chip-neg">-8,4pp</span></td>
+  <td><span class="st-below">&#9660; Abaixo</span></td>
+</tr>
+<tr>
+  <td class="rk-num">21</td>
+  <td class="drv-cell"><span class="dot" style="background:#17A589"></span>PNR ME</td>
+  <td class="cat-cell">PDD/PNR/CBT</td>
+  <td><strong>22,8%</strong></td>
+  <td>27,2%</td>
+  <td><span class="chip chip-neg">-4,5pp</span></td>
+  <td><span class="chip chip-pos">+6,2pp</span></td>
+  <td><span class="chip chip-neg">-14,8pp</span></td>
+  <td><span class="st-below">&#9660; Abaixo</span></td>
+</tr>
+<tr>
+  <td class="rk-num">22</td>
+  <td class="drv-cell"><span class="dot" style="background:#A569BD"></span>PDD DS&amp;XD</td>
+  <td class="cat-cell">PDD/PNR/CBT</td>
+  <td><strong>11,4%</strong></td>
+  <td>16,4%</td>
+  <td><span class="chip chip-neg">-5,0pp</span></td>
+  <td><span class="chip chip-neg">-1,0pp</span></td>
+  <td><span class="chip chip-pos">+8,3pp</span></td>
+  <td><span class="st-below">&#9660; Abaixo</span></td>
+</tr>
+<tr>
+  <td class="rk-num">23</td>
+  <td class="drv-cell"><span class="dot" style="background:#95A5A6"></span>Otros CV</td>
+  <td class="cat-cell">Otros CV</td>
+  <td><strong>46,4%</strong></td>
+  <td>53,8%</td>
+  <td><span class="chip chip-neg">-7,4pp</span></td>
+  <td><span class="chip chip-neg">-10,2pp</span></td>
+  <td><span class="chip chip-neg">-0,6pp</span></td>
+  <td><span class="st-below">&#9660; Abaixo</span></td>
+</tr>
+<tr>
+  <td class="rk-num">24</td>
+  <td class="drv-cell"><span class="dot" style="background:#5DADE2"></span>ExpImp Mat</td>
+  <td class="cat-cell">Mature</td>
+  <td><strong>45,7%</strong></td>
+  <td>53,6%</td>
+  <td><span class="chip chip-neg">-7,9pp</span></td>
+  <td><span class="chip chip-pos">+11,0pp</span></td>
+  <td><span class="chip chip-neu">0,0pp</span></td>
+  <td><span class="st-below">&#9660; Abaixo</span></td>
+</tr>
+<tr>
+  <td class="rk-num">25</td>
+  <td class="drv-cell"><span class="dot" style="background:#3483FA"></span>ExpImp Dev</td>
+  <td class="cat-cell">Longtail</td>
+  <td><strong>49,7%</strong></td>
+  <td>59,0%</td>
+  <td><span class="chip chip-neg">-9,3pp</span></td>
+  <td><span class="chip chip-pos">+6,2pp</span></td>
+  <td><span class="chip chip-neg">-10,7pp</span></td>
+  <td><span class="st-below">&#9660; Abaixo</span></td>
+</tr>
+<tr class="row-crit">
+  <td class="rk-num">26</td>
+  <td class="drv-cell"><span class="dot" style="background:#7D3C98"></span>PDD FBM</td>
+  <td class="cat-cell">PDD/PNR/CBT</td>
+  <td><strong>26,7%</strong></td>
+  <td>40,7%</td>
+  <td><span class="chip chip-neg">-13,9pp</span></td>
+  <td><span class="chip chip-neg">-7,3pp</span></td>
+  <td><span class="chip chip-pos">+5,9pp</span></td>
+  <td><span class="st-crit">&#x2717; Cr&#237;tico</span></td>
+</tr>
+<tr class="row-crit">
+  <td class="rk-num">27</td>
+  <td class="drv-cell"><span class="dot" style="background:#C39BD3"></span>PDD Fotos</td>
+  <td class="cat-cell">PDD/PNR/CBT</td>
+  <td><strong>14,3%</strong></td>
+  <td>33,1%</td>
+  <td><span class="chip chip-neg">-18,8pp</span></td>
+  <td><span class="chip chip-neg">-19,0pp</span></td>
+  <td><span class="chip chip-pos">+15,8pp</span></td>
+  <td><span class="st-crit">&#x2717; Cr&#237;tico</span></td>
+</tr>
+  </tbody></table></div>
+</div></div>
+
+<script>
+function showTab(n){
+  document.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.toggle('active',i===n);});
+  document.querySelectorAll('.tab-pane').forEach(function(p,i){p.classList.toggle('active',i===n);});
+}
+</script>
+</body>
+</html>
