@@ -10,8 +10,18 @@ import json, re
 with open('_monthly_result.json', encoding='utf-8') as f:
     monthly_data = json.load(f)
 
-ABR = monthly_data['Abr_final']   # dados finais de Abril
-MAI = monthly_data['Mai_wtd']     # dados WTD de Maio
+# Mapeia label do arquivo → chave do JSON
+MONTH_MAP = {
+    'Jan': 'Jan',
+    'Fev': 'Fev',
+    'Mar': 'Mar',
+    'Abr': 'Abr',
+    'Mai': 'Mai',
+}
+BQ = {lbl: monthly_data[key] for lbl, key in MONTH_MAP.items()}
+
+ABR = BQ['Abr']
+MAI = BQ['Mai']
 
 with open('generate_html_gerencia.py', 'r', encoding='utf-8') as f:
     src = f.read()
@@ -65,12 +75,8 @@ lines_mh = ['monthly_history = {']
 for drv in mh:
     parts = []
     for lbl in MONTH_LABELS_NEW:
-        if lbl == 'Abr':
-            t = ABR.get(drv, (0,0,0))
-        elif lbl == 'Mai':
-            t = MAI.get(drv, (0,0,0))
-        else:
-            t = mh[drv].get(lbl, (0,0,0))
+        # Sempre usa dado do BQ quando disponível — evita dados errados no script
+        t = BQ[lbl].get(drv, (0,0,0)) if lbl in BQ else mh[drv].get(lbl, (0,0,0))
         p_fmt = f'"{lbl}":{fmt_tuple(*t)}'
         parts.append(p_fmt)
     lines_mh.append(f'    {pad(drv)}{{{", ".join(parts)}}},')
