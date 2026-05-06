@@ -208,27 +208,27 @@ def chart_small_multiples(base_cid, hist_cat, cons_data, labels):
         trend_cls = "sm-pos" if trend_v is not None and trend_v > 0 else ("sm-neg" if trend_v is not None and trend_v < 0 else "sm-neu")
 
         datasets = [
-            # Linha da categoria com área preenchida
-            {"label": cat, "data": cat_series,
-             "borderColor": color, "backgroundColor": color + "22",
-             "borderWidth": 2.5, "pointRadius": 3, "fill": True, "tension": 0.35,
-             "datalabels": {"display": "__LAST_DISPLAY__",
-                            "anchor": "end", "align": "right", "offset": 4,
-                            "color": color, "font": {"size": 9, "weight": "700"},
-                            "formatter": "__LAST__"}},
-            # Consolidado como referência cinza
-            {"label": "Consolidado", "data": cons_data,
+            # Barras da categoria
+            {"type": "bar", "label": cat, "data": cat_series,
+             "backgroundColor": color + "bb", "borderColor": color,
+             "borderWidth": 1, "borderRadius": 3,
+             "datalabels": {"display": True, "anchor": "end", "align": "end",
+                            "offset": 2, "color": "#444",
+                            "font": {"size": 8, "weight": "700"},
+                            "formatter": "__FMT__"}},
+            # Consolidado como referência cinza (linha discreta)
+            {"type": "line", "label": "Consolidado", "data": cons_data,
              "borderColor": "#bbb", "borderWidth": 1.2,
              "pointRadius": 0, "fill": False, "tension": 0.35, "borderDash": [3, 3],
              "datalabels": {"display": False}},
-            # Target
-            {"label": "Target", "data": [NPS_TARGET] * len(labels),
+            # Target em linha vermelha
+            {"type": "line", "label": "Target", "data": [NPS_TARGET] * len(labels),
              "borderColor": "#E84142", "borderDash": [6, 3],
-             "borderWidth": 1.5, "pointRadius": 0, "fill": False,
+             "borderWidth": 1.8, "pointRadius": 0, "fill": False,
              "datalabels": {"display": False}},
         ]
 
-        cfg = {"type": "line",
+        cfg = {"type": "bar",
                "data": {"labels": labels, "datasets": datasets},
                "options": {
                    "responsive": True, "maintainAspectRatio": False,
@@ -242,10 +242,7 @@ def chart_small_multiples(base_cid, hist_cat, cons_data, labels):
                              "grid": {"color": "#f0f0f0"}},
                        "x": {"ticks": {"font": {"size": 9}}, "grid": {"display": False}}}}}
 
-        cfg_json = (_json.dumps(cfg)
-                    .replace('"__LAST_DISPLAY__"',
-                             'function(ctx){return ctx.dataIndex===ctx.dataset.data.length-1;}')
-                    .replace('"__LAST__"', _LAST))
+        cfg_json = _json.dumps(cfg).replace('"__FMT__"', _FMT)
 
         mini_chart = (f'<div style="position:relative;height:155px;">'
                       f'<canvas id="{cid}"></canvas></div>'
