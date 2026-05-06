@@ -479,7 +479,7 @@ def _tab_exec():
   {waterfall_chart("c_wf_tg", f"Target ({tgt_str}%)", nps_a_tg, lB, nps_b_tg, dd_tg)}
 </div>"""
 
-    return kpis + exec_html + chart_sec + wf_mm + wf_tg
+    return kpis + chart_sec + wf_mm + wf_tg + exec_html
 
 
 def _tab_mensal():
