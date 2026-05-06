@@ -113,6 +113,43 @@ kpi_delta_m = (round(mon_cons[-1] - mon_cons[-2], 2)
                if mon_cons[-1] is not None and mon_cons[-2] is not None else None)
 kpi_vs_tgt  = (round(mon_cons[-1] - NPS_TARGET, 2) if mon_cons[-1] is not None else None)
 
+# Dados das cascatas ─────────────────────────────────────────────
+def _nps0(t):
+    p, d, s = t
+    return round(100.0 * (p - d) / s, 2) if s > 0 else 0.0
+
+def _mm_waterfall():
+    """M2 → M1: decomposição MIX + NETO por driver."""
+    lA = MONTH_LABELS[-2]
+    lB = MONTH_LABELS[-1]
+    sA = sum(monthly_history[d].get(lA, (0,0,0))[2] for d in ALL_DRIVERS)
+    sB = sum(monthly_history[d].get(lB, (0,0,0))[2] for d in ALL_DRIVERS)
+    nps_B = mon_cons[-1] or 0.0
+    d_dict = {}
+    for drv in ALL_DRIVERS:
+        a = monthly_history[drv].get(lA, (0,0,0))
+        b = monthly_history[drv].get(lB, (0,0,0))
+        na = _nps0(a); nb = _nps0(b)
+        sha = a[2] / sA if sA else 0
+        shb = b[2] / sB if sB else 0
+        neto = round(sha * (nb - na), 2)
+        mix  = round((shb - sha) * (nb - nps_B), 2)
+        d_dict[drv] = {"var": round(neto + mix, 2)}
+    return mon_cons[-2] or 0.0, mon_cons[-1] or 0.0, d_dict
+
+def _tgt_waterfall():
+    """Target → Atual: contribuição de cada driver para o gap vs target."""
+    lB = MONTH_LABELS[-1]
+    sB = sum(monthly_history[d].get(lB, (0,0,0))[2] for d in ALL_DRIVERS)
+    d_dict = {}
+    for drv in ALL_DRIVERS:
+        b   = monthly_history[drv].get(lB, (0,0,0))
+        nb  = _nps0(b)
+        tgt = DRIVER_TARGETS.get(drv, NPS_TARGET)
+        shb = b[2] / sB if sB else 0
+        d_dict[drv] = {"var": round(shb * (nb - tgt), 2)}
+    return NPS_TARGET, mon_cons[-1] or 0.0, d_dict
+
 # ══════════════════════════════════════════════════════════════════════
 # 4. HELPERS HTML
 # ══════════════════════════════════════════════════════════════════════
@@ -188,6 +225,61 @@ def chart_bar_monthly(cid):
                    "x": {"grid": {"display": False}}}}}
     j = _json.dumps(cfg).replace('"__FMT__"', _FMT)
     return _chart_script(cid, j, 240)
+
+def waterfall_chart(cid, label_a, nps_a, label_b, nps_b, d_dict, height=370):
+    sorted_drvs = sorted(d_dict.keys(), key=lambda d: -d_dict[d]['var'])
+
+    y_lo    = max(30, int(min(nps_a, nps_b)) - 5)
+    y_hi    = min(85, int(max(nps_a, nps_b)) + 14)
+    y_lo    = (y_lo // 5) * 5
+    y_hi    = ((y_hi + 4) // 5) * 5
+
+    labels  = [label_a]
+    bars    = [[y_lo, round(nps_a, 2)]]
+    colors  = ['#3483FAcc']
+    deltas  = [None]
+    running = nps_a
+
+    for drv in sorted_drvs:
+        v = round(d_dict[drv]['var'], 2)
+        labels.append(DRIVER_SHORT.get(drv, drv))
+        lo = round(min(running, running + v), 2)
+        hi = round(max(running, running + v), 2)
+        bars.append([lo, hi])
+        colors.append('#00a650cc' if v >= 0 else '#e84142cc')
+        deltas.append(v)
+        running += v
+
+    labels.append(label_b)
+    bars.append([y_lo, round(nps_b, 2)])
+    colors.append('#3483FAcc')
+    deltas.append(None)
+
+    deltas_js = _json.dumps(deltas)
+    wf_fmt = (f'function(v,ctx){{'
+              f'var d={deltas_js}[ctx.dataIndex];'
+              f'if(d===null){{return v!=null?v[1].toFixed(1).replace(".",",")+"%":"";}}'
+              f'return (d>0?"+":"")+d.toFixed(1).replace(".",",")+"%";}}')
+
+    dataset = {"type": "bar", "data": bars,
+               "backgroundColor": colors, "borderRadius": 2, "borderSkipped": False,
+               "datalabels": {"display": True, "anchor": "end", "align": "end",
+                              "offset": 2, "color": "#333",
+                              "font": {"size": 8, "weight": "600"},
+                              "formatter": "__WF_FMT__"}}
+    cfg = {"type": "bar",
+           "data": {"labels": labels, "datasets": [dataset]},
+           "options": {
+               "responsive": True, "maintainAspectRatio": False,
+               "layout": {"padding": {"top": 22, "bottom": 4}},
+               "plugins": {"legend": {"display": False}, "datalabels": {}},
+               "scales": {
+                   "y": {"min": y_lo, "max": y_hi,
+                         "ticks": {"stepSize": 5}, "grid": {"color": "#f0f0f0"}},
+                   "x": {"ticks": {"font": {"size": 8}, "maxRotation": 45},
+                         "grid": {"display": False}}}}}
+    cfg_json = _json.dumps(cfg).replace('"__WF_FMT__"', wf_fmt)
+    return _chart_script(cid, cfg_json, height)
 
 def chart_small_multiples(base_cid, hist_cat, cons_data, labels):
     """Grid 3×2 de mini-gráficos: 1 por categoria (linha da cat + target + consolidado cinza)."""
@@ -307,33 +399,33 @@ def _tab_exec():
   {chart_bar_monthly("c_exec_mon")}
 </div>"""
 
-    # --- CDU Cards ---
-    cards = '<div class="section-block"><div class="section-title">Status por CDU &mdash; ' + esc(MONTH_LABELS[-1]) + '</div>'
-    for cat, drvs in CATEGORIES.items():
-        color = CAT_COLORS[cat]
-        cards += f'<div class="cat-hdr" style="border-left:4px solid {color}">{esc(cat)}</div>'
-        cards += '<div class="card-grid">'
-        for drv in drvs:
-            nps_v  = curr_m.get(drv)
-            tgt_v  = DRIVER_TARGETS.get(drv, NPS_TARGET)
-            tr     = trend_m.get(drv)
-            d_t    = delta_tgt.get(drv)
-            short  = DRIVER_SHORT.get(drv, drv)
-            diff   = (nps_v - tgt_v) if nps_v is not None else None
-            if diff is None:    border = "#ccc"
-            elif diff >= 0:     border = "#00A650"
-            elif diff >= -3:    border = "#F39C12"
-            elif diff >= -10:   border = "#FF6B35"
-            else:               border = "#E84142"
-            cards += f"""<div class="cdu-card" style="border-left:4px solid {border}">
-  <div class="cdu-name">{esc(short)} {arr(tr)}</div>
-  <div class="cdu-nps">{fn(nps_v)}%</div>
-  <div class="cdu-det">Tgt: {fn(tgt_v)}% &nbsp;{chip(d_t)}</div>
-</div>"""
-        cards += '</div>'
-    cards += '</div>'
+    # --- Cascatas ---
+    nps_a_mm, nps_b_mm, dd_mm   = _mm_waterfall()
+    nps_a_tg, nps_b_tg, dd_tg   = _tgt_waterfall()
 
-    return kpis + chart_sec + cards
+    lA = esc(MONTH_LABELS[-2])
+    lB = esc(MONTH_LABELS[-1])
+
+    wf_mm = f"""<div class="section-block">
+  <div class="section-title">Cascata M/M &mdash; {lA} &rarr; {lB}
+    <span style="font-weight:400;font-size:12px;color:#888;margin-left:8px;">
+      {fn(nps_a_mm)}% &rarr; {fn(nps_b_mm)}% &nbsp;{chip(round(nps_b_mm - nps_a_mm, 2))}
+    </span>
+  </div>
+  {waterfall_chart("c_wf_mm", lA, nps_a_mm, lB, nps_b_mm, dd_mm)}
+</div>"""
+
+    tgt_str = str(NPS_TARGET).replace('.', ',')
+    wf_tg = f"""<div class="section-block">
+  <div class="section-title">Cascata vs Target &mdash; {lB}
+    <span style="font-weight:400;font-size:12px;color:#888;margin-left:8px;">
+      Target {tgt_str}% &rarr; Real {fn(nps_b_tg)}% &nbsp;{chip(round(nps_b_tg - NPS_TARGET, 2))}
+    </span>
+  </div>
+  {waterfall_chart("c_wf_tg", f"Target ({tgt_str}%)", nps_a_tg, lB, nps_b_tg, dd_tg)}
+</div>"""
+
+    return kpis + chart_sec + wf_mm + wf_tg
 
 
 def _tab_mensal():

@@ -150,115 +150,21 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
 </div><div class="section-block">
   <div class="section-title">Evolu&#231;&#227;o NPS Consolidado &mdash; Mensal YTD</div>
   <div style="position:relative;height:240px;"><canvas id="c_exec_mon"></canvas></div><script>new Chart(document.getElementById("c_exec_mon"),{"type": "bar", "data": {"labels": ["Jan", "Fev", "Mar", "Abr"], "datasets": [{"type": "bar", "label": "NPS Consolidado", "data": [60.63, 59.88, 58.37, 59.92], "backgroundColor": "#3483FAcc", "borderColor": "#3483FA", "borderWidth": 1, "borderRadius": 5, "datalabels": {"display": true, "anchor": "end", "align": "end", "offset": 3, "color": "#333", "font": {"size": 11, "weight": "700"}, "formatter": function(v){return v!=null?v.toFixed(1).replace(".",",")+"%":""}}}, {"type": "line", "label": "Target (52,22%)", "data": [52.22, 52.22, 52.22, 52.22], "borderColor": "#E84142", "borderDash": [6, 3], "borderWidth": 2, "pointRadius": 0, "fill": false, "datalabels": {"display": false}}]}, "options": {"responsive": true, "maintainAspectRatio": false, "layout": {"padding": {"top": 28, "bottom": 4}}, "plugins": {"legend": {"position": "bottom", "labels": {"boxWidth": 10, "padding": 8, "font": {"size": 10}}}, "datalabels": {}}, "scales": {"y": {"min": 30, "max": 80, "ticks": {"stepSize": 10}, "grid": {"color": "#f0f0f0"}}, "x": {"grid": {"display": false}}}}});</script>
-</div><div class="section-block"><div class="section-title">Status por CDU &mdash; Abr</div><div class="cat-hdr" style="border-left:4px solid #3483FA">Longtail</div><div class="card-grid"><div class="cdu-card" style="border-left:4px solid #FF6B35">
-  <div class="cdu-name">ExpImp Dev <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">49,7%</div>
-  <div class="cdu-det">Tgt: 59,0% &nbsp;<span class="chip chip-neg">-9,3pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #00A650">
-  <div class="cdu-name">ME Dev <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">68,3%</div>
-  <div class="cdu-det">Tgt: 57,8% &nbsp;<span class="chip chip-pos">+10,5pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #FF6B35">
-  <div class="cdu-name">Partners <span class="arr arr-neg">&#9660;</span></div>
-  <div class="cdu-nps">66,7%</div>
-  <div class="cdu-det">Tgt: 70,2% &nbsp;<span class="chip chip-neg">-3,5pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #00A650">
-  <div class="cdu-name">PCF Dev <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">49,6%</div>
-  <div class="cdu-det">Tgt: 39,9% &nbsp;<span class="chip chip-pos">+9,6pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #00A650">
-  <div class="cdu-name">PV Dev <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">69,8%</div>
-  <div class="cdu-det">Tgt: 53,4% &nbsp;<span class="chip chip-pos">+16,4pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #00A650">
-  <div class="cdu-name">Publi Dev <span class="arr arr-neg">&#9660;</span></div>
-  <div class="cdu-nps">64,2%</div>
-  <div class="cdu-det">Tgt: 52,9% &nbsp;<span class="chip chip-pos">+11,3pp</span></div>
-</div></div><div class="cat-hdr" style="border-left:4px solid #00A650">Mature</div><div class="card-grid"><div class="cdu-card" style="border-left:4px solid #FF6B35">
-  <div class="cdu-name">ExpImp Mat <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">45,7%</div>
-  <div class="cdu-det">Tgt: 53,6% &nbsp;<span class="chip chip-neg">-7,9pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #00A650">
-  <div class="cdu-name">ME Mat <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">62,0%</div>
-  <div class="cdu-det">Tgt: 49,0% &nbsp;<span class="chip chip-pos">+13,0pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #00A650">
-  <div class="cdu-name">PCF Mat <span class="arr arr-neg">&#9660;</span></div>
-  <div class="cdu-nps">47,6%</div>
-  <div class="cdu-det">Tgt: 28,3% &nbsp;<span class="chip chip-pos">+19,4pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #00A650">
-  <div class="cdu-name">PV Mat <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">63,9%</div>
-  <div class="cdu-det">Tgt: 50,1% &nbsp;<span class="chip chip-pos">+13,8pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #00A650">
-  <div class="cdu-name">Publi Mat <span class="arr arr-neg">&#9660;</span></div>
-  <div class="cdu-nps">56,2%</div>
-  <div class="cdu-det">Tgt: 47,4% &nbsp;<span class="chip chip-pos">+8,8pp</span></div>
-</div></div><div class="cat-hdr" style="border-left:4px solid #FF7733">Meli Pro</div><div class="card-grid"><div class="cdu-card" style="border-left:4px solid #00A650">
-  <div class="cdu-name">ExpImp Pro <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">63,6%</div>
-  <div class="cdu-det">Tgt: 38,6% &nbsp;<span class="chip chip-pos">+25,1pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #FF6B35">
-  <div class="cdu-name">ME Pro <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">78,0%</div>
-  <div class="cdu-det">Tgt: 81,6% &nbsp;<span class="chip chip-neg">-3,6pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #F39C12">
-  <div class="cdu-name">PCF Pro <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">62,9%</div>
-  <div class="cdu-det">Tgt: 63,6% &nbsp;<span class="chip chip-neg">-0,7pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #00A650">
-  <div class="cdu-name">PV Pro <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">92,0%</div>
-  <div class="cdu-det">Tgt: 87,8% &nbsp;<span class="chip chip-pos">+4,2pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #F39C12">
-  <div class="cdu-name">Publi Pro <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">79,0%</div>
-  <div class="cdu-det">Tgt: 81,4% &nbsp;<span class="chip chip-neg">-2,4pp</span></div>
-</div></div><div class="cat-hdr" style="border-left:4px solid #F39C12">FBM</div><div class="card-grid"><div class="cdu-card" style="border-left:4px solid #00A650">
-  <div class="cdu-name">FBM-S Mat <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">51,7%</div>
-  <div class="cdu-det">Tgt: 19,6% &nbsp;<span class="chip chip-pos">+32,1pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #00A650">
-  <div class="cdu-name">FBM-S Pro <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">61,5%</div>
-  <div class="cdu-det">Tgt: 48,7% &nbsp;<span class="chip chip-pos">+12,8pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #00A650">
-  <div class="cdu-name">FBM-S Dev <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">44,7%</div>
-  <div class="cdu-det">Tgt: 42,1% &nbsp;<span class="chip chip-pos">+2,6pp</span></div>
-</div></div><div class="cat-hdr" style="border-left:4px solid #9B59B6">PDD/PNR/CBT</div><div class="card-grid"><div class="cdu-card" style="border-left:4px solid #F39C12">
-  <div class="cdu-name">CBT <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">72,1%</div>
-  <div class="cdu-det">Tgt: 74,6% &nbsp;<span class="chip chip-neg">-2,5pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #FF6B35">
-  <div class="cdu-name">PDD DS&amp;XD <span class="arr arr-neg">&#9660;</span></div>
-  <div class="cdu-nps">11,4%</div>
-  <div class="cdu-det">Tgt: 16,4% &nbsp;<span class="chip chip-neg">-5,0pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #E84142">
-  <div class="cdu-name">PDD FBM <span class="arr arr-neg">&#9660;</span></div>
-  <div class="cdu-nps">26,7%</div>
-  <div class="cdu-det">Tgt: 40,7% &nbsp;<span class="chip chip-neg">-13,9pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #E84142">
-  <div class="cdu-name">PDD Fotos <span class="arr arr-neg">&#9660;</span></div>
-  <div class="cdu-nps">14,3%</div>
-  <div class="cdu-det">Tgt: 33,1% &nbsp;<span class="chip chip-neg">-18,8pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #00A650">
-  <div class="cdu-name">PDD MP/CBT <span class="arr arr-neg">&#9660;</span></div>
-  <div class="cdu-nps">14,8%</div>
-  <div class="cdu-det">Tgt: 12,3% &nbsp;<span class="chip chip-pos">+2,5pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #FF6B35">
-  <div class="cdu-name">PNR ME <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">22,8%</div>
-  <div class="cdu-det">Tgt: 27,2% &nbsp;<span class="chip chip-neg">-4,5pp</span></div>
-</div><div class="cdu-card" style="border-left:4px solid #00A650">
-  <div class="cdu-name">PNR MP <span class="arr arr-pos">&#9650;</span></div>
-  <div class="cdu-nps">32,7%</div>
-  <div class="cdu-det">Tgt: 29,6% &nbsp;<span class="chip chip-pos">+3,1pp</span></div>
-</div></div><div class="cat-hdr" style="border-left:4px solid #95A5A6">Otros CV</div><div class="card-grid"><div class="cdu-card" style="border-left:4px solid #FF6B35">
-  <div class="cdu-name">Otros CV <span class="arr arr-neg">&#9660;</span></div>
-  <div class="cdu-nps">46,4%</div>
-  <div class="cdu-det">Tgt: 53,8% &nbsp;<span class="chip chip-neg">-7,4pp</span></div>
-</div></div></div></div>
+</div><div class="section-block">
+  <div class="section-title">Cascata M/M &mdash; Mar &rarr; Abr
+    <span style="font-weight:400;font-size:12px;color:#888;margin-left:8px;">
+      58,4% &rarr; 59,9% &nbsp;<span class="chip chip-pos">+1,6pp</span>
+    </span>
+  </div>
+  <div style="position:relative;height:370px;"><canvas id="c_wf_mm"></canvas></div><script>new Chart(document.getElementById("c_wf_mm"),{"type": "bar", "data": {"labels": ["Mar", "ME Dev", "PV Pro", "PV Dev", "PDD DS&XD", "ME Pro", "PCF Dev", "PNR MP", "ME Mat", "Publi Pro", "CBT", "FBM-S Mat", "FBM-S Dev", "PDD MP/CBT", "ExpImp Mat", "ExpImp Dev", "FBM-S Pro", "PCF Pro", "PV Mat", "ExpImp Pro", "PNR ME", "Partners", "PDD Fotos", "Publi Mat", "PCF Mat", "PDD FBM", "Otros CV", "Publi Dev", "Abr"], "datasets": [{"type": "bar", "data": [[50, 58.37], [58.37, 58.95], [58.95, 59.41], [59.41, 59.7], [59.7, 59.98], [59.98, 60.19], [60.19, 60.38], [60.38, 60.54], [60.54, 60.69], [60.69, 60.83], [60.83, 60.95], [60.95, 61.06], [61.06, 61.12], [61.12, 61.18], [61.18, 61.23], [61.23, 61.28], [61.28, 61.33], [61.33, 61.38], [61.38, 61.43], [61.43, 61.45], [61.41, 61.45], [61.37, 61.41], [61.32, 61.37], [61.27, 61.32], [61.21, 61.27], [61.11, 61.21], [60.63, 61.11], [59.93, 60.63], [50, 59.92]], "backgroundColor": ["#3483FAcc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#e84142cc", "#e84142cc", "#e84142cc", "#e84142cc", "#e84142cc", "#e84142cc", "#e84142cc", "#e84142cc", "#3483FAcc"], "borderRadius": 2, "borderSkipped": false, "datalabels": {"display": true, "anchor": "end", "align": "end", "offset": 2, "color": "#333", "font": {"size": 8, "weight": "600"}, "formatter": function(v,ctx){var d=[null, 0.58, 0.46, 0.29, 0.28, 0.21, 0.19, 0.16, 0.15, 0.14, 0.12, 0.11, 0.06, 0.06, 0.05, 0.05, 0.05, 0.05, 0.05, 0.02, -0.04, -0.04, -0.05, -0.05, -0.06, -0.1, -0.48, -0.7, null][ctx.dataIndex];if(d===null){return v!=null?v[1].toFixed(1).replace(".",",")+"%":"";}return (d>0?"+":"")+d.toFixed(1).replace(".",",")+"%";}}}]}, "options": {"responsive": true, "maintainAspectRatio": false, "layout": {"padding": {"top": 22, "bottom": 4}}, "plugins": {"legend": {"display": false}, "datalabels": {}}, "scales": {"y": {"min": 50, "max": 75, "ticks": {"stepSize": 5}, "grid": {"color": "#f0f0f0"}}, "x": {"ticks": {"font": {"size": 8}, "maxRotation": 45}, "grid": {"display": false}}}}});</script>
+</div><div class="section-block">
+  <div class="section-title">Cascata vs Target &mdash; Abr
+    <span style="font-weight:400;font-size:12px;color:#888;margin-left:8px;">
+      Target 52,22% &rarr; Real 59,9% &nbsp;<span class="chip chip-pos">+7,7pp</span>
+    </span>
+  </div>
+  <div style="position:relative;height:370px;"><canvas id="c_wf_tg"></canvas></div><script>new Chart(document.getElementById("c_wf_tg"),{"type": "bar", "data": {"labels": ["Target (52,22%)", "ME Dev", "Publi Dev", "ME Mat", "PV Dev", "PCF Mat", "PV Mat", "PCF Dev", "FBM-S Mat", "Publi Mat", "PV Pro", "FBM-S Dev", "FBM-S Pro", "PNR MP", "ExpImp Pro", "PDD MP/CBT", "ExpImp Mat", "PCF Pro", "Publi Pro", "CBT", "ME Pro", "PNR ME", "PDD Fotos", "PDD FBM", "PDD DS&XD", "ExpImp Dev", "Otros CV", "Partners", "Abr"], "datasets": [{"type": "bar", "data": [[45, 52.22], [52.22, 55.39], [55.39, 56.76], [56.76, 57.58], [57.58, 58.35], [58.35, 58.65], [58.65, 58.9], [58.9, 59.14], [59.14, 59.35], [59.35, 59.46], [59.46, 59.53], [59.53, 59.59], [59.59, 59.63], [59.63, 59.67], [59.67, 59.68], [59.68, 59.69], [59.68, 59.69], [59.67, 59.68], [59.65, 59.67], [59.6, 59.65], [59.55, 59.6], [59.5, 59.55], [59.44, 59.5], [59.26, 59.44], [59.02, 59.26], [58.76, 59.02], [58.41, 58.76], [57.97, 58.41], [45, 59.92]], "backgroundColor": ["#3483FAcc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#00a650cc", "#e84142cc", "#e84142cc", "#e84142cc", "#e84142cc", "#e84142cc", "#e84142cc", "#e84142cc", "#e84142cc", "#e84142cc", "#e84142cc", "#e84142cc", "#e84142cc", "#3483FAcc"], "borderRadius": 2, "borderSkipped": false, "datalabels": {"display": true, "anchor": "end", "align": "end", "offset": 2, "color": "#333", "font": {"size": 8, "weight": "600"}, "formatter": function(v,ctx){var d=[null, 3.17, 1.37, 0.82, 0.77, 0.3, 0.25, 0.24, 0.21, 0.11, 0.07, 0.06, 0.04, 0.04, 0.01, 0.01, -0.01, -0.01, -0.02, -0.05, -0.05, -0.05, -0.06, -0.18, -0.24, -0.26, -0.35, -0.44, null][ctx.dataIndex];if(d===null){return v!=null?v[1].toFixed(1).replace(".",",")+"%":"";}return (d>0?"+":"")+d.toFixed(1).replace(".",",")+"%";}}}]}, "options": {"responsive": true, "maintainAspectRatio": false, "layout": {"padding": {"top": 22, "bottom": 4}}, "plugins": {"legend": {"display": false}, "datalabels": {}}, "scales": {"y": {"min": 45, "max": 75, "ticks": {"stepSize": 5}, "grid": {"color": "#f0f0f0"}}, "x": {"ticks": {"font": {"size": 8}, "maxRotation": 45}, "grid": {"display": false}}}}});</script>
+</div></div>
 <div class="tab-pane"><div class="section-block">
   <div class="section-title">Evolu&#231;&#227;o NPS por Categoria &mdash; Mensal</div>
   <div class="sm-grid"><div class="sm-item" style="border-top:3px solid #3483FA"><div class="sm-header"><span class="sm-cat">Longtail</span><span class="sm-nps">65,8% <span class="sm-pos">+0,5pp</span></span></div><div class="sm-sub sm-pos">+13,6pp vs tgt</div><div style="position:relative;height:155px;"><canvas id="c_mon_0"></canvas></div><script>new Chart(document.getElementById("c_mon_0"),{"type": "bar", "data": {"labels": ["Jan", "Fev", "Mar", "Abr"], "datasets": [{"type": "bar", "label": "Longtail", "data": [67.27, 66.79, 65.32, 65.8], "backgroundColor": "#3483FAbb", "borderColor": "#3483FA", "borderWidth": 1, "borderRadius": 3, "datalabels": {"display": true, "anchor": "end", "align": "end", "offset": 2, "color": "#444", "font": {"size": 8, "weight": "700"}, "formatter": function(v){return v!=null?v.toFixed(1).replace(".",",")+"%":""}}}, {"type": "line", "label": "Consolidado", "data": [60.63, 59.88, 58.37, 59.92], "borderColor": "#bbb", "borderWidth": 1.2, "pointRadius": 0, "fill": false, "tension": 0.35, "borderDash": [3, 3], "datalabels": {"display": false}}, {"type": "line", "label": "Target", "data": [52.22, 52.22, 52.22, 52.22], "borderColor": "#E84142", "borderDash": [6, 3], "borderWidth": 1.8, "pointRadius": 0, "fill": false, "datalabels": {"display": false}}]}, "options": {"responsive": true, "maintainAspectRatio": false, "layout": {"padding": {"top": 14, "right": 46, "bottom": 2, "left": 4}}, "interaction": {"mode": "index", "intersect": false}, "plugins": {"legend": {"display": false}, "datalabels": {}}, "scales": {"y": {"min": -20, "max": 100, "ticks": {"stepSize": 20, "font": {"size": 9}}, "grid": {"color": "#f0f0f0"}}, "x": {"ticks": {"font": {"size": 9}}, "grid": {"display": false}}}}});</script></div><div class="sm-item" style="border-top:3px solid #00A650"><div class="sm-header"><span class="sm-cat">Mature</span><span class="sm-nps">59,4% <span class="sm-pos">+0,9pp</span></span></div><div class="sm-sub sm-pos">+7,1pp vs tgt</div><div style="position:relative;height:155px;"><canvas id="c_mon_1"></canvas></div><script>new Chart(document.getElementById("c_mon_1"),{"type": "bar", "data": {"labels": ["Jan", "Fev", "Mar", "Abr"], "datasets": [{"type": "bar", "label": "Mature", "data": [57.49, 57.68, 58.5, 59.36], "backgroundColor": "#00A650bb", "borderColor": "#00A650", "borderWidth": 1, "borderRadius": 3, "datalabels": {"display": true, "anchor": "end", "align": "end", "offset": 2, "color": "#444", "font": {"size": 8, "weight": "700"}, "formatter": function(v){return v!=null?v.toFixed(1).replace(".",",")+"%":""}}}, {"type": "line", "label": "Consolidado", "data": [60.63, 59.88, 58.37, 59.92], "borderColor": "#bbb", "borderWidth": 1.2, "pointRadius": 0, "fill": false, "tension": 0.35, "borderDash": [3, 3], "datalabels": {"display": false}}, {"type": "line", "label": "Target", "data": [52.22, 52.22, 52.22, 52.22], "borderColor": "#E84142", "borderDash": [6, 3], "borderWidth": 1.8, "pointRadius": 0, "fill": false, "datalabels": {"display": false}}]}, "options": {"responsive": true, "maintainAspectRatio": false, "layout": {"padding": {"top": 14, "right": 46, "bottom": 2, "left": 4}}, "interaction": {"mode": "index", "intersect": false}, "plugins": {"legend": {"display": false}, "datalabels": {}}, "scales": {"y": {"min": -20, "max": 100, "ticks": {"stepSize": 20, "font": {"size": 9}}, "grid": {"color": "#f0f0f0"}}, "x": {"ticks": {"font": {"size": 9}}, "grid": {"display": false}}}}});</script></div><div class="sm-item" style="border-top:3px solid #FF7733"><div class="sm-header"><span class="sm-cat">Meli Pro</span><span class="sm-nps">78,5% <span class="sm-pos">+16,2pp</span></span></div><div class="sm-sub sm-pos">+26,3pp vs tgt</div><div style="position:relative;height:155px;"><canvas id="c_mon_2"></canvas></div><script>new Chart(document.getElementById("c_mon_2"),{"type": "bar", "data": {"labels": ["Jan", "Fev", "Mar", "Abr"], "datasets": [{"type": "bar", "label": "Meli Pro", "data": [71.02, 72.87, 62.34, 78.55], "backgroundColor": "#FF7733bb", "borderColor": "#FF7733", "borderWidth": 1, "borderRadius": 3, "datalabels": {"display": true, "anchor": "end", "align": "end", "offset": 2, "color": "#444", "font": {"size": 8, "weight": "700"}, "formatter": function(v){return v!=null?v.toFixed(1).replace(".",",")+"%":""}}}, {"type": "line", "label": "Consolidado", "data": [60.63, 59.88, 58.37, 59.92], "borderColor": "#bbb", "borderWidth": 1.2, "pointRadius": 0, "fill": false, "tension": 0.35, "borderDash": [3, 3], "datalabels": {"display": false}}, {"type": "line", "label": "Target", "data": [52.22, 52.22, 52.22, 52.22], "borderColor": "#E84142", "borderDash": [6, 3], "borderWidth": 1.8, "pointRadius": 0, "fill": false, "datalabels": {"display": false}}]}, "options": {"responsive": true, "maintainAspectRatio": false, "layout": {"padding": {"top": 14, "right": 46, "bottom": 2, "left": 4}}, "interaction": {"mode": "index", "intersect": false}, "plugins": {"legend": {"display": false}, "datalabels": {}}, "scales": {"y": {"min": -20, "max": 100, "ticks": {"stepSize": 20, "font": {"size": 9}}, "grid": {"color": "#f0f0f0"}}, "x": {"ticks": {"font": {"size": 9}}, "grid": {"display": false}}}}});</script></div><div class="sm-item" style="border-top:3px solid #F39C12"><div class="sm-header"><span class="sm-cat">FBM</span><span class="sm-nps">47,6% <span class="sm-pos">+6,2pp</span></span></div><div class="sm-sub sm-neg">-4,6pp vs tgt</div><div style="position:relative;height:155px;"><canvas id="c_mon_3"></canvas></div><script>new Chart(document.getElementById("c_mon_3"),{"type": "bar", "data": {"labels": ["Jan", "Fev", "Mar", "Abr"], "datasets": [{"type": "bar", "label": "FBM", "data": [43.29, 42.88, 41.39, 47.61], "backgroundColor": "#F39C12bb", "borderColor": "#F39C12", "borderWidth": 1, "borderRadius": 3, "datalabels": {"display": true, "anchor": "end", "align": "end", "offset": 2, "color": "#444", "font": {"size": 8, "weight": "700"}, "formatter": function(v){return v!=null?v.toFixed(1).replace(".",",")+"%":""}}}, {"type": "line", "label": "Consolidado", "data": [60.63, 59.88, 58.37, 59.92], "borderColor": "#bbb", "borderWidth": 1.2, "pointRadius": 0, "fill": false, "tension": 0.35, "borderDash": [3, 3], "datalabels": {"display": false}}, {"type": "line", "label": "Target", "data": [52.22, 52.22, 52.22, 52.22], "borderColor": "#E84142", "borderDash": [6, 3], "borderWidth": 1.8, "pointRadius": 0, "fill": false, "datalabels": {"display": false}}]}, "options": {"responsive": true, "maintainAspectRatio": false, "layout": {"padding": {"top": 14, "right": 46, "bottom": 2, "left": 4}}, "interaction": {"mode": "index", "intersect": false}, "plugins": {"legend": {"display": false}, "datalabels": {}}, "scales": {"y": {"min": -20, "max": 100, "ticks": {"stepSize": 20, "font": {"size": 9}}, "grid": {"color": "#f0f0f0"}}, "x": {"ticks": {"font": {"size": 9}}, "grid": {"display": false}}}}});</script></div><div class="sm-item" style="border-top:3px solid #9B59B6"><div class="sm-header"><span class="sm-cat">PDD/PNR/CBT</span><span class="sm-nps">27,2% <span class="sm-pos">+2,5pp</span></span></div><div class="sm-sub sm-neg">-25,0pp vs tgt</div><div style="position:relative;height:155px;"><canvas id="c_mon_4"></canvas></div><script>new Chart(document.getElementById("c_mon_4"),{"type": "bar", "data": {"labels": ["Jan", "Fev", "Mar", "Abr"], "datasets": [{"type": "bar", "label": "PDD/PNR/CBT", "data": [29.96, 23.84, 24.76, 27.23], "backgroundColor": "#9B59B6bb", "borderColor": "#9B59B6", "borderWidth": 1, "borderRadius": 3, "datalabels": {"display": true, "anchor": "end", "align": "end", "offset": 2, "color": "#444", "font": {"size": 8, "weight": "700"}, "formatter": function(v){return v!=null?v.toFixed(1).replace(".",",")+"%":""}}}, {"type": "line", "label": "Consolidado", "data": [60.63, 59.88, 58.37, 59.92], "borderColor": "#bbb", "borderWidth": 1.2, "pointRadius": 0, "fill": false, "tension": 0.35, "borderDash": [3, 3], "datalabels": {"display": false}}, {"type": "line", "label": "Target", "data": [52.22, 52.22, 52.22, 52.22], "borderColor": "#E84142", "borderDash": [6, 3], "borderWidth": 1.8, "pointRadius": 0, "fill": false, "datalabels": {"display": false}}]}, "options": {"responsive": true, "maintainAspectRatio": false, "layout": {"padding": {"top": 14, "right": 46, "bottom": 2, "left": 4}}, "interaction": {"mode": "index", "intersect": false}, "plugins": {"legend": {"display": false}, "datalabels": {}}, "scales": {"y": {"min": -20, "max": 100, "ticks": {"stepSize": 20, "font": {"size": 9}}, "grid": {"color": "#f0f0f0"}}, "x": {"ticks": {"font": {"size": 9}}, "grid": {"display": false}}}}});</script></div><div class="sm-item" style="border-top:3px solid #95A5A6"><div class="sm-header"><span class="sm-cat">Otros CV</span><span class="sm-nps">46,4% <span class="sm-neg">-10,2pp</span></span></div><div class="sm-sub sm-neg">-5,8pp vs tgt</div><div style="position:relative;height:155px;"><canvas id="c_mon_5"></canvas></div><script>new Chart(document.getElementById("c_mon_5"),{"type": "bar", "data": {"labels": ["Jan", "Fev", "Mar", "Abr"], "datasets": [{"type": "bar", "label": "Otros CV", "data": [34.99, 50.0, 56.64, 46.41], "backgroundColor": "#95A5A6bb", "borderColor": "#95A5A6", "borderWidth": 1, "borderRadius": 3, "datalabels": {"display": true, "anchor": "end", "align": "end", "offset": 2, "color": "#444", "font": {"size": 8, "weight": "700"}, "formatter": function(v){return v!=null?v.toFixed(1).replace(".",",")+"%":""}}}, {"type": "line", "label": "Consolidado", "data": [60.63, 59.88, 58.37, 59.92], "borderColor": "#bbb", "borderWidth": 1.2, "pointRadius": 0, "fill": false, "tension": 0.35, "borderDash": [3, 3], "datalabels": {"display": false}}, {"type": "line", "label": "Target", "data": [52.22, 52.22, 52.22, 52.22], "borderColor": "#E84142", "borderDash": [6, 3], "borderWidth": 1.8, "pointRadius": 0, "fill": false, "datalabels": {"display": false}}]}, "options": {"responsive": true, "maintainAspectRatio": false, "layout": {"padding": {"top": 14, "right": 46, "bottom": 2, "left": 4}}, "interaction": {"mode": "index", "intersect": false}, "plugins": {"legend": {"display": false}, "datalabels": {}}, "scales": {"y": {"min": -20, "max": 100, "ticks": {"stepSize": 20, "font": {"size": 9}}, "grid": {"color": "#f0f0f0"}}, "x": {"ticks": {"font": {"size": 9}}, "grid": {"display": false}}}}});</script></div></div>
