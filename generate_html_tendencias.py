@@ -432,6 +432,9 @@ def _tab_exec():
   </div>
 </div>"""
 
+    # --- Resumo Executivo ---
+    exec_html = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary()}</div></div>'
+
     # --- Chart ---
     chart_sec = f"""<div class="section-block">
   <div class="section-title">Evolu&#231;&#227;o NPS Consolidado &mdash; Mensal YTD</div>
@@ -464,7 +467,7 @@ def _tab_exec():
   {waterfall_chart("c_wf_tg", f"Target ({tgt_str}%)", nps_a_tg, lB, nps_b_tg, dd_tg)}
 </div>"""
 
-    return kpis + chart_sec + wf_mm + wf_tg
+    return kpis + exec_html + chart_sec + wf_mm + wf_tg
 
 
 def _tab_mensal():
@@ -698,6 +701,25 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
 .sm-neg  { color:#E84142; }
 .sm-neu  { color:#aaa; }
 
+/* Resumo executivo */
+.exec-wrap    { display:flex; flex-direction:column; gap:16px; }
+.exec-section { background:#fff; border-radius:10px; padding:18px 20px;
+                box-shadow:0 1px 8px rgba(0,0,0,.06); }
+.exec-title   { font-size:14px; font-weight:700; color:#333; margin-bottom:12px;
+                padding-bottom:8px; border-bottom:2px solid #f0f2f5; }
+.exec-body    { font-size:13px; color:#444; line-height:1.7; }
+.exec-body p  { margin-bottom:8px; }
+.exec-cards   { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+.exec-card    { border-radius:8px; padding:14px 16px; font-size:12px; line-height:1.6; }
+.exec-card-pos  { background:#e8f8f0; border-left:4px solid #00A650; }
+.exec-card-neg  { background:#fdf0f0; border-left:4px solid #E84142; }
+.exec-card-warn { background:#fffae6; border-left:4px solid #F39C12; }
+.exec-label   { font-weight:700; font-size:12px; margin-bottom:4px; color:#222; }
+.exec-evidence{ font-size:11px; color:#666; font-style:italic; margin-top:4px; border-top:1px solid rgba(0,0,0,.06); padding-top:4px; }
+.exec-bullet  { display:flex; gap:8px; margin-bottom:6px; font-size:12px; }
+.exec-bullet::before { content:"•"; color:#3483FA; font-weight:700; flex-shrink:0; }
+.exec-no-data { color:#aaa; font-size:12px; font-style:italic; padding:12px 0; }
+
 @media (max-width:900px) { .sm-grid { grid-template-columns:repeat(2,1fr); } }
 @media (max-width:768px) {
   .kpi-strip { grid-template-columns:1fr; }
@@ -709,6 +731,15 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
 # ══════════════════════════════════════════════════════════════════════
 # 8. MONTAGEM FINAL
 # ══════════════════════════════════════════════════════════════════════
+def _load_exec_summary():
+    import os
+    path = '_exec_summary.html'
+    if not os.path.exists(path):
+        return (f'<div class="exec-no-data">Resumo executivo não gerado ainda. '
+                f'Execute <code>python _generate_exec_summary.py</code> para gerar.</div>')
+    with open(path, encoding='utf-8') as f:
+        return f.read()
+
 def build():
     t0 = _tab_exec()
     t1 = _tab_mensal()

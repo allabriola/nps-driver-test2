@@ -101,6 +101,25 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
 .sm-neg  { color:#E84142; }
 .sm-neu  { color:#aaa; }
 
+/* Resumo executivo */
+.exec-wrap    { display:flex; flex-direction:column; gap:16px; }
+.exec-section { background:#fff; border-radius:10px; padding:18px 20px;
+                box-shadow:0 1px 8px rgba(0,0,0,.06); }
+.exec-title   { font-size:14px; font-weight:700; color:#333; margin-bottom:12px;
+                padding-bottom:8px; border-bottom:2px solid #f0f2f5; }
+.exec-body    { font-size:13px; color:#444; line-height:1.7; }
+.exec-body p  { margin-bottom:8px; }
+.exec-cards   { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+.exec-card    { border-radius:8px; padding:14px 16px; font-size:12px; line-height:1.6; }
+.exec-card-pos  { background:#e8f8f0; border-left:4px solid #00A650; }
+.exec-card-neg  { background:#fdf0f0; border-left:4px solid #E84142; }
+.exec-card-warn { background:#fffae6; border-left:4px solid #F39C12; }
+.exec-label   { font-weight:700; font-size:12px; margin-bottom:4px; color:#222; }
+.exec-evidence{ font-size:11px; color:#666; font-style:italic; margin-top:4px; border-top:1px solid rgba(0,0,0,.06); padding-top:4px; }
+.exec-bullet  { display:flex; gap:8px; margin-bottom:6px; font-size:12px; }
+.exec-bullet::before { content:"•"; color:#3483FA; font-weight:700; flex-shrink:0; }
+.exec-no-data { color:#aaa; font-size:12px; font-style:italic; padding:12px 0; }
+
 @media (max-width:900px) { .sm-grid { grid-template-columns:repeat(2,1fr); } }
 @media (max-width:768px) {
   .kpi-strip { grid-template-columns:1fr; }
@@ -147,7 +166,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
     <div class="kpi-value kpi-pos">+6,7pp</div>
     <div class="kpi-sub">Acima &#x2713; do target</div>
   </div>
-</div><div class="section-block">
+</div><div class="section-block"><div class="exec-wrap"><div class="exec-no-data">Resumo executivo não gerado ainda. Execute <code>python _generate_exec_summary.py</code> para gerar.</div></div></div><div class="section-block">
   <div class="section-title">Evolu&#231;&#227;o NPS Consolidado &mdash; Mensal YTD</div>
   <div style="position:relative;height:240px;"><canvas id="c_exec_mon"></canvas></div><script>new Chart(document.getElementById("c_exec_mon"),{"type": "bar", "data": {"labels": ["Jan", "Fev", "Mar", "Abr", "Mai"], "datasets": [{"type": "bar", "label": "NPS Consolidado", "data": [60.63, 59.88, 56.85, 58.73, 58.94], "backgroundColor": "#3483FAcc", "borderColor": "#3483FA", "borderWidth": 1, "borderRadius": 5, "datalabels": {"display": true, "anchor": "end", "align": "end", "offset": 3, "color": "#333", "font": {"size": 11, "weight": "700"}, "formatter": function(v){return v!=null?v.toFixed(1).replace(".",",")+"%":""}}}, {"type": "line", "label": "Target (52,22%)", "data": [52.22, 52.22, 52.22, 52.22, 52.22], "borderColor": "#E84142", "borderDash": [6, 3], "borderWidth": 2, "pointRadius": 0, "fill": false, "datalabels": {"display": false}}]}, "options": {"responsive": true, "maintainAspectRatio": false, "layout": {"padding": {"top": 28, "bottom": 4}}, "plugins": {"legend": {"position": "bottom", "labels": {"boxWidth": 10, "padding": 8, "font": {"size": 10}}}, "datalabels": {}}, "scales": {"y": {"min": 30, "max": 80, "ticks": {"stepSize": 10}, "grid": {"color": "#f0f0f0"}}, "x": {"grid": {"display": false}}}}});</script>
 </div><div class="section-block">
