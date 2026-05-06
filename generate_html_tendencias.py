@@ -77,6 +77,20 @@ CAT_COLORS = {
     "Otros CV":    "#95A5A6",
 }
 
+GROUP_COLORS = {
+    "ME Vendedor":       "#00A650",
+    "Exp. Impositiva":   "#3483FA",
+    "PCF Vendedor":      "#FF7733",
+    "Post Venta":        "#E84142",
+    "Publicaciones":     "#B7950B",
+    "FBM-S":             "#F39C12",
+    "PDD":               "#9B59B6",
+    "PNR":               "#17A589",
+    "Partners":          "#1ABC9C",
+    "CBT":               "#2E86C1",
+    "Otros CV":          "#95A5A6",
+}
+
 ALL_DRIVERS = list(monthly_history.keys())
 
 # ══════════════════════════════════════════════════════════════════════
@@ -104,6 +118,18 @@ wk_cons  = _cons(weekly_history,  WEEK_LABELS)
 
 cat_mon = {cat: _cons(monthly_history, MONTH_LABELS, drvs) for cat, drvs in CATEGORIES.items()}
 cat_wk  = {cat: _cons(weekly_history,  WEEK_LABELS,  drvs) for cat, drvs in CATEGORIES.items()}
+
+grp_mon = {grp: _cons(monthly_history, MONTH_LABELS, drvs) for grp, drvs in DRIVER_GROUPS.items()}
+
+def _grp_target(drvs):
+    """Target ponderado pelo volume do último mês fechado."""
+    lB  = MONTH_LABELS[-2]   # mês anterior = último fechado
+    num = sum(monthly_history[d].get(lB,(0,0,0))[2] * DRIVER_TARGETS.get(d, NPS_TARGET)
+              for d in drvs if d in monthly_history)
+    den = sum(monthly_history[d].get(lB,(0,0,0))[2] for d in drvs if d in monthly_history)
+    return round(num / den, 2) if den else NPS_TARGET
+
+grp_targets = {grp: _grp_target(drvs) for grp, drvs in DRIVER_GROUPS.items()}
 
 drv_m = {d: _drv_s(monthly_history, MONTH_LABELS, d) for d in ALL_DRIVERS}
 drv_w = {d: _drv_s(weekly_history,  WEEK_LABELS,  d) for d in ALL_DRIVERS}
@@ -306,79 +332,66 @@ def waterfall_chart(cid, label_a, nps_a, label_b, nps_b, d_dict, height=370):
     cfg_json = _json.dumps(cfg).replace('"__WF_FMT__"', wf_fmt)
     return _chart_script(cid, cfg_json, height)
 
-def chart_small_multiples(base_cid, hist_cat, cons_data, labels):
-    """Grid 3×2 de mini-gráficos: 1 por categoria (linha da cat + target + consolidado cinza)."""
-    # JS para mostrar label só no último ponto
-    _LAST = 'function(v,ctx){return ctx.dataIndex===ctx.dataset.data.length-1?v!=null?v.toFixed(1).replace(".",",")+"%":"":""}'
-
+def chart_small_multiples(base_cid, items, cons_data, labels):
+    """
+    Grid de mini-gráficos: barras (resultado) + linha target + consolidado cinza.
+    items: lista de (name, series, color, target_val)
+    """
     blocks = []
-    for i, (cat, color) in enumerate(CAT_COLORS.items()):
+    for i, (name, series, color, target_val) in enumerate(items):
         cid = f"{base_cid}_{i}"
-        cat_series = hist_cat[cat]
 
-        # KPI da categoria: NPS atual e tendência
-        curr_v = next((v for v in reversed(cat_series) if v is not None), None)
-        prev_v = next((v for v in reversed(cat_series[:-1]) if v is not None), None)
+        curr_v  = next((v for v in reversed(series) if v is not None), None)
+        prev_v  = next((v for v in reversed(series[:-1]) if v is not None), None)
         trend_v = round(curr_v - prev_v, 1) if curr_v is not None and prev_v is not None else None
         nps_str   = fn(curr_v) + "%" if curr_v is not None else "—"
-        trend_str = ("+" if trend_v is not None and trend_v >= 0 else "") + fn(trend_v) + "pp" if trend_v is not None else ""
+        trend_str = (("+" if trend_v >= 0 else "") + fn(trend_v) + "pp") if trend_v is not None else ""
         trend_cls = "sm-pos" if trend_v is not None and trend_v > 0 else ("sm-neg" if trend_v is not None and trend_v < 0 else "sm-neu")
+        vs_tgt  = round(curr_v - target_val, 1) if curr_v is not None else None
+        vs_str  = (("+" if vs_tgt >= 0 else "") + fn(vs_tgt) + "pp vs tgt") if vs_tgt is not None else ""
+        vs_cls  = "sm-pos" if vs_tgt is not None and vs_tgt >= 0 else "sm-neg"
 
         datasets = [
-            # Barras da categoria
-            {"type": "bar", "label": cat, "data": cat_series,
+            {"type": "bar", "label": name, "data": series,
              "backgroundColor": color + "bb", "borderColor": color,
              "borderWidth": 1, "borderRadius": 3,
              "datalabels": {"display": True, "anchor": "end", "align": "end",
                             "offset": 2, "color": "#444",
                             "font": {"size": 8, "weight": "700"},
                             "formatter": "__FMT__"}},
-            # Consolidado como referência cinza (linha discreta)
             {"type": "line", "label": "Consolidado", "data": cons_data,
              "borderColor": "#bbb", "borderWidth": 1.2,
              "pointRadius": 0, "fill": False, "tension": 0.35, "borderDash": [3, 3],
              "datalabels": {"display": False}},
-            # Target em linha vermelha
-            {"type": "line", "label": "Target", "data": [NPS_TARGET] * len(labels),
+            {"type": "line", "label": "Target", "data": [target_val] * len(labels),
              "borderColor": "#E84142", "borderDash": [6, 3],
              "borderWidth": 1.8, "pointRadius": 0, "fill": False,
              "datalabels": {"display": False}},
         ]
-
         cfg = {"type": "bar",
                "data": {"labels": labels, "datasets": datasets},
                "options": {
                    "responsive": True, "maintainAspectRatio": False,
                    "layout": {"padding": {"top": 14, "right": 46, "bottom": 2, "left": 4}},
                    "interaction": {"mode": "index", "intersect": False},
-                   "plugins": {
-                       "legend": {"display": False},
-                       "datalabels": {}},
+                   "plugins": {"legend": {"display": False}, "datalabels": {}},
                    "scales": {
-                       "y": {"min": -20, "max": 100, "ticks": {"stepSize": 20, "font": {"size": 9}},
+                       "y": {"min": -20, "max": 100,
+                             "ticks": {"stepSize": 20, "font": {"size": 9}},
                              "grid": {"color": "#f0f0f0"}},
                        "x": {"ticks": {"font": {"size": 9}}, "grid": {"display": False}}}}}
 
-        cfg_json = _json.dumps(cfg).replace('"__FMT__"', _FMT)
-
         mini_chart = (f'<div style="position:relative;height:155px;">'
                       f'<canvas id="{cid}"></canvas></div>'
-                      f'<script>new Chart(document.getElementById("{cid}"),{cfg_json});</script>')
-
-        vs_tgt = round(curr_v - NPS_TARGET, 1) if curr_v is not None else None
-        vs_str = ("+" if vs_tgt is not None and vs_tgt >= 0 else "") + fn(vs_tgt) + "pp vs tgt" if vs_tgt is not None else ""
-        vs_cls = "sm-pos" if vs_tgt is not None and vs_tgt >= 0 else "sm-neg"
+                      f'<script>new Chart(document.getElementById("{cid}"),'
+                      f'{_json.dumps(cfg).replace(chr(34)+"__FMT__"+chr(34), _FMT)});</script>')
 
         blocks.append(
             f'<div class="sm-item" style="border-top:3px solid {color}">'
-            f'<div class="sm-header">'
-            f'<span class="sm-cat">{esc(cat)}</span>'
-            f'<span class="sm-nps">{nps_str}'
-            f' <span class="{trend_cls}">{trend_str}</span></span>'
-            f'</div>'
+            f'<div class="sm-header"><span class="sm-cat">{esc(name)}</span>'
+            f'<span class="sm-nps">{nps_str} <span class="{trend_cls}">{trend_str}</span></span></div>'
             f'<div class="sm-sub {vs_cls}">{vs_str}</div>'
-            f'{mini_chart}'
-            f'</div>'
+            f'{mini_chart}</div>'
         )
 
     return f'<div class="sm-grid">{"".join(blocks)}</div>'
@@ -456,7 +469,9 @@ def _tab_exec():
 def _tab_mensal():
     chart_sec = f"""<div class="section-block">
   <div class="section-title">Evolu&#231;&#227;o NPS por Categoria &mdash; Mensal</div>
-  {chart_small_multiples("c_mon", cat_mon, mon_cons, MONTH_LABELS)}
+  {chart_small_multiples("c_mon",
+      [(g, grp_mon[g], GROUP_COLORS[g], grp_targets[g]) for g in DRIVER_GROUPS],
+      mon_cons, MONTH_LABELS)}
 </div>"""
 
     rows = ""
@@ -499,7 +514,9 @@ def _tab_mensal():
 def _tab_semanal():
     chart_sec = f"""<div class="section-block">
   <div class="section-title">Evolu&#231;&#227;o NPS por Categoria &mdash; Semanal</div>
-  {chart_small_multiples("c_wk", cat_wk, wk_cons, WEEK_LABELS)}
+  {chart_small_multiples("c_wk",
+      [(c, cat_wk[c], CAT_COLORS[c], NPS_TARGET) for c in CATEGORIES],
+      wk_cons, WEEK_LABELS)}
 </div>"""
 
     rows = ""
