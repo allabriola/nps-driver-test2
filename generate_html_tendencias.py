@@ -120,6 +120,7 @@ cat_mon = {cat: _cons(monthly_history, MONTH_LABELS, drvs) for cat, drvs in CATE
 cat_wk  = {cat: _cons(weekly_history,  WEEK_LABELS,  drvs) for cat, drvs in CATEGORIES.items()}
 
 grp_mon = {grp: _cons(monthly_history, MONTH_LABELS, drvs) for grp, drvs in DRIVER_GROUPS.items()}
+grp_wk  = {grp: _cons(weekly_history,  WEEK_LABELS,  drvs) for grp, drvs in DRIVER_GROUPS.items()}
 
 def _grp_target(drvs):
     """Target ponderado pelo volume do último mês fechado."""
@@ -515,7 +516,7 @@ def _tab_semanal():
     chart_sec = f"""<div class="section-block">
   <div class="section-title">Evolu&#231;&#227;o NPS por Categoria &mdash; Semanal</div>
   {chart_small_multiples("c_wk",
-      [(c, cat_wk[c], CAT_COLORS[c], NPS_TARGET) for c in CATEGORIES],
+      [(g, grp_wk[g], GROUP_COLORS[g], grp_targets[g]) for g in DRIVER_GROUPS],
       wk_cons, WEEK_LABELS)}
 </div>"""
 
