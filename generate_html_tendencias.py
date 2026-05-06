@@ -39,6 +39,22 @@ OUTPUT_FILE = 'nps_tendencias_gerencia.html'
 # ══════════════════════════════════════════════════════════════════════
 # 2. CONFIGURACOES
 # ══════════════════════════════════════════════════════════════════════
+DRIVER_GROUPS = {
+    "ME Vendedor":       ["ME Vendedor Seller Dev", "ME Vendedor Mature", "ME Vendedor Meli Pro"],
+    "Exp. Impositiva":   ["Experiencia Impositiva Seller Dev", "Experiencia Impositiva Mature",
+                          "Experiencia Impositiva Meli Pro"],
+    "PCF Vendedor":      ["PCF Vendedor Seller Dev", "PCF Vendedor Mature", "PCF Vendedor Meli Pro"],
+    "Post Venta":        ["Post Venta Seller Dev", "Post Venta Mature", "Post Venta Meli Pro"],
+    "Publicaciones":     ["Publicaciones Seller Dev", "Publicaciones Mature", "Publicaciones Meli Pro"],
+    "FBM-S":             ["FBM-S Seller Dev", "FBM-S Mature", "FBM-S Meli Pro"],
+    "PDD":               ["PDD DS&XD - Vendedor", "PDD FBM - Vendedor",
+                          "PDD Fotos - Vendedor", "PDD MP,FLEX & CBT - Vendedor"],
+    "PNR":               ["PNR ME - Vendedor", "PNR MP - Vendedor"],
+    "Partners":          ["Partners"],
+    "CBT":               ["CBT"],
+    "Otros CV":          ["Otros CV"],
+}
+
 CATEGORIES = {
     "Longtail":    ["Experiencia Impositiva Seller Dev", "ME Vendedor Seller Dev", "Partners",
                     "PCF Vendedor Seller Dev", "Post Venta Seller Dev", "Publicaciones Seller Dev"],
@@ -118,36 +134,45 @@ def _nps0(t):
     p, d, s = t
     return round(100.0 * (p - d) / s, 2) if s > 0 else 0.0
 
+def _grp_raw(label, drvs):
+    """Agrega (promoters, detractors, surveys) de um grupo para um período."""
+    p = sum(monthly_history[d].get(label, (0,0,0))[0] for d in drvs if d in monthly_history)
+    det = sum(monthly_history[d].get(label, (0,0,0))[1] for d in drvs if d in monthly_history)
+    s = sum(monthly_history[d].get(label, (0,0,0))[2] for d in drvs if d in monthly_history)
+    return p, det, s
+
 def _mm_waterfall():
-    """M2 → M1: decomposição MIX + NETO por driver."""
-    lA = MONTH_LABELS[-2]
-    lB = MONTH_LABELS[-1]
-    sA = sum(monthly_history[d].get(lA, (0,0,0))[2] for d in ALL_DRIVERS)
-    sB = sum(monthly_history[d].get(lB, (0,0,0))[2] for d in ALL_DRIVERS)
-    nps_B = mon_cons[-1] or 0.0
+    """M2 → M1: decomposição MIX + NETO agrupada por driver base."""
+    lA, lB = MONTH_LABELS[-2], MONTH_LABELS[-1]
+    sA_tot = sum(monthly_history[d].get(lA, (0,0,0))[2] for d in ALL_DRIVERS)
+    sB_tot = sum(monthly_history[d].get(lB, (0,0,0))[2] for d in ALL_DRIVERS)
+    nps_B  = mon_cons[-1] or 0.0
     d_dict = {}
-    for drv in ALL_DRIVERS:
-        a = monthly_history[drv].get(lA, (0,0,0))
-        b = monthly_history[drv].get(lB, (0,0,0))
-        na = _nps0(a); nb = _nps0(b)
-        sha = a[2] / sA if sA else 0
-        shb = b[2] / sB if sB else 0
+    for grp, drvs in DRIVER_GROUPS.items():
+        pA, dA, sA = _grp_raw(lA, drvs)
+        pB, dB, sB = _grp_raw(lB, drvs)
+        na  = _nps0((pA, dA, sA))
+        nb  = _nps0((pB, dB, sB))
+        sha = sA / sA_tot if sA_tot else 0
+        shb = sB / sB_tot if sB_tot else 0
         neto = round(sha * (nb - na), 2)
         mix  = round((shb - sha) * (nb - nps_B), 2)
-        d_dict[drv] = {"var": round(neto + mix, 2)}
+        d_dict[grp] = {"var": round(neto + mix, 2)}
     return mon_cons[-2] or 0.0, mon_cons[-1] or 0.0, d_dict
 
 def _tgt_waterfall():
-    """Target → Atual: contribuição de cada driver para o gap vs target."""
-    lB = MONTH_LABELS[-1]
-    sB = sum(monthly_history[d].get(lB, (0,0,0))[2] for d in ALL_DRIVERS)
+    """Target → Atual: contribuição agrupada do gap vs target."""
+    lB    = MONTH_LABELS[-1]
+    sB_tot = sum(monthly_history[d].get(lB, (0,0,0))[2] for d in ALL_DRIVERS)
     d_dict = {}
-    for drv in ALL_DRIVERS:
-        b   = monthly_history[drv].get(lB, (0,0,0))
-        nb  = _nps0(b)
-        tgt = DRIVER_TARGETS.get(drv, NPS_TARGET)
-        shb = b[2] / sB if sB else 0
-        d_dict[drv] = {"var": round(shb * (nb - tgt), 2)}
+    for grp, drvs in DRIVER_GROUPS.items():
+        pB, dB, sB = _grp_raw(lB, drvs)
+        nb  = _nps0((pB, dB, sB))
+        # target ponderado pelo volume de cada driver no grupo
+        tgt = (sum(monthly_history[d].get(lB,(0,0,0))[2] * DRIVER_TARGETS.get(d, NPS_TARGET)
+                   for d in drvs if d in monthly_history) / sB) if sB else NPS_TARGET
+        shb = sB / sB_tot if sB_tot else 0
+        d_dict[grp] = {"var": round(shb * (nb - tgt), 2)}
     return NPS_TARGET, mon_cons[-1] or 0.0, d_dict
 
 # ══════════════════════════════════════════════════════════════════════
@@ -276,7 +301,7 @@ def waterfall_chart(cid, label_a, nps_a, label_b, nps_b, d_dict, height=370):
                "scales": {
                    "y": {"min": y_lo, "max": y_hi,
                          "ticks": {"stepSize": 5}, "grid": {"color": "#f0f0f0"}},
-                   "x": {"ticks": {"font": {"size": 8}, "maxRotation": 45},
+                   "x": {"ticks": {"font": {"size": 10}, "maxRotation": 30},
                          "grid": {"display": False}}}}}
     cfg_json = _json.dumps(cfg).replace('"__WF_FMT__"', wf_fmt)
     return _chart_script(cid, cfg_json, height)
