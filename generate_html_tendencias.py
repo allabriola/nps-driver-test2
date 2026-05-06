@@ -189,57 +189,85 @@ def chart_bar_monthly(cid):
     j = _json.dumps(cfg).replace('"__FMT__"', _FMT)
     return _chart_script(cid, j, 240)
 
-def chart_grouped_cats(cid, hist_cat, cons_data, labels, show_labels=False, height=300):
-    # Bar datasets: one per category
-    datasets = []
-    for cat, color in CAT_COLORS.items():
-        dl = {"display": show_labels, "anchor": "end", "align": "end",
-              "offset": 2, "color": "#555", "font": {"size": 8, "weight": "600"},
-              "formatter": "__FMT__"} if show_labels else {"display": False}
-        datasets.append({
-            "type": "bar", "label": cat, "data": hist_cat[cat],
-            "backgroundColor": color + "bb", "borderColor": color,
-            "borderWidth": 1, "borderRadius": 3,
-            "datalabels": dl,
-        })
-    # Consolidated line overlay
-    datasets.append({
-        "type": "line", "label": "Consolidado",
-        "data": cons_data,
-        "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22",
-        "borderWidth": 2.5, "pointRadius": 5, "pointBackgroundColor": "#1a1a2e",
-        "fill": False, "tension": 0.3, "order": 0,
-        "datalabels": {"display": True, "anchor": "top", "align": "top",
-                       "offset": 4, "color": "#1a1a2e",
-                       "font": {"size": 9, "weight": "700"},
-                       "formatter": "__FMT__"},
-    })
-    # Target dashed line
-    datasets.append({
-        "type": "line",
-        "label": f"Target ({str(NPS_TARGET).replace('.', ',')}%)",
-        "data": [NPS_TARGET] * len(labels),
-        "borderColor": "#E84142", "borderDash": [6, 3],
-        "borderWidth": 1.5, "pointRadius": 0, "fill": False, "order": 0,
-        "datalabels": {"display": False},
-    })
+def chart_small_multiples(base_cid, hist_cat, cons_data, labels):
+    """Grid 3×2 de mini-gráficos: 1 por categoria (linha da cat + target + consolidado cinza)."""
+    # JS para mostrar label só no último ponto
+    _LAST = 'function(v,ctx){return ctx.dataIndex===ctx.dataset.data.length-1?v!=null?v.toFixed(1).replace(".",",")+"%":"":""}'
 
-    cfg = {"type": "bar",
-           "data": {"labels": labels, "datasets": datasets},
-           "options": {
-               "responsive": True, "maintainAspectRatio": False,
-               "layout": {"padding": {"top": 28, "bottom": 4}},
-               "interaction": {"mode": "index", "intersect": False},
-               "plugins": {
-                   "legend": {"position": "bottom",
-                              "labels": {"boxWidth": 10, "padding": 10, "font": {"size": 10}}},
-                   "datalabels": {}},
-               "scales": {
-                   "y": {"min": -20, "max": 100,
-                         "ticks": {"stepSize": 20}, "grid": {"color": "#f0f0f0"}},
-                   "x": {"grid": {"display": False}}}}}
-    j = _json.dumps(cfg).replace('"__FMT__"', _FMT)
-    return _chart_script(cid, j, height)
+    blocks = []
+    for i, (cat, color) in enumerate(CAT_COLORS.items()):
+        cid = f"{base_cid}_{i}"
+        cat_series = hist_cat[cat]
+
+        # KPI da categoria: NPS atual e tendência
+        curr_v = next((v for v in reversed(cat_series) if v is not None), None)
+        prev_v = next((v for v in reversed(cat_series[:-1]) if v is not None), None)
+        trend_v = round(curr_v - prev_v, 1) if curr_v is not None and prev_v is not None else None
+        nps_str   = fn(curr_v) + "%" if curr_v is not None else "—"
+        trend_str = ("+" if trend_v is not None and trend_v >= 0 else "") + fn(trend_v) + "pp" if trend_v is not None else ""
+        trend_cls = "sm-pos" if trend_v is not None and trend_v > 0 else ("sm-neg" if trend_v is not None and trend_v < 0 else "sm-neu")
+
+        datasets = [
+            # Linha da categoria com área preenchida
+            {"label": cat, "data": cat_series,
+             "borderColor": color, "backgroundColor": color + "22",
+             "borderWidth": 2.5, "pointRadius": 3, "fill": True, "tension": 0.35,
+             "datalabels": {"display": "__LAST_DISPLAY__",
+                            "anchor": "end", "align": "right", "offset": 4,
+                            "color": color, "font": {"size": 9, "weight": "700"},
+                            "formatter": "__LAST__"}},
+            # Consolidado como referência cinza
+            {"label": "Consolidado", "data": cons_data,
+             "borderColor": "#bbb", "borderWidth": 1.2,
+             "pointRadius": 0, "fill": False, "tension": 0.35, "borderDash": [3, 3],
+             "datalabels": {"display": False}},
+            # Target
+            {"label": "Target", "data": [NPS_TARGET] * len(labels),
+             "borderColor": "#E84142", "borderDash": [6, 3],
+             "borderWidth": 1.5, "pointRadius": 0, "fill": False,
+             "datalabels": {"display": False}},
+        ]
+
+        cfg = {"type": "line",
+               "data": {"labels": labels, "datasets": datasets},
+               "options": {
+                   "responsive": True, "maintainAspectRatio": False,
+                   "layout": {"padding": {"top": 14, "right": 46, "bottom": 2, "left": 4}},
+                   "interaction": {"mode": "index", "intersect": False},
+                   "plugins": {
+                       "legend": {"display": False},
+                       "datalabels": {}},
+                   "scales": {
+                       "y": {"min": -20, "max": 100, "ticks": {"stepSize": 20, "font": {"size": 9}},
+                             "grid": {"color": "#f0f0f0"}},
+                       "x": {"ticks": {"font": {"size": 9}}, "grid": {"display": False}}}}}
+
+        cfg_json = (_json.dumps(cfg)
+                    .replace('"__LAST_DISPLAY__"',
+                             'function(ctx){return ctx.dataIndex===ctx.dataset.data.length-1;}')
+                    .replace('"__LAST__"', _LAST))
+
+        mini_chart = (f'<div style="position:relative;height:155px;">'
+                      f'<canvas id="{cid}"></canvas></div>'
+                      f'<script>new Chart(document.getElementById("{cid}"),{cfg_json});</script>')
+
+        vs_tgt = round(curr_v - NPS_TARGET, 1) if curr_v is not None else None
+        vs_str = ("+" if vs_tgt is not None and vs_tgt >= 0 else "") + fn(vs_tgt) + "pp vs tgt" if vs_tgt is not None else ""
+        vs_cls = "sm-pos" if vs_tgt is not None and vs_tgt >= 0 else "sm-neg"
+
+        blocks.append(
+            f'<div class="sm-item" style="border-top:3px solid {color}">'
+            f'<div class="sm-header">'
+            f'<span class="sm-cat">{esc(cat)}</span>'
+            f'<span class="sm-nps">{nps_str}'
+            f' <span class="{trend_cls}">{trend_str}</span></span>'
+            f'</div>'
+            f'<div class="sm-sub {vs_cls}">{vs_str}</div>'
+            f'{mini_chart}'
+            f'</div>'
+        )
+
+    return f'<div class="sm-grid">{"".join(blocks)}</div>'
 
 # ══════════════════════════════════════════════════════════════════════
 # 6. CONTEUDO DAS ABAS
@@ -314,7 +342,7 @@ def _tab_exec():
 def _tab_mensal():
     chart_sec = f"""<div class="section-block">
   <div class="section-title">Evolu&#231;&#227;o NPS por Categoria &mdash; Mensal</div>
-  {chart_grouped_cats("c_mon_cat", cat_mon, mon_cons, MONTH_LABELS, show_labels=True, height=310)}
+  {chart_small_multiples("c_mon", cat_mon, mon_cons, MONTH_LABELS)}
 </div>"""
 
     rows = ""
@@ -357,7 +385,7 @@ def _tab_mensal():
 def _tab_semanal():
     chart_sec = f"""<div class="section-block">
   <div class="section-title">Evolu&#231;&#227;o NPS por Categoria &mdash; Semanal</div>
-  {chart_grouped_cats("c_wk_cat", cat_wk, wk_cons, WEEK_LABELS, show_labels=False, height=310)}
+  {chart_small_multiples("c_wk", cat_wk, wk_cons, WEEK_LABELS)}
 </div>"""
 
     rows = ""
@@ -527,9 +555,22 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
 .st-below  { color:#c05700; font-weight:600; }
 .st-crit   { color:#E84142; font-weight:700; }
 
+.sm-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.sm-item { background:#fff; border-radius:8px; padding:12px 14px;
+           box-shadow:0 1px 6px rgba(0,0,0,.06); }
+.sm-header { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:1px; }
+.sm-cat  { font-size:11px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.4px; }
+.sm-nps  { font-size:15px; font-weight:700; color:#1a1a2e; }
+.sm-sub  { font-size:10px; margin-bottom:6px; font-weight:600; }
+.sm-pos  { color:#00A650; }
+.sm-neg  { color:#E84142; }
+.sm-neu  { color:#aaa; }
+
+@media (max-width:900px) { .sm-grid { grid-template-columns:repeat(2,1fr); } }
 @media (max-width:768px) {
   .kpi-strip { grid-template-columns:1fr; }
   .card-grid { grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); }
+  .sm-grid   { grid-template-columns:1fr; }
 }
 """
 
