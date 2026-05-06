@@ -153,10 +153,72 @@ for grp in priority:
         qual[grp]={"comments":[],"transcripts":{}}
         print(f"ERRO: {e}")
 
+# ── Recorrência: CDU breakdown por mês para os últimos 3 períodos ──────────
+CDU_SQL = """
+SELECT PRO_PROCESS_NAME AS driver,
+  COALESCE(CDU,'N/I') AS cdu,
+  CASE WHEN DETRACTOR=1 THEN 'det' ELSE 'pro' END AS perfil,
+  COUNT(*) AS n
+FROM `meli-bi-data.WHOWNER.DM_CX_NPS_Y20_DETAIL`
+WHERE SIT_SITE_ID='MLB' AND SURVEY_CENTER='BR'
+  AND SURVEY_DATE_SURVEY BETWEEN '{s}' AND '{e}'
+  AND PRO_PROCESS_NAME IN ({drv})
+  AND (PROMOTER=1 OR DETRACTOR=1)
+GROUP BY 1,2,3
+"""
+
+HIST_MONTHS = [
+    (MONTH_LABELS[-3], *DATES.get(MONTH_LABELS[-3], ("",""))),
+    (MONTH_LABELS[-2], *DATES.get(MONTH_LABELS[-2], ("",""))),
+    (MONTH_LABELS[-1], *DATES.get(MONTH_LABELS[-1], ("",""))),
+]
+
+import time
+print("\nBuscando recorrência CDU (últimos 3 meses, com throttle)...")
+recurrence = {}
+for grp in priority:
+    drvs = DRIVER_GROUPS[grp]
+    drv_in = "'" + "','".join(d.replace("'","''") for d in drvs) + "'"
+    recurrence[grp] = {}
+    for lbl, s, e in HIST_MONTHS:
+        if not s: continue
+        time.sleep(3)   # throttle para evitar quota BQ
+        try:
+            rows = list(bq.query(CDU_SQL.format(s=s, e=e, drv=drv_in)).result())
+            for r in rows:
+                if r.perfil == 'det' and r.n >= 2:
+                    rec = recurrence[grp].setdefault(r.cdu, {})
+                    rec[lbl] = int(r.n)
+        except Exception as ex:
+            print(f"  [WARN] recurrence {grp} {lbl}: {ex}")
+    for cdu in list(recurrence[grp]):
+        months_present = [l for l in recurrence[grp][cdu] if not l.startswith('_')]
+        recurrence[grp][cdu]['_meses'] = months_present
+        recurrence[grp][cdu]['_recorrente'] = len(months_present) >= 2
+    n_rec = sum(1 for v in recurrence[grp].values() if v.get('_recorrente'))
+    print(f"  {grp}: {n_rec} CDUs recorrentes")
+
+# NPS trend por grupo nos últimos meses (para classificar tendência)
+nps_trend = {}
+for grp, drvs in DRIVER_GROUPS.items():
+    series = []
+    for lbl in MONTH_LABELS:
+        p=sum(monthly_history[d].get(lbl,(0,0,0))[0] for d in drvs if d in monthly_history)
+        dt=sum(monthly_history[d].get(lbl,(0,0,0))[1] for d in drvs if d in monthly_history)
+        s_=sum(monthly_history[d].get(lbl,(0,0,0))[2] for d in drvs if d in monthly_history)
+        series.append(nps_r(p,dt,s_))
+    # Tendência: compara últimos 3 meses disponíveis
+    vals = [v for v in series[-3:] if v is not None]
+    if len(vals) >= 2:
+        trend = 'queda' if vals[-1] < vals[0] - 1 else ('alta' if vals[-1] > vals[0] + 1 else 'estavel')
+    else:
+        trend = 'indefinido'
+    nps_trend[grp] = {"series": series, "trend": trend, "labels": MONTH_LABELS}
+
 out={"lCURR":lCURR,"lPREV":lPREV,"nps_curr":nps_curr,"nps_prev":nps_prev,
      "surv_curr":sB,"surv_prev":sA,"target":NPS_TARGET,
      "waterfall":wf,"top_neg":top_neg,"top_pos":top_pos,
-     "qual":qual}
+     "qual":qual,"recurrence":recurrence,"nps_trend":nps_trend}
 with open("_exec_data.json","w",encoding="utf-8") as f:
     json.dump(out,f,ensure_ascii=False,indent=2)
 print("\nSalvo em _exec_data.json")
