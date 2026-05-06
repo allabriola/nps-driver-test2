@@ -77,6 +77,16 @@ CAT_COLORS = {
     "Otros CV":    "#95A5A6",
 }
 
+EXCLUIDOS = frozenset([
+    "CBT",
+    "PDD DS&XD - Vendedor",
+    "PDD FBM - Vendedor",
+    "PDD Fotos - Vendedor",
+    "PDD MP,FLEX & CBT - Vendedor",
+    "PNR ME - Vendedor",
+    "PNR MP - Vendedor",
+])
+
 GROUP_COLORS = {
     "ME Vendedor":       "#00A650",
     "Exp. Impositiva":   "#3483FA",
@@ -84,14 +94,16 @@ GROUP_COLORS = {
     "Post Venta":        "#E84142",
     "Publicaciones":     "#B7950B",
     "FBM-S":             "#F39C12",
-    "PDD":               "#9B59B6",
-    "PNR":               "#17A589",
     "Partners":          "#1ABC9C",
-    "CBT":               "#2E86C1",
     "Otros CV":          "#95A5A6",
 }
 
-ALL_DRIVERS = list(monthly_history.keys())
+# Remove drivers excluídos de todos os grupos e descarta grupos vazios
+DRIVER_GROUPS = {g: [d for d in drvs if d not in EXCLUIDOS]
+                 for g, drvs in DRIVER_GROUPS.items()
+                 if any(d not in EXCLUIDOS for d in drvs)}
+
+ALL_DRIVERS = [d for d in monthly_history.keys() if d not in EXCLUIDOS]
 
 # ══════════════════════════════════════════════════════════════════════
 # 3. CALCULOS

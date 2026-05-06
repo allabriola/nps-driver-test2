@@ -16,7 +16,12 @@ monthly_history = ns['monthly_history']
 MONTH_LABELS    = ns['MONTH_LABELS']
 DRIVER_TARGETS  = ns['DRIVER_TARGETS']
 NPS_TARGET      = float(ns['NPS_TARGET'])
-ALL_DRIVERS     = list(monthly_history.keys())
+
+EXCLUIDOS_EARLY = frozenset([
+    "CBT","PDD DS&XD - Vendedor","PDD FBM - Vendedor","PDD Fotos - Vendedor",
+    "PDD MP,FLEX & CBT - Vendedor","PNR ME - Vendedor","PNR MP - Vendedor",
+])
+ALL_DRIVERS = [d for d in monthly_history.keys() if d not in EXCLUIDOS_EARLY]
 
 lCURR, lPREV = MONTH_LABELS[-2], MONTH_LABELS[-3]
 DATES = {"Jan":("2026-01-01","2026-01-31"),"Fev":("2026-02-01","2026-02-28"),
@@ -40,6 +45,11 @@ def get_procs(drvs):
             procs.update(period_data.keys())
     return list(procs)
 
+EXCLUIDOS = frozenset([
+    "CBT","PDD DS&XD - Vendedor","PDD FBM - Vendedor","PDD Fotos - Vendedor",
+    "PDD MP,FLEX & CBT - Vendedor","PNR ME - Vendedor","PNR MP - Vendedor",
+])
+
 DRIVER_GROUPS = {
     "ME Vendedor":     ["ME Vendedor Seller Dev","ME Vendedor Mature","ME Vendedor Meli Pro"],
     "Exp. Impositiva": ["Experiencia Impositiva Seller Dev","Experiencia Impositiva Mature","Experiencia Impositiva Meli Pro"],
@@ -47,9 +57,8 @@ DRIVER_GROUPS = {
     "Post Venta":      ["Post Venta Seller Dev","Post Venta Mature","Post Venta Meli Pro"],
     "Publicaciones":   ["Publicaciones Seller Dev","Publicaciones Mature","Publicaciones Meli Pro"],
     "FBM-S":           ["FBM-S Seller Dev","FBM-S Mature","FBM-S Meli Pro"],
-    "PDD":             ["PDD DS&XD - Vendedor","PDD FBM - Vendedor","PDD Fotos - Vendedor","PDD MP,FLEX & CBT - Vendedor"],
-    "PNR":             ["PNR ME - Vendedor","PNR MP - Vendedor"],
-    "Partners":        ["Partners"], "CBT":["CBT"], "Otros CV":["Otros CV"],
+    "Partners":        ["Partners"],
+    "Otros CV":        ["Otros CV"],
 }
 
 def nps_r(p,d,s): return round(100.0*(p-d)/s,2) if s>0 else None
