@@ -23,7 +23,7 @@ EXCLUIDOS_EARLY = frozenset([
 ])
 ALL_DRIVERS = [d for d in monthly_history.keys() if d not in EXCLUIDOS_EARLY]
 
-lCURR, lPREV = MONTH_LABELS[-2], MONTH_LABELS[-3]
+lCURR, lPREV = MONTH_LABELS[-1], MONTH_LABELS[-2]
 DATES = {"Jan":("2026-01-01","2026-01-31"),"Fev":("2026-02-01","2026-02-28"),
          "Mar":("2026-03-01","2026-03-31"),"Abr":("2026-04-01","2026-04-30"),
          "Mai":("2026-05-01","2026-05-31")}
