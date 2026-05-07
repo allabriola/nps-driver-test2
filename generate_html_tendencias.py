@@ -114,6 +114,12 @@ if _os.path.exists("_exec_data.json"):
     with open("_exec_data.json", encoding="utf-8") as _f:
         _EXEC = _json.load(_f)
 
+# ── QUANT_ANALYSIS — análise quantitativa promotores vs detratores
+_QA = {}
+if _os.path.exists("_quant_analysis.json"):
+    with open("_quant_analysis.json", encoding="utf-8") as _f:
+        _QA = _json.load(_f)
+
 # ── PROCESS_ANALYSIS — análise detalhada por processo
 _PA = {}
 if _os.path.exists("_process_analysis.json"):
@@ -598,6 +604,86 @@ def _trx_bullets(transcripts, max_t=10):
                     f' — {esc(pat)}</div>')
     return bullets
 
+def _quant_section_html(grp):
+    """Gera seção de análise quantitativa promotores vs detratores."""
+    qa = _QA.get(grp)
+    if not qa:
+        return ""
+
+    det = qa.get("det", {}); pro = qa.get("pro", {})
+    conclusions   = qa.get("conclusions", [])
+    triggers      = qa.get("trigger_answers", [])
+    nd = det.get("n", 0); np = pro.get("n", 0)
+    if nd == 0 and np == 0:
+        return ""
+
+    def _bar(val, max_val=100, color="#3483FA"):
+        pct = min(100, round(100 * val / max_val)) if max_val else 0
+        return (f'<div style="background:#f0f2f5;border-radius:4px;height:8px;width:100%;margin-top:2px">'
+                f'<div style="background:{color};border-radius:4px;height:8px;width:{pct}%"></div></div>')
+
+    def _metric_row(label, det_v, pro_v, unit="", higher_is_better=True, fmt=".1f"):
+        diff  = det_v - pro_v if det_v is not None and pro_v is not None else None
+        is_bad = (diff > 0 and not higher_is_better) or (diff < 0 and higher_is_better) if diff is not None else False
+        color = "#E84142" if is_bad else "#00A650"
+        det_str = f"{det_v:{fmt}}{unit}" if det_v is not None else "—"
+        pro_str = f"{pro_v:{fmt}}{unit}" if pro_v is not None else "—"
+        diff_str = (f"{'+' if diff>0 else ''}{diff:{fmt}}{unit}") if diff is not None else ""
+        diff_html = f'<span style="color:{color};font-weight:600;font-size:10px">{diff_str}</span>' if diff else ""
+        return (f'<tr>'
+                f'<td class="bd-name">{esc(label)}</td>'
+                f'<td class="bd-nps" style="color:#E84142">{det_str}</td>'
+                f'<td class="bd-nps" style="color:#00A650">{pro_str}</td>'
+                f'<td style="text-align:right">{diff_html}</td>'
+                f'</tr>')
+
+    # Tabela comparativa
+    rows  = _metric_row("Resolução confirmada (%)", det.get("pct_resolved"), pro.get("pct_resolved"), "%", True, ".0f")
+    rows += _metric_row("Transferências (%)",       det.get("pct_transfer"), pro.get("pct_transfer"), "%", False, ".0f")
+    rows += _metric_row("Reincidência (%)",          det.get("pct_reincidence"), pro.get("pct_reincidence"), "%", False, ".0f")
+    rows += _metric_row("Escalação legal (%)",       det.get("pct_escalation"), pro.get("pct_escalation"), "%", False, ".0f")
+    rows += _metric_row("Resposta automatizada (%)", det.get("pct_bot_heavy"), pro.get("pct_bot_heavy"), "%", False, ".0f")
+    rows += _metric_row("Mudança de processo (%)",   det.get("pct_proc_change"), pro.get("pct_proc_change"), "%", False, ".0f")
+    rows += _metric_row("Msgs por conversa",         det.get("avg_msgs_total"), pro.get("avg_msgs_total"), "", False, ".1f")
+    rows += _metric_row("Compr. médio resp. (chars)",det.get("avg_rep_len"), pro.get("avg_rep_len"), "", True, ".0f")
+
+    table_html = (f'<table class="bd-tbl" style="width:100%"><thead>'
+                  f'<tr><th>Métrica</th>'
+                  f'<th style="color:#E84142">Detratores<br><span style="font-weight:400;font-size:9px">({nd} casos)</span></th>'
+                  f'<th style="color:#00A650">Promotores<br><span style="font-weight:400;font-size:9px">({np} casos)</span></th>'
+                  f'<th>Δ</th></tr></thead>'
+                  f'<tbody>{rows}</tbody></table>')
+
+    # Conclusões com badges
+    conc_html = ""
+    for c in conclusions[:5]:
+        icon  = "🔴" if c["type"] == "neg" else "🟢"
+        color = "#fde8e8" if c["type"] == "neg" else "#e6f9ee"
+        tc    = "#a01010"  if c["type"] == "neg" else "#1a7a42"
+        conc_html += (f'<div style="background:{color};border-radius:6px;padding:8px 10px;'
+                      f'margin-bottom:6px;font-size:12px;color:{tc}">'
+                      f'{icon} {esc(c["msg"])}</div>')
+
+    # Respostas às perguntas disparadoras
+    trigger_html = ""
+    if triggers:
+        items = "".join(f'<div class="exec-bullet">{esc(t)}</div>' for t in triggers)
+        trigger_html = (f'<div style="margin-top:12px">'
+                        f'<div style="font-size:11px;font-weight:700;color:#3483FA;margin-bottom:6px">'
+                        f'&#128161; Respostas &#224;s Perguntas Disparadoras</div>'
+                        f'{items}</div>')
+
+    return (f'<div class="exec-section">'
+            f'<div class="exec-title">&#128200; An&#225;lise Quantitativa &mdash; '
+            f'Promotores vs Detratores</div>'
+            f'<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start">'
+            f'<div>{table_html}</div>'
+            f'<div>'
+            f'<div style="font-size:11px;font-weight:700;color:#555;margin-bottom:8px">Conclus&#245;es baseadas nas transcri&#231;&#245;es</div>'
+            f'{conc_html}'
+            f'{trigger_html}'
+            f'</div></div></div>')
+
 def _dim_contributions(m1, m2):
     """
     Calcula contribuição NETO de cada item de uma dimensão para a variação M/M.
@@ -931,7 +1017,8 @@ def _process_exec_html(grp):
                f'<tbody>{rec_rows}</tbody></table>'
                f'</div>')
 
-    return resumo + diag_sec + neg_card + pos_card + rec_sec
+    quant_sec = _quant_section_html(grp)
+    return resumo + diag_sec + quant_sec + neg_card + pos_card + rec_sec
 
 def _analyze_transcripts(transcripts):
     """
