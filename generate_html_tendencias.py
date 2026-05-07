@@ -667,7 +667,7 @@ def _quant_section_html(grp):
     # Respostas às perguntas disparadoras
     trigger_html = ""
     if triggers:
-        items = "".join(f'<div class="exec-bullet">{esc(t)}</div>' for t in triggers)
+        items = "".join(f'<div class="exec-bullet">{t}</div>' for t in triggers)
         trigger_html = (f'<div style="margin-top:12px">'
                         f'<div style="font-size:11px;font-weight:700;color:#3483FA;margin-bottom:6px">'
                         f'&#128161; Respostas &#224;s Perguntas Disparadoras</div>'
