@@ -603,52 +603,130 @@ def _drv_analysis_html(grp):
 
     resumo_sec = f'<div class="bd-ana-sec"><div class="bd-ana-title">&#128203; Resumo</div><div style="font-size:12px;line-height:1.7;color:#444">{intro}</div></div>'
 
-    # ── Alavancas / Causas ────────────────────────────────────────────
-    comments = qual.get("comments", [])
-    transcripts = qual.get("transcripts", {})
+    # ── Síntese qualitativa ───────────────────────────────────────────
+    comments   = qual.get("comments", [])
+    transcripts= qual.get("transcripts", {})
     dets = [c for c in comments if c.get("perfil") == "detrator"]
     pros = [c for c in comments if c.get("perfil") == "promotor"]
 
-    def _comment_block(items, max_c=4):
-        rows_html = ""
-        for c in items[:max_c]:
-            txt = c.get("comment") or ""
-            if len(txt.strip()) < 5: continue
-            cdu  = esc(c.get("cdu","")[:35])
-            sen  = esc(c.get("seniority","") or c.get("sen",""))
-            canal= esc(c.get("canal",""))
-            rows_html += (f'<div style="font-size:11px;padding:5px 0;border-bottom:1px solid #f0f0f0;">'
-                          f'<span style="color:#888;font-size:10px">[{cdu} | {sen} | {canal}]</span><br>'
-                          f'{esc(txt[:180])}</div>')
-        return rows_html or '<div style="color:#aaa;font-size:11px">Sem dados qualitativos para este período.</div>'
+    _GENERIC = {"péssimo","ótimo","ok","bom","ruim","horrível","excelente",
+                "top","nao","não","sim","","regular","boa","boa,","gostei"}
 
-    # CDU frequency for detractors
-    cdu_freq = {}
-    for c in dets:
-        k = c.get("cdu","N/I")
-        cdu_freq[k] = cdu_freq.get(k, 0) + 1
-    top_cdus = sorted(cdu_freq.items(), key=lambda x: -x[1])[:3]
-    cdu_pills = " ".join(f'<span style="background:#fde8e8;color:#a01010;border-radius:8px;padding:2px 8px;font-size:10px;font-weight:600;display:inline-block;margin:2px">{esc(k)} ({v})</span>' for k,v in top_cdus)
+    def _best_comment(items):
+        """Retorna o comentário mais informativo (mais longo e específico)."""
+        cands = [c.get("comment","") for c in items
+                 if c.get("comment") and len(c.get("comment","").strip()) > 20
+                 and c.get("comment","").strip().lower() not in _GENERIC]
+        if not cands: return None
+        return max(cands, key=len)
 
-    # Top transcript
-    trx_sample = ""
-    det_ids = {c.get("cid") for c in dets if c.get("cid")}
-    for cid, txt in transcripts.items():
-        if cid in det_ids:
-            trx_sample = f'<div style="font-size:11px;background:#f8f9ff;border-left:3px solid #3483FA;padding:6px 8px;margin-top:6px;border-radius:0 4px 4px 0">{esc(txt[:280])}</div>'
-            break
+    def _cdu_synthesis(items):
+        """Agrupa por CDU e sintetiza o padrão dominante de cada grupo."""
+        clusters = {}
+        for c in items:
+            cdu = c.get("cdu","N/I")
+            clusters.setdefault(cdu, []).append(c)
+        top = sorted(clusters.items(), key=lambda x: -len(x[1]))[:3]
+        results = []
+        for cdu, clist in top:
+            n   = len(clist)
+            best= _best_comment(clist)
+            sol_freq = {}
+            for c in clist:
+                s = c.get("sol","") or c.get("solucao","")
+                if s: sol_freq[s] = sol_freq.get(s, 0) + 1
+            top_sol = sorted(sol_freq.items(), key=lambda x: -x[1])
+            sol_str = f" — solução recorrente: <em>{esc(top_sol[0][0][:50])}</em>" if top_sol else ""
+            results.append((cdu, n, best, sol_str))
+        return results
 
+    def _trx_pattern(transcripts, det_ids):
+        """Extrai o padrão de interação da transcrição mais informativa."""
+        for cid, txt in transcripts.items():
+            if cid not in det_ids: continue
+            lines = [l.strip() for l in txt.split("\n") if l.strip() and len(l.strip()) > 10]
+            user_msgs = [l[7:] for l in lines if l.startswith("[USER]")]
+            rep_msgs  = [l[6:]  for l in lines if l.startswith("[REP]")]
+            if user_msgs and rep_msgs:
+                u = max(user_msgs, key=len)[:150]
+                r = max(rep_msgs,  key=len)[:150]
+                return u, r
+        return None, None
+
+    def _pro_themes(items):
+        """Identifica temas positivos dominantes nos promotores."""
+        keywords = {
+            "agilidade":    ["rápido","ágil","agilidade","rapido"],
+            "empatia":      ["gentil","atenciosa","atencioso","simpática","educado","empático"],
+            "resolução":    ["resolveu","solucionou","resolvido","solucionado","funciona"],
+            "clareza":      ["claro","clara","explicou","explicado","entendeu"],
+            "eficiência":   ["eficiente","eficiência","eficaz","objetivo"],
+        }
+        counts = {t: 0 for t in keywords}
+        for c in items:
+            txt = (c.get("comment") or "").lower()
+            for theme, kws in keywords.items():
+                if any(k in txt for k in kws):
+                    counts[theme] += 1
+        return sorted(counts.items(), key=lambda x: -x[1])
+
+    # ── Bloco detratores ─────────────────────────────────────────────
     if dets:
-        det_sec = (f'<div class="bd-ana-sec"><div class="bd-ana-title">&#128308; Principais Causas de Queda</div>'
-                   f'<div style="margin-bottom:6px">{cdu_pills}</div>'
-                   f'{_comment_block(dets, 4)}'
-                   f'{trx_sample}</div>')
+        synth   = _cdu_synthesis(dets)
+        det_ids = {c.get("cid") for c in dets if c.get("cid")}
+        u_msg, r_msg = _trx_pattern(transcripts, det_ids)
+
+        cdu_html = ""
+        for cdu, n, best_c, sol_str in synth:
+            cdu_html += (f'<div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #f0f0f0;">'
+                         f'<div style="font-size:11px;font-weight:700;color:#a01010;margin-bottom:4px">'
+                         f'{esc(cdu)} <span style="font-weight:400;color:#888">({n} caso{"s" if n>1 else ""})</span>'
+                         f'{sol_str}</div>')
+            if best_c:
+                cdu_html += f'<div style="font-size:11px;color:#555;font-style:italic">&ldquo;{esc(best_c[:200])}&rdquo;</div>'
+            cdu_html += '</div>'
+
+        trx_html = ""
+        if u_msg and r_msg:
+            trx_html = (f'<div style="margin-top:8px;font-size:11px;background:#f8f9ff;'
+                        f'border-left:3px solid #3483FA;padding:8px 10px;border-radius:0 4px 4px 0">'
+                        f'<div style="font-weight:600;color:#3483FA;margin-bottom:4px;font-size:10px">&#128172; Padrão nas transcrições</div>'
+                        f'<div><span style="color:#00A650;font-weight:600">Seller:</span> {esc(u_msg)}</div>'
+                        f'<div style="margin-top:4px"><span style="color:#FF7733;font-weight:600">Atendente:</span> {esc(r_msg)}</div>'
+                        f'</div>')
+
+        det_sec = (f'<div class="bd-ana-sec">'
+                   f'<div class="bd-ana-title">&#128308; Principais Causas de Queda '
+                   f'<span style="font-weight:400;font-size:10px;color:#aaa">— análise de {len(dets)} detratores</span></div>'
+                   f'{cdu_html}{trx_html}</div>')
     else:
         det_sec = ""
 
+    # ── Bloco promotores ──────────────────────────────────────────────
     if pros:
-        pro_sec = (f'<div class="bd-ana-sec"><div class="bd-ana-title">&#128994; Principais Alavancas de Alta</div>'
-                   f'{_comment_block(pros, 3)}</div>')
+        themes   = _pro_themes(pros)
+        top_themes = [(t, n) for t, n in themes if n > 0][:3]
+        best_pro = _best_comment(pros)
+
+        theme_pills = " ".join(
+            f'<span style="background:#e6f9ee;color:#1a7a42;border-radius:8px;padding:2px 8px;'
+            f'font-size:10px;font-weight:600;display:inline-block;margin:2px">'
+            f'{esc(t.capitalize())} ({n})</span>'
+            for t, n in top_themes
+        ) if top_themes else ""
+
+        pro_html = ""
+        if theme_pills:
+            pro_html += f'<div style="margin-bottom:8px">{theme_pills}</div>'
+        if best_pro:
+            pro_html += (f'<div style="font-size:11px;color:#555;font-style:italic;'
+                         f'border-left:3px solid #00A650;padding-left:8px">'
+                         f'&ldquo;{esc(best_pro[:200])}&rdquo;</div>')
+
+        pro_sec = (f'<div class="bd-ana-sec">'
+                   f'<div class="bd-ana-title">&#128994; Principais Alavancas de Alta '
+                   f'<span style="font-weight:400;font-size:10px;color:#aaa">— análise de {len(pros)} promotores</span></div>'
+                   f'{pro_html}</div>')
     else:
         pro_sec = ""
 
@@ -769,6 +847,8 @@ def _build_driver_breakdowns():
             f'</div>')
 
 def _tab_mensal():
+    exec_sec = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary()}</div></div>'
+
     chart_sec = f"""<div class="section-block">
   <div class="section-title">Evolu&#231;&#227;o NPS por Categoria &mdash; Mensal</div>
   {chart_small_multiples("c_mon",
@@ -776,7 +856,7 @@ def _tab_mensal():
       mon_cons, MONTH_LABELS)}
 </div>"""
 
-    return chart_sec + _build_driver_breakdowns()
+    return exec_sec + chart_sec + _build_driver_breakdowns()
 
 
 def _tab_semanal():
