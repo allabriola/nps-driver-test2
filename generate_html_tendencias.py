@@ -106,6 +106,41 @@ DRIVER_GROUPS = {g: [d for d in drvs if d not in EXCLUIDOS]
 ALL_DRIVERS = [d for d in monthly_history.keys() if d not in EXCLUIDOS]
 
 # ══════════════════════════════════════════════════════════════════════
+# 2B. DD_BREAKDOWN — processos, canal, oficina, senioridade
+# ══════════════════════════════════════════════════════════════════════
+import os as _os
+_DD = {}
+if _os.path.exists("dd_breakdown.json"):
+    with open("dd_breakdown.json", encoding="utf-8") as _f:
+        _DD = _json.load(_f)
+
+def _agg_dim(drvs, dim, period):
+    """Agrega dimensão/período somando p/d/s para um grupo de drivers."""
+    result = {}
+    for drv in drvs:
+        for key, vals in _DD.get(drv, {}).get(dim, {}).get(period, {}).items():
+            if not key or key.startswith("(sem"): continue
+            r = result.setdefault(key, {"p": 0, "d": 0, "s": 0})
+            r["p"] += vals.get("p", 0)
+            r["d"] += vals.get("d", 0)
+            r["s"] += vals.get("s", 0)
+    for v in result.values():
+        v["nps"] = round(100.0*(v["p"]-v["d"])/v["s"], 1) if v["s"] > 0 else None
+    return result
+
+grp_breakdown = {}
+for _grp, _drvs in DRIVER_GROUPS.items():
+    grp_breakdown[_grp] = {
+        "P_M1":  _agg_dim(_drvs, "P",  "M1"),
+        "P_M2":  _agg_dim(_drvs, "P",  "M2"),
+        "C_M1":  _agg_dim(_drvs, "C",  "M1"),
+        "C_M2":  _agg_dim(_drvs, "C",  "M2"),
+        "O_M1":  _agg_dim(_drvs, "O",  "M1"),
+        "Sr_M1": _agg_dim(_drvs, "Sr", "M1"),
+        "Sr_M2": _agg_dim(_drvs, "Sr", "M2"),
+    }
+
+# ══════════════════════════════════════════════════════════════════════
 # 3. CALCULOS
 # ══════════════════════════════════════════════════════════════════════
 def _nps_t(t):
@@ -482,6 +517,97 @@ def _tab_exec():
     return kpis + chart_sec + wf_mm + wf_tg + exec_html
 
 
+def _bd_table(items_m1, items_m2, max_rows=6):
+    """Mini-tabela: Nome | NPS M1 | Δ M/M | Volume."""
+    rows = ""
+    sorted_items = sorted(items_m1.items(), key=lambda x: -x[1]["s"])[:max_rows]
+    for name, v1 in sorted_items:
+        v2    = items_m2.get(name)
+        nps1  = v1["nps"]
+        delta = round(nps1 - v2["nps"], 1) if v2 and v2["nps"] is not None and nps1 is not None else None
+        d_cls = "bd-pos" if delta is not None and delta > 0 else ("bd-neg" if delta is not None and delta < 0 else "")
+        d_str = (("+" if delta > 0 else "") + f"{delta:.1f}pp") if delta is not None else "—"
+        rows += (f'<tr><td class="bd-name">{esc(name[:38])}</td>'
+                 f'<td class="bd-nps">{fn(nps1) if nps1 is not None else "—"}%</td>'
+                 f'<td class="bd-delta {d_cls}">{d_str}</td>'
+                 f'<td class="bd-vol">{v1["s"]:,}</td></tr>\n')
+    return (f'<table class="bd-tbl">'
+            f'<thead><tr><th>Nome</th><th>NPS</th><th>&#916; M/M</th><th>Vol</th></tr></thead>'
+            f'<tbody>{rows}</tbody></table>')
+
+def _bd_seniority(sr_m1, sr_m2):
+    rows = ""
+    for key in ["Expert", "Newbie", "Training"]:
+        v1 = sr_m1.get(key)
+        v2 = sr_m2.get(key) if sr_m2 else None
+        if not v1: continue
+        nps1  = v1["nps"]
+        delta = round(nps1 - v2["nps"], 1) if v2 and v2["nps"] is not None and nps1 is not None else None
+        d_cls = "bd-pos" if delta and delta > 0 else ("bd-neg" if delta and delta < 0 else "")
+        d_str = (("+" if delta > 0 else "") + f"{delta:.1f}pp") if delta is not None else "—"
+        rows += (f'<tr><td class="bd-name">{esc(key)}</td>'
+                 f'<td class="bd-nps">{fn(nps1) if nps1 is not None else "—"}%</td>'
+                 f'<td class="bd-delta {d_cls}">{d_str}</td>'
+                 f'<td class="bd-vol">{v1["s"]:,}</td></tr>\n')
+    return (f'<table class="bd-tbl">'
+            f'<thead><tr><th>Seniority</th><th>NPS</th><th>&#916; M/M</th><th>Vol</th></tr></thead>'
+            f'<tbody>{rows}</tbody></table>')
+
+def _build_driver_breakdowns():
+    lM1 = esc(MONTH_LABELS[-2])  # último mês fechado
+    lM2 = esc(MONTH_LABELS[-3])
+
+    # Botões de filtro
+    btns = '<button class="drv-fbtn active" data-grp="__all__" onclick="filterDrv(this,\'__all__\')">Todos</button>'
+    for grp in DRIVER_GROUPS:
+        slug = grp.replace(" ", "-").replace("/", "-").replace(".", "")
+        btns += (f'<button class="drv-fbtn" data-grp="{slug}" '
+                 f'onclick="filterDrv(this,\'{slug}\')">{esc(grp)}</button>')
+
+    filter_bar = f'<div class="drv-fbar">{btns}</div>'
+
+    cards = ""
+    for grp, drvs in DRIVER_GROUPS.items():
+        slug  = grp.replace(" ", "-").replace("/", "-").replace(".", "")
+        color = GROUP_COLORS.get(grp, "#aaa")
+        bd    = grp_breakdown[grp]
+
+        # NPS do grupo
+        g_nps   = grp_mon[grp][-2] if len(grp_mon[grp]) >= 2 else None   # M1 (penúltimo = último fechado)
+        g_prev  = grp_mon[grp][-3] if len(grp_mon[grp]) >= 3 else None   # M2
+        g_tgt   = grp_targets.get(grp, NPS_TARGET)
+        g_delta = round(g_nps - g_prev, 1) if g_nps is not None and g_prev is not None else None
+        g_dtgt  = round(g_nps - g_tgt,  1) if g_nps is not None else None
+
+        hdr = (f'<div class="bd-hdr" style="border-left:5px solid {color}">'
+               f'<span class="bd-grp-name">{esc(grp)}</span>'
+               f'<span class="bd-kpis">'
+               f'NPS {lM1}: <strong>{fn(g_nps)}%</strong>'
+               f' &nbsp;{chip(g_delta, suffix="pp MoM")}'
+               f' &nbsp;{chip(g_dtgt, suffix="pp vs tgt")}'
+               f'</span></div>')
+
+        proc_tbl  = _bd_table(bd["P_M1"],  bd["P_M2"],  max_rows=6)
+        canal_tbl = _bd_table(bd["C_M1"],  bd["C_M2"],  max_rows=5)
+        ofic_tbl  = _bd_table(bd["O_M1"],  {},          max_rows=4)
+        sen_tbl   = _bd_seniority(bd["Sr_M1"], bd["Sr_M2"])
+
+        grid = (f'<div class="bd-grid">'
+                f'<div class="bd-sec"><div class="bd-sec-title">&#128204; Processos</div>{proc_tbl}</div>'
+                f'<div class="bd-sec"><div class="bd-sec-title">&#128241; Canal</div>{canal_tbl}</div>'
+                f'<div class="bd-sec"><div class="bd-sec-title">&#127970; Oficina</div>{ofic_tbl}</div>'
+                f'<div class="bd-sec"><div class="bd-sec-title">&#127891; Senioridade</div>{sen_tbl}</div>'
+                f'</div>')
+
+        cards += (f'<div class="drv-card" data-grp="{slug}">'
+                  f'{hdr}{grid}</div>')
+
+    return (f'<div class="section-block">'
+            f'<div class="section-title">An&#225;lise por Driver &mdash; {lM1} vs {lM2}</div>'
+            f'{filter_bar}'
+            f'<div class="drv-cards">{cards}</div>'
+            f'</div>')
+
 def _tab_mensal():
     chart_sec = f"""<div class="section-block">
   <div class="section-title">Evolu&#231;&#227;o NPS por Categoria &mdash; Mensal</div>
@@ -490,41 +616,7 @@ def _tab_mensal():
       mon_cons, MONTH_LABELS)}
 </div>"""
 
-    rows = ""
-    for drv in ALL_DRIVERS:
-        tgt_v = DRIVER_TARGETS.get(drv, NPS_TARGET)
-        cat   = drv_cat(drv)
-        short = DRIVER_SHORT.get(drv, drv)
-        dot   = DRIVER_COLORS.get(drv, "#aaa")
-        rows += f'<tr><td class="drv-cell"><span class="dot" style="background:{dot}"></span>{esc(short)}</td>'
-        rows += f'<td class="cat-cell">{esc(cat)}</td>'
-        for v in drv_m[drv]:
-            rows += f'<td {cell_bg(v, tgt_v)}>{fn(v)}%</td>'
-        rows += f'<td>{chip(trend_m.get(drv))}</td>'
-        rows += f'<td>{chip(delta_tgt.get(drv))}</td>'
-        rows += f'<td>{arr(trend_m.get(drv))}</td></tr>\n'
-
-    # Consolidated footer row
-    cons_tr   = (round(mon_cons[-1] - mon_cons[-2], 2)
-                 if mon_cons[-1] is not None and mon_cons[-2] is not None else None)
-    cons_dtgt = (round(mon_cons[-1] - NPS_TARGET, 2) if mon_cons[-1] is not None else None)
-    cons_cells = "".join(f'<td {cell_bg(v, NPS_TARGET)}><strong>{fn(v)}%</strong></td>' for v in mon_cons)
-    rows += (f'<tr class="cons-row"><td colspan="2"><strong>Consolidado</strong></td>'
-             f'{cons_cells}'
-             f'<td>{chip(cons_tr)}</td>'
-             f'<td>{chip(cons_dtgt)}</td>'
-             f'<td>{arr(cons_tr)}</td></tr>\n')
-
-    month_ths = "".join(f'<th>{esc(m)}</th>' for m in MONTH_LABELS)
-    table_sec = f"""<div class="section-block">
-  <div class="section-title">Detalhe por CDU &mdash; Mensal</div>
-  <div class="tbl-wrap"><table class="dtbl"><thead>
-    <tr><th>CDU</th><th>Categoria</th>{month_ths}<th>&#916; M/M</th><th>&#916; vs Tgt</th><th>Tend.</th></tr>
-  </thead><tbody>
-{rows}  </tbody></table></div>
-</div>"""
-
-    return chart_sec + table_sec
+    return chart_sec + _build_driver_breakdowns()
 
 
 def _tab_semanal():
@@ -702,6 +794,44 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
 .st-below  { color:#c05700; font-weight:600; }
 .st-crit   { color:#E84142; font-weight:700; }
 
+/* Driver breakdown filter */
+.drv-fbar { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
+.drv-fbtn { padding:5px 14px; border-radius:20px; border:1.5px solid #ddd;
+            background:#fff; font-size:12px; font-weight:500; cursor:pointer;
+            color:#666; transition:all .18s; }
+.drv-fbtn:hover { border-color:#3483FA; color:#3483FA; }
+.drv-fbtn.active { background:#3483FA; border-color:#3483FA; color:#fff; font-weight:700; }
+
+/* Driver cards */
+.drv-cards { display:flex; flex-direction:column; gap:16px; }
+.drv-card  { background:#fafbfc; border-radius:10px; border:1px solid #e8eaf0;
+             overflow:hidden; }
+.bd-hdr    { padding:12px 16px; background:#fff; display:flex; align-items:center;
+             justify-content:space-between; flex-wrap:wrap; gap:8px; }
+.bd-grp-name { font-size:14px; font-weight:700; color:#222; }
+.bd-kpis   { font-size:12px; color:#555; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+
+.bd-grid   { display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+             border-top:1px solid #e8eaf0; }
+.bd-sec    { padding:14px 16px; border-right:1px solid #e8eaf0; }
+.bd-sec:last-child { border-right:none; }
+.bd-sec-title { font-size:11px; font-weight:700; color:#888; text-transform:uppercase;
+                letter-spacing:.5px; margin-bottom:8px; }
+
+.bd-tbl    { width:100%; border-collapse:collapse; font-size:11px; }
+.bd-tbl th { color:#aaa; font-weight:600; padding:2px 4px; text-align:left;
+             border-bottom:1px solid #f0f0f0; font-size:10px; }
+.bd-tbl td { padding:3px 4px; border-bottom:1px solid #f5f5f5; }
+.bd-name   { max-width:160px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#333; }
+.bd-nps    { font-weight:600; color:#1a1a2e; text-align:right; white-space:nowrap; }
+.bd-delta  { text-align:right; white-space:nowrap; font-weight:600; font-size:10px; }
+.bd-vol    { text-align:right; color:#aaa; font-size:10px; }
+.bd-pos    { color:#00A650; }
+.bd-neg    { color:#E84142; }
+
+@media (max-width:1100px) { .bd-grid { grid-template-columns:repeat(2,1fr); } }
+@media (max-width:600px)  { .bd-grid { grid-template-columns:1fr; } }
+
 .sm-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
 .sm-item { background:#fff; border-radius:8px; padding:12px 14px;
            box-shadow:0 1px 6px rgba(0,0,0,.06); }
@@ -762,6 +892,13 @@ def build():
 function showTab(n){
   document.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.toggle('active',i===n);});
   document.querySelectorAll('.tab-pane').forEach(function(p,i){p.classList.toggle('active',i===n);});
+}
+function filterDrv(btn, grp){
+  document.querySelectorAll('.drv-fbtn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  document.querySelectorAll('.drv-card').forEach(function(c){
+    c.style.display = (grp==='__all__' || c.dataset.grp===grp) ? '' : 'none';
+  });
 }
 """
     tgt_str = str(NPS_TARGET).replace('.', ',')
