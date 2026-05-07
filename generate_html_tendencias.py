@@ -120,11 +120,17 @@ if _os.path.exists("dd_breakdown.json"):
     with open("dd_breakdown.json", encoding="utf-8") as _f:
         _DD = _json.load(_f)
 
-def _agg_dim(drvs, dim, period):
+_DD_MAI = {}
+if _os.path.exists("_mai_breakdown.json"):
+    with open("_mai_breakdown.json", encoding="utf-8") as _f:
+        _DD_MAI = _json.load(_f)
+
+def _agg_dim(drvs, dim, period, source=None):
     """Agrega dimensão/período somando p/d/s para um grupo de drivers."""
+    db = source if source is not None else _DD
     result = {}
     for drv in drvs:
-        for key, vals in _DD.get(drv, {}).get(dim, {}).get(period, {}).items():
+        for key, vals in db.get(drv, {}).get(dim, {}).get(period, {}).items():
             if not key or key.startswith("(sem"): continue
             r = result.setdefault(key, {"p": 0, "d": 0, "s": 0})
             r["p"] += vals.get("p", 0)
@@ -134,16 +140,17 @@ def _agg_dim(drvs, dim, period):
         v["nps"] = round(100.0*(v["p"]-v["d"])/v["s"], 1) if v["s"] > 0 else None
     return result
 
+# M1 = Maio (_mai_breakdown), M2 = Abril (dd_breakdown M1)
 grp_breakdown = {}
 for _grp, _drvs in DRIVER_GROUPS.items():
     grp_breakdown[_grp] = {
-        "P_M1":  _agg_dim(_drvs, "P",  "M1"),
-        "P_M2":  _agg_dim(_drvs, "P",  "M2"),
-        "C_M1":  _agg_dim(_drvs, "C",  "M1"),
-        "C_M2":  _agg_dim(_drvs, "C",  "M2"),
-        "O_M1":  _agg_dim(_drvs, "O",  "M1"),
-        "Sr_M1": _agg_dim(_drvs, "Sr", "M1"),
-        "Sr_M2": _agg_dim(_drvs, "Sr", "M2"),
+        "P_M1":  _agg_dim(_drvs, "P",  "Mai", _DD_MAI),
+        "P_M2":  _agg_dim(_drvs, "P",  "M1",  _DD),
+        "C_M1":  _agg_dim(_drvs, "C",  "Mai", _DD_MAI),
+        "C_M2":  _agg_dim(_drvs, "C",  "M1",  _DD),
+        "O_M1":  _agg_dim(_drvs, "O",  "Mai", _DD_MAI),
+        "Sr_M1": _agg_dim(_drvs, "Sr", "Mai", _DD_MAI),
+        "Sr_M2": _agg_dim(_drvs, "Sr", "M1",  _DD),
     }
 
 # ══════════════════════════════════════════════════════════════════════
@@ -703,15 +710,18 @@ def _bd_seniority(sr_m1, sr_m2):
             f'<tbody>{rows}</tbody></table>')
 
 def _build_driver_breakdowns():
-    lM1 = esc(MONTH_LABELS[-2])  # último mês fechado
-    lM2 = esc(MONTH_LABELS[-3])
+    lM1 = esc(MONTH_LABELS[-1])   # Maio (atual)
+    lM2 = esc(MONTH_LABELS[-2])   # Abril (anterior)
 
-    # Botões de filtro
-    btns = '<button class="drv-fbtn active" data-grp="__all__" onclick="filterDrv(this,\'__all__\')">Todos</button>'
+    # Botões de filtro — sem "Todos", primeiro driver ativo por padrão
+    first = True
+    btns = ""
     for grp in DRIVER_GROUPS:
         slug = grp.replace(" ", "-").replace("/", "-").replace(".", "")
-        btns += (f'<button class="drv-fbtn" data-grp="{slug}" '
+        active_cls = " active" if first else ""
+        btns += (f'<button class="drv-fbtn{active_cls}" data-grp="{slug}" '
                  f'onclick="filterDrv(this,\'{slug}\')">{esc(grp)}</button>')
+        first = False
 
     filter_bar = f'<div class="drv-fbar">{btns}</div>'
 
@@ -1054,9 +1064,16 @@ function filterDrv(btn, grp){
   document.querySelectorAll('.drv-fbtn').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');
   document.querySelectorAll('.drv-card').forEach(function(c){
-    c.style.display = (grp==='__all__' || c.dataset.grp===grp) ? '' : 'none';
+    c.style.display = (c.dataset.grp===grp) ? '' : 'none';
   });
 }
+// Inicializa: esconde todos exceto o primeiro
+(function(){
+  var cards = document.querySelectorAll('.drv-card');
+  if(cards.length > 1){
+    for(var i=1;i<cards.length;i++) cards[i].style.display='none';
+  }
+})();
 """
     tgt_str = str(NPS_TARGET).replace('.', ',')
     return f"""<!DOCTYPE html>
