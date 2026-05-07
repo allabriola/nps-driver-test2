@@ -598,8 +598,75 @@ def _trx_bullets(transcripts, max_t=10):
                     f' — {esc(pat)}</div>')
     return bullets
 
+def _dim_contributions(m1, m2):
+    """
+    Calcula contribuição NETO de cada item de uma dimensão para a variação M/M.
+    Retorna lista de (item, contrib_pp, nps_m1, nps_m2, s_m1) ordenada por |contrib|.
+    """
+    s_tot_m1 = sum(v["s"] for v in m1.values()) or 1
+    s_tot_m2 = sum(v["s"] for v in m2.values()) or 1
+    results = []
+    for item, v1 in m1.items():
+        v2 = m2.get(item)
+        if not v2 or v1["nps"] is None or v2["nps"] is None: continue
+        share_m1 = v1["s"] / s_tot_m1
+        share_m2 = v2["s"] / s_tot_m2
+        neto = round(share_m1 * (v1["nps"] - v2["nps"]), 2)
+        results.append((item, neto, v1["nps"], v2["nps"], v1["s"]))
+    results.sort(key=lambda x: abs(x[1]), reverse=True)
+    return results
+
+def _comment_patterns(comments):
+    """
+    Detecta padrões qualitativos nos comentários de detratores e promotores.
+    Retorna dict com evidências por padrão.
+    """
+    PAT = {
+        "Reclamação de mudança de processo":
+            ["mudou","antes era","antigamente","mudança","novo processo","mudaram","era diferente"],
+        "Oportunidade de atendimento (sem resolução)":
+            ["não resolveu","não me ajudou","não consegui","sem solução","ninguém resolve",
+             "várias tentativas","múltiplos atendentes","vários atendentes"],
+        "Problema sistêmico (plataforma/bug)":
+            ["sistema","erro no sistema","bug","plataforma fora","instabilidade",
+             "não funciona","erro","falha no sistema","plataforma"],
+        "Demora excessiva no atendimento":
+            ["demorou","muito tempo","hora esperando","aguardando","tempo de resposta",
+             "sem retorno","dias esperando"],
+        "Resolução no primeiro contato":
+            ["resolveu rapidamente","primeiro contato","de imediato","rápido","ágil",
+             "resolveu no mesmo","logo de cara"],
+        "Atendimento consultivo/personalizado":
+            ["explicou detalhado","me orientou","me ajudou muito","foi além",
+             "proativo","personalizado","atenção especial"],
+    }
+    found = {}
+    for c in comments:
+        txt = (c.get("comment") or "").lower()
+        if not txt or len(txt) < 10: continue
+        for pat, kws in PAT.items():
+            if any(k in txt for k in kws):
+                found.setdefault(pat, [])
+                if len(found[pat]) < 2:
+                    found[pat].append(c.get("comment","")[:150])
+    return found
+
+def _trend_class(series):
+    """Classifica a tendência dos últimos meses."""
+    vals = [v for v in series if v is not None]
+    if len(vals) < 2: return "indefinida", "#aaa"
+    last3 = vals[-3:]
+    diffs = [last3[i+1] - last3[i] for i in range(len(last3)-1)]
+    avg_diff = sum(diffs) / len(diffs) if diffs else 0
+    if all(d > 0 for d in diffs): return "alta consistente", "#00A650"
+    if all(d < 0 for d in diffs): return "queda consistente", "#E84142"
+    if avg_diff > 1: return "tendência positiva", "#00A650"
+    if avg_diff < -1: return "tendência negativa", "#E84142"
+    if abs(vals[-1] - vals[-2]) > 5: return "volátil", "#F39C12"
+    return "estável", "#888"
+
 def _process_exec_html(grp):
-    """Gera análise executiva completa baseada nos processos mais impactantes."""
+    """Gera análise executiva diagnóstica completa com causa raiz dimensional."""
     pa = _PA.get(grp)
     if not pa:
         return ""
@@ -609,7 +676,53 @@ def _process_exec_html(grp):
     wf    = _EXEC.get("waterfall", {}).get(grp, {})
     top_neg_list = _EXEC.get("top_neg", [])
     top_pos_list = _EXEC.get("top_pos", [])
+    qual  = _EXEC.get("qual", {}).get(grp, {})
     color = GROUP_COLORS.get(grp, "#3483FA")
+    bd    = grp_breakdown.get(grp, {})
+
+    # ── 1. Diagnóstico Dimensional ──────────────────────────────────
+    canal_contrib = _dim_contributions(bd.get("C_M1",{}), bd.get("C_M2",{}))
+    sen_contrib   = _dim_contributions(bd.get("Sr_M1",{}), bd.get("Sr_M2",{}))
+
+    # Identifica qual dimensão explica mais a variação
+    def _top_contrib(contribs, n=2):
+        return [(item, c, n1, n2, s) for item,c,n1,n2,s in contribs if abs(c) >= 0.1][:n]
+
+    top_canal = _top_contrib(canal_contrib)
+    top_sen   = _top_contrib(sen_contrib)
+
+    # Qual dimensão tem mais poder explicativo?
+    canal_power = sum(abs(c) for _,c,*_ in top_canal)
+    sen_power   = sum(abs(c) for _,c,*_ in top_sen)
+
+    # ── 2. Causa raiz dominante ──────────────────────────────────────
+    pa_neg = pa.get("top_neg"); pa_pos = pa.get("top_pos")
+    proc_power = abs(pa_neg["contrib"]) if pa_neg and pa_neg.get("contrib") else 0
+
+    dimensions_sorted = sorted([
+        ("Processo",    proc_power,  pa_neg),
+        ("Canal",       canal_power, top_canal),
+        ("Senioridade", sen_power,   top_sen),
+    ], key=lambda x: -x[1])
+
+    dominant_dim = dimensions_sorted[0][0] if dimensions_sorted[0][1] > 0 else None
+
+    # ── 3. Padrões qualitativos nos comentários ──────────────────────
+    comments = qual.get("comments", [])
+    dets = [c for c in comments if c.get("perfil") == "detrator"]
+    pros = [c for c in comments if c.get("perfil") == "promotor"]
+    qual_patterns = _comment_patterns(dets + pros)
+
+    # ── 4. Tendência histórica ───────────────────────────────────────
+    t_data  = _EXEC.get("nps_trend", {}).get(grp, {})
+    t_series= t_data.get("series", [])
+    t_lbls  = t_data.get("labels", MONTH_LABELS)
+    trend_label, trend_color = _trend_class(t_series)
+
+    nps_g = wf.get("nps_curr"); nps_p = wf.get("nps_prev")
+    delta_mm = round(nps_g - nps_p, 2) if nps_g is not None and nps_p is not None else None
+    d_tgt = wf.get("delta_tgt"); var = wf.get("var")
+    tgt   = wf.get("target", NPS_TARGET)
 
     pos_data = pa.get("top_pos")
     neg_data = pa.get("top_neg")
@@ -678,43 +791,147 @@ def _process_exec_html(grp):
     pos_card = _proc_card(pos_data, "pos") if not same_proc else ""
     neg_card = _proc_card(neg_data, "neg")
 
-    # Resumo executivo narrativo
+    # ── Seção 1: Resumo Executivo ────────────────────────────────────
     role_str = ("uma das principais <strong>alavancas positivas</strong>"
                 if grp in top_pos_list else
                 ("uma das principais <strong>causas de queda</strong>"
-                 if grp in top_neg_list else "um driver monitorado"))
+                 if grp in top_neg_list else "um driver em monitoramento"))
 
-    neg_proc_name = neg_data["proc"] if neg_data else "—"
-    pos_proc_name = pos_data["proc"] if pos_data else "—"
-    nps_g = wf.get("nps_curr"); d_tgt = wf.get("delta_tgt")
-    var   = wf.get("var")
+    delta_txt = (f"{('+'if delta_mm>=0 else '')}{fn(delta_mm)}pp MoM") if delta_mm is not None else ""
+    trend_tag = f'<span style="color:{trend_color};font-weight:700">{trend_label}</span>'
 
-    intro = (f"<strong>{esc(grp)}</strong> é {role_str} do período, com NPS de "
-             f"<strong>{fn(nps_g)}%</strong> em {esc(lCURR)}"
-             + (f" ({('+'if var>=0 else '')}{var:.2f}pp de contribuição ao consolidado)" if var else "") + ". ")
+    # Causa dominante
+    if dominant_dim == "Processo" and pa_neg:
+        causa = (f"A variação é explicada principalmente pelo <strong>processo {esc(pa_neg['proc'])}</strong> "
+                 f"({pa_neg.get('share',0):.1f}% do volume, NPS {fn(pa_neg.get('nps_mai'))}%, "
+                 f"Δ={pa_neg.get('delta',0):+.1f}pp MoM)")
+    elif dominant_dim == "Canal" and top_canal:
+        item, c, n1, n2, s = top_canal[0]
+        causa = (f"A variação é explicada principalmente pelo <strong>canal {esc(item)}</strong> "
+                 f"(NPS {fn(n1)}% vs {fn(n2)}% no mês anterior, contribuição {c:+.2f}pp)")
+    elif dominant_dim == "Senioridade" and top_sen:
+        item, c, n1, n2, s = top_sen[0]
+        causa = (f"A variação é explicada principalmente por <strong>atendentes {esc(item)}</strong> "
+                 f"(NPS {fn(n1)}% vs {fn(n2)}% no mês anterior, contribuição {c:+.2f}pp)")
+    else:
+        causa = "A causa principal da variação não pôde ser isolada com os dados disponíveis"
 
-    if neg_data and not same_proc:
-        intro += (f"O processo <strong>{esc(neg_proc_name)}</strong> concentra "
-                  f"a maior parte das detratações ({neg_data.get('share',0):.1f}% do volume, "
-                  f"NPS {fn(neg_data.get('nps_mai'))}%). ")
-    if pos_data and not same_proc:
-        intro += (f"Em contrapartida, <strong>{esc(pos_proc_name)}</strong> impulsiona "
-                  f"os promotores (NPS {fn(pos_data.get('nps_mai'))}%, "
-                  f"{('+'if pos_data.get('delta',0)>=0 else '')}{fn(pos_data.get('delta'))}pp MoM). ")
-    if same_proc and neg_data:
-        intro += (f"O processo dominante é <strong>{esc(neg_proc_name)}</strong> "
-                  f"({neg_data.get('share',0):.1f}% do volume, NPS {fn(neg_data.get('nps_mai'))}%, "
-                  f"{('+'if neg_data.get('delta',0)>=0 else '')}{fn(neg_data.get('delta'))}pp MoM). ")
-    if d_tgt is not None:
-        status_color = "#00A650" if d_tgt >= 0 else "#E84142"
-        intro += f'<span style="color:{status_color};font-weight:600">{("+"if d_tgt>=0 else "")}{fn(d_tgt)}pp vs target.</span>'
+    status_color = "#00A650" if d_tgt is not None and d_tgt >= 0 else "#E84142"
+    status_txt = (f'{("+"if d_tgt>=0 else "")}{fn(d_tgt)}pp vs target'
+                  if d_tgt is not None else "")
 
+    p1 = (f"<strong>{esc(grp)}</strong> é {role_str} no período {esc(lPREV)}→{esc(lCURR)}, "
+          f"com NPS de <strong>{fn(nps_g)}%</strong> ({delta_txt}). "
+          f"A tendência histórica é {trend_tag} com base nos últimos 5 meses. "
+          + (f'<span style="color:{status_color};font-weight:600">{status_txt}.</span>' if status_txt else ""))
+    p2 = f"{causa}."
+
+    # Padrões qualitativos identificados
+    opp_bullets = ""
+    for pat, evidences in qual_patterns.items():
+        if not evidences: continue
+        is_neg = any(k in pat.lower() for k in ["mudança","sem resolução","sistêmico","demora"])
+        c_icon = "🔴" if is_neg else "🟢"
+        ev_txt = f' — <em>&ldquo;{esc(evidences[0][:100])}&rdquo;</em>' if evidences else ""
+        opp_bullets += f'<div class="exec-bullet">{c_icon} <strong>{esc(pat)}</strong>{ev_txt}</div>'
+
+    opp_sec = ""
+    if opp_bullets:
+        p3 = (f"Padrões identificados nos comentários e transcrições: "
+              f"{'oportunidades de melhoria' if any('sem resol' in p.lower() or 'demora' in p.lower() for p in qual_patterns) else 'indicadores positivos'} "
+              f"confirmados abaixo.")
+        opp_sec = (f'<div style="margin-top:8px">'
+                   f'<div style="font-size:11px;font-weight:700;color:#555;margin-bottom:6px">'
+                   f'Padr&#245;es qualitativos identificados:</div>'
+                   f'{opp_bullets}</div>')
+    else:
+        p3 = ""
+
+    resumo_body = f'<p>{p1}</p><p>{p2}</p>' + (f'<p style="font-size:12px;color:#555">{p3}</p>' if p3 else "")
     resumo = (f'<div class="exec-section">'
               f'<div class="exec-title">&#128203; Resumo Executivo &mdash; {esc(grp)}</div>'
-              f'<div class="exec-body"><p>{intro}</p></div>'
-              f'</div>')
+              f'<div class="exec-body">{resumo_body}</div>'
+              f'{opp_sec}</div>')
 
-    return resumo + neg_card + pos_card
+    # ── Seção 2: Diagnóstico Dimensional ────────────────────────────
+    def _dim_card(label, contribs, icon):
+        if not contribs: return ""
+        rows = ""
+        for item, c, n1, n2, s in contribs[:3]:
+            d_cls = "bd-pos" if c > 0 else "bd-neg"
+            rows += (f'<tr><td class="bd-name">{esc(item[:35])}</td>'
+                     f'<td class="bd-nps">{fn(n1)}%</td>'
+                     f'<td class="bd-nps" style="color:#aaa">{fn(n2)}%</td>'
+                     f'<td class="bd-delta {d_cls}">{c:+.2f}pp</td></tr>')
+        tbl = (f'<table class="bd-tbl"><thead>'
+               f'<tr><th>{icon} {esc(label)}</th><th>{esc(lCURR)}</th>'
+               f'<th>{esc(lPREV)}</th><th>Contrib</th></tr>'
+               f'</thead><tbody>{rows}</tbody></table>')
+        is_dom = (label == dominant_dim)
+        border = f"border:2px solid {color}" if is_dom else ""
+        tag = f'<span style="background:{color};color:#fff;font-size:9px;padding:1px 6px;border-radius:8px;margin-left:6px">DOMINANTE</span>' if is_dom else ""
+        return (f'<div class="exec-card" style="background:#fafbfc;{border}">'
+                f'<div class="exec-label">{esc(label)}{tag}</div>{tbl}</div>')
+
+    proc_dim_card = ""
+    if pa_neg:
+        proc_row = (f'<tr><td class="bd-name">{esc(pa_neg["proc"][:35])}</td>'
+                    f'<td class="bd-nps">{fn(pa_neg.get("nps_mai"))}%</td>'
+                    f'<td class="bd-nps" style="color:#aaa">{fn(pa_neg.get("nps_abr"))}%</td>'
+                    f'<td class="bd-delta {"bd-pos" if pa_neg.get("contrib",0)>0 else "bd-neg"}">{pa_neg.get("contrib",0):+.3f}pp</td></tr>')
+        if pa_pos and not same_proc:
+            proc_row += (f'<tr><td class="bd-name">{esc(pa_pos["proc"][:35])}</td>'
+                         f'<td class="bd-nps">{fn(pa_pos.get("nps_mai"))}%</td>'
+                         f'<td class="bd-nps" style="color:#aaa">{fn(pa_pos.get("nps_abr"))}%</td>'
+                         f'<td class="bd-delta bd-pos">{pa_pos.get("contrib",0):+.3f}pp</td></tr>')
+        proc_tbl = (f'<table class="bd-tbl"><thead>'
+                    f'<tr><th>📋 Processo</th><th>{esc(lCURR)}</th>'
+                    f'<th>{esc(lPREV)}</th><th>Contrib</th></tr>'
+                    f'</thead><tbody>{proc_row}</tbody></table>')
+        is_dom = (dominant_dim == "Processo")
+        tag = f'<span style="background:{color};color:#fff;font-size:9px;padding:1px 6px;border-radius:8px;margin-left:6px">DOMINANTE</span>' if is_dom else ""
+        border = f"border:2px solid {color}" if is_dom else ""
+        proc_dim_card = (f'<div class="exec-card" style="background:#fafbfc;{border}">'
+                         f'<div class="exec-label">Processo{tag}</div>{proc_tbl}</div>')
+
+    canal_dim_card = _dim_card("Canal", top_canal, "📱")
+    sen_dim_card   = _dim_card("Senioridade", top_sen, "🎓")
+
+    dim_cards = "".join(c for c in [proc_dim_card, canal_dim_card, sen_dim_card] if c)
+    diag_sec = (f'<div class="exec-section">'
+                f'<div class="exec-title">&#128270; Diagn&#243;stico Dimensional &mdash; '
+                f'Causa da Varia&#231;&#227;o M/M <span style="font-size:11px;font-weight:400;color:#888">'
+                f'({esc(lPREV)} &rarr; {esc(lCURR)})</span></div>'
+                f'<div class="exec-cards">{dim_cards}</div>'
+                f'</div>') if dim_cards else ""
+
+    # ── Seção 3: Tendência histórica ─────────────────────────────────
+    rec_rows = ""
+    for i, (lbl, val) in enumerate(zip(t_lbls, t_series)):
+        if val is None: continue
+        prev_val = next((t_series[j] for j in range(i-1,-1,-1) if t_series[j] is not None), None)
+        dv = round(val - prev_val, 1) if prev_val is not None else None
+        d_cls = "bd-pos" if dv and dv > 0 else ("bd-neg" if dv and dv < 0 else "")
+        d_str = (("+" if dv > 0 else "") + f"{dv:.1f}pp") if dv else "—"
+        bold  = "font-weight:700;" if lbl == lCURR else ""
+        is_below_tgt = val < tgt - 3
+        bg = ";background:#fff8f8" if is_below_tgt else ""
+        rec_rows += (f'<tr style="{bold}{bg}"><td class="bd-name">{esc(lbl)}</td>'
+                     f'<td class="bd-nps">{fn(val)}%</td>'
+                     f'<td class="bd-delta {d_cls}">{d_str}</td>'
+                     f'<td class="bd-vol" style="color:#888">'
+                     f'{"&#9660; abaixo tgt" if is_below_tgt else "&#9989; ok"}'
+                     f'</td></tr>')
+    rec_sec = (f'<div class="exec-section">'
+               f'<div class="exec-title">&#128260; Tend&#234;ncia Hist&#243;rica &mdash; '
+               f'{trend_tag} <span style="font-size:11px;font-weight:400;color:#888">(target: {fn(tgt)}%)</span>'
+               f'</div>'
+               f'<table class="bd-tbl" style="max-width:360px">'
+               f'<thead><tr><th>M&#234;s</th><th>NPS</th><th>&#916; M/M</th><th>vs Target</th></tr></thead>'
+               f'<tbody>{rec_rows}</tbody></table>'
+               f'</div>')
+
+    return resumo + diag_sec + neg_card + pos_card + rec_sec
 
 def _analyze_transcripts(transcripts):
     """
