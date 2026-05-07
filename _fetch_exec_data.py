@@ -97,7 +97,7 @@ for grp,drvs in DRIVER_GROUPS.items():
 sorted_wf=sorted(wf.items(),key=lambda x:x[1]["var"])
 top_neg=[g for g,_ in sorted_wf[:3]]
 top_pos=[g for g,_ in sorted_wf[-3:][::-1]]
-priority=top_neg+top_pos
+priority=list(DRIVER_GROUPS.keys())   # todos os 8 drivers
 
 print(f"Consolidado: {lPREV} {nps_prev:.2f}% → {lCURR} {nps_curr:.2f}%  Δ={nps_curr-nps_prev:+.2f}pp")
 print(f"Top neg: {top_neg}  |  Top pos: {top_pos}")

@@ -530,6 +530,152 @@ def _tab_exec():
     return kpis + chart_sec + wf_mm + wf_tg + exec_html
 
 
+def _analyze_transcripts(transcripts):
+    """
+    Analisa o conteúdo real das transcrições e retorna padrões identificados.
+    Retorna dict com contagens e exemplos por padrão.
+    """
+    if not transcripts:
+        return None
+
+    total = len(transcripts)
+    patterns = {
+        "transferencia":        {"n": 0, "ex": []},
+        "sem_resolucao":        {"n": 0, "ex": []},
+        "reincidencia":         {"n": 0, "ex": []},
+        "escalacao_legal":      {"n": 0, "ex": []},
+        "resposta_automatica":  {"n": 0, "ex": []},
+        "resolucao_ok":         {"n": 0, "ex": []},
+        "empatia_rep":          {"n": 0, "ex": []},
+        "demora_atendimento":   {"n": 0, "ex": []},
+    }
+
+    KW = {
+        "transferencia":      ["transfiro", "encaminhar para", "vou te transferir", "outro atendente",
+                               "equipe especializada", "outro canal", "fale conosco"],
+        "sem_resolucao":      [],   # inferido por ausência de resolução
+        "reincidencia":       ["já abri", "já tentei", "segunda vez", "terceira vez", "desde ontem",
+                               "já entrei em contato", "semanas", "meses tentando", "abri chamado"],
+        "escalacao_legal":    ["procon", "judicial", "advogado", "reclamação formal", "ação judicial",
+                               "ouvidoria", "vou processar", "vou acionar"],
+        "resposta_automatica":["para continuar", "qual opção", "pode me informar",
+                               "para te direcionar", "preciso de um contexto"],
+        "resolucao_ok":       ["resolvido", "solucionado", "feito", "problema resolvido",
+                               "concluído", "encerrado com sucesso", "ok, resolvemos"],
+        "empatia_rep":        ["entendo sua frustração", "lamento", "me desculpe", "sinto muito",
+                               "entendo sua situação", "peço desculpas", "compreendo"],
+        "demora_atendimento": ["ainda online", "continua no chat", "aguardando", "esperando",
+                               "hora", "mais de uma hora", "30 minutos"],
+    }
+
+    for cid, txt in transcripts.items():
+        tl = txt.lower()
+        lines_rep = [l for l in txt.split("\n") if l.startswith("[REP]")]
+        lines_usr = [l for l in txt.split("\n") if l.startswith("[USER]")]
+        usr_text  = " ".join(l[7:] for l in lines_usr)
+
+        found_transfer  = any(k in tl for k in KW["transferencia"])
+        found_resolucao = any(k in tl for k in KW["resolucao_ok"])
+        found_reinci    = any(k in tl for k in KW["reincidencia"])
+        found_escal     = any(k in tl for k in KW["escalacao_legal"])
+        found_auto      = sum(1 for m in lines_rep if len(m) > 250) >= 2  # 2+ mensagens longas de bot
+        found_empatia   = any(k in tl for k in KW["empatia_rep"])
+        found_demora    = any(k in tl for k in KW["demora_atendimento"])
+
+        if found_transfer:
+            patterns["transferencia"]["n"] += 1
+            if not patterns["transferencia"]["ex"] and usr_text:
+                patterns["transferencia"]["ex"].append(usr_text[:100])
+        if not found_resolucao:
+            patterns["sem_resolucao"]["n"] += 1
+        else:
+            patterns["resolucao_ok"]["n"] += 1
+        if found_reinci:
+            patterns["reincidencia"]["n"] += 1
+            if not patterns["reincidencia"]["ex"] and usr_text:
+                patterns["reincidencia"]["ex"].append(usr_text[:100])
+        if found_escal:
+            patterns["escalacao_legal"]["n"] += 1
+            if not patterns["escalacao_legal"]["ex"] and usr_text:
+                patterns["escalacao_legal"]["ex"].append(usr_text[:120])
+        if found_auto:
+            patterns["resposta_automatica"]["n"] += 1
+        if found_empatia:
+            patterns["empatia_rep"]["n"] += 1
+        if found_demora:
+            patterns["demora_atendimento"]["n"] += 1
+
+    return {"total": total, "patterns": patterns}
+
+def _trx_summary_html(grp):
+    """Gera seção exec-section com resumo + bullets baseados em transcrições."""
+    qual        = _EXEC.get("qual", {}).get(grp, {})
+    transcripts = qual.get("transcripts", {})
+    comments    = qual.get("comments", [])
+
+    analysis = _analyze_transcripts(transcripts)
+    if not analysis:
+        return (f'<div class="exec-section">'
+                f'<div class="exec-title">&#128172; Avalia&#231;&#227;o das Transcri&#231;&#245;es</div>'
+                f'<div class="exec-no-data">Transcrições não disponíveis para este driver. '
+                f'Execute <code>python _fetch_exec_data.py</code> para gerar.</div></div>')
+
+    total = analysis["total"]
+    P     = analysis["patterns"]
+
+    # Resumo narrativo baseado nos padrões dominantes
+    dominant = []
+    if P["sem_resolucao"]["n"] > total * 0.5:
+        dominant.append(f"<strong>{P['sem_resolucao']['n']} de {total}</strong> casos sem indicação de resolução no encerramento")
+    if P["transferencia"]["n"]:
+        dominant.append(f"<strong>{P['transferencia']['n']}</strong> caso{'s' if P['transferencia']['n']>1 else ''} com transferência para outro atendente ou canal")
+    if P["reincidencia"]["n"]:
+        dominant.append(f"<strong>{P['reincidencia']['n']}</strong> caso{'s' if P['reincidencia']['n']>1 else ''} com reincidência — seller já havia tentado resolver anteriormente")
+    if P["escalacao_legal"]["n"]:
+        dominant.append(f"<strong>{P['escalacao_legal']['n']}</strong> caso{'s' if P['escalacao_legal']['n']>1 else ''} com risco de escal. legal (PROCON / ação judicial)")
+    if P["resposta_automatica"]["n"] > total * 0.3:
+        dominant.append(f"<strong>{P['resposta_automatica']['n']}</strong> casos com padrão de resposta automatizada sem análise específica do problema")
+
+    positivos = []
+    if P["resolucao_ok"]["n"]:
+        positivos.append(f"<strong>{P['resolucao_ok']['n']}</strong> casos com resolução identificada na conversa")
+    if P["empatia_rep"]["n"] > total * 0.2:
+        positivos.append(f"<strong>{P['empatia_rep']['n']}</strong> casos com linguagem empática do atendente")
+
+    # Texto do resumo
+    if P["sem_resolucao"]["n"] > P["resolucao_ok"]["n"]:
+        tom = "predominantemente <strong>não resolutivo</strong>"
+    else:
+        tom = "predominantemente <strong>resolutivo</strong>"
+
+    resumo_txt = (f"Em <strong>{total} transcrições</strong> analisadas, o padrão geral é {tom}. "
+                  + (f"{', '.join(dominant[:2])}." if dominant else "Sem padrão negativo dominante identificado."))
+
+    # Bullets negativos
+    neg_bullets = "".join(
+        f'<div class="exec-bullet">{item}</div>' for item in dominant
+    ) or '<div class="exec-bullet" style="color:#aaa">Nenhum padrão negativo dominante identificado nas transcrições.</div>'
+
+    # Bullets positivos
+    pos_bullets = "".join(
+        f'<div class="exec-bullet">{item}</div>' for item in positivos
+    ) if positivos else ""
+
+    # Card principal
+    card_cls = "exec-card-neg" if P["sem_resolucao"]["n"] > P["resolucao_ok"]["n"] else "exec-card-pos"
+
+    card = (f'<div class="exec-card {card_cls}">'
+            f'<div class="exec-label">{esc(grp)} — {total} transcrições analisadas</div>'
+            f'<div class="exec-body" style="font-size:12px;margin:6px 0"><p>{resumo_txt}</p></div>'
+            f'<div style="margin-top:8px;font-size:11px;font-weight:700;color:#555;margin-bottom:4px">Pontos de aten&#231;&#227;o:</div>'
+            f'{neg_bullets}'
+            + (f'<div style="margin-top:8px;font-size:11px;font-weight:700;color:#555;margin-bottom:4px">Pontos positivos:</div>{pos_bullets}' if pos_bullets else "")
+            + f'</div>')
+
+    return (f'<div class="exec-section">'
+            f'<div class="exec-title">&#128172; Avalia&#231;&#227;o das Transcri&#231;&#245;es</div>'
+            f'{card}</div>')
+
 def _drv_analysis_html(grp):
     """Gera seções de análise executiva por driver: resumo, recorrência, alavancas/causas, target."""
     wf   = _EXEC.get("waterfall", {}).get(grp, {})
@@ -751,7 +897,8 @@ def _drv_analysis_html(grp):
                    f'Execute <code>python _fetch_exec_data.py</code> para gerar.</div></div>')
         pro_sec = ""
 
-    return f'<div class="bd-analysis exec-wrap">{resumo_sec}{rec_sec}{pro_sec}{det_sec}{tgt_sec}</div>'
+    trx_sec = _trx_summary_html(grp)
+    return f'<div class="bd-analysis exec-wrap">{resumo_sec}{rec_sec}{trx_sec}{pro_sec}{det_sec}{tgt_sec}</div>'
 
 def _bd_table(items_m1, items_m2, max_rows=6):
     """Mini-tabela: Nome | NPS M1 | Δ M/M | Volume."""
