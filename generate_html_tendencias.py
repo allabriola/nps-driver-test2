@@ -114,6 +114,12 @@ if _os.path.exists("_exec_data.json"):
     with open("_exec_data.json", encoding="utf-8") as _f:
         _EXEC = _json.load(_f)
 
+# ── PROCESS_ANALYSIS — análise detalhada por processo
+_PA = {}
+if _os.path.exists("_process_analysis.json"):
+    with open("_process_analysis.json", encoding="utf-8") as _f:
+        _PA = _json.load(_f)
+
 # ── DD_BREAKDOWN — processos, canal, oficina, senioridade
 _DD = {}
 if _os.path.exists("dd_breakdown.json"):
@@ -529,6 +535,186 @@ def _tab_exec():
 
     return kpis + chart_sec + wf_mm + wf_tg + exec_html
 
+
+def _dim_table(dim_dict, max_rows=4, label="Nome"):
+    """Mini-tabela de uma dimensão (CDU/Sol/Sen) com NPS + delta vs global."""
+    rows = sorted(dim_dict.items(), key=lambda x: -x[1]["s"])[:max_rows]
+    html = (f'<table class="bd-tbl"><thead>'
+            f'<tr><th>{esc(label)}</th><th>NPS</th><th>Vol</th></tr>'
+            f'</thead><tbody>')
+    for name, v in rows:
+        nps_v = v.get("nps")
+        html += (f'<tr><td class="bd-name">{esc(name[:40])}</td>'
+                 f'<td class="bd-nps">{fn(nps_v) if nps_v is not None else "—"}%</td>'
+                 f'<td class="bd-vol">{v["s"]:,}</td></tr>')
+    return html + '</tbody></table>'
+
+def _reason_list(reason_dict, max_items=4, color="#a01010"):
+    items = sorted(reason_dict.items(), key=lambda x: -x[1])[:max_items]
+    if not items:
+        return '<div style="color:#aaa;font-size:11px">Sem motivos estruturados registrados.</div>'
+    return "".join(
+        f'<div class="exec-bullet" style="font-size:11px">'
+        f'<span style="color:{color};font-weight:600">{esc(r[:60])}</span>'
+        f' <span style="color:#aaa">({n} caso{"s" if n>1 else ""})</span></div>'
+        for r, n in items
+    )
+
+def _trx_bullets(transcripts, max_t=10):
+    """Analisa transcrições e retorna bullets de padrões identificados."""
+    if not transcripts:
+        return ""
+    total = len(transcripts)
+    KW = {
+        "Transferência para outro atendente": ["transfiro","vou te transferir","encaminhar para","outro atendente"],
+        "Reincidência (seller já tentou antes)": ["já abri","já tentei","segunda vez","desde ontem","semanas","meses tentando"],
+        "Risco de escalação legal (PROCON/judicial)": ["procon","judicial","advogado","reclamação formal","vou processar"],
+        "Sem indicação de resolução no encerramento": None,  # inferido
+        "Resposta automatizada sem análise do caso": None,   # inferido por comprimento
+        "Empatia identificada do atendente": ["entendo sua","lamento","me desculpe","sinto muito","compreendo sua"],
+    }
+    counts = {k: 0 for k in KW}
+    resolved = 0
+    for cid, txt in list(transcripts.items())[:max_t]:
+        tl = txt.lower()
+        lines_rep = [l for l in txt.split("\n") if l.startswith("[REP]")]
+        has_res = any(k in tl for k in ["resolvido","solucionado","concluído","feito isso","problema resolvido"])
+        if has_res: resolved += 1
+        for pat, kws in KW.items():
+            if kws is None: continue
+            if any(k in tl for k in kws):
+                counts[pat] += 1
+        if sum(1 for m in lines_rep if len(m) > 250) >= 2:
+            counts["Resposta automatizada sem análise do caso"] += 1
+    counts["Sem indicação de resolução no encerramento"] = total - resolved
+
+    bullets = ""
+    for pat, n in counts.items():
+        if n == 0: continue
+        pct = round(100*n/total)
+        color = "#a01010" if "sem" in pat.lower() or "transfer" in pat.lower() or "reinci" in pat.lower() or "risco" in pat.lower() or "automa" in pat.lower() else "#00A650"
+        bullets += (f'<div class="exec-bullet" style="font-size:11px">'
+                    f'<span style="color:{color};font-weight:600">{n}/{total} casos ({pct}%)</span>'
+                    f' — {esc(pat)}</div>')
+    return bullets
+
+def _process_exec_html(grp):
+    """Gera análise executiva completa baseada nos processos mais impactantes."""
+    pa = _PA.get(grp)
+    if not pa:
+        return ""
+
+    lCURR = _EXEC.get("lCURR", MONTH_LABELS[-1])
+    lPREV = _EXEC.get("lPREV", MONTH_LABELS[-2])
+    wf    = _EXEC.get("waterfall", {}).get(grp, {})
+    top_neg_list = _EXEC.get("top_neg", [])
+    top_pos_list = _EXEC.get("top_pos", [])
+    color = GROUP_COLORS.get(grp, "#3483FA")
+
+    pos_data = pa.get("top_pos")
+    neg_data = pa.get("top_neg")
+    same_proc = pos_data and neg_data and pos_data.get("proc") == neg_data.get("proc")
+
+    def _proc_card(proc_info, role):
+        if not proc_info: return ""
+        proc   = proc_info["proc"]
+        delta  = proc_info.get("delta", 0)
+        share  = proc_info.get("share", 0)
+        nps_m  = proc_info.get("nps_mai")
+        nps_a  = proc_info.get("nps_abr")
+        detail = proc_info.get("detail", {})
+        trxs   = proc_info.get("transcripts", {})
+        nps_tot= detail.get("nps_total")
+        surv   = detail.get("ts", 0)
+
+        card_cls = "exec-card-pos" if role == "pos" else "exec-card-neg"
+        icon     = "🟢" if role == "pos" else "🔴"
+        title    = f"{icon} {'Processo de Alta' if role=='pos' else 'Processo de Queda'}"
+
+        # Header do processo
+        hdr = (f'<div class="exec-card {card_cls}" style="margin-bottom:12px">'
+               f'<div class="exec-label">{esc(proc)}</div>'
+               f'<div style="font-size:12px;margin-top:4px;display:flex;flex-wrap:wrap;gap:12px">'
+               f'<span>NPS {esc(lCURR)}: <strong>{fn(nps_m)}%</strong></span>'
+               f'<span>NPS {esc(lPREV)}: <strong>{fn(nps_a)}%</strong></span>'
+               f'<span>{chip(delta, "pp &#916;M/M")}</span>'
+               f'<span style="color:#888">{share:.1f}% do volume do driver &nbsp;|&nbsp; {surv:,} pesquisas</span>'
+               f'</div></div>')
+
+        # Grid: CDU | Solução | Seniority
+        cdu_tbl = _dim_table(detail.get("cdu",{}), 4, "CDU")
+        sol_tbl = _dim_table(detail.get("sol",{}), 4, "Solução")
+        sen_tbl = _dim_table(detail.get("seniority",{}), 3, "Senioridade")
+
+        # Motivos
+        if role == "neg":
+            motivos_html = (f'<div style="margin-top:6px">'
+                            f'<div class="bd-sec-title">Principais motivos de detração</div>'
+                            f'{_reason_list(detail.get("det_reasons",{}), 4, "#a01010")}'
+                            f'</div>')
+        else:
+            motivos_html = (f'<div style="margin-top:6px">'
+                            f'<div class="bd-sec-title">Principais motivos de promoção</div>'
+                            f'{_reason_list(detail.get("pro_reasons",{}), 4, "#1a7a42")}'
+                            f'</div>')
+
+        grid = (f'<div class="bd-grid" style="margin-bottom:12px">'
+                f'<div class="bd-sec"><div class="bd-sec-title">CDU</div>{cdu_tbl}</div>'
+                f'<div class="bd-sec"><div class="bd-sec-title">Solução</div>{sol_tbl}</div>'
+                f'<div class="bd-sec"><div class="bd-sec-title">Newbie vs Veterano</div>{sen_tbl}</div>'
+                f'<div class="bd-sec">{motivos_html}</div>'
+                f'</div>')
+
+        # Transcrições
+        trx_bullets = _trx_bullets(trxs)
+        trx_sec = ""
+        if trx_bullets:
+            trx_sec = (f'<div style="margin-bottom:12px">'
+                       f'<div class="bd-sec-title" style="color:#3483FA">&#128172; Avaliação das transcrições ({len(trxs)} casos)</div>'
+                       f'{trx_bullets}</div>')
+
+        return f'<div class="exec-section"><div class="exec-title">{title}</div>{hdr}{grid}{trx_sec}</div>'
+
+    pos_card = _proc_card(pos_data, "pos") if not same_proc else ""
+    neg_card = _proc_card(neg_data, "neg")
+
+    # Resumo executivo narrativo
+    role_str = ("uma das principais <strong>alavancas positivas</strong>"
+                if grp in top_pos_list else
+                ("uma das principais <strong>causas de queda</strong>"
+                 if grp in top_neg_list else "um driver monitorado"))
+
+    neg_proc_name = neg_data["proc"] if neg_data else "—"
+    pos_proc_name = pos_data["proc"] if pos_data else "—"
+    nps_g = wf.get("nps_curr"); d_tgt = wf.get("delta_tgt")
+    var   = wf.get("var")
+
+    intro = (f"<strong>{esc(grp)}</strong> é {role_str} do período, com NPS de "
+             f"<strong>{fn(nps_g)}%</strong> em {esc(lCURR)}"
+             + (f" ({('+'if var>=0 else '')}{var:.2f}pp de contribuição ao consolidado)" if var else "") + ". ")
+
+    if neg_data and not same_proc:
+        intro += (f"O processo <strong>{esc(neg_proc_name)}</strong> concentra "
+                  f"a maior parte das detratações ({neg_data.get('share',0):.1f}% do volume, "
+                  f"NPS {fn(neg_data.get('nps_mai'))}%). ")
+    if pos_data and not same_proc:
+        intro += (f"Em contrapartida, <strong>{esc(pos_proc_name)}</strong> impulsiona "
+                  f"os promotores (NPS {fn(pos_data.get('nps_mai'))}%, "
+                  f"{('+'if pos_data.get('delta',0)>=0 else '')}{fn(pos_data.get('delta'))}pp MoM). ")
+    if same_proc and neg_data:
+        intro += (f"O processo dominante é <strong>{esc(neg_proc_name)}</strong> "
+                  f"({neg_data.get('share',0):.1f}% do volume, NPS {fn(neg_data.get('nps_mai'))}%, "
+                  f"{('+'if neg_data.get('delta',0)>=0 else '')}{fn(neg_data.get('delta'))}pp MoM). ")
+    if d_tgt is not None:
+        status_color = "#00A650" if d_tgt >= 0 else "#E84142"
+        intro += f'<span style="color:{status_color};font-weight:600">{("+"if d_tgt>=0 else "")}{fn(d_tgt)}pp vs target.</span>'
+
+    resumo = (f'<div class="exec-section">'
+              f'<div class="exec-title">&#128203; Resumo Executivo &mdash; {esc(grp)}</div>'
+              f'<div class="exec-body"><p>{intro}</p></div>'
+              f'</div>')
+
+    return resumo + neg_card + pos_card
 
 def _analyze_transcripts(transcripts):
     """
@@ -985,7 +1171,7 @@ def _build_driver_breakdowns():
                 f'<div class="bd-sec"><div class="bd-sec-title">&#127891; Senioridade</div>{sen_tbl}</div>'
                 f'</div>')
 
-        analysis = _drv_analysis_html(grp)
+        analysis = _process_exec_html(grp) or _drv_analysis_html(grp)
         cards += (f'<div class="drv-card" data-grp="{slug}">'
                   f'{hdr}{grid}{analysis}</div>')
 
