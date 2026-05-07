@@ -106,9 +106,15 @@ DRIVER_GROUPS = {g: [d for d in drvs if d not in EXCLUIDOS]
 ALL_DRIVERS = [d for d in monthly_history.keys() if d not in EXCLUIDOS]
 
 # ══════════════════════════════════════════════════════════════════════
-# 2B. DD_BREAKDOWN — processos, canal, oficina, senioridade
+# 2B. EXEC_DATA — análise qualitativa por driver (de _exec_data.json)
 # ══════════════════════════════════════════════════════════════════════
 import os as _os
+_EXEC = {}
+if _os.path.exists("_exec_data.json"):
+    with open("_exec_data.json", encoding="utf-8") as _f:
+        _EXEC = _json.load(_f)
+
+# ── DD_BREAKDOWN — processos, canal, oficina, senioridade
 _DD = {}
 if _os.path.exists("dd_breakdown.json"):
     with open("dd_breakdown.json", encoding="utf-8") as _f:
@@ -517,6 +523,149 @@ def _tab_exec():
     return kpis + chart_sec + wf_mm + wf_tg + exec_html
 
 
+def _drv_analysis_html(grp):
+    """Gera seções de análise executiva por driver: resumo, recorrência, alavancas/causas, target."""
+    wf   = _EXEC.get("waterfall", {}).get(grp, {})
+    qual = _EXEC.get("qual", {}).get(grp, {})
+    trend = _EXEC.get("nps_trend", {}).get(grp, {})
+    top_neg = _EXEC.get("top_neg", [])
+    top_pos = _EXEC.get("top_pos", [])
+    lCURR   = _EXEC.get("lCURR", MONTH_LABELS[-1])
+    lPREV   = _EXEC.get("lPREV", MONTH_LABELS[-2])
+
+    nps_c = wf.get("nps_curr")
+    nps_p = wf.get("nps_prev")
+    tgt   = wf.get("target", NPS_TARGET)
+    d_tgt = wf.get("delta_tgt")
+    var   = wf.get("var")
+
+    # ── Recorrência ──────────────────────────────────────────────────
+    t_series = trend.get("series", [])
+    t_labels = trend.get("labels", MONTH_LABELS)
+    t_trend  = trend.get("trend", "indefinido")
+    rec_rows = ""
+    for i, (lbl, val) in enumerate(zip(t_labels, t_series)):
+        if val is None: continue
+        prev_val = next((t_series[j] for j in range(i-1, -1, -1) if t_series[j] is not None), None)
+        delta_v  = round(val - prev_val, 1) if prev_val is not None else None
+        d_cls    = "bd-pos" if delta_v and delta_v > 0 else ("bd-neg" if delta_v and delta_v < 0 else "")
+        d_str    = (("+" if delta_v > 0 else "") + f"{delta_v:.1f}pp") if delta_v else "—"
+        is_curr  = lbl == lCURR
+        bold     = "font-weight:700;" if is_curr else ""
+        rec_rows += (f'<tr style="{bold}">'
+                     f'<td class="bd-name">{esc(lbl)}</td>'
+                     f'<td class="bd-nps">{fn(val)}%</td>'
+                     f'<td class="bd-delta {d_cls}">{d_str}</td>'
+                     f'<td class="bd-vol" style="color:#888;">'
+                     f'{"← atual" if lbl==lCURR else ("← prev" if lbl==lPREV else "")}</td>'
+                     f'</tr>\n')
+
+    trend_badge_map = {
+        "alta":   ('<span style="color:#00A650;font-weight:700">&#8593; Alta</span>', "#00A650"),
+        "queda":  ('<span style="color:#E84142;font-weight:700">&#8595; Queda</span>', "#E84142"),
+        "estavel":('<span style="color:#888;font-weight:700">&#8594; Estável</span>', "#888"),
+    }
+    badge_html, _ = trend_badge_map.get(t_trend, ("—", "#aaa"))
+
+    rec_sec = f"""<div class="bd-ana-sec">
+  <div class="bd-ana-title">&#128260; Recorr&#234;ncia &mdash; Tend&#234;ncia: {badge_html}</div>
+  <table class="bd-tbl" style="max-width:320px">
+    <thead><tr><th>M&#234;s</th><th>NPS</th><th>&#916; M/M</th><th></th></tr></thead>
+    <tbody>{rec_rows}</tbody>
+  </table>
+</div>"""
+
+    # ── Resumo do driver ──────────────────────────────────────────────
+    role = "positivo" if grp in top_pos else ("negativo" if grp in top_neg else "neutro")
+    d_tgt_txt = (("+" if d_tgt and d_tgt >= 0 else "") + f"{d_tgt:.1f}pp vs target") if d_tgt else ""
+    var_txt   = (("+" if var and var >= 0 else "") + f"{var:.2f}pp contribuição") if var else ""
+
+    trend_desc = {"alta": "em alta sustentada", "queda": "em queda recorrente",
+                  "estavel": "estável", "indefinido": "com tendência indefinida"}.get(t_trend, "")
+
+    if role == "positivo":
+        intro = f"<strong>{esc(grp)}</strong> é uma das principais <strong>alavancas positivas</strong> do período ({var_txt}), com NPS de {fn(nps_c)}% no {esc(lCURR)} e tendência {trend_desc}."
+    elif role == "negativo":
+        intro = f"<strong>{esc(grp)}</strong> é uma das principais <strong>causas de queda</strong> do período ({var_txt}), com NPS de {fn(nps_c)}% no {esc(lCURR)} e tendência {trend_desc}."
+    else:
+        intro = f"<strong>{esc(grp)}</strong> registrou NPS de <strong>{fn(nps_c)}%</strong> no {esc(lCURR)} ({var_txt}), {trend_desc}."
+
+    if d_tgt_txt:
+        status_color = "#00A650" if d_tgt and d_tgt >= 0 else "#E84142"
+        intro += f' <span style="color:{status_color};font-weight:600">{d_tgt_txt}.</span>'
+
+    resumo_sec = f'<div class="bd-ana-sec"><div class="bd-ana-title">&#128203; Resumo</div><div style="font-size:12px;line-height:1.7;color:#444">{intro}</div></div>'
+
+    # ── Alavancas / Causas ────────────────────────────────────────────
+    comments = qual.get("comments", [])
+    transcripts = qual.get("transcripts", {})
+    dets = [c for c in comments if c.get("perfil") == "detrator"]
+    pros = [c for c in comments if c.get("perfil") == "promotor"]
+
+    def _comment_block(items, max_c=4):
+        rows_html = ""
+        for c in items[:max_c]:
+            txt = c.get("comment") or ""
+            if len(txt.strip()) < 5: continue
+            cdu  = esc(c.get("cdu","")[:35])
+            sen  = esc(c.get("seniority","") or c.get("sen",""))
+            canal= esc(c.get("canal",""))
+            rows_html += (f'<div style="font-size:11px;padding:5px 0;border-bottom:1px solid #f0f0f0;">'
+                          f'<span style="color:#888;font-size:10px">[{cdu} | {sen} | {canal}]</span><br>'
+                          f'{esc(txt[:180])}</div>')
+        return rows_html or '<div style="color:#aaa;font-size:11px">Sem dados qualitativos para este período.</div>'
+
+    # CDU frequency for detractors
+    cdu_freq = {}
+    for c in dets:
+        k = c.get("cdu","N/I")
+        cdu_freq[k] = cdu_freq.get(k, 0) + 1
+    top_cdus = sorted(cdu_freq.items(), key=lambda x: -x[1])[:3]
+    cdu_pills = " ".join(f'<span style="background:#fde8e8;color:#a01010;border-radius:8px;padding:2px 8px;font-size:10px;font-weight:600;display:inline-block;margin:2px">{esc(k)} ({v})</span>' for k,v in top_cdus)
+
+    # Top transcript
+    trx_sample = ""
+    det_ids = {c.get("cid") for c in dets if c.get("cid")}
+    for cid, txt in transcripts.items():
+        if cid in det_ids:
+            trx_sample = f'<div style="font-size:11px;background:#f8f9ff;border-left:3px solid #3483FA;padding:6px 8px;margin-top:6px;border-radius:0 4px 4px 0">{esc(txt[:280])}</div>'
+            break
+
+    if dets:
+        det_sec = (f'<div class="bd-ana-sec"><div class="bd-ana-title">&#128308; Principais Causas de Queda</div>'
+                   f'<div style="margin-bottom:6px">{cdu_pills}</div>'
+                   f'{_comment_block(dets, 4)}'
+                   f'{trx_sample}</div>')
+    else:
+        det_sec = ""
+
+    if pros:
+        pro_sec = (f'<div class="bd-ana-sec"><div class="bd-ana-title">&#128994; Principais Alavancas de Alta</div>'
+                   f'{_comment_block(pros, 3)}</div>')
+    else:
+        pro_sec = ""
+
+    # ── Status vs Target ──────────────────────────────────────────────
+    if d_tgt is not None:
+        tgt_color = "#00A650" if d_tgt >= 0 else ("#F39C12" if d_tgt >= -3 else ("#FF6B35" if d_tgt >= -10 else "#E84142"))
+        tgt_label = "Acima ✓" if d_tgt >= 0 else ("Próximo (~)" if d_tgt >= -3 else ("Abaixo ▼" if d_tgt >= -10 else "Crítico ✗"))
+        tgt_sec = (f'<div class="bd-ana-sec"><div class="bd-ana-title">&#127919; Status vs Target</div>'
+                   f'<div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;font-size:12px">'
+                   f'<div>NPS: <strong>{fn(nps_c)}%</strong></div>'
+                   f'<div>Target: <strong>{fn(tgt)}%</strong></div>'
+                   f'<div style="color:{tgt_color};font-weight:700;font-size:16px">{("+" if d_tgt>=0 else "")}{fn(d_tgt)}pp</div>'
+                   f'<div style="color:{tgt_color};font-weight:600">{tgt_label}</div>'
+                   f'</div></div>')
+    else:
+        tgt_sec = ""
+
+    if not comments:
+        qual_note = '<div style="color:#aaa;font-size:11px;padding:8px 0">&#9432; Dados qualitativos não disponíveis — execute <code>python _fetch_exec_data.py</code> para gerar.</div>'
+        det_sec = qual_note
+        pro_sec = ""
+
+    return f'<div class="bd-analysis">{resumo_sec}{rec_sec}{pro_sec}{det_sec}{tgt_sec}</div>'
+
 def _bd_table(items_m1, items_m2, max_rows=6):
     """Mini-tabela: Nome | NPS M1 | Δ M/M | Volume."""
     rows = ""
@@ -599,8 +748,9 @@ def _build_driver_breakdowns():
                 f'<div class="bd-sec"><div class="bd-sec-title">&#127891; Senioridade</div>{sen_tbl}</div>'
                 f'</div>')
 
+        analysis = _drv_analysis_html(grp)
         cards += (f'<div class="drv-card" data-grp="{slug}">'
-                  f'{hdr}{grid}</div>')
+                  f'{hdr}{grid}{analysis}</div>')
 
     return (f'<div class="section-block">'
             f'<div class="section-title">An&#225;lise por Driver &mdash; {lM1} vs {lM2}</div>'
@@ -828,6 +978,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
 .bd-vol    { text-align:right; color:#aaa; font-size:10px; }
 .bd-pos    { color:#00A650; }
 .bd-neg    { color:#E84142; }
+
+/* Driver analysis sections */
+.bd-analysis    { border-top:2px solid #e8eaf0; }
+.bd-ana-sec     { padding:14px 16px; border-bottom:1px solid #f0f2f5; }
+.bd-ana-sec:last-child { border-bottom:none; }
+.bd-ana-title   { font-size:11px; font-weight:700; color:#555; text-transform:uppercase;
+                  letter-spacing:.5px; margin-bottom:8px; }
 
 @media (max-width:1100px) { .bd-grid { grid-template-columns:repeat(2,1fr); } }
 @media (max-width:600px)  { .bd-grid { grid-template-columns:1fr; } }
