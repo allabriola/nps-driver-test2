@@ -1005,17 +1005,8 @@ def _process_exec_html(grp, mode="monthly"):
                 f'<div class="exec-cards">{dim_cards}</div>'
                 f'</div>') if dim_cards else ""
 
-    # ── Seção 3: Tendência histórica ─────────────────────────────────
-    # Aba semanal: usa série semanal (WEEK_LABELS + grp_wk) em vez de mensal
-    if mode == "weekly":
-        t_lbls   = WEEK_LABELS
-        t_series = grp_wk.get(grp, [None] * len(WEEK_LABELS))
-        lCURR_trend = esc(S1_LABEL) if S1_LABEL else lCURR
-        delta_unit  = "WoW"
-    else:
-        lCURR_trend = lCURR
-        delta_unit  = "M/M"
-
+    # ── Seção 3: Tendência histórica (sempre mensal) ──────────────────
+    delta_unit = "M/M"
     rec_rows = ""
     for i, (lbl, val) in enumerate(zip(t_lbls, t_series)):
         if val is None: continue
@@ -1032,14 +1023,13 @@ def _process_exec_html(grp, mode="monthly"):
                      f'<td class="bd-vol" style="color:#888">'
                      f'{"&#9660; abaixo tgt" if is_below_tgt else "&#9989; ok"}'
                      f'</td></tr>')
-    period_lbl = "Semana" if mode == "weekly" else "M&#234;s"
     rec_sec = (f'<div class="exec-section">'
                f'<div class="exec-title">&#128260; Tend&#234;ncia Hist&#243;rica &mdash; '
                f'{trend_tag} <span style="font-size:11px;font-weight:400;color:#888">(target: {fn(tgt)}%)</span>'
                f'</div>'
                f'<table class="bd-tbl" style="max-width:360px">'
-               f'<thead><tr><th>{period_lbl}</th><th>NPS</th>'
-               f'<th>&#916; {delta_unit}</th><th>vs Target</th></tr></thead>'
+               f'<thead><tr><th>M&#234;s</th><th>NPS</th>'
+               f'<th>&#916; M/M</th><th>vs Target</th></tr></thead>'
                f'<tbody>{rec_rows}</tbody></table>'
                f'</div>')
 
