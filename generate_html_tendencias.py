@@ -574,9 +574,9 @@ def _drv_analysis_html(grp):
     }
     badge_html, _ = trend_badge_map.get(t_trend, ("—", "#aaa"))
 
-    rec_sec = f"""<div class="bd-ana-sec">
-  <div class="bd-ana-title">&#128260; Recorr&#234;ncia &mdash; Tend&#234;ncia: {badge_html}</div>
-  <table class="bd-tbl" style="max-width:320px">
+    rec_sec = f"""<div class="exec-section">
+  <div class="exec-title">&#128260; Recorr&#234;ncia &mdash; Tend&#234;ncia: {badge_html}</div>
+  <table class="bd-tbl" style="max-width:360px">
     <thead><tr><th>M&#234;s</th><th>NPS</th><th>&#916; M/M</th><th></th></tr></thead>
     <tbody>{rec_rows}</tbody>
   </table>
@@ -601,7 +601,10 @@ def _drv_analysis_html(grp):
         status_color = "#00A650" if d_tgt and d_tgt >= 0 else "#E84142"
         intro += f' <span style="color:{status_color};font-weight:600">{d_tgt_txt}.</span>'
 
-    resumo_sec = f'<div class="bd-ana-sec"><div class="bd-ana-title">&#128203; Resumo</div><div style="font-size:12px;line-height:1.7;color:#444">{intro}</div></div>'
+    resumo_sec = (f'<div class="exec-section">'
+                  f'<div class="exec-title">&#128203; Resumo Executivo &mdash; {esc(grp)}</div>'
+                  f'<div class="exec-body"><p>{intro}</p></div>'
+                  f'</div>')
 
     # ── Síntese qualitativa ───────────────────────────────────────────
     comments   = qual.get("comments", [])
@@ -670,86 +673,85 @@ def _drv_analysis_html(grp):
                     counts[theme] += 1
         return sorted(counts.items(), key=lambda x: -x[1])
 
-    # ── Bloco detratores ─────────────────────────────────────────────
+    # ── Principais Causas de Queda (exec-card-neg por CDU) ──────────
     if dets:
-        synth   = _cdu_synthesis(dets)
-        det_ids = {c.get("cid") for c in dets if c.get("cid")}
+        synth    = _cdu_synthesis(dets)
+        det_ids  = {c.get("cid") for c in dets if c.get("cid")}
         u_msg, r_msg = _trx_pattern(transcripts, det_ids)
 
-        cdu_html = ""
+        cdu_cards = ""
         for cdu, n, best_c, sol_str in synth:
-            cdu_html += (f'<div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #f0f0f0;">'
-                         f'<div style="font-size:11px;font-weight:700;color:#a01010;margin-bottom:4px">'
-                         f'{esc(cdu)} <span style="font-weight:400;color:#888">({n} caso{"s" if n>1 else ""})</span>'
-                         f'{sol_str}</div>')
+            trx_block = ""
+            if u_msg and r_msg and synth.index((cdu,n,best_c,sol_str)) == 0:
+                trx_block = (f'<div class="exec-evidence" style="margin-top:6px">'
+                             f'<strong>Padr&#227;o nas transcri&#231;&#245;es &mdash;</strong> '
+                             f'<em>Seller:</em> &ldquo;{esc(u_msg[:120])}&rdquo; &nbsp;'
+                             f'<em>Atendente:</em> &ldquo;{esc(r_msg[:120])}&rdquo;</div>')
+            evidence = ""
             if best_c:
-                cdu_html += f'<div style="font-size:11px;color:#555;font-style:italic">&ldquo;{esc(best_c[:200])}&rdquo;</div>'
-            cdu_html += '</div>'
+                evidence = f'<div class="exec-evidence">&ldquo;{esc(best_c[:200])}&rdquo;</div>'
+            cdu_cards += (f'<div class="exec-card exec-card-neg">'
+                          f'<div class="exec-label">{esc(cdu)} '
+                          f'<span style="font-weight:400;color:#888;font-size:11px">({n} caso{"s" if n>1 else ""})</span>'
+                          f'</div>'
+                          + (f'<div style="font-size:11px;color:#888;margin-bottom:4px">{sol_str[4:]}</div>' if sol_str else "")
+                          + evidence + trx_block
+                          + f'</div>')
 
-        trx_html = ""
-        if u_msg and r_msg:
-            trx_html = (f'<div style="margin-top:8px;font-size:11px;background:#f8f9ff;'
-                        f'border-left:3px solid #3483FA;padding:8px 10px;border-radius:0 4px 4px 0">'
-                        f'<div style="font-weight:600;color:#3483FA;margin-bottom:4px;font-size:10px">&#128172; Padrão nas transcrições</div>'
-                        f'<div><span style="color:#00A650;font-weight:600">Seller:</span> {esc(u_msg)}</div>'
-                        f'<div style="margin-top:4px"><span style="color:#FF7733;font-weight:600">Atendente:</span> {esc(r_msg)}</div>'
-                        f'</div>')
-
-        det_sec = (f'<div class="bd-ana-sec">'
-                   f'<div class="bd-ana-title">&#128308; Principais Causas de Queda '
-                   f'<span style="font-weight:400;font-size:10px;color:#aaa">— análise de {len(dets)} detratores</span></div>'
-                   f'{cdu_html}{trx_html}</div>')
+        det_sec = (f'<div class="exec-section">'
+                   f'<div class="exec-title">&#128308; Principais Causas de Queda '
+                   f'<span style="font-weight:400;font-size:11px;color:#888">({len(dets)} detratores analisados)</span></div>'
+                   f'<div class="exec-cards">{cdu_cards}</div></div>')
     else:
         det_sec = ""
 
-    # ── Bloco promotores ──────────────────────────────────────────────
+    # ── Principais Alavancas de Alta (exec-card-pos) ─────────────────
     if pros:
-        themes   = _pro_themes(pros)
-        top_themes = [(t, n) for t, n in themes if n > 0][:3]
-        best_pro = _best_comment(pros)
+        themes    = _pro_themes(pros)
+        top_t     = [(t, n) for t, n in themes if n > 0][:4]
+        best_pro  = _best_comment(pros)
 
-        theme_pills = " ".join(
-            f'<span style="background:#e6f9ee;color:#1a7a42;border-radius:8px;padding:2px 8px;'
-            f'font-size:10px;font-weight:600;display:inline-block;margin:2px">'
-            f'{esc(t.capitalize())} ({n})</span>'
-            for t, n in top_themes
-        ) if top_themes else ""
+        bullets = "".join(
+            f'<div class="exec-bullet"><strong>{esc(t.capitalize())}:</strong> '
+            f'citado em {n} de {len(pros)} avalia&#231;&#245;es positivas</div>'
+            for t, n in top_t
+        ) if top_t else '<div class="exec-bullet">Avalia&#231;&#245;es positivas sem tema dominante identificado.</div>'
 
-        pro_html = ""
-        if theme_pills:
-            pro_html += f'<div style="margin-bottom:8px">{theme_pills}</div>'
-        if best_pro:
-            pro_html += (f'<div style="font-size:11px;color:#555;font-style:italic;'
-                         f'border-left:3px solid #00A650;padding-left:8px">'
-                         f'&ldquo;{esc(best_pro[:200])}&rdquo;</div>')
+        evidence = f'<div class="exec-evidence">&ldquo;{esc(best_pro[:200])}&rdquo;</div>' if best_pro else ""
 
-        pro_sec = (f'<div class="bd-ana-sec">'
-                   f'<div class="bd-ana-title">&#128994; Principais Alavancas de Alta '
-                   f'<span style="font-weight:400;font-size:10px;color:#aaa">— análise de {len(pros)} promotores</span></div>'
-                   f'{pro_html}</div>')
+        pro_sec = (f'<div class="exec-section">'
+                   f'<div class="exec-title">&#128994; Principais Alavancas de Alta '
+                   f'<span style="font-weight:400;font-size:11px;color:#888">({len(pros)} promotores analisados)</span></div>'
+                   f'<div class="exec-card exec-card-pos">'
+                   f'<div class="exec-label">O que os promotores valorizam</div>'
+                   f'{bullets}{evidence}</div></div>')
     else:
         pro_sec = ""
 
-    # ── Status vs Target ──────────────────────────────────────────────
+    # ── Driver Fora do Target ─────────────────────────────────────────
     if d_tgt is not None:
-        tgt_color = "#00A650" if d_tgt >= 0 else ("#F39C12" if d_tgt >= -3 else ("#FF6B35" if d_tgt >= -10 else "#E84142"))
-        tgt_label = "Acima ✓" if d_tgt >= 0 else ("Próximo (~)" if d_tgt >= -3 else ("Abaixo ▼" if d_tgt >= -10 else "Crítico ✗"))
-        tgt_sec = (f'<div class="bd-ana-sec"><div class="bd-ana-title">&#127919; Status vs Target</div>'
-                   f'<div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;font-size:12px">'
-                   f'<div>NPS: <strong>{fn(nps_c)}%</strong></div>'
-                   f'<div>Target: <strong>{fn(tgt)}%</strong></div>'
-                   f'<div style="color:{tgt_color};font-weight:700;font-size:16px">{("+" if d_tgt>=0 else "")}{fn(d_tgt)}pp</div>'
-                   f'<div style="color:{tgt_color};font-weight:600">{tgt_label}</div>'
+        tgt_cls   = "exec-card-pos" if d_tgt >= 0 else ("exec-card-warn" if d_tgt >= -5 else "exec-card-neg")
+        tgt_label = "Acima &#x2713;" if d_tgt >= 0 else ("Pr&#243;ximo (~)" if d_tgt >= -3 else ("Abaixo &#9660;" if d_tgt >= -10 else "Cr&#237;tico &#x2717;"))
+        tgt_sec = (f'<div class="exec-section">'
+                   f'<div class="exec-title">&#127919; Status vs Target</div>'
+                   f'<div class="exec-card {tgt_cls}">'
+                   f'<div class="exec-label">{esc(grp)} &nbsp; '
+                   f'{chip(d_tgt)} &nbsp; {tgt_label}</div>'
+                   f'<div style="font-size:12px;margin-top:4px">'
+                   f'NPS {esc(lCURR)}: <strong>{fn(nps_c)}%</strong> &nbsp;|&nbsp; '
+                   f'Target: <strong>{fn(tgt)}%</strong></div>'
                    f'</div></div>')
     else:
         tgt_sec = ""
 
     if not comments:
-        qual_note = '<div style="color:#aaa;font-size:11px;padding:8px 0">&#9432; Dados qualitativos não disponíveis — execute <code>python _fetch_exec_data.py</code> para gerar.</div>'
-        det_sec = qual_note
+        det_sec = (f'<div class="exec-section">'
+                   f'<div class="exec-title">&#9432; An&#225;lise Qualitativa</div>'
+                   f'<div class="exec-no-data">Dados qualitativos n&#227;o dispon&#237;veis. '
+                   f'Execute <code>python _fetch_exec_data.py</code> para gerar.</div></div>')
         pro_sec = ""
 
-    return f'<div class="bd-analysis">{resumo_sec}{rec_sec}{pro_sec}{det_sec}{tgt_sec}</div>'
+    return f'<div class="bd-analysis exec-wrap">{resumo_sec}{rec_sec}{pro_sec}{det_sec}{tgt_sec}</div>'
 
 def _bd_table(items_m1, items_m2, max_rows=6):
     """Mini-tabela: Nome | NPS M1 | Δ M/M | Volume."""
@@ -847,8 +849,6 @@ def _build_driver_breakdowns():
             f'</div>')
 
 def _tab_mensal():
-    exec_sec = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary()}</div></div>'
-
     chart_sec = f"""<div class="section-block">
   <div class="section-title">Evolu&#231;&#227;o NPS por Categoria &mdash; Mensal</div>
   {chart_small_multiples("c_mon",
@@ -856,7 +856,7 @@ def _tab_mensal():
       mon_cons, MONTH_LABELS)}
 </div>"""
 
-    return exec_sec + chart_sec + _build_driver_breakdowns()
+    return chart_sec + _build_driver_breakdowns()
 
 
 def _tab_semanal():
