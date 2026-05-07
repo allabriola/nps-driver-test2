@@ -32,6 +32,7 @@ DRIVER_COLORS   = _ns['DRIVER_COLORS']
 M1_LABEL        = _ns['M1_LABEL']
 M2_LABEL        = _ns['M2_LABEL']
 S1_LABEL        = _ns['S1_LABEL']
+S2_LABEL        = _ns.get('S2_LABEL', '')
 REPORT_DATE     = _ns['REPORT_DATE']
 
 OUTPUT_FILE = 'nps_tendencias_gerencia.html'
@@ -163,6 +164,19 @@ for _grp, _drvs in DRIVER_GROUPS.items():
         "O_M1":  _agg_dim(_drvs, "O",  "Mai", _DD_MAI),
         "Sr_M1": _agg_dim(_drvs, "Sr", "Mai", _DD_MAI),
         "Sr_M2": _agg_dim(_drvs, "Sr", "M1",  _DD),
+    }
+
+# S1 = semana atual, S2 = semana anterior (dd_breakdown)
+grp_wk_bd = {}
+for _grp, _drvs in DRIVER_GROUPS.items():
+    grp_wk_bd[_grp] = {
+        "P_M1":  _agg_dim(_drvs, "P",  "S1", _DD),
+        "P_M2":  _agg_dim(_drvs, "P",  "S2", _DD),
+        "C_M1":  _agg_dim(_drvs, "C",  "S1", _DD),
+        "C_M2":  _agg_dim(_drvs, "C",  "S2", _DD),
+        "O_M1":  _agg_dim(_drvs, "O",  "S1", _DD),
+        "Sr_M1": _agg_dim(_drvs, "Sr", "S1", _DD),
+        "Sr_M2": _agg_dim(_drvs, "Sr", "S2", _DD),
     }
 
 # ══════════════════════════════════════════════════════════════════════
@@ -1426,15 +1440,34 @@ def _bd_seniority(sr_m1, sr_m2):
             f'<thead><tr><th>Seniority</th><th>NPS</th><th>&#916; M/M</th><th>Vol</th></tr></thead>'
             f'<tbody>{rows}</tbody></table>')
 
-def _build_driver_breakdowns():
-    lM1 = esc(MONTH_LABELS[-1])   # Maio (atual)
-    lM2 = esc(MONTH_LABELS[-2])   # Abril (anterior)
+def _build_driver_breakdowns(mode="monthly"):
+    """
+    mode='monthly': usa grp_breakdown (Mai vs Abr), comparação M/M
+    mode='weekly':  usa grp_wk_bd (S1 vs S2), comparação W/W
+    """
+    if mode == "weekly":
+        bd_src  = grp_wk_bd
+        lM1     = esc(S1_LABEL)
+        lM2     = esc(S2_LABEL)
+        nps_curr_fn  = lambda g: grp_wk[g][-1]  if grp_wk.get(g) else None
+        nps_prev_fn  = lambda g: grp_wk[g][-2]  if grp_wk.get(g) and len(grp_wk[g])>=2 else None
+        section_title = f"An&#225;lise por Driver &mdash; {esc(S1_LABEL)} vs {esc(S2_LABEL)}"
+        cid_prefix = "wk"
+    else:
+        bd_src  = grp_breakdown
+        lM1     = esc(MONTH_LABELS[-1])
+        lM2     = esc(MONTH_LABELS[-2])
+        nps_curr_fn  = lambda g: grp_mon[g][-2]  if grp_mon.get(g) else None
+        nps_prev_fn  = lambda g: grp_mon[g][-3]  if grp_mon.get(g) and len(grp_mon[g])>=3 else None
+        section_title = f"An&#225;lise por Driver &mdash; {esc(MONTH_LABELS[-1])} vs {esc(MONTH_LABELS[-2])}"
+        cid_prefix = "mn"
 
     # Botões de filtro — sem "Todos", primeiro driver ativo por padrão
+    pfx   = f"{cid_prefix}-"    # prefixo para evitar colisão de IDs entre abas
     first = True
-    btns = ""
+    btns  = ""
     for grp in DRIVER_GROUPS:
-        slug = grp.replace(" ", "-").replace("/", "-").replace(".", "")
+        slug = pfx + grp.replace(" ", "-").replace("/", "-").replace(".", "")
         active_cls = " active" if first else ""
         btns += (f'<button class="drv-fbtn{active_cls}" data-grp="{slug}" '
                  f'onclick="filterDrv(this,\'{slug}\')">{esc(grp)}</button>')
@@ -1442,16 +1475,17 @@ def _build_driver_breakdowns():
 
     filter_bar = f'<div class="drv-fbar">{btns}</div>'
 
+    delta_lbl = "WoW" if mode == "weekly" else "MoM"
+
     cards = ""
     for grp, drvs in DRIVER_GROUPS.items():
-        slug  = grp.replace(" ", "-").replace("/", "-").replace(".", "")
+        slug  = pfx + grp.replace(" ", "-").replace("/", "-").replace(".", "")
         color = GROUP_COLORS.get(grp, "#aaa")
-        bd    = grp_breakdown[grp]
+        bd    = bd_src.get(grp, {})
 
-        # NPS do grupo
-        g_nps   = grp_mon[grp][-2] if len(grp_mon[grp]) >= 2 else None   # M1 (penúltimo = último fechado)
-        g_prev  = grp_mon[grp][-3] if len(grp_mon[grp]) >= 3 else None   # M2
-        g_tgt   = grp_targets.get(grp, NPS_TARGET)
+        g_nps  = nps_curr_fn(grp)
+        g_prev = nps_prev_fn(grp)
+        g_tgt  = grp_targets.get(grp, NPS_TARGET)
         g_delta = round(g_nps - g_prev, 1) if g_nps is not None and g_prev is not None else None
         g_dtgt  = round(g_nps - g_tgt,  1) if g_nps is not None else None
 
@@ -1459,14 +1493,14 @@ def _build_driver_breakdowns():
                f'<span class="bd-grp-name">{esc(grp)}</span>'
                f'<span class="bd-kpis">'
                f'NPS {lM1}: <strong>{fn(g_nps)}%</strong>'
-               f' &nbsp;{chip(g_delta, suffix="pp MoM")}'
+               f' &nbsp;{chip(g_delta, suffix=f"pp {delta_lbl}")}'
                f' &nbsp;{chip(g_dtgt, suffix="pp vs tgt")}'
                f'</span></div>')
 
-        proc_tbl  = _bd_table(bd["P_M1"],  bd["P_M2"],  max_rows=6)
-        canal_tbl = _bd_table(bd["C_M1"],  bd["C_M2"],  max_rows=5)
-        ofic_tbl  = _bd_table(bd["O_M1"],  {},          max_rows=4)
-        sen_tbl   = _bd_seniority(bd["Sr_M1"], bd["Sr_M2"])
+        proc_tbl  = _bd_table(bd.get("P_M1",{}),  bd.get("P_M2",{}),  max_rows=6)
+        canal_tbl = _bd_table(bd.get("C_M1",{}),  bd.get("C_M2",{}),  max_rows=5)
+        ofic_tbl  = _bd_table(bd.get("O_M1",{}),  {},                  max_rows=4)
+        sen_tbl   = _bd_seniority(bd.get("Sr_M1",{}), bd.get("Sr_M2",{}))
 
         grid = (f'<div class="bd-grid">'
                 f'<div class="bd-sec"><div class="bd-sec-title">&#128204; Processos</div>{proc_tbl}</div>'
@@ -1480,7 +1514,7 @@ def _build_driver_breakdowns():
                   f'{hdr}{grid}{analysis}</div>')
 
     return (f'<div class="section-block">'
-            f'<div class="section-title">An&#225;lise por Driver &mdash; {lM1} vs {lM2}</div>'
+            f'<div class="section-title">{section_title}</div>'
             f'{filter_bar}'
             f'<div class="drv-cards">{cards}</div>'
             f'</div>')
@@ -1504,36 +1538,7 @@ def _tab_semanal():
       wk_cons, WEEK_LABELS)}
 </div>"""
 
-    rows = ""
-    for drv in ALL_DRIVERS:
-        cat   = drv_cat(drv)
-        short = DRIVER_SHORT.get(drv, drv)
-        dot   = DRIVER_COLORS.get(drv, "#aaa")
-        rows += f'<tr><td class="drv-cell"><span class="dot" style="background:{dot}"></span>{esc(short)}</td>'
-        rows += f'<td class="cat-cell">{esc(cat)}</td>'
-        for v in drv_w[drv]:
-            rows += f'<td>{fn(v)}%</td>'
-        rows += f'<td>{chip(trend_w.get(drv))}</td>'
-        rows += f'<td>{arr(trend_w.get(drv))}</td></tr>\n'
-
-    wk_tr = (round(wk_cons[-1] - wk_cons[-2], 2)
-              if wk_cons[-1] is not None and wk_cons[-2] is not None else None)
-    cons_cells = "".join(f'<td><strong>{fn(v)}%</strong></td>' for v in wk_cons)
-    rows += (f'<tr class="cons-row"><td colspan="2"><strong>Consolidado</strong></td>'
-             f'{cons_cells}'
-             f'<td>{chip(wk_tr)}</td>'
-             f'<td>{arr(wk_tr)}</td></tr>\n')
-
-    week_ths = "".join(f'<th>{esc(w)}</th>' for w in WEEK_LABELS)
-    table_sec = f"""<div class="section-block">
-  <div class="section-title">Detalhe por CDU &mdash; Semanal</div>
-  <div class="tbl-wrap"><table class="dtbl"><thead>
-    <tr><th>CDU</th><th>Categoria</th>{week_ths}<th>&#916; W/W</th><th>Tend.</th></tr>
-  </thead><tbody>
-{rows}  </tbody></table></div>
-</div>"""
-
-    return chart_sec + table_sec
+    return chart_sec + _build_driver_breakdowns(mode="weekly")
 
 
 def _tab_ranking():
@@ -1784,12 +1789,12 @@ function filterDrv(btn, grp){
     c.style.display = (c.dataset.grp===grp) ? '' : 'none';
   });
 }
-// Inicializa: esconde todos exceto o primeiro
+// Inicializa cada grupo de cards: esconde todos exceto o primeiro por container
 (function(){
-  var cards = document.querySelectorAll('.drv-card');
-  if(cards.length > 1){
+  document.querySelectorAll('.drv-cards').forEach(function(container){
+    var cards = container.querySelectorAll('.drv-card');
     for(var i=1;i<cards.length;i++) cards[i].style.display='none';
-  }
+  });
 })();
 """
     tgt_str = str(NPS_TARGET).replace('.', ',')
