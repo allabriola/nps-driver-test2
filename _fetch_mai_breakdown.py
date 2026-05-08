@@ -10,7 +10,7 @@ from google.cloud import bigquery
 
 bq = bigquery.Client(project="meli-bi-data")
 
-MAI_START, MAI_END = "2026-05-01", "2026-05-06"
+MAI_START, MAI_END = "2026-05-01", "2026-05-08"
 
 with open("dd_breakdown.json", encoding="utf-8") as f:
     DD = json.load(f)

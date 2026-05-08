@@ -133,6 +133,24 @@ if _os.path.exists("_exec_data.json"):
     with open("_exec_data.json", encoding="utf-8") as _f:
         _EXEC = _json.load(_f)
 
+# ── MONTHLY_BREAKDOWN — breakdowns mensais da tabela oficial (VALID_CS/E-Commerce)
+_MB = {}
+if _os.path.exists("_monthly_breakdown.json"):
+    with open("_monthly_breakdown.json", encoding="utf-8") as _f:
+        _MB = _json.load(_f)
+
+def _agg_mb(drvs, dim, period):
+    """Agrega breakdown mensal oficial por grupo de drivers."""
+    result = {}
+    for drv in drvs:
+        for key, vals in _MB.get(period, {}).get(drv, {}).get(dim, {}).items():
+            if not key or key.startswith("(sem"): continue
+            r = result.setdefault(key, {"p":0,"d":0,"s":0})
+            r["p"] += vals.get("p",0); r["d"] += vals.get("d",0); r["s"] += vals.get("s",0)
+    for v in result.values():
+        v["nps"] = round(100.0*(v["p"]-v["d"])/v["s"],1) if v["s"]>0 else None
+    return result
+
 # ── TRX_S1 / TRX_VIG — transcrições semanais S1 e VIG
 _TRX_S1 = {}
 if _os.path.exists("_trx_s1.json"):
@@ -193,17 +211,17 @@ def _agg_dim(drvs, dim, period, source=None):
         v["nps"] = round(100.0*(v["p"]-v["d"])/v["s"], 1) if v["s"] > 0 else None
     return result
 
-# M1 = Maio (_mai_breakdown), M2 = Abril (dd_breakdown M1)
+# M1 = Maio, M2 = Abril — P/C/O da tabela oficial, Sr do dd_breakdown
 grp_breakdown = {}
 for _grp, _drvs in DRIVER_GROUPS.items():
     grp_breakdown[_grp] = {
-        "P_M1":  _agg_dim(_drvs, "P",  "Mai", _DD_MAI),
-        "P_M2":  _agg_dim(_drvs, "P",  "M1",  _DD),
-        "C_M1":  _agg_dim(_drvs, "C",  "Mai", _DD_MAI),
-        "C_M2":  _agg_dim(_drvs, "C",  "M1",  _DD),
-        "O_M1":  _agg_dim(_drvs, "O",  "Mai", _DD_MAI),
-        "O_M2":  _agg_dim(_drvs, "O",  "M1",  _DD),
-        "Sr_M1": _agg_dim(_drvs, "Sr", "Mai", _DD_MAI),
+        "P_M1":  _agg_mb(_drvs,  "P",  "Mai"),    # oficial VALID_CS
+        "P_M2":  _agg_mb(_drvs,  "P",  "Abr"),    # oficial VALID_CS
+        "C_M1":  _agg_mb(_drvs,  "C",  "Mai"),
+        "C_M2":  _agg_mb(_drvs,  "C",  "Abr"),
+        "O_M1":  _agg_mb(_drvs,  "O",  "Mai"),
+        "O_M2":  _agg_mb(_drvs,  "O",  "Abr"),
+        "Sr_M1": _agg_dim(_drvs, "Sr", "Mai", _DD_MAI),  # seniority do dd_breakdown
         "Sr_M2": _agg_dim(_drvs, "Sr", "M1",  _DD),
     }
 
