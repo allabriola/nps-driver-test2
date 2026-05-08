@@ -571,6 +571,32 @@ def chart_small_multiples(base_cid, items, cons_data, labels):
 # 6. CONTEUDO DAS ABAS
 # ══════════════════════════════════════════════════════════════════════
 
+def _weekly_wf_data():
+    """S2 → S1: contribuição de cada grupo para a variação WoW."""
+    sA = sum(weekly_driver.get(d,{}).get("S2",(0,0,0))[2] for d in ALL_DRIVERS)
+    sB = sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2] for d in ALL_DRIVERS)
+    nps_B = wk_cons[-1] or 0.0
+
+    def grp_wk_t(drvs, period):
+        p  = sum(weekly_driver.get(d,{}).get(period,(0,0,0))[0] for d in drvs)
+        dt = sum(weekly_driver.get(d,{}).get(period,(0,0,0))[1] for d in drvs)
+        s  = sum(weekly_driver.get(d,{}).get(period,(0,0,0))[2] for d in drvs)
+        return round(100.0*(p-dt)/s, 2) if s > 0 else 0.0, s
+
+    d_dict = {}
+    for grp, drvs in DRIVER_GROUPS.items():
+        na, sA_g = grp_wk_t(drvs, "S2"); na = na or 0
+        nb, sB_g = grp_wk_t(drvs, "S1"); nb = nb or 0
+        sha = sA_g/sA if sA else 0; shb = sB_g/sB if sB else 0
+        tgt_num = sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2]*DRIVER_TARGETS.get(d,NPS_TARGET)
+                      for d in drvs)
+        tgt = tgt_num/sB_g if sB_g else NPS_TARGET
+        d_dict[grp] = {"var": round(sha*(nb-na)+(shb-sha)*(nb-nps_B), 2),
+                       "nps_curr": nb, "nps_prev": na, "target": round(tgt,2),
+                       "delta_tgt": round(nb-tgt,2)}
+    nps_s2 = wk_cons[-2] if len(wk_cons) >= 2 else 0.0
+    return nps_s2 or 0.0, wk_cons[-1] or 0.0, d_dict
+
 def _tab_exec():
     # ── 6 KPI Cards ──────────────────────────────────────────────────
     lCurr  = esc(MONTH_LABELS[-1])
@@ -661,7 +687,107 @@ def _tab_exec():
 
     exec_html = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary()}</div></div>'
 
-    return kpis + charts_row + wf_tg_sec + exec_html
+    # ── Visão Semanal (S1/S2 + VIG) ──────────────────────────────────
+    wk_nps_s2 = wk_cons[-2] if len(wk_cons) >= 2 else None
+    wk_nps_s1 = wk_cons[-1] if wk_cons else None
+    wk_delta  = round(wk_nps_s1 - wk_nps_s2, 2) if wk_nps_s1 and wk_nps_s2 else None
+    wk_vtgt   = round(wk_nps_s1 - NPS_TARGET, 2) if wk_nps_s1 else None
+    wk_d_cls  = "kpi-pos" if wk_delta and wk_delta >= 0 else "kpi-neg"
+    vig_d2    = round(vig_cons_nps - wk_nps_s1, 2) if vig_cons_nps and wk_nps_s1 else None
+    vig_d_cls2= "kpi-pos" if vig_d2 and vig_d2 >= 0 else "kpi-neg"
+
+    wk_kpis = (f'<div class="kpi-strip" style="grid-template-columns:repeat(5,1fr)">'
+               f'<div class="kpi-card" style="border-top:4px solid #F39C12">'
+               f'<div class="kpi-label">NPS VIG Atual &#9889;</div>'
+               f'<div class="kpi-value">{fn(vig_cons_nps)}%</div>'
+               f'<div class="kpi-sub">{esc(VIG_LABEL)}</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid #F39C12">'
+               f'<div class="kpi-label">&#916; VIG vs S1</div>'
+               f'<div class="kpi-value {vig_d_cls2}">{"+"if vig_d2 and vig_d2>=0 else ""}{fn(vig_d2)}pp</div>'
+               f'<div class="kpi-sub">{vig_cons_surv:,} pesquisas</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid #888">'
+               f'<div class="kpi-label">Target</div>'
+               f'<div class="kpi-value">{tgt_str}%</div>'
+               f'<div class="kpi-sub">Base sem media&#231;&#227;o</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
+               f'<div class="kpi-label">NPS S1 Fechada</div>'
+               f'<div class="kpi-value">{fn(wk_nps_s1)}%</div>'
+               f'<div class="kpi-sub">{esc(S1_LABEL)}</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
+               f'<div class="kpi-label">&#916; WoW (S2&#8594;S1)</div>'
+               f'<div class="kpi-value {wk_d_cls}">{"+"if wk_delta and wk_delta>=0 else ""}{fn(wk_delta)}pp</div>'
+               f'<div class="kpi-sub">S2: {fn(wk_nps_s2)}%</div></div>'
+               f'</div>')
+
+    # Gráfico semanal (linha + área, inclui VIG)
+    wk_line_chart = chart_line_area_monthly("c_wk_exec_hist",
+                                            height=270)  # reutiliza com dados semanais
+    # Sobrescreve dados do chart semanal dinamicamente via JS inline
+    wk_lbl_js  = _json.dumps(WEEK_LABELS_VIG)
+    wk_cons_js = _json.dumps(wk_cons_vig)
+    tgt_vals_js= _json.dumps([NPS_TARGET]*len(WEEK_LABELS_VIG))
+
+    wk_line_chart = (f'<div style="position:relative;height:270px;">'
+                     f'<canvas id="c_wk_exec_line"></canvas></div>'
+                     f'<script>'
+                     f'new Chart(document.getElementById("c_wk_exec_line"),{{'
+                     f'"type":"line","data":{{"labels":{wk_lbl_js},'
+                     f'"datasets":['
+                     f'{{"label":"NPS","data":{wk_cons_js},"fill":true,'
+                     f'"backgroundColor":"rgba(52,131,250,0.15)","borderColor":"#3483FA",'
+                     f'"borderWidth":2.5,"pointRadius":5,"tension":0.35,'
+                     f'"datalabels":{{"display":true,"anchor":"top","align":"top","offset":4,'
+                     f'"color":"#3483FA","font":{{"size":11,"weight":"700"}},'
+                     f'"formatter":{_FMT}}}}},'
+                     f'{{"label":"Objetivo ({tgt_str}%)","data":{tgt_vals_js},'
+                     f'"borderColor":"#F39C12","borderDash":[6,4],"borderWidth":2,'
+                     f'"pointRadius":4,"fill":false,"tension":0,'
+                     f'"datalabels":{{"display":false}}}}]}},'
+                     f'"options":{{"responsive":true,"maintainAspectRatio":false,'
+                     f'"layout":{{"padding":{{"top":30,"right":10}}}},'
+                     f'"plugins":{{"legend":{{"position":"bottom","labels":{{"boxWidth":12,'
+                     f'"padding":12,"font":{{"size":11}}}}}},"datalabels":{{}}}},'
+                     f'"scales":{{"y":{{"ticks":{{"stepSize":10,"callback":"__TICK__"}},'
+                     f'"grid":{{"color":"#f0f2f5"}}}},"x":{{"grid":{{"display":false}}}}}}}}}})'
+                     f'.config.options.scales.y.ticks.callback=function(v){{return v+"%"}};</script>')
+
+    # Cascata S2 → S1
+    nps_a_wk, nps_b_wk, dd_wk = _weekly_wf_data()
+    lS2 = esc(S2_LABEL); lS1 = esc(S1_LABEL)
+    wf_wk = (f'<div style="padding:18px 20px">'
+             f'<div class="section-title">WTF WoW por Driver &mdash; {lS2} &rarr; {lS1}'
+             f'<span style="font-weight:400;font-size:11px;color:#888;margin-left:6px">'
+             f'{fn(nps_a_wk)}% &rarr; {fn(nps_b_wk)}% &nbsp;{chip(round(nps_b_wk-nps_a_wk,2))}'
+             f'</span></div>'
+             f'<div style="font-size:11px;color:#aaa;margin-bottom:10px">'
+             f'{" / ".join(list(DRIVER_GROUPS.keys())[:4])} + outros</div>'
+             f'{waterfall_chart("c_wf_wk_mm", lS2, nps_a_wk, lS1, nps_b_wk, dd_wk, height=280)}'
+             f'</div>')
+
+    wk_charts_row = (f'<div class="section-block" style="padding:0">'
+                     f'<div style="display:grid;grid-template-columns:1fr 1fr;gap:0;'
+                     f'border-radius:10px;overflow:hidden">'
+                     f'<div style="padding:18px 20px;border-right:1px solid #f0f2f5">'
+                     f'<div class="section-title">Hist&#243;rico NPS &mdash; Semanal</div>'
+                     f'<div style="font-size:11px;color:#aaa;margin-bottom:10px">'
+                     f'&#218;ltimas {len(WEEK_LABELS_VIG)} semanas incl. VIG</div>'
+                     f'{wk_line_chart}</div>'
+                     f'{wf_wk}'
+                     f'</div></div>')
+
+    # ── Toggle Mensal / Semanal ───────────────────────────────────────
+    toggle = (f'<div style="display:flex;gap:8px;margin-bottom:16px">'
+              f'<button class="period-btn active" data-p="mon" onclick="switchPeriod(this,\'mon\')">'
+              f'&#x1F4C5; Mensal</button>'
+              f'<button class="period-btn" data-p="wk" onclick="switchPeriod(this,\'wk\')">'
+              f'&#x1F4C6; Semanal</button></div>')
+
+    monthly_block = (f'<div class="period-view" data-p="mon">'
+                     f'{charts_row}{wf_tg_sec}</div>')
+    weekly_block  = (f'<div class="period-view" data-p="wk" style="display:none">'
+                     f'{wk_kpis}{wk_charts_row}</div>')
+
+    return kpis + toggle + monthly_block + weekly_block + exec_html
 
 
 def _dim_table(dim_dict, max_rows=4, label="Nome"):
@@ -2447,6 +2573,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
 @media (max-width:1100px) { .bd-grid { grid-template-columns:repeat(2,1fr); } }
 @media (max-width:600px)  { .bd-grid { grid-template-columns:1fr; } }
 
+/* Toggle Mensal / Semanal */
+.period-btn { padding:7px 18px;border-radius:20px;border:1.5px solid #ddd;
+              background:#fff;font-size:13px;font-weight:500;cursor:pointer;
+              color:#666;transition:all .18s; }
+.period-btn:hover { border-color:#3483FA;color:#3483FA; }
+.period-btn.active { background:#3483FA;border-color:#3483FA;color:#fff;font-weight:700; }
+
 .sm-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
 .sm-item { background:#fff; border-radius:8px; padding:12px 14px;
            box-shadow:0 1px 6px rgba(0,0,0,.06); }
@@ -2503,6 +2636,13 @@ def build():
     t2 = _tab_semanal()
 
     js = """
+function switchPeriod(btn,p){
+  document.querySelectorAll('.period-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  document.querySelectorAll('.period-view').forEach(function(v){
+    v.style.display=(v.dataset.p===p)?'':'none';
+  });
+}
 function showTab(n){
   document.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.toggle('active',i===n);});
   document.querySelectorAll('.tab-pane').forEach(function(p,i){p.classList.toggle('active',i===n);});
