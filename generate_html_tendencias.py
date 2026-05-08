@@ -263,8 +263,8 @@ def _cons(hist, labels, drivers=None):
 def _drv_s(hist, labels, drv):
     return [_nps_t(hist[drv].get(lb, (0,0,0))) for lb in labels]
 
-mon_cons = _cons(monthly_history, MONTH_LABELS)
-wk_cons  = _cons(weekly_history,  WEEK_LABELS)
+mon_cons = _cons(monthly_history, MONTH_LABELS, ALL_DRIVERS)
+wk_cons  = _cons(weekly_history,  WEEK_LABELS,  ALL_DRIVERS)
 
 cat_mon = {cat: _cons(monthly_history, MONTH_LABELS, drvs) for cat, drvs in CATEGORIES.items()}
 cat_wk  = {cat: _cons(weekly_history,  WEEK_LABELS,  drvs) for cat, drvs in CATEGORIES.items()}
