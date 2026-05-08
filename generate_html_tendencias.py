@@ -1413,8 +1413,9 @@ def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
                            + (f"; Newbie ({nn}%, {nd:+.1f}pp) acompanhou." if nd and nd > 0 else "."))
 
     # ── 3. Processos com maior WoW ───────────────────────────────────
+    # Usa bd_curr para ambos os períodos: M1=atual, M2=anterior (já correto para S1 e VIG)
     proc_m1 = bd_curr.get("P_M1", {}) if bd_curr else {}
-    proc_m2 = bd_prev.get("P_M2", {}) if bd_prev else {}
+    proc_m2 = bd_curr.get("P_M2", {}) if bd_curr else {}
     proc_txt = ""
     if proc_m1 and proc_m2:
         s_tot = sum(v["s"] for v in proc_m1.values()) or 1
