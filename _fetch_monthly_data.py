@@ -15,25 +15,36 @@ PERIODS = {
     "Fev": ("2026-02-01", "2026-02-28"),
     "Mar": ("2026-03-01", "2026-03-31"),
     "Abr": ("2026-04-01", "2026-04-30"),
-    "Mai": ("2026-05-01", "2026-05-06"),
+    "Mai": ("2026-05-01", "2026-05-08"),
 }
 
+# Lista dos 27 drivers Sellers (filtro direto sem LK join — garante paridade com Tableau)
+SELLERS_DRIVERS = (
+    "ME Vendedor Seller Dev","ME Vendedor Mature","ME Vendedor Meli Pro",
+    "Experiencia Impositiva Seller Dev","Experiencia Impositiva Mature","Experiencia Impositiva Meli Pro",
+    "PCF Vendedor Seller Dev","PCF Vendedor Mature","PCF Vendedor Meli Pro",
+    "Post Venta Seller Dev","Post Venta Mature","Post Venta Meli Pro",
+    "Publicaciones Seller Dev","Publicaciones Mature","Publicaciones Meli Pro",
+    "FBM-S Seller Dev","FBM-S Mature","FBM-S Meli Pro",
+    "Partners","Otros CV",
+    "CBT","PDD DS&XD - Vendedor","PDD FBM - Vendedor","PDD Fotos - Vendedor",
+    "PDD MP,FLEX & CBT - Vendedor","PNR ME - Vendedor","PNR MP - Vendedor",
+)
+_DRV_IN = "'" + "','".join(d.replace("'","''") for d in SELLERS_DRIVERS) + "'"
+
 BASE_SQL = """
-SELECT m.DRIVER_TARGET_NPS AS DRIVER,
-       SUM(m.PROMOTERS)    AS P,
-       SUM(m.DETRACTORS)   AS D,
-       SUM(m.SURVEYS)      AS S
-FROM `meli-bi-data.WHOWNER.DM_CX_NPS_CS_GOALS_MGR_AND_UP` m
-INNER JOIN `meli-bi-data.WHOWNER.LK_CX_NPS_CS_GOALS_DRIVER_MANAGER` lk
-  ON lk.NPS_TARGET_DRIVER = m.DRIVER_TARGET_NPS
-  AND lk.CENTER = m.CENTER
-  AND lk.MONTH_ID = DATE_TRUNC(m.DATE_ID, MONTH)
-WHERE m.DATE_ID BETWEEN DATE("{start}") AND DATE("{end}")
-  AND m.CENTER = "BR"
-  AND m.QUE_QUEUE_TYPE = "VALID_CS"
-  AND m.MP_ON_FLAG = "E-Commerce"
-  AND m.FLAG_QUARTER_MONTH = "MONTH"
-  AND lk.NPS_TARGET_DRIVER_GROUP = "Sellers"
+SELECT DRIVER_TARGET_NPS AS DRIVER,
+       SUM(PROMOTERS)    AS P,
+       SUM(DETRACTORS)   AS D,
+       SUM(SURVEYS)      AS S
+FROM `meli-bi-data.WHOWNER.DM_CX_NPS_CS_GOALS_MGR_AND_UP`
+WHERE DATE_ID BETWEEN DATE("{start}") AND DATE("{end}")
+  AND CENTER = "BR"
+  AND SIT_SITE_ID = "MLB"
+  AND QUE_QUEUE_TYPE = "VALID_CS"
+  AND MP_ON_FLAG = "E-Commerce"
+  AND FLAG_QUARTER_MONTH = "MONTH"
+  AND DRIVER_TARGET_NPS IN (""" + _DRV_IN + """)
 GROUP BY 1
 ORDER BY 1
 """
