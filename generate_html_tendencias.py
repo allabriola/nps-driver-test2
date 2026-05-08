@@ -2272,7 +2272,15 @@ def _bd_table(items_m1, items_m2, max_rows=6, weekly=False, lbl1="NPS", lbl2="An
     else:
         header = (f'<thead><tr><th>Nome</th><th>NPS</th><th>&#916; M/M</th><th>Vol</th></tr></thead>')
 
-    return f'<table class="bd-tbl"><{header}<tbody>{rows}</tbody></table>'
+    # Indicador de cobertura quando total_s1 < official_surv1 (itens não cobrem todos os surveys)
+    coverage_note = ""
+    if weekly and official_surv1 and total_s1 < official_surv1 * 0.92:
+        pct = round(100 * total_s1 / official_surv1)
+        coverage_note = (f'<div style="font-size:10px;color:#aaa;margin-top:3px">'
+                         f'Cobertura: {total_s1:,}/{official_surv1:,} surveys ({pct}%) — '
+                         f'itens sem categoria excluídos do detalhe</div>')
+
+    return f'<table class="bd-tbl"><{header}<tbody>{rows}</tbody></table>{coverage_note}'
 
 def _bd_seniority(sr_m1, sr_m2, weekly=False, lbl1="NPS", lbl2="Ant",
                   official_nps1=None, official_nps2=None, official_surv1=None, official_surv2=None):
