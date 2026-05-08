@@ -1590,7 +1590,7 @@ def _process_exec_html(grp, mode="monthly"):
                         f'<div class="exec-title">&#128269; O que impactou &mdash; {esc(grp)}</div>'
                         f'{diag_mon}</div>')
 
-    return resumo + diag_sec + quant_sec + diag_mon_sec + neg_card + pos_card + rec_sec
+    return resumo + quant_sec + diag_mon_sec
 
 def _analyze_transcripts(transcripts):
     """
