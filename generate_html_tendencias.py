@@ -33,6 +33,9 @@ M1_LABEL        = _ns['M1_LABEL']
 M2_LABEL        = _ns['M2_LABEL']
 S1_LABEL        = _ns['S1_LABEL']
 S2_LABEL        = _ns.get('S2_LABEL', '')
+VIG_LABEL       = _ns.get('VIG_LABEL', '')
+drivers_vigente = _ns.get('drivers_vigente', {})
+weekly_driver   = _ns.get('weekly_driver', {})
 REPORT_DATE     = _ns['REPORT_DATE']
 
 OUTPUT_FILE = 'nps_tendencias_gerencia.html'
@@ -166,6 +169,38 @@ for _grp, _drvs in DRIVER_GROUPS.items():
         "Sr_M2": _agg_dim(_drvs, "Sr", "M1",  _DD),
     }
 
+# VIG por grupo (de drivers_vigente)
+def _grp_vig(drvs):
+    p  = sum(drivers_vigente.get(d,(0,0,0))[0] for d in drvs if d not in EXCLUIDOS)
+    dt = sum(drivers_vigente.get(d,(0,0,0))[1] for d in drvs if d not in EXCLUIDOS)
+    s  = sum(drivers_vigente.get(d,(0,0,0))[2] for d in drvs if d not in EXCLUIDOS)
+    return round(100.0*(p-dt)/s, 2) if s > 0 else None, s
+
+grp_vig = {g: _grp_vig(drvs) for g, drvs in DRIVER_GROUPS.items()}  # (nps, surv)
+
+# Consolidado VIG
+_vig_p  = sum(drivers_vigente.get(d,(0,0,0))[0] for d in ALL_DRIVERS)
+_vig_d  = sum(drivers_vigente.get(d,(0,0,0))[1] for d in ALL_DRIVERS)
+_vig_s  = sum(drivers_vigente.get(d,(0,0,0))[2] for d in ALL_DRIVERS)
+vig_cons_nps  = round(100.0*(_vig_p-_vig_d)/_vig_s, 2) if _vig_s > 0 else None
+vig_cons_surv = _vig_s
+
+# Labels com VIG
+WEEK_LABELS_VIG = WEEK_LABELS + [VIG_LABEL or "VIG"]
+
+# dd_breakdown VIG (para breakdown de processo/canal/seniority)
+grp_wk_vig_bd = {}
+for _grp, _drvs in DRIVER_GROUPS.items():
+    grp_wk_vig_bd[_grp] = {
+        "P_M1":  _agg_dim(_drvs, "P",  "VIG", _DD),
+        "P_M2":  _agg_dim(_drvs, "P",  "S1",  _DD),
+        "C_M1":  _agg_dim(_drvs, "C",  "VIG", _DD),
+        "C_M2":  _agg_dim(_drvs, "C",  "S1",  _DD),
+        "O_M1":  _agg_dim(_drvs, "O",  "VIG", _DD),
+        "Sr_M1": _agg_dim(_drvs, "Sr", "VIG", _DD),
+        "Sr_M2": _agg_dim(_drvs, "Sr", "S1",  _DD),
+    }
+
 # S1 = semana atual, S2 = semana anterior (dd_breakdown)
 grp_wk_bd = {}
 for _grp, _drvs in DRIVER_GROUPS.items():
@@ -207,6 +242,8 @@ cat_wk  = {cat: _cons(weekly_history,  WEEK_LABELS,  drvs) for cat, drvs in CATE
 
 grp_mon = {grp: _cons(monthly_history, MONTH_LABELS, drvs) for grp, drvs in DRIVER_GROUPS.items()}
 grp_wk  = {grp: _cons(weekly_history,  WEEK_LABELS,  drvs) for grp, drvs in DRIVER_GROUPS.items()}
+grp_wk_vig  = {g: (grp_wk[g] + [grp_vig[g][0]]) for g in DRIVER_GROUPS}
+wk_cons_vig = wk_cons + [vig_cons_nps]
 
 def _grp_target(drvs):
     """Target ponderado pelo volume do último mês fechado."""
@@ -742,6 +779,106 @@ def _quant_section_html(grp):
             f'{conc_html}'
             f'{trigger_html}'
             f'</div></div></div>')
+
+def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
+                     lbl_curr, lbl_prev, color, period_type="S1", days=7):
+    """
+    Gera análise executiva seguindo o framework sem quotes literais.
+    period_type: 'S1' (semana fechada) | 'VIG' (semana atual WTD)
+    """
+    delta = round(nps_curr - nps_prev, 1) if nps_curr is not None and nps_prev is not None else None
+    gap   = round(nps_curr - tgt, 1) if nps_curr is not None else None
+    unit  = "WoW"
+    is_vig = period_type == "VIG"
+
+    # ── 1. Abertura: NPS + gap + WoW + dias ─────────────────────────
+    if delta is not None:
+        direcao = "cresceu" if delta > 0.2 else ("recuou" if delta < -0.2 else "ficou estável")
+    else:
+        direcao = "ficou estável"
+
+    days_txt = f" em {days} dia{'s' if days>1 else ''} disponíveis" if is_vig else ""
+    gap_txt  = (f'<span style="color:{"#00A650" if gap>=0 else "#E84142"};font-weight:600">'
+                f'{"+" if gap>=0 else ""}{fn(gap)}pp vs target</span>') if gap is not None else ""
+    wow_txt  = (f'{"+" if delta>=0 else ""}{fn(delta)}pp {unit}') if delta is not None else "—"
+    wow_cls  = "color:#00A650" if delta and delta > 0 else "color:#E84142"
+
+    p_open = (f"<strong>{esc(grp)}</strong> {direcao} para <strong>{fn(nps_curr)}%</strong>"
+              f" (<span style='{wow_cls}'>{wow_txt}</span>, {gap_txt})"
+              f" com {surv:,} pesquisas{days_txt}.")
+
+    # ── 2. Seniority: Mix vs Skill ────────────────────────────────────
+    sr_c = bd_curr.get("Sr_M1", {}) if bd_curr else {}
+    sr_p = bd_prev.get("Sr_M2", {}) if bd_prev else {}
+    sen_txt = ""
+    if sr_c and sr_p:
+        exp_c = sr_c.get("Expert",{}); exp_p = sr_p.get("Expert",{})
+        new_c = sr_c.get("Newbie",{}); new_p = sr_p.get("Newbie",{})
+        ed = round((exp_c.get("nps") or 0) - (exp_p.get("nps") or 0), 1) if exp_c.get("nps") and exp_p.get("nps") else None
+        nd = round((new_c.get("nps") or 0) - (new_p.get("nps") or 0), 1) if new_c.get("nps") and new_p.get("nps") else None
+        en = fn(exp_c.get("nps")); nn = fn(new_c.get("nps"))
+        es = exp_c.get("s",0); ns_ = new_c.get("s",0)
+        if ed is not None and nd is not None:
+            if ed < -1.5 and nd < -1.5:
+                sen_txt = (f" Expert ({en}%, {ed:+.1f}pp) e Newbie ({nn}%, {nd:+.1f}pp) "
+                           f"recuaram juntos — padrão de problema no produto ou processo, não de capacitação.")
+            elif nd is not None and nd < -2 and (ed is None or ed > -1):
+                sen_txt = (f" Newbie ({nn}%, {nd:+.1f}pp, {ns_:,} pesq) concentra a queda enquanto "
+                           f"Expert manteve estabilidade ({en}%, {ed:+.1f}pp, {es:,} pesq) — "
+                           f"indicativo de gap de capacitação no perfil menos experiente.")
+            elif ed is not None and ed > 1.5:
+                sen_txt = (f" Expert ({en}%, {ed:+.1f}pp) liderou a melhora"
+                           + (f"; Newbie ({nn}%, {nd:+.1f}pp) acompanhou." if nd and nd > 0 else "."))
+
+    # ── 3. Processos com maior WoW ───────────────────────────────────
+    proc_m1 = bd_curr.get("P_M1", {}) if bd_curr else {}
+    proc_m2 = bd_prev.get("P_M2", {}) if bd_prev else {}
+    proc_txt = ""
+    if proc_m1 and proc_m2:
+        s_tot = sum(v["s"] for v in proc_m1.values()) or 1
+        movers = []
+        for proc, v1 in proc_m1.items():
+            v2 = proc_m2.get(proc)
+            if not v2 or v1.get("nps") is None or v2.get("nps") is None: continue
+            share = v1["s"] / s_tot
+            if share < 0.07: continue
+            pd = round(v1["nps"] - v2["nps"], 1)
+            if abs(pd) > 2:
+                movers.append((proc, pd, round(share*100,1), v1["nps"], v1["s"]))
+        movers.sort(key=lambda x: x[1])
+        parts = []
+        if movers and movers[0][1] < 0:
+            w = movers[0]
+            parts.append(f"<strong>{esc(w[0])}</strong> recuou {w[1]:.1f}pp ({w[2]:.0f}% do volume, NPS {fn(w[3])}%)")
+        if len(movers) > 1 and movers[-1][1] > 0:
+            b = movers[-1]
+            parts.append(f"<strong>{esc(b[0])}</strong> avançou +{b[1]:.1f}pp (NPS {fn(b[3])}%)")
+        if parts:
+            proc_txt = " Nos processos: " + "; ".join(parts) + "."
+
+    # ── 4. Contexto mensal ───────────────────────────────────────────
+    m_series = grp_mon.get(grp, [])
+    m_last   = next((v for v in reversed(m_series) if v is not None), None)
+    m_lbl    = MONTH_LABELS[-1] if MONTH_LABELS else ""
+    ctx_txt  = (f" No acumulado de {esc(m_lbl)}, NPS em {fn(m_last)}%." if m_last else "")
+
+    # ── 5. Sinal prioritário ──────────────────────────────────────────
+    if gap is not None and gap < -5:
+        signal = f' <span style="color:#E84142;font-weight:600">&#9888; Abaixo do target — monitorar em {esc(lbl_curr)}.</span>'
+    elif is_vig and delta is not None and abs(delta) > 5:
+        signal = f' <span style="color:#F39C12;font-weight:600">Variação relevante WTD — verificar tendência no fechamento.</span>'
+    else:
+        signal = ""
+
+    full_p = p_open + sen_txt + proc_txt + ctx_txt + signal
+
+    return (f'<div style="border-left:3px solid {color};padding:12px 16px;'
+            f'background:#fff;border-radius:0 8px 8px 0;margin-bottom:4px">'
+            f'<div style="font-size:11px;font-weight:700;color:#888;margin-bottom:8px">'
+            f'&#128203; Resumo Executivo &mdash; {esc(grp)} '
+            f'<span style="font-weight:400">({esc(lbl_curr)})</span></div>'
+            f'<p style="font-size:13px;line-height:1.7;margin:0">{full_p}</p>'
+            f'</div>')
 
 def _dim_contributions(m1, m2):
     """
@@ -1563,7 +1700,18 @@ def _build_driver_breakdowns(mode="monthly"):
                 f'<div class="bd-sec"><div class="bd-sec-title">&#127891; Senioridade</div>{sen_tbl}</div>'
                 f'</div>')
 
-        analysis = _process_exec_html(grp, mode=mode) or _drv_analysis_html(grp)
+        if mode == "weekly":
+            # Usa framework analítico direto para semanal (sem quotes)
+            nps_c = nps_curr_fn(grp); nps_p = nps_prev_fn(grp)
+            analysis = _analytical_exec(
+                grp, nps_c, nps_p,
+                sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2] for d in DRIVER_GROUPS.get(grp,[])),
+                grp_targets.get(grp, NPS_TARGET),
+                bd_src.get(grp), bd_src.get(grp),
+                lM1, lM2, color, period_type="S1", days=7
+            )
+        else:
+            analysis = _process_exec_html(grp, mode=mode) or _drv_analysis_html(grp)
         cards += (f'<div class="drv-card" data-grp="{slug}">'
                   f'{hdr}{grid}{analysis}</div>')
 
@@ -1585,14 +1733,109 @@ def _tab_mensal():
 
 
 def _tab_semanal():
+    # ── Gráficos COM VIG como último ponto ───────────────────────────
     chart_sec = f"""<div class="section-block">
-  <div class="section-title">Evolu&#231;&#227;o NPS por Categoria &mdash; Semanal</div>
+  <div class="section-title">Evolu&#231;&#227;o NPS &mdash; Semanal (incl. semana atual)</div>
+  <div style="font-size:11px;color:#aaa;margin-bottom:10px">
+    Semana atual (VIG): <strong>{esc(VIG_LABEL)}</strong> &mdash; dados parciais &nbsp;|&nbsp;
+    Semana fechada (S1): {esc(S1_LABEL)}
+  </div>
   {chart_small_multiples("c_wk",
-      [(g, grp_wk[g], GROUP_COLORS[g], grp_targets[g]) for g in DRIVER_GROUPS],
-      wk_cons, WEEK_LABELS)}
+      [(g, grp_wk_vig[g], GROUP_COLORS[g], grp_targets[g]) for g in DRIVER_GROUPS],
+      wk_cons_vig, WEEK_LABELS_VIG)}
 </div>"""
 
-    return chart_sec + _build_driver_breakdowns(mode="weekly")
+    # ── Seção S1: semana fechada ─────────────────────────────────────
+    s1_header = (f'<div style="font-size:12px;font-weight:700;color:#3483FA;'
+                 f'padding:8px 0 4px;border-bottom:2px solid #3483FA;margin-bottom:12px">'
+                 f'Semana Fechada &mdash; S1: {esc(S1_LABEL)}</div>')
+    s1_section = (f'<div style="margin-bottom:4px">{s1_header}</div>'
+                  + _build_driver_breakdowns(mode="weekly"))
+
+    # ── Seção VIG: semana atual ──────────────────────────────────────
+    vig_nps_cons = vig_cons_nps
+    vig_s1_nps   = wk_cons[-1] if wk_cons else None
+    vig_delta    = round(vig_nps_cons - vig_s1_nps, 2) if vig_nps_cons and vig_s1_nps else None
+    d_cls        = "kpi-pos" if vig_delta and vig_delta >= 0 else "kpi-neg"
+    d_str        = (f"{'+'if vig_delta>=0 else ''}{fn(vig_delta)}pp vs S1") if vig_delta is not None else "—"
+
+    vig_kpi = (f'<div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px">'
+               f'<div class="kpi-card" style="border-top:4px solid #F39C12;min-width:160px">'
+               f'<div class="kpi-label">NPS VIG Consolidado</div>'
+               f'<div class="kpi-value">{fn(vig_nps_cons)}%</div>'
+               f'<div class="kpi-sub">{esc(VIG_LABEL)}</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid #F39C12;min-width:160px">'
+               f'<div class="kpi-label">&#916; vs S1 Fechada</div>'
+               f'<div class="kpi-value {d_cls}">{d_str}</div>'
+               f'<div class="kpi-sub">S1: {fn(vig_s1_nps)}%</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid #F39C12;min-width:160px">'
+               f'<div class="kpi-label">Pesquisas VIG</div>'
+               f'<div class="kpi-value">{vig_cons_surv:,}</div>'
+               f'<div class="kpi-sub">Base sem mediação</div></div>'
+               f'</div>')
+
+    # Cards por driver para VIG
+    first_vig = True
+    vig_btns = ""
+    for grp in DRIVER_GROUPS:
+        slug = "vig-" + grp.replace(" ","-").replace("/","-").replace(".","")
+        active = " active" if first_vig else ""
+        vig_btns += (f'<button class="drv-fbtn{active}" data-grp="{slug}" '
+                     f'onclick="filterDrv(this,\'{slug}\')">{esc(grp)}</button>')
+        first_vig = False
+
+    vig_cards = ""
+    for grp, drvs in DRIVER_GROUPS.items():
+        slug   = "vig-" + grp.replace(" ","-").replace("/","-").replace(".","")
+        color  = GROUP_COLORS.get(grp, "#aaa")
+        nps_v, surv_v = grp_vig.get(grp, (None, 0))
+        nps_s1 = grp_wk[grp][-1] if grp_wk.get(grp) else None
+        tgt    = grp_targets.get(grp, NPS_TARGET)
+        d_v    = round(nps_v - nps_s1, 1) if nps_v is not None and nps_s1 is not None else None
+        d_tgt  = round(nps_v - tgt, 1)    if nps_v is not None else None
+
+        hdr = (f'<div class="bd-hdr" style="border-left:5px solid {color}">'
+               f'<span class="bd-grp-name">{esc(grp)}</span>'
+               f'<span class="bd-kpis">'
+               f'NPS VIG: <strong>{fn(nps_v)}%</strong>'
+               f' &nbsp;{chip(d_v, suffix="pp vs S1")}'
+               f' &nbsp;{chip(d_tgt, suffix="pp vs tgt")}'
+               f'</span></div>')
+
+        bd   = grp_wk_vig_bd.get(grp, {})
+        proc_tbl  = _bd_table(bd.get("P_M1",{}), bd.get("P_M2",{}), max_rows=6)
+        canal_tbl = _bd_table(bd.get("C_M1",{}), bd.get("C_M2",{}), max_rows=5)
+        ofic_tbl  = _bd_table(bd.get("O_M1",{}), {},                max_rows=4)
+        sen_tbl   = _bd_seniority(bd.get("Sr_M1",{}), bd.get("Sr_M2",{}))
+
+        grid = (f'<div class="bd-grid">'
+                f'<div class="bd-sec"><div class="bd-sec-title">&#128204; Processos vs S1</div>{proc_tbl}</div>'
+                f'<div class="bd-sec"><div class="bd-sec-title">&#128241; Canal</div>{canal_tbl}</div>'
+                f'<div class="bd-sec"><div class="bd-sec-title">&#127970; Oficina</div>{ofic_tbl}</div>'
+                f'<div class="bd-sec"><div class="bd-sec-title">&#127891; Senioridade</div>{sen_tbl}</div>'
+                f'</div>')
+
+        # Resumo analítico VIG
+        resumo_vig = _analytical_exec(
+            grp, nps_v, nps_s1, surv_v, tgt,
+            grp_wk_vig_bd.get(grp), grp_wk_bd.get(grp),
+            esc(VIG_LABEL), esc(S1_LABEL), color,
+            period_type="VIG", days=4
+        )
+
+        vig_cards += (f'<div class="drv-card" data-grp="{slug}">'
+                      f'{hdr}{grid}{resumo_vig}</div>')
+
+    vig_section_html = (f'<div class="section-block">'
+                        f'<div style="font-size:12px;font-weight:700;color:#F39C12;'
+                        f'padding:8px 0 4px;border-bottom:2px solid #F39C12;margin-bottom:12px">'
+                        f'Semana Atual &mdash; VIG: {esc(VIG_LABEL)} &#9889;</div>'
+                        f'{vig_kpi}'
+                        f'<div class="drv-fbar">{vig_btns}</div>'
+                        f'<div class="drv-cards">{vig_cards}</div>'
+                        f'</div>')
+
+    return chart_sec + s1_section + vig_section_html
 
 
 def _tab_ranking():
