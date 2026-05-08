@@ -317,12 +317,26 @@ def _grp_target(drvs):
     den = sum(monthly_history[d].get(lB,(0,0,0))[2] for d in drvs if d in monthly_history)
     return round(num / den, 2) if den else NPS_TARGET
 
-# Carrega targets por grupo do BQ (_new_targets.json)
-_TARGETS_GROUPS = {}
-if _os.path.exists("_new_targets.json"):
-    with open("_new_targets.json", encoding="utf-8") as _f:
-        _tgt_data = _json.load(_f)
-        _TARGETS_GROUPS = _tgt_data.get("groups_mai", {})
+# Carrega targets por período (_period_targets.json)
+_PT = {}
+if _os.path.exists("_period_targets.json"):
+    with open("_period_targets.json", encoding="utf-8") as _f:
+        _PT = _json.load(_f)
+_TARGETS_GROUPS = (_PT.get("monthly", {}).get(MONTH_LABELS[-1], {}).get("groups", {})
+                   if _PT else {})
+
+def _period_target_cons(period, freq="monthly"):
+    """Retorna target consolidado para um período específico."""
+    return (_PT.get(freq, {}).get(period, {}).get("consolidated") or NPS_TARGET)
+
+def _period_target_grp(grp, period, freq="monthly"):
+    """Retorna target do grupo para um período específico."""
+    return (_PT.get(freq, {}).get(period, {}).get("groups", {}).get(grp) or NPS_TARGET)
+
+# Séries de target por período (para uso nos gráficos históricos)
+mon_target_series = [_period_target_cons(lbl, "monthly") for lbl in MONTH_LABELS]
+wk_target_series  = [_period_target_cons(lbl, "weekly")  for lbl in WEEK_LABELS] + \
+                    [_period_target_cons("VIG", "weekly")]
 
 grp_targets = {grp: _grp_target(drvs) for grp, drvs in DRIVER_GROUPS.items()}
 
@@ -461,7 +475,7 @@ def chart_line_area_monthly(cid, height=270):
                         "font": {"size": 11, "weight": "700"},
                         "formatter": "__FMT__"}},
         {"label": f"Objetivo ({tgt_str}%)",
-         "data": [NPS_TARGET] * len(MONTH_LABELS),
+         "data": mon_target_series,
          "borderColor": "#F39C12", "borderDash": [6, 4], "borderWidth": 2,
          "pointStyle": "triangle", "pointRadius": 5,
          "pointBackgroundColor": "#F39C12",
@@ -771,7 +785,7 @@ def _tab_exec():
     # Sobrescreve dados do chart semanal dinamicamente via JS inline
     wk_lbl_js  = _json.dumps(WEEK_LABELS_VIG)
     wk_cons_js = _json.dumps(wk_cons_vig)
-    tgt_vals_js= _json.dumps([NPS_TARGET]*len(WEEK_LABELS_VIG))
+    tgt_vals_js= _json.dumps(wk_target_series)
 
     wk_line_chart = (f'<div style="position:relative;height:270px;">'
                      f'<canvas id="c_wk_exec_line"></canvas></div>'
