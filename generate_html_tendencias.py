@@ -2268,18 +2268,22 @@ def _bd_table(items_m1, items_m2, max_rows=6, weekly=False, lbl1="NPS", lbl2="An
         c_cls   = "bd-pos" if contrib and contrib>0 else ("bd-neg" if contrib and contrib<0 else "")
         c_str   = (("+" if contrib>0 else "")+f"{contrib:.2f}pp") if contrib is not None else ""
 
+        # Volume como % do total (linha Total fica em número absoluto)
+        vol_pct = round(100 * v1["s"] / items_s1_sum, 1) if items_s1_sum else 0
+        vol_str = f"{vol_pct:.1f}%"
+
         if weekly:
             rows += (f'<tr><td class="bd-name">{esc(name[:32])}</td>'
                      f'<td class="bd-nps">{fn(nps2) if nps2 is not None else "—"}%</td>'
                      f'<td class="bd-nps">{fn(nps1) if nps1 is not None else "—"}%</td>'
                      f'<td class="bd-delta {d_cls}">{d_str}</td>'
                      f'<td class="bd-delta {c_cls}" style="font-size:10px">{c_str}</td>'
-                     f'<td class="bd-vol">{v1["s"]:,}</td></tr>\n')
+                     f'<td class="bd-vol">{vol_str}</td></tr>\n')
         else:
             rows += (f'<tr><td class="bd-name">{esc(name[:38])}</td>'
                      f'<td class="bd-nps">{fn(nps1) if nps1 is not None else "—"}%</td>'
                      f'<td class="bd-delta {d_cls}">{d_str}</td>'
-                     f'<td class="bd-vol">{v1["s"]:,}</td></tr>\n')
+                     f'<td class="bd-vol">{vol_str}</td></tr>\n')
 
     # Linha consolidada
     if total_s1 > 0:
@@ -2347,18 +2351,20 @@ def _bd_seniority(sr_m1, sr_m2, weekly=False, lbl1="NPS", lbl2="Ant",
         contrib = round(s_share*delta,2) if delta is not None else None
         c_str   = (("+" if contrib and contrib>0 else "")+f"{contrib:.2f}pp") if contrib else ""
         c_cls   = "bd-pos" if contrib and contrib>0 else ("bd-neg" if contrib and contrib<0 else "")
+        vol_pct = round(100 * v1["s"] / items_s1_sum, 1) if items_s1_sum else 0
+        vol_str = f"{vol_pct:.1f}%"
         if weekly:
             rows += (f'<tr><td class="bd-name">{esc(key)}</td>'
                      f'<td class="bd-nps">{fn(nps2) if nps2 is not None else "—"}%</td>'
                      f'<td class="bd-nps">{fn(nps1) if nps1 is not None else "—"}%</td>'
                      f'<td class="bd-delta {d_cls}">{d_str}</td>'
                      f'<td class="bd-delta {c_cls}" style="font-size:10px">{c_str}</td>'
-                     f'<td class="bd-vol">{v1["s"]:,}</td></tr>\n')
+                     f'<td class="bd-vol">{vol_str}</td></tr>\n')
         else:
             rows += (f'<tr><td class="bd-name">{esc(key)}</td>'
                      f'<td class="bd-nps">{fn(nps1) if nps1 is not None else "—"}%</td>'
                      f'<td class="bd-delta {d_cls}">{d_str}</td>'
-                     f'<td class="bd-vol">{v1["s"]:,}</td></tr>\n')
+                     f'<td class="bd-vol">{vol_str}</td></tr>\n')
     # Linha consolidada (usa oficial se fornecido)
     if official_nps1 is not None:
         nps_tot1 = official_nps1; nps_tot2 = official_nps2
