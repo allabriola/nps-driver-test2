@@ -1390,8 +1390,9 @@ def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
               f" com {surv:,} pesquisas{days_txt}.")
 
     # ── 2. Seniority: Mix vs Skill ────────────────────────────────────
+    # Usa bd_curr para ambos: Sr_M1=atual, Sr_M2=anterior (correto para S1 e VIG)
     sr_c = bd_curr.get("Sr_M1", {}) if bd_curr else {}
-    sr_p = bd_prev.get("Sr_M2", {}) if bd_prev else {}
+    sr_p = bd_curr.get("Sr_M2", {}) if bd_curr else {}
     sen_txt = ""
     if sr_c and sr_p:
         exp_c = sr_c.get("Expert",{}); exp_p = sr_p.get("Expert",{})
