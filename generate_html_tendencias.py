@@ -2862,13 +2862,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
 .bd-sec-title { font-size:11px; font-weight:700; color:#888; text-transform:uppercase;
                 letter-spacing:.5px; margin-bottom:8px; }
 
-.bd-tbl    { width:100%; border-collapse:collapse; font-size:11px; }
-.bd-tbl th { color:#aaa; font-weight:600; padding:2px 4px; text-align:left;
-             border-bottom:1px solid #f0f0f0; font-size:10px; }
-.bd-tbl td { padding:3px 4px; border-bottom:1px solid #f5f5f5; }
-.bd-name   { max-width:160px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#333; }
+.bd-tbl    { width:100%; border-collapse:collapse; font-size:10px; }
+.bd-tbl th { color:#aaa; font-weight:600; padding:2px 3px; text-align:left;
+             border-bottom:1px solid #f0f0f0; font-size:9px; }
+.bd-tbl td { padding:2px 3px; border-bottom:1px solid #f5f5f5; }
+.bd-name   { max-width:110px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#333; }
 .bd-nps    { font-weight:600; color:#1a1a2e; text-align:right; white-space:nowrap; }
-.bd-delta  { text-align:right; white-space:nowrap; font-weight:600; font-size:10px; }
+.bd-delta  { text-align:right; white-space:nowrap; font-weight:600; font-size:9px; }
 .bd-vol    { text-align:right; color:#aaa; font-size:10px; }
 .bd-pos    { color:#00A650; }
 .bd-neg    { color:#E84142; }
