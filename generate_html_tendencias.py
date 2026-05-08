@@ -1601,7 +1601,6 @@ def _process_exec_html(grp, mode="monthly"):
               f'&#128203; Resumo Executivo &mdash; {esc(grp)}</div>'
               f'<p style="font-size:13px;margin-bottom:8px;line-height:1.6">{p1}</p>'
               f'<p style="font-size:13px;margin-bottom:6px;line-height:1.6">{p2}</p>'
-              f'{qual_intro}'
               f'</div>')
 
     # ── Seção 2: Diagnóstico Dimensional ────────────────────────────
@@ -1698,7 +1697,7 @@ def _process_exec_html(grp, mode="monthly"):
                         f'<div class="exec-title">&#128269; O que impactou &mdash; {esc(grp)}</div>'
                         f'{diag_mon}</div>')
 
-    return resumo + quant_sec + diag_mon_sec
+    return resumo + diag_mon_sec + quant_sec
 
 def _analyze_transcripts(transcripts):
     """
