@@ -2272,15 +2272,27 @@ def _bd_table(items_m1, items_m2, max_rows=6, weekly=False, lbl1="NPS", lbl2="An
     else:
         header = (f'<thead><tr><th>Nome</th><th>NPS</th><th>&#916; M/M</th><th>Vol</th></tr></thead>')
 
-    # Indicador de cobertura quando total_s1 < official_surv1 (itens não cobrem todos os surveys)
-    coverage_note = ""
-    if weekly and official_surv1 and total_s1 < official_surv1 * 0.92:
-        pct = round(100 * total_s1 / official_surv1)
-        coverage_note = (f'<div style="font-size:10px;color:#aaa;margin-top:3px">'
-                         f'Cobertura: {total_s1:,}/{official_surv1:,} surveys ({pct}%) — '
-                         f'itens sem categoria excluídos do detalhe</div>')
+    # Linha "(outros)" quando coverage < 95%: fecha o balanço de contribuições
+    if weekly and official_surv1 and official_nps1 is not None and total_s1 < official_surv1 * 0.95:
+        outros_surv = official_surv1 - total_s1
+        # Contribuição dos outros = delta_total - soma_contribuições_itens
+        sum_item_contribs = sum(
+            round((v1["s"]/official_surv1) * (v1["nps"] - items_m2.get(k,{}).get("nps",v1["nps"])), 2)
+            for k, v1 in items_m1.items()
+            if v1.get("nps") is not None and items_m2.get(k,{}).get("nps") is not None
+        ) if delta_tot is not None else 0
+        outros_contrib = round(delta_tot - sum_item_contribs, 2) if delta_tot is not None else None
+        c_cls = "bd-pos" if outros_contrib and outros_contrib > 0 else ("bd-neg" if outros_contrib and outros_contrib < 0 else "")
+        c_str = (("+" if outros_contrib > 0 else "") + f"{outros_contrib:.2f}pp") if outros_contrib is not None else "—"
+        rows += (f'<tr style="background:#fffbf0;font-style:italic;color:#888">'
+                 f'<td class="bd-name" style="color:#aaa">(sem categoria)</td>'
+                 f'<td class="bd-nps" style="color:#aaa">—</td>'
+                 f'<td class="bd-nps" style="color:#aaa">—</td>'
+                 f'<td class="bd-delta" style="color:#aaa">—</td>'
+                 f'<td class="bd-delta {c_cls}" style="font-size:10px">{c_str}</td>'
+                 f'<td class="bd-vol" style="color:#aaa">{outros_surv:,}</td></tr>\n')
 
-    return f'<table class="bd-tbl"><{header}<tbody>{rows}</tbody></table>{coverage_note}'
+    return f'<table class="bd-tbl"><{header}<tbody>{rows}</tbody></table>'
 
 def _bd_seniority(sr_m1, sr_m2, weekly=False, lbl1="NPS", lbl2="Ant",
                   official_nps1=None, official_nps2=None, official_surv1=None, official_surv2=None):
