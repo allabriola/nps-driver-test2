@@ -2574,14 +2574,12 @@ def _build_driver_breakdowns(mode="monthly"):
                                   delta_label=delta_lbl)
 
         grid = (
-            f'<div style="overflow-x:auto">'
-            f'<div class="bd-grid" style="grid-template-columns:repeat(5,minmax(190px,1fr));min-width:900px">'
+            f'<div class="bd-grid">'
             f'<div class="bd-sec"><div class="bd-sec-title">&#128204; Processos</div>{proc_tbl}</div>'
-            f'<div class="bd-sec"><div class="bd-sec-title">&#128241; Canal</div>{canal_tbl}</div>'
             f'<div class="bd-sec"><div class="bd-sec-title">&#127970; Oficina</div>{ofic_tbl}</div>'
             f'<div class="bd-sec"><div class="bd-sec-title">&#128101; Equipes</div>{team_tbl}</div>'
             f'<div class="bd-sec"><div class="bd-sec-title">&#127891; Senioridade</div>{sen_tbl}</div>'
-            f'</div></div>'
+            f'</div>'
         )
 
         if mode == "weekly":
@@ -2619,14 +2617,12 @@ def _build_driver_breakdowns(mode="monthly"):
             team_vig = _bd_table(grp_wk_vig_bd.get(grp,{}).get("T_M1",{}),
                                    grp_wk_vig_bd.get(grp,{}).get("T_M2",{}), max_rows=6, **kw_vig)
             grid_vig = (
-                f'<div style="overflow-x:auto">'
-                f'<div class="bd-grid" style="grid-template-columns:repeat(5,minmax(190px,1fr));min-width:900px">'
+                f'<div class="bd-grid">'
                 f'<div class="bd-sec"><div class="bd-sec-title">&#128204; Processos</div>{proc_vig}</div>'
-                f'<div class="bd-sec"><div class="bd-sec-title">&#128241; Canal</div>{canal_vig}</div>'
                 f'<div class="bd-sec"><div class="bd-sec-title">&#127970; Oficina</div>{ofic_vig}</div>'
                 f'<div class="bd-sec"><div class="bd-sec-title">&#128101; Equipes</div>{team_vig}</div>'
                 f'<div class="bd-sec"><div class="bd-sec-title">&#127891; Senioridade</div>{sen_vig}</div>'
-                f'</div></div>'
+                f'</div>'
             )
 
             # Separador visual entre as duas seções
