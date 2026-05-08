@@ -965,38 +965,45 @@ def _process_exec_html(grp, mode="monthly"):
     status_txt = (f'{("+"if d_tgt>=0 else "")}{fn(d_tgt)}pp vs target'
                   if d_tgt is not None else "")
 
-    p1 = (f"<strong>{esc(grp)}</strong> é {role_str} no período {esc(lPREV)}→{esc(lCURR)}, "
+    p1 = (f"<strong>{esc(grp)}</strong> é {role_str} no período {esc(lPREV)}&#8594;{esc(lCURR)}, "
           f"com NPS de <strong>{fn(nps_g)}%</strong> ({delta_txt}). "
           f"A tendência histórica é {trend_tag} com base nos últimos 5 meses. "
           + (f'<span style="color:{status_color};font-weight:600">{status_txt}.</span>' if status_txt else ""))
     p2 = f"{causa}."
 
-    # Padrões qualitativos identificados
-    opp_bullets = ""
+    # Padrões qualitativos — formato: ● **Nome** — *"citação"*
+    PAT_NEG = {"mudança","sem resolução","sistêmico","demora"}
+    bullets_html = ""
     for pat, evidences in qual_patterns.items():
         if not evidences: continue
-        is_neg = any(k in pat.lower() for k in ["mudança","sem resolução","sistêmico","demora"])
-        c_icon = "🔴" if is_neg else "🟢"
-        ev_txt = f' — <em>&ldquo;{esc(evidences[0][:100])}&rdquo;</em>' if evidences else ""
-        opp_bullets += f'<div class="exec-bullet">{c_icon} <strong>{esc(pat)}</strong>{ev_txt}</div>'
+        is_neg = any(k in pat.lower() for k in PAT_NEG)
+        dot_color = "#E84142" if is_neg else "#00A650"
+        quote = esc(evidences[0][:120]) if evidences else ""
+        quote_html = (f' &mdash; <em style="color:#666;font-weight:400">&ldquo;{quote}&rdquo;</em>'
+                      if quote else "")
+        bullets_html += (f'<p style="font-size:12px;margin:5px 0;display:flex;align-items:baseline;gap:7px">'
+                         f'<span style="color:{dot_color};font-size:10px;flex-shrink:0">&#9679;</span>'
+                         f'<span><strong>{esc(pat)}</strong>{quote_html}</span></p>')
 
-    opp_sec = ""
-    if opp_bullets:
-        p3 = (f"Padrões identificados nos comentários e transcrições: "
-              f"{'oportunidades de melhoria' if any('sem resol' in p.lower() or 'demora' in p.lower() for p in qual_patterns) else 'indicadores positivos'} "
-              f"confirmados abaixo.")
-        opp_sec = (f'<div style="margin-top:8px">'
-                   f'<div style="font-size:11px;font-weight:700;color:#555;margin-bottom:6px">'
-                   f'Padr&#245;es qualitativos identificados:</div>'
-                   f'{opp_bullets}</div>')
-    else:
-        p3 = ""
+    qual_intro = ""
+    if bullets_html:
+        has_neg = any(k in p.lower() for p in qual_patterns for k in PAT_NEG)
+        qual_intro = (f'<p style="font-size:12px;color:#888;font-style:italic;margin:8px 0 4px">'
+                      f'Padr&#245;es identificados nos coment&#225;rios e transcri&#231;&#245;es: '
+                      f'{"oportunidades de melhoria confirmadas abaixo." if has_neg else "indicadores positivos confirmados abaixo."}'
+                      f'</p>'
+                      f'<p style="font-size:12px;font-weight:700;color:#333;margin-bottom:4px">'
+                      f'Padr&#245;es qualitativos identificados:</p>'
+                      f'{bullets_html}')
 
-    resumo_body = f'<p>{p1}</p><p>{p2}</p>' + (f'<p style="font-size:12px;color:#555">{p3}</p>' if p3 else "")
-    resumo = (f'<div class="exec-section">'
-              f'<div class="exec-title">&#128203; Resumo Executivo &mdash; {esc(grp)}</div>'
-              f'<div class="exec-body">{resumo_body}</div>'
-              f'{opp_sec}</div>')
+    resumo = (f'<div style="border-left:3px solid {color};padding:14px 16px;'
+              f'background:#fff;border-radius:0 8px 8px 0;margin-bottom:4px">'
+              f'<div style="font-size:11px;font-weight:700;color:#888;margin-bottom:8px">'
+              f'&#128203; Resumo Executivo &mdash; {esc(grp)}</div>'
+              f'<p style="font-size:13px;margin-bottom:8px;line-height:1.6">{p1}</p>'
+              f'<p style="font-size:13px;margin-bottom:6px;line-height:1.6">{p2}</p>'
+              f'{qual_intro}'
+              f'</div>')
 
     # ── Seção 2: Diagnóstico Dimensional ────────────────────────────
     def _dim_card(label, contribs, icon):
