@@ -2830,6 +2830,42 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
 @media (max-width:1100px) { .bd-grid { grid-template-columns:repeat(2,1fr); } }
 @media (max-width:600px)  { .bd-grid { grid-template-columns:1fr; } }
 
+/* Histórico de Semanas */
+.hist-btn { display:flex;align-items:center;gap:6px;padding:6px 14px;
+            background:#fff9e6;border:1.5px solid #F39C12;border-radius:20px;
+            font-size:12px;font-weight:600;color:#7a5800;cursor:pointer;
+            transition:all .18s; }
+.hist-btn:hover { background:#F39C12;color:#fff; }
+.hist-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);
+                z-index:9998;align-items:flex-start;justify-content:flex-end;
+                padding:70px 24px 0 0; }
+.hist-overlay.open { display:flex; }
+.hist-panel { background:#fff;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.18);
+              width:340px;max-height:70vh;overflow:hidden;display:flex;
+              flex-direction:column;animation:slideIn .2s ease-out; }
+@keyframes slideIn { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
+.hist-header { padding:16px 18px 12px;border-bottom:1px solid #f0f2f5;display:flex;
+               align-items:center;justify-content:space-between; }
+.hist-title  { font-size:13px;font-weight:700;color:#222;display:flex;gap:8px;align-items:center; }
+.hist-sub    { font-size:11px;color:#aaa;margin-top:2px; }
+.hist-close  { background:none;border:none;font-size:18px;cursor:pointer;color:#aaa;
+               padding:0 4px; }
+.hist-close:hover { color:#333; }
+.hist-list   { overflow-y:auto;padding:8px 0; }
+.hist-item   { padding:10px 18px;border-bottom:1px solid #f5f5f5;display:flex;
+               align-items:center;justify-content:space-between;cursor:pointer;
+               transition:background .15s; }
+.hist-item:hover { background:#f8f9ff; }
+.hist-item:last-child { border-bottom:none; }
+.hist-item-left { display:flex;gap:10px;align-items:center; }
+.hist-item-icon { font-size:18px; }
+.hist-item-label { font-size:12px;font-weight:600;color:#222; }
+.hist-item-date  { font-size:10px;color:#aaa;margin-top:2px; }
+.hist-badge-new  { background:#3483FA;color:#fff;font-size:9px;font-weight:700;
+                   padding:1px 6px;border-radius:8px;margin-left:6px; }
+.hist-open-link  { font-size:11px;color:#3483FA;font-weight:600;white-space:nowrap; }
+.hist-empty      { padding:24px 18px;text-align:center;color:#aaa;font-size:12px; }
+
 /* Toggle Mensal / Semanal */
 .period-btn { padding:7px 18px;border-radius:20px;border:1.5px solid #ddd;
               background:#fff;font-size:13px;font-weight:500;cursor:pointer;
@@ -2898,6 +2934,53 @@ function switchPeriod(btn,p){
     v.style.display=(v.dataset.p===p)?'':'none';
   });
 }
+// ── Histórico de Semanas ──────────────────────────────────────────
+var _histLoaded = false;
+function openHistory() {
+  document.getElementById('histOverlay').classList.add('open');
+  if (!_histLoaded) { loadHistory(); _histLoaded = true; }
+}
+function closeHistory() {
+  document.getElementById('histOverlay').classList.remove('open');
+}
+function closeHistoryOutside(e) {
+  if (e.target === document.getElementById('histOverlay')) closeHistory();
+}
+function loadHistory() {
+  var list = document.getElementById('histList');
+  fetch('history/index.json?_=' + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data || !data.length) {
+        list.innerHTML = '<div class="hist-empty">Nenhum snapshot salvo ainda.<br>O histórico é criado automaticamente toda segunda-feira.</div>';
+        return;
+      }
+      var html = '';
+      data.forEach(function(e) {
+        var badge  = e.most_recent ? '<span class="hist-badge-new">MAIS RECENTE</span>' : '';
+        var nps    = e.nps_s1 ? ' &nbsp;<span style="color:#888;font-size:10px">NPS S1: ' + e.nps_s1.toFixed(1).replace('.',',') + '%</span>' : '';
+        var icon   = e.most_recent ? '&#128197;' : '&#128441;';
+        html += '<div class="hist-item" onclick="openSnapshot(\\'' + e.file + '\\')">'
+              + '  <div class="hist-item-left">'
+              + '    <div class="hist-item-icon">' + icon + '</div>'
+              + '    <div>'
+              + '      <div class="hist-item-label">' + e.label + badge + '</div>'
+              + '      <div class="hist-item-date">Arquivado em ' + e.archived_at + nps + '</div>'
+              + '    </div>'
+              + '  </div>'
+              + '  <span class="hist-open-link">Abrir &#8594;</span>'
+              + '</div>';
+      });
+      list.innerHTML = html;
+    })
+    .catch(function() {
+      list.innerHTML = '<div class="hist-empty">Histórico não encontrado.<br>Execute o update semanal para criar o primeiro snapshot.</div>';
+    });
+}
+function openSnapshot(file) {
+  window.open('history/' + file, '_blank');
+}
+
 function showTab(n){
   document.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.toggle('active',i===n);});
   document.querySelectorAll('.tab-pane').forEach(function(p,i){p.classList.toggle('active',i===n);});
@@ -2936,9 +3019,30 @@ function filterDrv(btn, grp){
     <div class="header-title">NPS Tend&#234;ncias Ger&#234;ncia &mdash; Sellers BR</div>
     <div class="header-sub">Evolu&#231;&#227;o mensal &amp; semanal &middot; An&#225;lise por driver &middot; Base sem media&#231;&#227;o</div>
   </div>
-  <div class="header-date" style="text-align:right;line-height:1.6">
-    <div style="font-weight:700;font-size:13px">Dados at&#233; {DADOS_ATE}</div>
-    <div style="font-size:11px;opacity:.8">Atualizado em {REPORT_DATE} &#224;s {REPORT_TIME}</div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <button class="hist-btn" onclick="openHistory()">
+      &#128193; Hist&#243;rico de Semanas
+    </button>
+    <div style="text-align:right;line-height:1.6">
+      <div style="font-weight:700;font-size:13px;color:#fff">Dados at&#233; {DADOS_ATE}</div>
+      <div style="font-size:11px;opacity:.8;color:#fff">Atualizado em {REPORT_DATE} &#224;s {REPORT_TIME}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Histórico de Semanas -->
+<div class="hist-overlay" id="histOverlay" onclick="closeHistoryOutside(event)">
+  <div class="hist-panel">
+    <div class="hist-header">
+      <div>
+        <div class="hist-title">&#128193; Hist&#243;rico de Semanas</div>
+        <div class="hist-sub">Snapshots semanais salvos automaticamente</div>
+      </div>
+      <button class="hist-close" onclick="closeHistory()">&#10005;</button>
+    </div>
+    <div class="hist-list" id="histList">
+      <div class="hist-empty">Carregando...</div>
+    </div>
   </div>
 </div>
 
