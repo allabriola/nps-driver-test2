@@ -685,7 +685,8 @@ def _tab_exec():
   {wf_tg_chart}
 </div>"""
 
-    exec_html = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary()}</div></div>'
+    exec_html_mon = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary("_exec_summary.html")}</div></div>'
+    exec_html_wk  = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary("_exec_summary_wk.html")}</div></div>'
 
     # ── Visão Semanal (S1/S2 + VIG) ──────────────────────────────────
     wk_nps_s2 = wk_cons[-2] if len(wk_cons) >= 2 else None
@@ -783,11 +784,11 @@ def _tab_exec():
               f'&#x1F4C6; Semanal</button></div>')
 
     monthly_block = (f'<div class="period-view" data-p="mon">'
-                     f'{charts_row}{wf_tg_sec}</div>')
+                     f'{kpis}{charts_row}{wf_tg_sec}{exec_html_mon}</div>')
     weekly_block  = (f'<div class="period-view" data-p="wk" style="display:none">'
-                     f'{wk_kpis}{wk_charts_row}</div>')
+                     f'{wk_kpis}{wk_charts_row}{exec_html_wk}</div>')
 
-    return kpis + toggle + monthly_block + weekly_block + exec_html
+    return toggle + monthly_block + weekly_block
 
 
 def _dim_table(dim_dict, max_rows=4, label="Nome"):
@@ -2621,12 +2622,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
 # ══════════════════════════════════════════════════════════════════════
 # 8. MONTAGEM FINAL
 # ══════════════════════════════════════════════════════════════════════
-def _load_exec_summary():
+def _load_exec_summary(path='_exec_summary.html'):
     import os
-    path = '_exec_summary.html'
     if not os.path.exists(path):
-        return (f'<div class="exec-no-data">Resumo executivo não gerado ainda. '
-                f'Execute <code>python _generate_exec_summary.py</code> para gerar.</div>')
+        return (f'<div class="exec-no-data">Resumo executivo não gerado ainda.</div>')
     with open(path, encoding='utf-8') as f:
         return f.read()
 
