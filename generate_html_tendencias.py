@@ -118,6 +118,12 @@ if _os.path.exists("_exec_data.json"):
     with open("_exec_data.json", encoding="utf-8") as _f:
         _EXEC = _json.load(_f)
 
+# ── TRX_S1 — transcrições semanais S1 para análise profunda
+_TRX_S1 = {}
+if _os.path.exists("_trx_s1.json"):
+    with open("_trx_s1.json", encoding="utf-8") as _f:
+        _TRX_S1 = _json.load(_f)
+
 # ── QUANT_ANALYSIS — análise quantitativa promotores vs detratores
 _QA = {}
 if _os.path.exists("_quant_analysis.json"):
@@ -780,6 +786,71 @@ def _quant_section_html(grp):
             f'{trigger_html}'
             f'</div></div></div>')
 
+def _deep_trx_insights(grp):
+    """
+    Analisa transcrições para extrair motivos de contato e dores dos sellers.
+    Retorna dict com: contact_reasons, pain_clusters, resolution_rate, escalation_rate, pattern_summary
+    Regras: sem quotes literais, sem type_labels.
+    """
+    trxs = _TRX_S1.get(grp, {})
+    if not trxs:
+        return None
+
+    # Categorias de motivo de contato
+    CONTACT = {
+        "envio e logística":        ["envio","entrega","atraso","coleta","rastreio","full","inbound","status"],
+        "cobrança e faturamento":   ["cobrança","fatura","cobrado","certificado","faturador","ads","campanha",
+                                     "boleto","tarifa","comissão"],
+        "mediação e disputa":       ["mediação","mediacao","reclamo","disputa","divergência","IS","inconformidade"],
+        "reputação e conta":        ["reputação","suspensão","conta","restrita","banida","penalizada","badge"],
+        "publicação e afiliados":   ["publicação","anúncio","afiliado","comissão","métricas","publicar"],
+        "devolução e reembolso":    ["devolução","reembolso","cancelamento","retorno","estorno"],
+        "acesso e autenticação":    ["senha","acesso","login","autenticação","código","verificar conta"],
+    }
+    # Padrões de dor (frustração / urgência / bloqueio)
+    PAIN = {
+        "múltiplos contatos sem resolução": ["já tentei","já abri","terceira vez","semanas","meses","não resolve",
+                                              "várias vezes","segunda vez"],
+        "perda financeira direta":          ["prejuízo","perdi","perdendo dinheiro","3 mil","5 mil","reais"],
+        "bloqueio operacional":             ["não consigo vender","bloqueada","suspensa","restrito","parado"],
+        "percepção de injustiça":           ["não é minha culpa","erro do ml","arbitrário","injusto","castigando"],
+        "urgência não atendida":            ["urgente","preciso hoje","prazo","vence","até amanhã"],
+    }
+    RESOLUTION = ["resolvido","solucionado","concluído","feito isso","ok resolvemos","encerramos"]
+    ESCALATION  = ["procon","judicial","advogado","ouvidoria","processo","bopm"]
+
+    contact_cnt = {k: 0 for k in CONTACT}
+    pain_cnt    = {k: 0 for k in PAIN}
+    resolved    = 0; escalated = 0; n = len(trxs)
+
+    for cid, msgs in trxs.items():
+        full   = " ".join(m["msg"].lower() for m in msgs)
+        user_t = " ".join(m["msg"].lower() for m in msgs if m["role"] == "USER")
+
+        for cat, kws in CONTACT.items():
+            if any(k in user_t for k in kws):
+                contact_cnt[cat] += 1
+        for pat, kws in PAIN.items():
+            if any(k in user_t for k in kws):
+                pain_cnt[pat] += 1
+        if any(k in full for k in RESOLUTION):
+            resolved  += 1
+        if any(k in full for k in ESCALATION):
+            escalated += 1
+
+    top_contact = sorted(contact_cnt.items(), key=lambda x: -x[1])
+    top_pain    = sorted(pain_cnt.items(),    key=lambda x: -x[1])
+    res_pct     = round(100 * resolved  / n) if n else 0
+    esc_pct     = round(100 * escalated / n) if n else 0
+
+    return {
+        "n":             n,
+        "top_contact":   [(c,v) for c,v in top_contact if v > 0][:3],
+        "top_pain":      [(p,v) for p,v in top_pain    if v > 0][:3],
+        "res_pct":       res_pct,
+        "esc_pct":       esc_pct,
+    }
+
 def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
                      lbl_curr, lbl_prev, color, period_type="S1", days=7):
     """
@@ -872,12 +943,52 @@ def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
 
     full_p = p_open + sen_txt + proc_txt + ctx_txt + signal
 
+    # ── 6. Insights de transcrições (motivos + dores) ─────────────────
+    trx_block = ""
+    if not is_vig:   # apenas para S1 (temos transcrições)
+        insights = _deep_trx_insights(grp)
+        if insights and (insights["top_contact"] or insights["top_pain"]):
+            lines = []
+            # Motivos de contato
+            if insights["top_contact"]:
+                top = insights["top_contact"]
+                reasons = " e ".join(f"<strong>{esc(c)}</strong> ({v}/{insights['n']} casos)"
+                                     for c,v in top[:2])
+                lines.append(f'<p style="font-size:12px;margin:6px 0;line-height:1.6">'
+                              f'&#128222; <strong>Motivos de contato predominantes:</strong> '
+                              f'sellers buscaram suporte principalmente por {reasons}.</p>')
+            # Dores identificadas
+            if insights["top_pain"]:
+                pain_txt = "; ".join(
+                    f'<span style="color:#a01010;font-weight:600">{esc(p)}</span> ({v} casos)'
+                    for p,v in insights["top_pain"][:2]
+                )
+                lines.append(f'<p style="font-size:12px;margin:6px 0;line-height:1.6">'
+                              f'&#128565; <strong>Dores identificadas nas conversas:</strong> {pain_txt}.</p>')
+            # Taxa de resolução
+            res = insights["res_pct"]; esc_r = insights["esc_pct"]
+            res_color = "#00A650" if res >= 50 else "#E84142"
+            res_txt = (f'<span style="color:{res_color};font-weight:600">'
+                       f'{res}% dos atendimentos</span> com indicação de resolução'
+                       + (f'; <span style="color:#E84142;font-weight:600">{esc_r}% com risco de escalação</span>'
+                          if esc_r > 5 else "") + ".")
+            lines.append(f'<p style="font-size:12px;margin:6px 0;line-height:1.6">'
+                         f'&#128202; {res_txt}</p>')
+            if lines:
+                trx_block = (f'<div style="margin-top:10px;padding-top:10px;'
+                             f'border-top:1px solid #f0f2f5">'
+                             f'<div style="font-size:10px;font-weight:700;color:#888;'
+                             f'text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px">'
+                             f'An&#225;lise de {insights["n"]} Transcri&#231;&#245;es</div>'
+                             + "".join(lines) + "</div>")
+
     return (f'<div style="border-left:3px solid {color};padding:12px 16px;'
             f'background:#fff;border-radius:0 8px 8px 0;margin-bottom:4px">'
             f'<div style="font-size:11px;font-weight:700;color:#888;margin-bottom:8px">'
             f'&#128203; Resumo Executivo &mdash; {esc(grp)} '
             f'<span style="font-weight:400">({esc(lbl_curr)})</span></div>'
             f'<p style="font-size:13px;line-height:1.7;margin:0">{full_p}</p>'
+            f'{trx_block}'
             f'</div>')
 
 def _dim_contributions(m1, m2):
