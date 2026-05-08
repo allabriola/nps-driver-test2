@@ -20,17 +20,18 @@ NPS_TARGET      = float(ns['NPS_TARGET'])
 S1_LABEL        = ns.get('S1_LABEL', 'S1')
 S2_LABEL        = ns.get('S2_LABEL', 'S2')
 
-# Datas das semanas
-CURR_S, CURR_E = "2026-04-27", "2026-05-03"   # S1
-PREV_S, PREV_E = "2026-04-20", "2026-04-26"   # S2
-
 EXCLUIDOS_EARLY = frozenset([
     "CBT","PDD DS&XD - Vendedor","PDD FBM - Vendedor","PDD Fotos - Vendedor",
     "PDD MP,FLEX & CBT - Vendedor","PNR ME - Vendedor","PNR MP - Vendedor",
 ])
 ALL_DRIVERS = [d for d in monthly_history.keys() if d not in EXCLUIDOS_EARLY]
 
-lCURR, lPREV = S1_LABEL, S2_LABEL
+# Períodos mensais: Maio (atual) vs Abril (anterior)
+lCURR, lPREV = MONTH_LABELS[-1], MONTH_LABELS[-2]
+DATES = {"Jan":("2026-01-01","2026-01-31"),"Fev":("2026-02-01","2026-02-28"),
+         "Mar":("2026-03-01","2026-03-31"),"Abr":("2026-04-01","2026-04-30"),
+         "Mai":("2026-05-01","2026-05-31")}
+CURR_S, CURR_E = DATES[lCURR]
 
 # Carrega mapeamento driver → processos do dd_breakdown.json
 import os
@@ -66,36 +67,34 @@ DRIVER_GROUPS = {
 
 def nps_r(p,d,s): return round(100.0*(p-d)/s,2) if s>0 else None
 
-# Usa dados semanais (weekly_driver) para S1 vs S2
-def wd_get(drv, period):
-    return weekly_driver.get(drv, {}).get(period, (0,0,0))
-
-def grp_wk(drvs, period):
-    p=sum(wd_get(d,period)[0] for d in drvs if d in weekly_driver)
-    dt=sum(wd_get(d,period)[1] for d in drvs if d in weekly_driver)
-    s=sum(wd_get(d,period)[2] for d in drvs if d in weekly_driver)
+def grp_nps(lbl,drvs):
+    p=sum(monthly_history[d].get(lbl,(0,0,0))[0] for d in drvs if d in monthly_history)
+    dt=sum(monthly_history[d].get(lbl,(0,0,0))[1] for d in drvs if d in monthly_history)
+    s=sum(monthly_history[d].get(lbl,(0,0,0))[2] for d in drvs if d in monthly_history)
     return nps_r(p,dt,s), s
 
-# Consolidado S1 vs S2
-sA=sum(wd_get(d,'S2')[2] for d in ALL_DRIVERS)
-sB=sum(wd_get(d,'S1')[2] for d in ALL_DRIVERS)
-nps_curr=nps_r(sum(wd_get(d,'S1')[0] for d in ALL_DRIVERS),
-               sum(wd_get(d,'S1')[1] for d in ALL_DRIVERS), sB)
-nps_prev=nps_r(sum(wd_get(d,'S2')[0] for d in ALL_DRIVERS),
-               sum(wd_get(d,'S2')[1] for d in ALL_DRIVERS), sA)
+# Consolidado mensal
+sA=sum(monthly_history[d].get(lPREV,(0,0,0))[2] for d in ALL_DRIVERS)
+sB=sum(monthly_history[d].get(lCURR,(0,0,0))[2] for d in ALL_DRIVERS)
+nps_curr=nps_r(sum(monthly_history[d].get(lCURR,(0,0,0))[0] for d in ALL_DRIVERS),
+               sum(monthly_history[d].get(lCURR,(0,0,0))[1] for d in ALL_DRIVERS), sB)
+nps_prev=nps_r(sum(monthly_history[d].get(lPREV,(0,0,0))[0] for d in ALL_DRIVERS),
+               sum(monthly_history[d].get(lPREV,(0,0,0))[1] for d in ALL_DRIVERS), sA)
 
 wf={}
 for grp,drvs in DRIVER_GROUPS.items():
-    pA=sum(wd_get(d,'S2')[0] for d in drvs); dA=sum(wd_get(d,'S2')[1] for d in drvs)
-    sA_g=sum(wd_get(d,'S2')[2] for d in drvs)
-    pB=sum(wd_get(d,'S1')[0] for d in drvs); dB=sum(wd_get(d,'S1')[1] for d in drvs)
-    sB_g=sum(wd_get(d,'S1')[2] for d in drvs)
+    pA=sum(monthly_history[d].get(lPREV,(0,0,0))[0] for d in drvs if d in monthly_history)
+    dA=sum(monthly_history[d].get(lPREV,(0,0,0))[1] for d in drvs if d in monthly_history)
+    sA_g=sum(monthly_history[d].get(lPREV,(0,0,0))[2] for d in drvs if d in monthly_history)
+    pB=sum(monthly_history[d].get(lCURR,(0,0,0))[0] for d in drvs if d in monthly_history)
+    dB=sum(monthly_history[d].get(lCURR,(0,0,0))[1] for d in drvs if d in monthly_history)
+    sB_g=sum(monthly_history[d].get(lCURR,(0,0,0))[2] for d in drvs if d in monthly_history)
     na=nps_r(pA,dA,sA_g) or 0; nb=nps_r(pB,dB,sB_g) or 0
     sha=sA_g/sA if sA else 0; shb=sB_g/sB if sB else 0
-    # Target ponderado pelo volume S1
-    tgt_num=sum(wd_get(d,'S1')[2]*DRIVER_TARGETS.get(d,NPS_TARGET) for d in drvs)
+    tgt_num=sum(monthly_history[d].get(lCURR,(0,0,0))[2]*DRIVER_TARGETS.get(d,NPS_TARGET)
+                for d in drvs if d in monthly_history)
     tgt=tgt_num/sB_g if sB_g else NPS_TARGET
-    g_curr,g_surv=grp_wk(drvs,'S1'); g_prev,_=grp_wk(drvs,'S2')
+    g_curr,g_surv=grp_nps(lCURR,drvs); g_prev,_=grp_nps(lPREV,drvs)
     wf[grp]={"var":round(sha*(nb-na)+(shb-sha)*(nb-(nps_curr or 0)),2),
              "nps_curr":g_curr,"nps_prev":g_prev,"surv":g_surv,"target":round(tgt,2),
              "delta_tgt":round(g_curr-tgt,2) if g_curr is not None else None}
