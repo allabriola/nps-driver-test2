@@ -167,13 +167,24 @@ if _os.path.exists("_mai_breakdown.json"):
     with open("_mai_breakdown.json", encoding="utf-8") as _f:
         _DD_MAI = _json.load(_f)
 
+_SR_NORM  = {"EXPERT":"Expert","NEWBIE":"Newbie","TRAINING":"Training",
+              "expert":"Expert","newbie":"Newbie","training":"Training"}
+_CH_NORM  = {"MULTICANAL CHAT":"CHAT","MULTICANAL C2C":"C2C",
+              "MULTICANAL OFFLINE":"OFFLINE","Chat":"CHAT","Chat ":"CHAT"}
+_DIM_SKIP = {"Sr": {"UNAVAILABLE","unavailable","(sem senior)","(sem seniority)"},
+             "C":  {"(sem canal)","(sem channel)"}}
+
 def _agg_dim(drvs, dim, period, source=None):
-    """Agrega dimensão/período somando p/d/s para um grupo de drivers."""
+    """Agrega dimensão/período somando p/d/s, normalizando nomes de chaves."""
     db = source if source is not None else _DD
     result = {}
+    skip_keys = _DIM_SKIP.get(dim, set())
     for drv in drvs:
         for key, vals in db.get(drv, {}).get(dim, {}).get(period, {}).items():
-            if not key or key.startswith("(sem"): continue
+            if not key or key.startswith("(sem") or key in skip_keys: continue
+            # Normaliza nome da chave
+            if dim == "Sr": key = _SR_NORM.get(key, key.capitalize() if key.isupper() else key)
+            if dim == "C":  key = _CH_NORM.get(key, key)
             r = result.setdefault(key, {"p": 0, "d": 0, "s": 0})
             r["p"] += vals.get("p", 0)
             r["d"] += vals.get("d", 0)
@@ -2204,16 +2215,19 @@ def _drv_analysis_html(grp):
 def _bd_table(items_m1, items_m2, max_rows=6, weekly=False, lbl1="NPS", lbl2="Ant",
               official_nps1=None, official_nps2=None, official_surv1=None, official_surv2=None):
     """Mini-tabela: Nome | NPS | Δ | (Contrib) | Vol — com linha consolidada."""
-    # Usa oficial se fornecido, senão calcula dos itens (pode divergir por filtros)
+    # Soma dos itens do breakdown (para share/contribuição — independente do oficial)
+    items_s1_sum = sum(v.get("s",0) for v in items_m1.values())
+
+    # Total oficial para exibição na linha Total
     if official_nps1 is not None:
         nps_tot1  = official_nps1
         nps_tot2  = official_nps2
-        total_s1  = official_surv1 or sum(v.get("s",0) for v in items_m1.values())
+        total_s1  = official_surv1 or items_s1_sum
         total_s2  = official_surv2 or 0
     else:
         total_p1=sum(v.get("p",0) for v in items_m1.values())
         total_d1=sum(v.get("d",0) for v in items_m1.values())
-        total_s1=sum(v.get("s",0) for v in items_m1.values())
+        total_s1=items_s1_sum
         total_p2=sum(items_m2.get(k,{}).get("p",0) for k in items_m1)
         total_d2=sum(items_m2.get(k,{}).get("d",0) for k in items_m1)
         total_s2=sum(items_m2.get(k,{}).get("s",0) for k in items_m1)
@@ -2230,7 +2244,7 @@ def _bd_table(items_m1, items_m2, max_rows=6, weekly=False, lbl1="NPS", lbl2="An
         delta = round(nps1-nps2,1) if nps1 is not None and nps2 is not None else None
         d_cls = "bd-pos" if delta and delta>0 else ("bd-neg" if delta and delta<0 else "")
         d_str = (("+" if delta>0 else "")+f"{delta:.1f}pp") if delta is not None else "—"
-        s_share = v1["s"]/total_s1 if total_s1 else 0
+        s_share = v1["s"]/items_s1_sum if items_s1_sum else 0
         contrib = round(s_share*delta,2) if delta is not None else None
         c_cls   = "bd-pos" if contrib and contrib>0 else ("bd-neg" if contrib and contrib<0 else "")
         c_str   = (("+" if contrib>0 else "")+f"{contrib:.2f}pp") if contrib is not None else ""
@@ -2298,6 +2312,7 @@ def _bd_seniority(sr_m1, sr_m2, weekly=False, lbl1="NPS", lbl2="Ant",
                   official_nps1=None, official_nps2=None, official_surv1=None, official_surv2=None):
     rows = ""
     total_p1=total_d1=total_s1=total_p2=total_d2=total_s2=0
+    items_s1_sum = sum(v.get("s",0) for v in sr_m1.values()) if sr_m1 else 0
     for key in ["Expert", "Newbie", "Training"]:
         v1 = sr_m1.get(key); v2 = sr_m2.get(key) if sr_m2 else None
         if not v1: continue
@@ -2308,7 +2323,7 @@ def _bd_seniority(sr_m1, sr_m2, weekly=False, lbl1="NPS", lbl2="Ant",
         delta = round(nps1-nps2,1) if nps1 is not None and nps2 is not None else None
         d_cls = "bd-pos" if delta and delta>0 else ("bd-neg" if delta and delta<0 else "")
         d_str = (("+" if delta>0 else "")+f"{delta:.1f}pp") if delta is not None else "—"
-        s_share = v1["s"]/total_s1 if total_s1 else 0
+        s_share = v1["s"]/items_s1_sum if items_s1_sum else 0
         contrib = round(s_share*delta,2) if delta is not None else None
         c_str   = (("+" if contrib and contrib>0 else "")+f"{contrib:.2f}pp") if contrib else ""
         c_cls   = "bd-pos" if contrib and contrib>0 else ("bd-neg" if contrib and contrib<0 else "")
@@ -2409,16 +2424,19 @@ def _build_driver_breakdowns(mode="monthly"):
                f' &nbsp;{chip(g_dtgt, suffix="pp vs tgt")}'
                f'</span></div>')
 
-        is_wk = (mode == "weekly")
-        # NPS oficial do grupo para alinhar o Total de todas as tabelas
+        is_wk = True   # sempre mostra comparação de 2 períodos (Mai vs Abr | S1 vs S2)
+        # NPS e surveys oficiais por grupo para alinhar o Total das tabelas
         off1 = g_nps;  off2 = g_prev
-        surv1 = sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2]
-                    for d in DRIVER_GROUPS.get(grp,[])) if is_wk else None
-        surv2 = sum(weekly_driver.get(d,{}).get("S2",(0,0,0))[2]
-                    for d in DRIVER_GROUPS.get(grp,[])) if is_wk else None
-        kw = dict(weekly=is_wk, lbl1=lM1, lbl2=lM2,
-                  official_nps1=off1 if is_wk else None,
-                  official_nps2=off2 if is_wk else None,
+        if mode == "weekly":
+            surv1 = sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2] for d in DRIVER_GROUPS.get(grp,[]))
+            surv2 = sum(weekly_driver.get(d,{}).get("S2",(0,0,0))[2] for d in DRIVER_GROUPS.get(grp,[]))
+        else:
+            # Mensal: usa monthly_history para volumes oficiais
+            lbl_curr = MONTH_LABELS[-1]; lbl_prev = MONTH_LABELS[-2]
+            surv1 = sum(monthly_history[d].get(lbl_curr,(0,0,0))[2] for d in DRIVER_GROUPS.get(grp,[]) if d in monthly_history)
+            surv2 = sum(monthly_history[d].get(lbl_prev,(0,0,0))[2] for d in DRIVER_GROUPS.get(grp,[]) if d in monthly_history)
+        kw = dict(weekly=True, lbl1=lM1, lbl2=lM2,
+                  official_nps1=off1, official_nps2=off2,
                   official_surv1=surv1, official_surv2=surv2)
         proc_tbl  = _bd_table(bd.get("P_M1",{}), bd.get("P_M2",{}), max_rows=6, **kw)
         canal_tbl = _bd_table(bd.get("C_M1",{}), bd.get("C_M2",{}), max_rows=5, **kw)
