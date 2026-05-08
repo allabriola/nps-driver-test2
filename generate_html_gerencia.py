@@ -19,36 +19,36 @@ S2_LABEL  = "20/abr – 26/abr"
 VIG_LABEL = "04/mai – 08/mai"
 M1_LABEL  = "Maio 2026"
 M2_LABEL  = "Abril 2026"
-NPS_TARGET = 56.06  # SUM(NUM_TARGET_NPS)/SUM(DENOM_TARGET_NPS) via LK JOIN — Abril/2026 (~52,5% oficial)
+NPS_TARGET = 56.61  # SUM(NUM_TARGET_NPS)/SUM(DENOM_TARGET_NPS) via LK JOIN — Abril/2026 (~52,5% oficial)
 
-DRIVER_TARGETS = {   # targets via BQ Abril/2026 — NPS_TARGET consolidado excl. mediacao
+DRIVER_TARGETS = {   # SUM(NUM_TARGET_NPS)/SUM(DENOM_TARGET_NPS) por driver — Mai/2026
     "CBT":                                          74.63,
-    "Experiencia Impositiva Mature":                53.63,
-    "Experiencia Impositiva Meli Pro":              38.57,
-    "Experiencia Impositiva Seller Dev":            59.03,
-    "FBM-S Mature":                                 19.6,
-    "FBM-S Meli Pro":                               48.7,
-    "FBM-S Seller Dev":                             42.07,
-    "ME Vendedor Mature":                           49.4,
-    "ME Vendedor Meli Pro":                         81.6,
-    "ME Vendedor Seller Dev":                       57.8,
-    "Otros CV":                                     53.77,
-    "PCF Vendedor Mature":                          28.27,
-    "PCF Vendedor Meli Pro":                        63.57,
-    "PCF Vendedor Seller Dev":                      39.93,
+    "Experiencia Impositiva Mature":                53.97,
+    "Experiencia Impositiva Meli Pro":              38.73,
+    "Experiencia Impositiva Seller Dev":            59.67,
+    "FBM-S Mature":                                 20.0,
+    "FBM-S Meli Pro":                               49.1,
+    "FBM-S Seller Dev":                             43.36,
+    "ME Vendedor Mature":                           50.0,
+    "ME Vendedor Meli Pro":                         81.93,
+    "ME Vendedor Seller Dev":                       58.3,
+    "Otros CV":                                     53.93,
+    "PCF Vendedor Mature":                          29.28,
+    "PCF Vendedor Meli Pro":                        63.93,
+    "PCF Vendedor Seller Dev":                      40.52,
     "PDD DS&XD - Vendedor":                         16.4,
     "PDD FBM - Vendedor":                           40.67,
     "PDD Fotos - Vendedor":                         33.13,
     "PDD MP,FLEX & CBT - Vendedor":                 12.33,
     "PNR ME - Vendedor":                            27.23,
     "PNR MP - Vendedor":                            29.57,
-    "Partners":                                     70.19,
-    "Post Venta Mature":                            50.1,
-    "Post Venta Meli Pro":                          87.77,
-    "Post Venta Seller Dev":                        53.4,
-    "Publicaciones Mature":                         47.37,
-    "Publicaciones Meli Pro":                       81.43,
-    "Publicaciones Seller Dev":                     52.87,
+    "Partners":                                     70.61,
+    "Post Venta Mature":                            50.8,
+    "Post Venta Meli Pro":                          88.11,
+    "Post Venta Seller Dev":                        54.0,
+    "Publicaciones Mature":                         47.73,
+    "Publicaciones Meli Pro":                       81.77,
+    "Publicaciones Seller Dev":                     53.36,
 }
 
 # ═══════════════════════════════════════════════════════════════

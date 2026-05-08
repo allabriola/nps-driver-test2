@@ -304,12 +304,25 @@ grp_wk_vig  = {g: (grp_wk[g] + [grp_vig[g][0]]) for g in DRIVER_GROUPS}
 wk_cons_vig = wk_cons + [vig_cons_nps]
 
 def _grp_target(drvs):
-    """Target ponderado pelo volume do último mês fechado."""
-    lB  = MONTH_LABELS[-2]   # mês anterior = último fechado
+    """Target via SUM(NUM_TARGET_NPS)/SUM(DENOM_TARGET_NPS) — do _new_targets.json se disponível,
+    senão aproxima pelo volume × target individual."""
+    # Usa valor pré-calculado do BQ se existir em _TARGETS_GROUPS
+    for grp, g_drvs in DRIVER_GROUPS.items():
+        if set(g_drvs) == set(drvs) and grp in _TARGETS_GROUPS:
+            return _TARGETS_GROUPS[grp]
+    # Fallback: média ponderada pelo volume
+    lB  = MONTH_LABELS[-2]
     num = sum(monthly_history[d].get(lB,(0,0,0))[2] * DRIVER_TARGETS.get(d, NPS_TARGET)
               for d in drvs if d in monthly_history)
     den = sum(monthly_history[d].get(lB,(0,0,0))[2] for d in drvs if d in monthly_history)
     return round(num / den, 2) if den else NPS_TARGET
+
+# Carrega targets por grupo do BQ (_new_targets.json)
+_TARGETS_GROUPS = {}
+if _os.path.exists("_new_targets.json"):
+    with open("_new_targets.json", encoding="utf-8") as _f:
+        _tgt_data = _json.load(_f)
+        _TARGETS_GROUPS = _tgt_data.get("groups_mai", {})
 
 grp_targets = {grp: _grp_target(drvs) for grp, drvs in DRIVER_GROUPS.items()}
 

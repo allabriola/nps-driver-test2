@@ -50,5 +50,38 @@
     "Publicaciones Mature": 47.37,
     "Publicaciones Meli Pro": 81.43,
     "Publicaciones Seller Dev": 52.87
-  }
+  },
+  "drivers_mai": {
+    "Experiencia Impositiva Mature": 53.97,
+    "Experiencia Impositiva Meli Pro": 38.73,
+    "Experiencia Impositiva Seller Dev": 59.67,
+    "FBM-S Mature": 20.0,
+    "FBM-S Meli Pro": 49.1,
+    "FBM-S Seller Dev": 43.36,
+    "ME Vendedor Mature": 50.0,
+    "ME Vendedor Meli Pro": 81.93,
+    "ME Vendedor Seller Dev": 58.3,
+    "Otros CV": 53.93,
+    "PCF Vendedor Mature": 29.28,
+    "PCF Vendedor Meli Pro": 63.93,
+    "PCF Vendedor Seller Dev": 40.52,
+    "Partners": 70.61,
+    "Post Venta Mature": 50.8,
+    "Post Venta Meli Pro": 88.11,
+    "Post Venta Seller Dev": 54.0,
+    "Publicaciones Mature": 47.73,
+    "Publicaciones Meli Pro": 81.77,
+    "Publicaciones Seller Dev": 53.36
+  },
+  "groups_mai": {
+    "ME Vendedor": 57.34,
+    "Exp. Impositiva": 58.43,
+    "PCF Vendedor": 39.05,
+    "Post Venta": 54.85,
+    "Publicaciones": 53.2,
+    "FBM-S": 37.65,
+    "Partners": 70.61,
+    "Otros CV": 53.93
+  },
+  "consolidated_mai": 56.61
 }
