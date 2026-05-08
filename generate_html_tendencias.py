@@ -898,7 +898,7 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
     insights = _deep_trx_insights(grp)
     if insights:
         det = insights["det"]; pro = insights["pro"]
-        recurrent = insights["recurrent"]
+        recurrent = [r["categoria"] for r in _recurrence_deep(grp)]
 
         # Detratores
         if det["n"] > 0 and (det["contact"] or det["pain"]):
@@ -928,15 +928,21 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
                     f'Resolução confirmada: <strong style="color:#00A650">{pro["res_pct"]}%</strong>.')
             bullets.append(bullet(dot_pos, "Promotores: o que foi bem", body))
 
-        # Alerta de recorrência
-        if recurrent:
-            rec_list = "; ".join(f"<strong>{esc(r)}</strong>" for r in recurrent)
-            body = (f'Padrão identificado também no período mensal — '
-                    f'{rec_list} {"é" if len(recurrent)==1 else "são"} '
-                    f'<strong>{"problema" if len(recurrent)==1 else "problemas"} crônico{"s" if len(recurrent)>1 else ""}</strong>, '
-                    f'não episódico{"s" if len(recurrent)>1 else ""}. '
-                    f'Requer atuação estrutural, não pontual.')
-            bullets.append(bullet(dot_neg, "Recorrência confirmada", body))
+        # Recorrência com sub-padrão específico
+        rec_deep = _recurrence_deep(grp)
+        if rec_deep:
+            rec_items = ""
+            for r in rec_deep[:3]:
+                rec_items += (f'<div style="margin:4px 0 4px 12px;font-size:12px">'
+                              f'<span style="color:#E84142">&#9679;</span> '
+                              f'<strong>{esc(r["sub_pattern"])}</strong>'
+                              f' <span style="color:#aaa;font-size:10px">'
+                              f'(S1: {r["s1_count"]} caso{"s" if r["s1_count"]>1 else ""} '
+                              f'| mensal: {r["monthly_count"]} caso{"s" if r["monthly_count"]>1 else ""})'
+                              f'</span></div>')
+            body = (f'Os seguintes sub-padrões aparecem <strong>tanto na semana S1 quanto no período mensal</strong> '
+                    f'— confirmam problema crônico que exige atuação estrutural:{rec_items}')
+            bullets.append(bullet(dot_neg, "Recorrência — o que especificamente se repete", body))
 
     return "".join(bullets) if bullets else ""
 
@@ -994,35 +1000,73 @@ def _analyze_trx_group(trx_dict):
         "esc_pct":    round(100*escalated/n) if n else 0,
     }
 
-def _recurrence_check(grp, det_contact):
+def _recurrence_deep(grp):
     """
-    Verifica se os padrões identificados são recorrentes (S1 + histórico mensal).
-    Compara contact reasons de S1 com padrões mensais de _EXEC.
-    Retorna lista de padrões marcados como recorrentes.
+    Diagnóstico aprofundado de recorrência: identifica o SUB-PADRÃO específico
+    que se repete entre S1 (transcriptions) e o período mensal (comentários).
+    Retorna lista de dicts: {categoria, sub_pattern, s1_count, monthly_count, narrative}
     """
-    # Padrões mensais do mesmo driver (de _EXEC)
-    monthly_cmts = _EXEC.get("qual",{}).get(grp,{}).get("comments",[])
-    monthly_dets = [c for c in monthly_cmts if c.get("perfil")=="detrator"]
-
-    CONTACT = {
-        "envio e logística":   ["envio","entrega","atraso","coleta","rastreio","full"],
-        "cobrança e faturamento": ["cobrança","fatura","cobrado","certificado","faturador","ads"],
-        "mediação e disputa":  ["mediação","reclamo","disputa","divergência","IS"],
-        "reputação e conta":   ["reputação","suspens","conta","restrit","banid"],
-        "publicação e afiliados": ["publicação","anúncio","afiliado","comissão","métricas"],
+    # ── Sub-padrões específicos por categoria ─────────────────────────
+    SUB_PATTERNS = {
+        "envio e logística": {
+            "atraso de entrega sem atualização de status": ["atraso","atrasado","não chegou","prazo","data"],
+            "coleta não realizada / reagendamento falho":  ["coleta","coletado","inbound","agendar coleta","não foi coletado"],
+            "entregador não compareceu ou fraudou":        ["entregador","motorista","não entregou","portão","furtou"],
+            "envio Full parado no CD":                     ["full","centro de distribuição","CD","processado","inbound"],
+        },
+        "cobrança e faturamento": {
+            "cobrança de ADS não autorizada":              ["ads","publicidade","campanha","tarifa por publicidade"],
+            "bloqueio do Faturador / certificado digital": ["faturador","certificado","nf-e","nota fiscal","emiss"],
+            "IS divergente (inconformidade no estoque)":   ["IS","inconformidade","divergência","desconto indevido"],
+            "cobrança indevida sem resolução":             ["cobrado indevid","cobrança errada","valor errado","não reconh"],
+        },
+        "mediação e disputa": {
+            "reclamo afetando reputação indevidamente":    ["reputação","reclamo","afetou","impactou","punido"],
+            "mediação aberta sem prazo claro":             ["mediação","aberta","sem resposta","prazo","aguardando"],
+            "decisão considerada injusta":                 ["injusto","erro do ml","não é minha culpa","arbitrário"],
+        },
+        "publicação e afiliados": {
+            "comissão de afiliados não paga / invalidada": ["afiliado","comissão","não aprovada","pendente","invalidada"],
+            "suspensão de publicação sem motivo claro":    ["suspensa","pausada","removida","publicação","anúncio"],
+            "atendimento automático sem análise do caso":  ["robótico","automático","frases prontas","não leu","padrão"],
+        },
+        "reputação e conta": {
+            "conta suspensa / restrita sem explicação":    ["suspensa","restrita","banida","bloqueada","sem motivo"],
+            "badge de experiência ruim indevido":          ["badge","experiência de compra","mala","penalização"],
+        },
+        "devolução e reembolso": {
+            "devolução impactando reputação":              ["devolução","impactou","reputação","cancelamento"],
+            "reembolso pendente sem atualização":          ["reembolso","estorno","não recebi","prazo","pendente"],
+        },
     }
-    monthly_contact = set()
-    for c in monthly_dets:
-        txt = (c.get("comment","") or "").lower()
-        for cat, kws in CONTACT.items():
-            if any(k in txt for k in kws):
-                monthly_contact.add(cat)
 
-    recurrent = []
-    for cat, _ in det_contact:
-        if cat in monthly_contact:
-            recurrent.append(cat)
-    return recurrent
+    # Textos de S1 (transcrições USER dos detratores)
+    det_trxs = _TRX_S1.get(grp, {}).get("detrator", {})
+    s1_texts = [" ".join(m["msg"].lower() for m in msgs if m.get("role")=="USER")
+                for msgs in det_trxs.values()]
+
+    # Textos mensais (comentários detratores do _EXEC)
+    monthly_cmts = _EXEC.get("qual",{}).get(grp,{}).get("comments",[])
+    monthly_texts = [(c.get("comment","") or "").lower()
+                     for c in monthly_cmts if c.get("perfil")=="detrator"]
+
+    results = []
+    for cat, sub_dict in SUB_PATTERNS.items():
+        for sub, kws in sub_dict.items():
+            s1_hits     = sum(1 for t in s1_texts     if any(k in t for k in kws))
+            monthly_hits= sum(1 for t in monthly_texts if any(k in t for k in kws))
+            if s1_hits >= 1 and monthly_hits >= 1:
+                # Padrão aparece em AMBOS os períodos → recorrente
+                results.append({
+                    "categoria":     cat,
+                    "sub_pattern":   sub,
+                    "s1_count":      s1_hits,
+                    "monthly_count": monthly_hits,
+                })
+
+    # Ordena por s1_count + monthly_count (mais frequentes primeiro)
+    results.sort(key=lambda x: -(x["s1_count"] + x["monthly_count"]))
+    return results[:4]   # top 4 sub-padrões recorrentes
 
 def _deep_trx_insights(grp):
     """
@@ -1045,7 +1089,7 @@ def _deep_trx_insights(grp):
     pro = _analyze_trx_group(pro_trx) if pro_trx else {"n":0,"contact":[],"pain":[],"positive":[],"res_pct":0,"esc_pct":0}
 
     # Recorrência: padrões que aparecem tanto em S1 como no período mensal
-    recurrent = _recurrence_check(grp, det.get("contact",[]))
+    recurrent = []  # calculado em _diagnostic_bullets via _recurrence_deep
 
     return {"det": det, "pro": pro, "recurrent": recurrent}
 
