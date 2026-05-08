@@ -211,18 +211,18 @@ def _agg_dim(drvs, dim, period, source=None):
         v["nps"] = round(100.0*(v["p"]-v["d"])/v["s"], 1) if v["s"] > 0 else None
     return result
 
-# M1 = Maio, M2 = Abril — P/C/O da tabela oficial, Sr do dd_breakdown
+# M1 = Maio, M2 = Abril — P/C/O/Sr todos da tabela oficial ou com filtros corretos
 grp_breakdown = {}
 for _grp, _drvs in DRIVER_GROUPS.items():
     grp_breakdown[_grp] = {
-        "P_M1":  _agg_mb(_drvs,  "P",  "Mai"),    # oficial VALID_CS
-        "P_M2":  _agg_mb(_drvs,  "P",  "Abr"),    # oficial VALID_CS
+        "P_M1":  _agg_mb(_drvs,  "P",  "Mai"),
+        "P_M2":  _agg_mb(_drvs,  "P",  "Abr"),
         "C_M1":  _agg_mb(_drvs,  "C",  "Mai"),
         "C_M2":  _agg_mb(_drvs,  "C",  "Abr"),
         "O_M1":  _agg_mb(_drvs,  "O",  "Mai"),
         "O_M2":  _agg_mb(_drvs,  "O",  "Abr"),
-        "Sr_M1": _agg_dim(_drvs, "Sr", "Mai", _DD_MAI),  # seniority do dd_breakdown
-        "Sr_M2": _agg_dim(_drvs, "Sr", "M1",  _DD),
+        "Sr_M1": _agg_mb(_drvs,  "Sr", "Mai"),   # seniority com processos corretos
+        "Sr_M2": _agg_mb(_drvs,  "Sr", "Abr"),
     }
 
 # VIG por grupo (de drivers_vigente)
@@ -2231,7 +2231,8 @@ def _drv_analysis_html(grp):
     return f'<div class="bd-analysis exec-wrap">{resumo_sec}{rec_sec}{trx_sec}{pro_sec}{det_sec}{tgt_sec}</div>'
 
 def _bd_table(items_m1, items_m2, max_rows=6, weekly=False, lbl1="NPS", lbl2="Ant",
-              official_nps1=None, official_nps2=None, official_surv1=None, official_surv2=None):
+              official_nps1=None, official_nps2=None, official_surv1=None, official_surv2=None,
+              delta_label="WoW"):
     """Mini-tabela: Nome | NPS | Δ | (Contrib) | Vol — com linha consolidada."""
     # Soma dos itens do breakdown (para share/contribuição — independente do oficial)
     items_s1_sum = sum(v.get("s",0) for v in items_m1.values())
@@ -2300,7 +2301,7 @@ def _bd_table(items_m1, items_m2, max_rows=6, weekly=False, lbl1="NPS", lbl2="An
 
     if weekly:
         header = (f'<thead><tr><th>Nome</th><th>{esc(lbl2)}</th><th>{esc(lbl1)}</th>'
-                  f'<th>&#916; WoW</th><th>Contrib</th><th>Vol</th></tr></thead>')
+                  f'<th>&#916; {esc(delta_label)}</th><th>Contrib</th><th>Vol</th></tr></thead>')
     else:
         header = (f'<thead><tr><th>Nome</th><th>NPS</th><th>&#916; M/M</th><th>Vol</th></tr></thead>')
 
@@ -2327,7 +2328,8 @@ def _bd_table(items_m1, items_m2, max_rows=6, weekly=False, lbl1="NPS", lbl2="An
     return f'<table class="bd-tbl"><{header}<tbody>{rows}</tbody></table>'
 
 def _bd_seniority(sr_m1, sr_m2, weekly=False, lbl1="NPS", lbl2="Ant",
-                  official_nps1=None, official_nps2=None, official_surv1=None, official_surv2=None):
+                  official_nps1=None, official_nps2=None, official_surv1=None, official_surv2=None,
+                  delta_label="WoW"):
     rows = ""
     total_p1=total_d1=total_s1=total_p2=total_d2=total_s2=0
     items_s1_sum = sum(v.get("s",0) for v in sr_m1.values()) if sr_m1 else 0
@@ -2375,7 +2377,7 @@ def _bd_seniority(sr_m1, sr_m2, weekly=False, lbl1="NPS", lbl2="Ant",
                  f'<td class="bd-delta {dt_cls}">{dt_str}</td><td></td>'
                  f'<td class="bd-vol" style="color:#3483FA">{total_s1:,}</td></tr>\n')
         header = (f'<thead><tr><th>Seniority</th><th>{esc(lbl2)}</th><th>{esc(lbl1)}</th>'
-                  f'<th>&#916; WoW</th><th>Contrib</th><th>Vol</th></tr></thead>')
+                  f'<th>&#916; {esc(delta_label)}</th><th>Contrib</th><th>Vol</th></tr></thead>')
     else:
         if total_s1: rows += (f'<tr style="border-top:2px solid #3483FA;background:#f0f4ff;font-weight:700">'
                                f'<td class="bd-name" style="color:#3483FA">Total</td>'
@@ -2455,7 +2457,8 @@ def _build_driver_breakdowns(mode="monthly"):
             surv2 = sum(monthly_history[d].get(lbl_prev,(0,0,0))[2] for d in DRIVER_GROUPS.get(grp,[]) if d in monthly_history)
         kw = dict(weekly=True, lbl1=lM1, lbl2=lM2,
                   official_nps1=off1, official_nps2=off2,
-                  official_surv1=surv1, official_surv2=surv2)
+                  official_surv1=surv1, official_surv2=surv2,
+                  delta_label=delta_lbl)
         proc_tbl  = _bd_table(bd.get("P_M1",{}), bd.get("P_M2",{}), max_rows=6, **kw)
         canal_tbl = _bd_table(bd.get("C_M1",{}), bd.get("C_M2",{}), max_rows=5, **kw)
         ofic_tbl  = _bd_table(bd.get("O_M1",{}), bd.get("O_M2",{}), max_rows=4, **kw)
@@ -2463,7 +2466,8 @@ def _build_driver_breakdowns(mode="monthly"):
                                   weekly=is_wk, lbl1=lM1, lbl2=lM2,
                                   official_nps1=off1 if is_wk else None,
                                   official_nps2=off2 if is_wk else None,
-                                  official_surv1=surv1, official_surv2=surv2)
+                                  official_surv1=surv1, official_surv2=surv2,
+                                  delta_label=delta_lbl)
 
         grid = (f'<div class="bd-grid">'
                 f'<div class="bd-sec"><div class="bd-sec-title">&#128204; Processos</div>{proc_tbl}</div>'

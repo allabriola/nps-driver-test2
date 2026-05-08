@@ -89,8 +89,38 @@ for period, (start, end) in PERIODS.items():
             for k,v in period_data[drv][dim].items():
                 v['nps'] = nps(v['p'],v['d'],v['s'])
 
+    # ── Seniority: usa processos do breakdown oficial para filtrar ──
+    # Agrupa todos os processos por driver a partir do period_data já calculado
+    for drv in period_data:
+        procs = list(period_data[drv]['P'].keys())
+        if not procs: continue
+        procs_in = "'" + "','".join(p.replace("'","''") for p in procs[:20]) + "'"
+        SR_SQL = f"""
+        SELECT COALESCE(ANTIGUEDAD_REP,'(sem senior)') as seniority,
+          SUM(PROMOTER) as p, SUM(DETRACTOR) as d, COUNT(*) as s
+        FROM `meli-bi-data.WHOWNER.DM_CX_NPS_Y20_DETAIL`
+        WHERE SIT_SITE_ID='MLB' AND SURVEY_CENTER='BR'
+          AND SURVEY_DATE_SURVEY BETWEEN '{start}' AND '{end}'
+          AND PRO_PROCESS_NAME IN ({procs_in})
+          AND (PROMOTER=1 OR DETRACTOR=1)
+        GROUP BY 1 HAVING COUNT(*) >= 2
+        """
+        try:
+            time.sleep(0.8)
+            sr_rows = list(bq.query(SR_SQL).result())
+            period_data[drv].setdefault('Sr', {})
+            for r in sr_rows:
+                sr_key = r.seniority
+                if not sr_key or sr_key.startswith('(sem') or sr_key in ('UNAVAILABLE','unavailable'): continue
+                sr_key = {'EXPERT':'Expert','NEWBIE':'Newbie','TRAINING':'Training'}.get(sr_key, sr_key.capitalize() if sr_key.isupper() else sr_key)
+                sv = period_data[drv]['Sr'].setdefault(sr_key, {'p':0,'d':0,'s':0})
+                sv['p'] += int(r.p); sv['d'] += int(r.d); sv['s'] += int(r.s)
+            for k,v in period_data[drv]['Sr'].items():
+                v['nps'] = nps(v['p'],v['d'],v['s'])
+        except Exception as e:
+            print(f'  Sr {drv[:30]}: ERRO {e}')
+
     result[period] = period_data
-    # Total por driver
     for drv, dims in period_data.items():
         tot = sum(v['s'] for v in dims['P'].values())
         if tot > 0:
