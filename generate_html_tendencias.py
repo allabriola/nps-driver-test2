@@ -894,92 +894,160 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
                     f'Variação explicada principalmente pela <strong>{dominant}</strong>.')
             bullets.append(bullet(d, "Decomposição Mix vs Neto", body))
 
-    # ── 5. Transcrições: motivo de contato + dor ─────────────────────
+    # ── 5. Transcrições: detratores e promotores com recorrência ────────
     insights = _deep_trx_insights(grp)
     if insights:
-        if insights["top_contact"]:
-            c_top = insights["top_contact"][0]
-            c_all = " e ".join(f"{esc(c)} ({v})" for c,v in insights["top_contact"][:2])
-            body = (f'Sellers entram em contato por {c_all} ({insights["n"]} transcrições). '
-                    f'Taxa de resolução: <strong style="color:{"#00A650" if insights["res_pct"]>=50 else "#E84142"}">'
-                    f'{insights["res_pct"]}%</strong>')
-            if insights["esc_pct"] > 5:
-                body += f'; <strong style="color:#E84142">{insights["esc_pct"]}% com risco de escalação</strong>'
-            body += "."
-            d = dot_neg if insights["res_pct"] < 50 else dot_neu
-            bullets.append(bullet(d, "Transcrições: motivo de contato", body))
+        det = insights["det"]; pro = insights["pro"]
+        recurrent = insights["recurrent"]
 
-        if insights["top_pain"]:
-            pain_list = "; ".join(f"{esc(p)} ({v})" for p,v in insights["top_pain"][:2])
-            body = f'Padrões de dor identificados: <strong>{pain_list}</strong>.'
-            bullets.append(bullet(dot_neg, "Transcrições: dores dos sellers", body))
+        # Detratores
+        if det["n"] > 0 and (det["contact"] or det["pain"]):
+            c_all = " e ".join(
+                f'<strong>{esc(c)}</strong> ({v}/{det["n"]})'
+                + (' <span style="color:#E84142;font-size:10px;font-weight:700">[RECORRENTE]</span>'
+                   if c in recurrent else "")
+                for c,v in det["contact"][:2]
+            )
+            body = (f'{det["n"]} transcrições de detratores. '
+                    f'Motivos principais: {c_all}. '
+                    f'Resolução: <strong style="color:{"#00A650" if det["res_pct"]>=50 else "#E84142"}">'
+                    f'{det["res_pct"]}%</strong>')
+            if det["esc_pct"] > 5:
+                body += f'; <strong style="color:#E84142">{det["esc_pct"]}% com risco de escalação</strong>'
+            if det["pain"]:
+                top_pain = det["pain"][0][0]
+                body += f'. Dor dominante: <strong>{esc(top_pain)}</strong>'
+            body += "."
+            bullets.append(bullet(dot_neg, "Detratores: o que foi mal", body))
+
+        # Promotores
+        if pro["n"] > 0 and pro["positive"]:
+            pos_all = " e ".join(f'<strong>{esc(p)}</strong> ({v}/{pro["n"]})' for p,v in pro["positive"][:2])
+            body = (f'{pro["n"]} transcrições de promotores. '
+                    f'Padrões positivos: {pos_all}. '
+                    f'Resolução confirmada: <strong style="color:#00A650">{pro["res_pct"]}%</strong>.')
+            bullets.append(bullet(dot_pos, "Promotores: o que foi bem", body))
+
+        # Alerta de recorrência
+        if recurrent:
+            rec_list = "; ".join(f"<strong>{esc(r)}</strong>" for r in recurrent)
+            body = (f'Padrão identificado também no período mensal — '
+                    f'{rec_list} {"é" if len(recurrent)==1 else "são"} '
+                    f'<strong>{"problema" if len(recurrent)==1 else "problemas"} crônico{"s" if len(recurrent)>1 else ""}</strong>, '
+                    f'não episódico{"s" if len(recurrent)>1 else ""}. '
+                    f'Requer atuação estrutural, não pontual.')
+            bullets.append(bullet(dot_neg, "Recorrência confirmada", body))
 
     return "".join(bullets) if bullets else ""
 
-def _deep_trx_insights(grp):
-    """
-    Analisa transcrições para extrair motivos de contato e dores dos sellers.
-    Retorna dict com: contact_reasons, pain_clusters, resolution_rate, escalation_rate, pattern_summary
-    Regras: sem quotes literais, sem type_labels.
-    """
-    trxs = _TRX_S1.get(grp, {})
-    if not trxs:
-        return None
-
-    # Categorias de motivo de contato
+def _analyze_trx_group(trx_dict):
+    """Analisa um grupo de transcrições e retorna padrões quantificados."""
     CONTACT = {
         "envio e logística":        ["envio","entrega","atraso","coleta","rastreio","full","inbound","status"],
         "cobrança e faturamento":   ["cobrança","fatura","cobrado","certificado","faturador","ads","campanha",
-                                     "boleto","tarifa","comissão"],
+                                     "boleto","tarifa","comiss"],
         "mediação e disputa":       ["mediação","mediacao","reclamo","disputa","divergência","IS","inconformidade"],
-        "reputação e conta":        ["reputação","suspensão","conta","restrita","banida","penalizada","badge"],
+        "reputação e conta":        ["reputação","suspens","conta","restrit","banid","penaliz","badge"],
         "publicação e afiliados":   ["publicação","anúncio","afiliado","comissão","métricas","publicar"],
         "devolução e reembolso":    ["devolução","reembolso","cancelamento","retorno","estorno"],
-        "acesso e autenticação":    ["senha","acesso","login","autenticação","código","verificar conta"],
     }
-    # Padrões de dor (frustração / urgência / bloqueio)
     PAIN = {
-        "múltiplos contatos sem resolução": ["já tentei","já abri","terceira vez","semanas","meses","não resolve",
-                                              "várias vezes","segunda vez"],
-        "perda financeira direta":          ["prejuízo","perdi","perdendo dinheiro","3 mil","5 mil","reais"],
-        "bloqueio operacional":             ["não consigo vender","bloqueada","suspensa","restrito","parado"],
+        "múltiplos contatos sem resolução": ["já tentei","já abri","terceira vez","semanas","meses","não resolve","várias vezes"],
+        "perda financeira":                 ["prejuízo","perdi","perdendo dinheiro","mil reais","prejudicou"],
+        "bloqueio operacional":             ["não consigo vender","bloqueada","suspensa","restrito","parado","operação"],
         "percepção de injustiça":           ["não é minha culpa","erro do ml","arbitrário","injusto","castigando"],
         "urgência não atendida":            ["urgente","preciso hoje","prazo","vence","até amanhã"],
     }
-    RESOLUTION = ["resolvido","solucionado","concluído","feito isso","ok resolvemos","encerramos"]
-    ESCALATION  = ["procon","judicial","advogado","ouvidoria","processo","bopm"]
+    POSITIVE = {
+        "resolução confirmada":   ["resolvido","solucionado","concluído","feito","resolvemos","encerramos"],
+        "agilidade percebida":    ["rápido","ágil","imediato","logo","rapidamente"],
+        "empatia do atendente":   ["gentil","atencioso","compreendeu","entendeu","excelente atendimento"],
+        "primeiro contato":       ["primeira vez","primeiro contato","de cara","sem precisar"],
+    }
+    ESCALATION = ["procon","judicial","advogado","ouvidoria","processo","bopm"]
 
     contact_cnt = {k: 0 for k in CONTACT}
     pain_cnt    = {k: 0 for k in PAIN}
-    resolved    = 0; escalated = 0; n = len(trxs)
+    pos_cnt     = {k: 0 for k in POSITIVE}
+    resolved = 0; escalated = 0; n = len(trx_dict)
 
-    for cid, msgs in trxs.items():
+    for cid, msgs in trx_dict.items():
         full   = " ".join(m["msg"].lower() for m in msgs)
-        user_t = " ".join(m["msg"].lower() for m in msgs if m["role"] == "USER")
-
+        user_t = " ".join(m["msg"].lower() for m in msgs if m.get("role") == "USER")
         for cat, kws in CONTACT.items():
-            if any(k in user_t for k in kws):
-                contact_cnt[cat] += 1
+            if any(k in user_t for k in kws): contact_cnt[cat] += 1
         for pat, kws in PAIN.items():
-            if any(k in user_t for k in kws):
-                pain_cnt[pat] += 1
-        if any(k in full for k in RESOLUTION):
-            resolved  += 1
+            if any(k in user_t for k in kws): pain_cnt[pat]    += 1
+        for pat, kws in POSITIVE.items():
+            if any(k in full    for k in kws): pos_cnt[pat]     += 1
         if any(k in full for k in ESCALATION):
             escalated += 1
-
-    top_contact = sorted(contact_cnt.items(), key=lambda x: -x[1])
-    top_pain    = sorted(pain_cnt.items(),    key=lambda x: -x[1])
-    res_pct     = round(100 * resolved  / n) if n else 0
-    esc_pct     = round(100 * escalated / n) if n else 0
+        if any(k in full for k in POSITIVE["resolução confirmada"]):
+            resolved  += 1
 
     return {
-        "n":             n,
-        "top_contact":   [(c,v) for c,v in top_contact if v > 0][:3],
-        "top_pain":      [(p,v) for p,v in top_pain    if v > 0][:3],
-        "res_pct":       res_pct,
-        "esc_pct":       esc_pct,
+        "n":          n,
+        "contact":    [(c,v) for c,v in sorted(contact_cnt.items(), key=lambda x:-x[1]) if v > 0][:3],
+        "pain":       [(p,v) for p,v in sorted(pain_cnt.items(),    key=lambda x:-x[1]) if v > 0][:3],
+        "positive":   [(p,v) for p,v in sorted(pos_cnt.items(),     key=lambda x:-x[1]) if v > 0][:3],
+        "res_pct":    round(100*resolved/n)  if n else 0,
+        "esc_pct":    round(100*escalated/n) if n else 0,
     }
+
+def _recurrence_check(grp, det_contact):
+    """
+    Verifica se os padrões identificados são recorrentes (S1 + histórico mensal).
+    Compara contact reasons de S1 com padrões mensais de _EXEC.
+    Retorna lista de padrões marcados como recorrentes.
+    """
+    # Padrões mensais do mesmo driver (de _EXEC)
+    monthly_cmts = _EXEC.get("qual",{}).get(grp,{}).get("comments",[])
+    monthly_dets = [c for c in monthly_cmts if c.get("perfil")=="detrator"]
+
+    CONTACT = {
+        "envio e logística":   ["envio","entrega","atraso","coleta","rastreio","full"],
+        "cobrança e faturamento": ["cobrança","fatura","cobrado","certificado","faturador","ads"],
+        "mediação e disputa":  ["mediação","reclamo","disputa","divergência","IS"],
+        "reputação e conta":   ["reputação","suspens","conta","restrit","banid"],
+        "publicação e afiliados": ["publicação","anúncio","afiliado","comissão","métricas"],
+    }
+    monthly_contact = set()
+    for c in monthly_dets:
+        txt = (c.get("comment","") or "").lower()
+        for cat, kws in CONTACT.items():
+            if any(k in txt for k in kws):
+                monthly_contact.add(cat)
+
+    recurrent = []
+    for cat, _ in det_contact:
+        if cat in monthly_contact:
+            recurrent.append(cat)
+    return recurrent
+
+def _deep_trx_insights(grp):
+    """
+    Analisa transcrições separadas de detratores e promotores.
+    Retorna análise de ambos os grupos + flag de recorrência.
+    """
+    grp_data = _TRX_S1.get(grp, {})
+    # Suporta formato novo {detrator:{}, promotor:{}} e formato antigo {cid:[msgs]}
+    if "detrator" in grp_data or "promotor" in grp_data:
+        det_trx = grp_data.get("detrator", {})
+        pro_trx = grp_data.get("promotor",  {})
+    else:
+        det_trx = grp_data
+        pro_trx = {}
+
+    if not det_trx and not pro_trx:
+        return None
+
+    det = _analyze_trx_group(det_trx) if det_trx else {"n":0,"contact":[],"pain":[],"positive":[],"res_pct":0,"esc_pct":0}
+    pro = _analyze_trx_group(pro_trx) if pro_trx else {"n":0,"contact":[],"pain":[],"positive":[],"res_pct":0,"esc_pct":0}
+
+    # Recorrência: padrões que aparecem tanto em S1 como no período mensal
+    recurrent = _recurrence_check(grp, det.get("contact",[]))
+
+    return {"det": det, "pro": pro, "recurrent": recurrent}
 
 def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
                      lbl_curr, lbl_prev, color, period_type="S1", days=7):
