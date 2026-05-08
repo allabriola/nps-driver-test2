@@ -2196,41 +2196,123 @@ def _drv_analysis_html(grp):
     trx_sec = _trx_summary_html(grp)
     return f'<div class="bd-analysis exec-wrap">{resumo_sec}{rec_sec}{trx_sec}{pro_sec}{det_sec}{tgt_sec}</div>'
 
-def _bd_table(items_m1, items_m2, max_rows=6):
-    """Mini-tabela: Nome | NPS M1 | Δ M/M | Volume."""
+def _bd_table(items_m1, items_m2, max_rows=6, weekly=False, lbl1="NPS", lbl2="Ant"):
+    """Mini-tabela: Nome | NPS | Δ | (Contrib) | Vol — com linha consolidada."""
+    total_p1=sum(v.get("p",0) for v in items_m1.values())
+    total_d1=sum(v.get("d",0) for v in items_m1.values())
+    total_s1=sum(v.get("s",0) for v in items_m1.values())
+    total_p2=sum(items_m2.get(k,{}).get("p",0) for k in items_m1)
+    total_d2=sum(items_m2.get(k,{}).get("d",0) for k in items_m1)
+    total_s2=sum(items_m2.get(k,{}).get("s",0) for k in items_m1)
+    nps_tot1 = round(100*(total_p1-total_d1)/total_s1,1) if total_s1 else None
+    nps_tot2 = round(100*(total_p2-total_d2)/total_s2,1) if total_s2 else None
+    delta_tot = round(nps_tot1-nps_tot2,1) if nps_tot1 is not None and nps_tot2 is not None else None
+
     rows = ""
     sorted_items = sorted(items_m1.items(), key=lambda x: -x[1]["s"])[:max_rows]
     for name, v1 in sorted_items:
         v2    = items_m2.get(name)
         nps1  = v1["nps"]
-        delta = round(nps1 - v2["nps"], 1) if v2 and v2["nps"] is not None and nps1 is not None else None
-        d_cls = "bd-pos" if delta is not None and delta > 0 else ("bd-neg" if delta is not None and delta < 0 else "")
-        d_str = (("+" if delta > 0 else "") + f"{delta:.1f}pp") if delta is not None else "—"
-        rows += (f'<tr><td class="bd-name">{esc(name[:38])}</td>'
-                 f'<td class="bd-nps">{fn(nps1) if nps1 is not None else "—"}%</td>'
-                 f'<td class="bd-delta {d_cls}">{d_str}</td>'
-                 f'<td class="bd-vol">{v1["s"]:,}</td></tr>\n')
-    return (f'<table class="bd-tbl">'
-            f'<thead><tr><th>Nome</th><th>NPS</th><th>&#916; M/M</th><th>Vol</th></tr></thead>'
-            f'<tbody>{rows}</tbody></table>')
+        nps2  = v2["nps"] if v2 else None
+        delta = round(nps1-nps2,1) if nps1 is not None and nps2 is not None else None
+        d_cls = "bd-pos" if delta and delta>0 else ("bd-neg" if delta and delta<0 else "")
+        d_str = (("+" if delta>0 else "")+f"{delta:.1f}pp") if delta is not None else "—"
+        s_share = v1["s"]/total_s1 if total_s1 else 0
+        contrib = round(s_share*delta,2) if delta is not None else None
+        c_cls   = "bd-pos" if contrib and contrib>0 else ("bd-neg" if contrib and contrib<0 else "")
+        c_str   = (("+" if contrib>0 else "")+f"{contrib:.2f}pp") if contrib is not None else ""
 
-def _bd_seniority(sr_m1, sr_m2):
+        if weekly:
+            rows += (f'<tr><td class="bd-name">{esc(name[:32])}</td>'
+                     f'<td class="bd-nps">{fn(nps2) if nps2 is not None else "—"}%</td>'
+                     f'<td class="bd-nps">{fn(nps1) if nps1 is not None else "—"}%</td>'
+                     f'<td class="bd-delta {d_cls}">{d_str}</td>'
+                     f'<td class="bd-delta {c_cls}" style="font-size:10px">{c_str}</td>'
+                     f'<td class="bd-vol">{v1["s"]:,}</td></tr>\n')
+        else:
+            rows += (f'<tr><td class="bd-name">{esc(name[:38])}</td>'
+                     f'<td class="bd-nps">{fn(nps1) if nps1 is not None else "—"}%</td>'
+                     f'<td class="bd-delta {d_cls}">{d_str}</td>'
+                     f'<td class="bd-vol">{v1["s"]:,}</td></tr>\n')
+
+    # Linha consolidada
+    if total_s1 > 0:
+        dt_cls  = "bd-pos" if delta_tot and delta_tot>0 else ("bd-neg" if delta_tot and delta_tot<0 else "")
+        dt_str  = (("+" if delta_tot>0 else "")+f"{delta_tot:.1f}pp") if delta_tot is not None else "—"
+        if weekly:
+            rows += (f'<tr style="border-top:2px solid #3483FA;background:#f0f4ff;font-weight:700">'
+                     f'<td class="bd-name" style="color:#3483FA">Total</td>'
+                     f'<td class="bd-nps" style="color:#aaa">{fn(nps_tot2) if nps_tot2 is not None else "—"}%</td>'
+                     f'<td class="bd-nps" style="color:#3483FA">{fn(nps_tot1) if nps_tot1 is not None else "—"}%</td>'
+                     f'<td class="bd-delta {dt_cls}">{dt_str}</td>'
+                     f'<td></td><td class="bd-vol" style="color:#3483FA">{total_s1:,}</td></tr>\n')
+        else:
+            rows += (f'<tr style="border-top:2px solid #3483FA;background:#f0f4ff;font-weight:700">'
+                     f'<td class="bd-name" style="color:#3483FA">Total</td>'
+                     f'<td class="bd-nps" style="color:#3483FA">{fn(nps_tot1) if nps_tot1 is not None else "—"}%</td>'
+                     f'<td class="bd-delta {dt_cls}">{dt_str}</td>'
+                     f'<td class="bd-vol" style="color:#3483FA">{total_s1:,}</td></tr>\n')
+
+    if weekly:
+        header = (f'<thead><tr><th>Nome</th><th>{esc(lbl2)}</th><th>{esc(lbl1)}</th>'
+                  f'<th>&#916; WoW</th><th>Contrib</th><th>Vol</th></tr></thead>')
+    else:
+        header = (f'<thead><tr><th>Nome</th><th>NPS</th><th>&#916; M/M</th><th>Vol</th></tr></thead>')
+
+    return f'<table class="bd-tbl"><{header}<tbody>{rows}</tbody></table>'
+
+def _bd_seniority(sr_m1, sr_m2, weekly=False, lbl1="NPS", lbl2="Ant"):
     rows = ""
+    total_p1=total_d1=total_s1=total_p2=total_d2=total_s2=0
     for key in ["Expert", "Newbie", "Training"]:
-        v1 = sr_m1.get(key)
-        v2 = sr_m2.get(key) if sr_m2 else None
+        v1 = sr_m1.get(key); v2 = sr_m2.get(key) if sr_m2 else None
         if not v1: continue
+        total_p1+=v1.get("p",0); total_d1+=v1.get("d",0); total_s1+=v1.get("s",0)
+        if v2: total_p2+=v2.get("p",0); total_d2+=v2.get("d",0); total_s2+=v2.get("s",0)
         nps1  = v1["nps"]
-        delta = round(nps1 - v2["nps"], 1) if v2 and v2["nps"] is not None and nps1 is not None else None
-        d_cls = "bd-pos" if delta and delta > 0 else ("bd-neg" if delta and delta < 0 else "")
-        d_str = (("+" if delta > 0 else "") + f"{delta:.1f}pp") if delta is not None else "—"
-        rows += (f'<tr><td class="bd-name">{esc(key)}</td>'
-                 f'<td class="bd-nps">{fn(nps1) if nps1 is not None else "—"}%</td>'
-                 f'<td class="bd-delta {d_cls}">{d_str}</td>'
-                 f'<td class="bd-vol">{v1["s"]:,}</td></tr>\n')
-    return (f'<table class="bd-tbl">'
-            f'<thead><tr><th>Seniority</th><th>NPS</th><th>&#916; M/M</th><th>Vol</th></tr></thead>'
-            f'<tbody>{rows}</tbody></table>')
+        nps2  = v2["nps"] if v2 else None
+        delta = round(nps1-nps2,1) if nps1 is not None and nps2 is not None else None
+        d_cls = "bd-pos" if delta and delta>0 else ("bd-neg" if delta and delta<0 else "")
+        d_str = (("+" if delta>0 else "")+f"{delta:.1f}pp") if delta is not None else "—"
+        s_share = v1["s"]/total_s1 if total_s1 else 0
+        contrib = round(s_share*delta,2) if delta is not None else None
+        c_str   = (("+" if contrib and contrib>0 else "")+f"{contrib:.2f}pp") if contrib else ""
+        c_cls   = "bd-pos" if contrib and contrib>0 else ("bd-neg" if contrib and contrib<0 else "")
+        if weekly:
+            rows += (f'<tr><td class="bd-name">{esc(key)}</td>'
+                     f'<td class="bd-nps">{fn(nps2) if nps2 is not None else "—"}%</td>'
+                     f'<td class="bd-nps">{fn(nps1) if nps1 is not None else "—"}%</td>'
+                     f'<td class="bd-delta {d_cls}">{d_str}</td>'
+                     f'<td class="bd-delta {c_cls}" style="font-size:10px">{c_str}</td>'
+                     f'<td class="bd-vol">{v1["s"]:,}</td></tr>\n')
+        else:
+            rows += (f'<tr><td class="bd-name">{esc(key)}</td>'
+                     f'<td class="bd-nps">{fn(nps1) if nps1 is not None else "—"}%</td>'
+                     f'<td class="bd-delta {d_cls}">{d_str}</td>'
+                     f'<td class="bd-vol">{v1["s"]:,}</td></tr>\n')
+    # Linha consolidada
+    nps_tot1=round(100*(total_p1-total_d1)/total_s1,1) if total_s1 else None
+    nps_tot2=round(100*(total_p2-total_d2)/total_s2,1) if total_s2 else None
+    dtot=round(nps_tot1-nps_tot2,1) if nps_tot1 is not None and nps_tot2 is not None else None
+    dt_cls="bd-pos" if dtot and dtot>0 else ("bd-neg" if dtot and dtot<0 else "")
+    dt_str=(("+" if dtot>0 else "")+f"{dtot:.1f}pp") if dtot is not None else "—"
+    if weekly:
+        rows += (f'<tr style="border-top:2px solid #3483FA;background:#f0f4ff;font-weight:700">'
+                 f'<td class="bd-name" style="color:#3483FA">Total</td>'
+                 f'<td class="bd-nps" style="color:#aaa">{fn(nps_tot2) if nps_tot2 else "—"}%</td>'
+                 f'<td class="bd-nps" style="color:#3483FA">{fn(nps_tot1) if nps_tot1 else "—"}%</td>'
+                 f'<td class="bd-delta {dt_cls}">{dt_str}</td><td></td>'
+                 f'<td class="bd-vol" style="color:#3483FA">{total_s1:,}</td></tr>\n')
+        header = (f'<thead><tr><th>Seniority</th><th>{esc(lbl2)}</th><th>{esc(lbl1)}</th>'
+                  f'<th>&#916; WoW</th><th>Contrib</th><th>Vol</th></tr></thead>')
+    else:
+        if total_s1: rows += (f'<tr style="border-top:2px solid #3483FA;background:#f0f4ff;font-weight:700">'
+                               f'<td class="bd-name" style="color:#3483FA">Total</td>'
+                               f'<td class="bd-nps" style="color:#3483FA">{fn(nps_tot1) if nps_tot1 else "—"}%</td>'
+                               f'<td class="bd-delta {dt_cls}">{dt_str}</td>'
+                               f'<td class="bd-vol" style="color:#3483FA">{total_s1:,}</td></tr>\n')
+        header = f'<thead><tr><th>Seniority</th><th>NPS</th><th>&#916; M/M</th><th>Vol</th></tr></thead>'
+    return f'<table class="bd-tbl"><{header}<tbody>{rows}</tbody></table>'
 
 def _build_driver_breakdowns(mode="monthly"):
     """
@@ -2289,10 +2371,15 @@ def _build_driver_breakdowns(mode="monthly"):
                f' &nbsp;{chip(g_dtgt, suffix="pp vs tgt")}'
                f'</span></div>')
 
-        proc_tbl  = _bd_table(bd.get("P_M1",{}),  bd.get("P_M2",{}),  max_rows=6)
-        canal_tbl = _bd_table(bd.get("C_M1",{}),  bd.get("C_M2",{}),  max_rows=5)
-        ofic_tbl  = _bd_table(bd.get("O_M1",{}),  {},                  max_rows=4)
-        sen_tbl   = _bd_seniority(bd.get("Sr_M1",{}), bd.get("Sr_M2",{}))
+        is_wk = (mode == "weekly")
+        proc_tbl  = _bd_table(bd.get("P_M1",{}), bd.get("P_M2",{}), max_rows=6,
+                              weekly=is_wk, lbl1=lM1, lbl2=lM2)
+        canal_tbl = _bd_table(bd.get("C_M1",{}), bd.get("C_M2",{}), max_rows=5,
+                              weekly=is_wk, lbl1=lM1, lbl2=lM2)
+        ofic_tbl  = _bd_table(bd.get("O_M1",{}), {},                max_rows=4,
+                              weekly=is_wk, lbl1=lM1, lbl2=lM2)
+        sen_tbl   = _bd_seniority(bd.get("Sr_M1",{}), bd.get("Sr_M2",{}),
+                                  weekly=is_wk, lbl1=lM1, lbl2=lM2)
 
         grid = (f'<div class="bd-grid">'
                 f'<div class="bd-sec"><div class="bd-sec-title">&#128204; Processos</div>{proc_tbl}</div>'
@@ -2318,12 +2405,30 @@ def _build_driver_breakdowns(mode="monthly"):
                 grp_wk_vig_bd.get(grp), grp_wk_bd.get(grp),
                 esc(VIG_LABEL), lM1, color, period_type="VIG", days=4
             )
+            # Grid VIG (VIG vs S1)
+            bd_vig = grp_wk_vig_bd.get(grp, {})
+            lVIG   = esc(VIG_LABEL); lS1 = lM1
+            proc_vig  = _bd_table(bd_vig.get("P_M1",{}), bd_vig.get("P_M2",{}), max_rows=6,
+                                  weekly=True, lbl1=lVIG, lbl2=lS1)
+            canal_vig = _bd_table(bd_vig.get("C_M1",{}), bd_vig.get("C_M2",{}), max_rows=5,
+                                  weekly=True, lbl1=lVIG, lbl2=lS1)
+            ofic_vig  = _bd_table(bd_vig.get("O_M1",{}), {},                    max_rows=4,
+                                  weekly=True, lbl1=lVIG, lbl2=lS1)
+            sen_vig   = _bd_seniority(bd_vig.get("Sr_M1",{}), bd_vig.get("Sr_M2",{}),
+                                      weekly=True, lbl1=lVIG, lbl2=lS1)
+            grid_vig = (f'<div class="bd-grid">'
+                        f'<div class="bd-sec"><div class="bd-sec-title">&#128204; Processos</div>{proc_vig}</div>'
+                        f'<div class="bd-sec"><div class="bd-sec-title">&#128241; Canal</div>{canal_vig}</div>'
+                        f'<div class="bd-sec"><div class="bd-sec-title">&#127970; Oficina</div>{ofic_vig}</div>'
+                        f'<div class="bd-sec"><div class="bd-sec-title">&#127891; Senioridade</div>{sen_vig}</div>'
+                        f'</div>')
+
             # Separador visual entre as duas seções
             sep = (f'<div style="border-top:1px dashed #e0e4ec;margin:12px 0 8px;'
                    f'padding-top:8px;font-size:10px;color:#aaa;font-weight:600;'
                    f'text-transform:uppercase;letter-spacing:.5px">'
                    f'&#9889; Semana Atual &mdash; VIG: {esc(VIG_LABEL)}</div>')
-            analysis = s1_exec + sep + vig_exec
+            analysis = s1_exec + sep + grid_vig + vig_exec
         else:
             analysis = _process_exec_html(grp, mode=mode) or _drv_analysis_html(grp)
         cards += (f'<div class="drv-card" data-grp="{slug}">'
