@@ -335,34 +335,55 @@ def _chart_script(chart_id, cfg_json, height=240):
             f'<canvas id="{chart_id}"></canvas></div>'
             f'<script>new Chart(document.getElementById("{chart_id}"),{cfg_json});</script>')
 
-def chart_bar_monthly(cid):
+def chart_line_area_monthly(cid, height=270):
+    """Gráfico de linha com área preenchida: NPS histórico + linha de target."""
+    tgt_str = str(NPS_TARGET).replace('.', ',')
     datasets = [
-        {"type": "bar", "label": "NPS Consolidado",
+        {"label": "NPS",
          "data": mon_cons,
-         "backgroundColor": "#3483FAcc", "borderColor": "#3483FA",
-         "borderWidth": 1, "borderRadius": 5,
-         "datalabels": {"display": True, "anchor": "end", "align": "end",
-                        "offset": 3, "color": "#333",
+         "fill": True,
+         "backgroundColor": "rgba(52,131,250,0.15)",
+         "borderColor": "#3483FA",
+         "borderWidth": 2.5,
+         "pointRadius": 5,
+         "pointBackgroundColor": "#3483FA",
+         "tension": 0.35,
+         "datalabels": {"display": True, "anchor": "top", "align": "top",
+                        "offset": 4, "color": "#3483FA",
                         "font": {"size": 11, "weight": "700"},
                         "formatter": "__FMT__"}},
-        {"type": "line", "label": f"Target ({str(NPS_TARGET).replace('.', ',')}%)",
+        {"label": f"Objetivo ({tgt_str}%)",
          "data": [NPS_TARGET] * len(MONTH_LABELS),
-         "borderColor": "#E84142", "borderDash": [6, 3], "borderWidth": 2,
-         "pointRadius": 0, "fill": False, "datalabels": {"display": False}},
+         "borderColor": "#F39C12", "borderDash": [6, 4], "borderWidth": 2,
+         "pointStyle": "triangle", "pointRadius": 5,
+         "pointBackgroundColor": "#F39C12",
+         "fill": False, "tension": 0,
+         "datalabels": {"display": True, "anchor": "bottom", "align": "bottom",
+                        "offset": 4, "color": "#F39C12",
+                        "font": {"size": 9},
+                        "formatter": "__FMT__"}},
     ]
-    cfg = {"type": "bar",
+    all_vals = [v for v in mon_cons if v is not None]
+    y_min = max(0, int(min(all_vals + [NPS_TARGET]) - 10) // 10 * 10) if all_vals else 0
+    y_max = min(100, int(max(all_vals + [NPS_TARGET]) + 15) // 10 * 10) if all_vals else 100
+    cfg = {"type": "line",
            "data": {"labels": MONTH_LABELS, "datasets": datasets},
            "options": {
                "responsive": True, "maintainAspectRatio": False,
-               "layout": {"padding": {"top": 28, "bottom": 4}},
+               "layout": {"padding": {"top": 30, "bottom": 4, "right": 10}},
+               "interaction": {"mode": "index", "intersect": False},
                "plugins": {
-                   "legend": {"position": "bottom", "labels": {"boxWidth": 10, "padding": 8, "font": {"size": 10}}},
+                   "legend": {"position": "bottom", "labels": {"boxWidth": 12, "padding": 12, "font": {"size": 11}}},
                    "datalabels": {}},
                "scales": {
-                   "y": {"min": 30, "max": 80, "ticks": {"stepSize": 10}, "grid": {"color": "#f0f0f0"}},
+                   "y": {"min": y_min, "max": y_max,
+                         "ticks": {"stepSize": 10, "callback": "__TICK__"},
+                         "grid": {"color": "#f0f2f5"}},
                    "x": {"grid": {"display": False}}}}}
-    j = _json.dumps(cfg).replace('"__FMT__"', _FMT)
-    return _chart_script(cid, j, 240)
+    j = (_json.dumps(cfg)
+         .replace('"__FMT__"', _FMT)
+         .replace('"__TICK__"', 'function(v){return v+"%"}'))
+    return _chart_script(cid, j, height)
 
 def waterfall_chart(cid, label_a, nps_a, label_b, nps_b, d_dict, height=370):
     sorted_drvs = sorted(d_dict.keys(), key=lambda d: -d_dict[d]['var'])
@@ -488,72 +509,96 @@ def chart_small_multiples(base_cid, items, cons_data, labels):
 # ══════════════════════════════════════════════════════════════════════
 
 def _tab_exec():
-    # --- KPI Cards ---
-    nps_disp   = fn(kpi_nps) + "%" if kpi_nps is not None else "—"
-    delta_sign = "+" if kpi_delta_m is not None and kpi_delta_m >= 0 else ""
-    delta_disp = (delta_sign + fn(kpi_delta_m) + "pp") if kpi_delta_m is not None else "—"
-    delta_cls  = "kpi-pos" if kpi_delta_m is not None and kpi_delta_m >= 0 else "kpi-neg"
-    tgt_sign   = "+" if kpi_vs_tgt is not None and kpi_vs_tgt >= 0 else ""
-    tgt_disp   = (tgt_sign + fn(kpi_vs_tgt) + "pp") if kpi_vs_tgt is not None else "—"
-    tgt_cls    = "kpi-pos" if kpi_vs_tgt is not None and kpi_vs_tgt >= 0 else "kpi-neg"
-    tgt_status = "Acima &#x2713;" if kpi_vs_tgt is not None and kpi_vs_tgt >= 0 else "Abaixo &#x2717;"
-    prev_disp  = fn(mon_cons[-2]) + "%" if mon_cons[-2] is not None else "—"
-    curr_disp  = fn(mon_cons[-1]) + "%" if mon_cons[-1] is not None else "—"
+    # ── 6 KPI Cards ──────────────────────────────────────────────────
+    lCurr  = esc(MONTH_LABELS[-1])
+    lPrev  = esc(MONTH_LABELS[-2])
+    nps_curr_v = mon_cons[-1]; nps_prev_v = mon_cons[-2]
 
-    kpis = f"""<div class="kpi-strip">
-  <div class="kpi-card">
-    <div class="kpi-label">NPS Consolidado &mdash; {esc(MONTH_LABELS[-1])}</div>
-    <div class="kpi-value">{nps_disp}</div>
-    <div class="kpi-sub">Target: {str(NPS_TARGET).replace('.', ',')}%</div>
-  </div>
-  <div class="kpi-card">
-    <div class="kpi-label">Varia&#231;&#227;o M/M ({esc(MONTH_LABELS[-2])} &rarr; {esc(MONTH_LABELS[-1])})</div>
-    <div class="kpi-value {delta_cls}">{delta_disp}</div>
-    <div class="kpi-sub">{prev_disp} &rarr; {curr_disp}</div>
-  </div>
-  <div class="kpi-card">
-    <div class="kpi-label">&#916; vs Target</div>
-    <div class="kpi-value {tgt_cls}">{tgt_disp}</div>
-    <div class="kpi-sub">{tgt_status} do target</div>
-  </div>
-</div>"""
+    def _kpi(label, value_html, sub, border_color="#3483FA", value_cls=""):
+        return (f'<div class="kpi-card" style="border-top:4px solid {border_color}">'
+                f'<div class="kpi-label">{label}</div>'
+                f'<div class="kpi-value {value_cls}">{value_html}</div>'
+                f'<div class="kpi-sub">{sub}</div></div>')
 
-    # --- Resumo Executivo ---
-    exec_html = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary()}</div></div>'
+    delta_m = kpi_delta_m; d_tgt = kpi_vs_tgt
+    surv_curr = sum(monthly_history[d].get(MONTH_LABELS[-1],(0,0,0))[2]
+                    for d in ALL_DRIVERS)
+    surv_prev = sum(monthly_history[d].get(MONTH_LABELS[-2],(0,0,0))[2]
+                    for d in ALL_DRIVERS)
+    surv_chg  = round((surv_curr/surv_prev - 1)*100) if surv_prev else None
 
-    # --- Chart ---
-    chart_sec = f"""<div class="section-block">
-  <div class="section-title">Evolu&#231;&#227;o NPS Consolidado &mdash; Mensal YTD</div>
-  {chart_bar_monthly("c_exec_mon")}
-</div>"""
+    k1 = _kpi(f"NPS M&#234;s Atual<br><small>{lCurr}</small>",
+               f"{fn(nps_curr_v)}%", f"Target: {str(NPS_TARGET).replace('.', ',')}%",
+               "#3483FA")
+    k2 = _kpi(f"NPS M&#234;s Anterior<br><small>{lPrev}</small>",
+               f"{fn(nps_prev_v)}%", f"Refer&#234;ncia do per&#237;odo",
+               "#888", "")
+    k3 = _kpi(f"Target<br><small>{lCurr}</small>",
+               f"{str(NPS_TARGET).replace('.', ',')}%", "Meta do per&#237;odo",
+               "#F39C12")
+    d_sign = "+" if delta_m is not None and delta_m >= 0 else ""
+    d_cls  = "kpi-pos" if delta_m is not None and delta_m >= 0 else "kpi-neg"
+    d_bc   = "#00A650" if delta_m is not None and delta_m >= 0 else "#E84142"
+    k4 = _kpi(f"&#916; MoM<br><small>vs {lPrev}</small>",
+               f"{'▲' if delta_m is not None and delta_m>=0 else '▼'} {d_sign}{fn(delta_m)}pp",
+               f"{fn(nps_prev_v)}% &rarr; {fn(nps_curr_v)}%",
+               d_bc, d_cls)
+    g_sign = "+" if d_tgt is not None and d_tgt >= 0 else ""
+    g_cls  = "kpi-pos" if d_tgt is not None and d_tgt >= 0 else "kpi-neg"
+    g_bc   = "#00A650" if d_tgt is not None and d_tgt >= 0 else "#E84142"
+    k5 = _kpi("GAP vs Target",
+               f"{g_sign}{fn(d_tgt)}",
+               f"Target {str(NPS_TARGET).replace('.', ',')}%",
+               g_bc, g_cls)
+    sc_str = (f'<span style="color:{"#00A650" if surv_chg is not None and surv_chg>=0 else "#E84142"};font-size:11px;font-weight:600">'
+              f'{"+"+str(surv_chg) if surv_chg is not None and surv_chg>=0 else str(surv_chg)}%</span>'
+              if surv_chg is not None else "")
+    k6 = _kpi(f"Pesquisas<br><small>{lCurr} MTD</small>",
+               f"{surv_curr:,}",
+               f"{sc_str} vs {lPrev}: {surv_prev:,}",
+               "#9B59B6")
 
-    # --- Cascatas ---
-    nps_a_mm, nps_b_mm, dd_mm   = _mm_waterfall()
-    nps_a_tg, nps_b_tg, dd_tg   = _tgt_waterfall()
+    kpis = f'<div class="kpi-strip" style="grid-template-columns:repeat(6,1fr)">{k1}{k2}{k3}{k4}{k5}{k6}</div>'
 
-    lA = esc(MONTH_LABELS[-2])
-    lB = esc(MONTH_LABELS[-1])
-
-    wf_mm = f"""<div class="section-block">
-  <div class="section-title">Cascata M/M &mdash; {lA} &rarr; {lB}
-    <span style="font-weight:400;font-size:12px;color:#888;margin-left:8px;">
-      {fn(nps_a_mm)}% &rarr; {fn(nps_b_mm)}% &nbsp;{chip(round(nps_b_mm - nps_a_mm, 2))}
-    </span>
-  </div>
-  {waterfall_chart("c_wf_mm", lA, nps_a_mm, lB, nps_b_mm, dd_mm)}
-</div>"""
-
+    # ── Gráficos lado a lado: linha+área | cascata M/M ───────────────
+    nps_a_mm, nps_b_mm, dd_mm = _mm_waterfall()
+    nps_a_tg, nps_b_tg, dd_tg = _tgt_waterfall()
+    lA = esc(MONTH_LABELS[-2]); lB = esc(MONTH_LABELS[-1])
     tgt_str = str(NPS_TARGET).replace('.', ',')
-    wf_tg = f"""<div class="section-block">
+
+    hist_chart   = chart_line_area_monthly("c_exec_hist", height=280)
+    wf_mm_chart  = waterfall_chart("c_wf_mm", lA, nps_a_mm, lB, nps_b_mm, dd_mm, height=280)
+    wf_tg_chart  = waterfall_chart("c_wf_tg", f"Target ({tgt_str}%)", nps_a_tg, lB, nps_b_tg, dd_tg, height=280)
+
+    charts_row = f"""<div class="section-block" style="padding:0">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:10px;overflow:hidden">
+    <div style="padding:18px 20px;border-right:1px solid #f0f2f5">
+      <div class="section-title">Hist&#243;rico NPS &mdash; {lB}</div>
+      <div style="font-size:11px;color:#aaa;margin-bottom:10px">&#218;ltimos {len(MONTH_LABELS)} meses &middot; Base sem mediação</div>
+      {hist_chart}
+    </div>
+    <div style="padding:18px 20px">
+      <div class="section-title">WTF MoM por Driver &mdash; {lA} &rarr; {lB}
+        <span style="font-weight:400;font-size:11px;color:#888;margin-left:6px">{fn(nps_a_mm)}% &rarr; {fn(nps_b_mm)}% &nbsp;{chip(round(nps_b_mm - nps_a_mm, 2))}</span>
+      </div>
+      <div style="font-size:11px;color:#aaa;margin-bottom:10px">{" / ".join(list(DRIVER_GROUPS.keys())[:4])} + Mix</div>
+      {wf_mm_chart}
+    </div>
+  </div>
+</div>"""
+
+    wf_tg_sec = f"""<div class="section-block">
   <div class="section-title">Cascata vs Target &mdash; {lB}
     <span style="font-weight:400;font-size:12px;color:#888;margin-left:8px;">
       Target {tgt_str}% &rarr; Real {fn(nps_b_tg)}% &nbsp;{chip(round(nps_b_tg - NPS_TARGET, 2))}
     </span>
   </div>
-  {waterfall_chart("c_wf_tg", f"Target ({tgt_str}%)", nps_a_tg, lB, nps_b_tg, dd_tg)}
+  {wf_tg_chart}
 </div>"""
 
-    return kpis + chart_sec + wf_mm + wf_tg + exec_html
+    exec_html = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary()}</div></div>'
+
+    return kpis + charts_row + wf_tg_sec + exec_html
 
 
 def _dim_table(dim_dict, max_rows=4, label="Nome"):
