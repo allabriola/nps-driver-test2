@@ -34,6 +34,7 @@ SELECT
   COALESCE(PRO_PROCESS_NAME, '(sem processo)') as proc,
   COALESCE(CX_USER_TEAM_CHANNEL, '(sem canal)') as canal,
   COALESCE(CX_USER_OFFICE, '(sem office)') as office,
+  COALESCE(CX_TEAM_NAME, '(sem equipe)') as team,
   SUM(PROMOTERS) as p, SUM(DETRACTORS) as d, SUM(SURVEYS) as s
 FROM `meli-bi-data.WHOWNER.DM_CX_NPS_CS_GOALS_MGR_AND_UP`
 WHERE CENTER='BR' AND SIT_SITE_ID='MLB'
@@ -41,9 +42,9 @@ WHERE CENTER='BR' AND SIT_SITE_ID='MLB'
   AND FLAG_QUARTER_MONTH='MONTH'
   AND DATE_ID BETWEEN DATE('{start}') AND DATE('{end}')
   AND DRIVER_TARGET_NPS IN ({drv})
-GROUP BY 1,2,3,4
+GROUP BY 1,2,3,4,5
 HAVING SUM(SURVEYS) >= 2
-ORDER BY 1,7 DESC
+ORDER BY 1,8 DESC
 """
 
 def nps(p,d,s): return round(100.0*(p-d)/s, 2) if s>0 else None
@@ -60,9 +61,8 @@ for period, (start, end) in PERIODS.items():
     for r in rows:
         drv = r.driver
         if drv not in period_data:
-            period_data[drv] = {'P': {}, 'C': {}, 'O': {}}
+            period_data[drv] = {'P': {}, 'C': {}, 'O': {}, 'T': {}}
         p, d, s = int(r.p), int(r.d), int(r.s)
-        n = nps(p, d, s)
 
         # Processo
         proc = r.proc
@@ -73,7 +73,7 @@ for period, (start, end) in PERIODS.items():
         # Canal (normaliza)
         canal = r.canal
         if canal and not canal.startswith('('):
-            canal = canal.replace('MULTICANAL ', '')   # normaliza MULTICANAL CHAT -> CHAT
+            canal = canal.replace('MULTICANAL ', '')
             cv = period_data[drv]['C'].setdefault(canal, {'p':0,'d':0,'s':0})
             cv['p']+=p; cv['d']+=d; cv['s']+=s
 
@@ -83,9 +83,15 @@ for period, (start, end) in PERIODS.items():
             ov = period_data[drv]['O'].setdefault(office, {'p':0,'d':0,'s':0})
             ov['p']+=p; ov['d']+=d; ov['s']+=s
 
+        # Equipe (CX_TEAM_NAME)
+        team = r.team
+        if team and not team.startswith('('):
+            tv = period_data[drv]['T'].setdefault(team, {'p':0,'d':0,'s':0})
+            tv['p']+=p; tv['d']+=d; tv['s']+=s
+
     # Calcula NPS por item
     for drv in period_data:
-        for dim in ['P','C','O']:
+        for dim in ['P','C','O','T']:
             for k,v in period_data[drv][dim].items():
                 v['nps'] = nps(v['p'],v['d'],v['s'])
 

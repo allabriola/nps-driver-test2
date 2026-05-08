@@ -211,7 +211,7 @@ def _agg_dim(drvs, dim, period, source=None):
         v["nps"] = round(100.0*(v["p"]-v["d"])/v["s"], 1) if v["s"] > 0 else None
     return result
 
-# M1 = Maio, M2 = Abril — P/C/O/Sr todos da tabela oficial ou com filtros corretos
+# M1 = Maio, M2 = Abril — P/C/O/T/Sr todos da tabela oficial ou com filtros corretos
 grp_breakdown = {}
 for _grp, _drvs in DRIVER_GROUPS.items():
     grp_breakdown[_grp] = {
@@ -221,7 +221,9 @@ for _grp, _drvs in DRIVER_GROUPS.items():
         "C_M2":  _agg_mb(_drvs,  "C",  "Abr"),
         "O_M1":  _agg_mb(_drvs,  "O",  "Mai"),
         "O_M2":  _agg_mb(_drvs,  "O",  "Abr"),
-        "Sr_M1": _agg_mb(_drvs,  "Sr", "Mai"),   # seniority com processos corretos
+        "T_M1":  _agg_mb(_drvs,  "T",  "Mai"),   # equipes
+        "T_M2":  _agg_mb(_drvs,  "T",  "Abr"),
+        "Sr_M1": _agg_mb(_drvs,  "Sr", "Mai"),
         "Sr_M2": _agg_mb(_drvs,  "Sr", "Abr"),
     }
 
@@ -1102,6 +1104,31 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
                    "Melhora de qualidade percebida neste canal."))
         bullets.append(bullet(d, f"Canal: {w[0]}", body))
 
+    # ── 3b. Equipes com maior WoW ─────────────────────────────────────
+    team_m1 = bd_curr.get("T_M1", {}); team_m2 = bd_prev.get("T_M2", {}) if bd_prev else {}
+    t_tot   = sum(v["s"] for v in team_m1.values()) or 1
+    team_movers = []
+    for team, v1 in team_m1.items():
+        v2 = team_m2.get(team)
+        if not v2 or v1.get("nps") is None or v2.get("nps") is None: continue
+        share = v1["s"] / t_tot
+        if share < 0.05: continue
+        td = round(v1["nps"] - v2["nps"], 1)
+        if abs(td) > 2:
+            team_movers.append((team, td, round(share*100,1), v1["nps"], v1["s"]))
+    team_movers.sort(key=lambda x: x[1])
+    if team_movers:
+        w = team_movers[0]
+        d = dot_neg if w[1] < 0 else dot_pos
+        body = (f'NPS {fn(w[3])}% ({w[1]:+.1f}pp, {w[2]:.0f}% do volume). '
+                + ("Concentração de atendimentos sem resolução nesta equipe." if w[1] < -3 else
+                   "Melhora de qualidade desta equipe puxou o resultado positivo."))
+        bullets.append(bullet(d, f"Equipe: {w[0][:50]}", body))
+        if len(team_movers) > 1 and team_movers[-1][1] > 2 and team_movers[-1][0] != w[0]:
+            b = team_movers[-1]
+            bullets.append(bullet(dot_pos, f"Equipe: {b[0][:50]}",
+                f'NPS {fn(b[3])}% ({b[1]:+.1f}pp, {b[2]:.0f}% do volume). Contrapeso positivo.'))
+
     # ── 4. Mix vs Neto (usando seniority como proxy) ──────────────────
     if sr1 and sr2:
         s_tot_c = sum(v["s"] for v in sr1.values()) or 1
@@ -1493,10 +1520,25 @@ def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
                 sen_txt = (f" Expert ({en}%, {ed:+.1f}pp) liderou a melhora"
                            + (f"; Newbie ({nn}%, {nd:+.1f}pp) acompanhou." if nd and nd > 0 else "."))
 
-    # ── 3. Processos com maior WoW ───────────────────────────────────
-    # Usa bd_curr para ambos os períodos: M1=atual, M2=anterior (já correto para S1 e VIG)
+    # ── 3. Processos + Equipes com maior WoW ────────────────────────
+    # Usa bd_curr para ambos: M1=atual, M2=anterior
     proc_m1 = bd_curr.get("P_M1", {}) if bd_curr else {}
     proc_m2 = bd_curr.get("P_M2", {}) if bd_curr else {}
+
+    # Equipe dominante para o resumo narrativo
+    team_m1 = bd_curr.get("T_M1", {}) if bd_curr else {}
+    team_m2 = bd_curr.get("T_M2", {}) if bd_curr else {}
+    team_txt = ""
+    if team_m1 and team_m2:
+        t_tot = sum(v["s"] for v in team_m1.values()) or 1
+        t_movers = [(t, round(v["nps"]-(team_m2[t]["nps"] if t in team_m2 and team_m2[t].get("nps") else v["nps"]),1),
+                     round(v["s"]/t_tot*100,1), v["nps"])
+                    for t,v in team_m1.items()
+                    if v.get("nps") is not None and t in team_m2 and team_m2[t].get("nps") is not None and v["s"]/t_tot>=0.05]
+        t_movers.sort(key=lambda x: x[1])
+        if t_movers and abs(t_movers[0][1]) > 2:
+            tm = t_movers[0]
+            team_txt = f" A equipe <strong>{esc(tm[0][:45])}</strong> registrou {tm[1]:+.1f}pp ({tm[2]:.0f}% do volume, NPS {fn(tm[3])}%)."
     proc_txt = ""
     if proc_m1 and proc_m2:
         s_tot = sum(v["s"] for v in proc_m1.values()) or 1
@@ -1518,7 +1560,7 @@ def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
             b = movers[-1]
             parts.append(f"<strong>{esc(b[0])}</strong> avançou +{b[1]:.1f}pp (NPS {fn(b[3])}%)")
         if parts:
-            proc_txt = " Nos processos: " + "; ".join(parts) + "."
+            proc_txt = " Nos processos: " + "; ".join(parts) + "." + team_txt
 
     # ── 4. Contexto mensal ───────────────────────────────────────────
     m_series = grp_mon.get(grp, [])
@@ -2519,6 +2561,7 @@ def _build_driver_breakdowns(mode="monthly"):
         proc_tbl  = _bd_table(bd.get("P_M1",{}), bd.get("P_M2",{}), max_rows=6, **kw)
         canal_tbl = _bd_table(bd.get("C_M1",{}), bd.get("C_M2",{}), max_rows=5, **kw)
         ofic_tbl  = _bd_table(bd.get("O_M1",{}), bd.get("O_M2",{}), max_rows=4, **kw)
+        team_tbl  = _bd_table(bd.get("T_M1",{}), bd.get("T_M2",{}), max_rows=6, **kw)
         sen_tbl   = _bd_seniority(bd.get("Sr_M1",{}), bd.get("Sr_M2",{}),
                                   weekly=is_wk, lbl1=lM1, lbl2=lM2,
                                   official_nps1=off1 if is_wk else None,
@@ -2526,10 +2569,11 @@ def _build_driver_breakdowns(mode="monthly"):
                                   official_surv1=surv1, official_surv2=surv2,
                                   delta_label=delta_lbl)
 
-        grid = (f'<div class="bd-grid">'
+        grid = (f'<div class="bd-grid" style="grid-template-columns:repeat(5,1fr)">'
                 f'<div class="bd-sec"><div class="bd-sec-title">&#128204; Processos</div>{proc_tbl}</div>'
                 f'<div class="bd-sec"><div class="bd-sec-title">&#128241; Canal</div>{canal_tbl}</div>'
                 f'<div class="bd-sec"><div class="bd-sec-title">&#127970; Oficina</div>{ofic_tbl}</div>'
+                f'<div class="bd-sec"><div class="bd-sec-title">&#128101; Equipes</div>{team_tbl}</div>'
                 f'<div class="bd-sec"><div class="bd-sec-title">&#127891; Senioridade</div>{sen_tbl}</div>'
                 f'</div>')
 
