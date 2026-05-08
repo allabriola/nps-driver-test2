@@ -256,11 +256,13 @@ for _grp, _drvs in DRIVER_GROUPS.items():
         "C_M2":  _agg_dim(_drvs, "C",  "S1",  _DD),
         "O_M1":  _agg_dim(_drvs, "O",  "VIG", _DD),
         "O_M2":  _agg_dim(_drvs, "O",  "S1",  _DD),
+        "T_M1":  _agg_mb(_drvs,  "T",  "VIG") if _MB.get("VIG") else _agg_mb(_drvs, "T", "S1"),
+        "T_M2":  _agg_mb(_drvs,  "T",  "S1"),
         "Sr_M1": _agg_dim(_drvs, "Sr", "VIG", _DD),
         "Sr_M2": _agg_dim(_drvs, "Sr", "S1",  _DD),
     }
 
-# S1 = semana atual, S2 = semana anterior (dd_breakdown)
+# S1 = semana atual, S2 = semana anterior
 grp_wk_bd = {}
 for _grp, _drvs in DRIVER_GROUPS.items():
     grp_wk_bd[_grp] = {
@@ -270,6 +272,8 @@ for _grp, _drvs in DRIVER_GROUPS.items():
         "C_M2":  _agg_dim(_drvs, "C",  "S2", _DD),
         "O_M1":  _agg_dim(_drvs, "O",  "S1", _DD),
         "O_M2":  _agg_dim(_drvs, "O",  "S2", _DD),
+        "T_M1":  _agg_mb(_drvs,  "T",  "S1"),     # equipes S1 (tabela oficial)
+        "T_M2":  _agg_mb(_drvs,  "T",  "S2"),     # equipes S2
         "Sr_M1": _agg_dim(_drvs, "Sr", "S1", _DD),
         "Sr_M2": _agg_dim(_drvs, "Sr", "S2", _DD),
     }
@@ -2570,17 +2574,14 @@ def _build_driver_breakdowns(mode="monthly"):
                                   delta_label=delta_lbl)
 
         grid = (
-            # Linha 1: Processos | Canal | Oficina
-            f'<div class="bd-grid" style="grid-template-columns:repeat(3,1fr)">'
+            f'<div style="overflow-x:auto">'
+            f'<div class="bd-grid" style="grid-template-columns:repeat(5,minmax(190px,1fr));min-width:900px">'
             f'<div class="bd-sec"><div class="bd-sec-title">&#128204; Processos</div>{proc_tbl}</div>'
             f'<div class="bd-sec"><div class="bd-sec-title">&#128241; Canal</div>{canal_tbl}</div>'
             f'<div class="bd-sec"><div class="bd-sec-title">&#127970; Oficina</div>{ofic_tbl}</div>'
-            f'</div>'
-            # Linha 2: Equipes | Senioridade (colunas mais largas)
-            f'<div class="bd-grid" style="grid-template-columns:repeat(2,1fr);border-top:1px solid #e8eaf0">'
             f'<div class="bd-sec"><div class="bd-sec-title">&#128101; Equipes</div>{team_tbl}</div>'
             f'<div class="bd-sec"><div class="bd-sec-title">&#127891; Senioridade</div>{sen_tbl}</div>'
-            f'</div>'
+            f'</div></div>'
         )
 
         if mode == "weekly":
@@ -2615,16 +2616,17 @@ def _build_driver_breakdowns(mode="monthly"):
                                       weekly=True, lbl1=lVIG, lbl2=lS1,
                                       official_nps1=nps_v, official_nps2=nps_c,
                                       official_surv1=surv_vig_g, official_surv2=surv_s1)
+            team_vig = _bd_table(grp_wk_vig_bd.get(grp,{}).get("T_M1",{}),
+                                   grp_wk_vig_bd.get(grp,{}).get("T_M2",{}), max_rows=6, **kw_vig)
             grid_vig = (
-                f'<div class="bd-grid" style="grid-template-columns:repeat(3,1fr)">'
+                f'<div style="overflow-x:auto">'
+                f'<div class="bd-grid" style="grid-template-columns:repeat(5,minmax(190px,1fr));min-width:900px">'
                 f'<div class="bd-sec"><div class="bd-sec-title">&#128204; Processos</div>{proc_vig}</div>'
                 f'<div class="bd-sec"><div class="bd-sec-title">&#128241; Canal</div>{canal_vig}</div>'
                 f'<div class="bd-sec"><div class="bd-sec-title">&#127970; Oficina</div>{ofic_vig}</div>'
-                f'</div>'
-                f'<div class="bd-grid" style="grid-template-columns:repeat(2,1fr);border-top:1px solid #e8eaf0">'
-                f'<div class="bd-sec"><div class="bd-sec-title">&#128101; Equipes</div><div style="color:#aaa;font-size:11px;padding:8px 0">Dados disponíveis no próximo update semanal.</div></div>'
+                f'<div class="bd-sec"><div class="bd-sec-title">&#128101; Equipes</div>{team_vig}</div>'
                 f'<div class="bd-sec"><div class="bd-sec-title">&#127891; Senioridade</div>{sen_vig}</div>'
-                f'</div>'
+                f'</div></div>'
             )
 
             # Separador visual entre as duas seções

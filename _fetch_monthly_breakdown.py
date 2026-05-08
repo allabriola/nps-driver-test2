@@ -23,9 +23,13 @@ SELLERS = (
 )
 DRV_IN = "'" + "','".join(d.replace("'","''") for d in SELLERS) + "'"
 
-PERIODS = {
+PERIODS_MONTHLY = {
     'Abr': ('2026-04-01', '2026-04-30'),
     'Mai': ('2026-05-01', '2026-05-08'),
+}
+PERIODS_WEEKLY = {
+    'S2': ('2026-04-20', '2026-04-26'),
+    'S1': ('2026-04-27', '2026-05-03'),
 }
 
 SQL = """
@@ -51,10 +55,14 @@ def nps(p,d,s): return round(100.0*(p-d)/s, 2) if s>0 else None
 
 result = {}   # {period: {driver: {P:{}, C:{}, O:{}}}}
 
-for period, (start, end) in PERIODS.items():
-    print(f'\nPeriodo: {period} ({start} -> {end})')
+all_periods = [(p,s,e,'MONTH') for p,(s,e) in PERIODS_MONTHLY.items()] + \
+              [(p,s,e,'WEEK')  for p,(s,e) in PERIODS_WEEKLY.items()]
+
+for period, start, end, flag in all_periods:
+    sql_period = SQL.replace("FLAG_QUARTER_MONTH='MONTH'", f"FLAG_QUARTER_MONTH='{flag}'")
+    print(f'\nPeriodo: {period} ({start} -> {end}, {flag})')
     time.sleep(2)
-    rows = list(bq.query(SQL.format(start=start, end=end, drv=DRV_IN)).result())
+    rows = list(bq.query(sql_period.format(start=start, end=end, drv=DRV_IN)).result())
     print(f'  {len(rows)} linhas')
 
     period_data = {}
