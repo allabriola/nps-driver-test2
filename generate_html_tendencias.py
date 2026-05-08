@@ -340,6 +340,24 @@ wk_target_series  = [_period_target_cons(lbl, "weekly")  for lbl in WEEK_LABELS]
 
 grp_targets = {grp: _grp_target(drvs) for grp, drvs in DRIVER_GROUPS.items()}
 
+def _grp_tgt_series_monthly(grp):
+    """Série de targets mensais por grupo (um valor por MONTH_LABELS)."""
+    return [_PT.get("monthly",{}).get(lbl,{}).get("groups",{}).get(grp, NPS_TARGET)
+            for lbl in MONTH_LABELS]
+
+def _grp_tgt_series_weekly(grp):
+    """Série de targets semanais por grupo (um valor por WEEK_LABELS_VIG)."""
+    wk_labels = list(WEEK_LABELS) + ["VIG"]
+    return [_PT.get("weekly",{}).get(lbl,{}).get("groups",{}).get(grp, NPS_TARGET)
+            for lbl in wk_labels]
+
+def _grp_tgt_latest(grp, mode="monthly"):
+    """Target mais recente do grupo (para chips 'vs tgt')."""
+    if mode == "weekly":
+        return _PT.get("weekly",{}).get("VIG",{}).get("groups",{}).get(grp) or \
+               _PT.get("weekly",{}).get("27/abr",{}).get("groups",{}).get(grp) or NPS_TARGET
+    return _PT.get("monthly",{}).get(MONTH_LABELS[-1],{}).get("groups",{}).get(grp) or NPS_TARGET
+
 drv_m = {d: _drv_s(monthly_history, MONTH_LABELS, d) for d in ALL_DRIVERS}
 drv_w = {d: _drv_s(weekly_history,  WEEK_LABELS,  d) for d in ALL_DRIVERS}
 
@@ -565,10 +583,12 @@ def waterfall_chart(cid, label_a, nps_a, label_b, nps_b, d_dict, height=370):
 def chart_small_multiples(base_cid, items, cons_data, labels):
     """
     Grid de mini-gráficos: barras (resultado) + linha target + consolidado cinza.
-    items: lista de (name, series, color, target_val)
+    items: lista de (name, series, color, target_val) ou (name, series, color, target_val, target_series)
     """
     blocks = []
-    for i, (name, series, color, target_val) in enumerate(items):
+    for i, item_tuple in enumerate(items):
+        name, series, color, target_val = item_tuple[:4]
+        target_series = item_tuple[4] if len(item_tuple) > 4 else [target_val] * len(labels)
         cid = f"{base_cid}_{i}"
 
         curr_v  = next((v for v in reversed(series) if v is not None), None)
@@ -593,7 +613,7 @@ def chart_small_multiples(base_cid, items, cons_data, labels):
              "borderColor": "#bbb", "borderWidth": 1.2,
              "pointRadius": 0, "fill": False, "tension": 0.35, "borderDash": [3, 3],
              "datalabels": {"display": False}},
-            {"type": "line", "label": "Target", "data": [target_val] * len(labels),
+            {"type": "line", "label": "Target", "data": target_series,
              "borderColor": "#E84142", "borderDash": [6, 3],
              "borderWidth": 1.8, "pointRadius": 0, "fill": False,
              "datalabels": {"display": False}},
@@ -2465,7 +2485,7 @@ def _build_driver_breakdowns(mode="monthly"):
 
         g_nps  = nps_curr_fn(grp)
         g_prev = nps_prev_fn(grp)
-        g_tgt  = grp_targets.get(grp, NPS_TARGET)
+        g_tgt  = _grp_tgt_latest(grp, mode)   # target correto por driver e período
         g_delta = round(g_nps - g_prev, 1) if g_nps is not None and g_prev is not None else None
         g_dtgt  = round(g_nps - g_tgt,  1) if g_nps is not None else None
 
@@ -2512,7 +2532,7 @@ def _build_driver_breakdowns(mode="monthly"):
         if mode == "weekly":
             nps_c = nps_curr_fn(grp); nps_p = nps_prev_fn(grp)
             surv_s1 = sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2] for d in DRIVER_GROUPS.get(grp,[]))
-            tgt_g   = grp_targets.get(grp, NPS_TARGET)
+            tgt_g   = _grp_tgt_latest(grp, "weekly")
             # Resumo S1
             s1_exec = _analytical_exec(
                 grp, nps_c, nps_p, surv_s1, tgt_g,
@@ -2569,7 +2589,8 @@ def _tab_mensal():
     chart_sec = f"""<div class="section-block">
   <div class="section-title">Evolu&#231;&#227;o NPS por Categoria &mdash; Mensal</div>
   {chart_small_multiples("c_mon",
-      [(g, grp_mon[g], GROUP_COLORS[g], grp_targets[g]) for g in DRIVER_GROUPS],
+      [(g, grp_mon[g], GROUP_COLORS[g], _grp_tgt_latest(g,"monthly"), _grp_tgt_series_monthly(g))
+       for g in DRIVER_GROUPS],
       mon_cons, MONTH_LABELS)}
 </div>"""
 
@@ -2585,7 +2606,8 @@ def _tab_semanal():
     Semana fechada (S1): {esc(S1_LABEL)}
   </div>
   {chart_small_multiples("c_wk",
-      [(g, grp_wk_vig[g], GROUP_COLORS[g], grp_targets[g]) for g in DRIVER_GROUPS],
+      [(g, grp_wk_vig[g], GROUP_COLORS[g], _grp_tgt_latest(g,"weekly"), _grp_tgt_series_weekly(g))
+       for g in DRIVER_GROUPS],
       wk_cons_vig, WEEK_LABELS_VIG)}
 </div>"""
 
