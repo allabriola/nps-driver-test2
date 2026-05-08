@@ -191,6 +191,7 @@ for _grp, _drvs in DRIVER_GROUPS.items():
         "C_M1":  _agg_dim(_drvs, "C",  "Mai", _DD_MAI),
         "C_M2":  _agg_dim(_drvs, "C",  "M1",  _DD),
         "O_M1":  _agg_dim(_drvs, "O",  "Mai", _DD_MAI),
+        "O_M2":  _agg_dim(_drvs, "O",  "M1",  _DD),
         "Sr_M1": _agg_dim(_drvs, "Sr", "Mai", _DD_MAI),
         "Sr_M2": _agg_dim(_drvs, "Sr", "M1",  _DD),
     }
@@ -223,6 +224,7 @@ for _grp, _drvs in DRIVER_GROUPS.items():
         "C_M1":  _agg_dim(_drvs, "C",  "VIG", _DD),
         "C_M2":  _agg_dim(_drvs, "C",  "S1",  _DD),
         "O_M1":  _agg_dim(_drvs, "O",  "VIG", _DD),
+        "O_M2":  _agg_dim(_drvs, "O",  "S1",  _DD),
         "Sr_M1": _agg_dim(_drvs, "Sr", "VIG", _DD),
         "Sr_M2": _agg_dim(_drvs, "Sr", "S1",  _DD),
     }
@@ -236,6 +238,7 @@ for _grp, _drvs in DRIVER_GROUPS.items():
         "C_M1":  _agg_dim(_drvs, "C",  "S1", _DD),
         "C_M2":  _agg_dim(_drvs, "C",  "S2", _DD),
         "O_M1":  _agg_dim(_drvs, "O",  "S1", _DD),
+        "O_M2":  _agg_dim(_drvs, "O",  "S2", _DD),
         "Sr_M1": _agg_dim(_drvs, "Sr", "S1", _DD),
         "Sr_M2": _agg_dim(_drvs, "Sr", "S2", _DD),
     }
@@ -2397,7 +2400,7 @@ def _build_driver_breakdowns(mode="monthly"):
                   official_surv1=surv1, official_surv2=surv2)
         proc_tbl  = _bd_table(bd.get("P_M1",{}), bd.get("P_M2",{}), max_rows=6, **kw)
         canal_tbl = _bd_table(bd.get("C_M1",{}), bd.get("C_M2",{}), max_rows=5, **kw)
-        ofic_tbl  = _bd_table(bd.get("O_M1",{}), {},                max_rows=4, **kw)
+        ofic_tbl  = _bd_table(bd.get("O_M1",{}), bd.get("O_M2",{}), max_rows=4, **kw)
         sen_tbl   = _bd_seniority(bd.get("Sr_M1",{}), bd.get("Sr_M2",{}),
                                   weekly=is_wk, lbl1=lM1, lbl2=lM2,
                                   official_nps1=off1 if is_wk else None,
@@ -2438,7 +2441,7 @@ def _build_driver_breakdowns(mode="monthly"):
                           official_surv1=surv_vig_g, official_surv2=surv_s1)
             proc_vig  = _bd_table(bd_vig.get("P_M1",{}), bd_vig.get("P_M2",{}), max_rows=6, **kw_vig)
             canal_vig = _bd_table(bd_vig.get("C_M1",{}), bd_vig.get("C_M2",{}), max_rows=5, **kw_vig)
-            ofic_vig  = _bd_table(bd_vig.get("O_M1",{}), {},                    max_rows=4, **kw_vig)
+            ofic_vig  = _bd_table(bd_vig.get("O_M1",{}), bd_vig.get("O_M2",{}), max_rows=4, **kw_vig)
             sen_vig   = _bd_seniority(bd_vig.get("Sr_M1",{}), bd_vig.get("Sr_M2",{}),
                                       weekly=True, lbl1=lVIG, lbl2=lS1,
                                       official_nps1=nps_v, official_nps2=nps_c,
