@@ -2240,15 +2240,8 @@ def _tab_semanal():
     d_vig_cls = "kpi-pos" if vig_d and vig_d >= 0 else "kpi-neg"
     d_s1_cls  = "kpi-pos" if s1_d  and s1_d  >= 0 else "kpi-neg"
 
-    kpis_wk = (f'<div class="kpi-strip" style="grid-template-columns:repeat(5,1fr);margin-bottom:16px">'
-               f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
-               f'<div class="kpi-label">NPS S1 Fechada</div>'
-               f'<div class="kpi-value">{fn(s1_nps)}%</div>'
-               f'<div class="kpi-sub">{esc(S1_LABEL)}</div></div>'
-               f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
-               f'<div class="kpi-label">&#916; WoW (S2&#8594;S1)</div>'
-               f'<div class="kpi-value {d_s1_cls}">{"+" if s1_d and s1_d>=0 else ""}{fn(s1_d)}pp</div>'
-               f'<div class="kpi-sub">S2: {fn(s2_nps)}%</div></div>'
+    # Ordem: NPS VIG ATUAL | Δ VIG VS S1 | TARGET | NPS S1 FECHADA | Δ WoW
+    kpis_wk = (f'<div class="kpi-strip" style="grid-template-columns:repeat(5,1fr);margin-bottom:0">'
                f'<div class="kpi-card" style="border-top:4px solid #F39C12">'
                f'<div class="kpi-label">NPS VIG Atual &#9889;</div>'
                f'<div class="kpi-value">{fn(vig_cons_nps)}%</div>'
@@ -2260,10 +2253,18 @@ def _tab_semanal():
                f'<div class="kpi-card" style="border-top:4px solid #888">'
                f'<div class="kpi-label">Target</div>'
                f'<div class="kpi-value">{str(NPS_TARGET).replace(".",",")}%</div>'
-               f'<div class="kpi-sub">Base sem mediação</div></div>'
+               f'<div class="kpi-sub">Base sem media&#231;&#227;o</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
+               f'<div class="kpi-label">NPS S1 Fechada</div>'
+               f'<div class="kpi-value">{fn(s1_nps)}%</div>'
+               f'<div class="kpi-sub">{esc(S1_LABEL)}</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
+               f'<div class="kpi-label">&#916; WoW (S2&#8594;S1)</div>'
+               f'<div class="kpi-value {d_s1_cls}">{"+" if s1_d and s1_d>=0 else ""}{fn(s1_d)}pp</div>'
+               f'<div class="kpi-sub">S2: {fn(s2_nps)}%</div></div>'
                f'</div>')
 
-    return chart_sec + kpis_wk + _build_driver_breakdowns(mode="weekly")
+    return kpis_wk + chart_sec + _build_driver_breakdowns(mode="weekly")
 
 
 def _tab_ranking():
