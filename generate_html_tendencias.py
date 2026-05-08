@@ -2402,8 +2402,8 @@ def _build_driver_breakdowns(mode="monthly"):
         bd_src  = grp_breakdown
         lM1     = esc(MONTH_LABELS[-1])
         lM2     = esc(MONTH_LABELS[-2])
-        nps_curr_fn  = lambda g: grp_mon[g][-2]  if grp_mon.get(g) else None
-        nps_prev_fn  = lambda g: grp_mon[g][-3]  if grp_mon.get(g) and len(grp_mon[g])>=3 else None
+        nps_curr_fn  = lambda g: grp_mon[g][-1]  if grp_mon.get(g) else None   # Mai (atual)
+        nps_prev_fn  = lambda g: grp_mon[g][-2]  if grp_mon.get(g) and len(grp_mon[g])>=2 else None  # Abr
         section_title = f"An&#225;lise por Driver &mdash; {esc(MONTH_LABELS[-1])} vs {esc(MONTH_LABELS[-2])}"
         cid_prefix = "mn"
 
