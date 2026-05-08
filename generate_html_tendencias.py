@@ -118,11 +118,16 @@ if _os.path.exists("_exec_data.json"):
     with open("_exec_data.json", encoding="utf-8") as _f:
         _EXEC = _json.load(_f)
 
-# ── TRX_S1 — transcrições semanais S1 para análise profunda
+# ── TRX_S1 / TRX_VIG — transcrições semanais S1 e VIG
 _TRX_S1 = {}
 if _os.path.exists("_trx_s1.json"):
     with open("_trx_s1.json", encoding="utf-8") as _f:
         _TRX_S1 = _json.load(_f)
+
+_TRX_VIG = {}
+if _os.path.exists("_trx_vig.json"):
+    with open("_trx_vig.json", encoding="utf-8") as _f:
+        _TRX_VIG = _json.load(_f)
 
 # ── QUANT_ANALYSIS — análise quantitativa promotores vs detratores
 _QA = {}
@@ -786,7 +791,7 @@ def _quant_section_html(grp):
             f'{trigger_html}'
             f'</div></div></div>')
 
-def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl_prev):
+def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl_prev, is_vig=False):
     """
     Gera bullets diagnósticos específicos por dimensão:
     Processo | CDU/Canal | Senioridade (Newbie vs Veterano) | Mix vs Neto | Transcrições
@@ -895,10 +900,13 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
             bullets.append(bullet(d, "Decomposição Mix vs Neto", body))
 
     # ── 5. Transcrições: detratores e promotores com recorrência ────────
-    insights = _deep_trx_insights(grp)
+    insights = _deep_trx_insights(grp, trx_src=_TRX_VIG if is_vig else None)
     if insights:
         det = insights["det"]; pro = insights["pro"]
         recurrent = [r["categoria"] for r in _recurrence_deep(grp)]
+
+        # Fonte de transcrições: VIG ou S1
+        trx_src_used = _TRX_VIG if is_vig else None
 
         # Detratores
         if det["n"] > 0 and (det["contact"] or det["pain"]):
@@ -928,20 +936,25 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
                     f'Resolução confirmada: <strong style="color:#00A650">{pro["res_pct"]}%</strong>.')
             bullets.append(bullet(dot_pos, "Promotores: o que foi bem", body))
 
-        # Recorrência com sub-padrão específico
-        rec_deep = _recurrence_deep(grp)
+        # Recorrência com sub-padrão específico + exemplos de casos
+        rec_deep = _recurrence_deep(grp, trx_source=trx_src_used)
         if rec_deep:
             rec_items = ""
             for r in rec_deep[:3]:
-                rec_items += (f'<div style="margin:4px 0 4px 12px;font-size:12px">'
+                ex_txt = ""
+                if r.get("examples"):
+                    ex_txt = (f' <span style="color:#888;font-size:10px">'
+                              f'— ex: caso{"s" if len(r["examples"])>1 else ""} '
+                              f'{", ".join(r["examples"])}</span>')
+                rec_items += (f'<div style="margin:5px 0 5px 12px;font-size:12px;line-height:1.5">'
                               f'<span style="color:#E84142">&#9679;</span> '
                               f'<strong>{esc(r["sub_pattern"])}</strong>'
-                              f' <span style="color:#aaa;font-size:10px">'
-                              f'(S1: {r["s1_count"]} caso{"s" if r["s1_count"]>1 else ""} '
-                              f'| mensal: {r["monthly_count"]} caso{"s" if r["monthly_count"]>1 else ""})'
-                              f'</span></div>')
-            body = (f'Os seguintes sub-padrões aparecem <strong>tanto na semana S1 quanto no período mensal</strong> '
-                    f'— confirmam problema crônico que exige atuação estrutural:{rec_items}')
+                              f' <span style="color:#888;font-size:10px">'
+                              f'(S1: {r["s1_count"]} | mensal: {r["monthly_count"]})</span>'
+                              f'{ex_txt}</div>')
+            period_ref = "VIG vs mensal" if is_vig else "S1 vs mensal"
+            body = (f'Sub-padrões identificados em <strong>ambos os períodos ({period_ref})</strong> '
+                    f'— problema crônico, requer atuação estrutural:{rec_items}')
             bullets.append(bullet(dot_neg, "Recorrência — o que especificamente se repete", body))
 
     return "".join(bullets) if bullets else ""
@@ -1000,7 +1013,7 @@ def _analyze_trx_group(trx_dict):
         "esc_pct":    round(100*escalated/n) if n else 0,
     }
 
-def _recurrence_deep(grp):
+def _recurrence_deep(grp, trx_source=None):
     """
     Diagnóstico aprofundado de recorrência: identifica o SUB-PADRÃO específico
     que se repete entre S1 (transcriptions) e o período mensal (comentários).
@@ -1040,8 +1053,9 @@ def _recurrence_deep(grp):
         },
     }
 
-    # Textos de S1 (transcrições USER dos detratores)
-    det_trxs = _TRX_S1.get(grp, {}).get("detrator", {})
+    # Fonte de transcrições (S1, VIG ou mensal)
+    src = trx_source if trx_source is not None else _TRX_S1
+    det_trxs = src.get(grp, {}).get("detrator", {})
     s1_texts = [" ".join(m["msg"].lower() for m in msgs if m.get("role")=="USER")
                 for msgs in det_trxs.values()]
 
@@ -1050,30 +1064,38 @@ def _recurrence_deep(grp):
     monthly_texts = [(c.get("comment","") or "").lower()
                      for c in monthly_cmts if c.get("perfil")=="detrator"]
 
+    # Mapeia cid → texto USER para encontrar casos exemplo
+    cid_user_map = {cid: " ".join(m["msg"].lower() for m in msgs if m.get("role")=="USER")
+                    for cid, msgs in det_trxs.items()}
+
     results = []
     for cat, sub_dict in SUB_PATTERNS.items():
         for sub, kws in sub_dict.items():
-            s1_hits     = sum(1 for t in s1_texts     if any(k in t for k in kws))
-            monthly_hits= sum(1 for t in monthly_texts if any(k in t for k in kws))
+            s1_hits      = sum(1 for t in s1_texts     if any(k in t for k in kws))
+            monthly_hits = sum(1 for t in monthly_texts if any(k in t for k in kws))
             if s1_hits >= 1 and monthly_hits >= 1:
-                # Padrão aparece em AMBOS os períodos → recorrente
+                # Exemplos: case IDs onde o sub-padrão foi identificado (parcialmente mascarados)
+                ex_ids = [cid[:4] + "…" + cid[-3:]
+                          for cid, txt in cid_user_map.items()
+                          if any(k in txt for k in kws)][:2]
                 results.append({
                     "categoria":     cat,
                     "sub_pattern":   sub,
                     "s1_count":      s1_hits,
                     "monthly_count": monthly_hits,
+                    "examples":      ex_ids,
                 })
 
-    # Ordena por s1_count + monthly_count (mais frequentes primeiro)
     results.sort(key=lambda x: -(x["s1_count"] + x["monthly_count"]))
-    return results[:4]   # top 4 sub-padrões recorrentes
+    return results[:4]
 
-def _deep_trx_insights(grp):
+def _deep_trx_insights(grp, trx_src=None):
     """
     Analisa transcrições separadas de detratores e promotores.
-    Retorna análise de ambos os grupos + flag de recorrência.
+    trx_src: None = usa _TRX_S1, ou dict customizado (_TRX_VIG etc.)
     """
-    grp_data = _TRX_S1.get(grp, {})
+    src = trx_src if trx_src is not None else _TRX_S1
+    grp_data = src.get(grp, {})
     # Suporta formato novo {detrator:{}, promotor:{}} e formato antigo {cid:[msgs]}
     if "detrator" in grp_data or "promotor" in grp_data:
         det_trx = grp_data.get("detrator", {})
@@ -1187,13 +1209,12 @@ def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
 
     # ── 6. Bullets diagnósticos (Processo | Seniority | Canal | Mix/Neto | Transcrições) ──
     trx_block = ""
-    if not is_vig:
-        diag = _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl_prev)
-        if diag:
-            trx_block = (f'<div style="margin-top:10px;padding-top:10px;border-top:1px solid #f0f2f5">'
-                         f'<div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;'
-                         f'letter-spacing:.4px;margin-bottom:6px">O que impactou:</div>'
-                         f'{diag}</div>')
+    diag = _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl_prev, is_vig=is_vig)
+    if diag:
+        trx_block = (f'<div style="margin-top:10px;padding-top:10px;border-top:1px solid #f0f2f5">'
+                     f'<div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;'
+                     f'letter-spacing:.4px;margin-bottom:6px">O que impactou:</div>'
+                     f'{diag}</div>')
 
     return (f'<div style="border-left:3px solid {color};padding:12px 16px;'
             f'background:#fff;border-radius:0 8px 8px 0;margin-bottom:4px">'
@@ -1547,7 +1568,20 @@ def _process_exec_html(grp, mode="monthly"):
                f'</div>')
 
     quant_sec = _quant_section_html(grp)
-    return resumo + diag_sec + quant_sec + neg_card + pos_card + rec_sec
+
+    # ── Bullets diagnósticos mensais (mesmo nível de profundidade) ───
+    diag_mon = _diagnostic_bullets(
+        grp, grp_breakdown.get(grp), grp_breakdown.get(grp),
+        nps_g, wf.get("nps_prev"), esc(lCURR), esc(lPREV),
+        is_vig=False
+    )
+    diag_mon_sec = ""
+    if diag_mon:
+        diag_mon_sec = (f'<div class="exec-section">'
+                        f'<div class="exec-title">&#128269; O que impactou &mdash; {esc(grp)}</div>'
+                        f'{diag_mon}</div>')
+
+    return resumo + diag_sec + quant_sec + diag_mon_sec + neg_card + pos_card + rec_sec
 
 def _analyze_transcripts(transcripts):
     """
