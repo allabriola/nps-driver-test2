@@ -941,20 +941,30 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
         if rec_deep:
             rec_items = ""
             for r in rec_deep[:3]:
-                ex_txt = ""
+                # Casos de exemplo como badges clicáveis
+                ex_badges = ""
                 if r.get("examples"):
-                    ex_txt = (f' <span style="color:#888;font-size:10px">'
-                              f'— ex: caso{"s" if len(r["examples"])>1 else ""} '
-                              f'{", ".join(r["examples"])}</span>')
-                rec_items += (f'<div style="margin:5px 0 5px 12px;font-size:12px;line-height:1.5">'
-                              f'<span style="color:#E84142">&#9679;</span> '
-                              f'<strong>{esc(r["sub_pattern"])}</strong>'
-                              f' <span style="color:#888;font-size:10px">'
-                              f'(S1: {r["s1_count"]} | mensal: {r["monthly_count"]})</span>'
-                              f'{ex_txt}</div>')
+                    ex_badges = '<div style="margin:4px 0 2px 0;display:flex;flex-wrap:wrap;gap:4px">'
+                    for cid in r["examples"]:
+                        ex_badges += (f'<span style="background:#f0f4ff;color:#3483FA;border:1px solid #c8d8fa;'
+                                      f'border-radius:4px;padding:1px 7px;font-size:10px;font-weight:600;'
+                                      f'font-family:monospace">#{cid}</span>')
+                    ex_badges += '</div>'
+
+                rec_items += (f'<div style="margin:8px 0 8px 0;padding:8px 10px;'
+                              f'background:#fff8f8;border-left:3px solid #E84142;border-radius:0 6px 6px 0">'
+                              f'<div style="font-size:12px;font-weight:700;color:#222;margin-bottom:3px">'
+                              f'{esc(r["sub_pattern"])}</div>'
+                              f'<div style="font-size:11px;color:#888;margin-bottom:4px">'
+                              f'S1: <strong style="color:#E84142">{r["s1_count"]} caso{"s" if r["s1_count"]>1 else ""}</strong>'
+                              f' &nbsp;|&nbsp; mensal: <strong style="color:#E84142">{r["monthly_count"]} caso{"s" if r["monthly_count"]>1 else ""}</strong>'
+                              f'</div>'
+                              f'{ex_badges}'
+                              f'</div>')
             period_ref = "VIG vs mensal" if is_vig else "S1 vs mensal"
-            body = (f'Sub-padrões identificados em <strong>ambos os períodos ({period_ref})</strong> '
-                    f'— problema crônico, requer atuação estrutural:{rec_items}')
+            body = (f'Padrões identificados em <strong>ambos os períodos ({period_ref})</strong> '
+                    f'— problema crônico, requer atuação estrutural:'
+                    f'{rec_items}')
             bullets.append(bullet(dot_neg, "Recorrência — o que especificamente se repete", body))
 
     return "".join(bullets) if bullets else ""
@@ -1074,10 +1084,9 @@ def _recurrence_deep(grp, trx_source=None):
             s1_hits      = sum(1 for t in s1_texts     if any(k in t for k in kws))
             monthly_hits = sum(1 for t in monthly_texts if any(k in t for k in kws))
             if s1_hits >= 1 and monthly_hits >= 1:
-                # Exemplos: case IDs onde o sub-padrão foi identificado (parcialmente mascarados)
-                ex_ids = [cid[:4] + "…" + cid[-3:]
-                          for cid, txt in cid_user_map.items()
-                          if any(k in txt for k in kws)][:2]
+                # Exemplos: case IDs completos onde o sub-padrão foi identificado
+                ex_ids = [cid for cid, txt in cid_user_map.items()
+                          if any(k in txt for k in kws)][:3]
                 results.append({
                     "categoria":     cat,
                     "sub_pattern":   sub,
