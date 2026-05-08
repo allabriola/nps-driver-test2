@@ -37,6 +37,21 @@ VIG_LABEL       = _ns.get('VIG_LABEL', '')
 drivers_vigente = _ns.get('drivers_vigente', {})
 weekly_driver   = _ns.get('weekly_driver', {})
 REPORT_DATE     = _ns['REPORT_DATE']
+REPORT_TIME     = _ns.get('REPORT_TIME', '')
+
+# "Dados até" = última data do VIG
+_MONTH_NUM = {"jan":"01","fev":"02","mar":"03","abr":"04","mai":"05",
+              "jun":"06","jul":"07","ago":"08","set":"09","out":"10","nov":"11","dez":"12"}
+if VIG_LABEL:
+    _end = VIG_LABEL.split("–")[-1].strip().replace("‪","").strip()
+    _parts = _end.split("/")
+    if len(_parts) == 2:
+        _day, _mon = _parts
+        DADOS_ATE = f"{_day.strip().zfill(2)}/{_MONTH_NUM.get(_mon.strip().lower(),'05')}/2026"
+    else:
+        DADOS_ATE = REPORT_DATE
+else:
+    DADOS_ATE = REPORT_DATE
 
 OUTPUT_FILE = 'nps_tendencias_gerencia.html'
 
@@ -2393,7 +2408,6 @@ def build():
     t0 = _tab_exec()
     t1 = _tab_mensal()
     t2 = _tab_semanal()
-    t3 = _tab_ranking()
 
     js = """
 function showTab(n){
@@ -2432,13 +2446,11 @@ function filterDrv(btn, grp){
 <div class="header">
   <div>
     <div class="header-title">NPS Tend&#234;ncias Ger&#234;ncia &mdash; Sellers BR</div>
-    <div class="header-sub">Evolu&#231;&#227;o mensal &amp; semanal &middot; Tend&#234;ncias &middot; Ranking por CDU &middot; 27 drivers</div>
+    <div class="header-sub">Evolu&#231;&#227;o mensal &amp; semanal &middot; An&#225;lise por driver &middot; Base sem media&#231;&#227;o</div>
   </div>
-  <div class="header-date">
-    Atualizado: {REPORT_DATE}<br>
-    Semana fechada: {esc(S1_LABEL)}<br>
-    M&#234;s fechado: {esc(M1_LABEL)}<br>
-    Target: {tgt_str}%
+  <div class="header-date" style="text-align:right;line-height:1.6">
+    <div style="font-weight:700;font-size:13px">Dados at&#233; {DADOS_ATE}</div>
+    <div style="font-size:11px;opacity:.8">Atualizado em {REPORT_DATE} &#224;s {REPORT_TIME}</div>
   </div>
 </div>
 
@@ -2446,13 +2458,11 @@ function filterDrv(btn, grp){
   <button class="tab-btn active" onclick="showTab(0)">&#x1F4CA; Vis&#227;o Executiva</button>
   <button class="tab-btn" onclick="showTab(1)">&#x1F4C5; Evolu&#231;&#227;o Mensal</button>
   <button class="tab-btn" onclick="showTab(2)">&#x1F4C6; Evolu&#231;&#227;o Semanal</button>
-  <button class="tab-btn" onclick="showTab(3)">&#x1F3C6; Ranking CDUs</button>
 </div>
 
 <div class="tab-pane active">{t0}</div>
 <div class="tab-pane">{t1}</div>
 <div class="tab-pane">{t2}</div>
-<div class="tab-pane">{t3}</div>
 
 <script>{js}</script>
 </body>
