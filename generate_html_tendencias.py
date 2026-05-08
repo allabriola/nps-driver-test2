@@ -2196,16 +2196,24 @@ def _drv_analysis_html(grp):
     trx_sec = _trx_summary_html(grp)
     return f'<div class="bd-analysis exec-wrap">{resumo_sec}{rec_sec}{trx_sec}{pro_sec}{det_sec}{tgt_sec}</div>'
 
-def _bd_table(items_m1, items_m2, max_rows=6, weekly=False, lbl1="NPS", lbl2="Ant"):
+def _bd_table(items_m1, items_m2, max_rows=6, weekly=False, lbl1="NPS", lbl2="Ant",
+              official_nps1=None, official_nps2=None, official_surv1=None, official_surv2=None):
     """Mini-tabela: Nome | NPS | Δ | (Contrib) | Vol — com linha consolidada."""
-    total_p1=sum(v.get("p",0) for v in items_m1.values())
-    total_d1=sum(v.get("d",0) for v in items_m1.values())
-    total_s1=sum(v.get("s",0) for v in items_m1.values())
-    total_p2=sum(items_m2.get(k,{}).get("p",0) for k in items_m1)
-    total_d2=sum(items_m2.get(k,{}).get("d",0) for k in items_m1)
-    total_s2=sum(items_m2.get(k,{}).get("s",0) for k in items_m1)
-    nps_tot1 = round(100*(total_p1-total_d1)/total_s1,1) if total_s1 else None
-    nps_tot2 = round(100*(total_p2-total_d2)/total_s2,1) if total_s2 else None
+    # Usa oficial se fornecido, senão calcula dos itens (pode divergir por filtros)
+    if official_nps1 is not None:
+        nps_tot1  = official_nps1
+        nps_tot2  = official_nps2
+        total_s1  = official_surv1 or sum(v.get("s",0) for v in items_m1.values())
+        total_s2  = official_surv2 or 0
+    else:
+        total_p1=sum(v.get("p",0) for v in items_m1.values())
+        total_d1=sum(v.get("d",0) for v in items_m1.values())
+        total_s1=sum(v.get("s",0) for v in items_m1.values())
+        total_p2=sum(items_m2.get(k,{}).get("p",0) for k in items_m1)
+        total_d2=sum(items_m2.get(k,{}).get("d",0) for k in items_m1)
+        total_s2=sum(items_m2.get(k,{}).get("s",0) for k in items_m1)
+        nps_tot1 = round(100*(total_p1-total_d1)/total_s1,1) if total_s1 else None
+        nps_tot2 = round(100*(total_p2-total_d2)/total_s2,1) if total_s2 else None
     delta_tot = round(nps_tot1-nps_tot2,1) if nps_tot1 is not None and nps_tot2 is not None else None
 
     rows = ""
@@ -2261,7 +2269,8 @@ def _bd_table(items_m1, items_m2, max_rows=6, weekly=False, lbl1="NPS", lbl2="An
 
     return f'<table class="bd-tbl"><{header}<tbody>{rows}</tbody></table>'
 
-def _bd_seniority(sr_m1, sr_m2, weekly=False, lbl1="NPS", lbl2="Ant"):
+def _bd_seniority(sr_m1, sr_m2, weekly=False, lbl1="NPS", lbl2="Ant",
+                  official_nps1=None, official_nps2=None, official_surv1=None, official_surv2=None):
     rows = ""
     total_p1=total_d1=total_s1=total_p2=total_d2=total_s2=0
     for key in ["Expert", "Newbie", "Training"]:
@@ -2290,9 +2299,13 @@ def _bd_seniority(sr_m1, sr_m2, weekly=False, lbl1="NPS", lbl2="Ant"):
                      f'<td class="bd-nps">{fn(nps1) if nps1 is not None else "—"}%</td>'
                      f'<td class="bd-delta {d_cls}">{d_str}</td>'
                      f'<td class="bd-vol">{v1["s"]:,}</td></tr>\n')
-    # Linha consolidada
-    nps_tot1=round(100*(total_p1-total_d1)/total_s1,1) if total_s1 else None
-    nps_tot2=round(100*(total_p2-total_d2)/total_s2,1) if total_s2 else None
+    # Linha consolidada (usa oficial se fornecido)
+    if official_nps1 is not None:
+        nps_tot1 = official_nps1; nps_tot2 = official_nps2
+        total_s1 = official_surv1 or total_s1
+    else:
+        nps_tot1=round(100*(total_p1-total_d1)/total_s1,1) if total_s1 else None
+        nps_tot2=round(100*(total_p2-total_d2)/total_s2,1) if total_s2 else None
     dtot=round(nps_tot1-nps_tot2,1) if nps_tot1 is not None and nps_tot2 is not None else None
     dt_cls="bd-pos" if dtot and dtot>0 else ("bd-neg" if dtot and dtot<0 else "")
     dt_str=(("+" if dtot>0 else "")+f"{dtot:.1f}pp") if dtot is not None else "—"
@@ -2372,14 +2385,24 @@ def _build_driver_breakdowns(mode="monthly"):
                f'</span></div>')
 
         is_wk = (mode == "weekly")
-        proc_tbl  = _bd_table(bd.get("P_M1",{}), bd.get("P_M2",{}), max_rows=6,
-                              weekly=is_wk, lbl1=lM1, lbl2=lM2)
-        canal_tbl = _bd_table(bd.get("C_M1",{}), bd.get("C_M2",{}), max_rows=5,
-                              weekly=is_wk, lbl1=lM1, lbl2=lM2)
-        ofic_tbl  = _bd_table(bd.get("O_M1",{}), {},                max_rows=4,
-                              weekly=is_wk, lbl1=lM1, lbl2=lM2)
+        # NPS oficial do grupo para alinhar o Total de todas as tabelas
+        off1 = g_nps;  off2 = g_prev
+        surv1 = sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2]
+                    for d in DRIVER_GROUPS.get(grp,[])) if is_wk else None
+        surv2 = sum(weekly_driver.get(d,{}).get("S2",(0,0,0))[2]
+                    for d in DRIVER_GROUPS.get(grp,[])) if is_wk else None
+        kw = dict(weekly=is_wk, lbl1=lM1, lbl2=lM2,
+                  official_nps1=off1 if is_wk else None,
+                  official_nps2=off2 if is_wk else None,
+                  official_surv1=surv1, official_surv2=surv2)
+        proc_tbl  = _bd_table(bd.get("P_M1",{}), bd.get("P_M2",{}), max_rows=6, **kw)
+        canal_tbl = _bd_table(bd.get("C_M1",{}), bd.get("C_M2",{}), max_rows=5, **kw)
+        ofic_tbl  = _bd_table(bd.get("O_M1",{}), {},                max_rows=4, **kw)
         sen_tbl   = _bd_seniority(bd.get("Sr_M1",{}), bd.get("Sr_M2",{}),
-                                  weekly=is_wk, lbl1=lM1, lbl2=lM2)
+                                  weekly=is_wk, lbl1=lM1, lbl2=lM2,
+                                  official_nps1=off1 if is_wk else None,
+                                  official_nps2=off2 if is_wk else None,
+                                  official_surv1=surv1, official_surv2=surv2)
 
         grid = (f'<div class="bd-grid">'
                 f'<div class="bd-sec"><div class="bd-sec-title">&#128204; Processos</div>{proc_tbl}</div>'
@@ -2405,17 +2428,21 @@ def _build_driver_breakdowns(mode="monthly"):
                 grp_wk_vig_bd.get(grp), grp_wk_bd.get(grp),
                 esc(VIG_LABEL), lM1, color, period_type="VIG", days=4
             )
-            # Grid VIG (VIG vs S1)
-            bd_vig = grp_wk_vig_bd.get(grp, {})
-            lVIG   = esc(VIG_LABEL); lS1 = lM1
-            proc_vig  = _bd_table(bd_vig.get("P_M1",{}), bd_vig.get("P_M2",{}), max_rows=6,
-                                  weekly=True, lbl1=lVIG, lbl2=lS1)
-            canal_vig = _bd_table(bd_vig.get("C_M1",{}), bd_vig.get("C_M2",{}), max_rows=5,
-                                  weekly=True, lbl1=lVIG, lbl2=lS1)
-            ofic_vig  = _bd_table(bd_vig.get("O_M1",{}), {},                    max_rows=4,
-                                  weekly=True, lbl1=lVIG, lbl2=lS1)
+            # Grid VIG (VIG vs S1) — Total usa NPS oficial do grupo
+            bd_vig  = grp_wk_vig_bd.get(grp, {})
+            lVIG    = esc(VIG_LABEL); lS1 = lM1
+            surv_vig_g = sum(drivers_vigente.get(d,(0,0,0))[2]
+                             for d in DRIVER_GROUPS.get(grp,[]) if d not in EXCLUIDOS)
+            kw_vig = dict(weekly=True, lbl1=lVIG, lbl2=lS1,
+                          official_nps1=nps_v, official_nps2=nps_c,
+                          official_surv1=surv_vig_g, official_surv2=surv_s1)
+            proc_vig  = _bd_table(bd_vig.get("P_M1",{}), bd_vig.get("P_M2",{}), max_rows=6, **kw_vig)
+            canal_vig = _bd_table(bd_vig.get("C_M1",{}), bd_vig.get("C_M2",{}), max_rows=5, **kw_vig)
+            ofic_vig  = _bd_table(bd_vig.get("O_M1",{}), {},                    max_rows=4, **kw_vig)
             sen_vig   = _bd_seniority(bd_vig.get("Sr_M1",{}), bd_vig.get("Sr_M2",{}),
-                                      weekly=True, lbl1=lVIG, lbl2=lS1)
+                                      weekly=True, lbl1=lVIG, lbl2=lS1,
+                                      official_nps1=nps_v, official_nps2=nps_c,
+                                      official_surv1=surv_vig_g, official_surv2=surv_s1)
             grid_vig = (f'<div class="bd-grid">'
                         f'<div class="bd-sec"><div class="bd-sec-title">&#128204; Processos</div>{proc_vig}</div>'
                         f'<div class="bd-sec"><div class="bd-sec-title">&#128241; Canal</div>{canal_vig}</div>'
