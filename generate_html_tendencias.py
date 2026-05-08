@@ -786,6 +786,136 @@ def _quant_section_html(grp):
             f'{trigger_html}'
             f'</div></div></div>')
 
+def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl_prev):
+    """
+    Gera bullets diagnósticos específicos por dimensão:
+    Processo | CDU/Canal | Senioridade (Newbie vs Veterano) | Mix vs Neto | Transcrições
+    Sem quotes literais. Baseado em dd_breakdown + transcrições.
+    """
+    bullets = []
+    dot_neg = '<span style="color:#E84142;font-size:10px">&#9679;</span>'
+    dot_pos = '<span style="color:#00A650;font-size:10px">&#9679;</span>'
+    dot_neu = '<span style="color:#F39C12;font-size:10px">&#9679;</span>'
+
+    def bullet(dot, bold_txt, body):
+        return (f'<p style="font-size:12px;margin:6px 0;display:flex;align-items:baseline;gap:7px">'
+                f'{dot}<span><strong>{esc(bold_txt)}</strong> — {body}</span></p>')
+
+    # ── 1. Processo com maior WoW ─────────────────────────────────────
+    p1 = bd_curr.get("P_M1", {}); p2 = bd_prev.get("P_M2", {}) if bd_prev else {}
+    s_tot = sum(v["s"] for v in p1.values()) or 1
+    proc_movers = []
+    for proc, v1 in p1.items():
+        v2 = p2.get(proc)
+        if not v2 or v1.get("nps") is None or v2.get("nps") is None: continue
+        share = v1["s"] / s_tot
+        if share < 0.06: continue
+        pd = round(v1["nps"] - v2["nps"], 1)
+        contrib = round(share * pd, 2)
+        if abs(pd) > 1.5:
+            proc_movers.append((proc, pd, round(share*100,1), v1["nps"], v1["s"], contrib))
+    proc_movers.sort(key=lambda x: x[1])
+
+    if proc_movers:
+        w = proc_movers[0]   # pior processo
+        d = dot_neg if w[1] < 0 else dot_pos
+        body = (f'NPS {fn(w[3])}% ({w[1]:+.1f}pp WoW, {w[2]:.0f}% do volume, {w[4]:,} pesq). '
+                f'Contribuição ao grupo: <strong>{w[5]:+.2f}pp</strong>.')
+        bullets.append(bullet(d, f"Processo: {w[0][:50]}", body))
+        if len(proc_movers) > 1 and proc_movers[-1][1] > 1.5 and proc_movers[-1][0] != w[0]:
+            b = proc_movers[-1]
+            body_b = f'NPS {fn(b[3])}% ({b[1]:+.1f}pp WoW, {b[2]:.0f}% do volume). Contrapeso positivo (+{b[5]:.2f}pp).'
+            bullets.append(bullet(dot_pos, f"Processo: {b[0][:50]}", body_b))
+
+    # ── 2. Senioridade: Newbie vs Veterano ───────────────────────────
+    sr1 = bd_curr.get("Sr_M1", {}); sr2 = (bd_prev.get("Sr_M2", {}) if bd_prev else {})
+    exp_c = sr1.get("Expert",{}); exp_p = sr2.get("Expert",{})
+    new_c = sr1.get("Newbie",{}); new_p = sr2.get("Newbie",{})
+    ed = round((exp_c.get("nps",0) or 0) - (exp_p.get("nps",0) or 0), 1) if exp_c.get("nps") and exp_p.get("nps") else None
+    nd = round((new_c.get("nps",0) or 0) - (new_p.get("nps",0) or 0), 1) if new_c.get("nps") and new_p.get("nps") else None
+
+    if ed is not None and nd is not None and abs(ed) + abs(nd) > 2:
+        if ed < -1.5 and nd < -1.5:
+            body = (f'Veterano {fn(exp_c.get("nps"))}% ({ed:+.1f}pp) e Newbie {fn(new_c.get("nps"))}% ({nd:+.1f}pp) '
+                    f'recuaram juntos — padrão de <strong>problema no produto ou processo</strong>, '
+                    f'não de capacitação. Intervenção sistêmica necessária.')
+            bullets.append(bullet(dot_neg, "Senioridade: queda bilateral", body))
+        elif nd is not None and nd < -2 and (ed is None or ed > -1):
+            body = (f'Newbie {fn(new_c.get("nps"))}% ({nd:+.1f}pp, {new_c.get("s",0):,} pesq) '
+                    f'concentra a queda; Veterano manteve {fn(exp_c.get("nps"))}% ({ed:+.1f}pp, '
+                    f'{exp_c.get("s",0):,} pesq) — <strong>gap de capacitação</strong> no perfil menos experiente. '
+                    f'Atendimento por Veteranos seria +{abs(nd):.1f}pp melhor.')
+            bullets.append(bullet(dot_neg, "Senioridade: queda concentrada em Newbie", body))
+        elif ed is not None and ed > 1.5 and (nd is None or nd > -0.5):
+            body = (f'Veterano liderou a melhora ({fn(exp_c.get("nps"))}%, {ed:+.1f}pp); '
+                    f'Newbie acompanhou ({fn(new_c.get("nps"))}%, {nd:+.1f}pp se disponível). '
+                    f'Maturidade operacional como fator diferenciador.')
+            bullets.append(bullet(dot_pos, "Senioridade: Veterano como alavanca", body))
+
+    # ── 3. Canal com maior WoW ───────────────────────────────────────
+    c1 = bd_curr.get("C_M1", {}); c2 = (bd_prev.get("C_M2", {}) if bd_prev else {})
+    canal_movers = []
+    c_tot = sum(v["s"] for v in c1.values()) or 1
+    for canal, v1 in c1.items():
+        if canal.startswith("(sem"): continue
+        v2 = c2.get(canal)
+        if not v2 or v1.get("nps") is None or v2.get("nps") is None: continue
+        share = v1["s"] / c_tot
+        if share < 0.05: continue
+        cd = round(v1["nps"] - v2["nps"], 1)
+        if abs(cd) > 3:
+            canal_movers.append((canal, cd, round(share*100,1), v1["nps"], v1["s"]))
+    canal_movers.sort(key=lambda x: x[1])
+    if canal_movers:
+        w = canal_movers[0]
+        d = dot_neg if w[1] < 0 else dot_pos
+        body = (f'NPS {fn(w[3])}% ({w[1]:+.1f}pp WoW, {w[2]:.0f}% do volume). '
+                + ("Concentração de atendimentos complexos sem resolução neste canal." if w[1] < -3 else
+                   "Melhora de qualidade percebida neste canal."))
+        bullets.append(bullet(d, f"Canal: {w[0]}", body))
+
+    # ── 4. Mix vs Neto (usando seniority como proxy) ──────────────────
+    if sr1 and sr2:
+        s_tot_c = sum(v["s"] for v in sr1.values()) or 1
+        s_tot_p = sum(v["s"] for v in sr2.values()) or 1
+        mix_eff = 0; net_eff = 0
+        for sn, v1 in sr1.items():
+            v2 = sr2.get(sn)
+            if not v2 or v1.get("nps") is None or v2.get("nps") is None: continue
+            sh1 = v1["s"]/s_tot_c; sh2 = v2["s"]/s_tot_p
+            mix_eff += (sh1 - sh2) * (v2["nps"] or 0)
+            net_eff += sh2 * ((v1["nps"] or 0) - (v2["nps"] or 0))
+        mix_eff = round(mix_eff, 2); net_eff = round(net_eff, 2)
+        if abs(mix_eff) + abs(net_eff) > 0.3:
+            dominant = "qualidade do atendimento (efeito Neto)" if abs(net_eff) > abs(mix_eff) else "composição da carteira (efeito Mix)"
+            d = dot_neu
+            body = (f'Efeito Mix: <strong>{mix_eff:+.2f}pp</strong> (composição de volume) | '
+                    f'Efeito Neto: <strong>{net_eff:+.2f}pp</strong> (qualidade). '
+                    f'Variação explicada principalmente pela <strong>{dominant}</strong>.')
+            bullets.append(bullet(d, "Decomposição Mix vs Neto", body))
+
+    # ── 5. Transcrições: motivo de contato + dor ─────────────────────
+    insights = _deep_trx_insights(grp)
+    if insights:
+        if insights["top_contact"]:
+            c_top = insights["top_contact"][0]
+            c_all = " e ".join(f"{esc(c)} ({v})" for c,v in insights["top_contact"][:2])
+            body = (f'Sellers entram em contato por {c_all} ({insights["n"]} transcrições). '
+                    f'Taxa de resolução: <strong style="color:{"#00A650" if insights["res_pct"]>=50 else "#E84142"}">'
+                    f'{insights["res_pct"]}%</strong>')
+            if insights["esc_pct"] > 5:
+                body += f'; <strong style="color:#E84142">{insights["esc_pct"]}% com risco de escalação</strong>'
+            body += "."
+            d = dot_neg if insights["res_pct"] < 50 else dot_neu
+            bullets.append(bullet(d, "Transcrições: motivo de contato", body))
+
+        if insights["top_pain"]:
+            pain_list = "; ".join(f"{esc(p)} ({v})" for p,v in insights["top_pain"][:2])
+            body = f'Padrões de dor identificados: <strong>{pain_list}</strong>.'
+            bullets.append(bullet(dot_neg, "Transcrições: dores dos sellers", body))
+
+    return "".join(bullets) if bullets else ""
+
 def _deep_trx_insights(grp):
     """
     Analisa transcrições para extrair motivos de contato e dores dos sellers.
@@ -943,44 +1073,15 @@ def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
 
     full_p = p_open + sen_txt + proc_txt + ctx_txt + signal
 
-    # ── 6. Insights de transcrições (motivos + dores) ─────────────────
+    # ── 6. Bullets diagnósticos (Processo | Seniority | Canal | Mix/Neto | Transcrições) ──
     trx_block = ""
-    if not is_vig:   # apenas para S1 (temos transcrições)
-        insights = _deep_trx_insights(grp)
-        if insights and (insights["top_contact"] or insights["top_pain"]):
-            lines = []
-            # Motivos de contato
-            if insights["top_contact"]:
-                top = insights["top_contact"]
-                reasons = " e ".join(f"<strong>{esc(c)}</strong> ({v}/{insights['n']} casos)"
-                                     for c,v in top[:2])
-                lines.append(f'<p style="font-size:12px;margin:6px 0;line-height:1.6">'
-                              f'&#128222; <strong>Motivos de contato predominantes:</strong> '
-                              f'sellers buscaram suporte principalmente por {reasons}.</p>')
-            # Dores identificadas
-            if insights["top_pain"]:
-                pain_txt = "; ".join(
-                    f'<span style="color:#a01010;font-weight:600">{esc(p)}</span> ({v} casos)'
-                    for p,v in insights["top_pain"][:2]
-                )
-                lines.append(f'<p style="font-size:12px;margin:6px 0;line-height:1.6">'
-                              f'&#128565; <strong>Dores identificadas nas conversas:</strong> {pain_txt}.</p>')
-            # Taxa de resolução
-            res = insights["res_pct"]; esc_r = insights["esc_pct"]
-            res_color = "#00A650" if res >= 50 else "#E84142"
-            res_txt = (f'<span style="color:{res_color};font-weight:600">'
-                       f'{res}% dos atendimentos</span> com indicação de resolução'
-                       + (f'; <span style="color:#E84142;font-weight:600">{esc_r}% com risco de escalação</span>'
-                          if esc_r > 5 else "") + ".")
-            lines.append(f'<p style="font-size:12px;margin:6px 0;line-height:1.6">'
-                         f'&#128202; {res_txt}</p>')
-            if lines:
-                trx_block = (f'<div style="margin-top:10px;padding-top:10px;'
-                             f'border-top:1px solid #f0f2f5">'
-                             f'<div style="font-size:10px;font-weight:700;color:#888;'
-                             f'text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px">'
-                             f'An&#225;lise de {insights["n"]} Transcri&#231;&#245;es</div>'
-                             + "".join(lines) + "</div>")
+    if not is_vig:
+        diag = _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl_prev)
+        if diag:
+            trx_block = (f'<div style="margin-top:10px;padding-top:10px;border-top:1px solid #f0f2f5">'
+                         f'<div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;'
+                         f'letter-spacing:.4px;margin-bottom:6px">O que impactou:</div>'
+                         f'{diag}</div>')
 
     return (f'<div style="border-left:3px solid {color};padding:12px 16px;'
             f'background:#fff;border-radius:0 8px 8px 0;margin-bottom:4px">'
