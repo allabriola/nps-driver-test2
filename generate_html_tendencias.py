@@ -1701,15 +1701,28 @@ def _build_driver_breakdowns(mode="monthly"):
                 f'</div>')
 
         if mode == "weekly":
-            # Usa framework analítico direto para semanal (sem quotes)
             nps_c = nps_curr_fn(grp); nps_p = nps_prev_fn(grp)
-            analysis = _analytical_exec(
-                grp, nps_c, nps_p,
-                sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2] for d in DRIVER_GROUPS.get(grp,[])),
-                grp_targets.get(grp, NPS_TARGET),
+            surv_s1 = sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2] for d in DRIVER_GROUPS.get(grp,[]))
+            tgt_g   = grp_targets.get(grp, NPS_TARGET)
+            # Resumo S1
+            s1_exec = _analytical_exec(
+                grp, nps_c, nps_p, surv_s1, tgt_g,
                 bd_src.get(grp), bd_src.get(grp),
                 lM1, lM2, color, period_type="S1", days=7
             )
+            # Resumo VIG
+            nps_v, surv_v = grp_vig.get(grp, (None, 0))
+            vig_exec = _analytical_exec(
+                grp, nps_v, nps_c, surv_v, tgt_g,
+                grp_wk_vig_bd.get(grp), grp_wk_bd.get(grp),
+                esc(VIG_LABEL), lM1, color, period_type="VIG", days=4
+            )
+            # Separador visual entre as duas seções
+            sep = (f'<div style="border-top:1px dashed #e0e4ec;margin:12px 0 8px;'
+                   f'padding-top:8px;font-size:10px;color:#aaa;font-weight:600;'
+                   f'text-transform:uppercase;letter-spacing:.5px">'
+                   f'&#9889; Semana Atual &mdash; VIG: {esc(VIG_LABEL)}</div>')
+            analysis = s1_exec + sep + vig_exec
         else:
             analysis = _process_exec_html(grp, mode=mode) or _drv_analysis_html(grp)
         cards += (f'<div class="drv-card" data-grp="{slug}">'
@@ -1745,97 +1758,38 @@ def _tab_semanal():
       wk_cons_vig, WEEK_LABELS_VIG)}
 </div>"""
 
-    # ── Seção S1: semana fechada ─────────────────────────────────────
-    s1_header = (f'<div style="font-size:12px;font-weight:700;color:#3483FA;'
-                 f'padding:8px 0 4px;border-bottom:2px solid #3483FA;margin-bottom:12px">'
-                 f'Semana Fechada &mdash; S1: {esc(S1_LABEL)}</div>')
-    s1_section = (f'<div style="margin-bottom:4px">{s1_header}</div>'
-                  + _build_driver_breakdowns(mode="weekly"))
+    # ── KPIs consolidados (S1 fechada + VIG atual) ──────────────────
+    s1_nps  = wk_cons[-1] if wk_cons else None
+    s2_nps  = wk_cons[-2] if len(wk_cons) >= 2 else None
+    vig_d   = round(vig_cons_nps - s1_nps, 2) if vig_cons_nps and s1_nps else None
+    s1_d    = round(s1_nps - s2_nps, 2) if s1_nps and s2_nps else None
+    d_vig_cls = "kpi-pos" if vig_d and vig_d >= 0 else "kpi-neg"
+    d_s1_cls  = "kpi-pos" if s1_d  and s1_d  >= 0 else "kpi-neg"
 
-    # ── Seção VIG: semana atual ──────────────────────────────────────
-    vig_nps_cons = vig_cons_nps
-    vig_s1_nps   = wk_cons[-1] if wk_cons else None
-    vig_delta    = round(vig_nps_cons - vig_s1_nps, 2) if vig_nps_cons and vig_s1_nps else None
-    d_cls        = "kpi-pos" if vig_delta and vig_delta >= 0 else "kpi-neg"
-    d_str        = (f"{'+'if vig_delta>=0 else ''}{fn(vig_delta)}pp vs S1") if vig_delta is not None else "—"
-
-    vig_kpi = (f'<div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px">'
-               f'<div class="kpi-card" style="border-top:4px solid #F39C12;min-width:160px">'
-               f'<div class="kpi-label">NPS VIG Consolidado</div>'
-               f'<div class="kpi-value">{fn(vig_nps_cons)}%</div>'
+    kpis_wk = (f'<div class="kpi-strip" style="grid-template-columns:repeat(5,1fr);margin-bottom:16px">'
+               f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
+               f'<div class="kpi-label">NPS S1 Fechada</div>'
+               f'<div class="kpi-value">{fn(s1_nps)}%</div>'
+               f'<div class="kpi-sub">{esc(S1_LABEL)}</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
+               f'<div class="kpi-label">&#916; WoW (S2&#8594;S1)</div>'
+               f'<div class="kpi-value {d_s1_cls}">{"+" if s1_d and s1_d>=0 else ""}{fn(s1_d)}pp</div>'
+               f'<div class="kpi-sub">S2: {fn(s2_nps)}%</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid #F39C12">'
+               f'<div class="kpi-label">NPS VIG Atual &#9889;</div>'
+               f'<div class="kpi-value">{fn(vig_cons_nps)}%</div>'
                f'<div class="kpi-sub">{esc(VIG_LABEL)}</div></div>'
-               f'<div class="kpi-card" style="border-top:4px solid #F39C12;min-width:160px">'
-               f'<div class="kpi-label">&#916; vs S1 Fechada</div>'
-               f'<div class="kpi-value {d_cls}">{d_str}</div>'
-               f'<div class="kpi-sub">S1: {fn(vig_s1_nps)}%</div></div>'
-               f'<div class="kpi-card" style="border-top:4px solid #F39C12;min-width:160px">'
-               f'<div class="kpi-label">Pesquisas VIG</div>'
-               f'<div class="kpi-value">{vig_cons_surv:,}</div>'
+               f'<div class="kpi-card" style="border-top:4px solid #F39C12">'
+               f'<div class="kpi-label">&#916; VIG vs S1</div>'
+               f'<div class="kpi-value {d_vig_cls}">{"+" if vig_d and vig_d>=0 else ""}{fn(vig_d)}pp</div>'
+               f'<div class="kpi-sub">{vig_cons_surv:,} pesquisas</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid #888">'
+               f'<div class="kpi-label">Target</div>'
+               f'<div class="kpi-value">{str(NPS_TARGET).replace(".",",")}%</div>'
                f'<div class="kpi-sub">Base sem mediação</div></div>'
                f'</div>')
 
-    # Cards por driver para VIG
-    first_vig = True
-    vig_btns = ""
-    for grp in DRIVER_GROUPS:
-        slug = "vig-" + grp.replace(" ","-").replace("/","-").replace(".","")
-        active = " active" if first_vig else ""
-        vig_btns += (f'<button class="drv-fbtn{active}" data-grp="{slug}" '
-                     f'onclick="filterDrv(this,\'{slug}\')">{esc(grp)}</button>')
-        first_vig = False
-
-    vig_cards = ""
-    for grp, drvs in DRIVER_GROUPS.items():
-        slug   = "vig-" + grp.replace(" ","-").replace("/","-").replace(".","")
-        color  = GROUP_COLORS.get(grp, "#aaa")
-        nps_v, surv_v = grp_vig.get(grp, (None, 0))
-        nps_s1 = grp_wk[grp][-1] if grp_wk.get(grp) else None
-        tgt    = grp_targets.get(grp, NPS_TARGET)
-        d_v    = round(nps_v - nps_s1, 1) if nps_v is not None and nps_s1 is not None else None
-        d_tgt  = round(nps_v - tgt, 1)    if nps_v is not None else None
-
-        hdr = (f'<div class="bd-hdr" style="border-left:5px solid {color}">'
-               f'<span class="bd-grp-name">{esc(grp)}</span>'
-               f'<span class="bd-kpis">'
-               f'NPS VIG: <strong>{fn(nps_v)}%</strong>'
-               f' &nbsp;{chip(d_v, suffix="pp vs S1")}'
-               f' &nbsp;{chip(d_tgt, suffix="pp vs tgt")}'
-               f'</span></div>')
-
-        bd   = grp_wk_vig_bd.get(grp, {})
-        proc_tbl  = _bd_table(bd.get("P_M1",{}), bd.get("P_M2",{}), max_rows=6)
-        canal_tbl = _bd_table(bd.get("C_M1",{}), bd.get("C_M2",{}), max_rows=5)
-        ofic_tbl  = _bd_table(bd.get("O_M1",{}), {},                max_rows=4)
-        sen_tbl   = _bd_seniority(bd.get("Sr_M1",{}), bd.get("Sr_M2",{}))
-
-        grid = (f'<div class="bd-grid">'
-                f'<div class="bd-sec"><div class="bd-sec-title">&#128204; Processos vs S1</div>{proc_tbl}</div>'
-                f'<div class="bd-sec"><div class="bd-sec-title">&#128241; Canal</div>{canal_tbl}</div>'
-                f'<div class="bd-sec"><div class="bd-sec-title">&#127970; Oficina</div>{ofic_tbl}</div>'
-                f'<div class="bd-sec"><div class="bd-sec-title">&#127891; Senioridade</div>{sen_tbl}</div>'
-                f'</div>')
-
-        # Resumo analítico VIG
-        resumo_vig = _analytical_exec(
-            grp, nps_v, nps_s1, surv_v, tgt,
-            grp_wk_vig_bd.get(grp), grp_wk_bd.get(grp),
-            esc(VIG_LABEL), esc(S1_LABEL), color,
-            period_type="VIG", days=4
-        )
-
-        vig_cards += (f'<div class="drv-card" data-grp="{slug}">'
-                      f'{hdr}{grid}{resumo_vig}</div>')
-
-    vig_section_html = (f'<div class="section-block">'
-                        f'<div style="font-size:12px;font-weight:700;color:#F39C12;'
-                        f'padding:8px 0 4px;border-bottom:2px solid #F39C12;margin-bottom:12px">'
-                        f'Semana Atual &mdash; VIG: {esc(VIG_LABEL)} &#9889;</div>'
-                        f'{vig_kpi}'
-                        f'<div class="drv-fbar">{vig_btns}</div>'
-                        f'<div class="drv-cards">{vig_cards}</div>'
-                        f'</div>')
-
-    return chart_sec + s1_section + vig_section_html
+    return chart_sec + kpis_wk + _build_driver_breakdowns(mode="weekly")
 
 
 def _tab_ranking():
