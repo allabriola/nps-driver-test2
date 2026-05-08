@@ -1018,14 +1018,16 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
     Processo | CDU/Canal | Senioridade (Newbie vs Veterano) | Mix vs Neto | Transcrições
     Sem quotes literais. Baseado em dd_breakdown + transcrições.
     """
-    bullets = []
+    bullets = []   # lista de (prioridade, html) — 1=vermelho, 2=amarelo, 3=verde
     dot_neg = '<span style="color:#E84142;font-size:10px">&#9679;</span>'
     dot_pos = '<span style="color:#00A650;font-size:10px">&#9679;</span>'
     dot_neu = '<span style="color:#F39C12;font-size:10px">&#9679;</span>'
+    _PRIO   = {dot_neg: 1, dot_neu: 2, dot_pos: 3}
 
     def bullet(dot, bold_txt, body):
-        return (f'<p style="font-size:12px;margin:6px 0;display:flex;align-items:baseline;gap:7px">'
+        html = (f'<p style="font-size:12px;margin:6px 0;display:flex;align-items:baseline;gap:7px">'
                 f'{dot}<span><strong>{esc(bold_txt)}</strong> — {body}</span></p>')
+        return (_PRIO.get(dot, 2), html)
 
     # ── 1. Processo com maior WoW ─────────────────────────────────────
     p1 = bd_curr.get("P_M1", {}); p2 = bd_prev.get("P_M2", {}) if bd_prev else {}
@@ -1194,7 +1196,9 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
                     f'{rec_items}')
             bullets.append(bullet(dot_neg, "Recorrência — o que especificamente se repete", body))
 
-    return "".join(bullets) if bullets else ""
+    # Ordena: vermelho (1) → amarelo (2) → verde (3)
+    bullets.sort(key=lambda x: x[0])
+    return "".join(html for _, html in bullets) if bullets else ""
 
 def _analyze_trx_group(trx_dict):
     """Analisa um grupo de transcrições e retorna padrões quantificados."""
