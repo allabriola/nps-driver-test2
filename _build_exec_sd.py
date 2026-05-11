@@ -92,6 +92,28 @@ def channel(drvs, period):
         v['share'] = round(100*v['s']/total) if total else 0
     return ch
 
+def office_summary(drvs, period):
+    """Retorna top 3 oficinas por volume, com NPS e MoM."""
+    off = {}; off_abr = {}
+    for drv in drvs:
+        for k, v in mb.get(period,{}).get(drv,{}).get('O',{}).items():
+            if k.startswith('(sem'): continue
+            r = off.setdefault(k, {'p':0,'d':0,'s':0})
+            r['p']+=v.get('p',0); r['d']+=v.get('d',0); r['s']+=v.get('s',0)
+        for k, v in mb.get('Abr',{}).get(drv,{}).get('O',{}).items():
+            if k.startswith('(sem'): continue
+            r = off_abr.setdefault(k, {'p':0,'d':0,'s':0})
+            r['p']+=v.get('p',0); r['d']+=v.get('d',0); r['s']+=v.get('s',0)
+    total = sum(v['s'] for v in off.values())
+    result = []
+    for k, v in sorted(off.items(), key=lambda x: -x[1]['s'])[:3]:
+        nc2 = nps(v['p'],v['d'],v['s'])
+        abr_v = off_abr.get(k,{})
+        np2 = nps(abr_v.get('p',0),abr_v.get('d',0),abr_v.get('s',1)) if abr_v.get('s') else None
+        mom2 = round(nc2-np2,1) if nc2 is not None and np2 is not None else None
+        result.append({'name': k, 'nps': nc2, 'mom': mom2, 'share': round(100*v['s']/total) if total else 0})
+    return result
+
 # ── Dados por driver ──────────────────────────────────────────────────
 SD = {
     'ME Vendedor':     ['ME Vendedor Seller Dev'],
@@ -143,6 +165,7 @@ for grp, drvs in SD.items():
         'sr_mai': seniority(drvs, 'Mai'),
         'sr_abr': seniority(drvs, 'Abr'),
         'ch_mai': channel(drvs, 'Mai'),
+        'off_mai': office_summary(drvs, 'Mai'),
         'top_proc': pa.get(grp, {}).get('top_neg', {}).get('proc', ''),
         'top_cdu': (rc.get(grp, {}).get('categories_mon') or [{}])[0].get('sub_pattern', ''),
     }
@@ -196,6 +219,13 @@ def ch_summary(grp, canal='C2C'):
     if not ch_k: return None
     return {'nps': ch[ch_k]['nps'], 'share': ch[ch_k]['share']}
 
+def cdu_narrative(grp):
+    """Retorna a narrativa do top CDU do processo principal (de _recurrence_cases.json)."""
+    cats = rc.get(grp, {}).get('categories_mon') or []
+    if not cats: return None, None
+    top = cats[0]
+    return top.get('sub_pattern',''), top.get('narrative',''), top.get('share_pct',0)
+
 # ── Monta headline ────────────────────────────────────────────────────
 d_pub = drv_data['Publicaciones']
 d_ei  = drv_data['Exp. Impositiva']
@@ -236,101 +266,94 @@ destaques = sorted(drv_data.keys(), key=lambda g: -destaque_score(g))
 destaques_pos = [g for g in destaques
                  if (drv_data[g]['gap'] or 0) >= 0 or (drv_data[g]['mom'] or 0) > 1][:3]
 
+def build_bullet(grp, icon):
+    """Monta bullet completo com NPS + senioridade + oficina + CDU."""
+    v = drv_data[grp]
+    # ── Linha principal
+    main = (f"{icon} <strong>{grp}</strong> — NPS <strong>{fn(v['nc'])}%</strong> "
+            f"({sign(v['gap'])}{fn(v['gap'])} pp vs. meta, MoM {sign(v['mom'])}{fn(v['mom'])} pp).")
+    parts = [main]
+
+    # ── Senioridade
+    sr = v['sr_mai']
+    sr_abr = v['sr_abr']
+    exp_k = next((k for k in sr if 'expert' in k.lower()), None)
+    new_k = next((k for k in sr if 'newbie' in k.lower()), None)
+    if exp_k and new_k:
+        exp_v = sr[exp_k]; new_v = sr[new_k]
+        exp_abr = sr_abr.get(next((k for k in sr_abr if 'expert' in k.lower()), ''), {})
+        new_abr = sr_abr.get(next((k for k in sr_abr if 'newbie' in k.lower()), ''), {})
+        exp_mom = round(exp_v['nps']-exp_abr['nps'],1) if exp_v.get('nps') and exp_abr.get('nps') else None
+        new_mom = round(new_v['nps']-new_abr['nps'],1) if new_v.get('nps') and new_abr.get('nps') else None
+        gap_sen = round(exp_v['nps']-new_v['nps'],1) if exp_v.get('nps') and new_v.get('nps') else None
+        sr_line = (f"Senioridade: Expert {fn(exp_v['nps'])}% ({exp_v['share']}% do vol"
+                   f"{f', MoM {sign(exp_mom)}{fn(exp_mom)} pp' if exp_mom is not None else ''})"
+                   f" | Newbie {fn(new_v['nps'])}% ({new_v['share']}% do vol"
+                   f"{f', MoM {sign(new_mom)}{fn(new_mom)} pp' if new_mom is not None else ''})"
+                   f"{f' — gap de {fn(gap_sen)} pp' if gap_sen is not None else ''}.")
+        parts.append(sr_line)
+
+    # ── Oficinas
+    offs = v.get('off_mai', [])
+    if offs:
+        top_off = offs[0]
+        worst_off = min(offs, key=lambda x: x['nps'] if x['nps'] is not None else 999)
+
+        def off_detail(o):
+            m = f", MoM {sign(o['mom'])}{fn(o['mom'])} pp" if o['mom'] is not None else ""
+            return f"{o['share']}%, NPS {fn(o['nps'])}%{m}"
+
+        if worst_off['name'] != top_off['name'] and (worst_off['nps'] or 100) < (top_off['nps'] or 0) - 10:
+            off_line = (f"Oficinas: maior volume em <strong>{top_off['name']}</strong> "
+                        f"({off_detail(top_off)})"
+                        f"; maior detração em <strong>{worst_off['name']}</strong> "
+                        f"({off_detail(worst_off)}).")
+        else:
+            off_parts = [f"<strong>{o['name']}</strong>: {fn(o['nps'])}% ({o['share']}%"
+                         f"{', ' + sign(o['mom']) + fn(o['mom']) + ' pp MoM' if o['mom'] is not None else ''})"
+                         for o in offs[:2]]
+            off_line = f"Oficinas: {'; '.join(off_parts)}."
+        parts.append(off_line)
+
+    # ── CDU resumo do processo top
+    cdu_name, cdu_narr, cdu_share = cdu_narrative(grp)
+    if cdu_name and cdu_narr:
+        proc = v.get('top_proc','')
+        proc_str = f" ({proc})" if proc else ""
+        # Remove a parte operacional da narrativa para não repetir
+        cdu_desc = cdu_narr.split('. ')[0] if '. ' in cdu_narr else cdu_narr
+        cdu_line = (f"Principal CDU{proc_str}: <strong>{cdu_name}</strong> "
+                    f"({cdu_share}% das pesquisas) — {cdu_desc}.")
+        parts.append(cdu_line)
+
+    # Formata como parágrafos aninhados
+    return (f'<p style="font-size:13px;line-height:1.8;margin-bottom:4px">{parts[0]}</p>'
+            + ''.join(f'<p style="font-size:12px;line-height:1.7;margin-bottom:2px;margin-left:14px;color:#444">'
+                      f'↳ {p}</p>' for p in parts[1:]))
+
+# Destaques positivos
 destaque_lines = []
 for grp in destaques_pos:
-    v = drv_data[grp]
-    sr_exp = next((k for k in v['sr_mai'] if 'expert' in k.lower()), None)
-    exp_nps = v['sr_mai'][sr_exp]['nps'] if sr_exp else None
-    line = (f"<strong>{grp}</strong>: NPS {fn(v['nc'])}% "
-            f"({sign(v['gap'])}{fn(v['gap'])} pp vs. meta, MoM {sign(v['mom'])}{fn(v['mom'])} pp)")
-    if exp_nps and (v['mom'] or 0) > 2:
-        line += f", liderado por Experts com {fn(exp_nps)}%"
-    destaque_lines.append(line)
+    destaque_lines.append(build_bullet(grp, '🟢'))
 
 top_destaque = destaques_pos[0] if destaques_pos else None
 top_v = drv_data[top_destaque] if top_destaque else {}
 top_mom_str = f", maior alta do período com +{fn(top_v.get('mom'))} pp MoM" if (top_v.get('mom') or 0) > 3 else ""
 
 bullet_sellers = (
-    f"🟢 <strong>Destaques positivos</strong>{top_mom_str} — "
-    f"{'; '.join(destaque_lines)}."
+    f'<p style="font-size:13px;font-weight:700;color:#1a7a42;margin-bottom:8px">'
+    f'🟢 Destaques positivos{top_mom_str}</p>'
+    + ''.join(destaque_lines)
 )
 
-# Bullet Partners
-par_new = par_newbie
-par_exp_nps = drv_data['Partners']['sr_mai'].get(
-    next((k for k in drv_data['Partners']['sr_mai'] if 'expert' in k.lower()),''), {}).get('nps')
-par_exp_nps_abr = drv_data['Partners']['sr_abr'].get(
-    next((k for k in drv_data['Partners']['sr_abr'] if 'expert' in k.lower()),''), {}).get('nps')
-
+# Bullets negativos — usa o mesmo build_bullet
 par_icon = '🟡' if (d_par['gap'] or 0) < 0 else '🟢'
-bullet_partners = (
-    f"{par_icon} <strong>Partners</strong> — "
-    f"<strong>{sign(d_par['gap'])}{fn(d_par['gap'])} pp vs. meta</strong> e "
-    f"MoM <strong>{sign(d_par['mom'])}{fn(d_par['mom'])} pp</strong>. "
-)
-if d_par['mom'] and d_par['mom'] > 0:
-    bullet_partners += f"Evolução positiva no período. "
-if par_new:
-    par_gap_tgt_new = round(par_new['nps'] - d_par['tgt'], 1) if par_new['nps'] else None
-    bullet_partners += (
-        f"Newbies representam <strong>{par_new['share']}% das consultas</strong> "
-        f"com NPS de {fn(par_new['nps'])}% "
-        f"({sign(par_new['mom'])}{fn(par_new['mom'])} pp MoM, "
-        f"{sign(par_gap_tgt_new) if par_gap_tgt_new else ''}{fn(par_gap_tgt_new)} pp vs. meta). "
-    )
-if drv_data['Partners']['top_cdu']:
-    bullet_partners += f"Principal CDU de detratores: <em>{drv_data['Partners']['top_cdu']}</em>."
+pub_icon = '🔴' if (d_pub['mom'] or 0) < -2 else '🟡'
+ei_icon  = '🔴'
 
-# Bullet Publicaciones
-pub_icon = '🟡' if (d_pub['gap'] or 0) >= 0 else '🔴'
-if d_pub['mom'] and d_pub['mom'] < -2:
-    pub_icon = '🔴'
-bullet_pub = (
-    f"{pub_icon} <strong>Publicaciones</strong> — "
-    f"<strong>{sign(d_pub['gap'])}{fn(d_pub['gap'])} pp vs. meta</strong> e "
-    f"MoM <strong>{sign(d_pub['mom'])}{fn(d_pub['mom'])} pp</strong>. "
-    f"Queda no principal processo: <em>{d_pub['top_proc']}</em>. "
-)
-if pub_newbie:
-    pub_gap_tgt = round(pub_newbie['nps'] - d_pub['tgt'], 1) if pub_newbie['nps'] else None
-    bullet_pub += (
-        f"Newbies representam <strong>{pub_newbie['share']}%</strong> do volume "
-        f"com queda de <strong>{sign(pub_newbie['mom'])}{fn(pub_newbie['mom'])} pp MoM</strong>"
-    )
-    if pub_gap_tgt is not None:
-        bullet_pub += f" e {sign(pub_gap_tgt)}{fn(pub_gap_tgt)} pp vs. meta"
-    bullet_pub += ". "
-if pub_c2c:
-    bullet_pub += (
-        f"Principal oportunidade em <strong>C2C ({pub_c2c['share']}% do volume, "
-        f"NPS {fn(pub_c2c['nps'])}%)</strong> — gap expressivo vs. CHAT. "
-    )
-    if drv_data['Publicaciones']['top_cdu']:
-        bullet_pub += f"CDU dominante: <em>{drv_data['Publicaciones']['top_cdu']}</em>."
-
-# Bullet Exp. Impositiva
-ei_icon = '🔴' if (d_ei['gap'] or 0) < -5 else '🟡'
-bullet_ei = (
-    f"{ei_icon} <strong>Exp. Impositiva</strong> — "
-    f"<strong>{sign(d_ei['gap'])}{fn(d_ei['gap'])} pp vs. meta</strong> e "
-    f"MoM <strong>{sign(d_ei['mom'])}{fn(d_ei['mom'])} pp</strong>. "
-)
-if ei_newbie and ei_gap_sen:
-    bullet_ei += (
-        f"Queda concentrada em Newbies "
-        f"(<strong>{sign(ei_newbie['mom'])}{fn(ei_newbie['mom'])} pp MoM</strong>, "
-        f"gap de <strong>{fn(ei_gap_sen)} pp vs. Veteranos</strong>), "
-        f"com {fn(ei_newbie['nps'])}% vs. meta de {fn(d_ei['tgt'])}%. "
-    )
-ei_c2c = ch_summary('Exp. Impositiva', 'C2C')
-if ei_c2c:
-    bullet_ei += (
-        f"Canal C2C ({ei_c2c['share']}% do volume) com NPS de {fn(ei_c2c['nps'])}%, "
-        f"concentrando os principais casos de detração. "
-    )
-if d_ei['top_proc']:
-    bullet_ei += f"Processo mais ofensor: <em>{d_ei['top_proc']}</em>."
+bullet_partners = build_bullet('Partners',        par_icon)
+bullet_pub      = build_bullet('Publicaciones',   pub_icon)
+bullet_ei       = build_bullet('Exp. Impositiva', ei_icon)
 
 # ── Next steps ────────────────────────────────────────────────────────
 next_steps_parts = []
@@ -347,10 +370,10 @@ if d_pub['mom'] and d_pub['mom'] < -2:
         f"{fn(d_pub['mom'])} pp MoM em {d_pub['top_proc'] or 'processo Afiliados'}"
         f"{c2c_str}."
     )
-if par_new and (par_new['mom'] or 0) < -1:
+if par_newbie and (par_newbie['mom'] or 0) < -1:
     next_steps_parts.append(
         f"Gestão de capacitação Newbies em <strong>Partners</strong> — "
-        f"{par_new['share']}% das consultas com queda de {fn(par_new['mom'])} pp MoM."
+        f"{par_newbie['share']}% das consultas com queda de {fn(par_newbie['mom'])} pp MoM."
     )
 if not next_steps_parts:
     next_steps_parts.append(
@@ -358,6 +381,17 @@ if not next_steps_parts:
     )
 
 # ── Monta HTML ────────────────────────────────────────────────────────
+def driver_block(bullet_html, border_color):
+    return (f'<div style="margin-bottom:14px;padding:10px 14px;background:#fafbfc;'
+            f'border-left:3px solid {border_color};border-radius:0 6px 6px 0">'
+            f'{bullet_html}</div>')
+
+# Cor por status
+par_color  = '#F39C12' if (d_par['gap'] or 0) < 0 else '#00A650'
+pub_color  = '#E84142' if (d_pub['mom'] or 0) < -2 else '#F39C12'
+ei_color   = '#E84142'
+pos_color  = '#00A650'
+
 html = f'''<div style="border-left:4px solid #F39C12;padding-left:14px;margin-bottom:20px">
   <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Highlights &amp; Análise</div>
 
@@ -367,21 +401,10 @@ html = f'''<div style="border-left:4px solid #F39C12;padding-left:14px;margin-bo
 
   <p style="font-size:13px;font-weight:700;color:#333;margin-bottom:10px">Análise por driver:</p>
 
-  <p style="font-size:13px;line-height:1.8;margin-bottom:10px">
-    {bullet_sellers}
-  </p>
-
-  <p style="font-size:13px;line-height:1.8;margin-bottom:10px">
-    {bullet_partners}
-  </p>
-
-  <p style="font-size:13px;line-height:1.8;margin-bottom:10px">
-    {bullet_pub}
-  </p>
-
-  <p style="font-size:13px;line-height:1.8;margin-bottom:20px">
-    {bullet_ei}
-  </p>
+  {driver_block(bullet_sellers,  pos_color)}
+  {driver_block(bullet_partners, par_color)}
+  {driver_block(bullet_pub,      pub_color)}
+  {driver_block(bullet_ei,       ei_color)}
 
   <p style="font-size:13px;font-weight:700;color:#333;margin-bottom:10px">Next steps:</p>
 
