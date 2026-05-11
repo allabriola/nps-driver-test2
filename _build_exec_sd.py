@@ -238,19 +238,12 @@ par_newbie = sr_summary('Partners',        'Newbie')
 ei_gap_sen = sr_gap_expert_newbie('Exp. Impositiva')
 pub_c2c    = ch_summary('Publicaciones', 'C2C')
 
-# Identifica quem está acima/abaixo da meta para o headline
-above_tgt = [g for g, v in drv_data.items() if (v['gap'] or 0) >= 0]
-below_tgt = [g for g, v in drv_data.items() if (v['gap'] or 0) < 0]
-
-headline_pos = ', '.join(above_tgt[:3]) if above_tgt else 'múltiplos drivers'
-headline_neg = ' e '.join(below_tgt) if below_tgt else ''
-
-if headline_neg:
-    headline = (f"{sign(gap_cons)}{fn(gap_cons)} pp vs. meta | "
-                f"{headline_pos} sustentam resultado — atenção em {headline_neg}")
-else:
-    headline = (f"{sign(gap_cons)}{fn(gap_cons)} pp vs. meta | "
-                f"Todos os drivers acima da meta — monitorar tendências de queda")
+mom_dir = "alta" if (mom_cons or 0) > 0 else "queda"
+headline = (
+    f"NPS de {fn(nc_cons)}% — "
+    f"{sign(gap_cons)}{fn(gap_cons)} pp vs. meta ({fn(cons_tgt)}%) "
+    f"e {sign(mom_cons)}{fn(mom_cons)} pp MoM ({lP} → {lC})"
+)
 
 # ── Monta bullets ─────────────────────────────────────────────────────
 
