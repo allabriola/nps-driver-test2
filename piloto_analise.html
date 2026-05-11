@@ -17,28 +17,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .chip.kta{background:rgba(16,185,129,.2);color:#6ee7b7;border-color:rgba(16,185,129,.4)}
 .chip.lbl{background:transparent;border-color:transparent;color:#94a3b8}
 .container{max-width:1300px;margin:0 auto;padding:20px 16px 40px}
+
+/* Main tabs */
 .tabs{display:flex;gap:4px;margin-bottom:16px;background:white;padding:6px;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.07);width:fit-content}
 .tab-btn{padding:7px 20px;border-radius:7px;border:none;cursor:pointer;font-size:13px;font-weight:600;background:transparent;color:#64748b;transition:.15s}
 .tab-btn.active{background:#1d4ed8;color:white}
 .tab-pane{display:none}.tab-pane.active{display:block}
-.legend{display:flex;gap:18px;align-items:center;margin-bottom:14px}
-.leg{display:flex;align-items:center;gap:6px;font-size:12px;color:#374151}
-.leg-solid{width:22px;height:0;border-top:2.5px solid}
-.leg-dash{width:22px;height:0;border-top:2.5px dashed}
-.section-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin:22px 0 10px;padding-top:6px;border-top:1px solid #e2e8f0}
+
+/* Period sub-tabs */
+.ptabs{display:flex;gap:3px;margin-bottom:16px;background:#e2e8f0;padding:4px;border-radius:8px;width:fit-content}
+.ptab{padding:5px 18px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:600;background:transparent;color:#64748b}
+.ptab.active{background:white;color:#1d4ed8;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.period-pane{display:none}.period-pane.active{display:block}
+
+.section-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin:20px 0 10px;padding-top:8px;border-top:1px solid #e2e8f0}
 .period-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin:12px 0 8px}
-.sc-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:10px}
-.kc{background:white;border-radius:10px;padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.kc .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:#94a3b8;font-weight:600;margin-bottom:7px}
-.kc .val{font-size:20px;font-weight:800;color:#1d4ed8;line-height:1}
-.kc .cmp{font-size:11px;color:#94a3b8;margin-top:4px}
-.kc .dlt{font-size:11px;font-weight:600;padding:2px 7px;border-radius:5px;margin-top:7px;display:inline-block}
-.pos{background:#dcfce7;color:#15803d}.neg{background:#fee2e2;color:#dc2626}.neu{background:#f1f5f9;color:#64748b}
 .ch-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:10px}
-.ch-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:10px}
-.cc{background:white;border-radius:10px;padding:16px 18px 12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.cc{background:white;border-radius:10px;padding:16px 20px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .cc h3{font-size:12px;font-weight:700;color:#1e293b}
 .cc p{font-size:10.5px;color:#94a3b8;margin:2px 0 10px}
+
+/* Rep table */
 .rep-table-wrap{margin-top:10px;overflow-x:auto}
 table.rt{width:100%;border-collapse:collapse;font-size:11.5px}
 table.rt th{background:#1a1a2e;color:white;padding:7px 10px;text-align:center;font-size:10.5px;font-weight:600;letter-spacing:.3px;white-space:nowrap}
@@ -56,17 +55,18 @@ table.rt tr:hover td{filter:brightness(.97)}
 .arr-up{color:#15803d;font-weight:700}
 .arr-dn{color:#dc2626;font-weight:700}
 .arr-eq{color:#94a3b8}
+
 .note{font-size:11px;color:#94a3b8;background:white;padding:9px 14px;border-radius:8px;border-left:3px solid #e2e8f0;margin-top:10px;line-height:1.6}
 .note strong{color:#64748b}
 hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
 .footer{font-size:11px;color:#94a3b8;text-align:center;margin-top:28px}
-@media(max-width:900px){.sc-grid{grid-template-columns:repeat(3,1fr)}.ch-grid{grid-template-columns:1fr}.ch-grid-4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.ch-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="header">
   <h1>Análise do Piloto — Performance vs Equipe</h1>
-  <div class="sub">MULTICANAL CHAT · BR_ME_Sellers_Longtail · Abr–Mai 2026</div>
+  <div class="sub">MULTICANAL CHAT · BR_ME_Sellers_Longtail · Mar–Mai 2026</div>
   <div class="chips">
     <span class="chip lbl">ATE (6):</span>
     <span class="chip ate">ext_tabragan</span><span class="chip ate">ext_lethiper</span><span class="chip ate">ext_dasipria</span>
@@ -82,121 +82,105 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
     <button class="tab-btn" onclick="setTab('ate',this)">ATE (6)</button>
     <button class="tab-btn" onclick="setTab('kta',this)">KTA_BRASIL (3)</button>
   </div>
-  <div class="legend">
-    <div class="leg"><span class="leg-solid" style="border-color:#2563EB"></span>Piloto</div>
-    <div class="leg"><span class="leg-dash" style="border-color:#9CA3AF"></span>Equipe</div>
-    <div class="leg" style="font-size:11px;color:#94a3b8">* Maio vigente até 11/05 &nbsp;·&nbsp; † NPS: amostra pequena</div>
-  </div>
 
   <!-- ═══ GERAL ═══ -->
   <div id="tab-geral" class="tab-pane active">
-    <div class="period-label">Abril 2026 — fechado</div>
-    <div class="sc-grid">
-      <div class="kc"><div class="lbl">NPS †</div><div class="val">72,0%</div><div class="cmp">Equipe: 66,3%</div><span class="dlt pos">+5,7pp</span></div>
-      <div class="kc"><div class="lbl">TMO ↓</div><div class="val">31m 33s</div><div class="cmp">Equipe: 27m 45s</div><span class="dlt neg">+14%</span></div>
-      <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">2,46</div><div class="cmp">Equipe: 2,88</div><span class="dlt neg">−15%</span></div>
-      <div class="kc"><div class="lbl">TDI ↓</div><div class="val">14,1%</div><div class="cmp">Equipe: 10,6%</div><span class="dlt neg">+3,5pp</span></div>
-      <div class="kc"><div class="lbl">IXC ↓</div><div class="val">2,28</div><div class="cmp">Equipe: 2,10</div><span class="dlt neg">+8%</span></div>
-      <div class="kc"><div class="lbl">QI Ind. ↑</div><div class="val">100%</div><div class="cmp">Equipe: 99,5%</div><span class="dlt pos">+0,5pp</span></div>
+    <div class="ptabs">
+      <button class="ptab active" onclick="setPeriod('geral','mensal',this)">Mensal</button>
+      <button class="ptab" onclick="setPeriod('geral','semanal',this)">Semanal</button>
     </div>
-    <div class="period-label">Maio 2026* — vigente</div>
-    <div class="sc-grid">
-      <div class="kc"><div class="lbl">NPS †</div><div class="val">63,6%</div><div class="cmp">Equipe: 71,9%</div><span class="dlt neg">−8,3pp</span></div>
-      <div class="kc"><div class="lbl">TMO ↓</div><div class="val">34m 45s</div><div class="cmp">Equipe: 28m 36s</div><span class="dlt neg">+22%</span></div>
-      <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">2,42</div><div class="cmp">Equipe: 3,07</div><span class="dlt neg">−21%</span></div>
-      <div class="kc"><div class="lbl">TDI ↓</div><div class="val">5,7%</div><div class="cmp">Equipe: 7,3%</div><span class="dlt pos">−1,6pp</span></div>
-      <div class="kc"><div class="lbl">IXC ↓</div><div class="val">2,04</div><div class="cmp">Equipe: 2,05</div><span class="dlt neu">igual</span></div>
-      <div class="kc"><div class="lbl">QI Ind. ↑</div><div class="val">100%</div><div class="cmp">Equipe: 100%</div><span class="dlt neu">igual</span></div>
+    <div id="geral-mensal" class="period-pane active">
+      <div class="note" style="margin-bottom:12px"><strong>Mensal:</strong> piloto combinado (ATE+KTA) vs equipe combinada. Março: apenas Produtividade disponível (piloto ainda em transição para Longtail). Mai* vigente até 11/05.</div>
+      <div class="ch-grid">
+        <div class="cc"><h3>NPS†</h3><p>% · Maior melhor ↑ · Nota: amostras mensais pequenas no piloto (27–93)</p><canvas id="g-m-nps"></canvas></div>
+        <div class="cc"><h3>TMO</h3><p>Minutos · Menor melhor ↓</p><canvas id="g-m-tmo"></canvas></div>
+        <div class="cc"><h3>Produtividade</h3><p>At/hora · Maior melhor ↑</p><canvas id="g-m-prod"></canvas></div>
+        <div class="cc"><h3>TDI</h3><p>% devoluções indevidas · Menor melhor ↓</p><canvas id="g-m-tdi"></canvas></div>
+      </div>
+      <div class="section-lbl">Tabela por Representante — Evolução Abr→Mai</div>
+      <div class="rep-table-wrap"><div id="geral-rep-table"></div></div>
     </div>
-    <div class="section-label">Tendência Semanal Consolidada — Piloto vs Equipe (30/03 a 04/05)</div>
-    <div class="ch-grid">
-      <div class="cc"><h3>TMO</h3><p>Minutos · Menor melhor ↓</p><canvas id="g-tmo"></canvas></div>
-      <div class="cc"><h3>Produtividade</h3><p>At/hora · Maior melhor ↑</p><canvas id="g-prod"></canvas></div>
-      <div class="cc"><h3>NPS †</h3><p>% · Maior melhor ↑</p><canvas id="g-nps"></canvas></div>
-      <div class="cc"><h3>TDI</h3><p>% · Menor melhor ↓ · passe o mouse para erros/casos</p><canvas id="g-tdi"></canvas></div>
+    <div id="geral-semanal" class="period-pane">
+      <div class="note" style="margin-bottom:12px">Tendência semanal consolidada (30/03 a 04/05) · Para evolução individual por rep, use as abas ATE ou KTA_BRASIL.</div>
+      <div class="ch-grid">
+        <div class="cc"><h3>TMO</h3><p>min · Menor melhor ↓</p><canvas id="g-s-tmo"></canvas></div>
+        <div class="cc"><h3>Produtividade</h3><p>at/h · Maior melhor ↑</p><canvas id="g-s-prod"></canvas></div>
+        <div class="cc"><h3>NPS†</h3><p>% · Maior melhor ↑</p><canvas id="g-s-nps"></canvas></div>
+        <div class="cc"><h3>TDI</h3><p>% · passe o mouse para erros/casos</p><canvas id="g-s-tdi"></canvas></div>
+      </div>
     </div>
-    <div class="section-label">Tabela por Representante — Evolução Mensal (Abr → Mai)</div>
-    <div class="rep-table-wrap"><div id="geral-rep-table"></div></div>
-    <div class="note"><strong>TDI Geral:</strong> média inflada pela KTA (ver aba específica). <strong>Evolução (→ ↑ ↓):</strong> tendência Abr→Mai para cada KPI. Maio ainda vigente — comparação parcial.</div>
-    <div class="section-label">Evolução Semanal por Representante — use as abas ATE / KTA_BRASIL para ver os gráficos individuais</div>
   </div>
 
   <!-- ═══ ATE ═══ -->
   <div id="tab-ate" class="tab-pane">
-    <div class="period-label">Abril 2026 — fechado (ATE)</div>
-    <div class="sc-grid">
-      <div class="kc"><div class="lbl">NPS †</div><div class="val">66,7%</div><div class="cmp">Equipe ATE: 71,4%</div><span class="dlt neg">−4,7pp</span></div>
-      <div class="kc"><div class="lbl">TMO ↓</div><div class="val">29m 24s</div><div class="cmp">Equipe: 27m 14s</div><span class="dlt neg">+8%</span></div>
-      <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">2,43</div><div class="cmp">Equipe: 2,88</div><span class="dlt neg">−16%</span></div>
-      <div class="kc"><div class="lbl">TDI ↓</div><div class="val">5,5%</div><div class="cmp">Equipe: 8,1%</div><span class="dlt pos">−2,6pp ✓</span></div>
-      <div class="kc"><div class="lbl">IXC ↓</div><div class="val">2,23</div><div class="cmp">Equipe: 2,08</div><span class="dlt neg">+7%</span></div>
-      <div class="kc"><div class="lbl">QI Ind. ↑</div><div class="val">100%</div><div class="cmp">Equipe: 99,5%</div><span class="dlt pos">+0,5pp</span></div>
+    <div class="ptabs">
+      <button class="ptab active" onclick="setPeriod('ate','mensal',this)">Mensal</button>
+      <button class="ptab" onclick="setPeriod('ate','semanal',this)">Semanal</button>
     </div>
-    <div class="period-label">Maio 2026* — vigente (ATE)</div>
-    <div class="sc-grid">
-      <div class="kc"><div class="lbl">NPS †</div><div class="val">74,1%</div><div class="cmp">Equipe ATE: 77,6%</div><span class="dlt neg">−3,5pp</span></div>
-      <div class="kc"><div class="lbl">TMO ↓</div><div class="val">33m 56s</div><div class="cmp">Equipe: 26m 30s</div><span class="dlt neg">+28%</span></div>
-      <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">2,43</div><div class="cmp">Equipe: 3,26</div><span class="dlt neg">−26%</span></div>
-      <div class="kc"><div class="lbl">TDI ↓</div><div class="val">0,0%</div><div class="cmp">Equipe: 7,0%</div><span class="dlt pos">−7pp ✓</span></div>
-      <div class="kc"><div class="lbl">IXC ↓</div><div class="val">1,94</div><div class="cmp">Equipe: 2,04</div><span class="dlt pos">−5% ✓</span></div>
-      <div class="kc"><div class="lbl">QI Ind. ↑</div><div class="val">100%</div><div class="cmp">Equipe: 100%</div><span class="dlt neu">igual</span></div>
+    <div id="ate-mensal" class="period-pane active">
+      <div class="note" style="margin-bottom:12px"><strong>ATE — Mensal:</strong> 6 reps piloto vs equipe ATE. Março: apenas Produtividade disponível. Mai* vigente até 11/05.</div>
+      <div class="ch-grid">
+        <div class="cc"><h3>NPS† — ATE</h3><p>% · Maior melhor ↑</p><canvas id="a-m-nps"></canvas></div>
+        <div class="cc"><h3>TMO — ATE</h3><p>min · Menor melhor ↓</p><canvas id="a-m-tmo"></canvas></div>
+        <div class="cc"><h3>Produtividade — ATE</h3><p>at/h · Maior melhor ↑</p><canvas id="a-m-prod"></canvas></div>
+        <div class="cc"><h3>TDI — ATE</h3><p>% · Menor melhor ↓</p><canvas id="a-m-tdi"></canvas></div>
+      </div>
+      <div class="section-lbl">Tabela por Representante — ATE (Evolução Abr→Mai)</div>
+      <div class="rep-table-wrap"><div id="ate-rep-table"></div></div>
     </div>
-    <div class="section-label">Tendência Semanal Consolidada — ATE: Piloto vs Equipe</div>
-    <div class="ch-grid">
-      <div class="cc"><h3>TMO — ATE</h3><p>min · Menor melhor ↓</p><canvas id="a-tmo"></canvas></div>
-      <div class="cc"><h3>Produtividade — ATE</h3><p>at/h · Maior melhor ↑</p><canvas id="a-prod"></canvas></div>
-      <div class="cc"><h3>NPS — ATE †</h3><p>% · 30/03 e 06/04 omitidas (≤10 resp.)</p><canvas id="a-nps"></canvas></div>
-      <div class="cc"><h3>TDI — ATE</h3><p>% · passe o mouse para erros/casos</p><canvas id="a-tdi"></canvas></div>
+    <div id="ate-semanal" class="period-pane">
+      <div class="section-lbl">Piloto ATE vs Equipe ATE — 6 semanas (30/03 a 04/05)</div>
+      <div class="ch-grid">
+        <div class="cc"><h3>TMO — ATE</h3><p>min · Menor melhor ↓</p><canvas id="a-s-tmo"></canvas></div>
+        <div class="cc"><h3>Produtividade — ATE</h3><p>at/h · Maior melhor ↑</p><canvas id="a-s-prod"></canvas></div>
+        <div class="cc"><h3>NPS† — ATE</h3><p>% · 30/03 e 06/04 omitidas (≤10 resp.)</p><canvas id="a-s-nps"></canvas></div>
+        <div class="cc"><h3>TDI — ATE</h3><p>% · passe o mouse para erros/casos</p><canvas id="a-s-tdi"></canvas></div>
+      </div>
+      <div class="section-lbl">Evolução por Representante — ATE · Últimas 4 semanas (13/04 a 04/05)</div>
+      <div class="ch-grid">
+        <div class="cc"><h3>TMO por Rep — ATE</h3><p>min · Menor melhor ↓</p><canvas id="a-r-tmo"></canvas></div>
+        <div class="cc"><h3>Produtividade por Rep — ATE</h3><p>at/h · Maior melhor ↑</p><canvas id="a-r-prod"></canvas></div>
+        <div class="cc"><h3>NPS† por Rep — ATE</h3><p>% · semanas com ≥3 pesquisas</p><canvas id="a-r-nps"></canvas></div>
+        <div class="cc"><h3>TDI por Rep — ATE</h3><p>% · atenção: denominadores pequenos</p><canvas id="a-r-tdi"></canvas></div>
+      </div>
+      <div class="note"><strong>ATE:</strong> ext_helljesu e ext_alcanana mais regulares. ext_tabragan ausente nas últ. 2 semanas. ext_saolilil sem atividade nesse período.</div>
     </div>
-    <div class="section-label">Tabela por Representante — Evolução Mensal (Abr → Mai)</div>
-    <div class="rep-table-wrap"><div id="ate-rep-table"></div></div>
-    <div class="section-label">Evolução Semanal por Representante — ATE (30/03 a 04/05)</div>
-    <div class="ch-grid">
-      <div class="cc"><h3>TMO por Representante — ATE</h3><p>min · Menor melhor ↓</p><canvas id="a-rep-tmo"></canvas></div>
-      <div class="cc"><h3>Produtividade por Representante — ATE</h3><p>at/h · Maior melhor ↑</p><canvas id="a-rep-prod"></canvas></div>
-      <div class="cc"><h3>NPS por Representante — ATE †</h3><p>% · apenas semanas com ≥3 pesquisas</p><canvas id="a-rep-nps"></canvas></div>
-      <div class="cc"><h3>TDI por Representante — ATE</h3><p>% · atenção: denominadores pequenos</p><canvas id="a-rep-tdi"></canvas></div>
-    </div>
-    <div class="note"><strong>ATE — leitura:</strong> ext_helljesu e ext_alcanana são os mais consistentes. ext_tabragan/lethiper/dasipria com atividade irregular em algumas semanas (ausências). ext_saolilil iniciou em maio apenas.</div>
   </div>
 
   <!-- ═══ KTA ═══ -->
   <div id="tab-kta" class="tab-pane">
-    <div class="period-label">Abril 2026 — fechado (KTA_BRASIL)</div>
-    <div class="sc-grid">
-      <div class="kc"><div class="lbl">NPS †</div><div class="val">77,1%</div><div class="cmp">Equipe KTA: 62,3%</div><span class="dlt pos">+14,8pp ✓</span></div>
-      <div class="kc"><div class="lbl">TMO ↓</div><div class="val">34m 21s</div><div class="cmp">Equipe: 33m 55s</div><span class="dlt neu">+1%</span></div>
-      <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">2,48</div><div class="cmp">Equipe: 2,64</div><span class="dlt neg">−6%</span></div>
-      <div class="kc"><div class="lbl">TDI ↓</div><div class="val">22,4%</div><div class="cmp">Equipe: 14,5%</div><span class="dlt neg">+7,9pp ⚠️</span></div>
-      <div class="kc"><div class="lbl">IXC ↓</div><div class="val">2,33</div><div class="cmp">Equipe: 2,03</div><span class="dlt neg">+15%</span></div>
-      <div class="kc"><div class="lbl">QI Ind. ↑</div><div class="val">—</div><div class="cmp">Sem avaliações</div><span class="dlt neu">s/d</span></div>
+    <div class="ptabs">
+      <button class="ptab active" onclick="setPeriod('kta','mensal',this)">Mensal</button>
+      <button class="ptab" onclick="setPeriod('kta','semanal',this)">Semanal</button>
     </div>
-    <div class="period-label">Maio 2026* — vigente (KTA_BRASIL)</div>
-    <div class="sc-grid">
-      <div class="kc"><div class="lbl">NPS †</div><div class="val">53,6%</div><div class="cmp">Equipe KTA: 64,8%</div><span class="dlt neg">−11,2pp</span></div>
-      <div class="kc"><div class="lbl">TMO ↓</div><div class="val">36m 14s</div><div class="cmp">Equipe: 32m 11s</div><span class="dlt neg">+13%</span></div>
-      <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">2,41</div><div class="cmp">Equipe: 2,84</div><span class="dlt neg">−15%</span></div>
-      <div class="kc"><div class="lbl">TDI ↓</div><div class="val">13,3%</div><div class="cmp">Equipe: 8,1%</div><span class="dlt neg">+5,2pp ⚠️</span></div>
-      <div class="kc"><div class="lbl">IXC ↓</div><div class="val">2,23</div><div class="cmp">Equipe: 2,06</div><span class="dlt neg">+8%</span></div>
-      <div class="kc"><div class="lbl">QI Ind. ↑</div><div class="val">—</div><div class="cmp">Sem avaliações</div><span class="dlt neu">s/d</span></div>
+    <div id="kta-mensal" class="period-pane active">
+      <div class="note" style="margin-bottom:12px"><strong>KTA_BRASIL — Mensal:</strong> 3 reps piloto vs equipe KTA. Março: apenas Produtividade disponível. Mai* vigente até 11/05.</div>
+      <div class="ch-grid">
+        <div class="cc"><h3>NPS† — KTA</h3><p>% · Maior melhor ↑</p><canvas id="k-m-nps"></canvas></div>
+        <div class="cc"><h3>TMO — KTA</h3><p>min · Menor melhor ↓</p><canvas id="k-m-tmo"></canvas></div>
+        <div class="cc"><h3>Produtividade — KTA</h3><p>at/h · Maior melhor ↑</p><canvas id="k-m-prod"></canvas></div>
+        <div class="cc"><h3>TDI — KTA ⚠️</h3><p>% · Menor melhor ↓</p><canvas id="k-m-tdi"></canvas></div>
+      </div>
+      <div class="section-lbl">Tabela por Representante — KTA_BRASIL (Evolução Abr→Mai)</div>
+      <div class="rep-table-wrap"><div id="kta-rep-table"></div></div>
     </div>
-    <div class="section-label">Tendência Semanal Consolidada — KTA: Piloto vs Equipe</div>
-    <div class="ch-grid">
-      <div class="cc"><h3>TMO — KTA</h3><p>min · Menor melhor ↓</p><canvas id="k-tmo"></canvas></div>
-      <div class="cc"><h3>Produtividade — KTA</h3><p>at/h · Maior melhor ↑</p><canvas id="k-prod"></canvas></div>
-      <div class="cc"><h3>NPS — KTA †</h3><p>% · Maior melhor ↑</p><canvas id="k-nps"></canvas></div>
-      <div class="cc"><h3>TDI — KTA ⚠️</h3><p>% · passe o mouse para erros/casos</p><canvas id="k-tdi"></canvas></div>
+    <div id="kta-semanal" class="period-pane">
+      <div class="section-lbl">Piloto KTA vs Equipe KTA — 6 semanas (30/03 a 04/05)</div>
+      <div class="ch-grid">
+        <div class="cc"><h3>TMO — KTA</h3><p>min · Menor melhor ↓</p><canvas id="k-s-tmo"></canvas></div>
+        <div class="cc"><h3>Produtividade — KTA</h3><p>at/h · Maior melhor ↑</p><canvas id="k-s-prod"></canvas></div>
+        <div class="cc"><h3>NPS† — KTA</h3><p>% · Maior melhor ↑</p><canvas id="k-s-nps"></canvas></div>
+        <div class="cc"><h3>TDI — KTA ⚠️</h3><p>% · passe o mouse para erros/casos</p><canvas id="k-s-tdi"></canvas></div>
+      </div>
+      <div class="section-lbl">Evolução por Representante — KTA · Últimas 4 semanas (13/04 a 04/05)</div>
+      <div class="ch-grid">
+        <div class="cc"><h3>TMO por Rep — KTA</h3><p>min · Menor melhor ↓</p><canvas id="k-r-tmo"></canvas></div>
+        <div class="cc"><h3>Produtividade por Rep — KTA</h3><p>at/h · Maior melhor ↑</p><canvas id="k-r-prod"></canvas></div>
+        <div class="cc"><h3>NPS† por Rep — KTA</h3><p>% · semanas com ≥3 pesquisas</p><canvas id="k-r-nps"></canvas></div>
+        <div class="cc"><h3>TDI por Rep — KTA ⚠️</h3><p>% · denominadores pequenos (2–11 casos)</p><canvas id="k-r-tdi"></canvas></div>
+      </div>
+      <div class="note"><strong>KTA:</strong> ext_damascan com melhor consistência de TMO e TDI. ext_saferrcr e ext_uannasci concentram TDI elevado — investigar processo.</div>
     </div>
-    <div class="section-label">Tabela por Representante — Evolução Mensal (Abr → Mai)</div>
-    <div class="rep-table-wrap"><div id="kta-rep-table"></div></div>
-    <div class="section-label">Evolução Semanal por Representante — KTA_BRASIL (30/03 a 04/05)</div>
-    <div class="ch-grid">
-      <div class="cc"><h3>TMO por Representante — KTA</h3><p>min · Menor melhor ↓</p><canvas id="k-rep-tmo"></canvas></div>
-      <div class="cc"><h3>Produtividade por Representante — KTA</h3><p>at/h · Maior melhor ↑</p><canvas id="k-rep-prod"></canvas></div>
-      <div class="cc"><h3>NPS por Representante — KTA †</h3><p>% · apenas semanas com ≥3 pesquisas</p><canvas id="k-rep-nps"></canvas></div>
-      <div class="cc"><h3>TDI por Representante — KTA ⚠️</h3><p>% · denominadores pequenos (2–11 casos)</p><canvas id="k-rep-tdi"></canvas></div>
-    </div>
-    <div class="note"><strong>KTA — destaque:</strong> ext_damascan tem TMO mais baixo e TDI bem controlado. ext_saferrcr e ext_uannasci concentram o problema de TDI — investigar processo.</div>
   </div>
 
   <hr class="div">
@@ -209,228 +193,246 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
 </div>
 
 <script>
-// ─── Dados mensais por representante ──────────────────────────────────────
-// [of, abr_nps,n, abr_tmo, abr_prod, abr_tdiPct,n,d, abr_ixc, abr_qi,
-//      mai_nps,n, mai_tmo, mai_prod, mai_tdiPct,n,d, mai_ixc, mai_qi]
+// ─── Dados mensais ─────────────────────────────────────────────────────────
+// Meses: Mar, Abr, Mai*
+const MON_LBL = ['Mar', 'Abr', 'Mai*'];
+
+const MON = {
+  geral: {
+    nps:  {p:[null,72.0,63.6], e:[null,66.3,71.9]},
+    tmo:  {p:[null,31.5,34.7], e:[null,27.8,28.6]},
+    prod: {p:[2.73,2.46,2.42], e:[2.80,2.88,3.07]},
+    tdi:  {p:[null,14.1, 5.7], e:[null,10.6, 7.3]},
+  },
+  ate: {
+    nps:  {p:[null,66.7,74.1], e:[null,71.4,77.6]},
+    tmo:  {p:[null,29.4,33.9], e:[null,27.2,26.5]},
+    prod: {p:[2.18,2.43,2.43], e:[2.65,2.88,3.26]},
+    tdi:  {p:[null, 5.5, 0.0], e:[null, 8.1, 7.0]},
+  },
+  kta: {
+    nps:  {p:[null,77.1,53.6], e:[null,62.3,64.8]},
+    tmo:  {p:[null,34.4,36.2], e:[null,33.9,32.2]},
+    prod: {p:[3.24,2.48,2.41], e:[2.96,2.64,2.84]},
+    tdi:  {p:[null,22.4,13.3], e:[null,14.5, 8.1]},
+  }
+};
+
+// ─── Dados semanais agregados ──────────────────────────────────────────────
+const WK6 = ['30/03','06/04','13/04','20/04','27/04','04/05'];
+const TDI_META = {
+  g:{pN:[1,7,4,7,2,2],   pD:[25,44,32,29,22,32],  eN:[111,199,222,227,156,66],  eD:[1239,2148,2059,1799,1394,963]},
+  a:{pN:[1,1,1,1,0,0],   pD:[17,19,15,14,10,18],  eN:[48,102,111,77,57,50],     eD:[719,1313,1191,916,742,724]},
+  k:{pN:[0,6,3,6,2,2],   pD:[8,25,17,15,12,14],   eN:[34,60,72,97,64,16],       eD:[299,465,513,561,439,239]},
+};
+const AGG = {
+  g:{ tmo:{p:[26.9,33.0,29.8,31.5,35.2,35.2],e:[26.8,27.5,27.3,27.7,28.4,29.2]}, prod:{p:[2.45,2.62,2.42,2.35,2.20,2.56],e:[2.50,2.89,2.82,2.98,2.91,3.29]}, nps:{p:[40.0,63.0,75.0,88.2,88.2,62.3],e:[71.1,65.4,64.5,66.0,68.8,71.6]}, tdi:{p:[4.0,15.9,12.5,24.1,9.1,6.3],e:[9.0,9.3,10.8,12.6,11.2,6.9]} },
+  a:{ tmo:{p:[22.7,32.2,27.4,30.4,31.4,34.9],e:[27.2,27.7,26.7,26.7,27.1,26.9]}, prod:{p:[2.68,2.39,2.46,2.33,2.17,2.50],e:[2.42,2.86,2.87,3.02,2.95,3.50]}, nps:{p:[null,null,76.9,90.9,100.0,73.1],e:[74.1,67.9,73.1,72.4,74.1,76.9]}, tdi:{p:[5.9,5.3,6.7,7.1,0.0,0.0],e:[6.7,7.8,9.3,8.4,7.7,6.9]} },
+  k:{ tmo:{p:[32.9,33.9,33.5,33.1,39.3,35.7],e:[30.7,34.1,34.2,34.2,32.7,33.3]}, prod:{p:[2.22,2.84,2.38,2.37,2.22,2.66],e:[2.45,2.64,2.46,2.72,2.70,3.03]}, nps:{p:[60.0,82.4,72.7,83.3,80.0,51.9],e:[66.7,61.7,52.8,64.1,67.6,64.4]}, tdi:{p:[0.0,24.0,17.6,40.0,16.7,14.3],e:[11.4,12.9,14.0,17.3,14.6,6.7]} },
+};
+
+// ─── Dados semanais por rep (6 semanas) ───────────────────────────────────
+const WK = {
+  'ext_helljesu':{ tmo:[21.5,null,23.5,28.1,31.5,28.7], prod:[3.46,null,3.39,3.34,2.93,3.80], nps:[null,null,100,100,100,100],    tdi:[0,null,0,14.3,0,0]    },
+  'ext_alcanana':{ tmo:[19.3,25.2,23.3,18.8,23.7,27.0], prod:[2.33,2.85,2.81,3.68,2.84,2.58], nps:[null,50,66.7,null,null,80],    tdi:[0,0,0,0,null,0]       },
+  'ext_tabragan':{ tmo:[28.1,35.9,34.2,48.2,16.9,null], prod:[2.41,2.73,2.04,2.05,null,null],  nps:[50,33.3,60,null,null,null],    tdi:[50,10,100,null,0,null] },
+  'ext_lethiper':{ tmo:[null,null,15.5,32.7,33.6,38.1], prod:[null,null,null,1.28,1.45,2.17],   nps:[null,null,null,null,100,20],   tdi:[null,null,0,0,0,0]    },
+  'ext_dasipria':{ tmo:[null,43.1,35.9,39.5,21.9,42.0], prod:[null,1.55,1.73,1.29,null,1.75],   nps:[null,null,100,50,null,100],   tdi:[null,0,0,0,null,null]  },
+  'ext_saolilil':{ tmo:[null,null,null,null,null,null],  prod:[null,null,null,null,null,null],    nps:[null,null,null,null,null,null],tdi:[null,null,null,null,null,null]},
+  'ext_damascan':{ tmo:[27.3,28.2,22.9,25.7,28.1,31.4], prod:[2.17,2.88,2.54,2.65,2.36,2.42],  nps:[null,87.5,75,100,null,55.6],  tdi:[0,0,10,14.3,0,0]      },
+  'ext_saferrcr':{ tmo:[49.2,34.1,45.1,40.4,49.4,43.1], prod:[1.57,2.63,1.88,2.28,1.88,2.08],  nps:[null,null,75,50,100,83.3],    tdi:[0,66.7,0,66.7,50,0]   },
+  'ext_uannasci':{ tmo:[33.5,41.3,46.2,41.3,56.0,34.7], prod:[2.64,2.98,2.57,2.14,2.34,3.44],  nps:[null,75,66.7,null,60,33.3],   tdi:[0,18.2,50,60,50,40]   },
+};
+const WK4 = ['13/04','20/04','27/04','04/05']; // últimas 4 semanas (indices 2-5)
+
+// ─── Dados rep mensal ──────────────────────────────────────────────────────
 const REPS = {
   'ext_helljesu':['ATE',100.0,12,1595,3.38, 3.0, 1,33,1.94,100, 100.0, 9,1694,3.41, 0.0, 0,11,1.96,100],
   'ext_alcanana':['ATE', 45.5,11,1366,2.90, 0.0, 0,12,3.21,100,  80.0, 5,1586,2.59, 0.0, 0, 1,3.53,100],
   'ext_tabragan':['ATE', 57.1,14,2093,2.37,21.4, 3,14,1.66,100,  75.0, 4,2452,2.21, 0.0, 0, 5,1.47,null],
   'ext_lethiper':['ATE',100.0, 4,2015,1.40, 0.0, 0, 7,1.57,null, 20.0, 5,2158,1.99, 0.0, 0, 1,1.46,100],
   'ext_dasipria':['ATE', 25.0, 4,2357,1.54, 0.0, 0, 7,2.23,100, 100.0, 2,2479,1.75,null,null,null,1.93,null],
-  'ext_saolilil':['ATE', null, 0,null,null,null,null,null,null,null, 50.0, 2,2705,2.19, 0.0, 0, 2,1.51,null],
+  'ext_saolilil':['ATE', null, 0,null,null, null,null,null,null,null, 50.0, 2,2705,2.19, 0.0, 0, 2,1.51,null],
   'ext_damascan':['KTA', 88.9,18,1568,2.59, 5.9, 2,34,2.83,null, 55.6, 9,1862,2.16, 0.0, 0, 8,2.38,null],
   'ext_saferrcr':['KTA', 63.6,11,2489,2.20,46.7, 7,15,2.03,null, 83.3, 6,2564,1.88, 0.0, 0, 2,2.23,null],
   'ext_uannasci':['KTA', 73.7,19,2596,2.56,29.6, 8,27,1.97,null, 38.5,13,null, 3.25,null,null,null,2.08,null],
 };
-
-// ─── Dados semanais por representante ─────────────────────────────────────
-// Semanas: ['30/03','06/04','13/04','20/04','27/04','04/05']
-const WK = {
-  'ext_helljesu':{ tmo:[21.5,null,23.5,28.1,31.5,28.7], prod:[3.46,null,3.39,3.34,2.93,3.80], nps:[null,null,100,100,100,100],     tdi:[0,null,0,14.3,0,0]       },
-  'ext_alcanana':{ tmo:[19.3,25.2,23.3,18.8,23.7,27.0], prod:[2.33,2.85,2.81,3.68,2.84,2.58], nps:[null,50,66.7,null,null,80],    tdi:[0,0,0,0,null,0]           },
-  'ext_tabragan':{ tmo:[28.1,35.9,34.2,48.2,16.9,null], prod:[2.41,2.73,2.04,2.05,null,null],  nps:[50,33.3,60,null,null,null],    tdi:[50,10,100,null,0,null]    },
-  'ext_lethiper':{ tmo:[null,null,15.5,32.7,33.6,38.1], prod:[null,null,null,1.28,1.45,2.17],   nps:[null,null,null,null,100,20],   tdi:[null,null,0,0,0,0]        },
-  'ext_dasipria':{ tmo:[null,43.1,35.9,39.5,21.9,42.0], prod:[null,1.55,1.73,1.29,null,1.75],   nps:[null,null,100,50,null,100],   tdi:[null,0,0,0,null,null]     },
-  'ext_saolilil':{ tmo:[null,null,null,null,null,null],  prod:[null,null,null,null,null,null],    nps:[null,null,null,null,null,null],tdi:[null,null,null,null,null,null]},
-  'ext_damascan':{ tmo:[27.3,28.2,22.9,25.7,28.1,31.4], prod:[2.17,2.88,2.54,2.65,2.36,2.42],  nps:[null,87.5,75,100,null,55.6], tdi:[0,0,10,14.3,0,0]          },
-  'ext_saferrcr':{ tmo:[49.2,34.1,45.1,40.4,49.4,43.1], prod:[1.57,2.63,1.88,2.28,1.88,2.08],  nps:[null,null,75,50,100,83.3],   tdi:[0,66.7,0,66.7,50,0]       },
-  'ext_uannasci':{ tmo:[33.5,41.3,46.2,41.3,56.0,34.7], prod:[2.64,2.98,2.57,2.14,2.34,3.44],  nps:[null,75,66.7,null,60,33.3],  tdi:[0,18.2,50,60,50,40]       },
-};
-
-// ─── TDI num/den para tooltip ──────────────────────────────────────────────
-const TDI_META = {
-  g:{pN:[1,7,4,7,2,2],   pD:[25,44,32,29,22,32],  eN:[111,199,222,227,156,66],  eD:[1239,2148,2059,1799,1394,963]},
-  a:{pN:[1,1,1,1,0,0],   pD:[17,19,15,14,10,18],  eN:[48,102,111,77,57,50],     eD:[719,1313,1191,916,742,724]},
-  k:{pN:[0,6,3,6,2,2],   pD:[8,25,17,15,12,14],   eN:[34,60,72,97,64,16],       eD:[299,465,513,561,439,239]},
-};
-
 const REP_COLORS = {
   'ext_helljesu':'#10B981','ext_alcanana':'#2563EB','ext_tabragan':'#F59E0B',
   'ext_lethiper':'#8B5CF6','ext_dasipria':'#EF4444','ext_saolilil':'#94A3B8',
   'ext_damascan':'#0891B2','ext_saferrcr':'#D97706','ext_uannasci':'#DC2626',
 };
 
-const WEEKS = ['30/03','06/04','13/04','20/04','27/04','04/05'];
-const B = '#2563EB', G = '#9CA3AF';
-
 // ─── Helpers ──────────────────────────────────────────────────────────────
-function fmtT(s){if(s==null)return '—';const m=Math.floor(s/60),r=Math.round(s%60);return `${m}m ${String(r).padStart(2,'0')}s`;}
-function fmtN(v,n){if(v==null)return '<span class="sd">—</span>';return `${v.toFixed(1)}% <small>(${n})</small>`;}
-function fmtD(p,n,d){if(p==null)return '<span class="sd">—</span>';return `${p.toFixed(1)}% <small>(${n??'?'}/${d??'?'})</small>`;}
-function fmtV(v,dp){if(v==null)return '<span class="sd">—</span>';return v.toFixed(dp);}
+function fmtT(s){if(s==null)return'—';return`${Math.floor(s/60)}m ${String(Math.round(s%60)).padStart(2,'0')}s`;}
+function fmtN(v,n){if(v==null)return'<span class="sd">—</span>';return`${v.toFixed(1)}%<small> (${n})</small>`;}
+function fmtD(p,n,d){if(p==null)return'<span class="sd">—</span>';return`${p.toFixed(1)}%<small> (${n??'?'}/${d??'?'})</small>`;}
+function fmtV(v,dp){if(v==null)return'<span class="sd">—</span>';return v.toFixed(dp);}
 function nc(v){return v==null?'':(v>=70?'gc':v>=50?'yc':'rc');}
 function tc(s){return s==null?'':(s<=1800?'gc':s<=2400?'yc':'rc');}
 function pc(v){return v==null?'':(v>=2.8?'gc':v>=2.0?'yc':'rc');}
 function dc(v){return v==null?'':(v<=5?'gc':v<=15?'yc':'rc');}
-
-function evArr(abr, mai, higherBetter) {
-  if(abr==null||mai==null) return '<span class="arr-eq">—</span>';
-  const d = mai - abr;
-  const thr = Math.abs(abr) * 0.03; // 3% threshold
-  if(Math.abs(d) < thr) return '<span class="arr-eq">→</span>';
-  const better = higherBetter ? d > 0 : d < 0;
-  return better ? '<span class="arr-up">↑</span>' : '<span class="arr-dn">↓</span>';
+function ev(a,m,hi){
+  if(a==null||m==null)return'<span class="arr-eq">—</span>';
+  const d=m-a,t=Math.abs(a)*0.03;
+  if(Math.abs(d)<t)return'<span class="arr-eq">→</span>';
+  return(hi?d>0:d<0)?'<span class="arr-up">↑</span>':'<span class="arr-dn">↓</span>';
 }
 
-// ─── Rep table ─────────────────────────────────────────────────────────────
+// ─── Rep table ────────────────────────────────────────────────────────────
 function renderTable(id, filter) {
-  const reps = Object.keys(REPS).filter(r => filter==='all' || REPS[r][0]===filter);
-  let h = `<table class="rt"><thead><tr>
-    <th class="left" rowspan="2">Rep</th><th rowspan="2">Of.</th>
+  const reps = Object.keys(REPS).filter(r => filter==='all'||REPS[r][0]===filter);
+  let h=`<table class="rt"><thead><tr>
+    <th class="left" rowspan="2">Representante</th><th rowspan="2">Of.</th>
     <th colspan="6" class="sep">Abril/2026 — fechado</th>
     <th colspan="6" class="sep">Maio/2026* — vigente</th>
-    <th colspan="4" class="sep">Evolução Abr→Mai</th>
+    <th colspan="4" class="sep">Evolução ↑↓→</th>
   </tr><tr>
     <th>NPS†(n)</th><th>TMO</th><th>PROD</th><th>TDI(err/tot)</th><th>IXC</th><th>QI</th>
     <th>NPS†(n)</th><th>TMO</th><th>PROD</th><th>TDI(err/tot)</th><th>IXC</th><th>QI</th>
     <th>NPS</th><th>TMO</th><th>PROD</th><th>TDI</th>
   </tr></thead><tbody>`;
-  reps.forEach(r => {
+  reps.forEach(r=>{
     const d=REPS[r];
-    const [of,an,an_n,at,ap,adi,adn,add,ai,aq,mn,mn_n,mt,mp,mdi,mdn,mdd,mi,mq]=d;
+    const[of,an,an_,at,ap,adi,adn,add,ai,aq,mn,mn_,mt,mp,mdi,mdn,mdd,mi,mq]=d;
     h+=`<tr>
-      <td class="rep-name">${r}</td>
-      <td class="of-${of.toLowerCase()}">${of}</td>
-      <td class="${nc(an)}">${fmtN(an,an_n)}</td>
-      <td class="${tc(at)}">${fmtT(at)}</td>
-      <td class="${pc(ap)}">${fmtV(ap,2)}</td>
-      <td class="${dc(adi)}">${fmtD(adi,adn,add)}</td>
-      <td>${fmtV(ai,2)}</td>
-      <td class="${aq?'gc':''}">${aq!=null?aq+'%':'<span class="sd">—</span>'}</td>
-      <td class="${nc(mn)}">${fmtN(mn,mn_n)}</td>
-      <td class="${tc(mt)}">${fmtT(mt)}</td>
-      <td class="${pc(mp)}">${fmtV(mp,2)}</td>
-      <td class="${dc(mdi)}">${fmtD(mdi,mdn,mdd)}</td>
-      <td>${fmtV(mi,2)}</td>
-      <td class="${mq?'gc':''}">${mq!=null?mq+'%':'<span class="sd">—</span>'}</td>
-      <td>${evArr(an,mn,true)}</td>
-      <td>${evArr(at,mt,false)}</td>
-      <td>${evArr(ap,mp,true)}</td>
-      <td>${evArr(adi,mdi,false)}</td>
+      <td class="rep-name">${r}</td><td class="of-${of.toLowerCase()}">${of}</td>
+      <td class="${nc(an)}">${fmtN(an,an_)}</td><td class="${tc(at)}">${fmtT(at)}</td>
+      <td class="${pc(ap)}">${fmtV(ap,2)}</td><td class="${dc(adi)}">${fmtD(adi,adn,add)}</td>
+      <td>${fmtV(ai,2)}</td><td class="${aq?'gc':''}">${aq!=null?aq+'%':'<span class="sd">—</span>'}</td>
+      <td class="${nc(mn)}">${fmtN(mn,mn_)}</td><td class="${tc(mt)}">${fmtT(mt)}</td>
+      <td class="${pc(mp)}">${fmtV(mp,2)}</td><td class="${dc(mdi)}">${fmtD(mdi,mdn,mdd)}</td>
+      <td>${fmtV(mi,2)}</td><td class="${mq?'gc':''}">${mq!=null?mq+'%':'<span class="sd">—</span>'}</td>
+      <td>${ev(an,mn,true)}</td><td>${ev(at,mt,false)}</td><td>${ev(ap,mp,true)}</td><td>${ev(adi,mdi,false)}</td>
     </tr>`;
   });
-  h+=`</tbody></table>
-  <div style="font-size:10.5px;color:#94a3b8;margin-top:6px">
-    🟢 bom &nbsp;·&nbsp; 🟡 atenção &nbsp;·&nbsp; 🔴 crítico &nbsp;·&nbsp;
-    NPS: ≥70% verde, 50–70% amarelo, &lt;50% vermelho &nbsp;·&nbsp;
-    TMO: ≤30min verde, 30–40min amarelo, &gt;40min vermelho &nbsp;·&nbsp;
-    PROD: ≥2,8 verde, 2,0–2,8 amarelo, &lt;2,0 vermelho &nbsp;·&nbsp;
-    TDI: ≤5% verde, 5–15% amarelo, &gt;15% vermelho &nbsp;·&nbsp;
-    Evolução ↑ melhorou · ↓ piorou · → estável
-  </div>`;
-  document.getElementById(id).innerHTML = h;
+  h+=`</tbody></table><div style="font-size:10.5px;color:#94a3b8;margin-top:6px">🟢 bom &nbsp;·&nbsp; 🟡 atenção &nbsp;·&nbsp; 🔴 crítico &nbsp;·&nbsp; NPS: ≥70% verde · TMO: ≤30min verde, ≤40min amarelo · PROD: ≥2,8 verde · TDI: ≤5% verde, ≤15% amarelo &nbsp;·&nbsp; Evolução ↑ melhorou ↓ piorou → estável (Mai* parcial)</div>`;
+  document.getElementById(id).innerHTML=h;
 }
 
-// ─── Charts ────────────────────────────────────────────────────────────────
-const chartsInited = {};
+// ─── Chart builders ────────────────────────────────────────────────────────
+const B='#2563EB',G='#CBD5E1';
+function mkBar(id,labels,pD,eD,yLabel,yMin){
+  new Chart(document.getElementById(id),{type:'bar',
+    data:{labels,datasets:[
+      {label:'Piloto',data:pD,backgroundColor:'rgba(37,99,235,.8)',borderRadius:5,borderSkipped:false},
+      {label:'Equipe',data:eD,backgroundColor:'rgba(148,163,184,.7)',borderRadius:5,borderSkipped:false}
+    ]},
+    options:{responsive:true,aspectRatio:1.75,
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:12,usePointStyle:true,pointStyleWidth:8}},
+        tooltip:{callbacks:{label:c=>c.parsed.y==null?null:` ${c.dataset.label}: ${c.parsed.y.toFixed(1)} ${yLabel}`}}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:12}}},
+        y:{min:yMin,grid:{color:'#f1f5f9'},ticks:{font:{size:11}}}
+      }
+    }
+  });
+}
 
-function baseOpts(yLbl, yMin) {
-  return {
-    responsive:true, aspectRatio:1.75,
-    plugins:{
-      legend:{position:'bottom',labels:{font:{size:11},padding:10,usePointStyle:true,pointStyleWidth:8}},
-      tooltip:{callbacks:{label:c=>c.parsed.y==null?null:` ${c.dataset.label}: ${c.parsed.y.toFixed(2)} ${yLbl}`}}
-    },
+function mkLine(id,pD,eD,opts){
+  new Chart(document.getElementById(id),{type:'line',
+    data:{labels:WK6,datasets:[
+      {label:'Piloto',data:pD,borderColor:B,backgroundColor:B+'15',borderWidth:2.5,pointRadius:5,pointHoverRadius:7,tension:.3,spanGaps:true},
+      {label:'Equipe',data:eD,borderColor:'#9CA3AF',backgroundColor:'#9CA3AF10',borderWidth:2,pointRadius:4,pointHoverRadius:6,tension:.3,borderDash:[6,4],spanGaps:true}
+    ]},options:opts
+  });
+}
+
+function lineOpts(yLbl,yMin){
+  return{responsive:true,aspectRatio:1.75,
+    plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:10,usePointStyle:true,pointStyleWidth:8}},
+      tooltip:{callbacks:{label:c=>c.parsed.y==null?null:` ${c.dataset.label}: ${c.parsed.y.toFixed(2)} ${yLbl}`}}},
     scales:{y:{min:yMin,grid:{color:'#f1f5f9'},ticks:{font:{size:11}}},x:{grid:{display:false},ticks:{font:{size:11}}}}
   };
 }
 
-function tdiOpts(yMin, key) {
-  const d = TDI_META[key];
-  return {
-    responsive:true, aspectRatio:1.75,
-    plugins:{
-      legend:{position:'bottom',labels:{font:{size:11},padding:10,usePointStyle:true,pointStyleWidth:8}},
+function tdiLineOpts(yMin,key){
+  const d=TDI_META[key];
+  return{responsive:true,aspectRatio:1.75,
+    plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:10,usePointStyle:true,pointStyleWidth:8}},
       tooltip:{callbacks:{label:function(c){
-        if(c.parsed.y==null) return null;
-        const i=c.dataIndex, isP=c.datasetIndex===0;
-        const n=isP?d.pN[i]:d.eN[i], den=isP?d.pD[i]:d.eD[i];
-        return ` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}% — ${n} erros em ${den} casos`;
-      }}}
-    },
+        if(c.parsed.y==null)return null;
+        const i=c.dataIndex,isP=c.datasetIndex===0;
+        return` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}% — ${isP?d.pN[i]:d.eN[i]} erros em ${isP?d.pD[i]:d.eD[i]} casos`;
+      }}}},
     scales:{y:{min:yMin,grid:{color:'#f1f5f9'},ticks:{font:{size:11},callback:v=>v+'%'}},x:{grid:{display:false},ticks:{font:{size:11}}}}
   };
 }
 
-function repOpts(yLbl, yMin, rightLeg) {
-  return {
-    responsive:true, aspectRatio:1.75,
-    plugins:{
-      legend:{position: rightLeg?'right':'bottom',labels:{font:{size:10},padding:6,boxWidth:10,usePointStyle:true}},
-      tooltip:{callbacks:{label:c=>c.parsed.y==null?null:` ${c.dataset.label}: ${c.parsed.y.toFixed(2)} ${yLbl}`}}
-    },
-    scales:{y:{min:yMin,grid:{color:'#f1f5f9'},ticks:{font:{size:11}}},x:{grid:{display:false},ticks:{font:{size:11}}}}
-  };
-}
-
-function mkLine(id, pD, eD, opts) {
-  new Chart(document.getElementById(id), {
-    type:'line', data:{labels:WEEKS, datasets:[
-      {label:'Piloto',data:pD,borderColor:B,backgroundColor:B+'15',borderWidth:2.5,pointRadius:5,pointHoverRadius:7,tension:.3,spanGaps:true},
-      {label:'Equipe',data:eD,borderColor:G,backgroundColor:G+'10',borderWidth:2,  pointRadius:4,pointHoverRadius:6,tension:.3,borderDash:[6,4],spanGaps:true}
-    ]}, options:opts
+function mkRepLine(id,repList,kpi,useWK4){
+  const labels=useWK4?WK4:WK6;
+  const ds=repList.filter(r=>WK[r]).map(r=>({
+    label:r,
+    data:useWK4?WK[r][kpi].slice(2):WK[r][kpi],
+    borderColor:REP_COLORS[r],backgroundColor:'transparent',
+    borderWidth:2,pointRadius:4,pointHoverRadius:6,tension:.3,spanGaps:true
+  }));
+  new Chart(document.getElementById(id),{type:'line',
+    data:{labels,datasets:ds},
+    options:{responsive:true,aspectRatio:1.75,
+      plugins:{legend:{position:'right',labels:{font:{size:10},padding:6,boxWidth:10,usePointStyle:true}},
+        tooltip:{callbacks:{label:c=>c.parsed.y==null?null:` ${c.dataset.label}: ${c.parsed.y.toFixed(2)}`}}},
+      scales:{y:{grid:{color:'#f1f5f9'},ticks:{font:{size:11}}},x:{grid:{display:false},ticks:{font:{size:11}}}}
+    }
   });
 }
 
-function mkRepChart(id, repList, kpiKey, opts) {
-  const datasets = repList.map(rep => ({
-    label: rep,
-    data: WK[rep][kpiKey],
-    borderColor: REP_COLORS[rep],
-    backgroundColor: 'transparent',
-    borderWidth: 2,
-    pointRadius: 4,
-    pointHoverRadius: 6,
-    tension: 0.3,
-    spanGaps: true
-  }));
-  new Chart(document.getElementById(id), {type:'line', data:{labels:WEEKS, datasets}, options:opts});
-}
+// ─── Init charts per tab+period ────────────────────────────────────────────
+const inited={};
+function initPeriod(tab,period){
+  const key=tab+'-'+period;
+  if(inited[key])return;
+  inited[key]=true;
+  const m=MON[tab==='geral'?'geral':tab==='ate'?'ate':'kta'];
+  const a=AGG[tab==='geral'?'g':tab==='ate'?'a':'k'];
+  const tk=tab==='geral'?'g':tab==='ate'?'a':'k';
 
-function initCharts(t) {
-  if(t==='geral') {
-    mkLine('g-tmo',  [26.9,33.0,29.8,31.5,35.2,35.2],[26.8,27.5,27.3,27.7,28.4,29.2],baseOpts('min',20));
-    mkLine('g-prod', [2.45,2.62,2.42,2.35,2.20,2.56], [2.50,2.89,2.82,2.98,2.91,3.29],baseOpts('at/h',1.5));
-    mkLine('g-nps',  [40.0,63.0,75.0,88.2,88.2,62.3], [71.1,65.4,64.5,66.0,68.8,71.6],baseOpts('%',20));
-    mkLine('g-tdi',  [4.0,15.9,12.5,24.1,9.1,6.3],    [9.0,9.3,10.8,12.6,11.2,6.9],   tdiOpts(0,'g'));
-  } else if(t==='ate') {
-    const ateReps = ['ext_helljesu','ext_alcanana','ext_tabragan','ext_lethiper','ext_dasipria','ext_saolilil'];
-    mkLine('a-tmo',  [22.7,32.2,27.4,30.4,31.4,34.9],[27.2,27.7,26.7,26.7,27.1,26.9],baseOpts('min',16));
-    mkLine('a-prod', [2.68,2.39,2.46,2.33,2.17,2.50], [2.42,2.86,2.87,3.02,2.95,3.50],baseOpts('at/h',1.5));
-    mkLine('a-nps',  [null,null,76.9,90.9,100.0,73.1],[74.1,67.9,73.1,72.4,74.1,76.9],baseOpts('%',40));
-    mkLine('a-tdi',  [5.9,5.3,6.7,7.1,0.0,0.0],       [6.7,7.8,9.3,8.4,7.7,6.9],      tdiOpts(0,'a'));
-    mkRepChart('a-rep-tmo',  ateReps, 'tmo',  repOpts('min',10,true));
-    mkRepChart('a-rep-prod', ateReps, 'prod', repOpts('at/h',0.8,true));
-    mkRepChart('a-rep-nps',  ateReps, 'nps',  repOpts('%',0,true));
-    mkRepChart('a-rep-tdi',  ateReps, 'tdi',  repOpts('%',0,true));
+  if(period==='mensal'){
+    mkBar(`${tk}-m-nps`,MON_LBL,m.nps.p,m.nps.e,'%',40);
+    mkBar(`${tk}-m-tmo`,MON_LBL,m.tmo.p,m.tmo.e,'min',20);
+    mkBar(`${tk}-m-prod`,MON_LBL,m.prod.p,m.prod.e,'at/h',1.5);
+    mkBar(`${tk}-m-tdi`,MON_LBL,m.tdi.p,m.tdi.e,'%',0);
+    renderTable(`${tab}-rep-table`, tab==='geral'?'all':tab==='ate'?'ATE':'KTA');
   } else {
-    const ktaReps = ['ext_damascan','ext_saferrcr','ext_uannasci'];
-    mkLine('k-tmo',  [32.9,33.9,33.5,33.1,39.3,35.7],[30.7,34.1,34.2,34.2,32.7,33.3],baseOpts('min',24));
-    mkLine('k-prod', [2.22,2.84,2.38,2.37,2.22,2.66], [2.45,2.64,2.46,2.72,2.70,3.03],baseOpts('at/h',1.5));
-    mkLine('k-nps',  [60.0,82.4,72.7,83.3,80.0,51.9],[66.7,61.7,52.8,64.1,67.6,64.4],baseOpts('%',30));
-    mkLine('k-tdi',  [0.0,24.0,17.6,40.0,16.7,14.3], [11.4,12.9,14.0,17.3,14.6,6.7],  tdiOpts(0,'k'));
-    mkRepChart('k-rep-tmo',  ktaReps, 'tmo',  repOpts('min',20,false));
-    mkRepChart('k-rep-prod', ktaReps, 'prod', repOpts('at/h',0.8,false));
-    mkRepChart('k-rep-nps',  ktaReps, 'nps',  repOpts('%',0,false));
-    mkRepChart('k-rep-tdi',  ktaReps, 'tdi',  repOpts('%',0,false));
+    mkLine(`${tk}-s-tmo`,a.tmo.p,a.tmo.e,lineOpts('min',tab==='kta'?24:16));
+    mkLine(`${tk}-s-prod`,a.prod.p,a.prod.e,lineOpts('at/h',1.5));
+    mkLine(`${tk}-s-nps`,a.nps.p,a.nps.e,lineOpts('%',tab==='ate'?40:20));
+    mkLine(`${tk}-s-tdi`,a.tdi.p,a.tdi.e,tdiLineOpts(0,tk));
+    if(tab==='ate'){
+      const r=['ext_helljesu','ext_alcanana','ext_tabragan','ext_lethiper','ext_dasipria','ext_saolilil'];
+      mkRepLine('a-r-tmo',r,'tmo',true);mkRepLine('a-r-prod',r,'prod',true);
+      mkRepLine('a-r-nps',r,'nps',true);mkRepLine('a-r-tdi',r,'tdi',true);
+    } else if(tab==='kta'){
+      const r=['ext_damascan','ext_saferrcr','ext_uannasci'];
+      mkRepLine('k-r-tmo',r,'tmo',true);mkRepLine('k-r-prod',r,'prod',true);
+      mkRepLine('k-r-nps',r,'nps',true);mkRepLine('k-r-tdi',r,'tdi',true);
+    }
   }
 }
 
-function setTab(t, btn) {
+// ─── Tab & period switching ────────────────────────────────────────────────
+function setTab(t,btn){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   document.getElementById('tab-'+t).classList.add('active');
   btn.classList.add('active');
-  if(!chartsInited[t]){ initCharts(t); chartsInited[t]=true; }
+  // init active period for this tab
+  const activePeriod=document.querySelector(`#tab-${t} .ptab.active`);
+  const p=activePeriod?activePeriod.textContent.trim().toLowerCase():'mensal';
+  initPeriod(t,p==='semanal'?'semanal':'mensal');
 }
 
-// Init
-renderTable('geral-rep-table','all');
-renderTable('ate-rep-table','ATE');
-renderTable('kta-rep-table','KTA');
-initCharts('geral');
-chartsInited['geral'] = true;
+function setPeriod(tab,period,btn){
+  const pane=document.getElementById('tab-'+tab);
+  pane.querySelectorAll('.ptab').forEach(b=>b.classList.remove('active'));
+  pane.querySelectorAll('.period-pane').forEach(pp=>pp.classList.remove('active'));
+  document.getElementById(tab+'-'+period).classList.add('active');
+  btn.classList.add('active');
+  initPeriod(tab,period);
+}
+
+// Init on load
+initPeriod('geral','mensal');
 </script>
 </body>
 </html>
