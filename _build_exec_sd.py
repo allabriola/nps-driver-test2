@@ -266,76 +266,95 @@ destaques = sorted(drv_data.keys(), key=lambda g: -destaque_score(g))
 destaques_pos = [g for g in destaques
                  if (drv_data[g]['gap'] or 0) >= 0 or (drv_data[g]['mom'] or 0) > 1][:3]
 
-def build_bullet(grp, icon):
-    """Monta bullet completo com NPS + senioridade + oficina + CDU."""
+def build_narrative(grp, icon):
+    """Gera parágrafo narrativo corrido (sem tópicos) com todos os dados compilados."""
     v = drv_data[grp]
-    # ── Linha principal
-    main = (f"{icon} <strong>{grp}</strong> — NPS <strong>{fn(v['nc'])}%</strong> "
-            f"({sign(v['gap'])}{fn(v['gap'])} pp vs. meta, MoM {sign(v['mom'])}{fn(v['mom'])} pp).")
-    parts = [main]
 
-    # ── Senioridade
-    sr = v['sr_mai']
-    sr_abr = v['sr_abr']
+    # Senioridade
+    sr = v['sr_mai']; sr_abr = v['sr_abr']
     exp_k = next((k for k in sr if 'expert' in k.lower()), None)
     new_k = next((k for k in sr if 'newbie' in k.lower()), None)
-    if exp_k and new_k:
-        exp_v = sr[exp_k]; new_v = sr[new_k]
-        exp_abr = sr_abr.get(next((k for k in sr_abr if 'expert' in k.lower()), ''), {})
-        new_abr = sr_abr.get(next((k for k in sr_abr if 'newbie' in k.lower()), ''), {})
-        exp_mom = round(exp_v['nps']-exp_abr['nps'],1) if exp_v.get('nps') and exp_abr.get('nps') else None
-        new_mom = round(new_v['nps']-new_abr['nps'],1) if new_v.get('nps') and new_abr.get('nps') else None
-        gap_sen = round(exp_v['nps']-new_v['nps'],1) if exp_v.get('nps') and new_v.get('nps') else None
-        sr_line = (f"Senioridade: Expert {fn(exp_v['nps'])}% ({exp_v['share']}% do vol"
-                   f"{f', MoM {sign(exp_mom)}{fn(exp_mom)} pp' if exp_mom is not None else ''})"
-                   f" | Newbie {fn(new_v['nps'])}% ({new_v['share']}% do vol"
-                   f"{f', MoM {sign(new_mom)}{fn(new_mom)} pp' if new_mom is not None else ''})"
-                   f"{f' — gap de {fn(gap_sen)} pp' if gap_sen is not None else ''}.")
-        parts.append(sr_line)
+    exp_v = sr.get(exp_k, {}); new_v = sr.get(new_k, {})
+    exp_abr = sr_abr.get(next((k for k in sr_abr if 'expert' in k.lower()), ''), {})
+    new_abr = sr_abr.get(next((k for k in sr_abr if 'newbie' in k.lower()), ''), {})
+    exp_mom = round(exp_v['nps']-exp_abr['nps'],1) if exp_v.get('nps') and exp_abr.get('nps') else None
+    new_mom = round(new_v['nps']-new_abr['nps'],1) if new_v.get('nps') and new_abr.get('nps') else None
+    gap_sen = round(exp_v['nps']-new_v['nps'],1) if exp_v.get('nps') and new_v.get('nps') else None
 
-    # ── Oficinas
+    # Oficinas
     offs = v.get('off_mai', [])
-    if offs:
-        top_off = offs[0]
-        worst_off = min(offs, key=lambda x: x['nps'] if x['nps'] is not None else 999)
+    top_off   = offs[0] if offs else None
+    worst_off = min(offs, key=lambda x: x['nps'] if x['nps'] is not None else 999) if offs else None
 
-        def off_detail(o):
-            m = f", MoM {sign(o['mom'])}{fn(o['mom'])} pp" if o['mom'] is not None else ""
-            return f"{o['share']}%, NPS {fn(o['nps'])}%{m}"
-
-        if worst_off['name'] != top_off['name'] and (worst_off['nps'] or 100) < (top_off['nps'] or 0) - 10:
-            off_line = (f"Oficinas: maior volume em <strong>{top_off['name']}</strong> "
-                        f"({off_detail(top_off)})"
-                        f"; maior detração em <strong>{worst_off['name']}</strong> "
-                        f"({off_detail(worst_off)}).")
-        else:
-            off_parts = [f"<strong>{o['name']}</strong>: {fn(o['nps'])}% ({o['share']}%"
-                         f"{', ' + sign(o['mom']) + fn(o['mom']) + ' pp MoM' if o['mom'] is not None else ''})"
-                         for o in offs[:2]]
-            off_line = f"Oficinas: {'; '.join(off_parts)}."
-        parts.append(off_line)
-
-    # ── CDU resumo do processo top
+    # CDU + processo
     cdu_name, cdu_narr, cdu_share = cdu_narrative(grp)
-    if cdu_name and cdu_narr:
-        proc = v.get('top_proc','')
-        proc_str = f" ({proc})" if proc else ""
-        # Remove a parte operacional da narrativa para não repetir
-        cdu_desc = cdu_narr.split('. ')[0] if '. ' in cdu_narr else cdu_narr
-        cdu_line = (f"Principal CDU{proc_str}: <strong>{cdu_name}</strong> "
-                    f"({cdu_share}% das pesquisas) — {cdu_desc}.")
-        parts.append(cdu_line)
+    proc = v.get('top_proc', '')
+    cdu_first = cdu_narr.split('. ')[0] if cdu_narr and '. ' in cdu_narr else (cdu_narr or '')
 
-    # Formata como parágrafos aninhados
-    return (f'<p style="font-size:13px;line-height:1.8;margin-bottom:4px">{parts[0]}</p>'
-            + ''.join(f'<p style="font-size:12px;line-height:1.7;margin-bottom:2px;margin-left:14px;color:#444">'
-                      f'↳ {p}</p>' for p in parts[1:]))
+    # Constrói texto corrido
+    gap = v['gap'] or 0; mom = v['mom'] or 0
+
+    # Abertura: NPS + status vs meta + MoM (independentes)
+    status_txt = (f"<strong>{sign(gap)}{fn(gap)} pp acima da meta</strong>"
+                  if gap >= 0 else
+                  f"<strong>{fn(abs(gap))} pp abaixo da meta</strong>")
+
+    if mom > 0.5:
+        trend_txt = f"Alta de <strong>+{fn(mom)} pp MoM</strong>. "
+    elif mom < -0.5:
+        trend_txt = f"Queda de <strong>{fn(mom)} pp MoM</strong>. "
+    else:
+        trend_txt = "Performance estável no período. "
+
+    text = (f"{icon} <strong>{grp}</strong>: NPS de <strong>{fn(v['nc'])}%</strong>, "
+            f"{status_txt} ({fn(v['tgt'])}%). {trend_txt}")
+
+    # Senioridade
+    if exp_v.get('nps') and new_v.get('nps'):
+        if gap < 0 and gap_sen and gap_sen > 15:
+            # Gap crítico: foco no problema de Newbies
+            text += (f"O gap de senioridade é expressivo: Experts chegam a {fn(exp_v['nps'])}% "
+                     f"({exp_v.get('share',0)}% das pesquisas"
+                     f"{f', {sign(exp_mom)}{fn(exp_mom)} pp MoM' if exp_mom is not None else ''})"
+                     f", enquanto Newbies registram apenas {fn(new_v['nps'])}% "
+                     f"({new_v.get('share',0)}% das pesquisas"
+                     f"{f', {sign(new_mom)}{fn(new_mom)} pp MoM' if new_mom is not None else ''}"
+                     f") — gap de <strong>{fn(gap_sen)} pp</strong> apontando lacuna de capacitação. ")
+        elif gap >= 0 and exp_v.get('nps'):
+            # Performance boa: destaca que ambos contribuem
+            contrib_new = f" e Newbies em {fn(new_v['nps'])}% ({new_v.get('share',0)}%{f', {sign(new_mom)}{fn(new_mom)} pp MoM' if new_mom is not None else ''})" if new_v.get('nps') else ""
+            text += (f"Performance sustentada por Experts em {fn(exp_v['nps'])}% "
+                     f"({exp_v.get('share',0)}% das pesquisas"
+                     f"{f', {sign(exp_mom)}{fn(exp_mom)} pp MoM' if exp_mom is not None else ''})"
+                     f"{contrib_new}. ")
+
+    # Oficinas
+    def off_mom_str(o):
+        if o['mom'] is None: return ''
+        return f', {sign(o["mom"])}{fn(o["mom"])} pp MoM'
+
+    if top_off and worst_off and worst_off['name'] != top_off['name'] and \
+       (worst_off['nps'] or 100) < (top_off['nps'] or 0) - 10:
+        text += (f"Por oficina, <strong>{top_off['name']}</strong> lidera em volume "
+                 f"({top_off['share']}%, NPS {fn(top_off['nps'])}%{off_mom_str(top_off)})"
+                 f", enquanto <strong>{worst_off['name']}</strong> concentra a maior detração "
+                 f"({worst_off['share']}%, NPS {fn(worst_off['nps'])}%{off_mom_str(worst_off)}). ")
+    elif top_off:
+        offs_txt = ', '.join(
+            f"<strong>{o['name']}</strong>: {fn(o['nps'])}% ({o['share']}%{off_mom_str(o)})"
+            for o in offs[:2])
+        text += f"Principais oficinas: {offs_txt}. "
+
+    # Processo + CDU
+    if proc and cdu_name and cdu_first:
+        text += (f"No processo <strong>{proc}</strong>, a CDU com maior peso é "
+                 f"<strong>{cdu_name}</strong> ({cdu_share}% das pesquisas): {cdu_first}.")
+    elif cdu_name and cdu_first:
+        text += f"CDU dominante: <strong>{cdu_name}</strong> ({cdu_share}% das pesquisas) — {cdu_first}."
+
+    return f'<p style="font-size:13px;line-height:1.9;margin-bottom:10px;color:#333">{text}</p>'
 
 # Destaques positivos
-destaque_lines = []
-for grp in destaques_pos:
-    destaque_lines.append(build_bullet(grp, '🟢'))
-
 top_destaque = destaques_pos[0] if destaques_pos else None
 top_v = drv_data[top_destaque] if top_destaque else {}
 top_mom_str = f", maior alta do período com +{fn(top_v.get('mom'))} pp MoM" if (top_v.get('mom') or 0) > 3 else ""
@@ -343,17 +362,17 @@ top_mom_str = f", maior alta do período com +{fn(top_v.get('mom'))} pp MoM" if 
 bullet_sellers = (
     f'<p style="font-size:13px;font-weight:700;color:#1a7a42;margin-bottom:8px">'
     f'🟢 Destaques positivos{top_mom_str}</p>'
-    + ''.join(destaque_lines)
+    + ''.join(build_narrative(grp, '🟢') for grp in destaques_pos)
 )
 
-# Bullets negativos — usa o mesmo build_bullet
+# Bullets negativos
 par_icon = '🟡' if (d_par['gap'] or 0) < 0 else '🟢'
 pub_icon = '🔴' if (d_pub['mom'] or 0) < -2 else '🟡'
 ei_icon  = '🔴'
 
-bullet_partners = build_bullet('Partners',        par_icon)
-bullet_pub      = build_bullet('Publicaciones',   pub_icon)
-bullet_ei       = build_bullet('Exp. Impositiva', ei_icon)
+bullet_partners = build_narrative('Partners',        par_icon)
+bullet_pub      = build_narrative('Publicaciones',   pub_icon)
+bullet_ei       = build_narrative('Exp. Impositiva', ei_icon)
 
 # ── Next steps ────────────────────────────────────────────────────────
 next_steps_parts = []
@@ -381,17 +400,6 @@ if not next_steps_parts:
     )
 
 # ── Monta HTML ────────────────────────────────────────────────────────
-def driver_block(bullet_html, border_color):
-    return (f'<div style="margin-bottom:14px;padding:10px 14px;background:#fafbfc;'
-            f'border-left:3px solid {border_color};border-radius:0 6px 6px 0">'
-            f'{bullet_html}</div>')
-
-# Cor por status
-par_color  = '#F39C12' if (d_par['gap'] or 0) < 0 else '#00A650'
-pub_color  = '#E84142' if (d_pub['mom'] or 0) < -2 else '#F39C12'
-ei_color   = '#E84142'
-pos_color  = '#00A650'
-
 html = f'''<div style="border-left:4px solid #F39C12;padding-left:14px;margin-bottom:20px">
   <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Highlights &amp; Análise</div>
 
@@ -401,10 +409,10 @@ html = f'''<div style="border-left:4px solid #F39C12;padding-left:14px;margin-bo
 
   <p style="font-size:13px;font-weight:700;color:#333;margin-bottom:10px">Análise por driver:</p>
 
-  {driver_block(bullet_sellers,  pos_color)}
-  {driver_block(bullet_partners, par_color)}
-  {driver_block(bullet_pub,      pub_color)}
-  {driver_block(bullet_ei,       ei_color)}
+  {bullet_sellers}
+  {bullet_partners}
+  {bullet_pub}
+  {bullet_ei}
 
   <p style="font-size:13px;font-weight:700;color:#333;margin-bottom:10px">Next steps:</p>
 
