@@ -67,13 +67,7 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
 <div class="header">
   <h1>Análise do Piloto — Performance vs Equipe</h1>
   <div class="sub">MULTICANAL CHAT · BR_ME_Sellers_Longtail · Mar–Mai 2026</div>
-  <div class="chips">
-    <span class="chip lbl">ATE (6):</span>
-    <span class="chip ate">ext_tabragan</span><span class="chip ate">ext_lethiper</span><span class="chip ate">ext_dasipria</span>
-    <span class="chip ate">ext_alcanana</span><span class="chip ate">ext_helljesu</span><span class="chip ate">ext_saolilil</span>
-    <span class="chip lbl" style="margin-left:8px">KTA_BRASIL (3):</span>
-    <span class="chip kta">ext_damascan</span><span class="chip kta">ext_saferrcr</span><span class="chip kta">ext_uannasci</span>
-  </div>
+  <div class="sub" style="margin-top:6px;color:#64748b" id="update-ts"></div>
 </div>
 
 <div class="container">
@@ -518,6 +512,14 @@ function setPeriod(tab,period,btn){
   btn.classList.add('active');
   initPeriod(tab,period);
 }
+
+// Timestamp de atualização
+(function(){
+  const now = new Date();
+  const d = now.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const h = now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('update-ts').textContent = `Atualizado em ${d} às ${h}`;
+})();
 
 // Init on load
 initPeriod('geral','mensal');
