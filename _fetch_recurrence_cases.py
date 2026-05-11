@@ -182,19 +182,92 @@ def summarize_case(case_meta, msgs):
         "n_msgs":             len(msgs),
     }
 
+def _synthesize_theme(motivos, survey_comments, cdu, n, n_transf, n_resol, n_escal):
+    """
+    Gera síntese analítica do tema de contato a partir dos padrões identificados.
+    Sem citações diretas — descreve o padrão dominante com evidências quantitativas.
+    """
+    all_text = " ".join(motivos + survey_comments).lower()
+
+    THEMES = {
+        "atraso na entrega / prazo não cumprido":
+            ["atraso","atrasado","nao chegou","não chegou","prazo","data","entrega","reagendando","reaagendado"],
+        "cobrança não reconhecida / não autorizada":
+            ["cobranca","cobranc","cobrado","tarifa","nao autorizei","não autorizei","indevido","nao reconh","nao deve"],
+        "produto com defeito / embalagem danificada":
+            ["defeito","quebrado","danificado","avariado","embalagem","lacre"],
+        "cancelamento de venda / pedido":
+            ["cancelar","cancelamento","desistir","nao quero","não quero"],
+        "devolução sem resolução":
+            ["devoluc","devolveu","produto devolvido","retorno","estorno devoluc"],
+        "mediação / reclamo afetando reputação":
+            ["mediacao","mediação","reclamo","reclamacao","reputacao","reputação","penalizado","impactou"],
+        "conta suspensa ou bloqueada":
+            ["suspensa","bloqueada","restrita","sem acesso","inativada","inativou"],
+        "certificado digital / Faturador bloqueado":
+            ["certificado","faturador","nf-e","nota fiscal","emissao","cnpj","sefaz"],
+        "pagamento retido / reembolso pendente":
+            ["pagamento","estorno","reembolso","nao recebi","não recebi","liberar","retido","liberacao"],
+        "publicação suspensa ou removida":
+            ["publicacao","publicação","anuncio","anúncio","removida","pausada","suspensa publicac"],
+        "comissão ou afiliado não pago":
+            ["comissao","comissão","afiliado","nao pago","não pago","invalidado","nao aprovada"],
+        "métricas / nível de lealdade contestado":
+            ["metricas","métricas","nivel","nível","lealtad","pontuacao","pontuação","rebaixado"],
+        "entregador não compareceu / falha logística":
+            ["entregador","motorista","nao compareceu","não compareceu","nao entregou","nao foi coletado"],
+        "envio Full parado / problema no CD":
+            ["full","centro de distribuicao","inbound","cd parado","estoque parado"],
+        "atendimento sem resolução / múltiplos contatos":
+            ["nao resolveu","não resolveu","varios atendentes","vários atendentes","ja tentei","já tentei",
+             "segunda vez","terceira","semanas","sem retorno","continua"],
+    }
+
+    theme_hits = {}
+    for theme, kws in THEMES.items():
+        hits = sum(1 for kw in kws if kw in all_text)
+        if hits > 0:
+            theme_hits[theme] = hits
+
+    top = sorted(theme_hits.items(), key=lambda x: -x[1])[:2]
+
+    # Constrói síntese
+    if top:
+        main = top[0][0]
+        sec  = top[1][0] if len(top) > 1 else None
+        if sec and top[1][1] >= 2:
+            synthesis = f"Sellers contactaram principalmente sobre {main}, com ocorrências de {sec}."
+        else:
+            synthesis = f"Sellers contactaram sobre {main}."
+    else:
+        synthesis = f"Sellers reportaram problemas relacionados a {cdu} ({n} casos no período)."
+
+    # Adiciona padrão operacional como contexto
+    ops_parts = []
+    if n_transf > 0:
+        pct = round(100*n_transf/n)
+        ops_parts.append(f"{pct}% foram transferidos para outro setor sem resolução no 1º contato")
+    if n_resol < n // 2:
+        ops_parts.append(f"apenas {round(100*n_resol/n)}% tiveram resolução confirmada")
+    elif n_resol > 0:
+        ops_parts.append(f"{round(100*n_resol/n)}% com resolução confirmada")
+    if n_escal > 0:
+        ops_parts.append(f"{n_escal} caso{'s' if n_escal>1 else ''} com risco de escalação (PROCON/judicial)")
+
+    if ops_parts:
+        synthesis += " " + "; ".join(ops_parts[:2]).capitalize() + "."
+
+    return synthesis
+
+
 def build_categories(cases_summary):
     """
-    Agrupa os casos por CDU e gera uma conclusão por categoria.
-    cases_summary: {cid: summary_dict}
-    Retorna: lista de {sub_pattern, s1_count, monthly_count, examples, narrative}
+    Agrupa os casos por CDU, sintetiza o tema e gera conclusão analítica.
     """
-    # Agrupa por CDU
     by_cdu = {}
     for cid, s in cases_summary.items():
         cdu = s.get("cdu","N/I")
-        if cdu not in by_cdu:
-            by_cdu[cdu] = []
-        by_cdu[cdu].append({"cid": cid, **s})
+        by_cdu.setdefault(cdu, []).append({"cid": cid, **s})
 
     categories = []
     for cdu, cases in sorted(by_cdu.items(), key=lambda x: -len(x[1])):
@@ -202,47 +275,14 @@ def build_categories(cases_summary):
         if n < 1:
             continue
 
-        # Estatísticas do grupo
-        n_transf  = sum(1 for c in cases if c.get("transferido"))
-        n_resol   = sum(1 for c in cases if c.get("resolvido"))
-        n_escal   = sum(1 for c in cases if c.get("escalacao"))
-        n_msgs_avg = round(sum(c.get("n_msgs",0) for c in cases) / n, 1) if n else 0
+        n_transf = sum(1 for c in cases if c.get("transferido"))
+        n_resol  = sum(1 for c in cases if c.get("resolvido"))
+        n_escal  = sum(1 for c in cases if c.get("escalacao"))
 
-        # Motivos mais representativos (não vazios, ordenados por comprimento)
-        motivos = sorted(
-            [c.get("motivo","") for c in cases if c.get("motivo") and len(c.get("motivo","")) > 25],
-            key=len, reverse=True
-        )[:3]
+        motivos   = [c.get("motivo","")         for c in cases if c.get("motivo")         and len(c.get("motivo","")) > 20]
+        comments  = [c.get("survey_comment","") for c in cases if c.get("survey_comment") and len(c.get("survey_comment","")) > 10]
 
-        # Comentários da pesquisa (não vazios)
-        comentarios = [c.get("survey_comment","") for c in cases
-                       if c.get("survey_comment") and len(c.get("survey_comment","")) > 10][:2]
-
-        # Narrativa da categoria
-        parts = []
-        parts.append(f"CDU: {cdu} — {n} caso{'s' if n>1 else ''} detratores.")
-
-        if motivos:
-            # Usa o motivo mais representativo
-            parts.append(f"Motivo do contato: \"{motivos[0][:200]}\"")
-
-        if comentarios:
-            parts.append(f"Comentário na pesquisa: \"{comentarios[0][:150]}\"")
-
-        # Métricas operacionais
-        ops = []
-        if n_transf > 0:
-            ops.append(f"{n_transf}/{n} transferidos")
-        if n_resol > 0:
-            ops.append(f"{n_resol}/{n} com resolução confirmada")
-        else:
-            ops.append(f"0/{n} com resolução confirmada")
-        if n_escal > 0:
-            ops.append(f"{n_escal} com risco de escalação (PROCON/judicial)")
-        if ops:
-            parts.append("Operacional: " + "; ".join(ops) + ".")
-
-        narrative = " ".join(parts)
+        narrative = _synthesize_theme(motivos, comments, cdu, n, n_transf, n_resol, n_escal)
 
         categories.append({
             "sub_pattern":   cdu,
