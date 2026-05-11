@@ -84,7 +84,7 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
       <button class="ptab" onclick="setPeriod('geral','semanal',this)">Semanal</button>
     </div>
     <div id="geral-mensal" class="period-pane active">
-      <div class="note" style="margin-bottom:12px"><strong>Mensal:</strong> piloto combinado (ATE+KTA) vs equipe combinada. Março: apenas Produtividade disponível (piloto ainda em transição para Longtail). Mai* vigente até 11/05.</div>
+      <div class="note" style="margin-bottom:12px"><strong>Mensal Jan–Mai:</strong> piloto combinado (ATE+KTA) vs equipe. Jan: apenas ATE (KTA sem atividade nessas equipes). Jan–Mar: ambas as equipes (Pre-Despacho + Longtail). Abr–Mai: Longtail. Mai* vigente até 11/05.</div>
       <div class="ch-grid">
         <div class="cc"><h3>NPS†</h3><p>% · Maior melhor ↑ · Nota: amostras mensais pequenas no piloto (27–93)</p><canvas id="g-m-nps"></canvas></div>
         <div class="cc"><h3>TMO</h3><p>Minutos · Menor melhor ↓</p><canvas id="g-m-tmo"></canvas></div>
@@ -112,7 +112,7 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
       <button class="ptab" onclick="setPeriod('ate','semanal',this)">Semanal</button>
     </div>
     <div id="ate-mensal" class="period-pane active">
-      <div class="note" style="margin-bottom:12px"><strong>ATE — Mensal:</strong> 6 reps piloto vs equipe ATE. Março: apenas Produtividade disponível. Mai* vigente até 11/05.</div>
+      <div class="note" style="margin-bottom:12px"><strong>ATE — Mensal Jan–Mai:</strong> 6 reps piloto vs equipe ATE. Jan–Mar: Pre-Despacho + Longtail combinados. Abr–Mai: Longtail. Mai* vigente até 11/05.</div>
       <div class="ch-grid">
         <div class="cc"><h3>NPS† — ATE</h3><p>% · Maior melhor ↑</p><canvas id="a-m-nps"></canvas></div>
         <div class="cc"><h3>TMO — ATE</h3><p>min · Menor melhor ↓</p><canvas id="a-m-tmo"></canvas></div>
@@ -143,7 +143,7 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
       <button class="ptab" onclick="setPeriod('kta','semanal',this)">Semanal</button>
     </div>
     <div id="kta-mensal" class="period-pane active">
-      <div class="note" style="margin-bottom:12px"><strong>KTA_BRASIL — Mensal:</strong> 3 reps piloto vs equipe KTA. Março: apenas Produtividade disponível. Mai* vigente até 11/05.</div>
+      <div class="note" style="margin-bottom:12px"><strong>KTA — Mensal Jan–Mai:</strong> 3 reps piloto vs equipe KTA. Jan: sem dados (reps iniciaram em fevereiro). Fev–Mar: Pre-Despacho + Longtail combinados. Abr–Mai: Longtail. Mai* vigente até 11/05.</div>
       <div class="ch-grid">
         <div class="cc"><h3>NPS† — KTA</h3><p>% · Maior melhor ↑</p><canvas id="k-m-nps"></canvas></div>
         <div class="cc"><h3>TMO — KTA</h3><p>min · Menor melhor ↓</p><canvas id="k-m-tmo"></canvas></div>
@@ -179,27 +179,42 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
 <script>
 // ─── Dados mensais ─────────────────────────────────────────────────────────
 // Meses: Mar, Abr, Mai*
-const MON_LBL = ['Mar', 'Abr', 'Mai*'];
+const MON_LBL = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai*'];
 
+// Agregado por oficina — Jan a Mai (ATE+KTA, sem CTX)
 const MON = {
   geral: {
-    nps:  {p:[null,72.0,63.6], e:[null,66.3,71.9]},
-    tmo:  {p:[null,31.5,34.7], e:[null,27.8,28.6]},
-    prod: {p:[2.73,2.46,2.42], e:[2.80,2.88,3.07]},
-    tdi:  {p:[null,14.1, 5.7], e:[null,10.6, 7.3]},
+    nps:  {p:[68.0,57.6,63.8,72.0,63.6], e:[67.1,63.4,66.4,67.6,71.9]},
+    tmo:  {p:[25.7,28.6,32.3,31.5,34.7], e:[27.1,26.6,29.9,29.3,28.6]},
+    prod: {p:[1.99,2.04,2.40,2.46,2.42], e:[2.31,2.37,2.57,2.79,3.07]},
+    tdi:  {p:[7.1,11.5,8.5,14.1,5.7],   e:[9.5,13.7,9.0,10.1,7.3]},
   },
   ate: {
-    nps:  {p:[null,66.7,74.1], e:[null,71.4,77.6]},
-    tmo:  {p:[null,29.4,33.9], e:[null,27.2,26.5]},
-    prod: {p:[2.18,2.43,2.43], e:[2.65,2.88,3.26]},
-    tdi:  {p:[null, 5.5, 0.0], e:[null, 8.1, 7.0]},
+    nps:  {p:[68.0,60.8,67.5,66.7,74.1], e:[67.1,66.0,67.9,71.4,77.6]},
+    tmo:  {p:[25.7,25.7,29.9,29.4,33.9], e:[27.1,26.0,28.7,27.2,26.5]},
+    prod: {p:[1.99,2.11,2.47,2.43,2.43], e:[2.31,2.43,2.61,2.88,3.26]},
+    tdi:  {p:[7.1,5.7,6.2,5.5,0.0],     e:[9.5,10.8,8.1,8.1,7.0]},
   },
   kta: {
-    nps:  {p:[null,77.1,53.6], e:[null,62.3,64.8]},
-    tmo:  {p:[null,34.4,36.2], e:[null,33.9,32.2]},
-    prod: {p:[3.24,2.48,2.41], e:[2.96,2.64,2.84]},
-    tdi:  {p:[null,22.4,13.3], e:[null,14.5, 8.1]},
+    nps:  {p:[null,51.9,56.9,77.1,53.6], e:[null,51.3,61.3,62.3,64.8]},
+    tmo:  {p:[null,34.3,38.0,34.4,36.2], e:[null,29.1,34.7,33.9,32.2]},
+    prod: {p:[null,1.93,2.29,2.48,2.41], e:[null,2.13,2.43,2.64,2.84]},
+    tdi:  {p:[null,30.2,14.3,22.4,13.3], e:[null,24.6,12.5,14.5,8.1]},
   }
+};
+
+// Por representante — Jan a Mai (tmo em segundos)
+const MON_REPS = {
+  labels: ['Jan','Fev','Mar','Abr','Mai*'],
+  'ext_helljesu':{ of:'ATE', tmo:[1630,1508,1472,1595,1694], prod:[3.02,3.20,3.78,3.38,3.41], nps:[53.8,78.6,69.7,100.0,100.0],npsN:[26,28,33,12,9],  tdi:[8.5,8.1,1.9,3.0,0.0], tdiN:[5,5,1,1,0],        tdiD:[59,62,54,33,11]    },
+  'ext_alcanana':{ of:'ATE', tmo:[1384,1284,1484,1366,1586], prod:[2.49,2.60,2.50,2.90,2.59], nps:[80.0,42.9,64.5,45.5,80.0], npsN:[40,14,31,11,5], tdi:[7.4,4.9,9.5,0.0,0.0], tdiN:[4,2,4,0,0],        tdiD:[54,41,42,12,1]     },
+  'ext_tabragan':{ of:'ATE', tmo:[1941,1716,2263,2093,2452], prod:[1.61,1.81,2.24,2.37,2.21], nps:[75.0,50.0,60.0,57.1,75.0], npsN:[28,22,35,14,4],  tdi:[4.0,3.7,10.0,21.4,0.0],tdiN:[1,1,2,3,0],        tdiD:[25,27,20,14,5]     },
+  'ext_lethiper':{ of:'ATE', tmo:[1557,1553,1587,2015,2158], prod:[2.15,1.57,1.90,1.40,1.99], nps:[52.6,80.0,100,100,20.0],   npsN:[19,15,2,4,5],   tdi:[5.0,0.0,0.0,0.0,0.0], tdiN:[2,0,0,0,0],        tdiD:[40,26,3,7,1]       },
+  'ext_dasipria':{ of:'ATE', tmo:[2166,2383,2562,2357,2479], prod:[0.85,0.75,1.35,1.54,1.75], nps:[100,100,33.3,25.0,100],    npsN:[2,1,3,4,2],     tdi:[20.0,33.3,10.0,0.0,null],tdiN:[1,1,1,0,null],    tdiD:[5,3,10,7,null]     },
+  'ext_saolilil':{ of:'ATE', tmo:[1318,1888,1941,null,2705], prod:[0.91,1.40,2.33,null,2.19], nps:[57.1,41.2,87.5,null,50.0], npsN:[7,17,16,0,2],   tdi:[7.1,6.7,6.3,null,0.0], tdiN:[1,1,1,null,0],     tdiD:[14,15,16,null,2]   },
+  'ext_damascan':{ of:'KTA', tmo:[null,2156,2172,1568,1862], prod:[null,1.63,1.99,2.59,2.16], nps:[null,63.6,81.8,88.9,55.6], npsN:[0,11,22,18,9],  tdi:[null,16.7,13.0,5.9,0.0],tdiN:[null,2,3,2,0],     tdiD:[null,12,23,34,8]   },
+  'ext_saferrcr':{ of:'KTA', tmo:[null,1828,2134,2489,2564], prod:[null,2.14,2.04,2.20,1.88], nps:[null,46.2,15.4,63.6,83.3], npsN:[0,13,13,11,6],  tdi:[null,19.0,14.3,46.7,0.0],tdiN:[null,4,2,7,0],    tdiD:[null,21,14,15,2]   },
+  'ext_uannasci':{ of:'KTA', tmo:[null,2256,2450,2596,null], prod:[null,2.03,2.75,2.56,3.25], nps:[null,50.0,56.7,73.7,38.5], npsN:[0,30,30,19,13], tdi:[null,50.0,15.8,29.6,null],tdiN:[null,10,3,8,null],tdiD:[null,20,19,27,null] },
 };
 
 // ─── Dados semanais agregados ──────────────────────────────────────────────
@@ -344,27 +359,22 @@ function tdiLineOpts(yMin,key){
 }
 
 function renderMonthlyRepTables(containerId, repList) {
-  // REPS indices: [of, abr_nps=1,n=2, abr_tmo=3, abr_prod=4, abr_tdi%=5,n=6,d=7, ...,
-  //                    mai_nps=10,n=11, mai_tmo=12, mai_prod=13, mai_tdi%=14,n=15,d=16]
-  const COLS = ['Abr', 'Mai*'];
+  const COLS = MON_REPS.labels;
   const KPIS = [
     { label:'TMO', note:'min · Menor melhor ↓',
-      get: r => [REPS[r][3], REPS[r][12]],
+      get: r => MON_REPS[r].tmo,
       color: v => v==null?'':(v<=1800?'gc':v<=2400?'yc':'rc'),
-      fmt: v => v==null?'<span class="sd">—</span>':fmtT(v), hi:false },
+      fmt: (v) => v==null?'<span class="sd">—</span>':fmtT(v), hi:false },
     { label:'Produtividade', note:'at/hora · Maior melhor ↑',
-      get: r => [REPS[r][4], REPS[r][13]],
+      get: r => MON_REPS[r].prod,
       color: v => v==null?'':(v>=2.8?'gc':v>=2.0?'yc':'rc'),
-      fmt: v => v==null?'<span class="sd">—</span>':v.toFixed(2), hi:true },
+      fmt: (v) => v==null?'<span class="sd">—</span>':v.toFixed(2), hi:true },
     { label:'NPS†', note:'% · Maior melhor ↑ · (n) = pesquisas no mês',
-      get: r => [REPS[r][1], REPS[r][10]],
-      getN: r => [REPS[r][2], REPS[r][11]],
+      get: r => MON_REPS[r].nps, getN: r => MON_REPS[r].npsN,
       color: v => v==null?'':(v>=70?'gc':v>=50?'yc':'rc'),
       fmt: (v,n) => v==null?'<span class="sd">—</span>':`${v.toFixed(1)}%<small> (${n})</small>`, hi:true },
     { label:'TDI', note:'% devoluções indevidas · Menor melhor ↓ · (erros/casos)',
-      get: r => [REPS[r][5], REPS[r][14]],
-      getN: r => [REPS[r][6], REPS[r][15]],
-      getD: r => [REPS[r][7], REPS[r][16]],
+      get: r => MON_REPS[r].tdi, getN: r => MON_REPS[r].tdiN, getD: r => MON_REPS[r].tdiD,
       color: v => v==null?'':(v<=5?'gc':v<=15?'yc':'rc'),
       fmt: (v,n,d) => v==null?'<span class="sd">—</span>':`${v.toFixed(1)}%<small> (${n??'?'}/${d??'?'})</small>`, hi:false },
   ];
@@ -382,21 +392,21 @@ function renderMonthlyRepTables(containerId, repList) {
         </tr></thead><tbody>`;
 
     repList.forEach(rep => {
+      const d = MON_REPS[rep];
       const vals = kpi.get(rep);
-      const ns   = kpi.getN ? kpi.getN(rep) : [null,null];
-      const ds   = kpi.getD ? kpi.getD(rep) : [null,null];
-      const of   = REPS[rep][0];
+      const ns   = kpi.getN ? kpi.getN(rep) : COLS.map(()=>null);
+      const ds   = kpi.getD ? kpi.getD(rep) : COLS.map(()=>null);
       const nonNull = vals.filter(v=>v!=null);
       let tend = '<span class="arr-eq">—</span>';
       if(nonNull.length>=2){
-        const d=nonNull[1]-nonNull[0], thr=Math.abs(nonNull[0])*0.03;
-        if(Math.abs(d)>thr) tend=(kpi.hi?d>0:d<0)?'<span class="arr-up">↑</span>':'<span class="arr-dn">↓</span>';
+        const diff=nonNull[nonNull.length-1]-nonNull[0], thr=Math.abs(nonNull[0])*0.03;
+        if(Math.abs(diff)>thr) tend=(kpi.hi?diff>0:diff<0)?'<span class="arr-up">↑</span>':'<span class="arr-dn">↓</span>';
         else tend='<span class="arr-eq">→</span>';
       }
       html+=`<tr>
         <td class="rep-name">${rep}</td>
-        <td class="of-${of.toLowerCase()}">${of}</td>
-        ${vals.map((v,i)=>`<td class="${kpi.color(v)}">${kpi.fmt?kpi.fmt(v,ns[i],ds[i]):v}</td>`).join('')}
+        <td class="of-${d.of.toLowerCase()}">${d.of}</td>
+        ${vals.map((v,i)=>`<td class="${kpi.color(v)}">${kpi.fmt(v,ns[i],ds[i])}</td>`).join('')}
         <td style="text-align:center">${tend}</td>
       </tr>`;
     });
@@ -473,11 +483,11 @@ function initPeriod(tab,period){
   const tk=tab==='geral'?'g':tab==='ate'?'a':'k';
 
   if(period==='mensal'){
-    mkBar(`${tk}-m-nps`,MON_LBL,m.nps.p,m.nps.e,'%',40);
+    mkBar(`${tk}-m-nps`,MON_LBL,m.nps.p,m.nps.e,'%',30);
     mkBar(`${tk}-m-tmo`,MON_LBL,m.tmo.p,m.tmo.e,'min',20);
-    mkBar(`${tk}-m-prod`,MON_LBL,m.prod.p,m.prod.e,'at/h',1.5);
+    mkBar(`${tk}-m-prod`,MON_LBL,m.prod.p,m.prod.e,'at/h',0.5);
     mkBar(`${tk}-m-tdi`,MON_LBL,m.tdi.p,m.tdi.e,'%',0);
-    const repFilter = tab==='geral'?Object.keys(REPS):Object.keys(REPS).filter(r=>REPS[r][0]===(tab==='ate'?'ATE':'KTA'));
+    const repFilter = tab==='geral'?Object.keys(MON_REPS).filter(k=>k!=='labels'):Object.keys(MON_REPS).filter(k=>k!=='labels'&&MON_REPS[k].of===(tab==='ate'?'ATE':'KTA'));
     renderMonthlyRepTables(`${tab}-mon-evo`, repFilter);
   } else {
     mkLine(`${tk}-s-tmo`,a.tmo.p,a.tmo.e,lineOpts('min',tab==='kta'?24:16));
