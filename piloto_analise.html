@@ -6,354 +6,232 @@
 <title>Análise Piloto — HALO Performance</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f2f7; color: #1a1a2e; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:#f0f2f7; color:#1a1a2e; }
 
-.header { background: #1a1a2e; color: white; padding: 22px 36px; display: flex; align-items: center; gap: 16px; }
-.header .title-wrap h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
-.header .title-wrap .sub { font-size: 12px; color: #94a3b8; margin-top: 4px; }
-.header .agents { display: flex; gap: 8px; margin-left: auto; }
-.agent-chip { background: rgba(37,99,235,0.25); color: #93c5fd; font-size: 12px; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(37,99,235,0.4); }
+.header { background:#1a1a2e; color:white; padding:20px 32px; }
+.header h1 { font-size:18px; font-weight:700; }
+.header .sub { font-size:12px; color:#94a3b8; margin-top:4px; }
+.header .chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+.chip { font-size:11px; padding:3px 9px; border-radius:20px; border:1px solid; }
+.chip.ate { background:rgba(37,99,235,.2); color:#93c5fd; border-color:rgba(37,99,235,.4); }
+.chip.kta { background:rgba(16,185,129,.2); color:#6ee7b7; border-color:rgba(16,185,129,.4); }
 
-.container { max-width: 1200px; margin: 0 auto; padding: 24px 20px 40px; }
+.container { max-width:1200px; margin:0 auto; padding:20px 16px 40px; }
 
-.section-header { display: flex; align-items: center; gap: 10px; margin: 28px 0 14px; }
-.section-header h2 { font-size: 15px; font-weight: 700; color: #1e293b; }
-.badge { font-size: 11px; background: #e2e8f0; color: #64748b; padding: 3px 9px; border-radius: 20px; font-weight: 500; }
-.badge.blue { background: #dbeafe; color: #1d4ed8; }
+.tabs { display:flex; gap:4px; margin-bottom:18px; background:white; padding:6px; border-radius:10px; box-shadow:0 1px 3px rgba(0,0,0,.07); width:fit-content; }
+.tab-btn { padding:7px 20px; border-radius:7px; border:none; cursor:pointer; font-size:13px; font-weight:600; background:transparent; color:#64748b; transition:.15s; }
+.tab-btn.active { background:#1d4ed8; color:white; }
+.tab-pane { display:none; }
+.tab-pane.active { display:block; }
 
-.period-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #94a3b8; margin: 14px 0 8px; }
+.legend { display:flex; gap:18px; align-items:center; margin-bottom:14px; }
+.leg { display:flex; align-items:center; gap:6px; font-size:12px; color:#374151; }
+.leg-solid { width:22px; height:0; border-top:2.5px solid; }
+.leg-dash  { width:22px; height:0; border-top:2.5px dashed; }
 
-/* Scorecard grid */
-.scorecard-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 10px; }
+.period-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:#94a3b8; margin:14px 0 8px; }
+.sc-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; margin-bottom:10px; }
+.kc { background:white; border-radius:10px; padding:12px 14px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+.kc .lbl { font-size:10px; text-transform:uppercase; letter-spacing:.6px; color:#94a3b8; font-weight:600; margin-bottom:7px; }
+.kc .val  { font-size:20px; font-weight:800; color:#1d4ed8; line-height:1; }
+.kc .cmp  { font-size:11px; color:#94a3b8; margin-top:4px; }
+.kc .dlt  { font-size:11px; font-weight:600; padding:2px 7px; border-radius:5px; margin-top:7px; display:inline-block; }
+.pos { background:#dcfce7; color:#15803d; }
+.neg { background:#fee2e2; color:#dc2626; }
+.neu { background:#f1f5f9; color:#64748b; }
 
-.kpi-card { background: white; border-radius: 10px; padding: 13px 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-.kpi-card .kpi-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px; color: #94a3b8; font-weight: 600; margin-bottom: 7px; }
-.kpi-card .piloto-val { font-size: 19px; font-weight: 800; color: #1d4ed8; line-height: 1; }
-.kpi-card .equipe-row { font-size: 11px; color: #94a3b8; margin-top: 4px; }
-.kpi-card .delta { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 5px; margin-top: 7px; display: inline-block; }
-.delta.pos  { background: #dcfce7; color: #15803d; }
-.delta.neg  { background: #fee2e2; color: #dc2626; }
-.delta.neu  { background: #f1f5f9; color: #64748b; }
+.ch-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:20px; }
+.cc { background:white; border-radius:10px; padding:18px 20px 14px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+.cc h3 { font-size:13px; font-weight:700; color:#1e293b; }
+.cc p  { font-size:11px; color:#94a3b8; margin:2px 0 12px; }
 
-/* Charts */
-.charts-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-.chart-card { background: white; border-radius: 10px; padding: 18px 20px 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-.chart-card .chart-title { font-size: 13px; font-weight: 700; color: #1e293b; }
-.chart-card .chart-sub { font-size: 11px; color: #94a3b8; margin-top: 2px; margin-bottom: 12px; }
+.note { font-size:11.5px; color:#94a3b8; background:white; padding:10px 15px; border-radius:8px; border-left:3px solid #e2e8f0; margin-top:12px; line-height:1.6; }
+.note strong { color:#64748b; }
+hr.div { border:none; border-top:2px solid #e2e8f0; margin:24px 0; }
+.footer { font-size:11px; color:#94a3b8; text-align:center; margin-top:28px; }
 
-/* Legend */
-.legend { display: flex; gap: 20px; align-items: center; margin-bottom: 14px; }
-.leg-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #374151; }
-.leg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.leg-line { width: 20px; height: 2px; flex-shrink: 0; background: #9CA3AF; }
-.leg-dash { width: 20px; height: 0; flex-shrink: 0; border-top: 2.5px dashed #9CA3AF; }
-.leg-solid { width: 20px; height: 0; flex-shrink: 0; border-top: 2.5px solid #2563EB; }
-
-.note { font-size: 11.5px; color: #94a3b8; background: white; padding: 10px 15px; border-radius: 8px; border-left: 3px solid #e2e8f0; margin-top: 12px; line-height: 1.6; }
-.note strong { color: #64748b; }
-hr.div { border: none; border-top: 2px solid #e2e8f0; margin: 28px 0; }
-.footer { font-size: 11px; color: #94a3b8; text-align: center; margin-top: 30px; }
-
-@media (max-width: 900px) {
-  .scorecard-grid { grid-template-columns: repeat(3, 1fr); }
-  .charts-grid { grid-template-columns: 1fr; }
-  .header .agents { display: none; }
-}
-@media (max-width: 500px) {
-  .scorecard-grid { grid-template-columns: repeat(2, 1fr); }
-}
+@media (max-width:900px) { .sc-grid{grid-template-columns:repeat(3,1fr)} .ch-grid{grid-template-columns:1fr} }
+@media (max-width:500px) { .sc-grid{grid-template-columns:repeat(2,1fr)} }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="title-wrap">
-    <h1>Análise do Piloto — Performance vs Equipe</h1>
-    <div class="sub">Oficina ATE · Canal Multicanal Chat · Todos EXPERT · Mar–Mai 2026</div>
-  </div>
-  <div class="agents">
-    <span class="agent-chip">ext_tabragan</span>
-    <span class="agent-chip">ext_lethiper</span>
-    <span class="agent-chip">ext_dasipria</span>
+  <h1>Análise do Piloto — Performance vs Equipe</h1>
+  <div class="sub">MULTICANAL CHAT · BR_ME_Sellers_Longtail · Abr–Mai 2026 (+ Pre-Despacho Mar)</div>
+  <div class="chips">
+    <span style="font-size:11px;color:#64748b;align-self:center">ATE (6):</span>
+    <span class="chip ate">ext_tabragan</span><span class="chip ate">ext_lethiper</span><span class="chip ate">ext_dasipria</span>
+    <span class="chip ate">ext_alcanana</span><span class="chip ate">ext_helljesu</span><span class="chip ate">ext_saolilil</span>
+    <span style="font-size:11px;color:#64748b;align-self:center;margin-left:8px">KTA_BRASIL (3):</span>
+    <span class="chip kta">ext_damascan</span><span class="chip kta">ext_saferrcr</span><span class="chip kta">ext_uannasci</span>
   </div>
 </div>
 
 <div class="container">
 
+  <div class="tabs">
+    <button class="tab-btn active" onclick="setTab('geral',this)">Visão Geral (9)</button>
+    <button class="tab-btn" onclick="setTab('ate',this)">ATE (6)</button>
+    <button class="tab-btn" onclick="setTab('kta',this)">KTA_BRASIL (3)</button>
+  </div>
+
   <div class="legend">
-    <div class="leg-item"><span class="leg-solid"></span> Piloto (3 representantes)</div>
-    <div class="leg-item"><span class="leg-dash"></span> Restante da equipe</div>
-    <div class="leg-item" style="color:#94a3b8; font-size:11px;">* Maio vigente até 11/05 &nbsp;·&nbsp; † NPS com amostra pequena (~4–22 pesquisas)</div>
+    <div class="leg"><span class="leg-solid" style="border-color:#2563EB"></span> Piloto</div>
+    <div class="leg"><span class="leg-dash"  style="border-color:#9CA3AF"></span> Equipe</div>
+    <div class="leg" style="font-size:11px;color:#94a3b8">* Maio vigente até 11/05 &nbsp;·&nbsp; † NPS: amostra pequena</div>
   </div>
 
-  <!-- ===================== SELLERS LONGTAIL ===================== -->
-  <div class="section-header">
-    <h2>BR_ME_Sellers_Longtail</h2>
-    <span class="badge blue">Abr + Mai*</span>
+  <!-- GERAL -->
+  <div id="tab-geral" class="tab-pane active">
+    <div class="period-label">Abril 2026 — fechado (Longtail)</div>
+    <div class="sc-grid">
+      <div class="kc"><div class="lbl">NPS †</div><div class="val">72,0%</div><div class="cmp">Equipe: 66,3%</div><span class="dlt pos">+5,7pp</span></div>
+      <div class="kc"><div class="lbl">TMO ↓</div><div class="val">31m 33s</div><div class="cmp">Equipe: 27m 45s</div><span class="dlt neg">+14%</span></div>
+      <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">2,46</div><div class="cmp">Equipe: 2,88</div><span class="dlt neg">−15%</span></div>
+      <div class="kc"><div class="lbl">TDI ↓</div><div class="val">14,1%</div><div class="cmp">Equipe: 10,6%</div><span class="dlt neg">+3,5pp</span></div>
+      <div class="kc"><div class="lbl">IXC ↓</div><div class="val">2,28</div><div class="cmp">Equipe: 2,10</div><span class="dlt neg">+8%</span></div>
+      <div class="kc"><div class="lbl">QI Ind. ↑</div><div class="val">100%</div><div class="cmp">Equipe: 99,5%</div><span class="dlt pos">+0,5pp</span></div>
+    </div>
+    <div class="period-label">Maio 2026* — vigente até 11/05 (Longtail)</div>
+    <div class="sc-grid">
+      <div class="kc"><div class="lbl">NPS †</div><div class="val">63,6%</div><div class="cmp">Equipe: 71,9%</div><span class="dlt neg">−8,3pp</span></div>
+      <div class="kc"><div class="lbl">TMO ↓</div><div class="val">34m 45s</div><div class="cmp">Equipe: 28m 36s</div><span class="dlt neg">+22%</span></div>
+      <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">2,42</div><div class="cmp">Equipe: 3,07</div><span class="dlt neg">−21%</span></div>
+      <div class="kc"><div class="lbl">TDI ↓</div><div class="val">5,7%</div><div class="cmp">Equipe: 7,3%</div><span class="dlt pos">−1,6pp</span></div>
+      <div class="kc"><div class="lbl">IXC ↓</div><div class="val">2,04</div><div class="cmp">Equipe: 2,05</div><span class="dlt neu">igual</span></div>
+      <div class="kc"><div class="lbl">QI Ind. ↑</div><div class="val">100%</div><div class="cmp">Equipe: 100%</div><span class="dlt neu">igual</span></div>
+    </div>
+    <div class="ch-grid">
+      <div class="cc"><h3>TMO — Tempo Médio</h3><p>Minutos · Menor melhor ↓</p><canvas id="g-tmo"></canvas></div>
+      <div class="cc"><h3>Produtividade</h3><p>At/hora · Maior melhor ↑</p><canvas id="g-prod"></canvas></div>
+      <div class="cc"><h3>NPS †</h3><p>% · Maior melhor ↑</p><canvas id="g-nps"></canvas></div>
+      <div class="cc"><h3>TDI</h3><p>% devoluções indevidas · Menor melhor ↓ · Meta ≈ 5%</p><canvas id="g-tdi"></canvas></div>
+    </div>
+    <div class="note"><strong>Visão Geral:</strong> TDI inflado pela KTA_BRASIL — a leitura por oficina (abas ATE / KTA_BRASIL) é mais precisa.<br>
+    <strong>† NPS:</strong> 27–93 pesquisas/mês no piloto. Semana 30/03 (10 respostas) com alta variância.</div>
   </div>
 
-  <div class="period-label">Abril 2026 — fechado</div>
-  <div class="scorecard-grid">
-    <div class="kpi-card">
-      <div class="kpi-label">NPS †</div>
-      <div class="piloto-val">59,1%</div>
-      <div class="equipe-row">Equipe: 58,8%</div>
-      <span class="delta pos">+0,3pp</span>
+  <!-- ATE -->
+  <div id="tab-ate" class="tab-pane">
+    <div class="period-label">Abril 2026 — fechado (Longtail · ATE)</div>
+    <div class="sc-grid">
+      <div class="kc"><div class="lbl">NPS †</div><div class="val">66,7%</div><div class="cmp">Equipe ATE: 71,4%</div><span class="dlt neg">−4,7pp</span></div>
+      <div class="kc"><div class="lbl">TMO ↓</div><div class="val">29m 24s</div><div class="cmp">Equipe: 27m 14s</div><span class="dlt neg">+8%</span></div>
+      <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">2,43</div><div class="cmp">Equipe: 2,88</div><span class="dlt neg">−16%</span></div>
+      <div class="kc"><div class="lbl">TDI ↓</div><div class="val">5,5%</div><div class="cmp">Equipe: 8,1%</div><span class="dlt pos">−2,6pp ✓</span></div>
+      <div class="kc"><div class="lbl">IXC ↓</div><div class="val">2,23</div><div class="cmp">Equipe: 2,08</div><span class="dlt neg">+7%</span></div>
+      <div class="kc"><div class="lbl">QI Ind. ↑</div><div class="val">100%</div><div class="cmp">Equipe: 99,5%</div><span class="dlt pos">+0,5pp</span></div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-label">TMO ↓</div>
-      <div class="piloto-val">35m 52s</div>
-      <div class="equipe-row">Equipe: 24m 57s</div>
-      <span class="delta neg">+44% acima</span>
+    <div class="period-label">Maio 2026* — vigente até 11/05 (Longtail · ATE)</div>
+    <div class="sc-grid">
+      <div class="kc"><div class="lbl">NPS †</div><div class="val">74,1%</div><div class="cmp">Equipe ATE: 77,6%</div><span class="dlt neg">−3,5pp</span></div>
+      <div class="kc"><div class="lbl">TMO ↓</div><div class="val">33m 56s</div><div class="cmp">Equipe: 26m 30s</div><span class="dlt neg">+28%</span></div>
+      <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">2,43</div><div class="cmp">Equipe: 3,26</div><span class="dlt neg">−26%</span></div>
+      <div class="kc"><div class="lbl">TDI ↓</div><div class="val">0,0%</div><div class="cmp">Equipe: 7,0%</div><span class="dlt pos">−7,0pp ✓</span></div>
+      <div class="kc"><div class="lbl">IXC ↓</div><div class="val">1,94</div><div class="cmp">Equipe: 2,04</div><span class="dlt pos">−5% ✓</span></div>
+      <div class="kc"><div class="lbl">QI Ind. ↑</div><div class="val">100%</div><div class="cmp">Equipe: 100%</div><span class="dlt neu">igual</span></div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Produtividade ↑</div>
-      <div class="piloto-val">1,85</div>
-      <div class="equipe-row">Equipe: 2,90</div>
-      <span class="delta neg">−36%</span>
+    <div class="ch-grid">
+      <div class="cc"><h3>TMO — ATE</h3><p>Minutos · Menor melhor ↓</p><canvas id="a-tmo"></canvas></div>
+      <div class="cc"><h3>Produtividade — ATE</h3><p>At/hora · Maior melhor ↑</p><canvas id="a-prod"></canvas></div>
+      <div class="cc"><h3>NPS — ATE †</h3><p>% · Maior melhor ↑ · Semanas 30/03 e 06/04 omitidas (≤10 respostas)</p><canvas id="a-nps"></canvas></div>
+      <div class="cc"><h3>TDI — ATE</h3><p>% devoluções indevidas · Menor melhor ↓ · Meta ≈ 5%</p><canvas id="a-tdi"></canvas></div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-label">TDI ↓</div>
-      <div class="piloto-val">10,7%</div>
-      <div class="equipe-row">Equipe: 10,5%</div>
-      <span class="delta neu">+0,2pp</span>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">IXC ↓</div>
-      <div class="piloto-val">1,81</div>
-      <div class="equipe-row">Equipe: 2,05</div>
-      <span class="delta pos">−12% melhor</span>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">QI Individual ↑</div>
-      <div class="piloto-val">100%</div>
-      <div class="equipe-row">Equipe: 96,0%</div>
-      <span class="delta pos">+4,0pp</span>
-    </div>
+    <div class="note"><strong>ATE — destaque:</strong> TDI abaixo da equipe em quase todas as semanas (0% nas últimas 2). IXC melhorando. TMO gap cresceu em maio — ponto de atenção.<br>
+    <strong>† NPS:</strong> semanas 30/03 e 06/04 omitidas dos gráficos (≤10 respostas). Mês fechado abril mais confiável: 45 pesquisas.</div>
   </div>
 
-  <div class="period-label">Maio 2026* — vigente até 11/05</div>
-  <div class="scorecard-grid">
-    <div class="kpi-card">
-      <div class="kpi-label">NPS †</div>
-      <div class="piloto-val">54,5%</div>
-      <div class="equipe-row">Equipe: 61,8%</div>
-      <span class="delta neg">−7,3pp</span>
+  <!-- KTA -->
+  <div id="tab-kta" class="tab-pane">
+    <div class="period-label">Abril 2026 — fechado (Longtail · KTA_BRASIL)</div>
+    <div class="sc-grid">
+      <div class="kc"><div class="lbl">NPS †</div><div class="val">77,1%</div><div class="cmp">Equipe KTA: 62,3%</div><span class="dlt pos">+14,8pp ✓</span></div>
+      <div class="kc"><div class="lbl">TMO ↓</div><div class="val">34m 21s</div><div class="cmp">Equipe: 33m 55s</div><span class="dlt neu">+1%</span></div>
+      <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">2,48</div><div class="cmp">Equipe: 2,64</div><span class="dlt neg">−6%</span></div>
+      <div class="kc"><div class="lbl">TDI ↓</div><div class="val">22,4%</div><div class="cmp">Equipe: 14,5%</div><span class="dlt neg">+7,9pp ⚠️</span></div>
+      <div class="kc"><div class="lbl">IXC ↓</div><div class="val">2,33</div><div class="cmp">Equipe: 2,03</div><span class="dlt neg">+15%</span></div>
+      <div class="kc"><div class="lbl">QI Ind. ↑</div><div class="val">—</div><div class="cmp">Sem avaliações</div><span class="dlt neu">s/d</span></div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-label">TMO ↓</div>
-      <div class="piloto-val">39m 02s</div>
-      <div class="equipe-row">Equipe: 25m 47s</div>
-      <span class="delta neg">+51% acima</span>
+    <div class="period-label">Maio 2026* — vigente até 11/05 (Longtail · KTA_BRASIL)</div>
+    <div class="sc-grid">
+      <div class="kc"><div class="lbl">NPS †</div><div class="val">53,6%</div><div class="cmp">Equipe KTA: 64,8%</div><span class="dlt neg">−11,2pp</span></div>
+      <div class="kc"><div class="lbl">TMO ↓</div><div class="val">36m 14s</div><div class="cmp">Equipe: 32m 11s</div><span class="dlt neg">+13%</span></div>
+      <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">2,41</div><div class="cmp">Equipe: 2,84</div><span class="dlt neg">−15%</span></div>
+      <div class="kc"><div class="lbl">TDI ↓</div><div class="val">13,3%</div><div class="cmp">Equipe: 8,1%</div><span class="dlt neg">+5,2pp ⚠️</span></div>
+      <div class="kc"><div class="lbl">IXC ↓</div><div class="val">2,23</div><div class="cmp">Equipe: 2,06</div><span class="dlt neg">+8%</span></div>
+      <div class="kc"><div class="lbl">QI Ind. ↑</div><div class="val">—</div><div class="cmp">Sem avaliações</div><span class="dlt neu">s/d</span></div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Produtividade ↑</div>
-      <div class="piloto-val">1,99</div>
-      <div class="equipe-row">Equipe: 3,11</div>
-      <span class="delta neg">−36%</span>
+    <div class="ch-grid">
+      <div class="cc"><h3>TMO — KTA_BRASIL</h3><p>Minutos · Menor melhor ↓</p><canvas id="k-tmo"></canvas></div>
+      <div class="cc"><h3>Produtividade — KTA_BRASIL</h3><p>At/hora · Maior melhor ↑</p><canvas id="k-prod"></canvas></div>
+      <div class="cc"><h3>NPS — KTA_BRASIL †</h3><p>% · Maior melhor ↑</p><canvas id="k-nps"></canvas></div>
+      <div class="cc"><h3>TDI — KTA_BRASIL ⚠️</h3><p>% devoluções indevidas · Menor melhor ↓ · Meta ≈ 5%</p><canvas id="k-tdi"></canvas></div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-label">TDI ↓</div>
-      <div class="piloto-val">0,0%</div>
-      <div class="equipe-row">Equipe: 8,6%</div>
-      <span class="delta pos">−8,6pp melhor</span>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">IXC ↓</div>
-      <div class="piloto-val">1,58</div>
-      <div class="equipe-row">Equipe: 1,97</div>
-      <span class="delta pos">−20% melhor</span>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">QI Individual ↑</div>
-      <div class="piloto-val">100%</div>
-      <div class="equipe-row">Equipe: 97,2%</div>
-      <span class="delta pos">+2,8pp</span>
-    </div>
-  </div>
-
-  <!-- Weekly Charts -->
-  <div class="section-header" style="margin-top: 28px;">
-    <h2>Tendência Semanal — Longtail</h2>
-    <span class="badge">30/03 a 04/05</span>
-  </div>
-
-  <div class="charts-grid">
-    <div class="chart-card">
-      <div class="chart-title">TMO — Tempo Médio de Operação</div>
-      <div class="chart-sub">Minutos · Menor é melhor ↓</div>
-      <canvas id="chartTMO"></canvas>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">Produtividade</div>
-      <div class="chart-sub">Atendimentos / hora · Maior é melhor ↑</div>
-      <canvas id="chartPROD"></canvas>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">IXC — Interações por Caso</div>
-      <div class="chart-sub">Interações · Menor é melhor ↓</div>
-      <canvas id="chartIXC"></canvas>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">NPS †</div>
-      <div class="chart-sub">% · Maior é melhor ↑ · Piloto com amostra baixa</div>
-      <canvas id="chartNPS"></canvas>
-    </div>
-  </div>
-
-  <div class="note">
-    <strong>† NPS do piloto:</strong> 4 a 11 pesquisas por semana — sem significância estatística. A semana 06/04 (0 promotores em 4 respostas) foi omitida dos gráficos por ser não representativa. Usar tendência mensal como referência mais confiável.<br>
-    <strong>* Maio vigente:</strong> dados parciais até 11/05/2026.
+    <div class="note"><strong>KTA — positivo:</strong> NPS excelente em abril (77% vs 62% equipe) e TMO praticamente igual (+1%).<br>
+    <strong>⚠️ TDI crítico:</strong> acima da equipe em todas as semanas (14–40%). Denominadores pequenos (8–25 casos/semana) — investigar padrão específico de processo.<br>
+    <strong>† NPS:</strong> 5–17 respostas/semana. Semana 04/05 (27 respostas) é a mais estável.</div>
   </div>
 
   <hr class="div">
-
-  <!-- ===================== PRE-DESPACHO ===================== -->
-  <div class="section-header">
-    <h2>BR_ME_Pre-Despacho_Offline</h2>
-    <span class="badge">Março/2026 apenas</span>
+  <div class="note" style="margin-bottom:12px">
+    <strong>Pre-Despacho_Offline — Março/2026 (único mês disponível):</strong>
+    ATE: NPS 67,5% vs eq. 67,9%; TMO 29m 53s vs 28m 44s; PROD 2,47 vs 2,61; TDI 6,2% vs 8,1% ✓ —
+    KTA: NPS 56,9% vs eq. 61,3%; TMO 38m 00s vs 34m 45s; PROD 2,27 vs 2,42; TDI 14,3% vs 12,5%.
+    Padrão consistente com Longtail.
   </div>
-  <p style="font-size: 12px; color: #94a3b8; margin-bottom: 12px;">Agentes migraram para Longtail ao longo de março. Dados mensais fechados disponíveis apenas para março nesta equipe.</p>
-
-  <div class="period-label">Março 2026 — fechado</div>
-  <div class="scorecard-grid">
-    <div class="kpi-card">
-      <div class="kpi-label">NPS</div>
-      <div class="piloto-val">60,0%</div>
-      <div class="equipe-row">Equipe: 60,4%</div>
-      <span class="delta neu">−0,4pp</span>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">TMO ↓</div>
-      <div class="piloto-val">39m 07s</div>
-      <div class="equipe-row">Equipe: 23m 56s</div>
-      <span class="delta neg">+63% acima</span>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Produtividade ↑</div>
-      <div class="piloto-val">1,84</div>
-      <div class="equipe-row">Equipe: 2,69</div>
-      <span class="delta neg">−32%</span>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">TDI ↓</div>
-      <div class="piloto-val">9,1%</div>
-      <div class="equipe-row">Equipe: 9,9%</div>
-      <span class="delta pos">−0,8pp</span>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">IXC ↓</div>
-      <div class="piloto-val">1,87</div>
-      <div class="equipe-row">Equipe: 1,90</div>
-      <span class="delta neu">−0,03</span>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">QI Individual ↑</div>
-      <div class="piloto-val">100%</div>
-      <div class="equipe-row">Equipe: 94,9%</div>
-      <span class="delta pos">+5,1pp</span>
-    </div>
-  </div>
-
-  <div class="footer">Gerado em 11/05/2026 · Sistema HALO Performance</div>
+  <div class="footer">Gerado em 11/05/2026 · Sistema HALO Performance · 9 representantes · ATE + KTA_BRASIL · MULTICANAL CHAT</div>
 </div>
 
 <script>
-const WEEKS  = ['30/03', '06/04', '13/04', '20/04', '27/04', '04/05'];
-const BLUE   = '#2563EB';
-const GRAY   = '#9CA3AF';
+const W = ['30/03','06/04','13/04','20/04','27/04','04/05'];
+const B = '#2563EB', G = '#9CA3AF';
 
-const defaultOptions = (yLabel, yMin) => ({
-  responsive: true,
-  maintainAspectRatio: true,
-  aspectRatio: 1.75,
-  plugins: {
-    legend: {
-      position: 'bottom',
-      labels: { font: { size: 11 }, padding: 14, usePointStyle: true, pointStyleWidth: 8 }
-    },
-    tooltip: {
-      callbacks: {
-        label: ctx => ctx.parsed.y == null ? null : ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)} ${yLabel}`
-      }
-    }
-  },
-  scales: {
-    y: {
-      min: yMin,
-      grid: { color: '#f1f5f9' },
-      ticks: { font: { size: 11 } }
-    },
-    x: {
-      grid: { display: false },
-      ticks: { font: { size: 11 } }
-    }
-  }
-});
-
-function makeChart(id, pilotoData, equipeData, yLabel, yMin) {
+function mkChart(id, pD, eD, yLbl, yMin) {
   new Chart(document.getElementById(id), {
     type: 'line',
-    data: {
-      labels: WEEKS,
-      datasets: [
-        {
-          label: 'Piloto',
-          data: pilotoData,
-          borderColor: BLUE,
-          backgroundColor: BLUE + '18',
-          borderWidth: 2.5,
-          pointRadius: 5,
-          pointHoverRadius: 7,
-          tension: 0.35,
-          spanGaps: true,
-        },
-        {
-          label: 'Equipe',
-          data: equipeData,
-          borderColor: GRAY,
-          backgroundColor: GRAY + '18',
-          borderWidth: 2,
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          tension: 0.35,
-          borderDash: [6, 4],
-          spanGaps: true,
-        }
-      ]
-    },
-    options: defaultOptions(yLabel, yMin)
+    data: { labels: W, datasets: [
+      { label:'Piloto', data:pD, borderColor:B, backgroundColor:B+'15', borderWidth:2.5, pointRadius:5, pointHoverRadius:7, tension:.3, spanGaps:true },
+      { label:'Equipe', data:eD, borderColor:G, backgroundColor:G+'12', borderWidth:2,   pointRadius:4, pointHoverRadius:6, tension:.3, borderDash:[6,4], spanGaps:true }
+    ]},
+    options: { responsive:true, aspectRatio:1.8,
+      plugins: {
+        legend: { position:'bottom', labels:{ font:{size:11}, padding:12, usePointStyle:true, pointStyleWidth:8 }},
+        tooltip: { callbacks: { label: c => c.parsed.y==null ? null : ` ${c.dataset.label}: ${c.parsed.y.toFixed(2)} ${yLbl}` }}
+      },
+      scales: {
+        y: { min:yMin, grid:{color:'#f1f5f9'}, ticks:{font:{size:11}} },
+        x: { grid:{display:false}, ticks:{font:{size:11}} }
+      }
+    }
   });
 }
 
-// TMO (segundos ÷ 60 → minutos)
-makeChart('chartTMO',
-  [28.1, 39.1, 34.6, 37.5, 32.3, 40.6],  // Piloto
-  [23.8, 24.5, 24.6, 25.2, 25.7, 26.4],  // Equipe
-  'min', 18
-);
+// GERAL
+mkChart('g-tmo',  [26.9,33.0,29.8,31.5,35.2,35.2], [26.8,27.5,27.3,27.7,28.4,29.2], 'min', 20);
+mkChart('g-prod', [2.45,2.62,2.42,2.35,2.20,2.56],  [2.50,2.89,2.82,2.98,2.91,3.29], 'at/h', 1.5);
+mkChart('g-nps',  [40.0,63.0,75.0,88.2,88.2,62.3],  [71.1,65.4,64.5,66.0,68.8,71.6], '%', 20);
+mkChart('g-tdi',  [4.0,15.9,12.5,24.1,9.1,6.3],     [9.0,9.3,10.8,12.6,11.2,6.9],    '%', 0);
 
-// Produtividade
-makeChart('chartPROD',
-  [2.40, 2.15, 1.89, 1.44, 1.44, 2.05],  // Piloto
-  [2.54, 2.91, 2.86, 3.00, 2.97, 3.27],  // Equipe
-  'at/h', 0.8
-);
+// ATE — semanas 30/03 e 06/04 omitidas do NPS (null)
+mkChart('a-tmo',  [22.7,32.2,27.4,30.4,31.4,34.9], [27.2,27.7,26.7,26.7,27.1,26.9], 'min', 16);
+mkChart('a-prod', [2.68,2.39,2.46,2.33,2.17,2.50],  [2.42,2.86,2.87,3.02,2.95,3.50], 'at/h', 1.5);
+mkChart('a-nps',  [null,null,76.9,90.9,100.0,73.1], [74.1,67.9,73.1,72.4,74.1,76.9], '%', 40);
+mkChart('a-tdi',  [5.9,5.3,6.7,7.1,0.0,0.0],        [6.7,7.8,9.3,8.4,7.7,6.9],       '%', 0);
 
-// IXC
-makeChart('chartIXC',
-  [1.65, 1.73, 2.01, 1.99, 1.42, 1.59],  // Piloto
-  [1.97, 2.09, 2.10, 2.01, 2.00, 1.99],  // Equipe
-  'int/caso', 0.8
-);
+// KTA_BRASIL
+mkChart('k-tmo',  [32.9,33.9,33.5,33.1,39.3,35.7], [30.7,34.1,34.2,34.2,32.7,33.3], 'min', 24);
+mkChart('k-prod', [2.22,2.84,2.38,2.37,2.22,2.66],  [2.45,2.64,2.46,2.72,2.70,3.03], 'at/h', 1.5);
+mkChart('k-nps',  [60.0,82.4,72.7,83.3,80.0,51.9], [66.7,61.7,52.8,64.1,67.6,64.4], '%', 30);
+mkChart('k-tdi',  [0.0,24.0,17.6,40.0,16.7,14.3],   [11.4,12.9,14.0,17.3,14.6,6.7],  '%', 0);
 
-// NPS — 06/04 omitido (0% em 4 pesquisas, não representativo)
-makeChart('chartNPS',
-  [50.0, null, 66.7, 75.0, 100.0, 54.5],  // Piloto (null = semana 06/04)
-  [61.7, 59.1, 58.1, 58.5,  58.1, 62.8],  // Equipe
-  '%', 30
-);
+function setTab(t, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  btn.classList.add('active');
+}
 </script>
 </body>
 </html>
