@@ -38,7 +38,19 @@ if %errorlevel% equ 0 (
     echo [%date% %time%] Driver Impact: ERRO (codigo %errorlevel%) >> "%LOG%"
 )
 
-:: 3 - NPS Tendencias Seller Dev (diario)
+:: 3 - NPS Tendencias Gerencia (todos os drivers - diario)
+echo [%date% %time%] Atualizando NPS Tendencias Gerencia... >> "%LOG%"
+python generate_html_tendencias.py >> "%LOG%" 2>&1
+if %errorlevel% equ 0 (
+    git add nps_tendencias_gerencia.html >> "%LOG%" 2>&1
+    git commit -m "Auto-update NPS Tendencias Gerencia - %date%" >> "%LOG%" 2>&1
+    git push origin main >> "%LOG%" 2>&1
+    echo [%date% %time%] NPS Tendencias Gerencia: OK >> "%LOG%"
+) else (
+    echo [%date% %time%] NPS Tendencias Gerencia: ERRO (codigo %errorlevel%) >> "%LOG%"
+)
+
+:: 5 - NPS Tendencias Seller Dev (diario)
 echo [%date% %time%] Atualizando NPS Tendencias Seller Dev... >> "%LOG%"
 python generate_html_seller_dev.py >> "%LOG%" 2>&1
 if %errorlevel% equ 0 (
@@ -50,7 +62,7 @@ if %errorlevel% equ 0 (
     echo [%date% %time%] NPS Tendencias Seller Dev: ERRO (codigo %errorlevel%) >> "%LOG%"
 )
 
-:: 4 - Snapshot semanal (somente segunda-feira, DOW=1)
+:: 6 - Snapshot semanal (somente segunda-feira, DOW=1)
 if "%DOW%"=="1" (
     echo [%date% %time%] Segunda-feira: salvando snapshot semanal... >> "%LOG%"
     python _save_snapshot.py >> "%LOG%" 2>&1
