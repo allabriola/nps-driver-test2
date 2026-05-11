@@ -39,6 +39,18 @@ weekly_driver   = _ns.get('weekly_driver', {})
 REPORT_DATE     = _ns['REPORT_DATE']
 REPORT_TIME     = _ns.get('REPORT_TIME', '')
 
+# Sobrescreve monthly_history com dados frescos de _monthly_result.json
+# (generate_html_gerencia.py tem dados hardcoded que podem estar desatualizados)
+import os as _os_sd
+if _os_sd.path.exists("_monthly_result.json"):
+    with open("_monthly_result.json", encoding="utf-8") as _f_sd:
+        _mr = _json.load(_f_sd)
+    for _lbl, _drv_map in _mr.items():
+        for _drv, _vals in _drv_map.items():
+            if _drv not in monthly_history:
+                monthly_history[_drv] = {}
+            monthly_history[_drv][_lbl] = tuple(_vals)
+
 # "Dados até" = última data do VIG
 _MONTH_NUM = {"jan":"01","fev":"02","mar":"03","abr":"04","mai":"05",
               "jun":"06","jul":"07","ago":"08","set":"09","out":"10","nov":"11","dez":"12"}
