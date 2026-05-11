@@ -329,12 +329,14 @@ def _synthesize_theme(motivos, survey_comments, cdu, n, n_transf, n_resol, n_esc
 
 def build_categories(cases_summary):
     """
-    Agrupa os casos por CDU, sintetiza o tema e gera conclusão analítica.
+    Agrupa os casos por CDU, calcula share e gera conclusão analítica.
     """
     by_cdu = {}
     for cid, s in cases_summary.items():
         cdu = s.get("cdu","N/I")
         by_cdu.setdefault(cdu, []).append({"cid": cid, **s})
+
+    total_cases = len(cases_summary)
 
     categories = []
     for cdu, cases in sorted(by_cdu.items(), key=lambda x: -len(x[1])):
@@ -342,12 +344,13 @@ def build_categories(cases_summary):
         if n < 1:
             continue
 
-        n_transf = sum(1 for c in cases if c.get("transferido"))
-        n_resol  = sum(1 for c in cases if c.get("resolvido"))
-        n_escal  = sum(1 for c in cases if c.get("escalacao"))
+        n_transf  = sum(1 for c in cases if c.get("transferido"))
+        n_resol   = sum(1 for c in cases if c.get("resolvido"))
+        n_escal   = sum(1 for c in cases if c.get("escalacao"))
+        share_pct = round(100 * n / total_cases) if total_cases else 0
 
-        motivos   = [c.get("motivo","")         for c in cases if c.get("motivo")         and len(c.get("motivo","")) > 20]
-        comments  = [c.get("survey_comment","") for c in cases if c.get("survey_comment") and len(c.get("survey_comment","")) > 10]
+        motivos  = [c.get("motivo","")         for c in cases if c.get("motivo")         and len(c.get("motivo","")) > 20]
+        comments = [c.get("survey_comment","") for c in cases if c.get("survey_comment") and len(c.get("survey_comment","")) > 10]
 
         narrative = _synthesize_theme(motivos, comments, cdu, n, n_transf, n_resol, n_escal)
 
@@ -355,6 +358,7 @@ def build_categories(cases_summary):
             "sub_pattern":   cdu,
             "s1_count":      n,
             "monthly_count": n,
+            "share_pct":     share_pct,
             "examples":      [c["cid"] for c in cases[:3]],
             "narrative":     narrative,
             "n_transfer":    n_transf,

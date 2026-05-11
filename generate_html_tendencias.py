@@ -1229,10 +1229,15 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
                     narrative_html = (f'<div style="font-size:12px;color:#444;line-height:1.7;'
                                       f'margin:6px 0 6px 0">{esc(r["narrative"])}</div>')
 
+                share_badge = ""
+                if r.get("share_pct"):
+                    share_badge = (f' <span style="background:#fff0f0;color:#E84142;border:1px solid #f5c6c6;'
+                                   f'border-radius:10px;padding:1px 8px;font-size:11px;font-weight:700;'
+                                   f'margin-left:6px">{r["share_pct"]}% das pesquisas</span>')
                 rec_items += (f'<div style="margin:10px 0;padding:10px 14px;'
                               f'background:#fff8f8;border-left:3px solid #E84142;border-radius:0 6px 6px 0">'
                               f'<div style="font-size:13px;font-weight:700;color:#222;margin-bottom:4px">'
-                              f'{esc(r["sub_pattern"])}</div>'
+                              f'{esc(r["sub_pattern"])}{share_badge}</div>'
                               f'<div style="font-size:11px;color:#888;margin-bottom:6px">'
                               f'S1: <strong style="color:#E84142">{r["s1_count"]} caso{"s" if r["s1_count"]>1 else ""}</strong>'
                               f' &nbsp;|&nbsp; mensal: <strong style="color:#E84142">{r["monthly_count"]} caso{"s" if r["monthly_count"]>1 else ""}</strong>'
@@ -1326,6 +1331,7 @@ def _recurrence_deep(grp, trx_source=None, top_proc=None):
             "sub_pattern":   c.get("sub_pattern", ""),
             "s1_count":      c.get("s1_count", 0),
             "monthly_count": c.get("monthly_count", c.get("s1_count", 0)),
+            "share_pct":     c.get("share_pct", 0),
             "examples":      c.get("examples", [])[:3],
             "narrative":     c.get("narrative", ""),
         })
