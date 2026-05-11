@@ -1339,17 +1339,47 @@ def _recurrence_deep(grp, trx_source=None):
     # Fonte de transcrições (S1, VIG ou mensal)
     src = trx_source if trx_source is not None else _TRX_S1
     det_trxs = src.get(grp, {}).get("detrator", {})
-    s1_texts = [" ".join(m["msg"].lower() for m in msgs if m.get("role")=="USER")
-                for msgs in det_trxs.values()]
+
+    # cid → texto concatenado USER (para matching)
+    cid_user_map = {}
+    # cid → primeira frase substantiva do seller (para narrativa real)
+    cid_first_complaint = {}
+    for cid, msgs in det_trxs.items():
+        user_msgs = [m.get("msg","").strip() for m in msgs
+                     if m.get("role")=="USER" and len(m.get("msg","").strip()) > 20]
+        cid_user_map[cid] = " ".join(m.lower() for m in user_msgs)
+        # Primeira msg substantiva (ignora saudações e msgs < 30 chars)
+        for msg in user_msgs:
+            if len(msg) > 30 and not any(w in msg.lower() for w in
+                    ["tudo bem","bom dia","boa tarde","quero falar","falar com","assistente","atendente"]):
+                cid_first_complaint[cid] = msg[:200]
+                break
+        if cid not in cid_first_complaint and user_msgs:
+            cid_first_complaint[cid] = user_msgs[0][:200]
+
+    s1_texts = list(cid_user_map.values())
 
     # Textos mensais (comentários detratores do _EXEC)
     monthly_cmts = _EXEC.get("qual",{}).get(grp,{}).get("comments",[])
     monthly_texts = [(c.get("comment","") or "").lower()
                      for c in monthly_cmts if c.get("perfil")=="detrator"]
 
-    # Mapeia cid → texto USER para encontrar casos exemplo
-    cid_user_map = {cid: " ".join(m["msg"].lower() for m in msgs if m.get("role")=="USER")
-                    for cid, msgs in det_trxs.items()}
+    # ── ATRIBUIÇÃO EXCLUSIVA: cada caso vai ao padrão com maior score ──
+    # Evita que o mesmo caso apareça em múltiplos padrões
+    cid_scores = {}   # cid → {(cat,sub): score}
+    for cid, txt in cid_user_map.items():
+        cid_scores[cid] = {}
+        for cat, sub_dict in SUB_PATTERNS.items():
+            for sub, kws in sub_dict.items():
+                score = sum(1 for k in kws if k in txt)
+                if score > 0:
+                    cid_scores[cid][(cat, sub)] = score
+
+    cid_best_pattern = {}  # cid → (cat, sub) vencedor
+    for cid, scores in cid_scores.items():
+        if scores:
+            best = max(scores.items(), key=lambda x: x[1])
+            cid_best_pattern[cid] = best[0]
 
     def _synthesize_narrative(sub, kws, matched_msgs):
         """
@@ -1473,17 +1503,28 @@ def _recurrence_deep(grp, trx_source=None):
                 "O impacto operacional é imediato (impossibilidade de vender), e o processo de regularização não tem prazo definido nem atualizações proativas.",
         }  # fim _TEMPLATES_DEPRECATED (não mais usado — narrativa vem do conteúdo real)
 
+    def _synthesize_narrative_real(sub, complaints, count):
+        """Narrativa baseada nos primeiros relatos reais do seller — sem templates."""
+        if not complaints:
+            return f"Padrão recorrente em {count} caso(s) S1."
+        unique = list(dict.fromkeys(c[:150] for c in complaints if c))[:2]
+        relatos = "; ".join(f'"{r}"' for r in unique) if unique else ""
+        base = f"Padrão em {count} caso{'s' if count>1 else ''} S1."
+        if relatos:
+            base += f" Relato{'s' if len(unique)>1 else ''}: {relatos}."
+        return base
+
     results = []
     for cat, sub_dict in SUB_PATTERNS.items():
         for sub, kws in sub_dict.items():
-            # Exige pelo menos 2 keywords distintas no mesmo texto para reduzir falsos positivos
-            s1_hits      = sum(1 for t in s1_texts     if any(k in t for k in kws))
+            # Atribuição exclusiva: só conta casos cujo MELHOR match é este padrão
+            ex_ids = [cid for cid, bp in cid_best_pattern.items()
+                      if bp == (cat, sub)][:3]
+            s1_hits = len(ex_ids)
             monthly_hits = sum(1 for t in monthly_texts if any(k in t for k in kws))
             if s1_hits >= 1 and monthly_hits >= 1:
-                matched_msgs = [txt for txt in s1_texts if any(k in txt for k in kws)]
-                ex_ids = [cid for cid, txt in cid_user_map.items()
-                          if any(k in txt for k in kws)][:3]
-                narrative = _synthesize_narrative(sub, kws, matched_msgs)
+                real_complaints = [cid_first_complaint.get(cid, "") for cid in ex_ids]
+                narrative = _synthesize_narrative_real(sub, real_complaints, s1_hits)
                 results.append({
                     "categoria":     cat,
                     "sub_pattern":   sub,
