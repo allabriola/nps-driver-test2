@@ -1420,15 +1420,12 @@ def _recurrence_deep(grp, trx_source=None):
     results = []
     for cat, sub_dict in SUB_PATTERNS.items():
         for sub, kws in sub_dict.items():
-            def _multi_match(txt):
-                return len([k for k in kws if k in txt]) >= min(2, len(kws))
-
-            s1_hits      = sum(1 for t in s1_texts     if _multi_match(t))
-            monthly_hits = sum(1 for t in monthly_texts if _multi_match(t))
+            s1_hits      = sum(1 for t in s1_texts     if any(k in t for k in kws))
+            monthly_hits = sum(1 for t in monthly_texts if any(k in t for k in kws))
             if s1_hits >= 1 and monthly_hits >= 1:
-                matched_msgs = [txt for txt in s1_texts if _multi_match(txt)]
+                matched_msgs = [txt for txt in s1_texts if any(k in txt for k in kws)]
                 ex_ids = [cid for cid, txt in cid_user_map.items()
-                          if _multi_match(txt)][:3]
+                          if any(k in txt for k in kws)][:3]
                 narrative = _synthesize_narrative(sub, kws, matched_msgs)
                 results.append({
                     "categoria":     cat,
