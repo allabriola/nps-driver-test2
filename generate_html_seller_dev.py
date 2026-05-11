@@ -1357,22 +1357,36 @@ def _recurrence_deep(grp, trx_source=None):
                     for cid, msgs in det_trxs.items()}
 
     def _synthesize_narrative(sub, kws, matched_msgs):
-        """
-        Gera narrativa analítica do sub-padrão baseada nas mensagens reais.
-        Sem quotes literais — síntese do que os sellers reportam.
-        """
+        """Narrativa baseada no conteúdo real dos casos matched — sem templates fixos."""
         if not matched_msgs:
             return ""
 
-        # Padrões de situação + frustração + causa sistêmica
+        import re as _re_narr
+
+        def _extract_sentences(texts, keywords, max_sentences=4):
+            sentences = []
+            for txt in texts:
+                parts = _re_narr.split(r'[.!?\n]+', txt)
+                for part in parts:
+                    part = part.strip()
+                    if len(part) < 15:
+                        continue
+                    if any(k in part for k in keywords):
+                        sentences.append(part)
+                    if len(sentences) >= max_sentences:
+                        break
+                if len(sentences) >= max_sentences:
+                    break
+            return sentences
+
         SITUATION = {
-            "urgência": ["urgente","prazo","hoje","amanhã","vence","data"],
-            "reincidência": ["já tentei","já abri","segunda vez","terceira","semanas","meses"],
-            "bloqueio operacional": ["não consigo","parado","bloqueado","não funciona","suspensa"],
-            "perda financeira": ["prejuízo","perdi","perdendo","reais","dinheiro"],
-            "injustiça": ["não é minha","erro do ml","minha culpa","arbitrário","injusto","castigando"],
-            "falta de transparência": ["não entendo","sem explicação","sem motivo","critério","por quê"],
-            "ausência de canal": ["sem canal","não tem como","não consigo falar","ninguém resolve"],
+            "urgência":               ["urgente","prazo","hoje","amanhã","vence","data","rápido"],
+            "reincidência":           ["já tentei","já abri","segunda vez","terceira","semanas","meses","várias vezes"],
+            "bloqueio operacional":   ["não consigo","parado","bloqueado","não funciona","suspensa","impedido"],
+            "perda financeira":       ["prejuízo","perdi","perdendo","reais","dinheiro","valor","sem receber"],
+            "injustiça":              ["não é minha","erro do ml","minha culpa","arbitrário","injusto","castigando"],
+            "falta de transparência": ["não entendo","sem explicação","sem motivo","critério","por quê","ninguém explica"],
+            "sem resolução":          ["não resolveu","continua","mesmo problema","sem retorno","esperando","ninguém"],
         }
         situation_cnt = {k: 0 for k in SITUATION}
         for txt in matched_msgs:
@@ -1381,75 +1395,40 @@ def _recurrence_deep(grp, trx_source=None):
                     situation_cnt[sit] += 1
 
         top_sit = sorted(situation_cnt.items(), key=lambda x: -x[1])
-        active = [(s,c) for s,c in top_sit if c > 0][:2]
+        active = [(s,c) for s,c in top_sit if c > 0][:3]
 
-        # Narrativas pré-analíticas por sub-padrão (enriquecidas com dados reais)
-        TEMPLATES = {
-            "atraso de entrega sem atualização de status":
-                "Sellers reportam que o status do envio não é atualizado em tempo real após o prazo comprometido, gerando contatos repetidos. "
-                "A ausência de notificação proativa obriga o seller a buscar informação ativamente, sem ter canal eficaz de resolução no atendimento.",
-            "coleta não realizada / reagendamento falho":
-                "Sellers aguardam a coleta de envios Full na janela agendada e o transportador não comparece sem aviso prévio ou reagendamento automático. "
-                "O seller fica com estoque parado e sem caminho claro de resolução — o atendimento apenas registra a ocorrência sem poder acionar a logística diretamente.",
-            "entregador não compareceu ou fraudou":
-                "Sellers relatam que o entregador marca a tentativa como realizada sem efetivamente comparecer ao endereço. "
-                "A percepção é de que o processo de verificação de fraude de entregadores é insuficiente, e o atendimento não tem ferramenta para reverter o status ou escalar rapidamente.",
-            "envio Full parado no CD":
-                "Envios coletados pelo transportador não chegam ao centro de distribuição dentro do prazo esperado, sem atualização de status. "
-                "O seller não consegue rastrear onde o envio está, e o atendimento não tem acesso ao histórico logístico detalhado para informar com precisão.",
-            "cobrança de ADS não autorizada":
-                "Sellers identificam cobranças de campanhas de publicidade que afirmam não ter ativado. "
-                "A percepção é de ativação automática sem consentimento explícito, e o atendimento não tem autonomia para estornar — gerando escalação para PROCON em casos recorrentes.",
-            "bloqueio do Faturador / certificado digital":
-                "O vencimento do certificado digital ou restrições no CNPJ bloqueiam a emissão de NF-e para envios Full, paralisando toda a operação de vendas. "
-                "O processo de desbloqueio envolve dependência de SEFAZ externa, e o atendimento não consegue acelerar a regularização — gerando estoque parado indefinidamente.",
-            "IS divergente (inconformidade no estoque)":
-                "Sellers recebem cobranças de inconformidade por divergências de estoque que identificam como erro operacional do próprio centro de distribuição do ML — caixas processadas parcialmente, etiqueta com CD errado, motorista com falha sistêmica. "
-                "A percepção é de que o seller está sendo cobrado por erro do operador logístico, sem processo claro de contestação.",
-            "cobrança indevida sem resolução":
-                "Sellers relatam cobranças que não reconhecem e que persistem mesmo após múltiplos atendimentos. "
-                "O atendente não tem autoridade para estornar e cada novo contato retoma o processo do início, gerando frustração acumulada e ameaças de vias legais.",
-            "reclamo afetando reputação indevidamente":
-                "Sellers relatam que reclamações abertas pelo comprador — em situações onde o erro foi do próprio comprador — afetam automaticamente a reputação do vendedor. "
-                "A percepção é de arbitrariedade: o sistema não distingue responsabilidades antes de penalizar, e o seller não tem canal eficaz de apelação antes do impacto.",
-            "mediação aberta sem prazo claro":
-                "Sellers com mediações abertas não recebem prazo estimado de resolução nem atualização proativa. "
-                "A ausência de timeline gera contatos repetidos de acompanhamento, e o atendimento apenas informa que está 'em análise', sem acesso ao andamento real do caso.",
-            "decisão considerada injusta":
-                "Sellers que apresentam provas de que não cometeram erro (nota fiscal, fotos, rastreio) relatam decisões automáticas que desconsideram o histórico. "
-                "A percepção é de que o processo de mediação favorece sistematicamente o comprador sem análise do caso específico.",
-            "comissão de afiliados não paga / invalidada":
-                "Sellers no programa de afiliados relatam comissões invalidadas por regras automáticas (lista de contatos, conta vinculada) sem notificação clara nem processo de contestação. "
-                "A percepção é de falta de transparência nos critérios de validação, com ganhos acumulados retidos sem explicação objetiva.",
-            "suspensão de publicação sem motivo claro":
-                "Sellers relatam publicações removidas ou pausadas sem comunicação do critério que gerou a ação. "
-                "A ausência de transparência sobre o motivo da suspensão impede a correção e gera recontatos repetidos em busca de explicação que o atendimento não consegue fornecer.",
-            "atendimento automático sem análise do caso":
-                "Sellers relatam respostas padronizadas que não consideram o contexto específico da situação apresentada. "
-                "A percepção é de que o atendente responde com scripts sem ler o histórico do caso, obrigando o seller a repetir toda a situação a cada novo contato.",
-            "conta suspensa / restrita sem explicação":
-                "Sellers encontram a conta restrita sem ter recebido notificação prévia e sem encontrar explicação objetiva nos canais de atendimento. "
-                "O impacto operacional é imediato (impossibilidade de vender), e o processo de regularização não tem prazo definido nem atualizações proativas.",
-        }
+        real_sentences = _extract_sentences(matched_msgs, kws)
 
-        base = TEMPLATES.get(sub, "")
-        if not base and active:
-            # Narrativa genérica baseada nos padrões identificados
+        if real_sentences:
+            n = len(matched_msgs)
+            sit_txt = " e ".join(s for s,_ in active) if active else "insatisfação recorrente"
+            unique = list(dict.fromkeys(s[:120] for s in real_sentences))[:2]
+            examples_txt = "; ".join(f'"{s}"' for s in unique) if unique else ""
+            narrative = f"Padrão identificado em {n} caso{'s' if n>1 else ''}: sellers reportam {sit_txt}. "
+            if examples_txt:
+                narrative += f"Relatos: {examples_txt}. "
+            narrative += "Recorrência em S1 e período mensal indica causa estrutural."
+            return narrative
+
+        if active:
             sit_names = " e ".join(s for s,_ in active)
-            base = (f"Sellers que entram em contato por este motivo apresentam padrão de "
+            return (f"Sellers que entram em contato por este motivo apresentam padrão de "
                     f"{sit_names}, com contatos recorrentes sem resolução definitiva. "
                     f"O padrão persiste tanto na semana S1 quanto no período mensal, indicando causa estrutural.")
-        return base
+        return f"Padrão recorrente em {len(matched_msgs)} caso(s). Requer análise aprofundada."
 
     results = []
     for cat, sub_dict in SUB_PATTERNS.items():
         for sub, kws in sub_dict.items():
-            s1_hits      = sum(1 for t in s1_texts     if any(k in t for k in kws))
-            monthly_hits = sum(1 for t in monthly_texts if any(k in t for k in kws))
+            def _multi_match(txt):
+                return len([k for k in kws if k in txt]) >= min(2, len(kws))
+
+            s1_hits      = sum(1 for t in s1_texts     if _multi_match(t))
+            monthly_hits = sum(1 for t in monthly_texts if _multi_match(t))
             if s1_hits >= 1 and monthly_hits >= 1:
-                matched_msgs = [txt for txt in s1_texts if any(k in txt for k in kws)]
+                matched_msgs = [txt for txt in s1_texts if _multi_match(txt)]
                 ex_ids = [cid for cid, txt in cid_user_map.items()
-                          if any(k in txt for k in kws)][:3]
+                          if _multi_match(txt)][:3]
                 narrative = _synthesize_narrative(sub, kws, matched_msgs)
                 results.append({
                     "categoria":     cat,
