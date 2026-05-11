@@ -1997,7 +1997,10 @@ def _trx_summary_html(grp):
 
 def _driver_narrative_html(grp):
     """Narrativa corrida por driver: NPS + senioridade + oficina + CDU."""
-    nc  = curr_m.get(grp); np2 = prev_m.get(grp)
+    if grp in grp_mon:
+        _s = grp_mon[grp]; nc = _s[-1] if _s else None; np2 = _s[-2] if len(_s) >= 2 else None
+    else:
+        nc = curr_m.get(grp); np2 = prev_m.get(grp)
     tg  = grp_targets.get(grp, NPS_TARGET)
     gap = round(nc - tg, 1) if nc is not None else None
     mom = round(nc - np2, 1) if nc is not None and np2 is not None else None

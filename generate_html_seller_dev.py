@@ -2004,8 +2004,14 @@ def _driver_narrative_html(grp):
     Gera parágrafo narrativo corrido por driver com NPS + senioridade + oficina + CDU.
     Usa os dados já carregados: grp_breakdown, _PA, _RC, curr_m, prev_m, grp_targets.
     """
-    nc    = curr_m.get(grp)
-    np2   = prev_m.get(grp)
+    # Usa grp_mon para grupos (ex: "Exp. Impositiva") ou curr_m para drivers individuais
+    if grp in grp_mon:
+        series = grp_mon[grp]
+        nc  = series[-1]  if series else None
+        np2 = series[-2]  if len(series) >= 2 else None
+    else:
+        nc  = curr_m.get(grp)
+        np2 = prev_m.get(grp)
     tg    = grp_targets.get(grp, NPS_TARGET)
     gap   = round(nc - tg, 1)  if nc is not None else None
     mom   = round(nc - np2, 1) if nc is not None and np2 is not None else None
