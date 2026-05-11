@@ -767,8 +767,8 @@ def _tab_exec():
   {wf_tg_chart}
 </div>"""
 
-    exec_html_mon = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary("_exec_summary.html")}</div></div>'
-    exec_html_wk  = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary("_exec_summary_wk.html")}</div></div>'
+    exec_html_mon = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary("_exec_summary_sd.html")}</div></div>'
+    exec_html_wk  = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary("_exec_summary_wk_sd.html")}</div></div>'
 
     # ── Visão Semanal (S1/S2 + VIG) ──────────────────────────────────
     wk_nps_s2 = wk_cons[-2] if len(wk_cons) >= 2 else None
@@ -2976,79 +2976,95 @@ def build():
     t1 = _tab_mensal()
     t2 = _tab_semanal()
 
-    js = """
-function switchPeriod(btn,p){
-  document.querySelectorAll('.period-btn').forEach(function(b){b.classList.remove('active');});
+    # Embutir history/index.json inline para funcionar no Grid (sem fetch relativo)
+    _GHPAGES_BASE = "https://allabriola.github.io/nps-driver-test2/"
+    _hist_inline = "[]"
+    import os as _os_hist
+    _hist_path = _os_hist.path.join(_os_hist.path.dirname(_os_hist.path.abspath(__file__)), "history", "index.json")
+    if _os_hist.path.exists(_hist_path):
+        with open(_hist_path, encoding="utf-8") as _fh:
+            _hist_inline = _fh.read().strip()
+
+    js = f"""
+var _HIST_INLINE = {_hist_inline};
+var _GHPAGES_BASE = "{_GHPAGES_BASE}";
+function switchPeriod(btn,p){{
+  document.querySelectorAll('.period-btn').forEach(function(b){{b.classList.remove('active');}});
   btn.classList.add('active');
-  document.querySelectorAll('.period-view').forEach(function(v){
+  document.querySelectorAll('.period-view').forEach(function(v){{
     v.style.display=(v.dataset.p===p)?'':'none';
-  });
-}
+  }});
+}}
 // ── Histórico de Semanas ──────────────────────────────────────────
 var _histLoaded = false;
-function openHistory() {
+function openHistory() {{
   document.getElementById('histOverlay').classList.add('open');
-  if (!_histLoaded) { loadHistory(); _histLoaded = true; }
-}
-function closeHistory() {
+  if (!_histLoaded) {{ loadHistory(); _histLoaded = true; }}
+}}
+function closeHistory() {{
   document.getElementById('histOverlay').classList.remove('open');
-}
-function closeHistoryOutside(e) {
+}}
+function closeHistoryOutside(e) {{
   if (e.target === document.getElementById('histOverlay')) closeHistory();
-}
-function loadHistory() {
+}}
+function loadHistory() {{
   var list = document.getElementById('histList');
-  fetch('history/index.json?_=' + Date.now())
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      if (!data || !data.length) {
-        list.innerHTML = '<div class="hist-empty">Nenhum snapshot salvo ainda.<br>O histórico é criado automaticamente toda segunda-feira.</div>';
-        return;
-      }
-      var html = '';
-      data.forEach(function(e) {
-        var badge  = e.most_recent ? '<span class="hist-badge-new">MAIS RECENTE</span>' : '';
-        var nps    = e.nps_s1 ? ' &nbsp;<span style="color:#888;font-size:10px">NPS S1: ' + e.nps_s1.toFixed(1).replace('.',',') + '%</span>' : '';
-        var icon   = e.most_recent ? '&#128197;' : '&#128441;';
-        html += '<div class="hist-item" onclick="openSnapshot(\\'' + e.file + '\\')">'
-              + '  <div class="hist-item-left">'
-              + '    <div class="hist-item-icon">' + icon + '</div>'
-              + '    <div>'
-              + '      <div class="hist-item-label">' + e.label + badge + '</div>'
-              + '      <div class="hist-item-date">Arquivado em ' + e.archived_at + nps + '</div>'
-              + '    </div>'
-              + '  </div>'
-              + '  <span class="hist-open-link">Abrir &#8594;</span>'
-              + '</div>';
-      });
-      list.innerHTML = html;
-    })
-    .catch(function() {
-      list.innerHTML = '<div class="hist-empty">Histórico não encontrado.<br>Execute o update semanal para criar o primeiro snapshot.</div>';
-    });
-}
-function openSnapshot(file) {
-  window.open('history/' + file, '_blank');
-}
+  function renderHist(data) {{
+    if (!data || !data.length) {{
+      list.innerHTML = '<div class="hist-empty">Nenhum snapshot salvo ainda.<br>O histórico é criado automaticamente toda segunda-feira.</div>';
+      return;
+    }}
+    var html = '';
+    data.forEach(function(e) {{
+      var badge = e.most_recent ? '<span class="hist-badge-new">MAIS RECENTE</span>' : '';
+      var nps   = e.nps_s1 ? ' &nbsp;<span style="color:#888;font-size:10px">NPS S1: ' + e.nps_s1.toFixed(1).replace('.',',') + '%</span>' : '';
+      var icon  = e.most_recent ? '&#128197;' : '&#128441;';
+      html += '<div class="hist-item" onclick="openSnapshot(\\'' + e.file + '\\')">'
+            + '  <div class="hist-item-left">'
+            + '    <div class="hist-item-icon">' + icon + '</div>'
+            + '    <div>'
+            + '      <div class="hist-item-label">' + e.label + badge + '</div>'
+            + '      <div class="hist-item-date">Arquivado em ' + e.archived_at + nps + '</div>'
+            + '    </div>'
+            + '  </div>'
+            + '  <span class="hist-open-link">Abrir &#8594;</span>'
+            + '</div>';
+    }});
+    list.innerHTML = html;
+  }}
+  if (_HIST_INLINE && _HIST_INLINE.length) {{
+    renderHist(_HIST_INLINE);
+  }} else {{
+    fetch('history/index.json?_=' + Date.now())
+      .then(function(r) {{ return r.json(); }})
+      .then(renderHist)
+      .catch(function() {{
+        list.innerHTML = '<div class="hist-empty">Histórico não encontrado.<br>Execute o update semanal para criar o primeiro snapshot.</div>';
+      }});
+  }}
+}}
+function openSnapshot(file) {{
+  window.open(_GHPAGES_BASE + 'history/' + file, '_blank');
+}}
 
-function showTab(n){
-  document.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.toggle('active',i===n);});
-  document.querySelectorAll('.tab-pane').forEach(function(p,i){p.classList.toggle('active',i===n);});
-}
-function filterDrv(btn, grp){
-  document.querySelectorAll('.drv-fbtn').forEach(function(b){b.classList.remove('active');});
+function showTab(n){{
+  document.querySelectorAll('.tab-btn').forEach(function(b,i){{b.classList.toggle('active',i===n);}});
+  document.querySelectorAll('.tab-pane').forEach(function(p,i){{p.classList.toggle('active',i===n);}});
+}}
+function filterDrv(btn, grp){{
+  document.querySelectorAll('.drv-fbtn').forEach(function(b){{b.classList.remove('active');}});
   btn.classList.add('active');
-  document.querySelectorAll('.drv-card').forEach(function(c){
+  document.querySelectorAll('.drv-card').forEach(function(c){{
     c.style.display = (c.dataset.grp===grp) ? '' : 'none';
-  });
-}
+  }});
+}}
 // Inicializa cada grupo de cards: esconde todos exceto o primeiro por container
-(function(){
-  document.querySelectorAll('.drv-cards').forEach(function(container){
+(function(){{
+  document.querySelectorAll('.drv-cards').forEach(function(container){{
     var cards = container.querySelectorAll('.drv-card');
     for(var i=1;i<cards.length;i++) cards[i].style.display='none';
-  });
-})();
+  }});
+}})();
 """
     tgt_str = str(NPS_TARGET).replace('.', ',')
     return f"""<!DOCTYPE html>
