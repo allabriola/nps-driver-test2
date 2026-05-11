@@ -182,80 +182,147 @@ def summarize_case(case_meta, msgs):
         "n_msgs":             len(msgs),
     }
 
+# Mapeamento CDU → descrição em português do tema de contato
+CDU_DESCRIPTIONS = {
+    "métricas y comisiones":
+        "sellers contestam cobranças de comissão, tarifas não reconhecidas ou divergências nos valores de venda",
+    "configuración y funcionalidades":
+        "sellers relatam falhas em funcionalidades ou dificuldades de configuração na plataforma",
+    "activar/desactivar":
+        "sellers com publicações ou campanhas suspensas/pausadas buscando reativação",
+    "bugs":
+        "falhas técnicas no sistema impedindo operações normais de venda",
+    "tiene dudas sobre el estado del envio":
+        "sellers reportam atraso ou falta de atualização no status de envios aos compradores",
+    "quiere cancelar o reprogramar el envío":
+        "sellers solicitam cancelamento ou reprogramação de envios em andamento",
+    "quiere reportar problemas con el transportista":
+        "problemas com transportadora: entregador não compareceu ou cometeu irregularidade",
+    "devoluciones":
+        "sellers contestam devoluções indevidas, produtos devolvidos com defeito ou reembolsos pendentes",
+    "mediación cerrada":
+        "sellers insatisfeitos com o resultado de mediações encerradas, geralmente considerando a decisão injusta",
+    "mediación abierta":
+        "sellers com mediações em aberto sem prazo definido de resolução e sem comunicação proativa",
+    "reclamo abierto":
+        "reclamações de compradores em aberto afetando a operação do seller sem resolução",
+    "antes del reclamo":
+        "sellers buscam resolver conflito com comprador antes de abrir reclamação formal",
+    "reclamos":
+        "reclamações abertas pelos compradores impactando diretamente a reputação do seller",
+    "consultas informativas de reputación":
+        "sellers com dúvidas sobre critérios de pontuação de reputação e como melhorá-la",
+    "cancelaciones":
+        "cancelamentos de vendas com impacto na reputação do seller, geralmente não reconhecidos como culpa do vendedor",
+    "dudas sobre cargos facturados":
+        "sellers questionam cobranças automáticas de tarifas, campanhas ADS ou comissões não autorizadas",
+    "dudas sobre pagos":
+        "sellers com dúvidas sobre liberação de pagamentos, prazos de recebimento ou bloqueios no fluxo financeiro",
+    "dudas sobre documentos fiscales y reportes":
+        "sellers com dificuldades na emissão de notas fiscais, relatórios tributários ou documentação fiscal obrigatória",
+    "dudas sobre deuda /débito (automático o forzado)":
+        "sellers contestam débitos automáticos ou cobranças forçadas não reconhecidas na conta",
+    "temporal":
+        "problemas temporários de acesso ao sistema ou funcionalidades indisponíveis",
+    "dudas sobre pagos":
+        "dúvidas sobre liberação de pagamentos, bloqueios financeiros ou fluxo de recebimentos",
+    "dudas sobre documentos fiscales y reportes":
+        "dificuldades com emissão de notas fiscais, relatórios fiscais ou documentação tributária",
+    "faturador meli":
+        "bloqueio no Faturador MeLi impedindo emissão de NF-e, geralmente por certificado digital ou CNPJ",
+    "quiere saber como funciona envíos extra":
+        "entregadores com dúvidas sobre regras, funcionamento ou remuneração do programa Envíos Extra",
+    "tiene un inconviente con sus metricas de nivel de lealtad":
+        "entregadores contestam queda no Nível de Lealdade, frequentemente relatando rebaixamento sem motivo claro",
+    "quiere saber porqué se inactivó su cuenta":
+        "contas inativadas sem notificação prévia ou explicação objetiva sobre o critério de inativação",
+    "quiere reclamar por inconvenientes en el recorrido o en el service center":
+        "problemas operacionais durante a rota de entrega ou nos centros de serviço",
+    "tiene problemas durante la creacion de la cuenta":
+        "dificuldades técnicas ou de documentação no processo de criação de conta de entregador",
+    "funcionales":
+        "falhas funcionais no produto ou serviço recebido",
+    "recepción":
+        "problemas na recepção ou entrega do produto ao comprador",
+    "necesita que le liberen el dinero":
+        "sellers com pagamentos retidos ou bloqueados aguardando liberação",
+    "reclamo pnr":
+        "PNR (Pedido Não Recebido) contestado pelo seller com impacto em vendas e reputação",
+    "mediación abierta":
+        "mediações em andamento sem atualização de prazo, gerando contatos repetidos de acompanhamento",
+}
+
 def _synthesize_theme(motivos, survey_comments, cdu, n, n_transf, n_resol, n_escal):
     """
-    Gera síntese analítica do tema de contato a partir dos padrões identificados.
-    Sem citações diretas — descreve o padrão dominante com evidências quantitativas.
+    Gera síntese específica para o CDU.
+    Usa mapeamento CDU→descrição quando disponível; fallback para palavras-chave únicas.
     """
-    all_text = " ".join(motivos + survey_comments).lower()
+    # Busca descrição mapeada — do mais específico ao mais genérico
+    cdu_key = cdu.lower().strip()
+    description = None
+    # Ordena por comprimento da chave (desc) — chaves mais longas = mais específicas
+    sorted_map = sorted(CDU_DESCRIPTIONS.items(), key=lambda x: -len(x[0]))
+    for key, desc in sorted_map:
+        # Match exato OU chave contém o CDU OU CDU começa com a chave (mínimo 12 chars)
+        if cdu_key == key or key == cdu_key:
+            description = desc
+            break
+        if len(key) >= 12 and cdu_key.startswith(key[:len(key)]):
+            description = desc
+            break
+        if len(key) >= 15 and key in cdu_key:
+            description = desc
+            break
 
-    THEMES = {
-        "atraso na entrega / prazo não cumprido":
-            ["atraso","atrasado","nao chegou","não chegou","prazo","data","entrega","reagendando","reaagendado"],
-        "cobrança não reconhecida / não autorizada":
-            ["cobranca","cobranc","cobrado","tarifa","nao autorizei","não autorizei","indevido","nao reconh","nao deve"],
-        "produto com defeito / embalagem danificada":
-            ["defeito","quebrado","danificado","avariado","embalagem","lacre"],
-        "cancelamento de venda / pedido":
-            ["cancelar","cancelamento","desistir","nao quero","não quero"],
-        "devolução sem resolução":
-            ["devoluc","devolveu","produto devolvido","retorno","estorno devoluc"],
-        "mediação / reclamo afetando reputação":
-            ["mediacao","mediação","reclamo","reclamacao","reputacao","reputação","penalizado","impactou"],
-        "conta suspensa ou bloqueada":
-            ["suspensa","bloqueada","restrita","sem acesso","inativada","inativou"],
-        "certificado digital / Faturador bloqueado":
-            ["certificado","faturador","nf-e","nota fiscal","emissao","cnpj","sefaz"],
-        "pagamento retido / reembolso pendente":
-            ["pagamento","estorno","reembolso","nao recebi","não recebi","liberar","retido","liberacao"],
-        "publicação suspensa ou removida":
-            ["publicacao","publicação","anuncio","anúncio","removida","pausada","suspensa publicac"],
-        "comissão ou afiliado não pago":
-            ["comissao","comissão","afiliado","nao pago","não pago","invalidado","nao aprovada"],
-        "métricas / nível de lealdade contestado":
-            ["metricas","métricas","nivel","nível","lealtad","pontuacao","pontuação","rebaixado"],
-        "entregador não compareceu / falha logística":
-            ["entregador","motorista","nao compareceu","não compareceu","nao entregou","nao foi coletado"],
-        "envio Full parado / problema no CD":
-            ["full","centro de distribuicao","inbound","cd parado","estoque parado"],
-        "atendimento sem resolução / múltiplos contatos":
-            ["nao resolveu","não resolveu","varios atendentes","vários atendentes","ja tentei","já tentei",
-             "segunda vez","terceira","semanas","sem retorno","continua"],
-    }
-
-    theme_hits = {}
-    for theme, kws in THEMES.items():
-        hits = sum(1 for kw in kws if kw in all_text)
-        if hits > 0:
-            theme_hits[theme] = hits
-
-    top = sorted(theme_hits.items(), key=lambda x: -x[1])[:2]
-
-    # Constrói síntese
-    if top:
-        main = top[0][0]
-        sec  = top[1][0] if len(top) > 1 else None
-        if sec and top[1][1] >= 2:
-            synthesis = f"Sellers contactaram principalmente sobre {main}, com ocorrências de {sec}."
-        else:
-            synthesis = f"Sellers contactaram sobre {main}."
+    if description:
+        synthesis = description[0].upper() + description[1:] + f" ({n} casos)."
     else:
-        synthesis = f"Sellers reportaram problemas relacionados a {cdu} ({n} casos no período)."
+        # Fallback: extrai palavras-chave específicas do conteúdo desse CDU
+        STOP = {
+            "que","para","com","uma","nao","não","dos","das","por","mas","foi","ser",
+            "seu","sua","minha","meu","nos","nas","ele","ela","você","voce","estou",
+            "esta","estar","tenho","tem","ter","isso","este","esse","essa","como",
+            "quando","onde","ainda","muito","mais","todo","toda","então","entao",
+            "sobre","desde","entre","antes","depois","aqui","ali","lá","la","já","ja",
+            "caso","casos","seller","sellers","mercado","livre","pois","pelo","pela",
+            "num","date","também","tambem","sim","ola","bom","boa","dia","tarde",
+            "noite","gostaria","queria","preciso","quero","pode","favor","obrigado",
+            "obrigada","ajuda","contato","falar","enviar","seria","estava","fazer",
+            "feito","sendo","pagar","valor","reais","numero","tudo","todos","outro",
+            "cada","mesmo","nada","nenhum","algum","algumas","problema","problemas",
+            "produto","venda","vendas","pedido","conta","coisa","coisas","forma",
+        }
+        texts = [c for c in survey_comments if len(c) > 15][:20] + \
+                [m for m in motivos if len(m) > 20][:20]
+        word_freq = {}
+        for text in texts:
+            for w in re.findall(r'[a-záàâãéêíóôõúüçñ]{5,}', text.lower()):
+                if w not in STOP:
+                    word_freq[w] = word_freq.get(w, 0) + 1
+        cdu_lower = cdu.lower()
+        key_words = [w for w, c in sorted(word_freq.items(), key=lambda x: -x[1])
+                     if c >= 2 and w not in cdu_lower][:4]
+        if key_words:
+            synthesis = f"Sellers relatam {', '.join(key_words[:3])} como padrão dominante neste CDU ({n} casos)."
+        else:
+            synthesis = f"Sellers com problemas em {cdu} ({n} casos)."
 
-    # Adiciona padrão operacional como contexto
-    ops_parts = []
+    # Métricas operacionais
+    ops = []
     if n_transf > 0:
-        pct = round(100*n_transf/n)
-        ops_parts.append(f"{pct}% foram transferidos para outro setor sem resolução no 1º contato")
-    if n_resol < n // 2:
-        ops_parts.append(f"apenas {round(100*n_resol/n)}% tiveram resolução confirmada")
-    elif n_resol > 0:
-        ops_parts.append(f"{round(100*n_resol/n)}% com resolução confirmada")
+        pct = round(100 * n_transf / n)
+        ops.append(f"{pct}% transferidos sem resolução no 1º contato")
+    if n_resol == 0:
+        ops.append("nenhum caso com resolução confirmada")
+    elif n_resol < n // 2:
+        ops.append(f"apenas {round(100*n_resol/n)}% com resolução confirmada")
+    else:
+        ops.append(f"{round(100*n_resol/n)}% com resolução confirmada")
     if n_escal > 0:
-        ops_parts.append(f"{n_escal} caso{'s' if n_escal>1 else ''} com risco de escalação (PROCON/judicial)")
+        ops.append(f"{n_escal} com risco de escalação (PROCON/judicial)")
 
-    if ops_parts:
-        synthesis += " " + "; ".join(ops_parts[:2]).capitalize() + "."
+    if ops:
+        synthesis += " " + "; ".join(ops[:2]).capitalize() + "."
 
     return synthesis
 
