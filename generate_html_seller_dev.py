@@ -325,12 +325,28 @@ _PT = {}
 if _os.path.exists("_period_targets.json"):
     with open("_period_targets.json", encoding="utf-8") as _f:
         _PT = _json.load(_f)
+
+def _sd_target_cons(period, freq="monthly"):
+    """Target consolidado ponderado apenas pelos 6 drivers Seller Dev + Partners."""
+    drv_tgts = _PT.get(freq, {}).get(period, {}).get("drivers", {})
+    hist = monthly_history if freq == "monthly" else weekly_history
+    weighted = 0.0; total_s = 0
+    for drv in _SD_DRIVERS:
+        s = hist.get(drv, {}).get(period, (0, 0, 0))[2]
+        t = drv_tgts.get(drv)
+        if s > 0 and t is not None:
+            weighted += s * t; total_s += s
+    return round(weighted / total_s, 2) if total_s > 0 else NPS_TARGET
+
+# Sobrescreve NPS_TARGET com target ponderado SD para o período atual
+NPS_TARGET = _sd_target_cons(MONTH_LABELS[-1], "monthly")
+
 _TARGETS_GROUPS = (_PT.get("monthly", {}).get(MONTH_LABELS[-1], {}).get("groups", {})
                    if _PT else {})
 
 def _period_target_cons(period, freq="monthly"):
-    """Retorna target consolidado para um período específico."""
-    return (_PT.get(freq, {}).get(period, {}).get("consolidated") or NPS_TARGET)
+    """Retorna target consolidado SD ponderado para um período específico."""
+    return _sd_target_cons(period, freq)
 
 def _period_target_grp(grp, period, freq="monthly"):
     """Retorna target do grupo para um período específico."""
