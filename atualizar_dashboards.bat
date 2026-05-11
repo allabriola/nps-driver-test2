@@ -50,11 +50,29 @@ if %errorlevel% equ 0 (
     echo [%date% %time%] NPS Tendencias Gerencia: ERRO (codigo %errorlevel%) >> "%LOG%"
 )
 
-:: 5 - NPS Tendencias Seller Dev (diario)
+:: 4 - Busca casos detratores do BQ (para Highlights & Resumos por driver)
+echo [%date% %time%] Buscando casos recorrentes BQ... >> "%LOG%"
+python _fetch_recurrence_cases.py >> "%LOG%" 2>&1
+if %errorlevel% equ 0 (
+    echo [%date% %time%] Casos BQ: OK >> "%LOG%"
+) else (
+    echo [%date% %time%] Casos BQ: ERRO (codigo %errorlevel%) >> "%LOG%"
+)
+
+:: 5 - Gera Highlights & Analise (exec summary com dados frescos)
+echo [%date% %time%] Gerando exec summary SD... >> "%LOG%"
+python _build_exec_sd.py >> "%LOG%" 2>&1
+if %errorlevel% equ 0 (
+    echo [%date% %time%] Exec summary SD: OK >> "%LOG%"
+) else (
+    echo [%date% %time%] Exec summary SD: ERRO (codigo %errorlevel%) >> "%LOG%"
+)
+
+:: 6 - NPS Tendencias Seller Dev (diario)
 echo [%date% %time%] Atualizando NPS Tendencias Seller Dev... >> "%LOG%"
 python generate_html_seller_dev.py >> "%LOG%" 2>&1
 if %errorlevel% equ 0 (
-    git add nps_tendencias_seller_dev.html >> "%LOG%" 2>&1
+    git add nps_tendencias_seller_dev.html _recurrence_cases.json _exec_summary_sd.html >> "%LOG%" 2>&1
     git commit -m "Auto-update NPS Tendencias Seller Dev - %date%" >> "%LOG%" 2>&1
     git push origin main >> "%LOG%" 2>&1
     echo [%date% %time%] NPS Tendencias Seller Dev: OK >> "%LOG%"
@@ -62,7 +80,7 @@ if %errorlevel% equ 0 (
     echo [%date% %time%] NPS Tendencias Seller Dev: ERRO (codigo %errorlevel%) >> "%LOG%"
 )
 
-:: 6 - Snapshot semanal (somente segunda-feira, DOW=1)
+:: 7 - Snapshot semanal (somente segunda-feira, DOW=1)
 if "%DOW%"=="1" (
     echo [%date% %time%] Segunda-feira: salvando snapshot semanal... >> "%LOG%"
     python _save_snapshot.py >> "%LOG%" 2>&1
