@@ -97,8 +97,8 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
         <div class="cc"><h3>Produtividade</h3><p>At/hora · Maior melhor ↑</p><canvas id="g-m-prod"></canvas></div>
         <div class="cc"><h3>TDI</h3><p>% devoluções indevidas · Menor melhor ↓</p><canvas id="g-m-tdi"></canvas></div>
       </div>
-      <div class="section-lbl">Tabela por Representante — Evolução Abr→Mai</div>
-      <div class="rep-table-wrap"><div id="geral-rep-table"></div></div>
+      <div class="section-lbl">Tabela por Representante — Evolução Mensal (Abr → Mai*)</div>
+      <div id="geral-mon-evo"></div>
     </div>
     <div id="geral-semanal" class="period-pane">
       <div class="note" style="margin-bottom:12px">Tendência semanal consolidada (30/03 a 04/05) · Para evolução individual por rep, use as abas ATE ou KTA_BRASIL.</div>
@@ -125,8 +125,8 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
         <div class="cc"><h3>Produtividade — ATE</h3><p>at/h · Maior melhor ↑</p><canvas id="a-m-prod"></canvas></div>
         <div class="cc"><h3>TDI — ATE</h3><p>% · Menor melhor ↓</p><canvas id="a-m-tdi"></canvas></div>
       </div>
-      <div class="section-lbl">Tabela por Representante — ATE (Evolução Abr→Mai)</div>
-      <div class="rep-table-wrap"><div id="ate-rep-table"></div></div>
+      <div class="section-lbl">Tabela por Representante — ATE · Evolução Mensal (Abr → Mai*)</div>
+      <div id="ate-mon-evo"></div>
     </div>
     <div id="ate-semanal" class="period-pane">
       <div class="section-lbl">Piloto ATE vs Equipe ATE — 6 semanas (30/03 a 04/05)</div>
@@ -156,8 +156,8 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
         <div class="cc"><h3>Produtividade — KTA</h3><p>at/h · Maior melhor ↑</p><canvas id="k-m-prod"></canvas></div>
         <div class="cc"><h3>TDI — KTA ⚠️</h3><p>% · Menor melhor ↓</p><canvas id="k-m-tdi"></canvas></div>
       </div>
-      <div class="section-lbl">Tabela por Representante — KTA_BRASIL (Evolução Abr→Mai)</div>
-      <div class="rep-table-wrap"><div id="kta-rep-table"></div></div>
+      <div class="section-lbl">Tabela por Representante — KTA_BRASIL · Evolução Mensal (Abr → Mai*)</div>
+      <div id="kta-mon-evo"></div>
     </div>
     <div id="kta-semanal" class="period-pane">
       <div class="section-lbl">Piloto KTA vs Equipe KTA — 6 semanas (30/03 a 04/05)</div>
@@ -349,6 +349,70 @@ function tdiLineOpts(yMin,key){
   };
 }
 
+function renderMonthlyRepTables(containerId, repList) {
+  // REPS indices: [of, abr_nps=1,n=2, abr_tmo=3, abr_prod=4, abr_tdi%=5,n=6,d=7, ...,
+  //                    mai_nps=10,n=11, mai_tmo=12, mai_prod=13, mai_tdi%=14,n=15,d=16]
+  const COLS = ['Abr', 'Mai*'];
+  const KPIS = [
+    { label:'TMO', note:'min · Menor melhor ↓',
+      get: r => [REPS[r][3], REPS[r][12]],
+      color: v => v==null?'':(v<=1800?'gc':v<=2400?'yc':'rc'),
+      fmt: v => v==null?'<span class="sd">—</span>':fmtT(v), hi:false },
+    { label:'Produtividade', note:'at/hora · Maior melhor ↑',
+      get: r => [REPS[r][4], REPS[r][13]],
+      color: v => v==null?'':(v>=2.8?'gc':v>=2.0?'yc':'rc'),
+      fmt: v => v==null?'<span class="sd">—</span>':v.toFixed(2), hi:true },
+    { label:'NPS†', note:'% · Maior melhor ↑ · (n) = pesquisas no mês',
+      get: r => [REPS[r][1], REPS[r][10]],
+      getN: r => [REPS[r][2], REPS[r][11]],
+      color: v => v==null?'':(v>=70?'gc':v>=50?'yc':'rc'),
+      fmt: (v,n) => v==null?'<span class="sd">—</span>':`${v.toFixed(1)}%<small> (${n})</small>`, hi:true },
+    { label:'TDI', note:'% devoluções indevidas · Menor melhor ↓ · (erros/casos)',
+      get: r => [REPS[r][5], REPS[r][14]],
+      getN: r => [REPS[r][6], REPS[r][15]],
+      getD: r => [REPS[r][7], REPS[r][16]],
+      color: v => v==null?'':(v<=5?'gc':v<=15?'yc':'rc'),
+      fmt: (v,n,d) => v==null?'<span class="sd">—</span>':`${v.toFixed(1)}%<small> (${n??'?'}/${d??'?'})</small>`, hi:false },
+  ];
+
+  let html = '';
+  KPIS.forEach(kpi => {
+    html += `<div class="cc" style="margin-bottom:12px">
+      <h3 style="margin-bottom:2px">${kpi.label}</h3>
+      <p>${kpi.note}</p>
+      <table class="rt">
+        <thead><tr>
+          <th class="left">Representante</th><th>Of.</th>
+          ${COLS.map(c=>`<th>${c}</th>`).join('')}
+          <th>Tend.</th>
+        </tr></thead><tbody>`;
+
+    repList.forEach(rep => {
+      const vals = kpi.get(rep);
+      const ns   = kpi.getN ? kpi.getN(rep) : [null,null];
+      const ds   = kpi.getD ? kpi.getD(rep) : [null,null];
+      const of   = REPS[rep][0];
+      const nonNull = vals.filter(v=>v!=null);
+      let tend = '<span class="arr-eq">—</span>';
+      if(nonNull.length>=2){
+        const d=nonNull[1]-nonNull[0], thr=Math.abs(nonNull[0])*0.03;
+        if(Math.abs(d)>thr) tend=(kpi.hi?d>0:d<0)?'<span class="arr-up">↑</span>':'<span class="arr-dn">↓</span>';
+        else tend='<span class="arr-eq">→</span>';
+      }
+      html+=`<tr>
+        <td class="rep-name">${rep}</td>
+        <td class="of-${of.toLowerCase()}">${of}</td>
+        ${vals.map((v,i)=>`<td class="${kpi.color(v)}">${kpi.fmt?kpi.fmt(v,ns[i],ds[i]):v}</td>`).join('')}
+        <td style="text-align:center">${tend}</td>
+      </tr>`;
+    });
+
+    html+='</tbody></table></div>';
+  });
+
+  document.getElementById(containerId).innerHTML=html;
+}
+
 function renderRepEvoTables(containerId, repList) {
   const KPIS = [
     { key:'tmo',  label:'TMO',           note:'min · Menor melhor ↓',
@@ -419,7 +483,8 @@ function initPeriod(tab,period){
     mkBar(`${tk}-m-tmo`,MON_LBL,m.tmo.p,m.tmo.e,'min',20);
     mkBar(`${tk}-m-prod`,MON_LBL,m.prod.p,m.prod.e,'at/h',1.5);
     mkBar(`${tk}-m-tdi`,MON_LBL,m.tdi.p,m.tdi.e,'%',0);
-    renderTable(`${tab}-rep-table`, tab==='geral'?'all':tab==='ate'?'ATE':'KTA');
+    const repFilter = tab==='geral'?Object.keys(REPS):Object.keys(REPS).filter(r=>REPS[r][0]===(tab==='ate'?'ATE':'KTA'));
+    renderMonthlyRepTables(`${tab}-mon-evo`, repFilter);
   } else {
     mkLine(`${tk}-s-tmo`,a.tmo.p,a.tmo.e,lineOpts('min',tab==='kta'?24:16));
     mkLine(`${tk}-s-prod`,a.prod.p,a.prod.e,lineOpts('at/h',1.5));
