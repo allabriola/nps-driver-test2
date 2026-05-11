@@ -320,37 +320,40 @@ def _grp_target(drvs):
     den = sum(monthly_history[d].get(lB,(0,0,0))[2] for d in drvs if d in monthly_history)
     return round(num / den, 2) if den else NPS_TARGET
 
-# Carrega targets por período (_period_targets.json)
+# Carrega targets por período
+# _period_targets_sd.json: consolidado via SUM(NUM_TARGET_NPS)/SUM(DENOM_TARGET_NPS) só SD+Partners
+# _period_targets.json: targets individuais por driver (todos os drivers)
 _PT = {}
 if _os.path.exists("_period_targets.json"):
     with open("_period_targets.json", encoding="utf-8") as _f:
         _PT = _json.load(_f)
 
-def _sd_target_cons(period, freq="monthly"):
-    """Target consolidado ponderado apenas pelos 6 drivers Seller Dev + Partners."""
-    drv_tgts = _PT.get(freq, {}).get(period, {}).get("drivers", {})
-    hist = monthly_history if freq == "monthly" else weekly_history
-    weighted = 0.0; total_s = 0
-    for drv in _SD_DRIVERS:
-        s = hist.get(drv, {}).get(period, (0, 0, 0))[2]
-        t = drv_tgts.get(drv)
-        if s > 0 and t is not None:
-            weighted += s * t; total_s += s
-    return round(weighted / total_s, 2) if total_s > 0 else NPS_TARGET
-
-# Sobrescreve NPS_TARGET com target ponderado SD para o período atual
-NPS_TARGET = _sd_target_cons(MONTH_LABELS[-1], "monthly")
-
-_TARGETS_GROUPS = (_PT.get("monthly", {}).get(MONTH_LABELS[-1], {}).get("groups", {})
-                   if _PT else {})
+_PT_SD = {}
+if _os.path.exists("_period_targets_sd.json"):
+    with open("_period_targets_sd.json", encoding="utf-8") as _f:
+        _PT_SD = _json.load(_f)
 
 def _period_target_cons(period, freq="monthly"):
-    """Retorna target consolidado SD ponderado para um período específico."""
-    return _sd_target_cons(period, freq)
+    """Retorna target consolidado SD (SUM(NUM)/SUM(DEN)) para o período."""
+    v = _PT_SD.get(freq, {}).get(period, {}).get("consolidated")
+    if v:
+        return v
+    # Fallback: último período disponível com valor
+    for lbl in reversed(list(_PT_SD.get(freq, {}).keys())):
+        v2 = _PT_SD.get(freq, {}).get(lbl, {}).get("consolidated")
+        if v2:
+            return v2
+    return NPS_TARGET
 
 def _period_target_grp(grp, period, freq="monthly"):
     """Retorna target do grupo para um período específico."""
     return (_PT.get(freq, {}).get(period, {}).get("groups", {}).get(grp) or NPS_TARGET)
+
+# Sobrescreve NPS_TARGET com valor correto do BQ para o período atual
+NPS_TARGET = _period_target_cons(MONTH_LABELS[-1], "monthly")
+
+_TARGETS_GROUPS = (_PT.get("monthly", {}).get(MONTH_LABELS[-1], {}).get("groups", {})
+                   if _PT else {})
 
 # Séries de target por período (para uso nos gráficos históricos)
 mon_target_series = [_period_target_cons(lbl, "monthly") for lbl in MONTH_LABELS]

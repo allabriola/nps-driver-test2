@@ -1,0 +1,142 @@
+{
+  "monthly": {
+    "Jan": {
+      "consolidated": 57.82,
+      "drivers": {
+        "Publicaciones Seller Dev": 51.39,
+        "PCF Vendedor Seller Dev": 38.18,
+        "Post Venta Seller Dev": 52.4,
+        "ME Vendedor Seller Dev": 56.3,
+        "Partners": 68.92,
+        "Experiencia Impositiva Seller Dev": 57.13
+      }
+    },
+    "Fev": {
+      "consolidated": 58.25,
+      "drivers": {
+        "Partners": 69.35,
+        "Experiencia Impositiva Seller Dev": 57.77,
+        "ME Vendedor Seller Dev": 56.8,
+        "Post Venta Seller Dev": 52.6,
+        "Publicaciones Seller Dev": 51.88,
+        "PCF Vendedor Seller Dev": 38.77
+      }
+    },
+    "Mar": {
+      "consolidated": 58.68,
+      "drivers": {
+        "Experiencia Impositiva Seller Dev": 58.4,
+        "Publicaciones Seller Dev": 52.38,
+        "ME Vendedor Seller Dev": 57.3,
+        "PCF Vendedor Seller Dev": 39.35,
+        "Partners": 69.77,
+        "Post Venta Seller Dev": 52.8
+      }
+    },
+    "Abr": {
+      "consolidated": 59.19,
+      "drivers": {
+        "PCF Vendedor Seller Dev": 39.93,
+        "Experiencia Impositiva Seller Dev": 59.03,
+        "Publicaciones Seller Dev": 52.87,
+        "Post Venta Seller Dev": 53.4,
+        "Partners": 70.19,
+        "ME Vendedor Seller Dev": 57.8
+      }
+    },
+    "Mai": {
+      "consolidated": 59.7,
+      "drivers": {
+        "ME Vendedor Seller Dev": 58.3,
+        "Publicaciones Seller Dev": 53.36,
+        "PCF Vendedor Seller Dev": 40.52,
+        "Post Venta Seller Dev": 54.0,
+        "Experiencia Impositiva Seller Dev": 59.67,
+        "Partners": 70.61
+      }
+    }
+  },
+  "weekly": {
+    "23/mar": {
+      "consolidated": 58.68,
+      "drivers": {
+        "Publicaciones Seller Dev": 52.38,
+        "PCF Vendedor Seller Dev": 39.35,
+        "ME Vendedor Seller Dev": 57.3,
+        "Partners": 69.77,
+        "Experiencia Impositiva Seller Dev": 58.4,
+        "Post Venta Seller Dev": 52.8
+      }
+    },
+    "30/mar": {
+      "consolidated": 58.9,
+      "drivers": {
+        "Partners": 69.93,
+        "Publicaciones Seller Dev": 52.57,
+        "ME Vendedor Seller Dev": 57.52,
+        "Post Venta Seller Dev": 53.03,
+        "Experiencia Impositiva Seller Dev": 58.73,
+        "PCF Vendedor Seller Dev": 39.63
+      }
+    },
+    "06/abr": {
+      "consolidated": 59.19,
+      "drivers": {
+        "ME Vendedor Seller Dev": 57.8,
+        "Publicaciones Seller Dev": 52.87,
+        "Experiencia Impositiva Seller Dev": 59.03,
+        "Partners": 70.19,
+        "Post Venta Seller Dev": 53.4,
+        "PCF Vendedor Seller Dev": 39.93
+      }
+    },
+    "13/abr": {
+      "consolidated": 59.19,
+      "drivers": {
+        "ME Vendedor Seller Dev": 57.8,
+        "Publicaciones Seller Dev": 52.87,
+        "PCF Vendedor Seller Dev": 39.93,
+        "Experiencia Impositiva Seller Dev": 59.03,
+        "Partners": 70.19,
+        "Post Venta Seller Dev": 53.4
+      }
+    },
+    "20/abr": {
+      "consolidated": 59.19,
+      "drivers": {
+        "Publicaciones Seller Dev": 52.87,
+        "Partners": 70.19,
+        "Experiencia Impositiva Seller Dev": 59.03,
+        "ME Vendedor Seller Dev": 57.8,
+        "Post Venta Seller Dev": 53.4,
+        "PCF Vendedor Seller Dev": 39.93
+      }
+    },
+    "27/abr": {
+      "consolidated": 59.4,
+      "drivers": {
+        "ME Vendedor Seller Dev": 57.99,
+        "Post Venta Seller Dev": 53.63,
+        "Partners": 70.4,
+        "PCF Vendedor Seller Dev": 40.13,
+        "Experiencia Impositiva Seller Dev": 59.3,
+        "Publicaciones Seller Dev": 53.06
+      }
+    },
+    "04/mai": {
+      "consolidated": 59.7,
+      "drivers": {
+        "Publicaciones Seller Dev": 53.36,
+        "PCF Vendedor Seller Dev": 40.52,
+        "Post Venta Seller Dev": 54.0,
+        "Experiencia Impositiva Seller Dev": 59.67,
+        "Partners": 70.61,
+        "ME Vendedor Seller Dev": 58.3
+      }
+    },
+    "VIG": {
+      "consolidated": null,
+      "drivers": {}
+    }
+  }
+}
