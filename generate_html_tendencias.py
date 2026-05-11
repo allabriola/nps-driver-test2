@@ -1994,6 +1994,96 @@ def _trx_summary_html(grp):
             f'<div class="exec-title">&#128172; Avalia&#231;&#227;o das Transcri&#231;&#245;es</div>'
             f'{card}</div>')
 
+def _driver_narrative_html(grp):
+    """Narrativa corrida por driver: NPS + senioridade + oficina + CDU."""
+    nc  = curr_m.get(grp); np2 = prev_m.get(grp)
+    tg  = grp_targets.get(grp, NPS_TARGET)
+    gap = round(nc - tg, 1) if nc is not None else None
+    mom = round(nc - np2, 1) if nc is not None and np2 is not None else None
+    if nc is None: return ""
+
+    def _s(v): return "+" if v is not None and v >= 0 else ""
+
+    status = (f"<strong>{_s(gap)}{fn(gap)} pp acima da meta</strong>"
+              if (gap or 0) >= 0 else
+              f"<strong>{fn(abs(gap))} pp abaixo da meta</strong>")
+    if   (mom or 0) > 0.5:  trend_txt = f"Alta de <strong>+{fn(mom)} pp MoM</strong>. "
+    elif (mom or 0) < -0.5: trend_txt = f"Queda de <strong>{fn(mom)} pp MoM</strong>. "
+    else:                    trend_txt = "Performance estável no período. "
+
+    text = (f"<strong>{esc(grp)}</strong>: NPS de <strong>{fn(nc)}%</strong>, "
+            f"{status} ({fn(tg)}%). {trend_txt}")
+
+    bd = grp_breakdown.get(grp, {})
+
+    # Senioridade
+    sr_mai = bd.get("Sr_M1", {}); sr_abr = bd.get("Sr_M2", {})
+    exp_k  = next((k for k in sr_mai if "expert" in k.lower()), None)
+    new_k  = next((k for k in sr_mai if "newbie" in k.lower()), None)
+    if exp_k and new_k:
+        ev = sr_mai[exp_k]; nv = sr_mai[new_k]
+        ea = sr_abr.get(next((k for k in sr_abr if "expert" in k.lower()), ""), {})
+        na = sr_abr.get(next((k for k in sr_abr if "newbie" in k.lower()), ""), {})
+        tot = sum(v.get("s",0) for v in sr_mai.values()) or 1
+        es  = round(100*ev["s"]/tot) if ev.get("s") else 0
+        ns_ = round(100*nv["s"]/tot) if nv.get("s") else 0
+        em  = round(ev["nps"]-ea["nps"],1) if ev.get("nps") and ea.get("nps") else None
+        nm  = round(nv["nps"]-na["nps"],1) if nv.get("nps") and na.get("nps") else None
+        gs  = round(ev["nps"]-nv["nps"],1) if ev.get("nps") and nv.get("nps") else None
+        if gs and gs > 15 and (gap or 0) < 0:
+            text += (f"Gap de senioridade expressivo: Experts em {fn(ev['nps'])}% "
+                     f"({es}%{f', {_s(em)}{fn(em)} pp MoM' if em is not None else ''})"
+                     f" vs. Newbies em {fn(nv['nps'])}% "
+                     f"({ns_}%{f', {_s(nm)}{fn(nm)} pp MoM' if nm is not None else ''})"
+                     f" — gap de <strong>{fn(gs)} pp</strong>. ")
+        else:
+            text += (f"Experts: {fn(ev['nps'])}% ({es}%"
+                     f"{f', {_s(em)}{fn(em)} pp MoM' if em is not None else ''})"
+                     f"; Newbies: {fn(nv['nps'])}% ({ns_}%"
+                     f"{f', {_s(nm)}{fn(nm)} pp MoM' if nm is not None else ''})"
+                     f"{f' — gap de {fn(gs)} pp' if gs is not None else ''}. ")
+
+    # Oficinas
+    om = bd.get("O_M1", {}); oa = bd.get("O_M2", {})
+    tot_o = sum(v.get("s",0) for v in om.values()) or 1
+    offs = []
+    for k, v in sorted(om.items(), key=lambda x: -x[1].get("s",0))[:3]:
+        if k.startswith("(sem"): continue
+        va = oa.get(k, {})
+        om2 = round(v["nps"]-va["nps"],1) if v.get("nps") and va.get("nps") else None
+        offs.append({"name":k,"nps":v["nps"],"mom":om2,"share":round(100*v["s"]/tot_o)})
+    if offs:
+        worst = min(offs, key=lambda x: x["nps"] if x["nps"] is not None else 999)
+        top   = offs[0]
+        def ods(o):
+            m = f", {_s(o['mom'])}{fn(o['mom'])} pp MoM" if o["mom"] is not None else ""
+            return f"{o['share']}%, NPS {fn(o['nps'])}%{m}"
+        if worst["name"] != top["name"] and (worst["nps"] or 100) < (top["nps"] or 0) - 10:
+            text += (f"Por oficina, <strong>{top['name']}</strong> lidera ({ods(top)})"
+                     f", maior detração em <strong>{worst['name']}</strong> ({ods(worst)}). ")
+        else:
+            text += "Principais oficinas: " + "; ".join(
+                f"<strong>{o['name']}</strong>: {fn(o['nps'])}% ({o['share']}%"
+                f"{', ' + _s(o['mom']) + fn(o['mom']) + ' pp MoM' if o['mom'] is not None else ''})"
+                for o in offs[:2]) + ". "
+
+    # CDU + processo
+    cats = _RC.get(grp, {}).get("categories_mon") or []
+    proc = _PA.get(grp, {}).get("top_neg", {}).get("proc", "")
+    if cats:
+        c = cats[0]
+        desc = (c.get("narrative","") or "").split(". ")[0]
+        proc_str = f" no processo <strong>{proc}</strong>" if proc else ""
+        if desc:
+            text += (f"CDU dominante{proc_str}: <strong>{esc(c.get('sub_pattern',''))}</strong> "
+                     f"({c.get('share_pct',0)}% das pesquisas) — {esc(desc)}.")
+
+    return (f'<div class="exec-section">'
+            f'<div class="exec-title">&#128203; Resumo Executivo &mdash; {esc(grp)}</div>'
+            f'<div class="exec-body"><p style="font-size:13px;line-height:1.9">{text}</p></div>'
+            f'</div>')
+
+
 def _drv_analysis_html(grp):
     """Gera seções de análise executiva por driver: resumo, recorrência, alavancas/causas, target."""
     wf   = _EXEC.get("waterfall", {}).get(grp, {})
@@ -2065,7 +2155,8 @@ def _drv_analysis_html(grp):
         status_color = "#00A650" if d_tgt and d_tgt >= 0 else "#E84142"
         intro += f' <span style="color:{status_color};font-weight:600">{d_tgt_txt}.</span>'
 
-    resumo_sec = (f'<div class="exec-section">'
+    resumo_sec = _driver_narrative_html(grp) or (
+                  f'<div class="exec-section">'
                   f'<div class="exec-title">&#128203; Resumo Executivo &mdash; {esc(grp)}</div>'
                   f'<div class="exec-body"><p>{intro}</p></div>'
                   f'</div>')

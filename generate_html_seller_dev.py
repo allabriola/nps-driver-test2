@@ -1997,6 +1997,113 @@ def _trx_summary_html(grp):
             f'<div class="exec-title">&#128172; Avalia&#231;&#227;o das Transcri&#231;&#245;es</div>'
             f'{card}</div>')
 
+def _driver_narrative_html(grp):
+    """
+    Gera parágrafo narrativo corrido por driver com NPS + senioridade + oficina + CDU.
+    Usa os dados já carregados: grp_breakdown, _PA, _RC, curr_m, prev_m, grp_targets.
+    """
+    nc    = curr_m.get(grp)
+    np2   = prev_m.get(grp)
+    tg    = grp_targets.get(grp, NPS_TARGET)
+    gap   = round(nc - tg, 1)  if nc is not None else None
+    mom   = round(nc - np2, 1) if nc is not None and np2 is not None else None
+
+    if nc is None:
+        return ""
+
+    lCURR = MONTH_LABELS[-1]; lPREV = MONTH_LABELS[-2]
+    bd    = grp_breakdown.get(grp, {})
+
+    def _sign(v): return "+" if v is not None and v >= 0 else ""
+
+    # ── Status vs meta + MoM
+    status = (f"<strong>{_sign(gap)}{fn(gap)} pp acima da meta</strong>"
+              if (gap or 0) >= 0 else
+              f"<strong>{fn(abs(gap))} pp abaixo da meta</strong>")
+
+    if (mom or 0) > 0.5:
+        trend_txt = f"Alta de <strong>+{fn(mom)} pp MoM</strong>. "
+    elif (mom or 0) < -0.5:
+        trend_txt = f"Queda de <strong>{fn(mom)} pp MoM</strong>. "
+    else:
+        trend_txt = "Performance estável no período. "
+
+    text = (f"<strong>{esc(grp)}</strong>: NPS de <strong>{fn(nc)}%</strong>, "
+            f"{status} ({fn(tg)}%). {trend_txt}")
+
+    # ── Senioridade
+    sr_mai = bd.get("Sr_M1", {}); sr_abr = bd.get("Sr_M2", {})
+    exp_k  = next((k for k in sr_mai if "expert" in k.lower()), None)
+    new_k  = next((k for k in sr_mai if "newbie" in k.lower()), None)
+    if exp_k and new_k:
+        exp_v = sr_mai[exp_k]; new_v = sr_mai[new_k]
+        exp_abr = sr_abr.get(next((k for k in sr_abr if "expert" in k.lower()), ""), {})
+        new_abr = sr_abr.get(next((k for k in sr_abr if "newbie" in k.lower()), ""), {})
+        total_sr = sum(v.get("s",0) for v in sr_mai.values())
+        exp_share = round(100*exp_v["s"]/total_sr) if total_sr and exp_v.get("s") else 0
+        new_share = round(100*new_v["s"]/total_sr) if total_sr and new_v.get("s") else 0
+        exp_mom = round(exp_v["nps"]-exp_abr["nps"],1) if exp_v.get("nps") and exp_abr.get("nps") else None
+        new_mom = round(new_v["nps"]-new_abr["nps"],1) if new_v.get("nps") and new_abr.get("nps") else None
+        gap_sen = round(exp_v["nps"]-new_v["nps"],1) if exp_v.get("nps") and new_v.get("nps") else None
+
+        if gap_sen and gap_sen > 15 and (gap or 0) < 0:
+            text += (f"O gap de senioridade é expressivo: Experts em {fn(exp_v['nps'])}% "
+                     f"({exp_share}%{f', {_sign(exp_mom)}{fn(exp_mom)} pp MoM' if exp_mom is not None else ''})"
+                     f" vs. Newbies em {fn(new_v['nps'])}% "
+                     f"({new_share}%{f', {_sign(new_mom)}{fn(new_mom)} pp MoM' if new_mom is not None else ''}"
+                     f") — gap de <strong>{fn(gap_sen)} pp</strong> indicando lacuna de capacitação. ")
+        else:
+            text += (f"Experts: {fn(exp_v['nps'])}% ({exp_share}%"
+                     f"{f', {_sign(exp_mom)}{fn(exp_mom)} pp MoM' if exp_mom is not None else ''})"
+                     f"; Newbies: {fn(new_v['nps'])}% ({new_share}%"
+                     f"{f', {_sign(new_mom)}{fn(new_mom)} pp MoM' if new_mom is not None else ''})"
+                     f"{f' — gap de {fn(gap_sen)} pp' if gap_sen is not None else ''}. ")
+
+    # ── Oficinas
+    off_mai = bd.get("O_M1", {}); off_abr = bd.get("O_M2", {})
+    total_o = sum(v.get("s",0) for v in off_mai.values())
+    offs = []
+    for k, v in sorted(off_mai.items(), key=lambda x: -x[1].get("s",0))[:3]:
+        if k.startswith("(sem"): continue
+        v_abr = off_abr.get(k, {})
+        o_mom = round(v["nps"]-v_abr["nps"],1) if v.get("nps") and v_abr.get("nps") else None
+        offs.append({"name": k, "nps": v["nps"], "mom": o_mom,
+                     "share": round(100*v["s"]/total_o) if total_o else 0})
+    if offs:
+        worst = min(offs, key=lambda x: x["nps"] if x["nps"] is not None else 999)
+        top   = offs[0]
+        if worst["name"] != top["name"] and (worst["nps"] or 100) < (top["nps"] or 0) - 10:
+            def _ods(o):
+                m = f", {_sign(o['mom'])}{fn(o['mom'])} pp MoM" if o["mom"] is not None else ""
+                return f"{o['share']}%, NPS {fn(o['nps'])}%{m}"
+            text += (f"Por oficina, <strong>{top['name']}</strong> lidera em volume ({_ods(top)})"
+                     f", enquanto <strong>{worst['name']}</strong> concentra a maior detração ({_ods(worst)}). ")
+        else:
+            o_parts = [f"<strong>{o['name']}</strong>: {fn(o['nps'])}% ({o['share']}%"
+                       f"{', ' + _sign(o['mom']) + fn(o['mom']) + ' pp MoM' if o['mom'] is not None else ''})"
+                       for o in offs[:2]]
+            text += f"Principais oficinas: {'; '.join(o_parts)}. "
+
+    # ── CDU + processo (de _RC)
+    cats = _RC.get(grp, {}).get("categories_mon") or []
+    proc = _PA.get(grp, {}).get("top_neg", {}).get("proc", "")
+    if cats:
+        top_cat  = cats[0]
+        cdu_name = top_cat.get("sub_pattern", "")
+        cdu_narr = top_cat.get("narrative", "")
+        cdu_pct  = top_cat.get("share_pct", 0)
+        cdu_desc = cdu_narr.split(". ")[0] if cdu_narr and ". " in cdu_narr else cdu_narr
+        proc_str = f" no processo <strong>{proc}</strong>" if proc else ""
+        if cdu_desc:
+            text += (f"A CDU com maior peso{proc_str} é <strong>{esc(cdu_name)}</strong> "
+                     f"({cdu_pct}% das pesquisas): {esc(cdu_desc)}.")
+
+    return (f'<div class="exec-section">'
+            f'<div class="exec-title">&#128203; Resumo Executivo &mdash; {esc(grp)}</div>'
+            f'<div class="exec-body"><p style="font-size:13px;line-height:1.9">{text}</p></div>'
+            f'</div>')
+
+
 def _drv_analysis_html(grp):
     """Gera seções de análise executiva por driver: resumo, recorrência, alavancas/causas, target."""
     wf   = _EXEC.get("waterfall", {}).get(grp, {})
@@ -2068,7 +2175,8 @@ def _drv_analysis_html(grp):
         status_color = "#00A650" if d_tgt and d_tgt >= 0 else "#E84142"
         intro += f' <span style="color:{status_color};font-weight:600">{d_tgt_txt}.</span>'
 
-    resumo_sec = (f'<div class="exec-section">'
+    resumo_sec = _driver_narrative_html(grp) or (
+                  f'<div class="exec-section">'
                   f'<div class="exec-title">&#128203; Resumo Executivo &mdash; {esc(grp)}</div>'
                   f'<div class="exec-body"><p>{intro}</p></div>'
                   f'</div>')
