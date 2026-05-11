@@ -348,15 +348,7 @@ def build_narrative(grp, icon):
     return f'<p style="font-size:13px;line-height:1.9;margin-bottom:10px;color:#333">{text}</p>'
 
 # Destaques positivos
-top_destaque = destaques_pos[0] if destaques_pos else None
-top_v = drv_data[top_destaque] if top_destaque else {}
-top_mom_str = f", maior alta do período com +{fn(top_v.get('mom'))} pp MoM" if (top_v.get('mom') or 0) > 3 else ""
-
-bullet_sellers = (
-    f'<p style="font-size:13px;font-weight:700;color:#1a7a42;margin-bottom:8px">'
-    f'🟢 Destaques positivos{top_mom_str}</p>'
-    + ''.join(build_narrative(grp, '🟢') for grp in destaques_pos)
-)
+bullet_sellers = ''.join(build_narrative(grp, '🟢') for grp in destaques_pos)
 
 # Bullets negativos
 par_icon = '🟡' if (d_par['gap'] or 0) < 0 else '🟢'
