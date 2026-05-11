@@ -2,24 +2,24 @@
 # -*- coding: utf-8 -*-
 """
 Atualiza generate_html_gerencia.py com os novos dados semanais.
-S1 = 27/abr-03/mai | S2 = 20/abr-26/abr | VIG = 04/mai-07/mai
+S1 = 04/mai-10/mai | S2 = 27/abr-03/mai | VIG = 11/mai-11/mai
 """
 import re, json
 
 with open('_new_weekly_data.json', encoding='utf-8') as f:
     wd = json.load(f)
 
-S1  = wd['S1_new']   # 27/abr-03/mai
-S2  = wd['S2_new']   # 20/abr-26/abr
-VIG = wd['VIG_new']  # 04/mai-07/mai
+S1  = wd['S1_new']   # 04/mai-10/mai
+S2  = wd['S2_new']   # 27/abr-03/mai
+VIG = wd['VIG_new']  # 11/mai-11/mai
 
 with open('generate_html_gerencia.py', 'r', encoding='utf-8') as f:
     src = f.read()
 
 # ── 1. Labels ────────────────────────────────────────────────────────
-src = re.sub(r'(S1_LABEL\s*=\s*)"[^"]*"',  r'\1"27/abr – 03/mai"', src)
-src = re.sub(r'(S2_LABEL\s*=\s*)"[^"]*"',  r'\1"20/abr – 26/abr"', src)
-src = re.sub(r'(VIG_LABEL\s*=\s*)"[^"]*"', r'\1"04/mai – 07/mai"', src)
+src = re.sub(r'(S1_LABEL\s*=\s*)"[^"]*"',  r'\1"04/mai – 10/mai"', src)
+src = re.sub(r'(S2_LABEL\s*=\s*)"[^"]*"',  r'\1"27/abr – 03/mai"', src)
+src = re.sub(r'(VIG_LABEL\s*=\s*)"[^"]*"', r'\1"11/mai – 11/mai"', src)
 
 # ── 2. weekly_driver ─────────────────────────────────────────────────
 stop = re.search(r'# SECTION 3', src)
@@ -51,21 +51,21 @@ for drv in ALL_DRIVERS:
 lines_v.append('}')
 src = src[:old_vg_start] + '\n'.join(lines_v) + src[old_vg_end:]
 
-# ── 4. weekly_history — adiciona "27/abr" ───────────────────────────
+# ── 4. weekly_history — adiciona "04/mai" ───────────────────────────
 old_wh_start = src.find('weekly_history = {')
 old_wh_end   = src.find('\n}', old_wh_start) + 2
 
 wh = ns['monthly_history']   # borrow ALL_DRIVERS; history is in ns['weekly_history']
 wh_hist = ns['weekly_history']
 old_lbls = ns['WEEK_LABELS']
-NEW_LBL  = "27/abr"
+NEW_LBL_WH = "04/mai"
 
 lines_wh = ['weekly_history = {']
 for drv in ALL_DRIVERS:
     existing = dict(wh_hist.get(drv, {}))
-    existing[NEW_LBL] = S1.get(drv, (0,0,0))
+    existing[NEW_LBL_WH] = S1.get(drv, (0,0,0))
     # Keep last 7 weeks max
-    ordered_keys = [k for k in list(old_lbls) + [NEW_LBL] if k in existing]
+    ordered_keys = [k for k in list(old_lbls) + [NEW_LBL_WH] if k in existing]
     parts = [f'"{k}":{fmt(*existing[k])}' for k in ordered_keys[-7:]]
     lines_wh.append(f'    {pad(drv)}{{{", ".join(parts)}}},')
 lines_wh.append('}')
@@ -76,8 +76,9 @@ stop2 = re.search(r'# SECTION 3', src)
 ns2 = {}
 exec(compile(src[:stop2.start()], 'g', 'exec'), ns2)
 old_lbls2 = ns2['WEEK_LABELS']
-if NEW_LBL not in old_lbls2:
-    new_lbls = (old_lbls2 + [NEW_LBL])[-7:]
+NEW_LBL_WH = "04/mai"
+if NEW_LBL_WH not in old_lbls2:
+    new_lbls = (old_lbls2 + [NEW_LBL_WH])[-7:]
     src = re.sub(r'(WEEK_LABELS\s*=\s*)\[.*?\]',
                  f'\\1{json.dumps(new_lbls)}', src)
 
@@ -99,13 +100,15 @@ wd_data = ns3['weekly_driver']
 nps_s1, ts_s1 = cons_wk(wd_data, 'S1')
 nps_s2, ts_s2 = cons_wk(wd_data, 'S2')
 vg_data = ns3['drivers_vigente']
-nps_vg = round(100*(sum(v[0] for v in vg_data.values())-sum(v[1] for v in vg_data.values()))/sum(v[2] for v in vg_data.values()),2)
-ts_vg  = sum(v[2] for v in vg_data.values())
+ts_vg = sum(v[2] for v in vg_data.values())
+tp_vg = sum(v[0] for v in vg_data.values())
+td_vg = sum(v[1] for v in vg_data.values())
+nps_vg = round(100*(tp_vg-td_vg)/ts_vg, 2) if ts_vg else 0
 
 print('=== VALIDAÇÃO ===')
-print(f'S1  (27/abr-03/mai): {ts_s1:,} surv  NPS {nps_s1:.2f}%')
-print(f'S2  (20/abr-26/abr): {ts_s2:,} surv  NPS {nps_s2:.2f}%')
-print(f'VIG (04/mai-07/mai): {ts_vg:,} surv  NPS {nps_vg:.2f}%')
+print(f'S1  (04/mai-10/mai): {ts_s1:,} surv  NPS {nps_s1:.2f}%')
+print(f'S2  (27/abr-03/mai): {ts_s2:,} surv  NPS {nps_s2:.2f}%')
+print(f'VIG (11/mai-11/mai): {ts_vg:,} surv  NPS {nps_vg:.2f}%')
 print(f'WEEK_LABELS: {ns3["WEEK_LABELS"]}')
 print(f'S1_LABEL: {ns3["S1_LABEL"]}')
 print(f'VIG_LABEL: {ns3["VIG_LABEL"]}')

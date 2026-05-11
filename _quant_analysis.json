@@ -2,252 +2,544 @@
   "ME Vendedor": {
     "det": {
       "n": 15,
-      "avg_msgs_total": 56.67,
-      "avg_msgs_user": 25.93,
-      "avg_msgs_rep": 30.73,
-      "avg_rep_len": 255.53,
-      "avg_user_len": 53.0,
-      "avg_rep_ratio": 0.56,
-      "pct_resolved": 66.7,
-      "pct_transfer": 46.7,
+      "avg_msgs_total": 96.47,
+      "avg_msgs_user": 49.8,
+      "avg_msgs_rep": 46.67,
+      "avg_rep_len": 248.13,
+      "avg_user_len": 61.87,
+      "avg_rep_ratio": 0.55,
+      "pct_resolved": 60.0,
+      "pct_transfer": 26.7,
       "pct_reincidence": 13.3,
-      "pct_escalation": 6.7,
+      "pct_escalation": 20.0,
       "pct_proc_change": 13.3,
-      "pct_bot_heavy": 26.7
+      "pct_bot_heavy": 33.3
     },
     "pro": {
       "n": 30,
-      "avg_msgs_total": 97.07,
-      "avg_msgs_user": 44.67,
-      "avg_msgs_rep": 52.4,
-      "avg_rep_len": 172.27,
-      "avg_user_len": 48.9,
-      "avg_rep_ratio": 0.52,
+      "avg_msgs_total": 61.73,
+      "avg_msgs_user": 28.43,
+      "avg_msgs_rep": 33.3,
+      "avg_rep_len": 158.67,
+      "avg_user_len": 45.27,
+      "avg_rep_ratio": 0.55,
       "pct_resolved": 26.7,
       "pct_transfer": 6.7,
-      "pct_reincidence": 13.3,
-      "pct_escalation": 6.7,
+      "pct_reincidence": 6.7,
+      "pct_escalation": 3.3,
+      "pct_proc_change": 3.3,
+      "pct_bot_heavy": 6.7
+    },
+    "conclusions": [
+      {
+        "type": "neg",
+        "msg": "Detratores têm taxa de resolução identificada +33.3 pp maior que promotores — sinal de problema"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm taxa de transferências +20.0 pp maior que promotores — indica mais complexidade"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm taxa de reincidência +6.6 pp maior que promotores — indica mais complexidade"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm taxa de escalação legal +16.7 pp maior que promotores — indica mais complexidade"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm volume de mensagens por conversa +34.7  maior que promotores — indica mais tempo sem resolução"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm comprimento médio das mensagens do atendente +89.5  maior que promotores — sinal de problema"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm taxa de resposta automatizada +26.6 pp maior que promotores — indica mais complexidade"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm menções de mudança de processo +10.0 pp maior que promotores — indica mais complexidade"
+      }
+    ],
+    "trigger_answers": [
+      "<strong>Oportunidade de atendimento:</strong> 27% dos detratores passaram por transferência — processo de escalonamento ineficiente.",
+      "<strong>Mudança de processo detectada:</strong> 13% das transcrições de detratores mencionam mudança de processo — possível causa da queda.",
+      "<strong>Excesso de automação:</strong> 33% das conversas de detratores têm resposta predominantemente automatizada — falta análise humana do caso.",
+      "<strong>Complexidade/demora:</strong> Conversas de detratores têm 1.6x mais mensagens — indicativo de problema não resolvido na jornada."
+    ],
+    "det_trx_sample": {
+      "452364808": [
+        "USER: boa noite",
+        "REP: boa noite, nilton. como posso te ajudar hoje no mercado livre ou no mercado pago?",
+        "USER: não recebi a minha compra e o prazo vence hoje, recebi a mensagem dizendo que não tinha ngm para receber o produto mas isso não e verdade pois tenho portaria %num horas. preciso que o produto chegue n",
+        "REP: nilton, vi a sua compra do **animal pack %num sachês** e, no momento, o envio **não esta em rota para entrega em casa**: ele esta **disponivel para retirada na agência/filial indicada** (status de “ag",
+        "USER: quero receber o produto na minha casa ou receber o reembolso da entrega"
+      ],
+      "452742521": [
+        "USER: compra atrasada.",
+        "REP: patrik, encontrei uma compra sua de **%num de abril** (“kit %num aditivos combustivel motor flex acdelco”) que esta **em transporte**, com **atraso**, e ainda **sem tentativa de entrega**. - acompanhe",
+        "USER: sim, esta compra esta atrasada e quero maiores informações.",
+        "REP: no seu pedido do **kit %num aditivos combustivel motor flex acdelco**, o envio e **mercado envios (cross docking)** e esta com **atraso**. o que consta no rastreio ate agora: - **%num de abril:** cole",
+        "USER: não tem data de entrega prevista, esse e o problema. não entregaram, não tem data prevista e não tem mais informações. situação desagradavel hein"
+      ],
+      "454090705": [
+        "USER: estava esperando minha compra ontem, mas ate agora não chegou preciso sair e não tenho com quem deixar.",
+        "REP: sonia, encontrei sua entrega que estava prevista para ontem: ela **ja saiu para entrega** e a nova previsão e **amanhã, %num de maio, ate %hour**. como você precisa sair, eu posso **reagendar a entreg",
+        "USER: nao",
+        "REP: entendi. então, pra você não precisar ficar esperando, da pra: - **deixar uma instrução pro entregador** (ex.: “deixar com porteiro/vizinho” ou “ligar no interfone x”). se você me disser a frase (ate ",
+        "USER: preciso da encomenda hoje"
+      ]
+    },
+    "pro_trx_sample": {
+      "453908946": [
+        "USER: não consegui falar com atendente ontem",
+        "REP: eduardo, consigo te ajudar, mas preciso entender **qual era o assunto**: você não conseguiu falar com atendente ontem por causa de quê (ex.: compra/entrega, pagamento/estorno, conta bloqueada, meli+)?",
+        "USER: quero falar com atendente para fazer uma reclamação que minhas comprar estão chegando todas atrasadas"
+      ],
+      "453919242": [
+        "USER: eu ja verifiquei e o valor do reembolso de %num,%num solicitado, não esta somado ao saldo e não consta no extrato",
+        "REP: sheila, eu localizei um **reembolso de r$ %num,%num** ja **concluido** em **%num de abril**, e ele foi devolvido para o seu **saldo do mercado pago** (não para cartão/banco). para conferir, va em **at",
+        "USER: ele se encontra em atividades mas não esta no extrato da conta pelo app, e não esta somado ao valor, apenas o reembolso de %num.%num entrou como credito."
+      ]
+    }
+  },
+  "Exp. Impositiva": {
+    "det": {
+      "n": 29,
+      "avg_msgs_total": 143.14,
+      "avg_msgs_user": 74.14,
+      "avg_msgs_rep": 69.0,
+      "avg_rep_len": 272.86,
+      "avg_user_len": 31.55,
+      "avg_rep_ratio": 0.58,
+      "pct_resolved": 24.1,
+      "pct_transfer": 24.1,
+      "pct_reincidence": 3.4,
+      "pct_escalation": 6.9,
+      "pct_proc_change": 0.0,
+      "pct_bot_heavy": 27.6
+    },
+    "pro": {
+      "n": 30,
+      "avg_msgs_total": 78.7,
+      "avg_msgs_user": 35.53,
+      "avg_msgs_rep": 43.17,
+      "avg_rep_len": 147.93,
+      "avg_user_len": 46.3,
+      "avg_rep_ratio": 0.54,
+      "pct_resolved": 16.7,
+      "pct_transfer": 6.7,
+      "pct_reincidence": 3.3,
+      "pct_escalation": 0.0,
       "pct_proc_change": 10.0,
       "pct_bot_heavy": 6.7
     },
     "conclusions": [
       {
         "type": "neg",
-        "msg": "Detratores têm taxa de resolução identificada +40.0 pp maior que promotores — sinal de problema"
+        "msg": "Detratores têm taxa de resolução identificada +7.4 pp maior que promotores — sinal de problema"
       },
       {
         "type": "neg",
-        "msg": "Detratores têm taxa de transferências +40.0 pp maior que promotores — indica mais complexidade"
+        "msg": "Detratores têm taxa de transferências +17.4 pp maior que promotores — indica mais complexidade"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm taxa de escalação legal +6.9 pp maior que promotores — indica mais complexidade"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm volume de mensagens por conversa +64.4  maior que promotores — indica mais tempo sem resolução"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm comprimento médio das mensagens do atendente +124.9  maior que promotores — sinal de problema"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm taxa de resposta automatizada +20.9 pp maior que promotores — indica mais complexidade"
       },
       {
         "type": "pos",
-        "msg": "Promotores têm volume de mensagens por conversa 40.4  maior — conversas mais longas com desfecho positivo"
-      },
-      {
-        "type": "neg",
-        "msg": "Detratores têm comprimento médio das mensagens do atendente +83.3  maior que promotores — sinal de problema"
-      },
-      {
-        "type": "neg",
-        "msg": "Detratores têm taxa de resposta automatizada +20.0 pp maior que promotores — indica mais complexidade"
-      },
-      {
-        "type": "neg",
-        "msg": "Detratores têm menções de mudança de processo +3.3 pp maior que promotores — indica mais complexidade"
+        "msg": "Promotores têm menções de mudança de processo 10.0 pp maior — conversas mais longas com desfecho positivo"
       }
     ],
     "trigger_answers": [
-      "<strong>Oportunidade de atendimento:</strong> 47% dos detratores passaram por transferência — processo de escalonamento ineficiente.",
-      "<strong>Mudança de processo detectada:</strong> 13% das transcrições de detratores mencionam mudança de processo — possível causa da queda."
+      "<strong>Oportunidade de atendimento:</strong> 24% dos detratores passaram por transferência — processo de escalonamento ineficiente.",
+      "<strong>Complexidade/demora:</strong> Conversas de detratores têm 1.8x mais mensagens — indicativo de problema não resolvido na jornada."
     ],
     "det_trx_sample": {
-      "452903361": [
-        "USER: quero falar com um atentendente",
-        "REP: luis guilherme, eu te ajudo — mas antes preciso entender rapidinho o motivo do contato para te encaminhar certo. sobre o que você precisa falar com um atendente? (ex.: compra não chegou, reembolso, pr",
-        "USER: quero saber quando meu pedido sera enviado",
-        "REP: seu pedido do **tênis under armour buzzer %num cinza** ainda esta em preparação no **centro de distribuição do mercado livre** (status: pronto para enviar). - **previsão de entrega:** **%num de abril,",
-        "USER: mesmo assim eu ainda quero falar com um atendente"
+      "453457667": [
+        "REP: hola, buenas tardes, me llamo norma del mercado livre, ¿que puedo ayudar?",
+        "USER: buenas tardes norma, yo estoy con un problema con mercado livre, yo tentei resolver antes y no consegui, ¿entendo?",
+        "REP: si, ¿cual seria el problema?",
+        "USER: el problema es el siguiente, yo vendo un anuncio aqui de un monitor por r$ %num,%num, ¿cierto?",
+        "USER: el mercado livre esta colocando en el precio final que yo estoy vendiendo por r$ %num,%num, y esta me cobrando una comision aqui encima de r$ %num,%num."
       ],
-      "453005952": [
-        "USER: preciso falar com um atendente",
-        "REP: fabio, eu te ajudo — mas para te direcionar ao atendimento certo, me diz em uma frase qual e o problema e onde ele acontece no mercado livre. pode ser, por exemplo: **envio/etiqueta**, **pagamento/rep",
-        "USER: preciso falar com um atendente",
-        "REP: entendo, fabio. para eu te encaminhar ao atendente certo, me diz so **qual e o assunto**: e sobre **envio**, **pagamento/repasse**, **anuncio**, ou **conta**?",
-        "USER: preciso falar com um atendente"
+      "453746958": [
+        "USER: enviar uma consulta sobre cobrança indevida",
+        "REP: consigo te ajudar a abrir essa consulta, mas preciso so confirmar **qual cobrança** e a indevida: foi uma cobrança do **mercado livre para você (faturamento/boletos do vendedor)** ou uma cobrança no *",
+        "USER: desejo enviar uma consulta por e-mail e esclarecer",
+        "REP: da para esclarecer por **e-mail**, mas o contato e aberto pela **ajuda** dentro da sua conta (você envia a consulta la e a resposta chega no seu e-mail cadastrado). para eu te orientar no caminho cert",
+        "USER: desejo registrar a consulta por e-mail"
       ],
-      "453218362": [
-        "USER: sim, conversar agora",
-        "BOT: entendi. em breve alguem entrara na conversa. o numero do seu caso e %num.",
-        "USER: alguem para atender !?",
-        "REP: boa tarde, adriana!me chamo eliane, sou representante do mercado livre e vou seguir com seu atendimento",
-        "USER: gostaria do cancelamento da compra de lava e seca midea por falta de entrega no prazo ,recebi mensagem hoje da loja que a entrega so sera feita dia %num de maio ,ja reagendaram 3x.e não quero mais ,a "
+      "453953271": [
+        "USER: quero falar com um assistente",
+        "REP: oi, joão paulo. eu posso te ajudar por aqui — sobre qual assunto você quer falar? (por exemplo: conta/restrição, pagamento, envio, anuncio ou reputação)",
+        "USER: queria falar com um representante",
+        "REP: consigo te encaminhar melhor, mas preciso de um minimo de contexto: qual e o problema e em qual area ele acontece (mercado livre ou mercado pago)? se puder, descreve em %num frase o que esta acontecen",
+        "USER: sobre vendas"
       ]
     },
     "pro_trx_sample": {
-      "452916275": [
-        "USER: falar com assistente",
-        "USER: preciso de atendimento humano",
-        "REP: consigo te ajudar por aqui, mas preciso de um contexto rapido: sobre o que você quer falar (ex.: envio/etiqueta, pagamento/repasse, anuncio, reclamação/devolução ou conta)?"
+      "453987513": [
+        "USER: boa tarde, tudo bem? estou com um problema a respeito de conseguir dar procedimento na venda na etapa de emissão de nfe",
+        "REP: boa tarde, forja. vou te ajudar — para eu direcionar certo, esse problema e na **emissão de nf-e para o comprador** dentro do mercado livre (facturador), na tela “emissão de nfe”? se sim, me envie por",
+        "USER: gostaria de falar com o suporte ou atendente ]"
       ],
-      "452922172": [
-        "USER: sobre a compra que fi",
-        "REP: salvador, entendi. para eu ver **a compra** e te ajudar, me diga qual e o problema (ex.: não chegou, veio errado/defeito, quero cancelar, reembolso) e envie **um destes dados**: id do pedido/compra, i",
-        "USER: eu comprei para entregar na minha residencia e enviaram para rua djalma ultich %num copacabana rj"
-      ]
-    }
-  },
-  "Exp. Impositiva": {
-    "det": {
-      "n": 17,
-      "avg_msgs_total": 267.12,
-      "avg_msgs_user": 148.29,
-      "avg_msgs_rep": 118.82,
-      "avg_rep_len": 157.29,
-      "avg_user_len": 31.06,
-      "avg_rep_ratio": 0.51,
-      "pct_resolved": 23.5,
-      "pct_transfer": 29.4,
-      "pct_reincidence": 5.9,
-      "pct_escalation": 0.0,
-      "pct_proc_change": 0.0,
-      "pct_bot_heavy": 11.8
-    },
-    "pro": {
-      "n": 30,
-      "avg_msgs_total": 115.8,
-      "avg_msgs_user": 54.97,
-      "avg_msgs_rep": 60.83,
-      "avg_rep_len": 175.73,
-      "avg_user_len": 44.97,
-      "avg_rep_ratio": 0.55,
-      "pct_resolved": 33.3,
-      "pct_transfer": 33.3,
-      "pct_reincidence": 6.7,
-      "pct_escalation": 3.3,
-      "pct_proc_change": 3.3,
-      "pct_bot_heavy": 13.3
-    },
-    "conclusions": [
-      {
-        "type": "pos",
-        "msg": "Promotores têm taxa de resolução identificada 9.8 pp maior que detratores — diferencial positivo"
-      },
-      {
-        "type": "pos",
-        "msg": "Promotores têm taxa de transferências 3.9 pp maior — conversas mais longas com desfecho positivo"
-      },
-      {
-        "type": "pos",
-        "msg": "Promotores têm taxa de escalação legal 3.3 pp maior — conversas mais longas com desfecho positivo"
-      },
-      {
-        "type": "neg",
-        "msg": "Detratores têm volume de mensagens por conversa +151.3  maior que promotores — indica mais tempo sem resolução"
-      },
-      {
-        "type": "pos",
-        "msg": "Promotores têm comprimento médio das mensagens do atendente 18.4  maior que detratores — diferencial positivo"
-      },
-      {
-        "type": "pos",
-        "msg": "Promotores têm menções de mudança de processo 3.3 pp maior — conversas mais longas com desfecho positivo"
-      }
-    ],
-    "trigger_answers": [
-      "<strong>Oportunidade de atendimento:</strong> 29% dos detratores passaram por transferência — processo de escalonamento ineficiente.",
-      "<strong>Complexidade/demora:</strong> Conversas de detratores têm 2.3x mais mensagens — indicativo de problema não resolvido na jornada."
-    ],
-    "det_trx_sample": {
-      "449159103": [
-        "USER: b32j78bt61t360z9r",
-        "REP: recebi este codigo de movimentação: `b32j78bt61t360z9r`. me diga o que você quer verificar com ele — por exemplo, detalhes da movimentação, data/valor ou algum problema especifico.",
-        "USER: foi retido o valor de%price da minha conta",
-        "REP: entendi. eu verifiquei e encontrei um pix recebido de r$ %num,%num hoje às 15h11, com status aprovado. no momento, seu saldo disponivel esta em r$ %num,%num e não encontrei dividas vencidas na conta. ",
-        "USER: numero da operação b32j78bt61t360z9r que foi retido"
-      ],
-      "452471453": [
-        "USER: hola, hola.",
-        "REP: hola, hola.",
-        "USER: hola, hola. ¿como se llama?",
-        "REP: me llamo luisa, soy representante del mercado pago y agradezco suporte a tu atendimiento, ¿como se llama?",
-        "USER: todo bien, mi nombre es carol."
-      ],
-      "452934602": [
-        "REP: não foi possivel pesquisar por cpf ou cnpj anexo atualizado com detalhes do caso mercado livre: erro no faturamento impede vendas e prejudica o vendedor mercado livre coloca valor absurdo de faturamen",
-        "REP: dados hugme: protocolo-ra: %num - id ra-hugme: %num dados do usuario: nome: walkiria nogueira pereira data de criação: %date %hourtipo usuario: n/a cpf/cnpj: %num email: %email telefone: %num, %num da",
-        "REP: recipient: %email. email: ola!sou a joice, da equipe mercado livre.agradecemos por entrar em contato conosco.quero informar que ja estou iniciando o atendimento da sua reclamação e sua solicitação est",
-        "REP: ***#triagem*** - cola destino - seller motivo do contato - faturação - observações gerais (opcional) - - #",
-        "REP: tipo de interação: mensagem privada - empresa descrição: resposta privada enviada con sucesso date: %date %hour"
-      ]
-    },
-    "pro_trx_sample": {
-      "452891204": [
-        "BOT: ola, rafael! em breve, uma pessoa da nossa equipe vai entrar na conversa para ajudar você. o numero do seu caso e: %num.",
-        "USER: ola, bom dia, gostaria de saber como faço para pegar os valores consolidados de vendas que fizemos no mercado livre mês a mês desde %num?",
-        "REP: bom dia, rafael! eu sou a rafisa, representante do mercado livre e mercado pago, irei dar continuidade do seu atendimento. vi que você quer saber como faço para pegar os valores consolidados de vendas"
-      ],
-      "452907620": [
-        "REP: alo, alo, oi.",
-        "REP: bom dia, me llamo rayane, sou representante do mercado libre, falo com o isidro eduardo.",
-        "USER: bom dia, rayane, e isso mesmo, tudo bem?"
+      "454017168": [
+        "REP: sem problemas, vou te ajudar. não ha instabilidade geral nem restrições na sua conta, então parece algo do navegador/pagina. %num) confirma pra mim: e para **emitir nf-e para o comprador** pelo **emis",
+        "USER: preciso emitir uma nota de uma venda , mas nao carrega a pagina",
+        "REP: entendi. para eu direcionar certinho (e, se preciso, abrir para o time tecnico), preciso so destas informações: - essa emissão e pelo **emissor/facturador de nf-e** (para o comprador), certo? - ao ten"
       ]
     }
   },
   "PCF Vendedor": {
     "det": {
       "n": 14,
-      "avg_msgs_total": 115.64,
-      "avg_msgs_user": 59.93,
-      "avg_msgs_rep": 55.71,
-      "avg_rep_len": 203.29,
-      "avg_user_len": 42.71,
-      "avg_rep_ratio": 0.55,
-      "pct_resolved": 78.6,
+      "avg_msgs_total": 45.36,
+      "avg_msgs_user": 22.57,
+      "avg_msgs_rep": 22.79,
+      "avg_rep_len": 240.21,
+      "avg_user_len": 60.43,
+      "avg_rep_ratio": 0.56,
+      "pct_resolved": 64.3,
       "pct_transfer": 28.6,
       "pct_reincidence": 0.0,
       "pct_escalation": 0.0,
       "pct_proc_change": 0.0,
-      "pct_bot_heavy": 14.3
+      "pct_bot_heavy": 28.6
     },
     "pro": {
       "n": 30,
-      "avg_msgs_total": 51.07,
-      "avg_msgs_user": 23.7,
-      "avg_msgs_rep": 27.37,
-      "avg_rep_len": 131.27,
-      "avg_user_len": 51.4,
-      "avg_rep_ratio": 0.53,
-      "pct_resolved": 53.3,
+      "avg_msgs_total": 62.63,
+      "avg_msgs_user": 29.63,
+      "avg_msgs_rep": 33.0,
+      "avg_rep_len": 154.27,
+      "avg_user_len": 54.17,
+      "avg_rep_ratio": 0.52,
+      "pct_resolved": 63.3,
       "pct_transfer": 16.7,
       "pct_reincidence": 0.0,
-      "pct_escalation": 3.3,
-      "pct_proc_change": 3.3,
+      "pct_escalation": 0.0,
+      "pct_proc_change": 0.0,
       "pct_bot_heavy": 3.3
     },
     "conclusions": [
-      {
-        "type": "neg",
-        "msg": "Detratores têm taxa de resolução identificada +25.3 pp maior que promotores — sinal de problema"
-      },
       {
         "type": "neg",
         "msg": "Detratores têm taxa de transferências +11.9 pp maior que promotores — indica mais complexidade"
       },
       {
         "type": "pos",
-        "msg": "Promotores têm taxa de escalação legal 3.3 pp maior — conversas mais longas com desfecho positivo"
+        "msg": "Promotores têm volume de mensagens por conversa 17.3  maior — conversas mais longas com desfecho positivo"
       },
       {
         "type": "neg",
-        "msg": "Detratores têm volume de mensagens por conversa +64.6  maior que promotores — indica mais tempo sem resolução"
+        "msg": "Detratores têm comprimento médio das mensagens do atendente +85.9  maior que promotores — sinal de problema"
       },
       {
         "type": "neg",
-        "msg": "Detratores têm comprimento médio das mensagens do atendente +72.0  maior que promotores — sinal de problema"
+        "msg": "Detratores têm taxa de resposta automatizada +25.3 pp maior que promotores — indica mais complexidade"
+      }
+    ],
+    "trigger_answers": [
+      "<strong>Oportunidade de atendimento:</strong> 29% dos detratores passaram por transferência — processo de escalonamento ineficiente."
+    ],
+    "det_trx_sample": {
+      "453935103": [
+        "USER: preciso falar com um atendente sobre a devolucao da venda %num, o produto chegou pra mim quebrado e fecharam a mediacao sem reembolso devido",
+        "REP: pelo que consta aqui, a reclamação dessa venda ja foi **encerrada** apos a analise do produto no centro de distribuição, e o item foi considerado **em boas condições**. a devolução do produto para voc",
+        "REP: entendo — se o produto voltou **quebrado** e ainda por cima **sem proteção**, isso precisa ser registrado como **problema na devolução** (mesmo com a mediação encerrada). como a devolução pra você con",
+        "USER: eu recebi o produto dentro de um saco plastico totalmente desprotegido, chegou quebrado",
+        "REP: claro — você pode falar com um atendente por aqui: [falar com um atendente](%url _id=%num _id=%num)"
+      ],
+      "454243106": [
+        "BOT: ola, rosivania! em breve, uma pessoa da nossa equipe vai entrar na conversa para ajudar você. o numero do seu caso e: %num.",
+        "USER: ola,thaiane, bom dia! tudo bem ? meu nome e rosi e faço parte do time de atendimento da midea.",
+        "USER: queria falar sobre essa venda %num",
+        "REP: ola, bom dia! sou a thaiane do mercado livre e seguirei com seu atendimento.",
+        "REP: tudo bem e contigo, rosi?"
+      ],
+      "454252968": [
+        "BOT: ola, natasha! em breve, uma pessoa da nossa equipe vai entrar na conversa para ajudar você. o numero do seu caso e: %num.",
+        "REP: ola, meu nome e aline, sou representante do mercado livre vou seguir com seu atendimento por aqui.",
+        "USER: bom dia me chamo natasha tudo bem ?",
+        "REP: bom dia, natasha, tudo bem? e com você? em que posso te ajudar hoje?",
+        "USER: estou bem, gostaria de tirar umas duvidas referente a peças que retornam para o nosso centro de distribuição, quando o mercado livre faz o reembolso para o cliente e a peça volta para mim eu tenho pre"
+      ]
+    },
+    "pro_trx_sample": {
+      "453941417": [
+        "USER: quero ajudar com uma devolução",
+        "REP: claro, eu te ajudo. essa devolução e de **uma venda sua** (cliente devolvendo para você) ou de **uma compra sua**? se puder, me diga tambem o **numero da venda/pedido/reclamação** (ou envie um print d",
+        "USER: %num essa e a venda, o cliente tinha ate dia %num, para mandar a foto do produto para vocês que chegou, que de acordo com ele eu mandei errado kkk, mas ele não mandou, e ate agora não liberaram o dinh"
+      ],
+      "454055592": [
+        "USER: sim, conversar agora",
+        "BOT: entendi. em breve alguem entrara na conversa. o numero do seu caso e %num.",
+        "REP: oii! bom diaaa 😍💛 tudo bem ? me chamo ana beatriz, sou representante do mercado livre, e hoje vou seguir com o seu atendimento com todo carinho. como posso te ajudar?"
+      ]
+    }
+  },
+  "Post Venta": {
+    "det": {
+      "n": 8,
+      "avg_msgs_total": 168.25,
+      "avg_msgs_user": 94.0,
+      "avg_msgs_rep": 74.25,
+      "avg_rep_len": 123.0,
+      "avg_user_len": 44.38,
+      "avg_rep_ratio": 0.5,
+      "pct_resolved": 37.5,
+      "pct_transfer": 25.0,
+      "pct_reincidence": 12.5,
+      "pct_escalation": 0.0,
+      "pct_proc_change": 0.0,
+      "pct_bot_heavy": 0.0
+    },
+    "pro": {
+      "n": 30,
+      "avg_msgs_total": 44.13,
+      "avg_msgs_user": 22.47,
+      "avg_msgs_rep": 21.67,
+      "avg_rep_len": 185.73,
+      "avg_user_len": 43.8,
+      "avg_rep_ratio": 0.54,
+      "pct_resolved": 36.7,
+      "pct_transfer": 3.3,
+      "pct_reincidence": 0.0,
+      "pct_escalation": 0.0,
+      "pct_proc_change": 0.0,
+      "pct_bot_heavy": 13.3
+    },
+    "conclusions": [
+      {
+        "type": "neg",
+        "msg": "Detratores têm taxa de transferências +21.7 pp maior que promotores — indica mais complexidade"
       },
       {
         "type": "neg",
-        "msg": "Detratores têm taxa de resposta automatizada +11.0 pp maior que promotores — indica mais complexidade"
+        "msg": "Detratores têm taxa de reincidência +12.5 pp maior que promotores — indica mais complexidade"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm volume de mensagens por conversa +124.1  maior que promotores — indica mais tempo sem resolução"
+      },
+      {
+        "type": "pos",
+        "msg": "Promotores têm comprimento médio das mensagens do atendente 62.7  maior que detratores — diferencial positivo"
+      },
+      {
+        "type": "pos",
+        "msg": "Promotores têm taxa de resposta automatizada 13.3 pp maior — conversas mais longas com desfecho positivo"
+      }
+    ],
+    "trigger_answers": [
+      "<strong>Oportunidade de atendimento:</strong> 25% dos detratores passaram por transferência — processo de escalonamento ineficiente.",
+      "<strong>Complexidade/demora:</strong> Conversas de detratores têm 3.8x mais mensagens — indicativo de problema não resolvido na jornada."
+    ],
+    "det_trx_sample": {
+      "454222312": [
+        "USER: pq não consigo vender no mercado livre?",
+        "REP: lucas, você não consegue vender porque sua conta esta **suspensa permanentemente para vendas**. com isso, fica bloqueado publicar e editar anuncios, responder perguntas e usar mensagens, entre outras ",
+        "USER: pq minha conta foi suspensa permanentemente?",
+        "REP: no seu caso, eu so consigo ver que a conta foi **suspensa permanentemente para vendas**, mas o motivo especifico não aparece nos detalhes disponiveis aqui. normalmente, o motivo vem na **notificação d",
+        "USER: preciso falar com o responsavel para resolver isso"
+      ],
+      "454320650": [
+        "BOT: estamos escrevendo sobre sua consulta n°. %num. nos avise se você ainda precisar de ajuda para que uma pessoa do atendimento ao cliente possa te ajudar com sua duvida ou problema.",
+        "USER: ainda preciso de ajuda",
+        "USER: sim, conversar agora",
+        "BOT: entendi, em %num minutos uma pessoa entrara na conversa para te ajudar.",
+        "USER: oi, tudo bem? sou thays, gestora de atendimento da espelho briel design. 😊 -"
+      ],
+      "454522212": [
+        "USER: preciso falar com um atendente sobre a ocorrencia %num",
+        "REP: não encontrei a ocorrência **%num** vinculada à sua conta de vendedor, então preciso de um dado a mais para localizar o caso. essa ocorrência e de quê (ex.: **reclamação/mediação**, **envio**, **pedid",
+        "USER: numero da venda %num",
+        "REP: encontrei essa venda. no momento, o envio ainda **não foi despachado** e esta como **pronto para enviar / pronto para imprimir**, sem nenhuma reclamação aberta. ja deixei a **etiqueta para impressão**",
+        "USER: esse pedido ja foi despachado faz um bom tempo e o ct-e foi rejeitado. me orientaram enviar uma nf nova no detalhes do pedido para que a mercadoria pudesse chegar ao seu destino. e assim foi feito. so"
+      ]
+    },
+    "pro_trx_sample": {
+      "453990739": [
+        "USER: sim, conversar agora",
+        "BOT: entendi. em breve alguem entrara na conversa. o numero do seu caso e %num.",
+        "REP: ola, tudo bem? me chamo ane e sou representante do mercado livre. seja bem vindo ao meu atendimento."
+      ],
+      "454068603": [
+        "USER: agradecemos sua mensagem. não estamos disponiveis no momento, mas responderemos assim que possivel.",
+        "BOT: entendi. em breve alguem entrara na conversa. o numero do seu caso e %num.",
+        "USER: sim, conversar agora"
+      ]
+    }
+  },
+  "Publicaciones": {
+    "det": {
+      "n": 11,
+      "avg_msgs_total": 166.82,
+      "avg_msgs_user": 80.73,
+      "avg_msgs_rep": 86.09,
+      "avg_rep_len": 238.73,
+      "avg_user_len": 36.36,
+      "avg_rep_ratio": 0.52,
+      "pct_resolved": 18.2,
+      "pct_transfer": 45.5,
+      "pct_reincidence": 0.0,
+      "pct_escalation": 0.0,
+      "pct_proc_change": 9.1,
+      "pct_bot_heavy": 18.2
+    },
+    "pro": {
+      "n": 30,
+      "avg_msgs_total": 60.0,
+      "avg_msgs_user": 28.13,
+      "avg_msgs_rep": 31.87,
+      "avg_rep_len": 153.4,
+      "avg_user_len": 53.73,
+      "avg_rep_ratio": 0.53,
+      "pct_resolved": 20.0,
+      "pct_transfer": 16.7,
+      "pct_reincidence": 6.7,
+      "pct_escalation": 0.0,
+      "pct_proc_change": 6.7,
+      "pct_bot_heavy": 3.3
+    },
+    "conclusions": [
+      {
+        "type": "neg",
+        "msg": "Detratores têm taxa de transferências +28.8 pp maior que promotores — indica mais complexidade"
+      },
+      {
+        "type": "pos",
+        "msg": "Promotores têm taxa de reincidência 6.7 pp maior — conversas mais longas com desfecho positivo"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm volume de mensagens por conversa +106.8  maior que promotores — indica mais tempo sem resolução"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm comprimento médio das mensagens do atendente +85.3  maior que promotores — sinal de problema"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm taxa de resposta automatizada +14.9 pp maior que promotores — indica mais complexidade"
+      }
+    ],
+    "trigger_answers": [
+      "<strong>Oportunidade de atendimento:</strong> 46% dos detratores passaram por transferência — processo de escalonamento ineficiente.",
+      "<strong>Complexidade/demora:</strong> Conversas de detratores têm 2.8x mais mensagens — indicativo de problema não resolvido na jornada."
+    ],
+    "det_trx_sample": {
+      "453947988": [
+        "USER: oi estou tentando colocar o chassi no meu carro no anuncio mas a placa ta dizendo que ja foi cadastrada",
+        "REP: oi, gerson. esse aviso de **placa ja cadastrada** costuma aparecer quando a placa ja esta vinculada a outro cadastro/anuncio (ou quando você esta tentando incluir/alterar esse dado em um anuncio que j",
+        "USER: estou editando o anuncio para incluir o chassi",
+        "REP: nesse caso, por ser **anuncio de veiculos (classificados)**, ao editar depois de publicado o mercado livre so permite alterar alguns campos (como **quilometragem, telefone, descrição, preço e fotos**)",
+        "REP: pelo print, o bloqueio não e do chassi em si: o app esta dizendo que **essa placa ja foi usada em um anuncio patrocinado**. nessa tela, você so consegue avançar se: - **a placa for de outro veiculo:**"
+      ],
+      "454101111": [
+        "USER: boa tarde. gostaria de saber o motivo de varias vendas do programa de afiliados não estarem sendo contabilizadas para ganho. não estou quebrando nenhuma regra do programa.",
+        "REP: carolina, isso costuma acontecer por %num motivos principais no programa de afiliados: - **periodo de verificação**: as comissões podem ficar **pendentes** antes de serem liberadas (em geral, leva cer",
+        "USER: essas vendas aparecem como não contabilizadas e depois de uma semana somem do painel.",
+        "REP: quando a venda aparece como **“não contabilizada”** e depois some do painel, normalmente e porque ela **não passou a validação** (ex.: a compra foi cancelada/devolvida ou ficou fora dos termos do prog",
+        "USER: ja vendi mais de%price e não recebi comissão."
+      ],
+      "454171961": [
+        "USER: fui olhar os ganhos e sumiu esse valor",
+        "REP: neto, por esse print você esta no painel de **metricas** do afiliados (atualizado em %date) e ele mostra tambem **vendas não efetivadas**. quando uma venda e cancelada/estornada ou não e aprovada, o v",
+        "USER: ta zerado",
+        "REP: se ficou **tudo zerado**, na maioria dos casos e por **filtro** ou por **atualização do painel** (ele pode levar ate **%num horas** para atualizar). confere pra mim so estes %num pontos ai na mesma te",
+        "USER: hoje"
+      ]
+    },
+    "pro_trx_sample": {
+      "453930111": [
+        "USER: assunto: venda de afiliado não atribuida – pedido mlb2823062738_176330353 ola, equipe de suporte ao afiliado do mercado livre,sou afiliada do programa angelicas20082009e gostaria de solicitar a verifi",
+        "REP: angelica, consigo te orientar com base no que da para verificar por aqui, mas **não consigo auditar um pedido de outra conta** (da sua cliente) nem forçar a atribuição direto no painel. - o painel de ",
+        "REP: hola, buen dia."
+      ],
+      "453939524": [
+        "USER: eu coloquei em anuncio uma peça de carro para vender no mercado livre. agora como eu faço para receber apos a venda?",
+        "REP: quando você vende no mercado livre, o pagamento **cai no seu mercado pago** e fica “seguro” ate a entrega ser confirmada (ou ate passar o prazo de proteção/contestação da compra). depois que o dinheir",
+        "USER: entendi, muito obrigado."
+      ]
+    }
+  },
+  "FBM-S": {
+    "det": {
+      "n": 24,
+      "avg_msgs_total": 71.25,
+      "avg_msgs_user": 37.62,
+      "avg_msgs_rep": 33.62,
+      "avg_rep_len": 228.33,
+      "avg_user_len": 44.38,
+      "avg_rep_ratio": 0.58,
+      "pct_resolved": 66.7,
+      "pct_transfer": 25.0,
+      "pct_reincidence": 16.7,
+      "pct_escalation": 8.3,
+      "pct_proc_change": 0.0,
+      "pct_bot_heavy": 16.7
+    },
+    "pro": {
+      "n": 30,
+      "avg_msgs_total": 112.03,
+      "avg_msgs_user": 57.17,
+      "avg_msgs_rep": 54.87,
+      "avg_rep_len": 157.2,
+      "avg_user_len": 42.2,
+      "avg_rep_ratio": 0.53,
+      "pct_resolved": 33.3,
+      "pct_transfer": 16.7,
+      "pct_reincidence": 10.0,
+      "pct_escalation": 0.0,
+      "pct_proc_change": 3.3,
+      "pct_bot_heavy": 6.7
+    },
+    "conclusions": [
+      {
+        "type": "neg",
+        "msg": "Detratores têm taxa de resolução identificada +33.4 pp maior que promotores — sinal de problema"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm taxa de transferências +8.3 pp maior que promotores — indica mais complexidade"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm taxa de reincidência +6.7 pp maior que promotores — indica mais complexidade"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm taxa de escalação legal +8.3 pp maior que promotores — indica mais complexidade"
+      },
+      {
+        "type": "pos",
+        "msg": "Promotores têm volume de mensagens por conversa 40.8  maior — conversas mais longas com desfecho positivo"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm comprimento médio das mensagens do atendente +71.1  maior que promotores — sinal de problema"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm taxa de resposta automatizada +10.0 pp maior que promotores — indica mais complexidade"
       },
       {
         "type": "pos",
@@ -255,84 +547,70 @@
       }
     ],
     "trigger_answers": [
-      "<strong>Oportunidade de atendimento:</strong> 29% dos detratores passaram por transferência — processo de escalonamento ineficiente.",
-      "<strong>Complexidade/demora:</strong> Conversas de detratores têm 2.3x mais mensagens — indicativo de problema não resolvido na jornada."
+      "<strong>Oportunidade de atendimento:</strong> 25% dos detratores passaram por transferência — processo de escalonamento ineficiente.",
+      "<strong>Problema de recorrência:</strong> 17% dos detratores já haviam tentado resolver antes — solução de longo prazo necessária."
     ],
     "det_trx_sample": {
-      "452704727": [
-        "USER: falar com atendente",
-        "REP: para eu te direcionar ao atendimento certo, me conta em %num frase qual e o problema e em qual area acontece (ex.: envio/etiqueta, pagamento/repasse, anuncio pausado/moderação, conta/acesso). se puder",
-        "USER: devolução não recebida",
-        "REP: encontrei a devolução relacionada a esse caso: o envio de retorno esta com status de **não entregue** e, desde **%num de abril**, consta como **voltando ao remetente**. nesse cenario, o pacote não vai",
-        "USER: ¿alo?"
+      "434389107": [
+        "USER: sim, conversar agora",
+        "BOT: entendi. em breve alguem entrara na conversa. o numero do seu caso e %num.",
+        "REP: ola ivan boa tarde, meu nome e raissa sou representante do mercado livre/pago, irei iniciar o seu atendimento, estou aqui para te auxiliar em seu caso, desde ja te informo que sera um prazer te atende",
+        "USER: boa tarde, vc fala com ivan estou com problema com meu estoque no full. aguns itens entraram no status ;entrada pendente ; e estão ha meses nessa situação. acredito que vocês tenham perdido o meu esto",
+        "USER: codigos: agyq45871 spbc67612 wegv45669 iszr21612 fosr36955"
       ],
-      "452890235": [
-        "BOT: ola, milena! em breve, uma pessoa da nossa equipe vai entrar na conversa para ajudar você. o numero do seu caso e: %num.",
-        "REP: ola, milena! tudo bem? me chamo victor, faço parte do time mercado livre, e irei te auxiliar hoje. 😉💖",
-        "USER: bom dia, você fala com lucas.tudo bem sim e com você?",
-        "REP: lucas, muito prazer! perdão, achei que fosse milena, pelo nome que aparece aqui para mim.",
-        "REP: tudo otimo tambem, fico feliz que esteja bem!"
+      "452848186": [
+        "REP: sku: zzjr12551; dif: -%num; monto seguro (unit. local) %num.%num sku: qcfl77202; dif: -%num; monto seguro (unit. local) %num.%num sku: jnxi75905; dif: -%num; monto seguro (unit. local) %num.%num sku: ",
+        "REP: recipient: %email. email: ola, equipe ckm comercio nacionais e importados. ;espero que esteja bem! ; ; ;nossa equipe logistica analisou o seu envio nº %num e verificamos que você informou ter ocorrido",
+        "REP: seller não concorda",
+        "REP: recipient: %email. email: ola, ckm comercio nacionais e importados. ;ola, meu nome e amanda, sou representante do mercado livre e estou aqui para te ajudar! 📦sobre a sua solicitação de recontagem do e",
+        "REP: seller não concorda com a tratava passada, conforme fluxo de fsr como ja foi passadas mais de duas soluções de formas diferentes, sigo fechando como usuario não concorda"
       ],
-      "452899118": [
-        "BOT: ola, gabriel! em breve, uma pessoa da nossa equipe vai entrar na conversa para ajudar você. o numero do seu caso e: %num.",
-        "REP: bom dia, falo com gabriel?sou a milena, do mercado livre e seguirei com o seu atendimento.",
-        "USER: ola milena.prazer, isso mesmo aqui e o gabriel.",
-        "REP: gabriel, prazer. tudo bem? 😊",
-        "USER: tudo sim e você?"
+      "452989177": [
+        "REP: o cafe orfeu descafeinado entrou no estoque do orfeu intenso. sku: zvya77225; dif: -%num; monto seguro (unit. local) %num.%num sku: scsq76593; dif: %num; monto seguro (unit. local) %num.%num",
+        "REP: ´sigo criando task pois cx não a trouxe automatico",
+        "REP: não estou conseguindo adicionar a solução no caso, erro no cx"
       ]
     },
     "pro_trx_sample": {
-      "452895316": [
-        "USER: preciso falar com um atendente humano",
-        "REP: entendo. para eu te encaminhar pro time certo, me diz rapidinho qual e o assunto e, se tiver, o numero do pedido/envio/pagamento ou o id do anuncio (ex.: “problema com repasse”, “etiqueta não gera”, “",
-        "USER: %num"
+      "453941567": [
+        "USER: quero falar com atendente para atualizar minha razao social sem mudar o cnpj",
+        "REP: da para atualizar a **razão social** sem mudar o **cnpj** direto na sua conta, sem precisar de atendente. no computador: va em **configurações da conta** → **configurações de faturamento / dados fisca",
+        "USER: nao esta deixando mudar por ter estoque no full"
       ],
-      "452896189": [
-        "BOT: ola, luana! em breve, uma pessoa da nossa equipe vai entrar na conversa para ajudar você. o numero do seu caso e: %num.",
-        "USER: bom dia mayara, tudo bem?",
-        "USER: preciso de ajuda com o pedido %num"
+      "453958649": [
+        "USER: referente essa venda devolução %num voces ja receberam a devolução no full e tem a informação que ja foi colocado no estoque para venda ,,,mas não consta a venda",
+        "REP: na venda do pacote **%num**, o que consta para a gente e que **não e uma devolução de comprador concluida** ainda: o envio esta como **não entregue** e **retornando ao centro de distribuição** (motivo",
+        "REP: pelo seu print, essa operação foi **encerrada com reembolso** no full e o item foi **aprovado na revisão e voltou para o estoque** (“colocamos o produto novamente à venda”). isso **não gera uma nova v"
       ]
     }
   },
-  "Post Venta": {
+  "Partners": {
     "det": {
-      "n": 0
-    },
-    "pro": {
-      "n": 0
-    },
-    "conclusions": [],
-    "trigger_answers": [],
-    "det_trx_sample": {},
-    "pro_trx_sample": {}
-  },
-  "Publicaciones": {
-    "det": {
-      "n": 9,
-      "avg_msgs_total": 198.78,
-      "avg_msgs_user": 100.11,
-      "avg_msgs_rep": 98.67,
-      "avg_rep_len": 180.22,
-      "avg_user_len": 40.78,
-      "avg_rep_ratio": 0.54,
-      "pct_resolved": 33.3,
-      "pct_transfer": 66.7,
-      "pct_reincidence": 0.0,
+      "n": 15,
+      "avg_msgs_total": 72.87,
+      "avg_msgs_user": 39.6,
+      "avg_msgs_rep": 33.27,
+      "avg_rep_len": 214.67,
+      "avg_user_len": 43.33,
+      "avg_rep_ratio": 0.51,
+      "pct_resolved": 46.7,
+      "pct_transfer": 20.0,
+      "pct_reincidence": 13.3,
       "pct_escalation": 0.0,
-      "pct_proc_change": 11.1,
-      "pct_bot_heavy": 11.1
+      "pct_proc_change": 20.0,
+      "pct_bot_heavy": 13.3
     },
     "pro": {
       "n": 30,
-      "avg_msgs_total": 121.87,
-      "avg_msgs_user": 55.8,
-      "avg_msgs_rep": 66.07,
-      "avg_rep_len": 134.43,
-      "avg_user_len": 46.57,
-      "avg_rep_ratio": 0.55,
-      "pct_resolved": 26.7,
-      "pct_transfer": 33.3,
-      "pct_reincidence": 3.3,
+      "avg_msgs_total": 57.0,
+      "avg_msgs_user": 28.93,
+      "avg_msgs_rep": 28.07,
+      "avg_rep_len": 151.27,
+      "avg_user_len": 39.23,
+      "avg_rep_ratio": 0.5,
+      "pct_resolved": 43.3,
+      "pct_transfer": 10.0,
+      "pct_reincidence": 0.0,
       "pct_escalation": 0.0,
       "pct_proc_change": 3.3,
       "pct_bot_heavy": 3.3
@@ -340,367 +618,165 @@
     "conclusions": [
       {
         "type": "neg",
-        "msg": "Detratores têm taxa de resolução identificada +6.6 pp maior que promotores — sinal de problema"
+        "msg": "Detratores têm taxa de transferências +10.0 pp maior que promotores — indica mais complexidade"
       },
       {
         "type": "neg",
-        "msg": "Detratores têm taxa de transferências +33.4 pp maior que promotores — indica mais complexidade"
-      },
-      {
-        "type": "pos",
-        "msg": "Promotores têm taxa de reincidência 3.3 pp maior — conversas mais longas com desfecho positivo"
+        "msg": "Detratores têm taxa de reincidência +13.3 pp maior que promotores — indica mais complexidade"
       },
       {
         "type": "neg",
-        "msg": "Detratores têm volume de mensagens por conversa +76.9  maior que promotores — indica mais tempo sem resolução"
+        "msg": "Detratores têm volume de mensagens por conversa +15.9  maior que promotores — indica mais tempo sem resolução"
       },
       {
         "type": "neg",
-        "msg": "Detratores têm comprimento médio das mensagens do atendente +45.8  maior que promotores — sinal de problema"
+        "msg": "Detratores têm comprimento médio das mensagens do atendente +63.4  maior que promotores — sinal de problema"
       },
       {
         "type": "neg",
-        "msg": "Detratores têm taxa de resposta automatizada +7.8 pp maior que promotores — indica mais complexidade"
+        "msg": "Detratores têm taxa de resposta automatizada +10.0 pp maior que promotores — indica mais complexidade"
       },
       {
         "type": "neg",
-        "msg": "Detratores têm menções de mudança de processo +7.8 pp maior que promotores — indica mais complexidade"
+        "msg": "Detratores têm menções de mudança de processo +16.7 pp maior que promotores — indica mais complexidade"
       }
     ],
     "trigger_answers": [
-      "<strong>Oportunidade de atendimento:</strong> 67% dos detratores passaram por transferência — processo de escalonamento ineficiente.",
-      "<strong>Mudança de processo detectada:</strong> 11% das transcrições de detratores mencionam mudança de processo — possível causa da queda.",
-      "<strong>Complexidade/demora:</strong> Conversas de detratores têm 1.6x mais mensagens — indicativo de problema não resolvido na jornada."
+      "<strong>Mudança de processo detectada:</strong> 20% das transcrições de detratores mencionam mudança de processo — possível causa da queda."
     ],
     "det_trx_sample": {
-      "452993257": [
-        "USER: não consigo criar anuncios mesmo sendo colaborador autorizado",
-        "REP: pelo que aparece aqui, **esta conta esta com restrições** que bloqueiam “vender” e **criar/alterar anuncios** — então, mesmo como colaborador autorizado, o sistema não vai deixar publicar enquanto a r",
-        "USER: aparece isso aqui",
-        "REP: na sua tela aparece um check de **acessos** (por isso diz que não encontrou problema), mas na conta que você esta usando ha **restrições que bloqueiam vender e criar/editar anuncios** — isso impede a ",
-        "USER: colaborador"
-      ],
-      "453165094": [
+      "453911603": [
+        "USER: sim, conversar agora",
+        "BOT: entendi. em breve alguem entrara na conversa. o numero do seu caso e %num.",
+        "USER: bom dia, ontem eu estava no nivel ouro e faltavam %num decimos pra eu ir pro platinum. fiz uma rota de manhã e não mudou a minha pontuação e ainda cai de nivel, poderia revisar isso por favor ?",
         "USER: image",
-        "BOT: ola! em breve, uma pessoa da nossa equipe vai entrar na conversa para ajudar você. o numero do seu caso e: %num.",
-        "REP: bom dia! sou a raynara, representante do mercado livre, falo com jade?",
-        "USER: ola. bom dia! estou tomando penalidade neste anuncio injustamente, estão alegando que o valor esta acima do concorrente e não e verdade. meu menor preço esta no mercado livre. gostaria de pedir que at",
-        "USER: mlb%phone"
+        "REP: ola, bom dia, emanuele, meu nome e geisa, sou representante  do mercado livre.li o que aconteceu e ja estou aqui para te auxiliar.pelo que entendi, você nos procurou por conta de duvidas relacionadas "
       ],
-      "453431582": [
-        "USER: falar com um atendente.",
-        "REP: consigo te ajudar, mas preciso de um minimo de contexto para direcionar certinho. e sobre qual assunto no mercado livre (ex.: **venda/pedido**, **envio**, **pagamento/repasse**, **conta/restrição**)? ",
-        "USER: estamos com um erro grave e repetivo. estão pausando nosso anuncio, querendo coloca-lo num catalogo que o produto não e igual ao nosso. isso, ja vem acontecendo, ja falamos como vocês, ficaram de reso",
-        "REP: entendi — isso de pausar e tentar vincular seu anuncio a um catalogo errado realmente atrapalha, e eu vou tentar resolver por aqui antes de te encaminhar para um humano. me envia, por favor, o **numer",
-        "USER: são %num anuncios: %num | %phone"
+      "453926569": [
+        "USER: meu meli extra não funciona, não aparece o hub",
+        "REP: jailton, verifiquei aqui e sua conta de motorista esta **ativa** e sem **restrições**, e tambem não ha instabilidade geral relacionada. para eu entender por que o **hub** não aparece no seu meli extra",
+        "USER: estava acessando pelo celular, tem como acessar pelo computador pra verificar se tem alguma pendencia no meu cadastro ?",
+        "REP: sim — da para acessar pelo computador e, no seu cadastro, eu ja consigo ver **%num pendência**: - **solicitação de chave pix (pf)**. para resolver, acesse: [regularizar cadastro](%url _id=abogo5g3poh9",
+        "USER: qualquer tela que mostre mostre o meli extra e as configurações da conta"
+      ],
+      "453941067": [
+        "USER: sim, conversar agora",
+        "BOT: entendi. em breve alguem entrara na conversa. o numero do seu caso e %num.",
+        "USER: ok",
+        "REP: ola, cicero. bom dia, tudo bem? sou a ana carolina, representante do mercado livre, e hoje irei dar andamento ao seu atendimento. 🤝",
+        "REP: poderia contextualizar o seu caso para que eu possa te auxiliar da melhor forma?"
       ]
     },
     "pro_trx_sample": {
-      "452897552": [
-        "USER: problemas com as vendas falar com atendente",
-        "REP: vamos te conectar com uma pessoa do nosso time para te ajudar com as vendas. clique em **meli://cx/help?url=https%3a%2f%2f%url para escolher como prefere falar.",
-        "REP: hola, mi nombre es lucas. hola, mi nombre es regis. ¿todo bien?"
-      ],
-      "452910423": [
-        "USER: bom dia!",
-        "REP: bom dia! 😊 com o que você precisa de ajuda no mercado livre agora? - **publicações** (editar, pausar/ativar, melhorar qualidade) - **vendas** (buscar pedidos, status) - **envios** (etiquetas, prazos, ",
-        "USER: não quero ser afiliado"
-      ]
-    }
-  },
-  "FBM-S": {
-    "det": {
-      "n": 18,
-      "avg_msgs_total": 119.5,
-      "avg_msgs_user": 62.06,
-      "avg_msgs_rep": 57.44,
-      "avg_rep_len": 221.17,
-      "avg_user_len": 36.89,
-      "avg_rep_ratio": 0.55,
-      "pct_resolved": 38.9,
-      "pct_transfer": 33.3,
-      "pct_reincidence": 11.1,
-      "pct_escalation": 5.6,
-      "pct_proc_change": 5.6,
-      "pct_bot_heavy": 27.8
-    },
-    "pro": {
-      "n": 30,
-      "avg_msgs_total": 86.07,
-      "avg_msgs_user": 40.83,
-      "avg_msgs_rep": 45.23,
-      "avg_rep_len": 133.23,
-      "avg_user_len": 42.73,
-      "avg_rep_ratio": 0.51,
-      "pct_resolved": 40.0,
-      "pct_transfer": 20.0,
-      "pct_reincidence": 6.7,
-      "pct_escalation": 0.0,
-      "pct_proc_change": 6.7,
-      "pct_bot_heavy": 6.7
-    },
-    "conclusions": [
-      {
-        "type": "neg",
-        "msg": "Detratores têm taxa de transferências +13.3 pp maior que promotores — indica mais complexidade"
-      },
-      {
-        "type": "neg",
-        "msg": "Detratores têm taxa de reincidência +4.4 pp maior que promotores — indica mais complexidade"
-      },
-      {
-        "type": "neg",
-        "msg": "Detratores têm taxa de escalação legal +5.6 pp maior que promotores — indica mais complexidade"
-      },
-      {
-        "type": "neg",
-        "msg": "Detratores têm volume de mensagens por conversa +33.4  maior que promotores — indica mais tempo sem resolução"
-      },
-      {
-        "type": "neg",
-        "msg": "Detratores têm comprimento médio das mensagens do atendente +87.9  maior que promotores — sinal de problema"
-      },
-      {
-        "type": "neg",
-        "msg": "Detratores têm taxa de resposta automatizada +21.1 pp maior que promotores — indica mais complexidade"
-      }
-    ],
-    "trigger_answers": [
-      "<strong>Oportunidade de atendimento:</strong> 33% dos detratores passaram por transferência — processo de escalonamento ineficiente.",
-      "<strong>Complexidade/demora:</strong> Conversas de detratores têm 1.4x mais mensagens — indicativo de problema não resolvido na jornada."
-    ],
-    "det_trx_sample": {
-      "452207110": [
-        "REP: você pode continuar o atendimento do **caso %num** por aqui: [acessar suporte do seu caso](%url _id=%num _id=%num). se você me disser em %num frase qual e o problema desse caso (ex.: envio, pagamento,",
-        "USER: caso %num",
-        "BOT: entendi. em breve alguem entrara na conversa. o numero do seu caso e %num.",
-        "USER: sim, conversar agora",
-        "USER: obrigada"
-      ],
-      "452286235": [
-        "REP: não encontrei, na base oficial, um **link unico** com “as novas regras de envio do full” que começam a valer em maio (o conteudo retornado aqui veio de outro tema especifico do full). para eu te passa",
-        "REP: não apareceu aqui um artigo oficial com link direto para essa mudança de **pesos/medidas** e **valor minimo** do full a partir de maio. o lugar mais comum onde o mercado livre publica esse tipo de atu",
-        "USER: preciso do link das novas regras de envio do full que vão começar a valer a partir de maio",
-        "USER: mudança de pesos, medidas e valor minimo",
-        "REP: o link oficial mais completo para as regras do **mercado livre full** (inclui restrições de produtos, limites e condições do serviço) e este: [termos e condições do full](%url se você me mandar um pri"
-      ],
-      "452529368": [
+      "453907488": [
+        "REP: bom dia, ana paula! 😊 como posso te ajudar?",
         "USER: falar com atendente",
-        "REP: scarpa, eu te ajudo — mas preciso de um **minimo de contexto** para direcionar pro time certo. qual e o assunto do seu contato? (ex.: problema com **venda/envio**, **pagamento/repasse**, **conta/restr",
-        "USER: retiradas full que não foram pagas",
-        "REP: entendi. quando você diz **retiradas full não pagas**, e qual destes casos? %num) **coleta do full** (o caminhão foi buscar uma remessa/inbound no seu endereço) e você não recebeu o repasse/ajuste; ou",
-        "USER: %num"
-      ]
-    },
-    "pro_trx_sample": {
-      "452890690": [
-        "USER: problemas com envio full",
-        "REP: paulo, para eu olhar o seu caso de **envio full**, preciso entender em que etapa esta o problema. e com: - **entrada no full (inbound)** (demora para processar/contar, divergência de unidades), ou - *",
-        "USER: %num"
+        "REP: entendi! sobre qual assunto você gostaria de falar?"
       ],
-      "452892679": [
-        "USER: envie %num no full e constam apenas %num",
-        "REP: para eu verificar essa divergência no full e te dizer se ja da para abrir **reclamação por diferença**, preciso do **id do envio (inbound) de %num digitos** desse full. você me passa esse numero? (ex.",
-        "USER: %num"
-      ]
-    }
-  },
-  "Partners": {
-    "det": {
-      "n": 9,
-      "avg_msgs_total": 152.0,
-      "avg_msgs_user": 72.22,
-      "avg_msgs_rep": 79.78,
-      "avg_rep_len": 125.67,
-      "avg_user_len": 40.0,
-      "avg_rep_ratio": 0.55,
-      "pct_resolved": 44.4,
-      "pct_transfer": 33.3,
-      "pct_reincidence": 11.1,
-      "pct_escalation": 11.1,
-      "pct_proc_change": 11.1,
-      "pct_bot_heavy": 0.0
-    },
-    "pro": {
-      "n": 30,
-      "avg_msgs_total": 78.23,
-      "avg_msgs_user": 38.3,
-      "avg_msgs_rep": 39.93,
-      "avg_rep_len": 184.23,
-      "avg_user_len": 37.5,
-      "avg_rep_ratio": 0.51,
-      "pct_resolved": 30.0,
-      "pct_transfer": 20.0,
-      "pct_reincidence": 10.0,
-      "pct_escalation": 0.0,
-      "pct_proc_change": 10.0,
-      "pct_bot_heavy": 6.7
-    },
-    "conclusions": [
-      {
-        "type": "neg",
-        "msg": "Detratores têm taxa de resolução identificada +14.4 pp maior que promotores — sinal de problema"
-      },
-      {
-        "type": "neg",
-        "msg": "Detratores têm taxa de transferências +13.3 pp maior que promotores — indica mais complexidade"
-      },
-      {
-        "type": "neg",
-        "msg": "Detratores têm taxa de escalação legal +11.1 pp maior que promotores — indica mais complexidade"
-      },
-      {
-        "type": "neg",
-        "msg": "Detratores têm volume de mensagens por conversa +73.8  maior que promotores — indica mais tempo sem resolução"
-      },
-      {
-        "type": "pos",
-        "msg": "Promotores têm comprimento médio das mensagens do atendente 58.6  maior que detratores — diferencial positivo"
-      },
-      {
-        "type": "pos",
-        "msg": "Promotores têm taxa de resposta automatizada 6.7 pp maior — conversas mais longas com desfecho positivo"
-      }
-    ],
-    "trigger_answers": [
-      "<strong>Oportunidade de atendimento:</strong> 33% dos detratores passaram por transferência — processo de escalonamento ineficiente.",
-      "<strong>Mudança de processo detectada:</strong> 11% das transcrições de detratores mencionam mudança de processo — possível causa da queda.",
-      "<strong>Complexidade/demora:</strong> Conversas de detratores têm 1.9x mais mensagens — indicativo de problema não resolvido na jornada."
-    ],
-    "det_trx_sample": {
-      "451367193": [
-        "USER: somos tambem uma agência do mercado livre de entrega de mercadoria, porem gostaria de saber como faço pra receber o dinheiro",
-        "REP: para **agência do mercado livre** (ponto de coleta/retirada), o pagamento do serviço e feito **mensalmente por deposito bancario** na conta cadastrada para a agência (o valor varia conforme o tipo de ",
-        "USER: sim",
-        "REP: esse “sim” e para qual opção: **pagamento como agência** ou **comissões de afiliados**? se for **pagamento como agência**, me diga tambem se a agência ja esta **ativa e recebendo pacotes** ou se ainda",
-        "USER: ja estamos recebendo e ja entregamos"
-      ],
-      "451945279": [
-        "USER: si.",
-        "USER: alo.",
-        "REP: oi, mejoro un poco?",
-        "USER: si, ahora si, querida.",
-        "REP: hola, me llamo amiris. yo he hablado con la colaboradora de abb informatica."
-      ],
-      "452357583": [
-        "REP: alo, bueno, yo me llamo igor, soy representante aqui del mercado livre, yo falo con paulo.",
-        "USER: eso.",
-        "REP: ¿todo bien con usted, paulo?",
-        "USER: todo bien.",
-        "REP: ¿como puedo ayudar?"
-      ]
-    },
-    "pro_trx_sample": {
-      "450323793": [
+      "453939804": [
         "USER: sim, conversar agora",
         "BOT: entendi. em breve alguem entrara na conversa. o numero do seu caso e %num.",
-        "USER: bom dia"
-      ],
-      "450831867": [
-        "USER: sim, conversar agora",
-        "BOT: entendi. em breve alguem entrara na conversa. o numero do seu caso e %num.",
-        "REP: bom dia! meu nome e renata, sou representante do mercado livre, e estou aqui para te ajudar no que precisar.🤝 com quem estou falando?"
+        "REP: ola, bom dia! meu nome e josue e sou representante do mercado livre. vou acompanhar sua solicitação a partir de agora e te ajudar com o que for necessario."
       ]
     }
   },
   "Otros CV": {
     "det": {
-      "n": 19,
-      "avg_msgs_total": 226.16,
-      "avg_msgs_user": 114.84,
-      "avg_msgs_rep": 111.32,
-      "avg_rep_len": 163.95,
-      "avg_user_len": 38.0,
-      "avg_rep_ratio": 0.58,
-      "pct_resolved": 57.9,
-      "pct_transfer": 42.1,
-      "pct_reincidence": 0.0,
-      "pct_escalation": 21.1,
-      "pct_proc_change": 5.3,
-      "pct_bot_heavy": 10.5
+      "n": 24,
+      "avg_msgs_total": 119.46,
+      "avg_msgs_user": 59.67,
+      "avg_msgs_rep": 59.79,
+      "avg_rep_len": 207.96,
+      "avg_user_len": 67.71,
+      "avg_rep_ratio": 0.55,
+      "pct_resolved": 70.8,
+      "pct_transfer": 29.2,
+      "pct_reincidence": 8.3,
+      "pct_escalation": 29.2,
+      "pct_proc_change": 8.3,
+      "pct_bot_heavy": 12.5
     },
     "pro": {
       "n": 30,
-      "avg_msgs_total": 112.77,
-      "avg_msgs_user": 45.63,
-      "avg_msgs_rep": 67.13,
-      "avg_rep_len": 122.37,
-      "avg_user_len": 37.93,
-      "avg_rep_ratio": 0.57,
-      "pct_resolved": 36.7,
+      "avg_msgs_total": 179.9,
+      "avg_msgs_user": 83.1,
+      "avg_msgs_rep": 96.8,
+      "avg_rep_len": 147.77,
+      "avg_user_len": 43.7,
+      "avg_rep_ratio": 0.53,
+      "pct_resolved": 30.0,
       "pct_transfer": 26.7,
-      "pct_reincidence": 0.0,
-      "pct_escalation": 3.3,
-      "pct_proc_change": 10.0,
-      "pct_bot_heavy": 3.3
+      "pct_reincidence": 10.0,
+      "pct_escalation": 0.0,
+      "pct_proc_change": 0.0,
+      "pct_bot_heavy": 6.7
     },
     "conclusions": [
       {
         "type": "neg",
-        "msg": "Detratores têm taxa de resolução identificada +21.2 pp maior que promotores — sinal de problema"
+        "msg": "Detratores têm taxa de resolução identificada +40.8 pp maior que promotores — sinal de problema"
       },
       {
         "type": "neg",
-        "msg": "Detratores têm taxa de transferências +15.4 pp maior que promotores — indica mais complexidade"
+        "msg": "Detratores têm taxa de transferências +2.5 pp maior que promotores — indica mais complexidade"
       },
       {
         "type": "neg",
-        "msg": "Detratores têm taxa de escalação legal +17.8 pp maior que promotores — indica mais complexidade"
-      },
-      {
-        "type": "neg",
-        "msg": "Detratores têm volume de mensagens por conversa +113.4  maior que promotores — indica mais tempo sem resolução"
-      },
-      {
-        "type": "neg",
-        "msg": "Detratores têm comprimento médio das mensagens do atendente +41.6  maior que promotores — sinal de problema"
-      },
-      {
-        "type": "neg",
-        "msg": "Detratores têm taxa de resposta automatizada +7.2 pp maior que promotores — indica mais complexidade"
+        "msg": "Detratores têm taxa de escalação legal +29.2 pp maior que promotores — indica mais complexidade"
       },
       {
         "type": "pos",
-        "msg": "Promotores têm menções de mudança de processo 4.7 pp maior — conversas mais longas com desfecho positivo"
+        "msg": "Promotores têm volume de mensagens por conversa 60.4  maior — conversas mais longas com desfecho positivo"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm comprimento médio das mensagens do atendente +60.2  maior que promotores — sinal de problema"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm taxa de resposta automatizada +5.8 pp maior que promotores — indica mais complexidade"
+      },
+      {
+        "type": "neg",
+        "msg": "Detratores têm menções de mudança de processo +8.3 pp maior que promotores — indica mais complexidade"
       }
     ],
     "trigger_answers": [
-      "<strong>Oportunidade de atendimento:</strong> 42% dos detratores passaram por transferência — processo de escalonamento ineficiente.",
-      "<strong>Complexidade/demora:</strong> Conversas de detratores têm 2.0x mais mensagens — indicativo de problema não resolvido na jornada."
+      "<strong>Oportunidade de atendimento:</strong> 29% dos detratores passaram por transferência — processo de escalonamento ineficiente."
     ],
     "det_trx_sample": {
-      "452332062": [
-        "USER: comprei essa legging como tamanho m, que serviria na cintura ate %num cm e quadril %num cm. porem tenho %num cm de cintura, %num cm de quadril e não serviu",
-        "REP: gleice, vi que essa compra da **legging atletyca** ja esta com uma **reclamação aberta** por “diferente do anunciado”, então o caminho e seguir por ela para pedir **troca** (por outro tamanho) ou **de",
-        "USER: ja fiz a reclamação porem tenho pressa, inclusive paguei para chegar antes!",
-        "REP: entendo a pressa — mas como a compra **ja foi entregue**, o “chegar antes” não da para acelerar agora; o que da para agilizar e a **resolução da reclamação**. na sua reclamação, ja aparece a etapa de ",
-        "USER: tenho urgência! enfim as medidas não competem"
+      "452490034": [
+        "USER: fiz uma compra e não recebi a nota fiscal?",
+        "REP: marcio, não consegui localizar compras na sua conta nos **ultimos %num meses**, então não da para eu checar a nota fiscal por aqui ainda. você comprou **quando** (aprox.) e qual e o **numero do pedido",
+        "USER: celular comprado dia %num/%num/%num",
+        "REP: encontrei a compra de **%num de janeiro de %num** (smartphone xiaomi redmi note %num pro 5g). para pegar a nota fiscal: %num) va em **minhas compras** %num) abra essa compra %num) entre em **detalhes ",
+        "USER: o vendedor nome responde ou atende, eu preciso da nota fiscal, solicito a ação do mercadolivre"
       ],
-      "452836181": [
-        "USER: não recebi mercadoria e esta como entregue",
-        "REP: talita, entendo — quando aparece **entregue** e você não recebeu, o caminho e abrir uma reclamação pela compra. pelas suas compras recentes, ha entregas marcadas como **entregues** em: - **%num de abr",
-        "USER: %num de março",
-        "REP: para **%num de março**, a compra que aparece como entregue e **acabamento para registro (preto fosco)** e foi entregue no endereço **avenida mario lanzani %num**. não ha reclamação aberta ainda. abra ",
-        "USER: falar com especialista"
+      "452948108": [
+        "USER: a reclamação não foi reaberta para a devolução do produto conforme combinado com a atendente.",
+        "REP: marco antonio, entendi. para eu verificar por que a reclamação **não foi reaberta** e o que ainda da para fazer para gerar a **devolução**, me diga qual e o **numero da reclamação** (id) ou o **numero",
+        "USER: %num",
+        "REP: não consegui localizar essa reclamação com o numero **%num** na sua conta (parece que não corresponde a uma reclamação ativa vinculada ao seu usuario). pode me enviar **o numero do pedido/compra** (o ",
+        "USER: reclamação n.° %num"
       ],
-      "452937250": [
-        "USER: demora na solução do problema",
-        "REP: oi, luci. entendo a sua preocupação com a **demora**, e vou te ajudar — mas preciso de um pouco mais de contexto. qual e o problema que esta demorando para resolver? (ex.: compra não entregue, reembol",
-        "USER: produto chegou quebrado",
-        "REP: luci, vi que ja existe uma **reclamação aberta** por “produto quebrado” e ainda **não ha fotos/anexos** enviados nela. tambem não ha devolução iniciada ate agora. para agilizar: - va em **minhas compr",
-        "USER: no dia da reclamação eu enviei as fotos sim"
+      "453002622": [
+        "USER: boa tarde no dia %num de janeiro %num fiz a compra de uma ducha zagonel ducale premim digital no valor:%num,%num acreditando em esta comprando uma ducha de qualidade devido ao valir superior as outraa",
+        "REP: italo, para a zagonel aceitar a garantia, a **nota fiscal precisa ser a da data da compra** (%num de janeiro de %num) — e quem deve emitir/corrigir isso e o **vendedor**. %num) primeiro, veja se a nf ",
+        "USER: vou verificar novamente mais nao esta aparecendo",
+        "REP: se não aparece mesmo na compra, o proximo passo e tentar com o suporte para analisarem o caso e orientarem como proceder com o vendedor. va em [falar com o suporte](meli://cx/help?url=https%3a%2f%2f%u",
+        "AA: o comprador relata que não encontra a nota fiscal da compra de %num de janeiro de %num nas minhas compras e que o vendedor emitiu uma nf com data atual, recusada pelo fabricante para garantia; foi ori"
       ]
     },
     "pro_trx_sample": {
-      "452909340": [
-        "USER: reembolso",
-        "REP: para te ajudar com o **reembolso**, preciso entender de qual compra você esta falando. você pode me dizer: - o que aconteceu (cancelou, devolveu, não recebeu, produto com problema, etc.), e - qual e a",
-        "USER: devolvi. numero da reclamação %num"
+      "453997910": [
+        "USER: estou tentado ver uma devolução de un produto que veio danificado, mas ate agora nao consegui resposta",
+        "REP: vi que você ja tem uma **reclamação aberta em mediação** desde **%num de abril** para um item que chegou **danificado**. nessa etapa, a resposta pode levar alguns dias, e o melhor caminho e falar **pe",
+        "USER: eu ja fiz isso mas nao tive resposta"
       ],
-      "452915841": [
-        "USER: reportar problema com pix",
-        "REP: claro — eu te ajudo com isso. o que aconteceu com o pix? se puder, me diga em uma frase o problema principal (por exemplo: não caiu, ficou pendente, deu erro ao pagar/transferir) e, se apareceu alguma",
-        "USER: eu recebi um pix de outra conta para o mercado pago e não recebi aqui."
+      "454048791": [
+        "USER: comprei um display com vcs como pode ver com a tela antiga o aparelho da sinal e com a novo vou encaminhar o video para verem não da sinal",
+        "REP: josiane, ja existe uma **reclamação aberta hoje (%num de maio)** para essa compra, com motivo “produto não funciona”. por isso, o proximo passo e continuar por ela e anexar as evidências (seu video). ",
+        "USER: essa e a nova"
       ]
     }
   }
