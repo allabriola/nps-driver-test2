@@ -1202,7 +1202,9 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
             bullets.append(bullet(dot_pos, "Promotores: o que foi bem", body))
 
         # Recorrência com sub-padrão específico + exemplos de casos
-        rec_deep = _recurrence_deep(grp, trx_source=trx_src_used)
+        # Passa o processo top negativo para priorizar casos relevantes
+        _top_proc_info = _PA.get(grp, {}).get("top_neg", {})
+        rec_deep = _recurrence_deep(grp, trx_source=trx_src_used, top_proc=_top_proc_info)
         if rec_deep:
             rec_items = ""
             for r in rec_deep[:3]:
@@ -1296,10 +1298,11 @@ def _analyze_trx_group(trx_dict):
         "esc_pct":    round(100*escalated/n) if n else 0,
     }
 
-def _recurrence_deep(grp, trx_source=None):
+def _recurrence_deep(grp, trx_source=None, top_proc=None):
     """
     Diagnóstico aprofundado de recorrência: identifica o SUB-PADRÃO específico
     que se repete entre S1 (transcriptions) e o período mensal (comentários).
+    top_proc: dict com info do processo top negativo (de _PA) para priorizar casos.
     Retorna lista de dicts: {categoria, sub_pattern, s1_count, monthly_count, narrative}
     """
     # ── Sub-padrões específicos por categoria ─────────────────────────
@@ -1357,10 +1360,37 @@ def _recurrence_deep(grp, trx_source=None):
         if cid not in cid_first_complaint and user_msgs:
             cid_first_complaint[cid] = user_msgs[0][:200]
 
+    # ── PRIORIZA CASOS DO PROCESSO TOP NEGATIVO ──────────────────────
+    # Se top_proc fornecido, reordena cid_user_map pondo casos do top processo primeiro
+    if top_proc:
+        proc_name  = (top_proc.get("proc") or "").lower()
+        proc_cdus  = list((top_proc.get("detail") or {}).get("cdu", {}).keys())
+        # Keywords do processo: nome do processo + CDUs (words >= 4 chars)
+        proc_kws   = set()
+        for text in [proc_name] + [c.lower() for c in proc_cdus]:
+            proc_kws.update(w for w in text.split() if len(w) >= 4)
+
+        def _proc_score(txt):
+            return sum(1 for k in proc_kws if k in txt)
+
+        # Reordena: casos com mais keywords do processo ficam primeiro
+        sorted_cids = sorted(cid_user_map.keys(),
+                             key=lambda c: -_proc_score(cid_user_map[c]))
+        cid_user_map    = {c: cid_user_map[c]    for c in sorted_cids}
+        cid_first_complaint = {c: cid_first_complaint[c]
+                                for c in sorted_cids if c in cid_first_complaint}
+
     s1_texts = list(cid_user_map.values())
 
-    # Textos mensais (comentários detratores do _EXEC)
+    # Textos mensais — filtra por processo top negativo se disponível
     monthly_cmts = _EXEC.get("qual",{}).get(grp,{}).get("comments",[])
+    if top_proc:
+        proc_name_m = (top_proc.get("proc") or "").lower()
+        monthly_cmts_filtered = [c for c in monthly_cmts
+                                  if c.get("perfil")=="detrator"
+                                  and proc_name_m in (c.get("driver","") or "").lower()]
+        if monthly_cmts_filtered:
+            monthly_cmts = monthly_cmts_filtered
     monthly_texts = [(c.get("comment","") or "").lower()
                      for c in monthly_cmts if c.get("perfil")=="detrator"]
 
