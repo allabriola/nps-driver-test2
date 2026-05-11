@@ -224,22 +224,36 @@ else:
 
 # ── Monta bullets ─────────────────────────────────────────────────────
 
-# Bullet Sellers (segmentos LT/Mature/MeliPro)
-seg_lines = []
-for seg in ['LT', 'Mature', 'MeliPro']:
-    v = seg_data[seg]
-    c = seg_contrib[seg]
-    status = 'acima' if (v['gap'] or 0) >= 0 else 'abaixo'
-    seg_lines.append(
-        f"<strong>{seg} {sign(c)}{fn(c)} pp</strong> (NPS {fn(v['nc'])}%, "
-        f"{sign(v['gap'])}{fn(v['gap'])} pp vs. meta, MoM {sign(v['mom'])}{fn(v['mom'])} pp)"
-    )
-n_above_seg = sum(1 for s in SEG if (seg_data[s]['gap'] or 0) >= 0)
+# Bullet Destaques Positivos — drivers com melhor evolução MoM e/ou maior folga vs meta
+# Ordena todos os drivers por: (acima da meta E MoM positivo) > (acima da meta) > (MoM positivo)
+def destaque_score(grp):
+    v = drv_data[grp]
+    gap = v['gap'] or 0
+    mom = v['mom'] or 0
+    return (1 if gap >= 0 else 0) * 100 + mom
+
+destaques = sorted(drv_data.keys(), key=lambda g: -destaque_score(g))
+destaques_pos = [g for g in destaques
+                 if (drv_data[g]['gap'] or 0) >= 0 or (drv_data[g]['mom'] or 0) > 1][:3]
+
+destaque_lines = []
+for grp in destaques_pos:
+    v = drv_data[grp]
+    sr_exp = next((k for k in v['sr_mai'] if 'expert' in k.lower()), None)
+    exp_nps = v['sr_mai'][sr_exp]['nps'] if sr_exp else None
+    line = (f"<strong>{grp}</strong>: NPS {fn(v['nc'])}% "
+            f"({sign(v['gap'])}{fn(v['gap'])} pp vs. meta, MoM {sign(v['mom'])}{fn(v['mom'])} pp)")
+    if exp_nps and (v['mom'] or 0) > 2:
+        line += f", liderado por Experts com {fn(exp_nps)}%"
+    destaque_lines.append(line)
+
+top_destaque = destaques_pos[0] if destaques_pos else None
+top_v = drv_data[top_destaque] if top_destaque else {}
+top_mom_str = f", maior alta do período com +{fn(top_v.get('mom'))} pp MoM" if (top_v.get('mom') or 0) > 3 else ""
+
 bullet_sellers = (
-    f"🟢 <strong>Sellers</strong> — Evolução MoM com {n_above_seg} segmento{'s' if n_above_seg>1 else ''} "
-    f"acima da meta. Consolidado SD: <strong>{fn(nc_cons)}%</strong> "
-    f"({sign(gap_cons)}{fn(gap_cons)} pp vs. meta, MoM {sign(mom_cons)}{fn(mom_cons)} pp). "
-    f"Impacto no período: {'; '.join(seg_lines)}."
+    f"🟢 <strong>Destaques positivos</strong>{top_mom_str} — "
+    f"{'; '.join(destaque_lines)}."
 )
 
 # Bullet Partners
