@@ -1,0 +1,1460 @@
+{
+  "ME Vendedor": {
+    "top_proc": "Viaje del paquete - Comprador",
+    "weekly": {
+      "453851951": {
+        "complaint": "boa noite!! realizei uma compra e acompanhando a entrega escreveram que esteve no local dia %num/%num para realizar a entrega e não conseguiram, nesse dia eu estava no meu endereço e ninguem apareceu para realizar a entrega, pois hoje dia %num/%num esta com a mensagem que seria entregue e ja são %ho",
+        "last_rep": "recipient: %email. email: ola, neuva, espero que esteja bem!me chamo michele, sou representante do mercado livre e e um prazer poder te ajudar!sinto muito mesmo que você não tenha recebido o seu produ",
+        "n_msgs": 33
+      },
+      "454258238": {
+        "complaint": "ola, venho por meio desta formalizar uma reclamação referente ao meu pedido do iphone %num pro max com entrega full realizado no mercado livre. o produto foi anunciado com entrega em ate %num dias, porem o prazo não foi cumprido. a data prometida era para ontem, e agora o prazo foi estendido ate seg",
+        "last_rep": "pessoal, user sem interação no momento de contato, estou precisando de mais informações que consta para a mesma e seguir com a tratativa;",
+        "n_msgs": 41
+      },
+      "454261352": {
+        "complaint": "prezados! não estou conseguindo retirar a minha encomenda na loja ml indicada. houve alteração do cnpj da empresa responsavel pela entrega, a mercadoria estava no local, vi o pacote mas não me entregaram. entendo os detalhes mas essa burocracia não pode afetar o cliente. agora, não encontro o pacote",
+        "last_rep": "caso tenha mais duvidas e so clicar no link abaixo para entrar em contato conosco, combinado? 😉link: %url",
+        "n_msgs": 37
+      },
+      "454391377": {
+        "complaint": "vai da %hour ate agora minha encomenda não chegou",
+        "last_rep": "tenha um excelente  dia e otimas proximas compras! ✨",
+        "n_msgs": 198
+      },
+      "454552689": {
+        "complaint": "e ele disse q provavel q o pacote foi extraviado",
+        "last_rep": "como não tive retorno, infelizmente preciso encerrar o atendimento, por sermos um chat online, não podemos ficar sem interação por muito tempo.mas fique à vontade para nos procurar sempre que precisar",
+        "n_msgs": 55
+      },
+      "454618405": {
+        "complaint": "sobre o mercado livre não recebi uma compra mais marca que recebi",
+        "last_rep": "esperei o maximo que pude aqui, e como somos um canal online, não podemos ficar sem interação por muito tempo. mas se precisar de qualquer outro suporte ou tenha ficado com duvidas, peço que nos conta",
+        "n_msgs": 34
+      },
+      "454635800": {
+        "complaint": "ja abri um chamado junto ao mercado livre referente a situação comprei a mercadoria para dar de presente e so estou tendo transtornos",
+        "last_rep": "de nada! como não surgiram outras duvidas, estou encerrando esse chat, mas se caso houver mais alguma questão, não hesite em nos contatar, te desejo uma boa noite e uma otima semana! 💛",
+        "n_msgs": 47
+      },
+      "454932274": {
+        "complaint": "porquê minha ultima compra foi cancelada?",
+        "last_rep": "caso transferido por ext_rosougui. comentarios: o usuario relatou que a compra foi cancelada automaticamente pelo sistema, sem envio do produto, e busca entender o motivo do cancelamento, o que esta e",
+        "n_msgs": 63
+      },
+      "455046984": {
+        "complaint": "quero abrir reclamação minha compra era full",
+        "last_rep": "comprador deseja saber sobre o stataus do seu envio. informa que era um presente para sua esposa e menciona procon e acionar meios legais.",
+        "n_msgs": 134
+      },
+      "455158712": {
+        "complaint": "eu estou esperando desde de manhã meu pacote, o pacote estava aqui na minha rua e desviou da rota e atrasou a encomenda de de manhã para a parte da tarde e aqui eu ainda não estou acreditando que vem, porque o cara esta completamente fora da rota e vocês não fizeram esforço nenhum em comunicar ao en",
+        "last_rep": "na hora que eu fui digitar, o sistema travou e como eu permaneci digitando, ocorreu o erro de digitação.",
+        "n_msgs": 57
+      },
+      "455456032": {
+        "complaint": "meu pedido atualizou a data da entrega novamente",
+        "last_rep": "seller quer reclamar pois seu pedido esta em atraso",
+        "n_msgs": 107
+      },
+      "455569031": {
+        "complaint": "a compra %num%phone esta totalmente atrasada, sem atualização ha mais de uma semana, quero cancelar o pedido",
+        "last_rep": "irei enviar uma notificação informando o atraso da sua entrega para que seu problema seja solucionado",
+        "n_msgs": 17
+      },
+      "455584989": {
+        "complaint": "pedido de reembolso por um objeto que foi retido pela receita federal o vendedor não me responde e não tem a opção de cancelar ou não recebi meu produto",
+        "last_rep": "compreendo que todas as informações foram passadas, neste momento. como chegamos ao tempo limite de espera, precisarei encerrar este chat por agora, mas quero reforçar que estarei sempre à disposição ",
+        "n_msgs": 61
+      },
+      "455585311": {
+        "complaint": "e porque o motor veio para uma agência que não e na nossa cidade, na nossa região, então não sei onde fica essa região que essa central esta. então preciso do reembolso hoje.",
+        "last_rep": "foi um prazer te ajudar genilda, lhes desejo um otimo fim de semana.",
+        "n_msgs": 34
+      },
+      "455622949": {
+        "complaint": "nao tenho o codigo de rastreio",
+        "last_rep": "preciso de mais informações para solucionar o caso, user com conta suspensa po ito. user com conta de outra pessoa. sigo fechando por fsr, ate que retorne a resposta.",
+        "n_msgs": 92
+      },
+      "455634132": {
+        "complaint": "meu produto e pra chegar hoje e nao saiu pra entrega",
+        "last_rep": "ligações cairam na caixa postal",
+        "n_msgs": 101
+      },
+      "455650358": {
+        "complaint": "meu pedido deveria ter sido entregue as %hour mas desde as %hour da manhã que o entregador esta no mesmo lugar. não se movimentou desde então",
+        "last_rep": "user entra contato sobre a demora da compra",
+        "n_msgs": 119
+      },
+      "455653256": {
+        "complaint": "eso. que era para llegar hoy.",
+        "last_rep": "caso de uso (cdu): user reclama que o pedido que era pra ser entregue hoje foi reagendado e ele precisava para o dia das mães, solicitou cancelamento orientação passada: cancelei pelo cx situação exce",
+        "n_msgs": 52
+      },
+      "455679180": {
+        "complaint": "comprei um aparelho de jantar no dia %num/%num com entrega prevista para %num/%num. o pedido entrou no centro de distribuição da minha cidade, chegou bem perto do meu endereço e agora a entrega fica sendo reagendada o tempo todo. numero do pedido %num%phone",
+        "last_rep": "cdu: user tem duvidas sobre sua entrega e atraso que esta sem atualizações.informo que limite de entrega seria ontem mas que pode continuar aguardando ou cancelar pedido.",
+        "n_msgs": 102
+      },
+      "455684083": {
+        "complaint": "olha, preciso que minha compra seja entregue hoje.",
+        "last_rep": "id: %num modelo de note: c2c houve um erro no cx one? não cdu: o usuario jose entrou em contato para informar que a entrega do water cooler estava prevista para ser entregue no dia %num/mai/%num, mas ",
+        "n_msgs": 531
+      }
+    },
+    "monthly": {
+      "452742521": {
+        "complaint": "sim, esta compra esta atrasada e quero maiores informações.",
+        "last_rep": "recipient: %email. email: ola, patrik!meu nome e patricia sou representante do mercado livre, e e um prazer te auxiliar!sinto muito pelo ocorrido com sua compra. espero que seus proximos pedidos sejam",
+        "n_msgs": 13
+      },
+      "453009857": {
+        "complaint": "acredito que seja pq fica num shopping",
+        "last_rep": "recipient: %email. email: gilvia, espero que vocês estejam bem. sou a keilane, representante do mercado livre.gostaria de informar que a entrega da sua compra \"caixa plastica organizadora %num litros ",
+        "n_msgs": 35
+      },
+      "453915816": {
+        "complaint": "a previsao nera pra hoje dia %num",
+        "last_rep": "espero ter te auxiliado com as informações. qualquer duvida, estamos à sua disposição! tenha um otimo dia 💛",
+        "n_msgs": 79
+      },
+      "453993136": {
+        "complaint": "entregaram o produto errado",
+        "last_rep": "caso de uso (cdu): user relata que entregaram um produto errado e ela precisa dele urgentemente. orientação passada: informei pra ela que foi iniciada a reclamação do produto e ela precisa aguardar a ",
+        "n_msgs": 149
+      },
+      "454046377": {
+        "complaint": "foi dito que chegaria atr %hour",
+        "last_rep": "ruth, vi que precisou se ausentar, sendo assim seguirei encerrando nosso chat por agora. mas quero que você saiba que estamos sempre à disposição para esclarecer qualquer duvida ou fornecer apoio no f",
+        "n_msgs": 58
+      },
+      "454054822": {
+        "complaint": "estou esperando o produto ha quase um mês. ontem, quando olhei, estava uma mensagem de que eu deveria cancelar a compra ou o ml entenderia que eu recebi o produto e repassaria o dinheiro ao vendedor.",
+        "last_rep": "como todas as informações que constam em meu sistema foram passadas peço licença para seguir encerrando o atendimento, qualquer duvida pode nos contatar novamente que estaremos a sua disposição, tenha",
+        "n_msgs": 53
+      },
+      "454056022": {
+        "complaint": "entregador esta atrasado com a entrega e não consigo saber onde a compra esta",
+        "last_rep": "envio demorando ( fluxo não vai",
+        "n_msgs": 220
+      },
+      "454142332": {
+        "complaint": "estou com uma compra atrasada",
+        "last_rep": "usuario entra em contato pedindo prioridade na sua entrega, pois não deseja cancelar a sua compra.",
+        "n_msgs": 86
+      },
+      "454157475": {
+        "complaint": "minha mercadoria não chegou ate hoje, ja faz %num dias e vivem reagendando, ja estou a ponto de cancelar. espero mesmo de verdade que venha dentro desse prazo. façam o possivel para entregar logo isso. não consegui receber esse produto ainda por pura incompetência desses entregadores.",
+        "last_rep": "foi um prazer atender você! qualquer duvida, estaremos por aqui para te ajudar no que precisar. muito obrigada pela confiança e paciência! desejo que você tenha um otimo dia e uma excelente semana💛",
+        "n_msgs": 30
+      },
+      "454186151": {
+        "complaint": "nossa ja atrasou era chega na sexta feira isso uma sacanagem",
+        "last_rep": "acredito que você esteja ocupado no momento e, por isso, não conseguiu continuar interagindo aqui no chat. vou pedir licença para encerrar este atendimento, ja que não tivemos mais retorno seu. mas, f",
+        "n_msgs": 165
+      },
+      "454280576": {
+        "complaint": "falar sobre minha encomenda",
+        "last_rep": "acredito que esteja ocupado, mas qualquer duvida sobre o seu envio pode entrar em contato conosco novamente que estamos à sua disposição. sigo encerrando o nosso atendimento, mas quero que saiba que f",
+        "n_msgs": 77
+      },
+      "454282275": {
+        "complaint": "e ai eu fiz a compra desse notebook ai desse notebook aqui que eu tô mandando por ultimo eu fiz a compra dele porque o valor dele era %num.%num e não tinha juros nas parcelas para ai eu aproveitei e fiz logo a compra desse notebook ai entendeu e ai esse notebook ai e era %num giga de ram",
+        "last_rep": "francisco, percebi que não me respondeu mais, acredito que deva estar ocupado agora. vamos fazer o seguinte, vou finalizar por aqui, mas o canal segue aberto para caso tenha alguma duvida, tudo bem?",
+        "n_msgs": 38
+      },
+      "454304986": {
+        "complaint": "ja tentei esta opção mas o atendimento automatico não consegue me compreender. preciso de ajuda de um atendente humano",
+        "last_rep": "sigo relatando o que esta na solução",
+        "n_msgs": 55
+      },
+      "454618502": {
+        "complaint": "cadê vei? ja perdi as contas de quantas vezes eu vim aqui ver sobre o alternador e nada de darem uma resposta descente",
+        "last_rep": "ellyzabeth, espero que tudo seja resolvido, caso tenha alguma nova duvida sobre esse ou outros temas pode chamar no chat que estaremos a disposição desejo um otimo dia.",
+        "n_msgs": 223
+      },
+      "454831914": {
+        "complaint": "mas deixaram minha encomenda no correio",
+        "last_rep": "desejo que o seu dia seja excelente! ✨ caso necessite de esclarecimentos ou de qualquer auxilio, estou à disposição. conte comigo, sempre! um abraço cordial!😉🤝",
+        "n_msgs": 24
+      },
+      "454913037": {
+        "complaint": "entrega em atraso e sem atualização",
+        "last_rep": "ola, tallys, boa noite! tudo bem? me chamo mirela, sou representante do mercado livre e irei seguir te auxiliando.",
+        "n_msgs": 32
+      },
+      "455334194": {
+        "complaint": "eso, solo que hay una divergencia de informaciones.",
+        "last_rep": "motivo do fechamento por erro (cx): caso deu erro durante atendimento e não conseguir fnalizar, caso pausou e o meliphone sumuiu da consola. visto com tl: sim,pedro.",
+        "n_msgs": 250
+      },
+      "455401636": {
+        "complaint": "ta, mas eu quero saber o porquê que o produto voltou pro centro de distribuição, qual que e o motivo de não me entregar o produto, sendo que ele ja tava vindo pra ser enviado. e outra coisa, eu vi la que ja foi creditado o valor pro meu cartão, ne, que vai cair no meu cartão de credito na data que o",
+        "last_rep": "user fica muito insatisfeita com o ocorrido",
+        "n_msgs": 595
+      },
+      "455470290": {
+        "complaint": "minha compra esta atrasada",
+        "last_rep": "#vistocomtl nome do tl: dieissi motivo da exceção em resumo: rep orientada a liberar framework, a fim de manter uma boa experiência do usuario no site. o cupom ajuda diretamente na experiência do usua",
+        "n_msgs": 59
+      },
+      "455685452": {
+        "complaint": "paguei%price de frete para que chegasse antes do dia das maes. nao vai chegar. nao vou pagar frete abusivo pra nao chegar no prazo",
+        "last_rep": "não, mas eu imagino, eu imagino que e frustrante.",
+        "n_msgs": 132
+      }
+    },
+    "abr_ids": [
+      "448936666",
+      "449095010",
+      "452475795",
+      "452569926",
+      "452840138",
+      "450620478",
+      "449602976",
+      "448293192",
+      "450299933",
+      "448432643"
+    ]
+  },
+  "Exp. Impositiva": {
+    "top_proc": "Facturación",
+    "weekly": {
+      "453746958": {
+        "complaint": "enviar uma consulta sobre cobrança indevida",
+        "last_rep": "seller não concorda com solução e abriu outro chamado",
+        "n_msgs": 30
+      },
+      "454191718": {
+        "complaint": "o problema e de cobranças como vendedor",
+        "last_rep": "recipient: %email. email: ola, geevens charles, espero que este e-mail te encontre bem! 🙂me chamo marco antonio e vou te ajudar nesse caso.o que e a tarifa por publicidade?a tarifa por publicidade cor",
+        "n_msgs": 86
+      },
+      "454250546": {
+        "complaint": "pq esta vindo cobrança de faturamento pra mim ,se não fiz plano nenhum ?",
+        "last_rep": "foi um prazer ajudar você. cuide-se e tenha um otimo dia!💛",
+        "n_msgs": 99
+      },
+      "454306334": {
+        "complaint": "erro emissão nota envios full",
+        "last_rep": "nome: leandro cdu: não foi possivel emitir a nota fiscal item sem dados fiscais cadastrados",
+        "n_msgs": 214
+      },
+      "454307979": {
+        "complaint": "",
+        "last_rep": "de acordo com o dropext_kaioryan#vistocomtl",
+        "n_msgs": 6
+      },
+      "454329407": {
+        "complaint": "preciso ligar pra assistência",
+        "last_rep": "caso transferido por ext_ellennas. comentarios: pl processo: facturacion justificação: o usuario relata desconto vinculado a 'fatura expirada' no mercado libre, não reconhecendo ou questionando valore",
+        "n_msgs": 258
+      },
+      "454354823": {
+        "complaint": "ola tive uma cobraçã automatica de minha pagina, a qual un funcionario activou por error, pois não tinhamos pensado activar ela",
+        "last_rep": "rayner, esperei alguns minutos e como não obtive mais respostas foi um prazer te auxiliar! tenha uma otima semana, espero que o meu atendimento tenha sido satisfatorio, qualquer duvida estou à disposi",
+        "n_msgs": 65
+      },
+      "454372125": {
+        "complaint": "faturas pendentes que não ha",
+        "last_rep": "recipient: %email. email: ola giulia, bom dia!😀tudo bem? espero que sim! estou entrando em contato com você para te avisar sobre sua fatura. pude ver que você teve varios problemas quanto a isso, e eu",
+        "n_msgs": 95
+      },
+      "454488970": {
+        "complaint": "sim ja esta descontando do meu saldo, vou te mandar o print.",
+        "last_rep": "encerro meu contato por aqui. porem, seguimos à disposição, caso tenha qualquer duvida. tenha um excelente dia! 💛",
+        "n_msgs": 31
+      },
+      "454619431": {
+        "complaint": "preciso faqlar com um humano",
+        "last_rep": "fechando por usuario sem duvidas.",
+        "n_msgs": 436
+      },
+      "454639751": {
+        "complaint": "problemas com certificado digital",
+        "last_rep": "nome: vania %num. caso de uso (ucd): seller não esta conseguindo subir a o novo certificado no mercado e esta dando erro | caso anterior associado a um bug itmtaxcalc-%num | %num %num. situação excepc",
+        "n_msgs": 92
+      },
+      "454777573": {
+        "complaint": "quero falar com atendimento",
+        "last_rep": "recipient: %email. email: ola! mel cerrado, tudo bem? espero que sim. e um prazer enorme poder te atender! me chamo italo sou representante do mercado livre e estou aqui para te auxiliar atraves desse",
+        "n_msgs": 14
+      },
+      "454793797": {
+        "complaint": "recebi uma cobrança de uma fatura e não estou entendendo o pq dessa cobrança. não ativei nada. não comprei nada com cartão. posso favor aguardo resposta",
+        "last_rep": "caso de uso (cdu): ajuda com a fatura nome do vendedor: francisco motivo: seller informa que não reconhece o valor que esta sendo cobrado na fatura de r$%num,%num, e foi descontado do saldo r$%num,%nu",
+        "n_msgs": 356
+      },
+      "455091004": {
+        "complaint": "hola, buen dia, ¿tuo bien?",
+        "last_rep": "tipo de fix: automatic resposta parcial enviada resposta final enviada n/a",
+        "n_msgs": 65
+      },
+      "455131490": {
+        "complaint": "hola, ¿o numero que usted ligo esta bloqueado o no puede recibir esta llamada?",
+        "last_rep": "recipient: %email. email: ola, venda direta💛me chamo, talita! sou representante do mercado livretentamos entrar em contato com você, mas a ligação não estava completando. para que eu possa te ajudar, ",
+        "n_msgs": 6
+      },
+      "455136749": {
+        "complaint": "não concordo com a cobrança",
+        "last_rep": "nome: gizelly cdu: a vendedora relatou cobrança retroativa de tarifa de publicidade ja paga e pede o cancelamento/explicação da cobrança, conforme exemplos e descrição sobre duvidas ou discordâncias e",
+        "n_msgs": 119
+      },
+      "455167255": {
+        "complaint": "%num - duvidas sobre taxas, prazos de vendas e extratos",
+        "last_rep": "caso transferido por lfranceschet. comentarios: seller deseja saber do que se trata o debito por fatura vencida no mercado livre, podem ajudar? obs: não se trata de fatura de cartão. processo: factura",
+        "n_msgs": 71
+      },
+      "455184013": {
+        "complaint": "",
+        "last_rep": "recipient: %email. email: ola, felipe, espero que este e-mail te encontre bem. ;a que tarifa corresponde o debito efetuado?o valor debitado foi utilizado para quitar a cobrança da tarifa mercado livre",
+        "n_msgs": 2
+      },
+      "455384500": {
+        "complaint": "estão me cobrando um valor que não sei a que se refere",
+        "last_rep": "o caso foi fechado e não tive como responder ao usuario",
+        "n_msgs": 104
+      },
+      "455524282": {
+        "complaint": "como esta gerando dividas se cancelei tudo,se nao estou vendendo mais nada ,chega nao aguento mais",
+        "last_rep": "recipient: %email. email: o que e a tarifa por publicidade?a tarifa por publicidade corresponde ao custo de utilizar ferramentas de anuncios dentro ou fora do mercado livre para promover suas publicaç",
+        "n_msgs": 24
+      }
+    },
+    "monthly": {
+      "453457667": {
+        "complaint": "buenas tardes norma, yo estoy con un problema con mercado livre, yo tentei resolver antes y no consegui, ¿entendo?",
+        "last_rep": "encerrou o caso por estar duplicado com o caso:%num",
+        "n_msgs": 481
+      },
+      "453746958": {
+        "complaint": "enviar uma consulta sobre cobrança indevida",
+        "last_rep": "seller não concorda com solução e abriu outro chamado",
+        "n_msgs": 30
+      },
+      "453953271": {
+        "complaint": "foi feito %num venda de um valor muito abaixo do que estava anunciado em minha conta",
+        "last_rep": "solicitar ao seller print do historico de alterações do anuncio, pois em cx nao consta",
+        "n_msgs": 312
+      },
+      "454191718": {
+        "complaint": "o problema e de cobranças como vendedor",
+        "last_rep": "recipient: %email. email: ola, geevens charles, espero que este e-mail te encontre bem! 🙂me chamo marco antonio e vou te ajudar nesse caso.o que e a tarifa por publicidade?a tarifa por publicidade cor",
+        "n_msgs": 86
+      },
+      "454250546": {
+        "complaint": "pq esta vindo cobrança de faturamento pra mim ,se não fiz plano nenhum ?",
+        "last_rep": "foi um prazer ajudar você. cuide-se e tenha um otimo dia!💛",
+        "n_msgs": 99
+      },
+      "454307979": {
+        "complaint": "",
+        "last_rep": "de acordo com o dropext_kaioryan#vistocomtl",
+        "n_msgs": 6
+      },
+      "454329407": {
+        "complaint": "preciso ligar pra assistência",
+        "last_rep": "caso transferido por ext_ellennas. comentarios: pl processo: facturacion justificação: o usuario relata desconto vinculado a 'fatura expirada' no mercado libre, não reconhecendo ou questionando valore",
+        "n_msgs": 258
+      },
+      "454354823": {
+        "complaint": "ola tive uma cobraçã automatica de minha pagina, a qual un funcionario activou por error, pois não tinhamos pensado activar ela",
+        "last_rep": "rayner, esperei alguns minutos e como não obtive mais respostas foi um prazer te auxiliar! tenha uma otima semana, espero que o meu atendimento tenha sido satisfatorio, qualquer duvida estou à disposi",
+        "n_msgs": 65
+      },
+      "454372125": {
+        "complaint": "faturas pendentes que não ha",
+        "last_rep": "recipient: %email. email: ola giulia, bom dia!😀tudo bem? espero que sim! estou entrando em contato com você para te avisar sobre sua fatura. pude ver que você teve varios problemas quanto a isso, e eu",
+        "n_msgs": 95
+      },
+      "454488970": {
+        "complaint": "sim ja esta descontando do meu saldo, vou te mandar o print.",
+        "last_rep": "encerro meu contato por aqui. porem, seguimos à disposição, caso tenha qualquer duvida. tenha um excelente dia! 💛",
+        "n_msgs": 31
+      },
+      "454619431": {
+        "complaint": "preciso faqlar com um humano",
+        "last_rep": "fechando por usuario sem duvidas.",
+        "n_msgs": 436
+      },
+      "454639751": {
+        "complaint": "problemas com certificado digital",
+        "last_rep": "nome: vania %num. caso de uso (ucd): seller não esta conseguindo subir a o novo certificado no mercado e esta dando erro | caso anterior associado a um bug itmtaxcalc-%num | %num %num. situação excepc",
+        "n_msgs": 92
+      },
+      "454777573": {
+        "complaint": "quero falar com atendimento",
+        "last_rep": "recipient: %email. email: ola! mel cerrado, tudo bem? espero que sim. e um prazer enorme poder te atender! me chamo italo sou representante do mercado livre e estou aqui para te auxiliar atraves desse",
+        "n_msgs": 14
+      },
+      "454793797": {
+        "complaint": "recebi uma cobrança de uma fatura e não estou entendendo o pq dessa cobrança. não ativei nada. não comprei nada com cartão. posso favor aguardo resposta",
+        "last_rep": "caso de uso (cdu): ajuda com a fatura nome do vendedor: francisco motivo: seller informa que não reconhece o valor que esta sendo cobrado na fatura de r$%num,%num, e foi descontado do saldo r$%num,%nu",
+        "n_msgs": 356
+      },
+      "455091004": {
+        "complaint": "hola, buen dia, ¿tuo bien?",
+        "last_rep": "tipo de fix: automatic resposta parcial enviada resposta final enviada n/a",
+        "n_msgs": 65
+      },
+      "455131490": {
+        "complaint": "hola, ¿o numero que usted ligo esta bloqueado o no puede recibir esta llamada?",
+        "last_rep": "recipient: %email. email: ola, venda direta💛me chamo, talita! sou representante do mercado livretentamos entrar em contato com você, mas a ligação não estava completando. para que eu possa te ajudar, ",
+        "n_msgs": 6
+      },
+      "455167255": {
+        "complaint": "%num - duvidas sobre taxas, prazos de vendas e extratos",
+        "last_rep": "caso transferido por lfranceschet. comentarios: seller deseja saber do que se trata o debito por fatura vencida no mercado livre, podem ajudar? obs: não se trata de fatura de cartão. processo: factura",
+        "n_msgs": 71
+      },
+      "455184013": {
+        "complaint": "",
+        "last_rep": "recipient: %email. email: ola, felipe, espero que este e-mail te encontre bem. ;a que tarifa corresponde o debito efetuado?o valor debitado foi utilizado para quitar a cobrança da tarifa mercado livre",
+        "n_msgs": 2
+      },
+      "455384500": {
+        "complaint": "estão me cobrando um valor que não sei a que se refere",
+        "last_rep": "o caso foi fechado e não tive como responder ao usuario",
+        "n_msgs": 104
+      },
+      "455524282": {
+        "complaint": "como esta gerando dividas se cancelei tudo,se nao estou vendendo mais nada ,chega nao aguento mais",
+        "last_rep": "recipient: %email. email: o que e a tarifa por publicidade?a tarifa por publicidade corresponde ao custo de utilizar ferramentas de anuncios dentro ou fora do mercado livre para promover suas publicaç",
+        "n_msgs": 24
+      }
+    },
+    "abr_ids": [
+      "448382485",
+      "451345223",
+      "451743811",
+      "447927963",
+      "449337151",
+      "450613150",
+      "447938366",
+      "452511431",
+      "449159103",
+      "452751562"
+    ]
+  },
+  "PCF Vendedor": {
+    "top_proc": "Post Compra Funcionalidades Vendedor",
+    "weekly": {
+      "454243106": {
+        "complaint": "estou bem , obrigada por perguntar.",
+        "last_rep": "compreendo, rosi, que não esteja de acordo com a solução apresentada. reforço que buscamos oferecer a melhor forma de resolver a situação que nos trouxe.saiba que analisamos detalhadamente o seu caso ",
+        "n_msgs": 35
+      },
+      "454252968": {
+        "complaint": "estou bem, gostaria de tirar umas duvidas referente a peças que retornam para o nosso centro de distribuição, quando o mercado livre faz o reembolso para o cliente e a peça volta para mim eu tenho prejuizo com o frete?",
+        "last_rep": "caso saio de mim no momento da gestão.",
+        "n_msgs": 22
+      },
+      "454274158": {
+        "complaint": "foi retido um valor da minha conta sendo que não vejo devolução alguma pode ma ajudar",
+        "last_rep": "cris como não houve interação, sigo finalizando o atendimento, mas caso ainda precise de auxilio, estamos sempre a disposição.",
+        "n_msgs": 49
+      },
+      "454323931": {
+        "complaint": "preciso fazer um estorno de uma venda",
+        "last_rep": "assim que eles finalizarem você recebera um email, tudo bem?",
+        "n_msgs": 46
+      },
+      "454368983": {
+        "complaint": "",
+        "last_rep": "recipient: %email. email: ola, marilia marcal de s.bom dia!✨ tudo bem com você? eu sou a ivanise e estou super feliz em conversar com você hoje! 😊 se precisar de qualquer coisa, pode contar comigo. es",
+        "n_msgs": 4
+      },
+      "454569605": {
+        "complaint": "falar com atendimento sobre uma devolução extraviada",
+        "last_rep": "se surgir qualquer outra duvida, sigo à disposição. desejo a você excelentes vendas!",
+        "n_msgs": 72
+      },
+      "454641743": {
+        "complaint": "recebi uma devolução que não e o produto vendido",
+        "last_rep": "aguardei o maximo de tempo possivel, acredito que esteja ocupado. mas não se preocupe, caso precise de ajuda entre em contato conosco novamente que nossa equipe estara pronta para responder todas as s",
+        "n_msgs": 23
+      },
+      "454761548": {
+        "complaint": "sobre a venda %num. ja ofereci a devolução para o comprador, mas ainda fica a mensagem de que se eu não resolver o problema ate hoje minha reputação sera afetada",
+        "last_rep": "recipient: %email. email: ola, chroma commerce.espero que este e-mail te encontre bem. 💛me chamo fran e sou representante do mercado livre, saiba que e uma honra te atender hoje. 🤝sinto muito por toda",
+        "n_msgs": 23
+      },
+      "454778887": {
+        "complaint": "%num esta devolução o comprador marcou como se eu tivesse enviado o produto errado, mas ao receber de volta vi que estava correto",
+        "last_rep": "recipient: %email. email: ola, nippoway comercial importadora. ;ola, bom dia! tudo bem? seja bem-vindo ao atendimento do mercado livre. eu sou a evelly e vou acompanhar seu atendimento a partir de ago",
+        "n_msgs": 7
+      },
+      "454787279": {
+        "complaint": "%num - problemas com vendas recebidas ou pagamentos",
+        "last_rep": "caso transferido por gisales. comentarios: derivar caso. processo: post compra funcionalidades vendedor justificação: o vendedor precisa de suporte em uma devolução apos a entrega, por motivo de desis",
+        "n_msgs": 71
+      },
+      "454791395": {
+        "complaint": "",
+        "last_rep": "recipient: %email. email: ola, im@gine brinquedos. espero que estejam bem. meu nome e livia, sou representante do mercado livre, e estarei acompanhando seu atendimento hoje. 🤝 ; ;recebemos sua consult",
+        "n_msgs": 2
+      },
+      "454823221": {
+        "complaint": "na venda em questão, o cliente realizou a devolução do relogio pois não estava conseguindo ajustar o fecho, o relogio retornou e o fecho esta perfeito, ela que não estava sabendo como ajustar, tentamos ajudar.",
+        "last_rep": "fiz a bonificação por outro motivo, pois o motivo correto não esta liberando a bonificação(estorno) do valor.",
+        "n_msgs": 23
+      },
+      "454860582": {
+        "complaint": "preciso de ajuda com uma mediação",
+        "last_rep": "tudo em gustavo, foi um prazer te atender espero que seu caso seja resolvido gostaria muito de poder te ajudar!",
+        "n_msgs": 50
+      },
+      "455354903": {
+        "complaint": "seria sobre a resposta de uma mediação da venda %num",
+        "last_rep": "poxa, sinto muito que nossa conversa não pôde continuar! esperamos alguns minutinhos, mas como não tivemos retorno, encerramos o contato. de toda forma fico feliz em esclarecer sobre a mediação em and",
+        "n_msgs": 26
+      },
+      "455355126": {
+        "complaint": "gostaria de falar com a ouvidoria",
+        "last_rep": "disponha ! 💛te agradeço imensamente pela compreensão, encerro esse atendimento desejando a você uma excelente e abençoado final de semana , otimo dia e espero que o meu atendimento tenha sido explicat",
+        "n_msgs": 53
+      },
+      "455371830": {
+        "complaint": "hola, ¿tuo bien? mi nombre es daniela.",
+        "last_rep": "nome: danielacdu: produto não devolvido e comprador reembolsado vendas: %num minha analise: seller não se conforma com a decisão da med",
+        "n_msgs": 849
+      },
+      "455377237": {
+        "complaint": "esta devolucion, hubo una demora extrema del cliente devolver",
+        "last_rep": "nome do user: fredson motivo do contato: seller informa que recebeu uma devolução de mercadoria fracassada, com peças faltando. porem, a mediação esta em aberto orientado a aguarda o retorno. vendas: ",
+        "n_msgs": 119
+      },
+      "455380044": {
+        "complaint": "daniela, eu tô precisando de auxilio com o pedido %num, ele foi cancelado porem comprador se mantem em posse do produto",
+        "last_rep": "poxa, sentimos muito que nossa conversa não pode continuar! esperamos alguns minutos, mas como não tivemos retorno, encerramos o contato. se precisar de algo, fique à vontade para abrir um novo chamad",
+        "n_msgs": 23
+      },
+      "455417273": {
+        "complaint": "preciso de auxilio com %num mediação, as quais se encerram o prazo para nos informar o seguimento, mas não tivemos qualquer posição",
+        "last_rep": "imagina valeria! fico feliz em ter ajudado e eu agradeço muito pelo seu contato e pela parceria!  seguimos à disposição sempre que você precisar. tenha uma excelente tarde e otimas vendas! 💛",
+        "n_msgs": 18
+      },
+      "455426336": {
+        "complaint": "por favor, gostaria de falar sobre uma venda que veio com avarias",
+        "last_rep": "fsr: três tenattivas de ctt sem sucesso.",
+        "n_msgs": 52
+      }
+    },
+    "monthly": {
+      "454040198": {
+        "complaint": "ta muito complicado pra ter retorno do suporte",
+        "last_rep": "cdu: deve entrar em contato com o email correto de cadastro",
+        "n_msgs": 38
+      },
+      "454323931": {
+        "complaint": "preciso fazer um estorno de uma venda",
+        "last_rep": "assim que eles finalizarem você recebera um email, tudo bem?",
+        "n_msgs": 46
+      },
+      "454368983": {
+        "complaint": "",
+        "last_rep": "recipient: %email. email: ola, marilia marcal de s.bom dia!✨ tudo bem com você? eu sou a ivanise e estou super feliz em conversar com você hoje! 😊 se precisar de qualquer coisa, pode contar comigo. es",
+        "n_msgs": 4
+      },
+      "454482699": {
+        "complaint": "não estão me permitindo alterar o preço do anuncio %phone pede uma verificação por selfie ou qr code, eu completo as verificações e mesmo assim não permite",
+        "last_rep": "caso transferido por ext_irancost. comentarios: derivar caso. processo: post compra funcionalidades vendedor justificação: o usuario (vendedor) relatou duvidas sobre mediação, devolução, custos e repu",
+        "n_msgs": 10
+      },
+      "454505284": {
+        "complaint": "",
+        "last_rep": "recipient: %email. email: ola, leticia! ;me chamo stephanie, e faço parte da equipe do mercado livre. ;espero que esteja bem. e um prazer imenso lhe atender! ;entendo perfeitamente a sua preocupação c",
+        "n_msgs": 1
+      },
+      "454778887": {
+        "complaint": "%num esta devolução o comprador marcou como se eu tivesse enviado o produto errado, mas ao receber de volta vi que estava correto",
+        "last_rep": "recipient: %email. email: ola, nippoway comercial importadora. ;ola, bom dia! tudo bem? seja bem-vindo ao atendimento do mercado livre. eu sou a evelly e vou acompanhar seu atendimento a partir de ago",
+        "n_msgs": 7
+      },
+      "454783073": {
+        "complaint": "meu nome e ana, preciso de ajuda nesses casos abaixo",
+        "last_rep": "ana, agradeço pelo seu contato e espero ter te auxiliado da melhor forma. caso precise retorna em questão dessa mediação, nos estamos aqui. te desejo uma otima quarta e sucesso nas suas vendas!",
+        "n_msgs": 48
+      },
+      "454787279": {
+        "complaint": "%num - problemas com vendas recebidas ou pagamentos",
+        "last_rep": "caso transferido por gisales. comentarios: derivar caso. processo: post compra funcionalidades vendedor justificação: o vendedor precisa de suporte em uma devolução apos a entrega, por motivo de desis",
+        "n_msgs": 71
+      },
+      "454823221": {
+        "complaint": "na venda em questão, o cliente realizou a devolução do relogio pois não estava conseguindo ajustar o fecho, o relogio retornou e o fecho esta perfeito, ela que não estava sabendo como ajustar, tentamos ajudar.",
+        "last_rep": "fiz a bonificação por outro motivo, pois o motivo correto não esta liberando a bonificação(estorno) do valor.",
+        "n_msgs": 23
+      },
+      "454834570": {
+        "complaint": "o comprador da venda %num não fez a devolução do produto, conforme seu proprio relato e ainda assim recebeu o reembolso pela venda. como provceder?",
+        "last_rep": "saiba que estou sempre à disposição para o que precisar, conte comigo e com toda a nossa equipe. desejo um dia maravilhoso para você e todo sucesso. 💛",
+        "n_msgs": 37
+      },
+      "455061060": {
+        "complaint": "preciso de ajuda com a reclamação na venda %num%phone, pois o robo fica repetindo a mesma coisa sempre.",
+        "last_rep": "eu agradeço pela compreensão e seguimos à disposição, tenha um otimo dia. 💛",
+        "n_msgs": 40
+      },
+      "455332937": {
+        "complaint": "gostaria que fosse reanalisado %num vendas para um possivel reembolso das tarifas de devolução, vou deixar o numero das vendas ja com a explicação contextualizando o por que não concordo com essa cobrança de taxas dessas vendas expecificas",
+        "last_rep": "juliana, como não recebi uma resposta sua, vou encerrar nosso atendimento por aqui. mas quero que saiba que estou sempre à disposição para ajudar! você pode voltar a entrar em contato sempre que preci",
+        "n_msgs": 54
+      },
+      "455371830": {
+        "complaint": "hola, ¿tuo bien? mi nombre es daniela.",
+        "last_rep": "nome: danielacdu: produto não devolvido e comprador reembolsado vendas: %num minha analise: seller não se conforma com a decisão da med",
+        "n_msgs": 849
+      },
+      "455379148": {
+        "complaint": "%num - nos recebemos uma devolução divergente do produto enviado. o cliente nos devolveu calças ao inves do kit chaves",
+        "last_rep": "qualquer outro problema, duvida ou solicitação, estamos à disposição.tenha um excelente dia e muito sucesso nos seus negocios!!!💛💙",
+        "n_msgs": 40
+      },
+      "455380044": {
+        "complaint": "daniela, eu tô precisando de auxilio com o pedido %num, ele foi cancelado porem comprador se mantem em posse do produto",
+        "last_rep": "poxa, sentimos muito que nossa conversa não pode continuar! esperamos alguns minutos, mas como não tivemos retorno, encerramos o contato. se precisar de algo, fique à vontade para abrir um novo chamad",
+        "n_msgs": 23
+      },
+      "455393700": {
+        "complaint": "estou com a venda  %num e o cliente reclama de uma folga que e propria do hb. e isso nos gerou uma taxa",
+        "last_rep": "percebi que faz alguns minutos que você não me responde. entendo que a correria do dia a dia pode atrapalhar, mas caso ainda tenha duvidas, entre em contato conosco e te ajudaremos da melhor forma.😃 💛",
+        "n_msgs": 50
+      },
+      "455417273": {
+        "complaint": "preciso de auxilio com %num mediação, as quais se encerram o prazo para nos informar o seguimento, mas não tivemos qualquer posição",
+        "last_rep": "imagina valeria! fico feliz em ter ajudado e eu agradeço muito pelo seu contato e pela parceria!  seguimos à disposição sempre que você precisar. tenha uma excelente tarde e otimas vendas! 💛",
+        "n_msgs": 18
+      },
+      "455491083": {
+        "complaint": "tenho duas vendas não efetivadas",
+        "last_rep": "erro completo por ter interferência de afiliados.",
+        "n_msgs": 55
+      },
+      "455574764": {
+        "complaint": "tivemos um pedido do flex onde o cliente solicitou cancelamento sendo que ja foi entregue, temos o comprovante de entrega feito por nos mesmo, so que apareceu como cancelada e retornou o dinheiro para o cliente, so que foi entregue.",
+        "last_rep": "lucas, foi um prazer atender você hoje! se precisar de qualquer outro suporte ou tenha ficado com duvidas, basta retornar o contato clicando em: %url combinado?te desejo um otimo final de semana, rech",
+        "n_msgs": 39
+      },
+      "455730052": {
+        "complaint": "¿tudo bien, con quien yo falo?",
+        "last_rep": "nome do usuario: renato nicolete caso de uso (cdu): informativo solução utilizada: mediação encerrada - produto danificado ou com o mesmo dano relatado pelo c item id/order/pack: %num%phone situação e",
+        "n_msgs": 751
+      }
+    },
+    "abr_ids": [
+      "451948600",
+      "448128957",
+      "452905034",
+      "448843110",
+      "452535566",
+      "451555674",
+      "450847359",
+      "450020524",
+      "451081783",
+      "447890652"
+    ]
+  },
+  "Post Venta": {
+    "top_proc": "Reputación",
+    "weekly": {
+      "454256768": {
+        "complaint": "por instrução do proprio mercado livre",
+        "last_rep": "cynara durante o atendimento, buscamos esclarecer todos os pontos importantes sobre o tema, e entendo que você compreendeu nossas regras e o modo como seguimos com os processos. sabemos que, mesmo ass",
+        "n_msgs": 42
+      },
+      "454311552": {
+        "complaint": "poderia me ajudar com alguns impactos negativos de %num vendas?",
+        "last_rep": "carolina, fico muito feliz em te ajudar, e por ter sido clara nas informações, se, apos revisar com calma a analise do pdf com esses %num pedidos que mantiveram o impacto na sua conta, você tiver qual",
+        "n_msgs": 23
+      },
+      "454315709": {
+        "complaint": "não, pois ela entrou em contato via telefone e agora que que recebemos a devolução constatei que ela abriu uma reclamação",
+        "last_rep": "lembrando que, precisando de qualquer coisa, não hesite em nos contatar! conte sempre conosco! 💛🤝💙",
+        "n_msgs": 75
+      },
+      "454320650": {
+        "complaint": "o cliente realizou a compra selecionando a opção retirar em loja em votorantim interior de são paulo . no entanto, o comprador esta localizado em outra cidade , o que impossibilita a retirada em são paulo, conforme compra do cliente no ato da compra e selecionado pelo mesmo ao comprar no anuncio. de",
+        "last_rep": "certinho, sigo encerrando por aqui. ficamos a disposição sempre que necessario, conta com a gente!desejo um otimo dia e sucesso em suas vendas, thays! 🚀💛",
+        "n_msgs": 101
+      },
+      "454511688": {
+        "complaint": "",
+        "last_rep": "recipient: %email. email: ola, equipe figelar! agradeço por informar sobre a sua venda e aguardar o nosso retorno. me chamo rita e vou te auxiliar hoje. ;ja analisei seu caso, e todas as informações q",
+        "n_msgs": 2
+      },
+      "454583850": {
+        "complaint": "me chamo kauan, poderia me ajudar em algumas vendas que estão impactando a minha reputação?",
+        "last_rep": "combinado, kauan! agradeço sua compreensão com a nossa analise! desejo um otimo dia para você e sucesso com os proximos prazos de entrega, vai dar certo! qualquer duvida, estamos à disposição! 🤝",
+        "n_msgs": 20
+      },
+      "454636218": {
+        "complaint": "me chamo tiago, poderia me ajudar em algumas vendas que estão impactando a minha reputação?",
+        "last_rep": "imagina, tiago! foi um prazer ajudar você analisando suas vendas em detalhes e mostrando o motivo pelo qual os impactos foram mantidos. tenho certeza de que, colocando em pratica as orientações que pa",
+        "n_msgs": 22
+      },
+      "454671601": {
+        "complaint": "activity_id: p2p_crypto_transfer-d08bfc8aaac3e481a6ffa31e054a1f45661f9869",
+        "last_rep": "yo voy a estar analizando aqui con mas cuidado para ir te pasando mas informaciones.",
+        "n_msgs": 54
+      },
+      "454829638": {
+        "complaint": "preciso que retirem o impacto da minha conta de uma reclamação que não tive culpa, foi de envios flex o motoboy pegou o produto marcou como entregue e o cliente não pegou o produto. afetou muito minha reputação, não foi culpa minha ainda sai no prejuizo tive que reembolsar o cliente e a transportado",
+        "last_rep": "poxa, acho que não esta mais online comigo. como não tive seu retorno, por exceder o nosso limite de espera, terei que finalizar. mas, a nossa conversa acima ficara salva para que você possa ler com m",
+        "n_msgs": 43
+      },
+      "454879772": {
+        "complaint": "preciso conversar via chat com o lciente do pedido %num",
+        "last_rep": "recipient: %email. email: ola, alessandra valsani varejo ltda. ; espero que esteja tudo bem por ai. sou amanda, representante do mercado livre e estou aqui para te auxiliar no que precisar.recebemos s",
+        "n_msgs": 11
+      },
+      "454910862": {
+        "complaint": "",
+        "last_rep": "recipient: %email. email: ola, equipe imperio multimarcas. tudo bem? ;me chamo cristhian representante do mercado livre, gostaria de informar, que vamos solucionar seu problema, mas caso tenha qualque",
+        "n_msgs": 6
+      },
+      "455061413": {
+        "complaint": "me chamo kauan, poderia me ajudar em algumas vendas que estão impactando a minha reputação?",
+        "last_rep": "kauan, por estarmos em um canal online, precisamos que mantenha o contato ativo e como não tive retorno, entendo que não esta mais online comigo e por isso, terei que encerrar o nosso atendimento. cas",
+        "n_msgs": 27
+      },
+      "455117132": {
+        "complaint": "quero contestar a solução apresentada pelo atentende que respondeu",
+        "last_rep": "vendedor: gustavocaso de uso (cdu): vendedor informa que seu produto full foi enviado em boas condições para o deposito, mas que chegou ate o comprador com avarias e aberto.",
+        "n_msgs": 217
+      },
+      "455142335": {
+        "complaint": "eso, raquel, yo estaba en relacion a unos %num minutos atras con la ana y la relacion cayo, ¿se puede puxar nuevamente?",
+        "last_rep": "cola de origem: pre-despacho nome: elanio, (cdu): vendedor solicita retirada de impacto na reputação por cancelamento que foi orientado pro uma rep por causa do flex que estava ativando automaticament",
+        "n_msgs": 102
+      },
+      "455158572": {
+        "complaint": "então eu acabei cancelando a venda",
+        "last_rep": "se precisar de algo mais, estamos a disposição!",
+        "n_msgs": 19
+      },
+      "455332754": {
+        "complaint": "eu preciso que revejam a reputação sobre essa venda, resolvemos a reclamação mas ainda ela consta em nossa reputação e zelamos muito por isso. o cliente colocou produto diferente, mas mandamos exatamente oque ele pediu e como consta em nosso anuncio, ele devolveu e esta tudo certo, porem a reputação",
+        "last_rep": "med não estava com status de aberta quando estava tratando o caso sobre a reputação.",
+        "n_msgs": 48
+      },
+      "455338864": {
+        "complaint": "certo atualizou aqui! porem ainda esta sendo cobrado r$%num,%num e de mim por conta do envio, sendo que eu não errei nos envios. gostaria que o valor fosse estornado pra minha conta",
+        "last_rep": "caso transferido por ext_jaynsant. comentarios: derivar processo: reputacion justificação: o vendedor relata a cobrança de uma taxa de devolução em uma unica venda e solicita o estorno, o que correspo",
+        "n_msgs": 37
+      },
+      "455348675": {
+        "complaint": "ola, equipe do suporte do mercado livre. estamos enfrentando um problema relacionado a um anuncio de chuteira da nossa conta. ja entramos em contato varias vezes anteriormente porque o anuncio estava recebendo advertências alegando informações fora das regras da plataforma. sempre que recebiamos a n",
+        "last_rep": "solu aproximada com o tema do atendimento",
+        "n_msgs": 90
+      },
+      "455350836": {
+        "complaint": "sobre uma cliente que ficou descontente com a entrega o atraso e fez uma reclamação infundadas alegando que meu produto não esta de acordo com o anuncio , mas o meu produto esta exatamento como ela pediu mas como ela quis devolver fez qualquer reclamação e lesou minha reputação ela comprou %num calc",
+        "last_rep": "caso de uso: referente impacto sobre atraso , da agencia. nome do user :luciana numero de vendas: %num minha analise: excluimos o impacto pois continha evidencia . visto pelo tl: nn20001275627707",
+        "n_msgs": 215
+      },
+      "455425773": {
+        "complaint": "problema ao contratar programa decola para vendedores",
+        "last_rep": "derivação/transferência equipe de origem: pre-venda equipe de destino: processo: reputacion. motivo: o usuario relata debito referente à adesão ao programa que influencia a reputação, mas não teve ati",
+        "n_msgs": 147
+      }
+    },
+    "monthly": {
+      "451219668": {
+        "complaint": "na tela de reputação mostra %num venda que foi cancelada e que afeta a minha reputação, mas no relatorio não aparece qual e a venda.... ja faz meses que estou pedindo uma solução",
+        "last_rep": "sigo escalando caso ao tl, pois o mesmo tem uma venda que afeta sua reputação por cancelamento que não existe.",
+        "n_msgs": 29
+      },
+      "454075316": {
+        "complaint": "outro atendente resolveu que passou para um outro que parou de respnder",
+        "last_rep": "cdu: user sem duvida informação ja passada duas vezes anteriormente. encerrado sem duvidavisto com tl: n/a",
+        "n_msgs": 69
+      },
+      "454222312": {
+        "complaint": "pq não consigo vender no mercado livre?",
+        "last_rep": "caso transferido por ext_lerubens. comentarios: user restrito por bad sellers, fluxo orienta derivar",
+        "n_msgs": 46
+      },
+      "454311552": {
+        "complaint": "poderia me ajudar com alguns impactos negativos de %num vendas?",
+        "last_rep": "carolina, fico muito feliz em te ajudar, e por ter sido clara nas informações, se, apos revisar com calma a analise do pdf com esses %num pedidos que mantiveram o impacto na sua conta, você tiver qual",
+        "n_msgs": 23
+      },
+      "454315709": {
+        "complaint": "não, pois ela entrou em contato via telefone e agora que que recebemos a devolução constatei que ela abriu uma reclamação",
+        "last_rep": "lembrando que, precisando de qualquer coisa, não hesite em nos contatar! conte sempre conosco! 💛🤝💙",
+        "n_msgs": 75
+      },
+      "454320650": {
+        "complaint": "o cliente realizou a compra selecionando a opção retirar em loja em votorantim interior de são paulo . no entanto, o comprador esta localizado em outra cidade , o que impossibilita a retirada em são paulo, conforme compra do cliente no ato da compra e selecionado pelo mesmo ao comprar no anuncio. de",
+        "last_rep": "certinho, sigo encerrando por aqui. ficamos a disposição sempre que necessario, conta com a gente!desejo um otimo dia e sucesso em suas vendas, thays! 🚀💛",
+        "n_msgs": 101
+      },
+      "454522212": {
+        "complaint": "esse pedido ja foi despachado faz um bom tempo e o ct-e foi rejeitado. me orientaram enviar uma nf nova no detalhes do pedido para que a mercadoria pudesse chegar ao seu destino. e assim foi feito. so que agora aparece esta situação de que devo despachar o pedido, esta tudo errado!",
+        "last_rep": "esse pedido ja foi despachado faz um bom tempo e o ct-e foi rejeitado. me orientaram enviar uma nf nova no detalhes do pedido para que a mercadoria pudesse chegar ao seu destino. mas no sistema não co",
+        "n_msgs": 667
+      },
+      "454523029": {
+        "complaint": "buen dia, ¿me se habla con islany, funcionario del leo?",
+        "last_rep": "user: islane cola de origem: postventa_offiline (pos-venda) ldap: ext_beatrcab cdu: seller quer retirar impacto de uma venda. %num - usou tabela de compatibilidade e mostrou que e compativel. e no mom",
+        "n_msgs": 105
+      },
+      "454583850": {
+        "complaint": "me chamo kauan, poderia me ajudar em algumas vendas que estão impactando a minha reputação?",
+        "last_rep": "combinado, kauan! agradeço sua compreensão com a nossa analise! desejo um otimo dia para você e sucesso com os proximos prazos de entrega, vai dar certo! qualquer duvida, estamos à disposição! 🤝",
+        "n_msgs": 20
+      },
+      "454636218": {
+        "complaint": "me chamo tiago, poderia me ajudar em algumas vendas que estão impactando a minha reputação?",
+        "last_rep": "imagina, tiago! foi um prazer ajudar você analisando suas vendas em detalhes e mostrando o motivo pelo qual os impactos foram mantidos. tenho certeza de que, colocando em pratica as orientações que pa",
+        "n_msgs": 22
+      },
+      "454851499": {
+        "complaint": "me chamo tiago, poderia me ajudar em algumas vendas que estão impactando a minha reputação?",
+        "last_rep": "tiago, sempre que precisar , pode contar com a gente: e so chamar que estaremos por aqui para te apoiar no que for preciso. desejo uma quarta -feira incrivel e com otimas vendas.🤝💛💙",
+        "n_msgs": 46
+      },
+      "454888482": {
+        "complaint": "me chamo tiago, poderia me ajudar em algumas vendas que estão impactando a minha reputação?",
+        "last_rep": "tiago, espero ter esclarecido que os impactos permaneceram na sua conta porque seus compradores não receberam o item no prazo correto e como podera se proteger em situações semelhantes, mas seguimos a",
+        "n_msgs": 27
+      },
+      "454910862": {
+        "complaint": "",
+        "last_rep": "recipient: %email. email: ola, equipe imperio multimarcas. tudo bem? ;me chamo cristhian representante do mercado livre, gostaria de informar, que vamos solucionar seu problema, mas caso tenha qualque",
+        "n_msgs": 6
+      },
+      "454921387": {
+        "complaint": "preciso de ajuda com um anucio limitar a quantidade do produto por venda",
+        "last_rep": "seller: leandro cdu: enviou %num fitas e comprador informou que recebeu%priceit com %num fitas, em saco do mercado livre. porem, seller informa que suas vendas são feitas em caixas e numero da quantid",
+        "n_msgs": 302
+      },
+      "455077827": {
+        "complaint": "cobrança errada. me disponibilizaram um bonus e depois retiraram alegando erro e ficou a fatura pra eu pagar!",
+        "last_rep": "quero que saiba que foi um prazer te atender. conte comigo e com toda a nossa equipe, sua satisfação e muito importante 💛🙏tenha um otimo dia e todo o sucesso para você 💖🥰",
+        "n_msgs": 51
+      },
+      "455095710": {
+        "complaint": "entrei em contato para falar sobre a venda %num, que esta com a reputação afetada",
+        "last_rep": "foi um prazer atendê-la alice, sempre que precisar de ajuda pode nos contatar que seguiremos aqui auxiliando!tenha uma otima tarde e bom trabalho. 🤩🥳agradecemos o seu contato. 💛🚀",
+        "n_msgs": 82
+      },
+      "455327920": {
+        "complaint": "preciso fazer uma reivindicação",
+        "last_rep": "imagina, foi um prazer ajudar com o impacto de sua venda. se surgir outras vendas impactadas ou precisar de ajuda com outro assunto, não deixe de nos contatar por aqui. um otimo dia, talia! 💙",
+        "n_msgs": 27
+      },
+      "455332754": {
+        "complaint": "eu preciso que revejam a reputação sobre essa venda, resolvemos a reclamação mas ainda ela consta em nossa reputação e zelamos muito por isso. o cliente colocou produto diferente, mas mandamos exatamente oque ele pediu e como consta em nosso anuncio, ele devolveu e esta tudo certo, porem a reputação",
+        "last_rep": "med não estava com status de aberta quando estava tratando o caso sobre a reputação.",
+        "n_msgs": 48
+      },
+      "455338864": {
+        "complaint": "certo atualizou aqui! porem ainda esta sendo cobrado r$%num,%num e de mim por conta do envio, sendo que eu não errei nos envios. gostaria que o valor fosse estornado pra minha conta",
+        "last_rep": "caso transferido por ext_jaynsant. comentarios: derivar processo: reputacion justificação: o vendedor relata a cobrança de uma taxa de devolução em uma unica venda e solicita o estorno, o que correspo",
+        "n_msgs": 37
+      },
+      "455348675": {
+        "complaint": "ola, equipe do suporte do mercado livre. estamos enfrentando um problema relacionado a um anuncio de chuteira da nossa conta. ja entramos em contato varias vezes anteriormente porque o anuncio estava recebendo advertências alegando informações fora das regras da plataforma. sempre que recebiamos a n",
+        "last_rep": "solu aproximada com o tema do atendimento",
+        "n_msgs": 90
+      }
+    },
+    "abr_ids": [
+      "453398783",
+      "450961818",
+      "451835881",
+      "449632320",
+      "448172827",
+      "448437809",
+      "452460816",
+      "452800677",
+      "452451028",
+      "451072904"
+    ]
+  },
+  "Publicaciones": {
+    "top_proc": "Afiliados ML",
+    "weekly": {
+      "454262912": {
+        "complaint": "no painel de afiliados do aplicativo do mercado livre. segue as prints dos produtos e seus status em anexo",
+        "last_rep": "caso transferido por ext_sinatiel. comentarios: user deseja falar sobre vendas nao aprovadas no ml.",
+        "n_msgs": 55
+      },
+      "454265486": {
+        "complaint": "sou afiliada e a compra das pessoas que estão entrando no link não esta aparecendo",
+        "last_rep": "afiliada kamilicdu fizeram varias comprar no link e não estão aparecendo nas metricas a filiada informa que foram %num vendas minha analise informei todos os motivos que impossibilitariam as vendas e ",
+        "n_msgs": 236
+      },
+      "454308564": {
+        "complaint": "minha conta foi suspensa por alguns dias no mês passado devido a eu não ter pago a fatura no periodo, mas apos eu pagar, as minhas vendas não geraram mais lucros para mim e estao como não efetivadas",
+        "last_rep": "recipient: %email. email: ola, kemilly! entendo perfeitamente sua frustração e preocupação com as vendas que não foram efetivadas. quero te ajudar a entender o que pode ter acontecido e como podemos g",
+        "n_msgs": 88
+      },
+      "454316394": {
+        "complaint": "tipo, assim, eu me cadrastei como influenciadora, ne, no mercado livre e não esta aparecendo",
+        "last_rep": "%num. caso de uso (cdu): vendedora estava reclamando por não aparecer campanhas pra ela, verificando o caso vi que ela não tinha seguidores o suficiente na plataforma do tik tok %num. situação excepci",
+        "n_msgs": 105
+      },
+      "454325309": {
+        "complaint": "pra vc ver oq não recebi a comissão dessa venda",
+        "last_rep": "recipient: %email. email: ola, beatriz oliveira!boa noite! meu nome e joão victor🥇seja muito bem-vindo! e com imensa gratidão que recebemos você neste espaço especial. 🤗​agradeço a sua paciência enqua",
+        "n_msgs": 40
+      },
+      "454358512": {
+        "complaint": "minha receita do mês de março sumiu",
+        "last_rep": "alinhado o fsr.#vistocomtl",
+        "n_msgs": 34
+      },
+      "454379271": {
+        "complaint": "",
+        "last_rep": "recipient: %email. email: ola! obrigado por aguardar a nossa resposta! 💛 eu me chamo evelyn, sou representante do mercado livre e estarei lhe orientando com relação à situação da sua solicitação.vejo ",
+        "n_msgs": 27
+      },
+      "454383715": {
+        "complaint": "preciso de suporte de um atendende",
+        "last_rep": "%num. caso de uso (cdu): seller andre duvidas sobre funcionamento das comissões %num. situação excepcional?: não se aplica %num. alguma ação saiu do fluxo?: não se aplica %num. visto com tl: não se ap",
+        "n_msgs": 232
+      },
+      "454399927": {
+        "complaint": "porque eu não to recebendo minha recompensa de afilhado",
+        "last_rep": "caso transferido por ext_iaremili. comentarios: user que falar sobre 'recompensa de afilhado mercado livre' processo: afiliados ml justificação: o usuario relata duvida sobre recompensa do programa de",
+        "n_msgs": 100
+      },
+      "454544460": {
+        "complaint": "minhas vendas não aparecem",
+        "last_rep": "eu agradeço pela compreensão e seguimos à disposição, carolinne tenha um otimo dia. 💛",
+        "n_msgs": 34
+      },
+      "454774647": {
+        "complaint": "o que ja velho falando desde de fevereiro e nao resolve meu poblema",
+        "last_rep": "ericka afiliada, relata que concluiu uma campanha de incentivo de primeira venda (ganhe r$%num entre %num e %num de novembro) e o status permanece 'em revisão' desde fevereiro, apesar do prazo informa",
+        "n_msgs": 64
+      },
+      "454811089": {
+        "complaint": "não aparece as comissões de ontem %num do %num",
+        "last_rep": "user: eduarda cola de origem: postventa_offiline (pos-venda) ldap: ext_jamilese cdu: seller entra em contato para informar que as comissões não vem caindo. situação excepcional? não se aplica alguma a",
+        "n_msgs": 247
+      },
+      "454933927": {
+        "complaint": "peço que reveja porque a minha compra não vai ser efetivada, meu amigo entrou no grupo de whatsapp para fazer umas compras ele não e meu parente não tenho ligação de dados com ele e ele não estava no mesmo wi-fi que eu pois eu estava nos dados moveis",
+        "last_rep": "%num. caso de uso (cdu): seller jenyfer reclama de comissões não pagas, explicamos funcionamento das comissões. %num. situação excepcional?: não se aplica %num. alguma ação saiu do fluxo?: não se apli",
+        "n_msgs": 139
+      },
+      "455089487": {
+        "complaint": "i sobre as vendas de ontem",
+        "last_rep": "caso transferido por ext_alewatan. comentarios: derivar processo: afiliados ml justificação: o usuario e afiliada e quer entender como funciona o calculo das comissões e perceber possiveis duvidas nas",
+        "n_msgs": 20
+      },
+      "455104797": {
+        "complaint": "não caiu meu pagamento ainda que esta previsto para hoje",
+        "last_rep": "caso transferido por ext_cosd. comentarios: o usuario participa da promoção de produtos no programa de afiliados do site e relatou não ter recebido a comissão. processo: afiliados ml justificação: o u",
+        "n_msgs": 20
+      },
+      "455129271": {
+        "complaint": "oieee ... eu gerei os link pelo aplicativo do mercado livre no celular. eu acesso o produto e vou no produto, dai abre acima o campo \"compartilhar\" clico nesse link. dai abre outra tela com o titulo gerar link/id de produto. clico em link do produto tem tipo %num caixas sobre postas e vou no grupo d",
+        "last_rep": "recipient: %email. email: ola, diversão e comprao painel de metricas e atualizado todos os dias às %hour com as vendas do dia anterior. ; ; ;nesse painel, você encontrara as seguintes informações: ;cl",
+        "n_msgs": 391
+      },
+      "455162253": {
+        "complaint": "no mês passado eu entrei em contato para falar que a minha comissão não caiu. ai eu entrei em contato e falaram que ia ser creditado em maio. ai nas imagens acima que eu lhe compartilhei, disse que ia cair hoje, mas tambem não caiu. quer dizer o quê? desde o mês passado eu estou tentando receber ess",
+        "last_rep": "recipient: %email. email: ola, andrea, boa noite!meu nome e marcela e sou representante do mercado livre. entendo sua frustração com a demora e a repetição de problemas, especialmente porque você ja p",
+        "n_msgs": 30
+      },
+      "455215226": {
+        "complaint": "como assim? não comprei nada",
+        "last_rep": "caso transferido por ext_jostrind. comentarios: motivo da transferência: o cliente e participante do programa de afiliados e quer entender notificação relacionada às vendas e funcionamento do programa",
+        "n_msgs": 32
+      },
+      "455434911": {
+        "complaint": "você não faz mais parte do programa de afiliados e criadores notamos irregularidades na seus videos que descumpren os termos e condições do programa. decidimos sancionar sua conta e você não podera continuar participando do programa. em caso de duvidas, fale conosco.",
+        "last_rep": "caso transferido por ext_kaioryan. comentarios: caso de uso (cdu): a usuaria relata restrição 'influencers program fraud' que impede acesso à area de afiliados, conforme exemplos e lista de restrições",
+        "n_msgs": 24
+      },
+      "455625790": {
+        "complaint": "fiz uma venda, de um computador de %num mil com comissão de %num% , com o meu link na quarta dia %num de maio",
+        "last_rep": "de acordo com o fsrext_francega#vistocomtl",
+        "n_msgs": 183
+      }
+    },
+    "monthly": {
+      "454064291": {
+        "complaint": "sou afiliado, fiz algumas vendas e o dinheiro sumiu sem eu sacar.",
+        "last_rep": "caso transferido por ext_pinheivi. comentarios: user fez vendas na sua conta de afiliada, mas o valor não aparece na sua conta e o historico de vendas tambem sumiu processo: afiliados ml justificação:",
+        "n_msgs": 86
+      },
+      "454075291": {
+        "complaint": "preciso de ajuda para desbloquear o pagamento dos meus ganhos no programa de afiliado",
+        "last_rep": "recipient: %email. email: ;ola master home decor me chamo rafaela, sou representante do mercado livre, e sigo contigo nessa etapa!pelo que identifiquei tem uma promessa do pagamento ate %num/%num. ori",
+        "n_msgs": 28
+      },
+      "454143250": {
+        "complaint": "compartilhei link e codigo. a pessoa que comprou falou que colocou o codigo.",
+        "last_rep": "caso transferido por ext_rebvalve. comentarios: processo para derivação encontrado. processo: afiliados ml. justificação: o usuario e afiliado, relata duvidas sobre comissões do programa de afiliados ",
+        "n_msgs": 175
+      },
+      "454223646": {
+        "complaint": "quero saber o motivo de %num vendas minhas comprada no meu link de afiliada eu não recebi quero saber o motivo certo",
+        "last_rep": "nome: charlene cdu: afiliados vendas: minha analise: afiada entra em contato para perguntar sobre vendas efetivadas que aparecem como não efetivadas, e questiona o porque de sua comissão não aparecer ",
+        "n_msgs": 288
+      },
+      "454284705": {
+        "complaint": "todo bien, giovanna. ¿como estas?",
+        "last_rep": "vendedor: jonatha caso de uso (cdu): informaçoes sobre criadores e videos cola de origem: pos venda cola de destino: visto com tl: n/a",
+        "n_msgs": 97
+      },
+      "454308564": {
+        "complaint": "minha conta foi suspensa por alguns dias no mês passado devido a eu não ter pago a fatura no periodo, mas apos eu pagar, as minhas vendas não geraram mais lucros para mim e estao como não efetivadas",
+        "last_rep": "recipient: %email. email: ola, kemilly! entendo perfeitamente sua frustração e preocupação com as vendas que não foram efetivadas. quero te ajudar a entender o que pode ter acontecido e como podemos g",
+        "n_msgs": 88
+      },
+      "454325309": {
+        "complaint": "pra vc ver oq não recebi a comissão dessa venda",
+        "last_rep": "recipient: %email. email: ola, beatriz oliveira!boa noite! meu nome e joão victor🥇seja muito bem-vindo! e com imensa gratidão que recebemos você neste espaço especial. 🤗​agradeço a sua paciência enqua",
+        "n_msgs": 40
+      },
+      "454349117": {
+        "complaint": "meu link de afiliado não abre",
+        "last_rep": "caso transferido por ext_lidiannm. comentarios: o usuario (afiliado no brasil, android) relata que todos os links de afiliado gerados no portal de afiliados (encurtador meli.la) abrem uma pagina com a",
+        "n_msgs": 48
+      },
+      "454380179": {
+        "complaint": "e o dinheiro q eu ganhei como vai ser? porque a conta foi suspensa!",
+        "last_rep": "damos rta por advertencia ac",
+        "n_msgs": 18
+      },
+      "454577038": {
+        "complaint": "quero saber se minha conta foi suspensa",
+        "last_rep": "recipient: %email. email: ola, me chamo yuri, representante mercado livre. ;espero que esse email o encontre bem!!🤩💛primeiramente, parabens pela iniciativa e querer fazer parte do nosso programa de af",
+        "n_msgs": 11
+      },
+      "454593870": {
+        "complaint": "problema de comissão de afiliados",
+        "last_rep": "caso transferido por ext_jeskamil. comentarios: usuario afiliado esta com problema em relação a comissão de venda processo: afiliados ml justificação: o usuario relatou ser afiliado e mencionou um pro",
+        "n_msgs": 94
+      },
+      "454766052": {
+        "complaint": "transferência para conta bancaria",
+        "last_rep": "caso transferido por ext_julduque. comentarios: feito processo: afiliados ml justificação: o usuario relata não receber sua comissão de afiliado. a descrição e exemplos do processo abrangem duvidas e ",
+        "n_msgs": 22
+      },
+      "454774647": {
+        "complaint": "o que ja velho falando desde de fevereiro e nao resolve meu poblema",
+        "last_rep": "ericka afiliada, relata que concluiu uma campanha de incentivo de primeira venda (ganhe r$%num entre %num e %num de novembro) e o status permanece 'em revisão' desde fevereiro, apesar do prazo informa",
+        "n_msgs": 64
+      },
+      "454909159": {
+        "complaint": "estou com problema na minha comissão.",
+        "last_rep": "caso transferido por ext_raoldieg. comentarios: o usuario relatou não ter recebido comissão de uma venda, sendo afiliado. isso esta detalhado como exemplo: 'não recebi meus pagamentos de comissão', no",
+        "n_msgs": 70
+      },
+      "454919994": {
+        "complaint": "recebi um e-mail falando que eu ou alguem vinculado a minha conta fez uma compra usando meu link de afiliado",
+        "last_rep": "recipient: %email. email: ola, paulo! espero que esteja tendo um excelente dia. me chamo rita, sou representante do mercado livre. sera um prazer te atender hoje🐝🌞 ;não e recomendado compartilhar o li",
+        "n_msgs": 89
+      },
+      "455089487": {
+        "complaint": "i sobre as vendas de ontem",
+        "last_rep": "caso transferido por ext_alewatan. comentarios: derivar processo: afiliados ml justificação: o usuario e afiliada e quer entender como funciona o calculo das comissões e perceber possiveis duvidas nas",
+        "n_msgs": 20
+      },
+      "455162253": {
+        "complaint": "no mês passado eu entrei em contato para falar que a minha comissão não caiu. ai eu entrei em contato e falaram que ia ser creditado em maio. ai nas imagens acima que eu lhe compartilhei, disse que ia cair hoje, mas tambem não caiu. quer dizer o quê? desde o mês passado eu estou tentando receber ess",
+        "last_rep": "recipient: %email. email: ola, andrea, boa noite!meu nome e marcela e sou representante do mercado livre. entendo sua frustração com a demora e a repetição de problemas, especialmente porque você ja p",
+        "n_msgs": 30
+      },
+      "455215226": {
+        "complaint": "como assim? não comprei nada",
+        "last_rep": "caso transferido por ext_jostrind. comentarios: motivo da transferência: o cliente e participante do programa de afiliados e quer entender notificação relacionada às vendas e funcionamento do programa",
+        "n_msgs": 32
+      },
+      "455434911": {
+        "complaint": "você não faz mais parte do programa de afiliados e criadores notamos irregularidades na seus videos que descumpren os termos e condições do programa. decidimos sancionar sua conta e você não podera continuar participando do programa. em caso de duvidas, fale conosco.",
+        "last_rep": "caso transferido por ext_kaioryan. comentarios: caso de uso (cdu): a usuaria relata restrição 'influencers program fraud' que impede acesso à area de afiliados, conforme exemplos e lista de restrições",
+        "n_msgs": 24
+      },
+      "455734822": {
+        "complaint": "sou afiliada no mercado livre e teve %num vendas feitas no quarta feira q não consta para mim a comissão",
+        "last_rep": "caso transferido por ext_luvaana. comentarios: user relatou que não recebeu a comissão em cima dos produtos que vendeu sobre seu link processo: afiliados ml justificação: o usuario relatou um problema",
+        "n_msgs": 83
+      }
+    },
+    "abr_ids": [
+      "450296914",
+      "452225985",
+      "452307626",
+      "448932567",
+      "448022415",
+      "450966437",
+      "452484421",
+      "453049872",
+      "448295314",
+      "449081499"
+    ]
+  },
+  "Partners": {
+    "top_proc": "Drivers",
+    "weekly": {
+      "454227195": {
+        "complaint": "era para eu estar no nivel platinum esse mês e cai para o nivel prata",
+        "last_rep": "nome: leandrocdu – solicitação do driver: questionamento sobre redução do nivel de lealdade o driver reporta que houve queda no nivel de lealdade e solicita esclarecimentos sobre criterios e prazo de ",
+        "n_msgs": 228
+      },
+      "454307345": {
+        "complaint": "queria o telefone do suporte. envios extras",
+        "last_rep": "foi um prazer atendê-lo, sua satisfação e sempre muito importante para nos! sempre que precisar, estaremos de braços abertos para te ajudar, com toda a atenção e carinho. tenha um otimo dia, que seja ",
+        "n_msgs": 65
+      },
+      "454313164": {
+        "complaint": "desafio de um percurso que conclui e nao ta aparecendo",
+        "last_rep": "agradeço imensamente sua parceria no atendimento e precisando, ja sabe onde nos encontrar!💛 😊",
+        "n_msgs": 50
+      },
+      "454369752": {
+        "complaint": "no momento que chego para carregar, quando bipo a gaiola",
+        "last_rep": "caso transferido por ext_tabrodri. comentarios: cola de origem: br buyer post entrega cola de destino: br me seller longtail. resumo da transferência: a cliente e entregadora e tem duvida sobre funcio",
+        "n_msgs": 75
+      },
+      "454392235": {
+        "complaint": "muitos percursos cancelados",
+        "last_rep": "entedo que não tenha mais duvidas welique, foi um prazer te atender e caso precise de ajuda não hesite em nos contatar. tenha uma excelente semana 💙",
+        "n_msgs": 39
+      },
+      "454487965": {
+        "complaint": "por que minha entregas sem reclamação ta descendo bruscamente",
+        "last_rep": "cola de origem: pre despacho nome do usuario: antônio caso de uso (cdu): driver reclama da sua reclamação que esta descendo muito as suas metricas de reclamação ele tambem reclama que o centro de dist",
+        "n_msgs": 345
+      },
+      "454630748": {
+        "complaint": "não consigo realizar meu cadastro no aplicativo do envios extra",
+        "last_rep": "recipient: %email. email: ola, ramon farias da silva. ;no momento, os dados da receita federal e da plataforma ainda não foram sincronizados.peço so um pouco de paciência: assim que a atualização for ",
+        "n_msgs": 14
+      },
+      "454639935": {
+        "complaint": "não estou conseguindo ver os videos do protocolo de carregamento.",
+        "last_rep": "imagina! eu que agradeço sua compreensão, felipe! te desejo uma otima noite e seja bem-vindo ao nosso aplicativo de entregas! estarei na torcida para conseguir trabalhar conosco logo!😃💛",
+        "n_msgs": 24
+      },
+      "454653025": {
+        "complaint": "nivel envio extra irregular",
+        "last_rep": "de nada, renan. espero que tudo seja normalizado logo. qualquer duvida que tiver, pode me chamar que farei o possivel para ajudar! boa noite.",
+        "n_msgs": 49
+      },
+      "454763963": {
+        "complaint": "oi, ninguem entrou em contato ainda",
+        "last_rep": "sabemos que não recebeu a resposta que esperava nessa oportunidade, mas saiba que continuaremos trabalhando para melhorar e esperamos poder te ajudar no futuro. ate mais! 💛",
+        "n_msgs": 86
+      },
+      "454818601": {
+        "complaint": "ja tive uma conversa anterior e o meu numero de atendimento foi esse, não sei se te ajuda",
+        "last_rep": "caso transferido por laricosta. comentarios: user e um entregador parceiro do envios extra e deseja alterar a data/horario de recebimento do pagamento por suas entregas, devido a bloqueio judicial por",
+        "n_msgs": 58
+      },
+      "454855770": {
+        "complaint": "não recebi por um percurso",
+        "last_rep": "disponha, se você tiver qualquer outra duvida estou disponivel para ajuda-lo e caso precise de auxilio em outro momento, você pode nos contatar atraves desse link: %url",
+        "n_msgs": 91
+      },
+      "454916132": {
+        "complaint": "faltou um pacote na minha saca",
+        "last_rep": "desejo muito sucesso na sua jornada e uma excelente semana por ai! 🚚💛",
+        "n_msgs": 53
+      },
+      "455143818": {
+        "complaint": "mi nombre es narcio, ¿tu bien?",
+        "last_rep": "aguardando interação do user",
+        "n_msgs": 198
+      },
+      "455150797": {
+        "complaint": "como faço para ser parceiro de entrega",
+        "last_rep": "cola de origem: pre despacho. nome de usuario: claudio. caso de uso (cdu): quer se cadastrar como frotista, mas quis saber da demanda local no litoral de são paulo, verificando na tabela de visão gera",
+        "n_msgs": 438
+      },
+      "455247578": {
+        "complaint": "ativar cadastro do extra envios",
+        "last_rep": "recipient: %email. email: ola, sindyffer elica silva machado. meu nome e guilherme, sou representante do mercado livre. e um prazer poder te auxiliar hoje. tudo bem? 😊💛 ;quero te tranquilizar: a sua c",
+        "n_msgs": 17
+      },
+      "455325518": {
+        "complaint": "não consigo validar o veiculo pois diz que ja esta vinculado a outra conta",
+        "last_rep": "nome do usuario: maria cdu: duvidas sobre cadastro me extra order id: n/a solução: me extra: como ativar o serviço? ( aproximada )driver pede para deixar registrado que ela não acha certo não poder re",
+        "n_msgs": 258
+      },
+      "455339099": {
+        "complaint": "estou com problema com envio extra",
+        "last_rep": "te desejo um excelente dia. tambem espero que o meu atendimento tenha sido explicativo, gentil e de qualidade.se precisar de mais apoio ou tiver alguma duvida, estarei aqui para ajudar.ate mais! 💛",
+        "n_msgs": 76
+      },
+      "455463126": {
+        "complaint": "aceitei uma rota mais o local esta fechado",
+        "last_rep": "se não houver novas duvidas, precisarei encerrar este contato. permanecemos à disposição para eventuais informações ou solicitações. te desejo uma boa noite e um otimo final de semana! ate mais!",
+        "n_msgs": 49
+      },
+      "455552378": {
+        "complaint": "nao consigo trabalhar no mercado envio",
+        "last_rep": "acredito que você esteja ocupado no momento e, por isso, não conseguiu continuar interagindo aqui no chat. como somos um canal online não podemos ficar sem interação por muito tempo. mas não se preocu",
+        "n_msgs": 22
+      }
+    },
+    "monthly": {
+      "453926569": {
+        "complaint": "meu meli extra não funciona, não aparece o hub",
+        "last_rep": "saiba que estou sempre à disposição para o que precisar, conte comigo e com toda a nossa equipe. desejo um dia maravilhoso para você e todo sucesso. gostei muito de te atender hoje, você e nota %num! ",
+        "n_msgs": 62
+      },
+      "453931078": {
+        "complaint": "não estou recebendo rotas no mendanha campo grande",
+        "last_rep": "estava com outro caso aberto e subiu a mensagem de postergar so que foi na mesma hora que finalizei o fluxo e subiu a mensagem de fiinalizar acabou que finalizou sem a finalização.",
+        "n_msgs": 46
+      },
+      "453938234": {
+        "complaint": "tive %num problemas com insucesso no mês de abril onde foi por erro do sistema devido a coleta em place onde cair erradamente para o nivel prata gostaria que isso fosse revisto pois eu trabalhei muito por isso!!",
+        "last_rep": "ja foi passada toda informação sobre as metricas , explicado de varais formas , mais o mesmo não aceita .encerramento feito por ele não concordar",
+        "n_msgs": 88
+      },
+      "453983689": {
+        "complaint": "app não reconhece meu cnpj",
+        "last_rep": "motivo da derivação: time, peço encarecidamente que leiam o comentario e sigam o processo correto para não gerar tdi. obs: time, boa noite. por gentileza, se for necessario abrir tarefa, classificar o",
+        "n_msgs": 69
+      },
+      "454009979": {
+        "complaint": "não consigo entrar no app envios extra",
+        "last_rep": "usuario informou, deixou claro não querer mais o atendimentoe agradeçeu.",
+        "n_msgs": 55
+      },
+      "454220308": {
+        "complaint": "mesmo suspensa apareceu uma rota pra mim na segunda, aceitei e fui para o hub, quando biparam o qrcode do app para fazer o carregamento fui informado que meu acesso estava bloqueado.",
+        "last_rep": "sinto muito que as informações não tenham atendido sua expectativa. no momento, se precisar de mais algum esclarecimento dentro do que posso verificar por aqui, sigo à disposição. 😊✨",
+        "n_msgs": 24
+      },
+      "454307345": {
+        "complaint": "queria o telefone do suporte. envios extras",
+        "last_rep": "foi um prazer atendê-lo, sua satisfação e sempre muito importante para nos! sempre que precisar, estaremos de braços abertos para te ajudar, com toda a atenção e carinho. tenha um otimo dia, que seja ",
+        "n_msgs": 65
+      },
+      "454313164": {
+        "complaint": "desafio de um percurso que conclui e nao ta aparecendo",
+        "last_rep": "agradeço imensamente sua parceria no atendimento e precisando, ja sabe onde nos encontrar!💛 😊",
+        "n_msgs": 50
+      },
+      "454359987": {
+        "complaint": "não aparece o desconto no app drogasil quancou efetuar a xom",
+        "last_rep": "caso:%num (cdu): drivers altimar relata que o beneficio automatico da drogasil (ate %num% off) não e aplicado e, ao tocar em ir para a drogasil no envios extra, o redirecionamento abre apenas no naveg",
+        "n_msgs": 223
+      },
+      "454369752": {
+        "complaint": "no momento que chego para carregar, quando bipo a gaiola",
+        "last_rep": "caso transferido por ext_tabrodri. comentarios: cola de origem: br buyer post entrega cola de destino: br me seller longtail. resumo da transferência: a cliente e entregadora e tem duvida sobre funcio",
+        "n_msgs": 75
+      },
+      "454407052": {
+        "complaint": "problema com app envios extra",
+        "last_rep": "fico muito feliz em ter te ajudado, foi um prazer. qualquer duvida, e so retornar, pois a equipe do mercado livre esta aqui para te auxiliar. tenha uma otima noite! 💛",
+        "n_msgs": 46
+      },
+      "454602507": {
+        "complaint": "quero retorno ref varios protocolos em aberto",
+        "last_rep": "nome: claudia caso cdu (cdu): driver relata sobre um cadastro que esta tentando fazer, mas nao foi ativo ainda, relata que lhe foi garantido a ativaçao do seu cadastro, em %num protocolos diferentes. ",
+        "n_msgs": 367
+      },
+      "454603485": {
+        "complaint": "meu mercado envios não abre , não consigo fazer as entregas",
+        "last_rep": "como não houve retorno durante o atendimento, deixei as informações necessarias acima para sua consulta. neste momento vou encerrar o chat, mas se precisar de ajuda não hesite em nos procurar. a sua s",
+        "n_msgs": 30
+      },
+      "454630748": {
+        "complaint": "não consigo realizar meu cadastro no aplicativo do envios extra",
+        "last_rep": "recipient: %email. email: ola, ramon farias da silva. ;no momento, os dados da receita federal e da plataforma ainda não foram sincronizados.peço so um pouco de paciência: assim que a atualização for ",
+        "n_msgs": 14
+      },
+      "454818601": {
+        "complaint": "ja tive uma conversa anterior e o meu numero de atendimento foi esse, não sei se te ajuda",
+        "last_rep": "caso transferido por laricosta. comentarios: user e um entregador parceiro do envios extra e deseja alterar a data/horario de recebimento do pagamento por suas entregas, devido a bloqueio judicial por",
+        "n_msgs": 58
+      },
+      "454972070": {
+        "complaint": "",
+        "last_rep": "recipient: %email. email: ola, paulo henrique da rocha. ;gostariamos de informa-lo que sua conta esta passando por uma analise preventiva de rotina. esse processo permite garantir que todas as operaçõ",
+        "n_msgs": 4
+      },
+      "455325518": {
+        "complaint": "não consigo validar o veiculo pois diz que ja esta vinculado a outra conta",
+        "last_rep": "nome do usuario: maria cdu: duvidas sobre cadastro me extra order id: n/a solução: me extra: como ativar o serviço? ( aproximada )driver pede para deixar registrado que ela não acha certo não poder re",
+        "n_msgs": 258
+      },
+      "455339099": {
+        "complaint": "estou com problema com envio extra",
+        "last_rep": "te desejo um excelente dia. tambem espero que o meu atendimento tenha sido explicativo, gentil e de qualidade.se precisar de mais apoio ou tiver alguma duvida, estarei aqui para ajudar.ate mais! 💛",
+        "n_msgs": 76
+      },
+      "455611769": {
+        "complaint": "aceitei um percurso pra amanha no valor de %num mas nao apareceu os bairros e a rota como me foi dito aqui",
+        "last_rep": "nome do usuario: leonardo caso de uso (cdu): driver reclama que não tem a informação do trajeto, de onde vai para realizar as entregas. esclareci para o cliente que hoje, o que da para saber com antec",
+        "n_msgs": 475
+      },
+      "455617966": {
+        "complaint": "ola ja fiz o meu cadastro e estou no aguardo, gostaria de saber o que esta acontecendo com a minha conta...",
+        "last_rep": "cola de origem: pre-despacho nome: alexandre (cdu): seller informa que se cadastrou para ser driver e esta com dificuldades para finalizar o cadastro order/item id: solução utilizada: - general bugs -",
+        "n_msgs": 333
+      }
+    },
+    "abr_ids": [
+      "453238049",
+      "453218655",
+      "451325387",
+      "451534500",
+      "452624209",
+      "452690444",
+      "451988231",
+      "452750820",
+      "448894613",
+      "450020466"
+    ]
+  },
+  "Otros CV": {
+    "top_proc": "Funcionalidades de tarjetas de Débito y Crédito",
+    "weekly": {
+      "454275821": {
+        "complaint": "fala que foi feito tentativa entrega",
+        "last_rep": "cirlei, como somos um canal online e não tive resposta, preciso finalizar o atendimento. caso tenha alguma outra solicitação ou duvida, esperamos o seu contato. estamos à disposição para ajudar! te de",
+        "n_msgs": 33
+      },
+      "454309270": {
+        "complaint": "posso encerrar a minha conta no mercado pago e manter a do mercado livrew",
+        "last_rep": "fico feliz em ter te auxiliado e esclarecido todas as duvidas e informações passadas anteriormente. que você tenha uma otima tarde e uma excelente semana bruna.",
+        "n_msgs": 29
+      },
+      "454351744": {
+        "complaint": "mas e esse cartão que foi gerado",
+        "last_rep": "caso de uso (cdu): usuario desejava cancelar o cartão. informei que a ação e definitiva. visto com tl: n/a a solucao correta nao apareceu",
+        "n_msgs": 201
+      },
+      "454650711": {
+        "complaint": "os dois cartoes virtual e o fixo",
+        "last_rep": "entendo que por algum motivo precisou se ausentar. obrigada por sua educação e compreensão durante o atendimento, e, precisando, conte conosco. desejo que você tenha uma excelente noite!💙",
+        "n_msgs": 46
+      },
+      "454921582": {
+        "complaint": "estou com problemas e a segunda vez que peço o cartão da como recebido por mim e não recebi nada",
+        "last_rep": "caso de uso (cdu):use teve cartão como entregue e não o recebeu orientação passada: sigo informando que ela poderia solicitar um novo ou ir ate um correio mais proximo e verifica ;se chegou referentes",
+        "n_msgs": 143
+      },
+      "455019793": {
+        "complaint": "quero pedir a %numª via do cartão",
+        "last_rep": "se precisar ainda hoje, me chama aqui mesmo no whatsapp, que eu volto com você. ate mais!😃",
+        "n_msgs": 41
+      },
+      "455094249": {
+        "complaint": "ola meu cartão esta indo para o endereço errado",
+        "last_rep": "miliane, vi que você não esta mais por aqui, mas não se preocupe que toda a nossa conversa ficou salva. caso tenha novas duvidas, pode solicitar um novo atendimento e então te ajudaremos da melhor for",
+        "n_msgs": 48
+      },
+      "455204917": {
+        "complaint": "recebi um cartão de credito, porque?",
+        "last_rep": "que deus te abençoe e conquiste o que tanto deseja!! 🙏🏻 🍀",
+        "n_msgs": 59
+      },
+      "455650730": {
+        "complaint": "quero cancelar meu cartão virtual e ser retirado da minha conta",
+        "last_rep": "muito obrigado pela sua educação e compreensão durante o atendimento {nome do cliente}, e precisando, conte com a nossa equipe, estaremos aqui para te ajudar com o maior prazer. desejo que você tenha ",
+        "n_msgs": 42
+      },
+      "455660800": {
+        "complaint": "preciso do meu cartão de credito. o meu e o msm desde quando abri a conta",
+        "last_rep": "caso de uso (cdu):user entro em contato por conta de um problema em seu cartão de fisico e deseja saber o porque não esta conseguindo utilizar o seu cartão ou o cartão não foi entregue orientação pass",
+        "n_msgs": 300
+      },
+      "455666871": {
+        "complaint": "era pra chegar meu cartão hoje la em casa mas ninguem bateu minha porta",
+        "last_rep": "te desejo uma boa noite e um bom descanso!",
+        "n_msgs": 47
+      },
+      "455720442": {
+        "complaint": "quero saber pq foi cobrado juros por falta de pagamento de fatura sendo q minha fatura ainda vence dia %num??????? não entendi",
+        "last_rep": "se você conseguir localizar essa informação, por favor, nos envie para que possamos te ajudar da melhor forma possivel.",
+        "n_msgs": 101
+      }
+    },
+    "monthly": {
+      "454108705": {
+        "complaint": "falar com atendimento humano",
+        "last_rep": "muito obrigado pela sua educação e compreensão durante o atendimento, e precisando, conte com a nossa equipe, estaremos aqui para te ajudar com o maior prazer. desejo que você tenha uma excelente noit",
+        "n_msgs": 30
+      },
+      "454275821": {
+        "complaint": "fala que foi feito tentativa entrega",
+        "last_rep": "cirlei, como somos um canal online e não tive resposta, preciso finalizar o atendimento. caso tenha alguma outra solicitação ou duvida, esperamos o seu contato. estamos à disposição para ajudar! te de",
+        "n_msgs": 33
+      },
+      "454309270": {
+        "complaint": "posso encerrar a minha conta no mercado pago e manter a do mercado livrew",
+        "last_rep": "fico feliz em ter te auxiliado e esclarecido todas as duvidas e informações passadas anteriormente. que você tenha uma otima tarde e uma excelente semana bruna.",
+        "n_msgs": 29
+      },
+      "454351744": {
+        "complaint": "mas e esse cartão que foi gerado",
+        "last_rep": "caso de uso (cdu): usuario desejava cancelar o cartão. informei que a ação e definitiva. visto com tl: n/a a solucao correta nao apareceu",
+        "n_msgs": 201
+      },
+      "454650711": {
+        "complaint": "os dois cartoes virtual e o fixo",
+        "last_rep": "entendo que por algum motivo precisou se ausentar. obrigada por sua educação e compreensão durante o atendimento, e, precisando, conte conosco. desejo que você tenha uma excelente noite!💙",
+        "n_msgs": 46
+      },
+      "454921582": {
+        "complaint": "estou com problemas e a segunda vez que peço o cartão da como recebido por mim e não recebi nada",
+        "last_rep": "caso de uso (cdu):use teve cartão como entregue e não o recebeu orientação passada: sigo informando que ela poderia solicitar um novo ou ir ate um correio mais proximo e verifica ;se chegou referentes",
+        "n_msgs": 143
+      },
+      "455019793": {
+        "complaint": "quero pedir a %numª via do cartão",
+        "last_rep": "se precisar ainda hoje, me chama aqui mesmo no whatsapp, que eu volto com você. ate mais!😃",
+        "n_msgs": 41
+      },
+      "455094249": {
+        "complaint": "ola meu cartão esta indo para o endereço errado",
+        "last_rep": "miliane, vi que você não esta mais por aqui, mas não se preocupe que toda a nossa conversa ficou salva. caso tenha novas duvidas, pode solicitar um novo atendimento e então te ajudaremos da melhor for",
+        "n_msgs": 48
+      },
+      "455204917": {
+        "complaint": "recebi um cartão de credito, porque?",
+        "last_rep": "que deus te abençoe e conquiste o que tanto deseja!! 🙏🏻 🍀",
+        "n_msgs": 59
+      },
+      "455650730": {
+        "complaint": "quero cancelar meu cartão virtual e ser retirado da minha conta",
+        "last_rep": "muito obrigado pela sua educação e compreensão durante o atendimento {nome do cliente}, e precisando, conte com a nossa equipe, estaremos aqui para te ajudar com o maior prazer. desejo que você tenha ",
+        "n_msgs": 42
+      },
+      "455660800": {
+        "complaint": "preciso do meu cartão de credito. o meu e o msm desde quando abri a conta",
+        "last_rep": "caso de uso (cdu):user entro em contato por conta de um problema em seu cartão de fisico e deseja saber o porque não esta conseguindo utilizar o seu cartão ou o cartão não foi entregue orientação pass",
+        "n_msgs": 300
+      },
+      "455666871": {
+        "complaint": "era pra chegar meu cartão hoje la em casa mas ninguem bateu minha porta",
+        "last_rep": "te desejo uma boa noite e um bom descanso!",
+        "n_msgs": 47
+      },
+      "455720442": {
+        "complaint": "quero saber pq foi cobrado juros por falta de pagamento de fatura sendo q minha fatura ainda vence dia %num??????? não entendi",
+        "last_rep": "se você conseguir localizar essa informação, por favor, nos envie para que possamos te ajudar da melhor forma possivel.",
+        "n_msgs": 101
+      }
+    },
+    "abr_ids": [
+      "453457664",
+      "453830040",
+      "450934715",
+      "448314252",
+      "448196248",
+      "452858242",
+      "451838926",
+      "450625816",
+      "452883173",
+      "448666677"
+    ]
+  }
+}

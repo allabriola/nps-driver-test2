@@ -171,6 +171,11 @@ if _os.path.exists("_process_analysis.json"):
     with open("_process_analysis.json", encoding="utf-8") as _f:
         _PA = _json.load(_f)
 
+_RC = {}
+if _os.path.exists("_recurrence_cases.json"):
+    with open("_recurrence_cases.json", encoding="utf-8") as _f:
+        _RC = _json.load(_f)
+
 # ── DD_BREAKDOWN — processos, canal, oficina, senioridade
 _DD = {}
 if _os.path.exists("dd_breakdown.json"):
@@ -1304,195 +1309,139 @@ def _analyze_trx_group(trx_dict):
 
 def _recurrence_deep(grp, trx_source=None, top_proc=None):
     """
-    Diagnóstico aprofundado de recorrência.
-    top_proc: dict com info do processo top negativo para priorizar casos relevantes.
+    Identifica padrões recorrentes de detratores usando dados reais do BQ
+    (_recurrence_cases.json). Se não disponível, retorna lista vazia.
     """
-    # ── Sub-padrões específicos por categoria ─────────────────────────
+    rc = _RC.get(grp, {})
+    top_proc_name = rc.get("top_proc") or (top_proc or {}).get("proc") or ""
+
+    if not rc or (not rc.get("weekly") and not rc.get("monthly")):
+        return []
+
+    weekly_cases  = rc.get("weekly",  {})
+    monthly_cases = rc.get("monthly", {})
+
+    def _complaint(d):
+        return (d.get("complaint") or "").lower()
+
+    all_wk  = {cid: _complaint(d) for cid, d in weekly_cases.items()}
+    all_mon = {cid: _complaint(d) for cid, d in monthly_cases.items()}
+
     SUB_PATTERNS = {
-        "envio e logística": {
-            "atraso de entrega sem atualização de status": ["atraso","atrasado","não chegou","prazo","data"],
-            "coleta não realizada / reagendamento falho":  ["coleta","coletado","inbound","agendar coleta","não foi coletado"],
-            "entregador não compareceu ou fraudou":        ["entregador","motorista","não entregou","portão","furtou"],
-            "envio Full parado no CD":                     ["full","centro de distribuição","CD","processado","inbound"],
+        "envio e logistica": {
+            "atraso de entrega sem atualizacao de status":
+                ["atraso","atrasado","nao chegou","prazo","data","entrega"],
+            "coleta nao realizada":
+                ["coleta","inbound","agendar coleta","nao foi coletado"],
+            "entregador nao compareceu":
+                ["entregador","motorista","nao entregou","portao"],
+            "envio Full parado no CD":
+                ["full","centro de distribuicao","inbound","estoque parado"],
         },
-        "cobrança e faturamento": {
-            "cobrança de ADS não autorizada":              ["ads","publicidade","campanha","tarifa por publicidade"],
-            "bloqueio do Faturador / certificado digital": ["faturador","certificado","nf-e","nota fiscal","emiss"],
-            "IS divergente (inconformidade no estoque)":   ["IS","inconformidade","divergência","desconto indevido"],
-            "cobrança indevida sem resolução":             ["cobrado indevid","cobrança errada","valor errado","não reconh"],
+        "cobranca e faturamento": {
+            "cobranca de ADS nao autorizada":
+                ["ads","publicidade","campanha","tarifa","ativei"],
+            "bloqueio do Faturador / certificado digital":
+                ["faturador","certificado","nf-e","nota fiscal","emiss","cnpj"],
+            "cobranca indevida sem resolucao":
+                ["cobrado indevid","cobranca errada","nao reconh","nao devo","desconto indevido"],
+            "fatura ou debito automatico nao reconhecido":
+                ["fatura","debito","automatico","debit","descontou"],
         },
-        "mediação e disputa": {
-            "reclamo afetando reputação indevidamente":    ["reputação","reclamo","afetou","impactou","punido"],
-            "mediação aberta sem prazo claro":             ["mediação","aberta","sem resposta","prazo","aguardando"],
-            "decisão considerada injusta":                 ["injusto","erro do ml","não é minha culpa","arbitrário"],
+        "mediacao e disputa": {
+            "reclamo afetando reputacao indevidamente":
+                ["reputacao","reclamo","afetou","impactou","penalizado"],
+            "mediacao aberta sem prazo claro":
+                ["mediacao","sem resposta","aguardando","sem prazo","em analise"],
+            "decisao considerada injusta":
+                ["injusto","erro do ml","nao e minha culpa","arbitrario"],
         },
-        "publicação e afiliados": {
-            "comissão de afiliados não paga / invalidada": ["afiliado","comissão","não aprovada","pendente","invalidada"],
-            "suspensão de publicação sem motivo claro":    ["suspensa","pausada","removida","publicação","anúncio"],
-            "atendimento automático sem análise do caso":  ["robótico","automático","frases prontas","não leu","padrão"],
+        "publicacao e conta": {
+            "comissao ou afiliado nao pago":
+                ["afiliado","comissao","nao aprovada","invalidada"],
+            "suspensao ou remocao de publicacao":
+                ["suspensa","pausada","removida","publicacao","anuncio"],
+            "atendimento automatico sem analise do caso":
+                ["robotico","automatico","frases prontas","nao leu"],
         },
-        "reputação e conta": {
-            "conta suspensa / restrita sem explicação":    ["suspensa","restrita","banida","bloqueada","sem motivo"],
-            "badge de experiência ruim indevido":          ["badge","experiência de compra","mala","penalização"],
+        "devolucao e reembolso": {
+            "devolucao impactando reputacao":
+                ["devolucao","impactou","reputacao","cancelamento"],
+            "reembolso pendente sem atualizacao":
+                ["reembolso","estorno","nao recebi","pendente"],
         },
-        "devolução e reembolso": {
-            "devolução impactando reputação":              ["devolução","impactou","reputação","cancelamento"],
-            "reembolso pendente sem atualização":          ["reembolso","estorno","não recebi","prazo","pendente"],
+        "outros": {
+            "problema nao resolvido apos multiplos contatos":
+                ["ja tentei","ja abri","segunda vez","terceira","semanas","meses tentando","varias vezes"],
+            "urgencia operacional sem canal de resolucao":
+                ["urgente","hoje","amanha","vence","nao consigo","bloqueado"],
         },
     }
 
-    # Fonte de transcrições (S1, VIG ou mensal)
-    src = trx_source if trx_source is not None else _TRX_S1
-    det_trxs = src.get(grp, {}).get("detrator", {})
-
-    cid_user_map = {}
-    cid_first_complaint = {}
-    for cid, msgs in det_trxs.items():
-        user_msgs = [m.get("msg","").strip() for m in msgs
-                     if m.get("role")=="USER" and len(m.get("msg","").strip()) > 20]
-        cid_user_map[cid] = " ".join(m.lower() for m in user_msgs)
-        for msg in user_msgs:
-            if len(msg) > 30 and not any(w in msg.lower() for w in
-                    ["tudo bem","bom dia","boa tarde","quero falar","falar com","assistente","atendente"]):
-                cid_first_complaint[cid] = msg[:200]
-                break
-        if cid not in cid_first_complaint and user_msgs:
-            cid_first_complaint[cid] = user_msgs[0][:200]
-
-    # Prioriza casos do processo top negativo
-    if top_proc:
-        proc_name  = (top_proc.get("proc") or "").lower()
-        proc_cdus  = list((top_proc.get("detail") or {}).get("cdu", {}).keys())
-        proc_kws   = set()
-        for text in [proc_name] + [c.lower() for c in proc_cdus]:
-            proc_kws.update(w for w in text.split() if len(w) >= 4)
-        def _proc_score(txt):
-            return sum(1 for k in proc_kws if k in txt)
-        sorted_cids = sorted(cid_user_map.keys(), key=lambda c: -_proc_score(cid_user_map[c]))
-        cid_user_map = {c: cid_user_map[c] for c in sorted_cids}
-        cid_first_complaint = {c: cid_first_complaint[c]
-                                for c in sorted_cids if c in cid_first_complaint}
-
-    s1_texts = list(cid_user_map.values())
-
-    # Textos mensais — filtra pelo processo top se disponível
-    monthly_cmts = _EXEC.get("qual",{}).get(grp,{}).get("comments",[])
-    if top_proc:
-        proc_name_m = (top_proc.get("proc") or "").lower()
-        filtered = [c for c in monthly_cmts if c.get("perfil")=="detrator"
-                    and proc_name_m in (c.get("driver","") or "").lower()]
-        if filtered:
-            monthly_cmts = filtered
-    monthly_texts = [(c.get("comment","") or "").lower()
-                     for c in monthly_cmts if c.get("perfil")=="detrator"]
-
-    # Atribuição exclusiva: cada caso ao melhor padrão
-    cid_scores = {}
-    for cid, txt in cid_user_map.items():
-        cid_scores[cid] = {}
+    def _best_pattern(txt):
+        best_score, best_key = 0, None
         for cat, sub_dict in SUB_PATTERNS.items():
             for sub, kws in sub_dict.items():
-                score = sum(1 for k in kws if k in txt)
-                if score > 0:
-                    cid_scores[cid][(cat, sub)] = score
+                s = sum(1 for k in kws if k in txt)
+                if s > best_score:
+                    best_score, best_key = s, (cat, sub)
+        return best_key if best_score >= 1 else None
 
-    cid_best_pattern = {}
-    for cid, scores in cid_scores.items():
-        if scores:
-            cid_best_pattern[cid] = max(scores.items(), key=lambda x: x[1])[0]
-
-    def _synthesize_narrative(sub, kws, matched_msgs):
-        """Narrativa baseada no conteúdo real dos casos matched — sem templates fixos."""
-        if not matched_msgs:
-            return ""
-
-        import re as _re_narr
-
-        def _extract_sentences(texts, keywords, max_sentences=4):
-            sentences = []
-            for txt in texts:
-                parts = _re_narr.split(r'[.!?\n]+', txt)
-                for part in parts:
-                    part = part.strip()
-                    if len(part) < 15:
-                        continue
-                    if any(k in part for k in keywords):
-                        sentences.append(part)
-                    if len(sentences) >= max_sentences:
-                        break
-                if len(sentences) >= max_sentences:
-                    break
-            return sentences
-
-        SITUATION = {
-            "urgência":               ["urgente","prazo","hoje","amanhã","vence","data","rápido"],
-            "reincidência":           ["já tentei","já abri","segunda vez","terceira","semanas","meses","várias vezes"],
-            "bloqueio operacional":   ["não consigo","parado","bloqueado","não funciona","suspensa","impedido"],
-            "perda financeira":       ["prejuízo","perdi","perdendo","reais","dinheiro","valor","sem receber"],
-            "injustiça":              ["não é minha","erro do ml","minha culpa","arbitrário","injusto","castigando"],
-            "falta de transparência": ["não entendo","sem explicação","sem motivo","critério","por quê","ninguém explica"],
-            "sem resolução":          ["não resolveu","continua","mesmo problema","sem retorno","esperando","ninguém"],
-        }
-        situation_cnt = {k: 0 for k in SITUATION}
-        for txt in matched_msgs:
-            for sit, swords in SITUATION.items():
-                if any(w in txt for w in swords):
-                    situation_cnt[sit] += 1
-
-        top_sit = sorted(situation_cnt.items(), key=lambda x: -x[1])
-        active = [(s,c) for s,c in top_sit if c > 0][:3]
-
-        real_sentences = _extract_sentences(matched_msgs, kws)
-
-        if real_sentences:
-            n = len(matched_msgs)
-            sit_txt = " e ".join(s for s,_ in active) if active else "insatisfação recorrente"
-            unique = list(dict.fromkeys(s[:120] for s in real_sentences))[:2]
-            examples_txt = "; ".join(f'"{s}"' for s in unique) if unique else ""
-            narrative = f"Padrão identificado em {n} caso{'s' if n>1 else ''}: sellers reportam {sit_txt}. "
-            if examples_txt:
-                narrative += f"Relatos: {examples_txt}. "
-            narrative += "Recorrência em S1 e período mensal indica causa estrutural."
-            return narrative
-
-        if active:
-            sit_names = " e ".join(s for s,_ in active)
-            return (f"Sellers que entram em contato por este motivo apresentam padrão de "
-                    f"{sit_names}, com contatos recorrentes sem resolução definitiva. "
-                    f"O padrão persiste tanto na semana S1 quanto no período mensal, indicando causa estrutural.")
-        return f"Padrão recorrente em {len(matched_msgs)} caso(s). Requer análise aprofundada."
-
-    def _synthesize_narrative_real(sub, complaints, count):
-        if not complaints:
-            return f"Padrão recorrente em {count} caso(s) S1."
-        unique = list(dict.fromkeys(c[:150] for c in complaints if c))[:2]
-        relatos = "; ".join(f'"{r}"' for r in unique) if unique else ""
-        base = f"Padrão em {count} caso{'s' if count>1 else ''} S1."
-        if relatos:
-            base += f" Relato{'s' if len(unique)>1 else ''}: {relatos}."
-        return base
+    cid_best     = {c: p for c, t in all_wk.items()  if (p := _best_pattern(t))}
+    cid_best_mon = {c: p for c, t in all_mon.items() if (p := _best_pattern(t))}
 
     results = []
+    seen = set()
     for cat, sub_dict in SUB_PATTERNS.items():
         for sub, kws in sub_dict.items():
-            ex_ids = [cid for cid, bp in cid_best_pattern.items()
-                      if bp == (cat, sub)][:3]
-            s1_hits = len(ex_ids)
-            monthly_hits = sum(1 for t in monthly_texts if any(k in t for k in kws))
-            if s1_hits >= 1 and monthly_hits >= 1:
-                real_complaints = [cid_first_complaint.get(cid, "") for cid in ex_ids]
-                narrative = _synthesize_narrative_real(sub, real_complaints, s1_hits)
+            key = (cat, sub)
+            if key in seen:
+                continue
+            ex_cids  = [c for c, k in cid_best.items()     if k == key][:3]
+            mon_hits = sum(1 for k in cid_best_mon.values() if k == key)
+            if len(ex_cids) >= 1 and mon_hits >= 1:
+                seen.add(key)
+                complaints_real = [weekly_cases[c].get("complaint", "")
+                                   for c in ex_cids if c in weekly_cases]
+                unique = list(dict.fromkeys(c[:160] for c in complaints_real if c))[:2]
+                relatos = "; ".join(f'"{r}"' for r in unique) if unique else ""
+                narrative = f"Processo: {top_proc_name}. Padrão em {len(ex_cids)} caso{'s' if len(ex_cids)>1 else ''} S1."
+                if relatos:
+                    narrative += f" Relatos: {relatos}."
                 results.append({
                     "categoria":     cat,
                     "sub_pattern":   sub,
-                    "s1_count":      s1_hits,
-                    "monthly_count": monthly_hits,
-                    "examples":      ex_ids,
+                    "s1_count":      len(ex_cids),
+                    "monthly_count": mon_hits,
+                    "examples":      ex_cids,
                     "narrative":     narrative,
                 })
 
+    if not results and weekly_cases and monthly_cases:
+        # Sem padrão identificado — mostra casos mais ricos diretamente
+        top_cids = sorted(
+            weekly_cases.items(),
+            key=lambda x: len(x[1].get("complaint", "")),
+            reverse=True
+        )[:3]
+        complaints_txt = [d.get("complaint", "") for _, d in top_cids if d.get("complaint")]
+        unique = list(dict.fromkeys(c[:160] for c in complaints_txt))[:2]
+        relatos = "; ".join(f'"{r}"' for r in unique) if unique else ""
+        narrative = f"Processo: {top_proc_name}. Padrão recorrente em S1 e mensal."
+        if relatos:
+            narrative += f" Relatos: {relatos}."
+        results.append({
+            "categoria":     "recorrencia geral",
+            "sub_pattern":   f"Detratores em {top_proc_name}",
+            "s1_count":      len(weekly_cases),
+            "monthly_count": len(monthly_cases),
+            "examples":      [c for c, _ in top_cids],
+            "narrative":     narrative,
+        })
+
     results.sort(key=lambda x: -(x["s1_count"] + x["monthly_count"]))
     return results[:4]
+
 
 def _deep_trx_insights(grp, trx_src=None):
     """
