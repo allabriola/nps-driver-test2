@@ -1353,21 +1353,41 @@ def _recurrence_deep(grp, trx_source=None):
 
     def _synthesize_narrative(sub, kws, matched_msgs):
         """
-        Gera narrativa analítica do sub-padrão baseada nas mensagens reais.
-        Sem quotes literais — síntese do que os sellers reportam.
+        Gera narrativa baseada no conteúdo real dos casos matched.
+        Extrai frases-chave dos textos reais em vez de usar templates fixos.
         """
         if not matched_msgs:
             return ""
 
-        # Padrões de situação + frustração + causa sistêmica
+        import re as _re_narr
+
+        # Extrai frases relevantes que contêm as keywords do padrão
+        def _extract_sentences(texts, keywords, max_sentences=4):
+            sentences = []
+            for txt in texts:
+                # Divide em frases por pontuação ou quebra de linha
+                parts = _re_narr.split(r'[.!?\n]+', txt)
+                for part in parts:
+                    part = part.strip()
+                    if len(part) < 15:
+                        continue
+                    if any(k in part for k in keywords):
+                        sentences.append(part)
+                    if len(sentences) >= max_sentences:
+                        break
+                if len(sentences) >= max_sentences:
+                    break
+            return sentences
+
+        # Padrões de situação para categorizar o contexto
         SITUATION = {
-            "urgência": ["urgente","prazo","hoje","amanhã","vence","data"],
-            "reincidência": ["já tentei","já abri","segunda vez","terceira","semanas","meses"],
-            "bloqueio operacional": ["não consigo","parado","bloqueado","não funciona","suspensa"],
-            "perda financeira": ["prejuízo","perdi","perdendo","reais","dinheiro"],
-            "injustiça": ["não é minha","erro do ml","minha culpa","arbitrário","injusto","castigando"],
-            "falta de transparência": ["não entendo","sem explicação","sem motivo","critério","por quê"],
-            "ausência de canal": ["sem canal","não tem como","não consigo falar","ninguém resolve"],
+            "urgência":              ["urgente","prazo","hoje","amanhã","vence","data","rápido"],
+            "reincidência":          ["já tentei","já abri","segunda vez","terceira","semanas","meses","várias vezes"],
+            "bloqueio operacional":  ["não consigo","parado","bloqueado","não funciona","suspensa","impedido"],
+            "perda financeira":      ["prejuízo","perdi","perdendo","reais","dinheiro","valor","sem receber"],
+            "injustiça":             ["não é minha","erro do ml","minha culpa","arbitrário","injusto","castigando"],
+            "falta de transparência":["não entendo","sem explicação","sem motivo","critério","por quê","ninguém explica"],
+            "sem resolução":         ["não resolveu","continua","mesmo problema","sem retorno","esperando","ninguém"],
         }
         situation_cnt = {k: 0 for k in SITUATION}
         for txt in matched_msgs:
@@ -1376,10 +1396,36 @@ def _recurrence_deep(grp, trx_source=None):
                     situation_cnt[sit] += 1
 
         top_sit = sorted(situation_cnt.items(), key=lambda x: -x[1])
-        active = [(s,c) for s,c in top_sit if c > 0][:2]
+        active = [(s,c) for s,c in top_sit if c > 0][:3]
 
-        # Narrativas pré-analíticas por sub-padrão (enriquecidas com dados reais)
-        TEMPLATES = {
+        # Extrai frases reais dos casos
+        real_sentences = _extract_sentences(matched_msgs, kws)
+
+        if real_sentences:
+            # Narrativa construída com base no conteúdo real
+            n = len(matched_msgs)
+            sit_txt = " e ".join(s for s,_ in active) if active else "insatisfação recorrente"
+            # Remove duplicatas e limpa frases
+            unique = list(dict.fromkeys(s[:120] for s in real_sentences))[:3]
+            examples_txt = "; ".join(f'"{s}"' for s in unique[:2]) if unique else ""
+            narrative = (
+                f"Padrão identificado em {n} caso{'s' if n>1 else ''}: sellers reportam {sit_txt}. "
+            )
+            if examples_txt:
+                narrative += f"Relatos: {examples_txt}. "
+            narrative += "Recorrência em S1 e período mensal indica causa estrutural."
+            return narrative
+
+        # Fallback: narrativa genérica baseada nos padrões de situação
+        if active:
+            sit_names = " e ".join(s for s,_ in active)
+            return (f"Sellers que entram em contato por este motivo apresentam padrão de "
+                    f"{sit_names}, com contatos recorrentes sem resolução definitiva. "
+                    f"O padrão persiste tanto na semana S1 quanto no período mensal, indicando causa estrutural.")
+        return f"Padrão recorrente em {len(matched_msgs)} caso(s). Requer análise aprofundada."
+
+    # Templates mantidos apenas como referência para casos sem conteúdo real (deprecated)
+    _TEMPLATES_DEPRECATED = {
             "atraso de entrega sem atualização de status":
                 "Sellers reportam que o status do envio não é atualizado em tempo real após o prazo comprometido, gerando contatos repetidos. "
                 "A ausência de notificação proativa obriga o seller a buscar informação ativamente, sem ter canal eficaz de resolução no atendimento.",
@@ -1425,26 +1471,22 @@ def _recurrence_deep(grp, trx_source=None):
             "conta suspensa / restrita sem explicação":
                 "Sellers encontram a conta restrita sem ter recebido notificação prévia e sem encontrar explicação objetiva nos canais de atendimento. "
                 "O impacto operacional é imediato (impossibilidade de vender), e o processo de regularização não tem prazo definido nem atualizações proativas.",
-        }
-
-        base = TEMPLATES.get(sub, "")
-        if not base and active:
-            # Narrativa genérica baseada nos padrões identificados
-            sit_names = " e ".join(s for s,_ in active)
-            base = (f"Sellers que entram em contato por este motivo apresentam padrão de "
-                    f"{sit_names}, com contatos recorrentes sem resolução definitiva. "
-                    f"O padrão persiste tanto na semana S1 quanto no período mensal, indicando causa estrutural.")
-        return base
+        }  # fim _TEMPLATES_DEPRECATED (não mais usado — narrativa vem do conteúdo real)
 
     results = []
     for cat, sub_dict in SUB_PATTERNS.items():
         for sub, kws in sub_dict.items():
-            s1_hits      = sum(1 for t in s1_texts     if any(k in t for k in kws))
-            monthly_hits = sum(1 for t in monthly_texts if any(k in t for k in kws))
+            # Exige pelo menos 2 keywords distintas no mesmo texto para reduzir falsos positivos
+            def _multi_match(txt):
+                matched_kws = [k for k in kws if k in txt]
+                return len(matched_kws) >= min(2, len(kws))
+
+            s1_hits      = sum(1 for t in s1_texts     if _multi_match(t))
+            monthly_hits = sum(1 for t in monthly_texts if _multi_match(t))
             if s1_hits >= 1 and monthly_hits >= 1:
-                matched_msgs = [txt for txt in s1_texts if any(k in txt for k in kws)]
+                matched_msgs = [txt for txt in s1_texts if _multi_match(txt)]
                 ex_ids = [cid for cid, txt in cid_user_map.items()
-                          if any(k in txt for k in kws)][:3]
+                          if _multi_match(txt)][:3]
                 narrative = _synthesize_narrative(sub, kws, matched_msgs)
                 results.append({
                     "categoria":     cat,
