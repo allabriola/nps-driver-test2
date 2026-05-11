@@ -1747,7 +1747,9 @@ def _process_exec_html(grp, mode="monthly"):
                       f'Padr&#245;es qualitativos identificados:</p>'
                       f'{bullets_html}')
 
-    resumo = (f'<div style="border-left:3px solid {color};padding:14px 16px;'
+    # Usa narrativa unificada (NPS + senioridade + oficina + CDU)
+    resumo = _driver_narrative_html(grp) or (
+              f'<div style="border-left:3px solid {color};padding:14px 16px;'
               f'background:#fff;border-radius:0 8px 8px 0;margin-bottom:4px">'
               f'<div style="font-size:11px;font-weight:700;color:#888;margin-bottom:8px">'
               f'&#128203; Resumo Executivo &mdash; {esc(grp)}</div>'
