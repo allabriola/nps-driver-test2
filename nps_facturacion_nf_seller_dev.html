@@ -13,44 +13,41 @@ body{font-family:'Proxima Nova',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
 .header{background:var(--dark);color:#fff;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
 .header h1{font-size:20px;font-weight:800;letter-spacing:-.3px;}
 .header p{font-size:12px;color:#aaa;margin-top:3px;}
-.header-badges{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
 .hp{background:var(--yellow);color:#000;font-weight:700;font-size:11px;padding:4px 12px;border-radius:20px;}
 .hr{background:var(--red);color:#fff;font-weight:700;font-size:11px;padding:4px 12px;border-radius:20px;}
 .ha{background:var(--amber);color:#000;font-weight:700;font-size:11px;padding:4px 12px;border-radius:20px;}
-.container{max-width:1280px;margin:0 auto;padding:0 24px 60px;}
+.container{max-width:1320px;margin:0 auto;padding:0 24px 60px;}
 .section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin:24px 0 12px;border-left:3px solid var(--yellow);padding-left:10px;}
 /* TABS */
 .tabs{display:flex;gap:0;border-bottom:3px solid var(--border);margin-bottom:24px;flex-wrap:wrap;padding-top:20px;}
-.tab-btn{padding:10px 22px;border:1px solid var(--border);background:#fff;font-size:13px;font-weight:700;color:#999;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-3px;border-radius:8px 8px 0 0;transition:all .15s;}
+.tab-btn{padding:10px 24px;border:1px solid var(--border);background:#fff;font-size:13px;font-weight:700;color:#999;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-3px;border-radius:8px 8px 0 0;transition:all .15s;}
 .tab-btn.active{color:var(--dark);border-bottom-color:var(--yellow);background:#fff;}
 .tab-btn:hover:not(.active){color:var(--dark);background:#f9f9f9;}
 .tab-content{display:none;}
 .tab-content.active{display:block;}
 /* CARDS */
-.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
-.cards-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
-@media(max-width:960px){.cards,.cards-4{grid-template-columns:repeat(2,1fr);}}
+.cards5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
+.cards4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+@media(max-width:960px){.cards5,.cards4{grid-template-columns:repeat(2,1fr);}}
 .kc{background:#fff;border-radius:10px;padding:14px 16px;border:1px solid var(--border);}
-.kc.kc-alert{border-left:4px solid var(--red);}
-.kc.kc-ok{border-left:4px solid var(--green);}
+.kc-r{border-left:4px solid var(--red);}
+.kc-g{border-left:4px solid var(--green);}
 .kc .lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#999;margin-bottom:4px;}
 .kc .val{font-size:26px;font-weight:800;line-height:1.1;}
-.kc .val-xl{font-size:36px;font-weight:900;line-height:1;}
+.kc .val-xl{font-size:40px;font-weight:900;line-height:1;}
 .kc .sub{font-size:11px;color:#888;margin-top:4px;}
-.pos{color:var(--green);} .neg{color:var(--red);} .warn{color:var(--amber);}
+.pos{color:var(--green);}.neg{color:var(--red);}.warn{color:var(--amber);}
 /* CARD WIDGET */
 .card{background:#fff;border-radius:10px;border:1px solid var(--border);overflow:hidden;margin-bottom:16px;}
 .ch{padding:12px 16px;border-bottom:1px solid var(--border);font-weight:700;font-size:13px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .cb{padding:16px;}
-/* BADGE */
 .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;}
 .bg{background:var(--lgreen);color:var(--green);}
 .br{background:var(--lred);color:var(--red);}
 .ba{background:#fef3c7;color:var(--amber);}
 /* GRID */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
-@media(max-width:800px){.g2,.g3{grid-template-columns:1fr;}}
+@media(max-width:800px){.g2{grid-template-columns:1fr;}}
 /* TABLE */
 table{width:100%;border-collapse:collapse;}
 th{background:#fafafa;padding:8px 12px;text-align:right;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#888;border-bottom:1px solid var(--border);}
@@ -65,22 +62,13 @@ tr:hover td{background:#fafbff;}
 .cb2{background:var(--lblue);color:var(--blue);}
 .co{background:var(--lorange);color:var(--orange);}
 .cw{background:#f5f5f5;color:#888;}
-/* INSIGHT BOXES */
+/* INSIGHT */
 .insight{padding:12px 14px;border-radius:8px;margin-bottom:8px;font-size:12px;line-height:1.6;}
 .ins-r{background:var(--lred);border-left:4px solid var(--red);}
 .ins-g{background:var(--lgreen);border-left:4px solid var(--green);}
 .ins-o{background:var(--lorange);border-left:4px solid var(--orange);}
 .ins-b{background:var(--lblue);border-left:4px solid var(--blue);}
 .tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#aaa;display:block;margin-bottom:3px;}
-/* CDU list */
-.cdu-row{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid #f5f5f5;font-size:12px;}
-.cdu-row:last-child{border-bottom:none;}
-.cdu-name{font-weight:600;flex:1;}
-.cdu-meta{display:flex;gap:8px;align-items:center;}
-.sep{color:#ccc;font-size:10px;}
-/* Impact bar */
-.imp-bar-wrap{width:120px;height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden;display:inline-block;vertical-align:middle;}
-.imp-bar-fill{height:100%;border-radius:4px;}
 </style>
 </head>
 <body>
@@ -90,437 +78,315 @@ tr:hover td{background:#fafbff;}
     <h1>NPS Facturación + Emissão de Nota Fiscal</h1>
     <p>Seller Dev · Brasil (MLB) · Variação mensal com decomposição por CDU (MIX + NETO)</p>
   </div>
-  <div class="header-badges">
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
     <span class="hp">Seller Dev</span>
     <span class="hp">Brasil · MLB</span>
-    <span class="hr">Mai/26*: 31,5% &nbsp;▼ −18,6 pp</span>
+    <span class="hr">Facturación Mai*: −5,8%</span>
     <span class="ha">Target: 59,7% · Gap: −28,2 pp</span>
-    <span style="font-size:11px;color:#666;margin-left:4px;">Atualizado: 11/05/2026 &nbsp;·&nbsp; *Maio parcial (130 pesq.)</span>
+    <span style="font-size:11px;color:#666;">Atualizado: 11/05/2026 &nbsp;·&nbsp; *Maio parcial</span>
   </div>
 </div>
 
 <div class="container">
 
-<!-- ─── TABS ─── -->
 <div class="tabs">
-  <button class="tab-btn active"   onclick="showTab('overview',this)">🌐 Visão Geral</button>
-  <button class="tab-btn"          onclick="showTab('emissao',this)">📄 Emissão de Nota Fiscal</button>
-  <button class="tab-btn"          onclick="showTab('facturacion',this)">💳 Facturación</button>
+  <button class="tab-btn active" onclick="showTab('overview',this)">🌐 Visão Geral</button>
+  <button class="tab-btn"        onclick="showTab('emissao',this)">📄 Emissão de Nota Fiscal</button>
+  <button class="tab-btn"        onclick="showTab('facturacion',this)">💳 Facturación</button>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     TAB 1 — VISÃO GERAL (combinado)
-═══════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════
+     VISÃO GERAL
+══════════════════════════════════════ -->
 <div id="tab-overview" class="tab-content active">
-
   <div class="section-title">Resumo consolidado — ambos os processos</div>
-  <div class="cards">
-    <div class="kc">
-      <div class="lbl">Mar/2026</div>
-      <div class="val neg">39,1%</div>
-      <div class="sub">Pior mês dos últimos 8</div>
-    </div>
-    <div class="kc">
-      <div class="lbl">Abr/2026</div>
-      <div class="val pos">50,2%</div>
-      <div class="sub"><span class="pos">+11,1 pp</span> vs Mar</div>
-    </div>
-    <div class="kc">
-      <div class="lbl">Mai/2026 <span style="font-size:9px;color:#bbb;">(até 11/05)</span></div>
-      <div class="val neg">31,5%</div>
-      <div class="sub"><span class="neg">−18,6 pp</span> vs Abr · 130 pesq.</div>
-    </div>
-    <div class="kc">
-      <div class="lbl">Target Mai/2026</div>
-      <div class="val warn">59,7%</div>
-      <div class="sub">Driver Exp. Impositiva SD</div>
-    </div>
-    <div class="kc">
-      <div class="lbl">Gap vs Target (Mai*)</div>
-      <div class="val neg">−28,2 pp</div>
-      <div class="sub">NPS 31,5% vs meta 59,7%</div>
-    </div>
+  <div class="cards5">
+    <div class="kc"><div class="lbl">Mar/2026</div><div class="val neg">39,1%</div><div class="sub">494 pesquisas</div></div>
+    <div class="kc"><div class="lbl">Abr/2026</div><div class="val pos">50,2%</div><div class="sub"><span class="pos">+11,1 pp</span> vs Mar · 562 pesq.</div></div>
+    <div class="kc"><div class="lbl">Mai/2026* <span style="font-size:9px;color:#bbb;">(até 11/05)</span></div><div class="val neg">31,5%</div><div class="sub"><span class="neg">−18,6 pp</span> vs Abr · 130 pesq.</div></div>
+    <div class="kc"><div class="lbl">Target Mai/2026</div><div class="val warn">59,7%</div><div class="sub">Driver Exp. Impositiva SD</div></div>
+    <div class="kc"><div class="lbl">Gap vs Target (Mai*)</div><div class="val neg">−28,2 pp</div><div class="sub">31,5% vs meta 59,7%</div></div>
   </div>
-
   <div class="g2" style="margin-bottom:16px;">
-    <div class="insight ins-r">
-      <span class="tag">Principal ofensor — ambos os meses</span>
-      <strong>CDU "Dúvidas sobre cargos faturados"</strong> — em Mar/26 concentrou 33% das pesquisas com NPS de 30,1%. Em Mai/26*, o NPS colapsou para <strong>−11,1%</strong>, gerando −10,4 pp de impacto no total (91% via NETO).
-    </div>
-    <div class="insight ins-o">
-      <span class="tag">Alerta Mai/2026* — processo Facturación</span>
-      <strong>Facturación NPS: −5,8%</strong> em Maio parcial (era +41,3% em Abr), queda de −50,2 pp. Emissão de NF segura (+56,4%). Todo o colapso de Maio está concentrado em cobranças contestadas no processo de faturamento.
-    </div>
+    <div class="insight ins-r"><span class="tag">CDU principal ofensor</span><strong>Dúvidas sobre cargos faturados</strong> — colapsou de 44,3% (Abr) para −11,1% (Mai*), gerando −10,4 pp no consolidado. Padrão: cobranças contestadas com escalada sem resolução no atendimento.</div>
+    <div class="insight ins-o"><span class="tag">Alerta Facturación</span><strong>Facturación NPS: −5,8%</strong> em Maio parcial (era +41,3% em Abr), queda de −50,2 pp. Emissão de NF estável (+56,4%). Use as abas acima para ver cada processo em detalhe.</div>
   </div>
-
-  <div class="card">
-    <div class="ch">📈 Evolução histórica — NPS consolidado (Set/25 → Mai/26*)</div>
-    <div class="cb"><canvas id="chartHist" height="75"></canvas></div>
-  </div>
-
-  <div class="section-title">Decomposição MoM por CDU (MIX + NETO)</div>
+  <div class="card"><div class="ch">📈 Evolução histórica — NPS consolidado (Set/25 → Mai/26*)</div><div class="cb"><canvas id="chartHist" height="75"></canvas></div></div>
+  <div class="section-title">Decomposição MoM por CDU — consolidado</div>
   <div class="g2">
-    <div class="card">
-      <div class="ch">Cascata Mar/26 → Abr/26 <span class="badge bg">+11,1 pp — recuperação</span></div>
-      <div class="cb"><canvas id="chartWF1" height="220"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="ch">Cascata Abr/26 → Mai/26* <span class="badge br">−18,6 pp</span> <span class="badge ba">Target: 59,7%</span></div>
-      <div class="cb"><canvas id="chartWF2" height="220"></canvas></div>
-    </div>
+    <div class="card"><div class="ch">Cascata Mar/26 → Abr/26 <span class="badge bg">+11,1 pp</span></div><div class="cb"><canvas id="chartWF1" height="220"></canvas></div></div>
+    <div class="card"><div class="ch">Cascata Abr/26 → Mai/26* <span class="badge br">−18,6 pp</span> <span class="badge ba">Target 59,7%</span></div><div class="cb"><canvas id="chartWF2" height="220"></canvas></div></div>
   </div>
-
-  <div class="card">
-    <div class="ch">📊 NPS por Processo — Mar/26 · Abr/26 · Mai/26*</div>
-    <div class="cb"><canvas id="chartProc" height="70"></canvas></div>
+  <div class="card"><div class="ch">📊 NPS por Processo — Mar/26 · Abr/26 · Mai/26*</div><div class="cb"><canvas id="chartProc" height="70"></canvas></div></div>
+  <div class="section-title">Tabela MIX/NETO — Abr/26 → Mai/26* (consolidado)</div>
+  <div class="card"><div class="ch">Todos os CDUs · 562 pesquisas Abr vs 130 pesquisas Mai*</div>
+    <table><thead><tr>
+      <th class="tl">CDU</th><th>NPS Abr</th><th>Share Abr</th><th>Enc. Abr</th>
+      <th>NPS Mai*</th><th>Share Mai*</th><th>Enc. Mai*</th>
+      <th>MIX</th><th>NETO</th><th>VAR Total</th>
+    </tr></thead><tbody id="tbMixNeto"></tbody></table>
   </div>
+</div>
 
-  <div class="section-title">Decomposição MIX/NETO completa — Abr/26 → Mai/26*</div>
-  <div class="card">
-    <div class="ch">Todos os CDUs · 562 pesquisas Abr vs 130 pesquisas Mai*</div>
-    <table>
-      <thead>
-        <tr>
-          <th class="tl">CDU</th>
-          <th>NPS Abr</th><th>Share Abr</th><th>Enc. Abr</th>
-          <th>NPS Mai*</th><th>Share Mai*</th><th>Enc. Mai*</th>
-          <th>MIX</th><th>NETO</th><th>VAR Total</th>
-        </tr>
-      </thead>
-      <tbody id="tbMixNeto"></tbody>
-    </table>
-  </div>
-
-</div><!-- /tab-overview -->
-
-
-<!-- ═══════════════════════════════════════════
-     TAB 2 — EMISSÃO DE NOTA FISCAL
-═══════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════
+     EMISSÃO DE NOTA FISCAL
+══════════════════════════════════════ -->
 <div id="tab-emissao" class="tab-content">
-
-  <div class="section-title">Emissão de Nota Fiscal — desempenho por mês</div>
-
+  <div class="section-title">Emissão de Nota Fiscal — Mai/26* em 56,4% · gap de −3,3 pp vs target</div>
   <div class="g2" style="margin-bottom:16px;">
-    <div class="insight ins-g">
-      <span class="tag">Situação Mai/26*</span>
-      <strong>Processo estável e próximo ao target.</strong> NPS de 56,4% está apenas −3,3 pp abaixo da meta de 59,7%. Recuperação sólida de +16,0 pp em Abr após queda de Março. Maio manteve o patamar positivo.
-    </div>
-    <div class="insight ins-b">
-      <span class="tag">Principal atenção</span>
-      <strong>CDU "Faturador MeLi"</strong> concentra ~29% das pesquisas com NPS de 39,5% em Mai* — abaixo da média do processo. Falhas técnicas (certificado digital, dados fiscais incompletos, estado NF-e travado) geram detração mesmo com atendimento proativo.
-    </div>
+    <div class="insight ins-g"><span class="tag">Situação Mai/26*</span><strong>Processo próximo ao target.</strong> 56,4% vs meta 59,7% (gap −3,3 pp). O CDU Temporal (DC-e) puxa positivamente — NPS 76,0% e crescimento de share. Recuperação sólida desde Mar/26.</div>
+    <div class="insight ins-b"><span class="tag">Principal atenção</span><strong>Faturador MeLi</strong> com 47% do volume e NPS 43,2% em Mai* — principal drag no processo. Problemas técnicos (certificado digital, dados fiscais, estado NF-e travado) que não se resolvem no contato.</div>
   </div>
-
-  <div class="cards-4">
-    <div class="kc kc-ok">
-      <div class="lbl">Mar/2026</div>
-      <div class="val neg">42,1%</div>
-      <div class="sub">290 pesquisas</div>
-    </div>
-    <div class="kc kc-ok">
-      <div class="lbl">Abr/2026</div>
-      <div class="val pos">58,1%</div>
-      <div class="sub"><span class="pos">+16,0 pp</span> vs Mar · 303 pesq.</div>
-    </div>
-    <div class="kc kc-ok">
-      <div class="lbl">Mai/2026* <span style="font-size:9px;color:#bbb;">(até 11/05)</span></div>
-      <div class="val pos">56,4%</div>
-      <div class="sub"><span style="color:#888;">~estável</span> vs Abr · 78 pesq.</div>
-    </div>
-    <div class="kc kc-ok">
-      <div class="lbl">Gap vs Target (Mai*)</div>
-      <div class="val warn">−3,3 pp</div>
-      <div class="sub">56,4% vs meta 59,7%</div>
-    </div>
+  <div class="cards4">
+    <div class="kc kc-g"><div class="lbl">Mar/2026</div><div class="val" style="color:#555;">51,8%</div><div class="sub">220 pesquisas</div></div>
+    <div class="kc kc-g"><div class="lbl">Abr/2026</div><div class="val pos">53,3%</div><div class="sub"><span class="pos">+1,5 pp</span> vs Mar · 364 pesq.</div></div>
+    <div class="kc kc-g"><div class="lbl">Mai/2026* <span style="font-size:9px;color:#bbb;">(até 11/05)</span></div><div class="val pos">56,4%</div><div class="sub"><span class="pos">+3,1 pp</span> vs Abr · 78 pesq.</div></div>
+    <div class="kc kc-g"><div class="lbl">Gap vs Target (Mai*)</div><div class="val warn">−3,3 pp</div><div class="sub">56,4% vs meta 59,7%</div></div>
   </div>
-
+  <div class="section-title">Cascatas por CDU — Emissão de Nota Fiscal</div>
   <div class="g2">
     <div class="card">
-      <div class="ch">📊 NPS por mês — Emissão de Nota Fiscal</div>
-      <div class="cb"><canvas id="chartEmissaoBar" height="160"></canvas></div>
+      <div class="ch">📉 MoM: Abr/26 → Mai/26* <span class="badge bg">+3,1 pp</span></div>
+      <div class="cb"><canvas id="chartENF_MoM" height="220"></canvas></div>
     </div>
     <div class="card">
-      <div class="ch">🔄 CDUs deste processo — desempenho Abr vs Mai*
-        <span style="font-size:10px;color:#aaa;font-weight:400;">(análise combinada)</span>
-      </div>
-      <div id="cduEmissao"></div>
+      <div class="ch">🎯 Mai/26* vs Target (59,7%) <span class="badge br">Gap: −3,3 pp</span></div>
+      <div class="cb"><canvas id="chartENF_Tgt" height="220"></canvas></div>
     </div>
   </div>
-
   <div class="section-title">Casos de exemplo — detratores Emissão de Nota Fiscal</div>
-  <div class="card">
-    <div class="ch">CDU principal: Faturador MeLi · 6 casos de exemplo</div>
-    <table>
-      <thead>
-        <tr>
-          <th class="tl">CAS_CASE_ID</th>
-          <th class="tl">Mês</th>
-          <th class="tl">CDU</th>
-          <th class="tl">Sub-tema</th>
-          <th class="tl" style="width:40%;">Principal dor do vendedor</th>
-        </tr>
-      </thead>
-      <tbody id="tbCasesEmissao"></tbody>
-    </table>
+  <div class="card"><div class="ch">CDU Faturador MeLi · 6 casos Mai/26*</div>
+    <table><thead><tr>
+      <th class="tl">CAS_CASE_ID</th><th class="tl">Mês</th><th class="tl">CDU</th><th class="tl">Sub-tema</th><th class="tl" style="width:40%;">Principal dor</th>
+    </tr></thead><tbody id="tbCasesENF"></tbody></table>
   </div>
+</div>
 
-</div><!-- /tab-emissao -->
-
-
-<!-- ═══════════════════════════════════════════
-     TAB 3 — FACTURACIÓN
-═══════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════
+     FACTURACIÓN
+══════════════════════════════════════ -->
 <div id="tab-facturacion" class="tab-content">
-
-  <div class="section-title">Facturación — desempenho por mês</div>
-
+  <div class="section-title">Facturación — COLAPSO em Mai/26*: −5,8% &nbsp;(era +44,4% em Abr)</div>
   <div class="g2" style="margin-bottom:16px;">
-    <div class="insight ins-r">
-      <span class="tag">🚨 Alerta crítico Mai/26*</span>
-      <strong>NPS colapsou para −5,8%</strong> em Maio parcial (era +41,3% em Abr) — queda de −50,2 pp. O CDU "Dúvidas sobre cargos faturados" passou de +44,3% para −11,1%, com padrão recorrente de cobranças não reconhecidas e escaladas sem resolução no contato.
-    </div>
-    <div class="insight ins-o">
-      <span class="tag">Padrão identificado nas transcrições</span>
-      Em 7 dos 10 casos de detratores de Maio, o atendente <strong>não iniciou reembolso nem gerou protocolo de disputa</strong> — redirecionou para e-mail/suporte especializado sem prazo claro. Esse padrão de escalada sem resolução é o principal driver do NPS negativo.
-    </div>
+    <div class="insight ins-r"><span class="tag">🚨 Alerta crítico Mai/26*</span><strong>NPS −5,8%</strong> em Maio parcial — queda de −50,2 pp vs Abr. O CDU "Dúvidas cargos faturados" colapsou de +44,3% para −11,1%, gerando −27,3 pp de impacto NETO. Cobranças não reconhecidas + escaladas sem resolução = detratores.</div>
+    <div class="insight ins-o"><span class="tag">Padrão qualitativo (transcrições)</span>Em 7 dos 10 casos de detratores de Maio, o atendente <strong>não abriu protocolo de disputa nem gerou reembolso</strong> — redirecionou para e-mail sem prazo claro. O CDU "Docs fiscales" também reverteu: de +80,0% para −20,0% (−18,7 pp).</div>
   </div>
-
-  <div class="cards-4">
-    <div class="kc">
-      <div class="lbl">Mar/2026</div>
-      <div class="val neg">34,3%</div>
-      <div class="sub">204 pesquisas</div>
-    </div>
-    <div class="kc">
-      <div class="lbl">Abr/2026</div>
-      <div class="val pos">41,3%</div>
-      <div class="sub"><span class="pos">+7,0 pp</span> vs Mar · 259 pesq.</div>
-    </div>
-    <div class="kc kc-alert">
-      <div class="lbl">Mai/2026* <span style="font-size:9px;color:#bbb;">(até 11/05)</span></div>
-      <div class="val-xl neg">−5,8%</div>
-      <div class="sub"><span class="neg">−50,2 pp</span> vs Abr · 52 pesq.</div>
-    </div>
-    <div class="kc kc-alert">
-      <div class="lbl">Gap vs Target (Mai*)</div>
-      <div class="val neg">−65,5 pp</div>
-      <div class="sub">−5,8% vs referência 59,7%</div>
-    </div>
+  <div class="cards4">
+    <div class="kc"><div class="lbl">Mar/2026</div><div class="val neg">28,8%</div><div class="sub">274 pesquisas</div></div>
+    <div class="kc"><div class="lbl">Abr/2026</div><div class="val pos">44,4%</div><div class="sub"><span class="pos">+15,6 pp</span> vs Mar · 198 pesq.</div></div>
+    <div class="kc kc-r"><div class="lbl">Mai/2026* <span style="font-size:9px;color:#bbb;">(até 11/05)</span></div><div class="val-xl neg">−5,8%</div><div class="sub"><span class="neg">−50,2 pp</span> vs Abr · 52 pesq.</div></div>
+    <div class="kc kc-r"><div class="lbl">Gap vs Target PCF (Mai*)</div><div class="val neg">−46,3 pp</div><div class="sub">−5,8% vs target 40,5%</div></div>
   </div>
-
+  <div class="section-title">Cascatas por CDU — Facturación</div>
   <div class="g2">
     <div class="card">
-      <div class="ch">📊 NPS por mês — Facturación</div>
-      <div class="cb"><canvas id="chartFactBar" height="160"></canvas></div>
+      <div class="ch">📉 MoM: Abr/26 → Mai/26* <span class="badge br">−50,2 pp</span></div>
+      <div class="cb"><canvas id="chartFCT_MoM" height="220"></canvas></div>
     </div>
     <div class="card">
-      <div class="ch">🔄 CDUs deste processo — desempenho Abr vs Mai*
-        <span style="font-size:10px;color:#aaa;font-weight:400;">(análise combinada)</span>
-      </div>
-      <div id="cduFact"></div>
+      <div class="ch">🎯 Mai/26* vs Target PCF (40,5%) <span class="badge br">Gap: −46,3 pp</span></div>
+      <div class="cb"><canvas id="chartFCT_Tgt" height="220"></canvas></div>
     </div>
   </div>
-
-  <div class="section-title">Cascata Abr/26 → Mai/26* — CDUs de Facturación</div>
-  <div class="card">
-    <div class="ch">Impacto dos CDUs de cobrança no colapso de Maio <span class="badge br">−15,4 pp atribuídos ao processo</span></div>
-    <div class="cb"><canvas id="chartWF3" height="180"></canvas></div>
-  </div>
-
   <div class="section-title">Casos de exemplo — detratores Facturación</div>
-  <div class="card">
-    <div class="ch">CDU principal: Dúvidas sobre Cargos Faturados · 7 casos de exemplo</div>
-    <table>
-      <thead>
-        <tr>
-          <th class="tl">CAS_CASE_ID</th>
-          <th class="tl">Mês</th>
-          <th class="tl">CDU</th>
-          <th class="tl">Sub-tema</th>
-          <th class="tl" style="width:40%;">Principal dor do vendedor</th>
-        </tr>
-      </thead>
-      <tbody id="tbCasesFact"></tbody>
-    </table>
+  <div class="card"><div class="ch">CDU Dúvidas sobre Cargos Faturados · 7 casos Mar + Mai/26*</div>
+    <table><thead><tr>
+      <th class="tl">CAS_CASE_ID</th><th class="tl">Mês</th><th class="tl">CDU</th><th class="tl">Sub-tema</th><th class="tl" style="width:40%;">Principal dor</th>
+    </tr></thead><tbody id="tbCasesFCT"></tbody></table>
   </div>
-
-</div><!-- /tab-facturacion -->
+</div>
 
 </div><!-- /container -->
 
-<!-- ═══════════════════════════════════════════
-     SCRIPTS
-═══════════════════════════════════════════ -->
 <script>
-// ─── TAB SWITCHING ───────────────────────
-const inited = {};
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+// ─── TAB ────────────────────────────────
+const inited={};
+function showTab(id,btn){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   btn.classList.add('active');
-  if (!inited[id]) { initTab(id); inited[id]=true; }
+  if(!inited[id]){initTab(id);inited[id]=true;}
 }
 
-// ─── DATA ────────────────────────────────
+// ─── DATA COMBINADO ──────────────────────
+const MN_COMB=[
+  {cdu:'Faturador MeLi',       npsA:47.1,shA:'27,2%',encA:153,npsB:39.5, shB:'29,2%',encB:38, mix:'+0,6',neto:'-2,1',v:-1.5},
+  {cdu:'Temporal',             npsA:68.2,shA:'19,6%',encA:110,npsB:63.0, shB:'20,8%',encB:27, mix:'+0,6',neto:'-1,0',v:-0.5},
+  {cdu:'Dúvidas cargos fat.',  npsA:44.3,shA:'17,3%',encA: 97,npsB:-11.1,shB:'20,8%',encB:27, mix:'-0,6',neto:'-9,8',v:-10.4},
+  {cdu:'Dudas docs fiscales',  npsA:78.0,shA:'7,3%', encA: 41,npsB:-20.0,shB:'3,8%', encB: 5, mix:'-0,5',neto:'-2,2',v:-2.7},
+  {cdu:'Impuesto p/ facturar', npsA:61.1,shA:'6,4%', encA: 36,npsB:50.0, shB:'3,1%', encB: 4, mix:'-0,5',neto:'-0,6',v:-1.1},
+  {cdu:'Dudas Deuda/Débito',   npsA:20.6,shA:'6,0%', encA: 34,npsB:-25.0,shB:'3,1%', encB: 4, mix:'-0,5',neto:'-1,4',v:-1.9},
+  {cdu:'Emissor externo',      npsA:28.0,shA:'4,5%', encA: 25,npsB:40.0, shB:'3,8%', encB: 5, mix:'-0,1',neto:'+0,3',v:+0.3},
+  {cdu:'Optin',                npsA:72.7,shA:'3,9%', encA: 22,npsB:0.0,  shB:'1,5%', encB: 2, mix:'-0,6',neto:'-1,4',v:-2.0},
+  {cdu:'Outros (consolidado)', npsA:31.8,shA:'7,8%', encA: 44,npsB:55.6, shB:'13,8%',encB:18, mix:'+0,5',neto:'+1,4',v:+1.9},
+];
 
+// ─── WATERFALL DATASETS ──────────────────
+
+// OVERVIEW — combinado Mar→Abr (+11.1 pp)
 const WF1={
-  labels:['Mar/26','Cargos\nfat.','Temporal','Imp.\nTributos','Docs\nFiscais','Deuda/\nDéb.','Faturador\nML','Restric.\nfisc.','Outros','Abr/26'],
+  labels:['Mar/26','Cargos\nfat.','Temporal','Imp.\nTributos','Docs\nFiscais','Deuda/\nDéb.','Fat.\nMeLi','Restric.\nfisc.','Outros','Abr/26'],
   data:[[0,39.1],[39.1,44.73],[44.73,48.05],[48.05,49.36],[49.36,50.49],[50.49,51.44],[51.44,52.36],[52.36,53.22],[50.20,53.22],[0,50.2]],
   colors:['#6366f1','#00a650','#00a650','#00a650','#00a650','#00a650','#00a650','#00a650','#e84142','#6366f1'],
   isTotal:[true,false,false,false,false,false,false,false,false,true],
-  isNeg:[false,false,false,false,false,false,false,false,true,false],
+  isNeg:  [false,false,false,false,false,false,false,false,true,false],
 };
+// OVERVIEW — combinado Abr→Mai (-18.6 pp)
 const WF2={
-  labels:['Abr/26','Cargos\nfat.','Docs\nFiscais','Optin','Deuda/\nDéb.','Faturador\nML','Imp.\nTributos','Temporal','Emissor\next.','Outros','Mai/26*'],
+  labels:['Abr/26','Cargos\nfat.','Docs\nFiscais','Optin','Deuda/\nDéb.','Fat.\nMeLi','Imp.\nTributos','Temporal','Emissor\next.','Outros','Mai/26*'],
   data:[[0,50.2],[39.8,50.2],[37.1,39.8],[35.1,37.1],[33.2,35.1],[31.7,33.2],[30.6,31.7],[30.1,30.6],[30.1,30.4],[30.4,31.5],[0,31.5]],
   colors:['#6366f1','#e84142','#e84142','#e84142','#e84142','#e84142','#e84142','#e84142','#00a650','#00a650','#6366f1'],
   isTotal:[true,false,false,false,false,false,false,false,false,false,true],
-  isNeg:[false,true,true,true,true,true,true,true,false,false,false],
-};
-// Waterfall 3: Facturación CDUs Abr→Mai (approximate, process-specific)
-// Cargos fat (-10.4), Optin (-2.0), Deuda/Déb (-1.9), Imp. tributos (-1.1), Outros (net -0.0)
-// cumulative from 50.2: 39.8, 37.8, 35.9, 34.8, 34.8
-const WF3={
-  labels:['Abr/26\n(combinado)','Cargos\nfat.','Optin','Deuda/\nDéb.','Imp.\nTributos','Outros','Facturación\nMai/26*'],
-  data:[[0,50.2],[39.8,50.2],[37.8,39.8],[35.9,37.8],[34.8,35.9],[34.8,34.8],[0,34.8]],
-  colors:['#6366f1','#e84142','#e84142','#e84142','#e84142','#888','#e84142'],
-  isTotal:[true,false,false,false,false,false,true],
-  isNeg:[false,true,true,true,true,false,true],
+  isNeg:  [false,true,true,true,true,true,true,true,false,false,false],
 };
 
-const MN=[
-  {cdu:'Faturador MeLi',       npsA:47.1,shA:'27,2%',encA:153,npsB:39.5, shB:'29,2%',encB:38, mix:'+0,6',neto:'-2,1',varS:'-1,5',v:-1.5},
-  {cdu:'Temporal',             npsA:68.2,shA:'19,6%',encA:110,npsB:63.0, shB:'20,8%',encB:27, mix:'+0,6',neto:'-1,0',varS:'-0,5',v:-0.5},
-  {cdu:'Dúvidas cargos fat.',  npsA:44.3,shA:'17,3%',encA: 97,npsB:-11.1,shB:'20,8%',encB:27, mix:'-0,6',neto:'-9,8',varS:'-10,4',v:-10.4},
-  {cdu:'Dudas docs fiscales',  npsA:78.0,shA:'7,3%', encA: 41,npsB:-20.0,shB:'3,8%', encB: 5, mix:'-0,5',neto:'-2,2',varS:'-2,7',v:-2.7},
-  {cdu:'Impuesto p/ facturar', npsA:61.1,shA:'6,4%', encA: 36,npsB:50.0, shB:'3,1%', encB: 4, mix:'-0,5',neto:'-0,6',varS:'-1,1',v:-1.1},
-  {cdu:'Dudas Deuda/Débito',   npsA:20.6,shA:'6,0%', encA: 34,npsB:-25.0,shB:'3,1%', encB: 4, mix:'-0,5',neto:'-1,4',varS:'-1,9',v:-1.9},
-  {cdu:'Emissor externo',      npsA:28.0,shA:'4,5%', encA: 25,npsB:40.0, shB:'3,8%', encB: 5, mix:'-0,1',neto:'+0,3',varS:'+0,3',v:+0.3},
-  {cdu:'Optin',                npsA:72.7,shA:'3,9%', encA: 22,npsB:0.0,  shB:'1,5%', encB: 2, mix:'-0,6',neto:'-1,4',varS:'-2,0',v:-2.0},
-  {cdu:'Outros (consolidado)', npsA:31.8,shA:'7,8%', encA: 44,npsB:55.6, shB:'13,8%',encB:18, mix:'+0,5',neto:'+1,4',varS:'+1,9',v:+1.9},
-];
+// ENF — MoM Abr→Mai (+3.11 pp)
+// Positivos: Error XML +3.47, Temporal +2.29, Bugs +1.29, Outros +0.69, Emissor ext +0.90
+// Negativos: Optin -2.43, Fat. MeLi -2.32, Impuesto -0.79
+// Ordem: pos primeiro, depois neg
+// Cum: 53.30 → 56.77 → 59.06 → 60.35 → 61.04 → 61.94 → 59.51 → 57.19 → 56.40
+const ENF_MoM={
+  labels:['Abr/26','Error\nXML','Temporal','Bugs','Outros','Emissor\next.','Optin','Fat.\nMeLi','Impuesto','Mai/26*'],
+  data:[[0,53.30],[53.30,56.77],[56.77,59.06],[59.06,60.35],[60.35,61.04],[61.04,61.94],[59.51,61.94],[57.19,59.51],[56.40,57.19],[0,56.40]],
+  colors:['#6366f1','#00a650','#00a650','#00a650','#00a650','#00a650','#e84142','#e84142','#e84142','#6366f1'],
+  isTotal:[true,false,false,false,false,false,false,false,false,true],
+  isNeg:  [false,false,false,false,false,false,true,true,true,false],
+};
 
-const CDU_EMISSAO=[
-  {nome:'Faturador MeLi',    npsA:47.1, npsB:39.5,  var:-1.5, share:'29,2%', encB:38,  tipo:'r'},
-  {nome:'Temporal (DCe)',    npsA:68.2, npsB:63.0,  var:-0.5, share:'20,8%', encB:27,  tipo:'w'},
-  {nome:'Emissor externo',   npsA:28.0, npsB:40.0,  var:+0.3, share:'3,8%',  encB: 5,  tipo:'g'},
-  {nome:'Dudas docs fiscales',npsA:78.0,npsB:-20.0, var:-2.7, share:'3,8%',  encB: 5,  tipo:'r'},
-];
-const CDU_FACT=[
-  {nome:'Dúvidas cargos fat.', npsA:44.3, npsB:-11.1, var:-10.4, share:'20,8%', encB:27,  tipo:'r'},
-  {nome:'Optin',               npsA:72.7, npsB:0.0,   var:-2.0,  share:'1,5%',  encB: 2,  tipo:'r'},
-  {nome:'Dudas Deuda/Débito',  npsA:20.6, npsB:-25.0, var:-1.9,  share:'3,1%',  encB: 4,  tipo:'r'},
-  {nome:'Impuesto p/ facturar',npsA:61.1, npsB:50.0,  var:-1.1,  share:'3,1%',  encB: 4,  tipo:'w'},
-];
+// ENF — Mês vs Target (59.7%)
+// Contribution to gap: Fat. MeLi -7.82, Optin -1.55, Emissor ext -1.26, Impuesto -0.49 | Temporal +5.24, Error XML +2.06, Bugs +0.52
+// Cum from 59.7: 51.88, 50.33, 49.07, 48.58, 53.82, 55.88, 56.40
+const ENF_Tgt={
+  labels:['Target\n59,7%','Fat.\nMeLi','Optin','Emissor\next.','Impuesto','Temporal','Error\nXML','Bugs','NPS\nMai* 56,4%'],
+  data:[[0,59.70],[51.88,59.70],[50.33,51.88],[49.07,50.33],[48.58,49.07],[48.58,53.82],[53.82,55.88],[55.88,56.40],[0,56.40]],
+  colors:['#6366f1','#e84142','#e84142','#e84142','#e84142','#00a650','#00a650','#00a650','#00a650'],
+  isTotal:[true,false,false,false,false,false,false,false,true],
+  isNeg:  [false,true,true,true,true,false,false,false,false],
+};
 
-const CASES_EMISSAO=[
-  {id:'454844666',mes:'Mai/26',cdu:'Faturador MeLi',sub:'Funcionalidade bloqueada',   dor:'Etiquetas FBM bloqueadas até data de coleta — seller não consegue acessar NF antes do prazo mínimo'},
+// FCT — MoM Abr→Mai (-50.21 pp)
+// Negatives: cargos -27.32, docs -18.69, deuda -6.01, temporal -3.15, fat.meli -1.81
+// Positives net: +6.77 (remainder)
+// Cum from 44.44: 17.12, -1.57, -7.58, -10.73, -12.54, -5.77
+const FCT_MoM={
+  labels:['Abr/26','Cargos\nfat.','Docs\nfiscales','Deuda/\nDéb.','Temporal','Fat.\nMeLi','Outros\n(positivos)','Mai/26*'],
+  data:[[0,44.44],[17.12,44.44],[-1.57,17.12],[-7.58,-1.57],[-10.73,-7.58],[-12.54,-10.73],[-12.54,-5.77],[-5.77,0]],
+  colors:['#6366f1','#e84142','#e84142','#e84142','#e84142','#e84142','#00a650','#e84142'],
+  isTotal:[true,false,false,false,false,false,false,true],
+  isNeg:  [false,true,true,true,true,true,false,true],
+};
+
+// FCT — Mês vs Target PCF (40.52%)
+// Contributions: cargos -26.80, docs -5.81, temporal -5.34, deuda -5.05, fat.meli -2.67, outros -0.62
+// Cum from 40.52: 13.72, 7.91, 2.57, -2.48, -5.15, -5.77
+const FCT_Tgt={
+  labels:['Target\n40,5%','Cargos\nfat.','Docs\nfiscales','Temporal','Deuda/\nDéb.','Fat.\nMeLi','Outros','NPS\nMai* −5,8%'],
+  data:[[0,40.52],[13.72,40.52],[7.91,13.72],[2.57,7.91],[-2.48,2.57],[-5.15,-2.48],[-5.77,-5.15],[-5.77,0]],
+  colors:['#6366f1','#e84142','#e84142','#e84142','#e84142','#e84142','#e84142','#e84142'],
+  isTotal:[true,false,false,false,false,false,false,true],
+  isNeg:  [false,true,true,true,true,true,true,true],
+};
+
+// ─── CASES ──────────────────────────────
+const CASES_ENF=[
+  {id:'454844666',mes:'Mai/26',cdu:'Faturador MeLi',sub:'Funcionalidade bloqueada',   dor:'Etiquetas FBM bloqueadas até data de coleta — seller não consegue emitir NF antes do prazo mínimo'},
   {id:'455113206',mes:'Mai/26',cdu:'Faturador MeLi',sub:'Estado NF-e travado',         dor:'XML de emissor externo (Bling) não vincula à venda por estado de rejeição anterior persistente no backend'},
   {id:'454306334',mes:'Mai/26',cdu:'Faturador MeLi',sub:'Dados fiscais incompletos',   dor:'NCM/CFOP/CST ausentes bloqueando emissão — interface não indica qual item está com problema; requer escalada'},
-  {id:'454543763',mes:'Mai/26',cdu:'Faturador MeLi',sub:'Certificado digital',         dor:'.pfx com CNPJ incompatível — sistema não aceita; redirecionado para contador sem resolução no atendimento'},
-  {id:'455189026',mes:'Mai/26',cdu:'Faturador MeLi',sub:'NF-e com dados errados',      dor:'NF-e de entrada FBM gerada automaticamente com quantidade/itens incorretos — cancelamento via SEFAZ necessário'},
-  {id:'454334033',mes:'Mai/26',cdu:'Faturador MeLi',sub:'Funcionalidade bloqueada',    dor:'Documentos de entrada FBM bloqueados até coleta — seller aguardando mais de 48h sem conseguir emitir NF'},
+  {id:'454543763',mes:'Mai/26',cdu:'Faturador MeLi',sub:'Certificado digital',         dor:'.pfx com CNPJ incompatível — não aceito pelo sistema; redirecionado para contador sem resolução no atendimento'},
+  {id:'455189026',mes:'Mai/26',cdu:'Faturador MeLi',sub:'NF-e com dados errados',      dor:'NF-e de entrada FBM gerada com quantidade/itens incorretos — cancelamento e reemissão obrigatórios via SEFAZ'},
+  {id:'454334033',mes:'Mai/26',cdu:'Faturador MeLi',sub:'Funcionalidade bloqueada',    dor:'Documentos de entrada FBM indisponíveis por mais de 48h — seller aguardando sem conseguir emitir NF'},
 ];
-const CASES_FACT=[
+const CASES_FCT=[
   {id:'440905480',mes:'Mar/26',cdu:'Cargos faturados',sub:'Cargo por publicidad',  dor:'Perdeu R$132 em Product Ads — campanha pausada continuou cobrando; reversão de bônus confundida como novo débito'},
   {id:'441726553',mes:'Mar/26',cdu:'Cargos faturados',sub:'Cargo por Mi Página',   dor:'Cancelamento bloqueado — política exige pagamento antecipado da fatura antes de encerrar; sem receita ativa'},
-  {id:'443885459',mes:'Mar/26',cdu:'Cargos faturados',sub:'Cargo por publicidad',  dor:'Cobrança duplicada de R$779,69 em publicidade — reembolso parcial não conciliado; escalado para BO sem prazo'},
-  {id:'442476284',mes:'Mar/26',cdu:'Cargos faturados',sub:'Cargo por venta',       dor:'Itens em revisão fiscal gerando cobrança na fatura — sistema não suspende faturamento durante revisão'},
+  {id:'443885459',mes:'Mar/26',cdu:'Cargos faturados',sub:'Cargo por publicidad',  dor:'Cobrança duplicada R$779,69 em publicidade — reembolso parcial não conciliado; escalado para BO sem prazo'},
+  {id:'442476284',mes:'Mar/26',cdu:'Cargos faturados',sub:'Cargo por venta',       dor:'Itens em revisão fiscal gerando faturamento — sistema não suspende cobrança durante revisão; vendedor não entende o débito'},
   {id:'453457667',mes:'Mai/26',cdu:'Cargos faturados',sub:'Cargo por publicidad',  dor:'Cobranças retroativas de campanhas Decola/ADS expiradas sem aviso — seller não reconhece origem dos débitos'},
   {id:'454250546',mes:'Mai/26',cdu:'Cargos faturados',sub:'Cargo por Mi Página',   dor:'Taxa recorrente em conta sem vendas ativas — interface inacessível; seller não consegue verificar nem cancelar'},
-  {id:'454771936',mes:'Mai/26',cdu:'Cargos faturados',sub:'Débito automático',     dor:'Taxa de vendas de Abril debitada em Maio sem aviso prévio — seller interpreta como cobrança duplicada e contesta'},
+  {id:'454771936',mes:'Mai/26',cdu:'Cargos faturados',sub:'Débito automático',     dor:'Taxa de vendas de Abril debitada em Maio sem aviso — seller interpreta como cobrança duplicada e contesta'},
 ];
 
 // ─── HELPERS ────────────────────────────
-function npsChip(v){
-  const cls=v>50?'cg':v>20?'co':v>=0?'cr':'cr';
-  const str=(v>=0?'':'')+v.toFixed(1)+'%';
-  return `<span class="chip ${cls}">${str}</span>`;
-}
+function npsChip(v){const c=v>50?'cg':v>20?'co':'cr';return `<span class="chip ${c}">${v>=0?'':'-'}${Math.abs(v).toFixed(1)}%</span>`;}
 function varChip(v){
   if(v>0) return `<span class="chip cg">+${v.toFixed(1)} pp</span>`;
   if(v<0) return `<span class="chip cr">${v.toFixed(1)} pp</span>`;
   return `<span class="chip cw">0,0 pp</span>`;
 }
-function wfLabel(wf){
-  return function(ctx){
-    const raw=ctx.raw;
-    if(!Array.isArray(raw)) return '';
-    if(wf.isTotal[ctx.dataIndex]) return raw[1].toFixed(1)+'%';
-    const d=Math.abs(raw[1]-raw[0]).toFixed(1);
-    return wf.isNeg[ctx.dataIndex]? '−'+d : '+'+d;
-  };
-}
-function wfTooltip(wf){
-  return {callbacks:{label:function(ctx){
-    if(ctx.datasetIndex===1) return 'Target: 59,7%';
-    const raw=ctx.raw;
-    if(!Array.isArray(raw)) return '';
-    if(wf.isTotal[ctx.dataIndex]) return 'NPS: '+raw[1].toFixed(1)+'%';
-    const d=Math.abs(raw[1]-raw[0]).toFixed(1);
-    return wf.isNeg[ctx.dataIndex]? '−'+d+' pp' : '+'+d+' pp';
-  }}};
-}
-function buildWaterfall(id, wf, yMin, yMax, extraDatasets){
+
+// ─── BUILD WATERFALL ────────────────────
+function buildWF(id, wf, yMin, yMax, extraDS, targetLine){
+  const datasets=[{
+    data:wf.data,
+    backgroundColor:wf.colors,
+    borderColor:wf.colors,
+    borderWidth:1,
+    borderSkipped:false,
+  }];
+  if(targetLine!=null){
+    datasets.push({
+      type:'line',label:`Target: ${targetLine}%`,
+      data:Array(wf.labels.length).fill(targetLine),
+      borderColor:'#f59e0b',borderWidth:2,borderDash:[5,3],
+      pointRadius:0,fill:false,datalabels:{display:false},
+    });
+  }
   return new Chart(document.getElementById(id),{
     type:'bar',
     plugins:[ChartDataLabels],
-    data:{labels:wf.labels,datasets:[
-      {data:wf.data,backgroundColor:wf.colors,borderColor:wf.colors,borderWidth:1,borderSkipped:false},
-      ...(extraDatasets||[])
-    ]},
-    options:{responsive:true,plugins:{
-      legend:{display:extraDatasets&&extraDatasets.length>0,labels:{filter:i=>i.datasetIndex===1,font:{size:11},color:'#f59e0b'}},
-      tooltip:wfTooltip(wf),
-      datalabels:{color:'#fff',font:{weight:'bold',size:9.5},anchor:'center',align:'center',
-        formatter:wfLabel(wf),
-        display:function(ctx){
-          if(ctx.datasetIndex===1) return false;
-          const r=ctx.dataset.data[ctx.dataIndex];
-          return Array.isArray(r)&&Math.abs(r[1]-r[0])>0.4;
+    data:{labels:wf.labels,datasets},
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{display:targetLine!=null,labels:{filter:i=>i.datasetIndex===1,font:{size:10},color:'#f59e0b'}},
+        tooltip:{callbacks:{label:function(ctx){
+          if(ctx.datasetIndex===1) return `Target: ${targetLine}%`;
+          const r=ctx.raw;
+          if(!Array.isArray(r)) return '';
+          if(wf.isTotal[ctx.dataIndex]) return `NPS: ${r[1]>=0?'':'-'}${Math.abs(r[1]).toFixed(1)}%`;
+          const d=Math.abs(r[1]-r[0]).toFixed(1);
+          return wf.isNeg[ctx.dataIndex]? `−${d} pp` : `+${d} pp`;
+        }}},
+        datalabels:{
+          color:'#fff',font:{weight:'bold',size:9},
+          anchor:'center',align:'center',
+          formatter:function(val,ctx){
+            if(ctx.datasetIndex===1) return null;
+            const r=val;
+            if(!Array.isArray(r)) return null;
+            if(wf.isTotal[ctx.dataIndex]){
+              const v=r[1]===0?r[0]:r[1];// end bar: v is the low value (negative nps)
+              const display=wf.isNeg[ctx.dataIndex]?r[0]:r[1];
+              return (display>=0?'':'')+display.toFixed(1)+'%';
+            }
+            const d=Math.abs(r[1]-r[0]).toFixed(1);
+            return wf.isNeg[ctx.dataIndex]? '−'+d : '+'+d;
+          },
+          display:function(ctx){
+            if(ctx.datasetIndex===1) return false;
+            const r=ctx.dataset.data[ctx.dataIndex];
+            return Array.isArray(r)&&Math.abs(r[1]-r[0])>0.35;
+          }
         }
+      },
+      scales:{
+        y:{min:yMin,max:yMax,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'#f0f0f0'}},
+        x:{ticks:{font:{size:9.5},maxRotation:0}}
       }
-    },scales:{
-      y:{min:yMin,max:yMax,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'#f0f0f0'}},
-      x:{ticks:{font:{size:10},maxRotation:0}}
-    }}
+    }
   });
 }
 
-// ─── CDU PANELS ─────────────────────────
-function buildCduPanel(containerId, data){
-  const el=document.getElementById(containerId);
-  data.forEach(r=>{
-    const varCls=r.var>0?'cg':'cr';
-    const barW=Math.min(Math.abs(r.var)/12*100,100);
-    const barColor=r.var>0?'#00a650':'#e84142';
-    const row=document.createElement('div');
-    row.className='cdu-row';
-    row.innerHTML=`
-      <span class="cdu-name">${r.nome}</span>
-      <span class="cdu-meta">
-        <span class="sep">${r.share} · ${r.encB} pesq.</span>
-        <span title="NPS Abr" class="chip ${r.npsA>50?'cg':r.npsA>20?'co':'cr'}">${r.npsA.toFixed(1)}%</span>
-        <span style="color:#ccc;font-size:10px;">→</span>
-        <span title="NPS Mai*" class="chip ${r.npsB>50?'cg':r.npsB>20?'co':'cr'}">${r.npsB.toFixed(1)}%</span>
-        <span class="chip ${varCls}" title="Var pp">${r.var>0?'+':''}${r.var.toFixed(1)}</span>
-        <span class="imp-bar-wrap"><span class="imp-bar-fill" style="width:${barW}%;background:${barColor};"></span></span>
-      </span>`;
-    el.appendChild(row);
-  });
-}
-
-// ─── CASES TABLES ────────────────────────
-function buildCasesTable(tbId, cases){
+// ─── CASES TABLE ────────────────────────
+function buildCases(tbId, cases){
   const tb=document.getElementById(tbId);
   cases.forEach(c=>{
-    const mCls=c.mes.startsWith('Mar')?'co':'br';
+    const mc=c.mes.startsWith('Mar')?'co':'cr';
     const tr=document.createElement('tr');
     tr.innerHTML=`
       <td class="tl" style="font-family:monospace;font-size:11px;">${c.id}</td>
-      <td class="tl"><span class="chip ${mCls}">${c.mes}</span></td>
+      <td class="tl"><span class="chip ${mc}">${c.mes}</span></td>
       <td class="tl" style="font-size:11px;">${c.cdu}</td>
       <td class="tl" style="font-size:11px;color:#555;">${c.sub}</td>
       <td class="tl" style="font-size:11px;color:#444;font-weight:400;">${c.dor}</td>`;
@@ -528,39 +394,36 @@ function buildCasesTable(tbId, cases){
   });
 }
 
-// ─── MIX/NETO TABLE (overview) ───────────
+// ─── MIX/NETO TABLE ─────────────────────
 (function(){
   const tb=document.getElementById('tbMixNeto');
-  MN.forEach(r=>{
+  MN_COMB.forEach(r=>{
+    const netoV=parseFloat(r.neto.replace(',','.').replace('+',''));
     const tr=document.createElement('tr');
     tr.innerHTML=`
       <td class="tl">${r.cdu}</td>
       <td>${npsChip(r.npsA)}</td><td style="color:#888;">${r.shA}</td><td style="color:#888;">${r.encA}</td>
       <td>${npsChip(r.npsB)}</td><td style="color:#888;">${r.shB}</td><td style="color:#888;">${r.encB}</td>
       <td style="color:#888;">${r.mix} pp</td>
-      <td>${varChip(parseFloat(r.neto.replace(',','.').replace('+','')))}</td>
+      <td>${varChip(netoV)}</td>
       <td>${varChip(r.v)}</td>`;
     tb.appendChild(tr);
   });
 })();
 
-// ─── INIT OVERVIEW CHARTS (on load) ─────
+// ─── INIT OVERVIEW (on load) ─────────────
 inited['overview']=true;
 new Chart(document.getElementById('chartHist'),{
   type:'line',
-  data:{
-    labels:['Set/25','Out/25','Nov/25','Dez/25','Jan/26','Fev/26','Mar/26','Abr/26','Mai/26*'],
-    datasets:[
-      {label:'NPS',data:[61.8,54.9,49.2,50.8,59.0,53.1,39.1,50.2,31.5],
-        borderColor:'#3483fa',backgroundColor:'rgba(52,131,250,0.07)',tension:0.35,fill:true,
-        pointRadius:[4,4,4,4,4,4,7,4,7],
-        pointBackgroundColor:['#3483fa','#3483fa','#3483fa','#3483fa','#3483fa','#3483fa','#e84142','#3483fa','#e84142'],
-        pointBorderColor:'#fff',pointBorderWidth:2},
-      {label:'Target Mai/26 (59,7%)',data:[null,null,null,null,null,null,null,null,59.7],
-        borderColor:'#f59e0b',borderWidth:0,pointRadius:8,pointStyle:'triangle',
-        pointBackgroundColor:'#f59e0b',showLine:false}
-    ]
-  },
+  data:{labels:['Set/25','Out/25','Nov/25','Dez/25','Jan/26','Fev/26','Mar/26','Abr/26','Mai/26*'],datasets:[
+    {label:'NPS',data:[61.8,54.9,49.2,50.8,59.0,53.1,39.1,50.2,31.5],
+      borderColor:'#3483fa',backgroundColor:'rgba(52,131,250,0.07)',tension:0.35,fill:true,
+      pointRadius:[4,4,4,4,4,4,7,4,7],
+      pointBackgroundColor:['#3483fa','#3483fa','#3483fa','#3483fa','#3483fa','#3483fa','#e84142','#3483fa','#e84142'],
+      pointBorderColor:'#fff',pointBorderWidth:2},
+    {label:'Target Mai/26 (59,7%)',data:[null,null,null,null,null,null,null,null,59.7],
+      borderColor:'#f59e0b',borderWidth:0,pointRadius:8,pointStyle:'triangle',pointBackgroundColor:'#f59e0b',showLine:false}
+  ]},
   options:{responsive:true,plugins:{
     legend:{display:true,labels:{font:{size:11},usePointStyle:true}},
     tooltip:{callbacks:{label:ctx=>{if(ctx.raw==null)return null;return `${ctx.dataset.label}: ${ctx.raw.toFixed(1)}%`;}}}
@@ -569,24 +432,16 @@ new Chart(document.getElementById('chartHist'),{
     x:{ticks:{font:{size:11}}}
   }}
 });
-buildWaterfall('chartWF1',WF1,35,58);
-buildWaterfall('chartWF2',WF2,25,65,[{
-  type:'line',label:'Target Mai/26 (59,7%)',
-  data:Array(WF2.labels.length).fill(59.7),
-  borderColor:'#f59e0b',borderWidth:2.5,borderDash:[6,3],pointRadius:0,fill:false,
-  datalabels:{display:false}
-}]);
+buildWF('chartWF1',WF1,35,58);
+buildWF('chartWF2',WF2,25,55,null,59.7);
 new Chart(document.getElementById('chartProc'),{
   type:'bar',
-  data:{
-    labels:['Mar/26','Abr/26','Mai/26*'],
-    datasets:[
-      {label:'Emissão de Nota Fiscal',data:[42.1,58.1,56.4],backgroundColor:'#3483fa',borderRadius:4},
-      {label:'Facturación',           data:[34.3,41.3,-5.8], backgroundColor:'#ff7733',borderRadius:4},
-      {type:'scatter',label:'Target Mai/26 (59,7%)',data:[{x:2,y:59.7}],
-        borderColor:'#f59e0b',backgroundColor:'#f59e0b',pointStyle:'line',pointRadius:20,pointBorderWidth:3,showLine:false}
-    ]
-  },
+  data:{labels:['Mar/26','Abr/26','Mai/26*'],datasets:[
+    {label:'Emissão de Nota Fiscal',data:[42.1,58.1,56.4],backgroundColor:'#3483fa',borderRadius:4},
+    {label:'Facturación',           data:[34.3,41.3,-5.8], backgroundColor:'#ff7733',borderRadius:4},
+    {type:'scatter',label:'Target Mai/26',data:[{x:2,y:59.7}],
+      borderColor:'#f59e0b',backgroundColor:'#f59e0b',pointStyle:'line',pointRadius:20,pointBorderWidth:3,showLine:false}
+  ]},
   options:{responsive:true,plugins:{
     legend:{display:true,labels:{font:{size:11}}},
     tooltip:{callbacks:{label:ctx=>{
@@ -599,62 +454,17 @@ new Chart(document.getElementById('chartProc'),{
   }}
 });
 
-// ─── INIT PER-PROCESS TABS (lazy) ────────
+// ─── INIT PER-PROCESS (lazy) ──────────────
 function initTab(id){
   if(id==='emissao'){
-    new Chart(document.getElementById('chartEmissaoBar'),{
-      type:'bar',
-      data:{
-        labels:['Mar/26','Abr/26','Mai/26*'],
-        datasets:[
-          {label:'NPS Emissão NF',data:[42.1,58.1,56.4],backgroundColor:['#3483fa','#3483fa','#3483fa'],borderRadius:6},
-          {type:'line',label:'Target Mai/26 (59,7%)',data:[null,null,59.7],
-            borderColor:'#f59e0b',borderWidth:2,borderDash:[5,3],
-            pointRadius:6,pointBackgroundColor:'#f59e0b',fill:false}
-        ]
-      },
-      options:{responsive:true,plugins:{
-        legend:{display:true,labels:{font:{size:11}}},
-        datalabels:{color:'#fff',anchor:'end',align:'start',font:{weight:'bold',size:11},
-          formatter:v=>v!=null&&typeof v==='number'?v.toFixed(1)+'%':null,
-          display:function(ctx){return ctx.datasetIndex===0;}}
-      },scales:{
-        y:{min:30,max:70,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'#f0f0f0'}},
-        x:{ticks:{font:{size:13,weight:'600'}}}
-      }},
-      plugins:[ChartDataLabels]
-    });
-    buildCduPanel('cduEmissao',CDU_EMISSAO);
-    buildCasesTable('tbCasesEmissao',CASES_EMISSAO);
+    buildWF('chartENF_MoM', ENF_MoM, 48, 65, null, 59.7);
+    buildWF('chartENF_Tgt', ENF_Tgt, 45, 63);
+    buildCases('tbCasesENF', CASES_ENF);
   }
   if(id==='facturacion'){
-    new Chart(document.getElementById('chartFactBar'),{
-      type:'bar',
-      data:{
-        labels:['Mar/26','Abr/26','Mai/26*'],
-        datasets:[
-          {label:'NPS Facturación',data:[34.3,41.3,-5.8],
-            backgroundColor:['#ff7733','#ff7733','#e84142'],borderRadius:6},
-          {type:'line',label:'Target Mai/26 (59,7%)',data:[null,null,59.7],
-            borderColor:'#f59e0b',borderWidth:2,borderDash:[5,3],
-            pointRadius:6,pointBackgroundColor:'#f59e0b',fill:false}
-        ]
-      },
-      options:{responsive:true,plugins:{
-        legend:{display:true,labels:{font:{size:11}}},
-        datalabels:{anchor:'end',align:'start',font:{weight:'bold',size:11},
-          color:function(ctx){return ctx.dataset.data[ctx.dataIndex]<0?'#e84142':'#fff';},
-          formatter:v=>v!=null&&typeof v==='number'?v.toFixed(1)+'%':null,
-          display:function(ctx){return ctx.datasetIndex===0;}}
-      },scales:{
-        y:{min:-15,max:65,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'#f0f0f0'}},
-        x:{ticks:{font:{size:13,weight:'600'}}}
-      }},
-      plugins:[ChartDataLabels]
-    });
-    buildCduPanel('cduFact',CDU_FACT);
-    buildWaterfall('chartWF3',WF3,28,57);
-    buildCasesTable('tbCasesFact',CASES_FACT);
+    buildWF('chartFCT_MoM', FCT_MoM, -16, 50);
+    buildWF('chartFCT_Tgt', FCT_Tgt, -8, 44);
+    buildCases('tbCasesFCT', CASES_FCT);
   }
 }
 </script>
