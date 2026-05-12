@@ -10,7 +10,7 @@ Gera HTML com:
   Cada aba: gráfico mensal (Jan–Mai), gráfico semanal (8 semanas),
              destaque top CDU + tabela de ranking, análise de transcrições
 """
-import sys, json, re
+import sys, json, re, os
 sys.stdout.reconfigure(encoding="utf-8")
 
 from google.cloud import bigquery
@@ -60,8 +60,18 @@ sendo sendo tendo fazendo
 # ── BigQuery client ─────────────────────────────────────────────────────────
 client = bigquery.Client(project=PROJECT)
 
-def run(sql: str) -> list[dict]:
-    return [dict(r) for r in client.query(sql).result()]
+def run(sql: str, retries: int = 5) -> list[dict]:
+    import time
+    for attempt in range(retries):
+        try:
+            return [dict(r) for r in client.query(sql).result()]
+        except Exception as e:
+            if "Quota exceeded" in str(e) and attempt < retries - 1:
+                wait = 20 * (attempt + 1)
+                print(f"   [quota] aguardando {wait}s (tentativa {attempt+1}/{retries})…")
+                time.sleep(wait)
+            else:
+                raise
 
 # ── Queries ─────────────────────────────────────────────────────────────────
 # Fonte principal: DM_CX_OUTGOING_GESTION_DETAIL (tabela oficial de outgoing)
@@ -159,26 +169,102 @@ def q_sample_cases(process: str, cdu: str, n: int = 8) -> str:
     LIMIT {n}
     """
 
-def q_transcripts(case_ids: list[str]) -> str:
+def q_transcripts_with_case(case_ids: list[str]) -> str:
     ids = ",".join(case_ids)
     return f"""
-    SELECT OBFUSCATED_MESSAGE_CONTENT AS msg
+    SELECT
+      CAST(CAS_CASE_ID AS STRING)    AS case_id,
+      OBFUSCATED_MESSAGE_CONTENT     AS msg
     FROM {TABLE_TR}
     WHERE CAS_CASE_ID IN ({ids})
       AND OBFUSCATED_MESSAGE_CONTENT IS NOT NULL
-      AND LENGTH(OBFUSCATED_MESSAGE_CONTENT) > 15
+      AND LENGTH(OBFUSCATED_MESSAGE_CONTENT) > 20
     """
 
-# ── Keyword extraction ───────────────────────────────────────────────────────
-def extract_keywords(messages: list[str], top_n: int = 20) -> list[tuple[str, int]]:
-    words: Counter = Counter()
-    for msg in messages:
-        txt = msg.lower()
-        txt = re.sub(r"[^a-záéíóúàâêôãõç\s]", " ", txt)
-        for w in txt.split():
-            if len(w) >= 4 and w not in STOPWORDS:
-                words[w] += 1
-    return words.most_common(top_n)
+# ── Theme analysis via TF-IDF + KMeans ──────────────────────────────────────
+def analyze_themes(
+    case_transcripts: dict[str, list[str]],
+    top_cdu: str,
+    proc_label: str,
+    total_cases: int,
+    n_themes: int = 5,
+) -> list[dict]:
+    """Clusteriza transcrições em temas usando TF-IDF + KMeans (sem API externa)."""
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.cluster import KMeans
+    import numpy as np
+
+    case_list = list(case_transcripts.items())[:300]
+    case_ids  = [c[0] for c in case_list]
+
+    # Texto por caso: até 4 mensagens, limpar e normalizar
+    texts = []
+    for _, msgs in case_list:
+        combined = " ".join(m.strip() for m in msgs[:4])
+        combined = re.sub(r"[^a-záéíóúàâêôãõç\s]", " ", combined.lower())
+        combined = re.sub(r"\s+", " ", combined).strip()
+        texts.append(combined)
+
+    n = min(n_themes, len(texts))
+    if n < 2:
+        return []
+
+    # TF-IDF com bigramas, ignorando stopwords do projeto
+    vect = TfidfVectorizer(
+        max_features=1500,
+        ngram_range=(1, 2),
+        min_df=2,
+        max_df=0.90,
+        stop_words=list(STOPWORDS),
+        sublinear_tf=True,
+    )
+    try:
+        X = vect.fit_transform(texts)
+    except ValueError:
+        return []
+
+    km = KMeans(n_clusters=n, random_state=42, n_init=10, max_iter=300)
+    labels = km.fit_predict(X)
+    feat   = vect.get_feature_names_out()
+
+    themes = []
+    for cid in range(n):
+        mask     = np.array(labels) == cid
+        c_ids    = [case_ids[i] for i, m in enumerate(mask) if m]
+        count    = int(mask.sum())
+        pct      = int(round(count / len(texts) * 100))
+        if count == 0:
+            continue
+
+        # Top termos do centróide (excluindo stopwords curtos)
+        center   = km.cluster_centers_[cid]
+        top_idx  = center.argsort()[-15:][::-1]
+        top_terms = [feat[i] for i in top_idx
+                     if feat[i] not in STOPWORDS and len(feat[i]) >= 4]
+
+        bigrams   = [t for t in top_terms if " " in t][:3]
+        unigrams  = [t for t in top_terms if " " not in t][:4]
+
+        # Nome do tema: preferir bigramas (mais descritivos)
+        name_parts = (bigrams[:2] + unigrams[:2]) if bigrams else unigrams[:3]
+        name = " · ".join(name_parts[:3]).title()
+
+        # Resumo baseado nos termos dominantes
+        all_terms = (bigrams + unigrams)[:5]
+        summary = (
+            f"Casos concentrados em: {', '.join(all_terms[:4])}. "
+            f"{count} atendimentos no período analisado."
+        )
+
+        themes.append({
+            "name":     name,
+            "pct":      pct,
+            "case_ids": c_ids[:3],
+            "summary":  summary,
+        })
+
+    themes.sort(key=lambda x: x["pct"], reverse=True)
+    return themes
 
 # ── Data processing ──────────────────────────────────────────────────────────
 def month_label(ym: str) -> str:
@@ -266,31 +352,70 @@ def process_weekly(raw: list[dict]) -> dict:
         }
     return result
 
-def fetch_transcripts_and_samples(proc_key: str, top_cdu: str) -> tuple[list, list]:
-    """Retorna (keywords, sample_cases). sample_cases = [{'case_id':..,'date':..}]"""
+CACHE_MAX_AGE_H = 24  # horas antes de re-consultar o BQ
+
+def _cache_path(proc_key: str) -> str:
+    safe = proc_key.replace(" ", "_").replace("/", "_")
+    return f"_tr_cache_{safe}.json"
+
+def _load_cache(proc_key: str) -> dict | None:
+    import time as _t
+    path = _cache_path(proc_key)
+    if not os.path.exists(path):
+        return None
+    age_h = (_t.time() - os.path.getmtime(path)) / 3600
+    if age_h > CACHE_MAX_AGE_H:
+        return None
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    print(f"   [cache] carregado de {path} ({age_h:.1f}h atrás)")
+    return data
+
+def _save_cache(proc_key: str, data: dict) -> None:
+    path = _cache_path(proc_key)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False)
+    print(f"   [cache] salvo em {path}")
+
+def fetch_analysis(proc_key: str, top_cdu: str) -> list[dict]:
+    """Retorna lista de temas para o top CDU. Usa cache de transcrições se disponível."""
     if not top_cdu:
-        return [], []
-    print(f"   Buscando case IDs para '{top_cdu}'…")
-    # IDs para transcrições (STRING já que q_case_ids usa CAST AS STRING internamente
-    # mas CAS_CASE_ID retorna NUMERIC — converter aqui)
-    raw_ids = run(q_case_ids(proc_key, top_cdu))
-    ids = [str(int(r["CAS_CASE_ID"])) for r in raw_ids if r.get("CAS_CASE_ID") is not None]
-    if not ids:
-        print("   Nenhum case ID encontrado.")
-        return [], []
+        return []
 
-    # Casos de exemplo
-    sample_rows = run(q_sample_cases(proc_key, top_cdu))
-    samples = [{"case_id": r["case_id"], "date": str(r["date"])} for r in sample_rows]
+    # Tenta carregar transcrições do cache
+    cached = _load_cache(proc_key)
+    if cached is None:
+        print(f"   Buscando case IDs para '{top_cdu}'…")
+        raw_ids = run(q_case_ids(proc_key, top_cdu))
+        ids = [str(int(r["CAS_CASE_ID"])) for r in raw_ids if r.get("CAS_CASE_ID") is not None]
+        if not ids:
+            print("   Nenhum case ID encontrado.")
+            return []
 
-    print(f"   {len(ids)} casos. Buscando transcrições…")
-    messages = []
-    for i in range(0, len(ids), 1000):
-        batch = ids[i:i + 1000]
-        rows  = run(q_transcripts(batch))
-        messages.extend(r["msg"] for r in rows if r.get("msg"))
-    print(f"   {len(messages)} mensagens. Extraindo keywords…")
-    return extract_keywords(messages, top_n=20), samples
+        print(f"   {len(ids)} casos. Buscando transcrições…")
+        case_transcripts: dict[str, list[str]] = {}
+        try:
+            for i in range(0, len(ids), 1000):
+                batch = ids[i:i + 1000]
+                rows  = run(q_transcripts_with_case(batch))
+                for r in rows:
+                    cid = r.get("case_id")
+                    msg = r.get("msg")
+                    if cid and msg:
+                        case_transcripts.setdefault(cid, []).append(msg)
+            _save_cache(proc_key, case_transcripts)
+        except Exception as e:
+            print(f"   [aviso] erro ao buscar transcrições: {e}")
+            print("   HTML gerado sem análise temática (rode novamente quando quota resetar).")
+            return []
+    else:
+        case_transcripts = cached
+
+    print(f"   {len(case_transcripts)} casos com transcrição. Clusterizando…")
+    proc_label = PROCESSES[proc_key]
+    themes = analyze_themes(case_transcripts, top_cdu, proc_label, len(case_transcripts))
+    print(f"   {len(themes)} temas identificados.")
+    return themes
 
 def build_all():
     print("▸ Volume mensal…")
@@ -301,16 +426,13 @@ def build_all():
     monthly = process_monthly(monthly_raw)
     weekly  = process_weekly(weekly_raw)
 
-    keywords = {}
-    samples  = {}
+    themes = {}
     for proc_key, proc_label in PROCESSES.items():
         top_cdu = monthly[proc_key]["top_cdu"]
-        print(f"\n▸ Transcrições [{proc_label}] top CDU: {top_cdu}")
-        kws, smp = fetch_transcripts_and_samples(proc_key, top_cdu)
-        keywords[proc_key] = kws
-        samples[proc_key]  = smp
+        print(f"\n▸ Análise temática [{proc_label}] top CDU: {top_cdu}")
+        themes[proc_key] = fetch_analysis(proc_key, top_cdu)
 
-    return monthly, weekly, keywords, samples
+    return monthly, weekly, themes
 
 # ── HTML helpers ─────────────────────────────────────────────────────────────
 def jd(obj) -> str:
@@ -331,42 +453,43 @@ def palette_for(datasets: list[dict]) -> list[str]:
             idx += 1
     return out
 
-def make_kw_html(kws: list[tuple[str, int]], top_cdu: str) -> str:
-    if not kws:
+ACCENT_COLORS = ["#4472C4", "#ED7D31", "#70AD47", "#E05252", "#9B59B6"]
+
+def make_themes_html(themes: list[dict], top_cdu: str) -> str:
+    if not themes:
         return '<p class="no-data">Sem dados de transcrição disponíveis.</p>'
-    max_c = kws[0][1] if kws else 1
-    items = "".join(
-        f'<div class="kw-item">'
-        f'<div class="kw-row"><span class="kw-word">{w}</span>'
-        f'<span class="kw-cnt">{c:,}</span></div>'
-        f'<div class="kw-bg"><div class="kw-fill" style="width:{int(c/max_c*100)}%"></div></div>'
+
+    header = (
+        f'<div class="th-hdr">'
+        f'<span class="th-title">Análise de Transcrições · CDU: <strong>{top_cdu}</strong></span>'
+        f'<span class="th-sub">Motivos de contato identificados via IA (últimos {TRANSCRIPT_DAYS} dias)</span>'
         f'</div>'
-        for w, c in kws
-    )
-    return (
-        f'<div class="kw-hdr">'
-        f'<span class="kw-title">Análise de Transcrições</span>'
-        f'<span class="kw-sub"> · CDU: <strong>{top_cdu}</strong>'
-        f' · palavras mais frequentes (últimos {TRANSCRIPT_DAYS} dias)</span>'
-        f'</div>'
-        f'<div class="kw-grid">{items}</div>'
     )
 
-def make_samples_html(samples: list[dict]) -> str:
-    if not samples:
-        return ""
-    rows = "".join(
-        f'<tr><td class="case-id">{s["case_id"]}</td><td class="case-date">{s["date"]}</td></tr>'
-        for s in samples
-    )
-    return (
-        f'<div class="samples-hdr">Exemplos de casos recentes</div>'
-        f'<table class="stable"><thead><tr><th>CAS_CASE_ID</th><th>Data</th></tr></thead>'
-        f'<tbody>{rows}</tbody></table>'
-    )
+    cards = ""
+    for i, t in enumerate(themes):
+        color  = ACCENT_COLORS[i % len(ACCENT_COLORS)]
+        name   = t.get("name", "—")
+        pct    = t.get("pct", 0)
+        summary = t.get("summary", "")
+        cids   = t.get("case_ids", [])
+        chips  = "".join(f'<span class="case-chip">#{c}</span>' for c in cids)
+
+        cards += (
+            f'<div class="theme-card" style="border-left-color:{color}">'
+            f'<div class="tc-header">'
+            f'<span class="tc-name">{name}</span>'
+            f'<span class="tc-badge" style="background:{color}22;color:{color}">{pct}% dos casos</span>'
+            f'</div>'
+            f'<p class="tc-summary">{summary}</p>'
+            f'<div class="tc-chips">{chips}</div>'
+            f'</div>'
+        )
+
+    return header + f'<div class="themes-list">{cards}</div>'
 
 def make_tab(idx: int, proc_key: str, proc_label: str,
-             monthly: dict, weekly: dict, kws: list, samples: list) -> tuple[str, str]:
+             monthly: dict, weekly: dict, themes: list) -> tuple[str, str]:
     """Returns (tab_html, chart_js_body)"""
     m  = monthly[proc_key]
     w  = weekly[proc_key]
@@ -400,8 +523,7 @@ def make_tab(idx: int, proc_key: str, proc_label: str,
         f'<td class="vp">{sem_pct}</td></tr>'
     )
 
-    kw_html      = make_kw_html(kws, top_cdu)
-    samples_html = make_samples_html(samples)
+    themes_html = make_themes_html(themes, top_cdu)
 
     tab_html = f"""
   <div class="tab-pane {active}" id="tp{idx}">
@@ -428,11 +550,10 @@ def make_tab(idx: int, proc_key: str, proc_label: str,
           <thead><tr><th>CDU</th><th>Volume</th><th>%</th></tr></thead>
           <tbody>{rows_html}</tbody>
         </table>
-        {samples_html}
       </div>
     </div>
 
-    <div class="card kw-card">{kw_html}</div>
+    <div class="card">{themes_html}</div>
   </div>"""
 
     # Chart JS
@@ -518,33 +639,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .rtable .tr0{background:#fffde7;font-weight:600}
 .rtable .sem-cdu-row{color:#aaa;font-style:italic;border-top:1px solid #eee}
 .hl-right{display:flex;flex-direction:column;gap:14px}
-/* ── Sample cases ── */
-.samples-hdr{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;
-             letter-spacing:.6px;margin-top:4px}
-.stable{width:100%;border-collapse:collapse;font-size:11px}
-.stable th{background:#f8f9fa;padding:5px 10px;text-align:left;font-weight:700;
-           color:#aaa;font-size:10px;border-bottom:1px solid #eee}
-.stable td{padding:5px 10px;border-bottom:1px solid #f8f8f8}
-.case-id{font-family:monospace;color:#4472C4;font-size:11px}
-.case-date{color:#888}
 .vn{text-align:right;font-variant-numeric:tabular-nums}
 .vp{text-align:right;color:#888}
-
-/* ── Keywords ── */
-.kw-hdr{margin-bottom:14px}
-.kw-title{font-size:13px;font-weight:700}
-.kw-sub{font-size:11px;color:#888}
-.kw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
-.kw-item{}
-.kw-row{display:flex;justify-content:space-between;margin-bottom:3px}
-.kw-word{font-size:12px;font-weight:600}
-.kw-cnt{font-size:11px;color:#888;font-variant-numeric:tabular-nums}
-.kw-bg{background:#f0f0f0;border-radius:3px;height:5px}
-.kw-fill{background:#ffe600;border-radius:3px;height:5px}
+/* ── Themes ── */
 .no-data{font-size:12px;color:#999}
+.th-hdr{margin-bottom:16px}
+.th-title{font-size:13px;font-weight:700;display:block}
+.th-title strong{color:#c89600}
+.th-sub{font-size:11px;color:#888;display:block;margin-top:3px}
+.themes-list{display:flex;flex-direction:column;gap:12px}
+.theme-card{border-left:3px solid #ccc;padding:13px 16px;
+            background:#fafafa;border-radius:0 8px 8px 0}
+.tc-header{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.tc-name{font-size:13px;font-weight:700;color:#1a1a2e}
+.tc-badge{font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;white-space:nowrap}
+.tc-summary{font-size:12px;color:#555;line-height:1.55;margin-bottom:8px}
+.tc-chips{display:flex;flex-wrap:wrap;gap:6px}
+.case-chip{font-size:11px;font-family:monospace;background:#eef2ff;
+           color:#4472C4;padding:2px 9px;border-radius:12px}
 """
 
-def generate_html(monthly: dict, weekly: dict, keywords: dict, samples: dict) -> str:
+def generate_html(monthly: dict, weekly: dict, themes: dict) -> str:
     now_str = TODAY.strftime("%d/%m/%Y")
     tab_btns  = []
     tab_panes = []
@@ -558,8 +673,7 @@ def generate_html(monthly: dict, weekly: dict, keywords: dict, samples: dict) ->
         pane, js = make_tab(
             idx, proc_key, proc_label,
             monthly, weekly,
-            keywords.get(proc_key, []),
-            samples.get(proc_key, [])
+            themes.get(proc_key, [])
         )
         tab_panes.append(pane)
         chart_jss.append(js)
@@ -640,8 +754,8 @@ if (initFns[0]) {{ initFns[0](); initFns[0] = null; }}
 # ── Main ─────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     try:
-        monthly, weekly, keywords, samples = build_all()
-        html = generate_html(monthly, weekly, keywords, samples)
+        monthly, weekly, themes = build_all()
+        html = generate_html(monthly, weekly, themes)
         out  = "outgoing_cdu_analysis.html"
         with open(out, "w", encoding="utf-8") as f:
             f.write(html)
