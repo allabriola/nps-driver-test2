@@ -20,11 +20,11 @@ from datetime import date, timedelta
 # ── Configuração ────────────────────────────────────────────────────────────
 PROJECT   = "meli-bi-data"
 SITE      = "MLB"
-CENTER    = "BR"
 TOP_CDUS  = 8   # máximo de CDUs mostrados nos gráficos
 
+# Chave = CX_PR_NAME_HSP em LK_CX_PROCESS_ADM | Valor = label exibido no HTML
 PROCESSES = {
-    "Facturación":          "Facturación",
+    "Facturación":            "Facturación",
     "Emision de Nota Fiscal": "Emissão de Nota Fiscal",
 }
 
@@ -64,19 +64,35 @@ def run(sql: str) -> list[dict]:
     return [dict(r) for r in client.query(sql).result()]
 
 # ── Queries ─────────────────────────────────────────────────────────────────
+# Fonte: BT_CX_CASE_INTERACTION (volume real de atendimentos outgoing)
+# CDU via LK_CX_CDU_GROUP | Processo via LK_CX_PROCESS_ADM
+
+def _cdu_expr() -> str:
+    return "COALESCE(NULLIF(cdu.CDU_PT,''), NULLIF(cdu.CDU,''), 'Sem CDU')"
+
+def _base_joins() -> str:
+    return f"""
+    FROM `{PROJECT}.WHOWNER.BT_CX_CASE_INTERACTION` i
+    LEFT JOIN `{PROJECT}.WHOWNER.LK_CX_PROCESS_ADM` p
+      ON p.CX_PR_ID = i.CI_PROCESS_ID
+    LEFT JOIN `{PROJECT}.WHOWNER.LK_CX_CDU_GROUP` cdu
+      ON cdu.SOLUTION_ID = i.WCM_CONT_ID
+     AND cdu.PROCESS_ID  = i.CI_PROCESS_ID
+    """
+
 def q_monthly() -> str:
     procs = "','".join(PROCESSES)
     return f"""
     SELECT
-      SUBSTR(SURVEY_DATE_SURVEY, 1, 7)          AS month,
-      PRO_PROCESS_NAME                          AS process,
-      COALESCE(NULLIF(CDU, ''), 'Sem CDU')      AS cdu,
-      COUNT(*)                                  AS volume
-    FROM `{PROJECT}.WHOWNER.DM_CX_NPS_Y20_DETAIL`
-    WHERE SIT_SITE_ID        = '{SITE}'
-      AND SURVEY_CENTER      = '{CENTER}'
-      AND PRO_PROCESS_NAME  IN ('{procs}')
-      AND SURVEY_DATE_SURVEY BETWEEN '{START_YEAR}' AND '{TODAY}'
+      FORMAT_DATETIME('%Y-%m', i.CI_CREATED_DATE)  AS month,
+      p.CX_PR_NAME_HSP                              AS process,
+      {_cdu_expr()}                                 AS cdu,
+      COUNT(DISTINCT i.CAS_CASE_ID)                 AS volume
+    {_base_joins()}
+    WHERE i.SIT_SITE_ID          = '{SITE}'
+      AND i.FLAG_OUTGOING_GESTION = 1
+      AND p.CX_PR_NAME_HSP       IN ('{procs}')
+      AND CAST(i.CI_CREATED_DATE AS DATE) BETWEEN '{START_YEAR}' AND '{TODAY}'
     GROUP BY 1, 2, 3
     ORDER BY 1, 2, 4 DESC
     """
@@ -85,31 +101,31 @@ def q_weekly() -> str:
     procs = "','".join(PROCESSES)
     return f"""
     SELECT
-      DATE_TRUNC(PARSE_DATE('%Y-%m-%d', SURVEY_DATE_SURVEY), ISOWEEK) AS week_start,
-      PRO_PROCESS_NAME                          AS process,
-      COALESCE(NULLIF(CDU, ''), 'Sem CDU')      AS cdu,
-      COUNT(*)                                  AS volume
-    FROM `{PROJECT}.WHOWNER.DM_CX_NPS_Y20_DETAIL`
-    WHERE SIT_SITE_ID        = '{SITE}'
-      AND SURVEY_CENTER      = '{CENTER}'
-      AND PRO_PROCESS_NAME  IN ('{procs}')
-      AND SURVEY_DATE_SURVEY >= '{EIGHT_WEEKS_AGO}'
+      DATE_TRUNC(CAST(i.CI_CREATED_DATE AS DATE), ISOWEEK) AS week_start,
+      p.CX_PR_NAME_HSP                                      AS process,
+      {_cdu_expr()}                                         AS cdu,
+      COUNT(DISTINCT i.CAS_CASE_ID)                         AS volume
+    {_base_joins()}
+    WHERE i.SIT_SITE_ID          = '{SITE}'
+      AND i.FLAG_OUTGOING_GESTION = 1
+      AND p.CX_PR_NAME_HSP       IN ('{procs}')
+      AND CAST(i.CI_CREATED_DATE AS DATE) >= '{EIGHT_WEEKS_AGO}'
     GROUP BY 1, 2, 3
     ORDER BY 1, 2, 4 DESC
     """
 
 def q_case_ids(process: str, cdu: str) -> str:
     cutoff = TODAY - timedelta(days=TRANSCRIPT_DAYS)
-    cdu_safe = cdu.replace("'", "''")
+    cdu_safe  = cdu.replace("'", "''")
     proc_safe = process.replace("'", "''")
     return f"""
-    SELECT DISTINCT CAS_CASE_ID
-    FROM `{PROJECT}.WHOWNER.DM_CX_NPS_Y20_DETAIL`
-    WHERE SIT_SITE_ID        = '{SITE}'
-      AND SURVEY_CENTER      = '{CENTER}'
-      AND PRO_PROCESS_NAME   = '{proc_safe}'
-      AND COALESCE(NULLIF(CDU, ''), 'Sem CDU') = '{cdu_safe}'
-      AND SURVEY_DATE_SURVEY >= '{cutoff}'
+    SELECT DISTINCT i.CAS_CASE_ID
+    {_base_joins()}
+    WHERE i.SIT_SITE_ID          = '{SITE}'
+      AND i.FLAG_OUTGOING_GESTION = 1
+      AND p.CX_PR_NAME_HSP        = '{proc_safe}'
+      AND {_cdu_expr()}           = '{cdu_safe}'
+      AND CAST(i.CI_CREATED_DATE AS DATE) >= '{cutoff}'
     LIMIT 1000
     """
 
@@ -138,6 +154,27 @@ def extract_keywords(messages: list[str], top_n: int = 20) -> list[tuple[str, in
 def month_label(ym: str) -> str:
     return MES_PT.get(ym.split("-")[1], ym)
 
+SEM_CDU = "Sem CDU"
+
+def _build_datasets(top_cdus, by_cdu, keys, sem_cdu_data, all_rows, key_field):
+    """Monta datasets: top CDUs com CDU real + 'Sem CDU' + 'Outros' ao final."""
+    datasets = []
+    for cdu in top_cdus:
+        datasets.append({"label": cdu,
+                         "data": [by_cdu.get(cdu, {}).get(k, 0) for k in keys]})
+    # "Sem CDU" como faixa dedicada
+    if any(v > 0 for v in sem_cdu_data):
+        datasets.append({"label": SEM_CDU, "data": sem_cdu_data})
+    # "Outros" = com CDU mas fora do top N
+    outros = [
+        sum(r["volume"] for r in all_rows if r[key_field] == k
+            and r["cdu"] not in top_cdus and r["cdu"] != SEM_CDU)
+        for k in keys
+    ]
+    if any(v > 0 for v in outros):
+        datasets.append({"label": "Outros", "data": outros})
+    return datasets
+
 def process_monthly(raw: list[dict]) -> dict:
     result = {}
     for proc_key in PROCESSES:
@@ -151,28 +188,23 @@ def process_monthly(raw: list[dict]) -> dict:
             cdu_totals[cdu] += r["volume"]
             by_cdu.setdefault(cdu, {})[r["month"]] = r["volume"]
 
-        top_cdus = [c for c, _ in cdu_totals.most_common(TOP_CDUS)]
+        # top CDUs excluindo "Sem CDU" (vai como faixa separada)
+        top_cdus = [c for c, _ in cdu_totals.most_common()
+                    if c != SEM_CDU][:TOP_CDUS]
         top_cdu  = top_cdus[0] if top_cdus else None
 
-        datasets = []
-        for cdu in top_cdus:
-            datasets.append({"label": cdu,
-                             "data": [by_cdu.get(cdu, {}).get(m, 0) for m in months_sorted]})
-
-        outros = [
-            sum(r["volume"] for r in rows if r["month"] == m) -
-            sum(by_cdu.get(c, {}).get(m, 0) for c in top_cdus)
-            for m in months_sorted
-        ]
-        if any(v > 0 for v in outros):
-            datasets.append({"label": "Outros", "data": outros})
+        sem_cdu_data = [by_cdu.get(SEM_CDU, {}).get(m, 0) for m in months_sorted]
+        datasets = _build_datasets(top_cdus, by_cdu, months_sorted,
+                                   sem_cdu_data, rows, "month")
 
         result[proc_key] = {
-            "months":    [month_label(m) for m in months_sorted],
-            "top_cdus":  top_cdus,
-            "top_cdu":   top_cdu,
-            "datasets":  datasets,
-            "cdu_totals": dict(cdu_totals),
+            "months":     [month_label(m) for m in months_sorted],
+            "top_cdus":   top_cdus,
+            "top_cdu":    top_cdu,
+            "datasets":   datasets,
+            "cdu_totals": {k: v for k, v in cdu_totals.items() if k != SEM_CDU},
+            "sem_cdu_vol": cdu_totals.get(SEM_CDU, 0),
+            "total_vol":   sum(cdu_totals.values()),
         }
     return result
 
@@ -190,20 +222,12 @@ def process_weekly(raw: list[dict]) -> dict:
             cdu_totals[cdu] += r["volume"]
             by_cdu.setdefault(cdu, {})[r["week_start"]] = r["volume"]
 
-        top_cdus = [c for c, _ in cdu_totals.most_common(TOP_CDUS)]
+        top_cdus = [c for c, _ in cdu_totals.most_common()
+                    if c != SEM_CDU][:TOP_CDUS]
 
-        datasets = []
-        for cdu in top_cdus:
-            datasets.append({"label": cdu,
-                             "data": [by_cdu.get(cdu, {}).get(w, 0) for w in weeks_sorted]})
-
-        outros = [
-            sum(r["volume"] for r in rows if r["week_start"] == w) -
-            sum(by_cdu.get(c, {}).get(w, 0) for c in top_cdus)
-            for w in weeks_sorted
-        ]
-        if any(v > 0 for v in outros):
-            datasets.append({"label": "Outros", "data": outros})
+        sem_cdu_data = [by_cdu.get(SEM_CDU, {}).get(w, 0) for w in weeks_sorted]
+        datasets = _build_datasets(top_cdus, by_cdu, weeks_sorted,
+                                   sem_cdu_data, rows, "week_start")
 
         result[proc_key] = {
             "weeks":    weeks_labels,
@@ -251,12 +275,16 @@ def build_all():
 def jd(obj) -> str:
     return json.dumps(obj, ensure_ascii=False)
 
+SEM_CDU_COLOR = "#D0D0D0"   # cinza claro — "Sem CDU"
+
 def palette_for(datasets: list[dict]) -> list[str]:
     out = []
     idx = 0
     for ds in datasets:
         if ds["label"] == "Outros":
             out.append(OUTROS_COLOR)
+        elif ds["label"] == SEM_CDU:
+            out.append(SEM_CDU_COLOR)
         else:
             out.append(PALETTE[idx % len(PALETTE)])
             idx += 1
@@ -292,10 +320,12 @@ def make_tab(idx: int, proc_key: str, proc_label: str,
     wi = f"cW{idx}"   # canvas id weekly
     active = "active" if idx == 0 else ""
 
-    top_cdu  = m["top_cdu"] or "—"
-    total_v  = sum(m["cdu_totals"].values())
-    top_vol  = m["cdu_totals"].get(top_cdu, 0)
-    top_pct  = f"{top_vol / total_v * 100:.1f}%" if total_v else "—"
+    top_cdu   = m["top_cdu"] or "—"
+    total_v   = m["total_vol"]           # inclui Sem CDU
+    named_v   = sum(m["cdu_totals"].values())  # só com CDU identificado
+    sem_cdu_v = m["sem_cdu_vol"]
+    top_vol   = m["cdu_totals"].get(top_cdu, 0)
+    top_pct   = f"{top_vol / total_v * 100:.1f}%" if total_v else "—"
 
     rows_html = ""
     for i, cdu in enumerate(m["top_cdus"][:8]):
@@ -308,6 +338,13 @@ def make_tab(idx: int, proc_key: str, proc_label: str,
             f'<td class="vn">{vol:,}</td>'
             f'<td class="vp">{pct}</td></tr>'
         )
+    # linha Sem CDU ao final da tabela
+    sem_pct = f"{sem_cdu_v / total_v * 100:.1f}%" if total_v else "—"
+    rows_html += (
+        f'<tr class="sem-cdu-row"><td>— Sem CDU</td>'
+        f'<td class="vn">{sem_cdu_v:,}</td>'
+        f'<td class="vp">{sem_pct}</td></tr>'
+    )
 
     kw_html = make_kw_html(kws, top_cdu)
 
@@ -328,7 +365,8 @@ def make_tab(idx: int, proc_key: str, proc_label: str,
       <div class="hl-box">
         <div class="hl-lbl">CDU com Maior Volume</div>
         <div class="hl-val">{top_cdu}</div>
-        <div class="hl-sub">{top_vol:,} pesquisas · {top_pct} do total · {proc_label}</div>
+        <div class="hl-sub">{top_vol:,} atendimentos · {top_pct} do total identificado</div>
+        <div class="hl-sub2">Total outgoing: {total_v:,} · Com CDU: {named_v:,} ({named_v/total_v*100:.0f}%)</div>
       </div>
       <table class="rtable">
         <thead><tr><th>CDU</th><th>Volume</th><th>%</th></tr></thead>
@@ -411,6 +449,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .hl-val{font-size:17px;font-weight:900;color:#1a1a2e;margin-bottom:6px;
         line-height:1.2}
 .hl-sub{font-size:11px;color:#555}
+.hl-sub2{font-size:10px;color:#888;margin-top:4px}
 
 /* ── Ranking table ── */
 .rtable{width:100%;border-collapse:collapse;font-size:12px}
@@ -419,6 +458,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
            border-bottom:1px solid #eee}
 .rtable td{padding:7px 12px;border-bottom:1px solid #f5f5f5;vertical-align:middle}
 .rtable .tr0{background:#fffde7;font-weight:600}
+.rtable .sem-cdu-row{color:#aaa;font-style:italic;border-top:1px solid #eee}
 .vn{text-align:right;font-variant-numeric:tabular-nums}
 .vp{text-align:right;color:#888}
 
@@ -496,7 +536,7 @@ function bar(id, labels, datasets) {{
         tooltip: {{
           callbacks: {{
             label: ctx =>
-              ` ${{ctx.dataset.label}}: ${{ctx.parsed.y.toLocaleString('pt-BR')}} pesquisas`
+              ` ${{ctx.dataset.label}}: ${{ctx.parsed.y.toLocaleString('pt-BR')}} atendimentos`
           }}
         }}
       }},
