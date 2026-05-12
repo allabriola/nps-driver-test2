@@ -454,12 +454,13 @@ function renderRepEvoTables(containerId, repList) {
       <p>${kpi.note}</p>
       <table class="rt">
         <thead><tr>
-          <th class="left">Representante</th><th>TL</th>
+          <th class="left">Representante</th><th>Of.</th><th>TL</th>
           ${WK6.map(w=>`<th>${w}</th>`).join('')}
           <th>Tend.</th>
         </tr></thead><tbody>`;
 
     repList.forEach(rep => {
+      const of = REPS[rep] ? REPS[rep][0] : (MON_REPS[rep]?.of||'—');
       const vals = WK[rep][kpi.key];
       const nonNull = vals.filter(v=>v!=null);
       let tend = '<span class="arr-eq">—</span>';
@@ -471,6 +472,7 @@ function renderRepEvoTables(containerId, repList) {
       }
       html += `<tr>
         <td class="rep-name">${rep}</td>
+        <td class="of-${of.toLowerCase()}">${of}</td>
         <td style="font-size:10px;color:#64748b">${REP_TL[rep]||'—'}</td>
         ${vals.map(v=>`<td class="${kpi.colorFn(v)}">${kpi.fmt(v)}</td>`).join('')}
         <td style="text-align:center">${tend}</td>
