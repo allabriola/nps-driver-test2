@@ -454,13 +454,16 @@ def process_weekly(raw: list[dict]) -> dict:
 
 CACHE_MAX_AGE_H = 24  # horas antes de re-consultar o BQ
 
-def _cache_path(proc_key: str) -> str:
-    safe = proc_key.replace(" ", "_").replace("/", "_")
-    return f"_tr_cache_{safe}.json"
+def _cache_path(proc_key: str, cdu: str = "") -> str:
+    safe_p = proc_key.replace(" ", "_").replace("/", "_")
+    if cdu:
+        safe_c = re.sub(r"[^a-zA-Z0-9]", "_", cdu)[:30]
+        return f"_tr_cache_{safe_p}_{safe_c}.json"
+    return f"_tr_cache_{safe_p}.json"
 
-def _load_cache(proc_key: str) -> dict | None:
+def _load_cache(proc_key: str, cdu: str = "") -> dict | None:
     import time as _t
-    path = _cache_path(proc_key)
+    path = _cache_path(proc_key, cdu)
     if not os.path.exists(path):
         return None
     age_h = (_t.time() - os.path.getmtime(path)) / 3600
@@ -468,86 +471,108 @@ def _load_cache(proc_key: str) -> dict | None:
         return None
     with open(path, encoding="utf-8") as f:
         data = json.load(f)
-    print(f"   [cache] carregado de {path} ({age_h:.1f}h atrás)")
+    print(f"   [cache] {path} ({age_h:.1f}h)")
     return data
 
-def _save_cache(proc_key: str, data: dict) -> None:
-    path = _cache_path(proc_key)
+def _save_cache(proc_key: str, data: dict, cdu: str = "") -> None:
+    path = _cache_path(proc_key, cdu)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False)
-    print(f"   [cache] salvo em {path}")
+    print(f"   [cache] salvo {path}")
 
-def fetch_analysis(proc_key: str, top_cdu: str) -> list[dict]:
-    """Retorna lista de temas para o top CDU.
-    Prioridade: 1) temas curados manualmente, 2) TF-IDF+KMeans do cache."""
-    if not top_cdu:
+def fetch_analysis(proc_key: str, cdu: str) -> list[dict]:
+    """Retorna temas para um CDU.
+    Prioridade: 1) curado manual, 2) cache local + TF-IDF, 3) BQ + TF-IDF."""
+    if not cdu:
         return []
 
-    # 1) Temas curados — retorna imediatamente, sem precisar do BQ
-    curated = CURATED_THEMES.get((proc_key, top_cdu))
+    # 1) Curado manual
+    curated = CURATED_THEMES.get((proc_key, cdu))
     if curated:
-        print(f"   [curado] usando {len(curated)} temas manuais para '{top_cdu}'")
+        print(f"   [curado] '{cdu}': {len(curated)} temas")
         return curated
 
-    # Tenta carregar transcrições do cache
-    cached = _load_cache(proc_key)
+    # 2) Cache local
+    cached = _load_cache(proc_key, cdu)
     if cached is None:
-        print(f"   Buscando case IDs para '{top_cdu}'…")
-        raw_ids = run(q_case_ids(proc_key, top_cdu))
-        ids = [str(int(r["CAS_CASE_ID"])) for r in raw_ids if r.get("CAS_CASE_ID") is not None]
+        print(f"   [BQ] '{cdu}': buscando case IDs…")
+        try:
+            raw_ids = run(q_case_ids(proc_key, cdu))
+            ids = [str(int(r["CAS_CASE_ID"])) for r in raw_ids if r.get("CAS_CASE_ID") is not None]
+        except Exception as e:
+            print(f"   [quota] '{cdu}' ignorado: {e}")
+            return []
         if not ids:
-            print("   Nenhum case ID encontrado.")
             return []
 
-        print(f"   {len(ids)} casos. Buscando transcrições…")
+        print(f"   [BQ] '{cdu}': {len(ids)} casos, buscando transcrições…")
         case_transcripts: dict[str, list[str]] = {}
         try:
             for i in range(0, len(ids), 1000):
-                batch = ids[i:i + 1000]
-                rows  = run(q_transcripts_with_case(batch))
+                rows = run(q_transcripts_with_case(ids[i:i + 1000]))
                 for r in rows:
-                    cid = r.get("case_id")
-                    msg = r.get("msg")
+                    cid, msg = r.get("case_id"), r.get("msg")
                     if cid and msg:
                         case_transcripts.setdefault(cid, []).append(msg)
-            _save_cache(proc_key, case_transcripts)
+            _save_cache(proc_key, case_transcripts, cdu)
         except Exception as e:
-            print(f"   [aviso] erro ao buscar transcrições: {e}")
-            print("   HTML gerado sem análise temática (rode novamente quando quota resetar).")
+            print(f"   [quota] transcrições de '{cdu}' ignoradas: {e}")
             return []
     else:
         case_transcripts = cached
 
-    print(f"   {len(case_transcripts)} casos com transcrição. Clusterizando…")
     proc_label = PROCESSES[proc_key]
-    themes = analyze_themes(case_transcripts, top_cdu, proc_label, len(case_transcripts))
-    print(f"   {len(themes)} temas identificados.")
+    themes = analyze_themes(case_transcripts, cdu, proc_label, len(case_transcripts))
+    print(f"   [TF-IDF] '{cdu}': {len(themes)} temas")
     return themes
 
-def build_all():
-    print("▸ Volume mensal…")
-    monthly_raw = run(q_monthly())
-    print("▸ Volume semanal (8 semanas)…")
-    weekly_raw  = run(q_weekly())
+CHARTS_CACHE = "_cache_charts.json"
 
-    monthly = process_monthly(monthly_raw)
-    weekly  = process_weekly(weekly_raw)
+def _save_charts_cache(monthly: dict, weekly: dict) -> None:
+    """Serializa monthly/weekly para disco (valores date → str)."""
+    def convert(obj):
+        import datetime
+        if isinstance(obj, (datetime.date, datetime.datetime)):
+            return obj.isoformat()
+        return obj
 
-    # Para cada processo, monta dict cdu → temas para todos os top CDUs
+    payload = {"monthly": monthly, "weekly": weekly}
+    # weekly tem week_start como date nos datasets — já estão como strings nos labels
+    with open(CHARTS_CACHE, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, default=convert)
+    print(f"[cache] gráficos salvos em {CHARTS_CACHE}")
+
+def _load_charts_cache():
+    if not os.path.exists(CHARTS_CACHE):
+        return None, None
+    with open(CHARTS_CACHE, encoding="utf-8") as f:
+        p = json.load(f)
+    print(f"[cache] gráficos carregados de {CHARTS_CACHE}")
+    return p["monthly"], p["weekly"]
+
+def build_all(html_only: bool = False):
+    if html_only:
+        print("▸ Modo --html-only: usando cache de gráficos…")
+        monthly, weekly = _load_charts_cache()
+        if monthly is None:
+            raise RuntimeError("Cache de gráficos não encontrado. Rode sem --html-only primeiro.")
+    else:
+        print("▸ Volume mensal…")
+        monthly_raw = run(q_monthly())
+        print("▸ Volume semanal (8 semanas)…")
+        weekly_raw  = run(q_weekly())
+        monthly = process_monthly(monthly_raw)
+        weekly  = process_weekly(weekly_raw)
+        _save_charts_cache(monthly, weekly)
+
+    # Para cada processo, roda fetch_analysis para TODOS os top CDUs
     themes_by_cdu: dict[str, dict[str, list]] = {}
     for proc_key, proc_label in PROCESSES.items():
         top_cdus = monthly[proc_key]["top_cdus"]
-        top_cdu  = monthly[proc_key]["top_cdu"]
         themes_by_cdu[proc_key] = {}
-
+        print(f"\n▸ Análise temática [{proc_label}] ({len(top_cdus)} CDUs)…")
         for cdu in top_cdus:
-            if cdu == top_cdu:
-                # Análise completa (curada ou TF-IDF) só para o top CDU
-                print(f"\n▸ Análise temática [{proc_label}] top CDU: {cdu}")
-                themes_by_cdu[proc_key][cdu] = fetch_analysis(proc_key, cdu)
-            else:
-                # Para os demais, só usa temas curados se existirem (sem BQ)
-                themes_by_cdu[proc_key][cdu] = CURATED_THEMES.get((proc_key, cdu), [])
+            themes_by_cdu[proc_key][cdu] = fetch_analysis(proc_key, cdu)
 
     return monthly, weekly, themes_by_cdu
 
@@ -918,8 +943,10 @@ if (initFns[0]) {{ initFns[0](); initFns[0] = null; }}
 
 # ── Main ─────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
+    import sys as _sys
+    html_only = "--html-only" in _sys.argv
     try:
-        monthly, weekly, themes_by_cdu = build_all()
+        monthly, weekly, themes_by_cdu = build_all(html_only=html_only)
         html = generate_html(monthly, weekly, themes_by_cdu)
         out  = "outgoing_cdu_analysis.html"
         with open(out, "w", encoding="utf-8") as f:
