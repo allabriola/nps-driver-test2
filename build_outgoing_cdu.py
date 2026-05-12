@@ -533,13 +533,23 @@ def build_all():
     monthly = process_monthly(monthly_raw)
     weekly  = process_weekly(weekly_raw)
 
-    themes = {}
+    # Para cada processo, monta dict cdu → temas para todos os top CDUs
+    themes_by_cdu: dict[str, dict[str, list]] = {}
     for proc_key, proc_label in PROCESSES.items():
-        top_cdu = monthly[proc_key]["top_cdu"]
-        print(f"\n▸ Análise temática [{proc_label}] top CDU: {top_cdu}")
-        themes[proc_key] = fetch_analysis(proc_key, top_cdu)
+        top_cdus = monthly[proc_key]["top_cdus"]
+        top_cdu  = monthly[proc_key]["top_cdu"]
+        themes_by_cdu[proc_key] = {}
 
-    return monthly, weekly, themes
+        for cdu in top_cdus:
+            if cdu == top_cdu:
+                # Análise completa (curada ou TF-IDF) só para o top CDU
+                print(f"\n▸ Análise temática [{proc_label}] top CDU: {cdu}")
+                themes_by_cdu[proc_key][cdu] = fetch_analysis(proc_key, cdu)
+            else:
+                # Para os demais, só usa temas curados se existirem (sem BQ)
+                themes_by_cdu[proc_key][cdu] = CURATED_THEMES.get((proc_key, cdu), [])
+
+    return monthly, weekly, themes_by_cdu
 
 # ── HTML helpers ─────────────────────────────────────────────────────────────
 def jd(obj) -> str:
@@ -562,41 +572,27 @@ def palette_for(datasets: list[dict]) -> list[str]:
 
 ACCENT_COLORS = ["#4472C4", "#ED7D31", "#70AD47", "#E05252", "#9B59B6"]
 
-def make_themes_html(themes: list[dict], top_cdu: str) -> str:
-    if not themes:
-        return '<p class="no-data">Sem dados de transcrição disponíveis.</p>'
-
-    header = (
-        f'<div class="th-hdr">'
-        f'<span class="th-title">Análise de Transcrições · CDU: <strong>{top_cdu}</strong></span>'
-        f'<span class="th-sub">Motivos de contato identificados via IA (últimos {TRANSCRIPT_DAYS} dias)</span>'
-        f'</div>'
+def make_themes_section(idx: int, cdu_themes: dict[str, list], top_cdu: str) -> str:
+    """Gera o card de análise com <select> de CDU e themes renderizados via JS."""
+    options = "".join(
+        f'<option value="{cdu}"{" selected" if cdu == top_cdu else ""}>{cdu}</option>'
+        for cdu in cdu_themes
     )
-
-    cards = ""
-    for i, t in enumerate(themes):
-        color  = ACCENT_COLORS[i % len(ACCENT_COLORS)]
-        name   = t.get("name", "—")
-        pct    = t.get("pct", 0)
-        summary = t.get("summary", "")
-        cids   = t.get("case_ids", [])
-        chips  = "".join(f'<span class="case-chip">#{c}</span>' for c in cids)
-
-        cards += (
-            f'<div class="theme-card" style="border-left-color:{color}">'
-            f'<div class="tc-header">'
-            f'<span class="tc-name">{name}</span>'
-            f'<span class="tc-badge" style="background:{color}22;color:{color}">{pct}% dos casos</span>'
-            f'</div>'
-            f'<p class="tc-summary">{summary}</p>'
-            f'<div class="tc-chips">{chips}</div>'
-            f'</div>'
-        )
-
-    return header + f'<div class="themes-list">{cards}</div>'
+    return f"""
+    <div class="th-hdr">
+      <div class="th-title-row">
+        <span class="th-label">Análise de Transcrições · CDU:</span>
+        <select class="cdu-sel" id="sel{idx}" onchange="selectCDU({idx},this.value)">
+          {options}
+        </select>
+      </div>
+      <span class="th-sub">Motivos de contato identificados (últimos {TRANSCRIPT_DAYS} dias)</span>
+    </div>
+    <div id="themes{idx}"></div>"""
 
 def make_tab(idx: int, proc_key: str, proc_label: str,
-             monthly: dict, weekly: dict, themes: list) -> tuple[str, str]:
+             monthly: dict, weekly: dict,
+             cdu_themes: dict[str, list]) -> tuple[str, str]:
     """Returns (tab_html, chart_js_body)"""
     m  = monthly[proc_key]
     w  = weekly[proc_key]
@@ -630,7 +626,7 @@ def make_tab(idx: int, proc_key: str, proc_label: str,
         f'<td class="vp">{sem_pct}</td></tr>'
     )
 
-    themes_html = make_themes_html(themes, top_cdu)
+    themes_html = make_themes_section(idx, cdu_themes, top_cdu)
 
     tab_html = f"""
   <div class="tab-pane {active}" id="tp{idx}">
@@ -749,11 +745,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .vn{text-align:right;font-variant-numeric:tabular-nums}
 .vp{text-align:right;color:#888}
 /* ── Themes ── */
-.no-data{font-size:12px;color:#999}
+.no-data{font-size:12px;color:#999;padding:8px 0}
 .th-hdr{margin-bottom:16px}
-.th-title{font-size:13px;font-weight:700;display:block}
-.th-title strong{color:#c89600}
-.th-sub{font-size:11px;color:#888;display:block;margin-top:3px}
+.th-title-row{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:3px}
+.th-label{font-size:13px;font-weight:700;white-space:nowrap}
+.cdu-sel{font-size:14px;font-weight:800;color:#c89600;background:transparent;
+         border:none;border-bottom:2px solid #e8b000;cursor:pointer;padding:0 4px 1px;
+         outline:none;font-family:inherit;max-width:480px}
+.cdu-sel:focus{border-bottom-color:#4472C4}
+.cdu-sel option{color:#1a1a2e;font-weight:600;background:#fff}
+.th-sub{font-size:11px;color:#888;display:block}
 .themes-list{display:flex;flex-direction:column;gap:12px}
 .theme-card{border-left:3px solid #ccc;padding:13px 16px;
             background:#fafafa;border-radius:0 8px 8px 0}
@@ -766,7 +767,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
            color:#4472C4;padding:2px 9px;border-radius:12px}
 """
 
-def generate_html(monthly: dict, weekly: dict, themes: dict) -> str:
+def generate_html(monthly: dict, weekly: dict, themes_by_cdu: dict) -> str:
     now_str = TODAY.strftime("%d/%m/%Y")
     tab_btns  = []
     tab_panes = []
@@ -780,7 +781,7 @@ def generate_html(monthly: dict, weekly: dict, themes: dict) -> str:
         pane, js = make_tab(
             idx, proc_key, proc_label,
             monthly, weekly,
-            themes.get(proc_key, [])
+            themes_by_cdu.get(proc_key, {})
         )
         tab_panes.append(pane)
         chart_jss.append(js)
@@ -850,10 +851,47 @@ function go(n) {{
   if (initFns[n]) {{ initFns[n](); initFns[n] = null; }}
 }}
 
+// ── CDU selector ──────────────────────────────────────────────────────────
+const ACCENT = {jd(ACCENT_COLORS)};
+
+const ALL_THEMES = {jd({str(i): {cdu: t for cdu, t in themes_by_cdu.get(proc_key, {}).items()}
+    for i, proc_key in enumerate(PROCESSES)})};
+
+function buildThemeCard(t, i) {{
+  const c = ACCENT[i % ACCENT.length];
+  const chips = (t.case_ids||[]).map(id=>`<span class="case-chip">#${{id}}</span>`).join('');
+  return `<div class="theme-card" style="border-left-color:${{c}}">
+    <div class="tc-header">
+      <span class="tc-name">${{t.name}}</span>
+      <span class="tc-badge" style="background:${{c}}22;color:${{c}}">${{t.pct}}% dos casos</span>
+    </div>
+    <p class="tc-summary">${{t.summary}}</p>
+    <div class="tc-chips">${{chips}}</div>
+  </div>`;
+}}
+
+function renderThemes(tabIdx, cdu) {{
+  const themes = (ALL_THEMES[tabIdx]||{{}})[cdu] || [];
+  const el = document.getElementById('themes'+tabIdx);
+  if (!el) return;
+  if (!themes.length) {{
+    el.innerHTML = '<p class="no-data">Análise não disponível para este CDU — execute o script para gerar os temas.</p>';
+  }} else {{
+    el.innerHTML = '<div class="themes-list">'+themes.map((t,i)=>buildThemeCard(t,i)).join('')+'</div>';
+  }}
+}}
+
+function selectCDU(tabIdx, cdu) {{ renderThemes(tabIdx, cdu); }}
+
 {''.join(chart_jss)}
 
 // Init aba 0 imediatamente
 if (initFns[0]) {{ initFns[0](); initFns[0] = null; }}
+// Renderizar temas iniciais para cada aba
+Object.keys(ALL_THEMES).forEach(i => {{
+  const sel = document.getElementById('sel'+i);
+  if (sel) renderThemes(+i, sel.value);
+}});
 </script>
 </body>
 </html>"""
@@ -861,8 +899,8 @@ if (initFns[0]) {{ initFns[0](); initFns[0] = null; }}
 # ── Main ─────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     try:
-        monthly, weekly, themes = build_all()
-        html = generate_html(monthly, weekly, themes)
+        monthly, weekly, themes_by_cdu = build_all()
+        html = generate_html(monthly, weekly, themes_by_cdu)
         out  = "outgoing_cdu_analysis.html"
         with open(out, "w", encoding="utf-8") as f:
             f.write(html)

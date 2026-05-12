@@ -68,11 +68,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .vn{text-align:right;font-variant-numeric:tabular-nums}
 .vp{text-align:right;color:#888}
 /* ── Themes ── */
-.no-data{font-size:12px;color:#999}
+.no-data{font-size:12px;color:#999;padding:8px 0}
 .th-hdr{margin-bottom:16px}
-.th-title{font-size:13px;font-weight:700;display:block}
-.th-title strong{color:#c89600}
-.th-sub{font-size:11px;color:#888;display:block;margin-top:3px}
+.th-title-row{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:3px}
+.th-label{font-size:13px;font-weight:700;white-space:nowrap}
+.cdu-sel{font-size:14px;font-weight:800;color:#c89600;background:transparent;
+         border:none;border-bottom:2px solid #e8b000;cursor:pointer;padding:0 4px 1px;
+         outline:none;font-family:inherit;max-width:480px}
+.cdu-sel:focus{border-bottom-color:#4472C4}
+.cdu-sel option{color:#1a1a2e;font-weight:600;background:#fff}
+.th-sub{font-size:11px;color:#888;display:block}
 .themes-list{display:flex;flex-direction:column;gap:12px}
 .theme-card{border-left:3px solid #ccc;padding:13px 16px;
             background:#fafafa;border-radius:0 8px 8px 0}
@@ -125,7 +130,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
       </div>
     </div>
 
-    <div class="card"><div class="th-hdr"><span class="th-title">Análise de Transcrições · CDU: <strong>Dudas sobre cargos facturados</strong></span><span class="th-sub">Motivos de contato identificados via IA (últimos 90 dias)</span></div><div class="themes-list"><div class="theme-card" style="border-left-color:#4472C4"><div class="tc-header"><span class="tc-name">Débito automático de fatura vencida</span><span class="tc-badge" style="background:#4472C422;color:#4472C4">35% dos casos</span></div><p class="tc-summary">Sellers são surpreendidos com débito automático de faturas vencidas do Mercado Livre descontado do saldo em conta, sem reconhecer a origem do valor.</p><div class="tc-chips"><span class="case-chip">#450596238</span><span class="case-chip">#450254304</span><span class="case-chip">#453189041</span></div></div><div class="theme-card" style="border-left-color:#ED7D31"><div class="tc-header"><span class="tc-name">Cobrança de publicidade — Mercado Ads</span><span class="tc-badge" style="background:#ED7D3122;color:#ED7D31">25% dos casos</span></div><p class="tc-summary">Sellers questionam cobranças de campanhas de publicidade (Display Ads, Product Ads), frequentemente por não reconhecerem a tarifa ou acreditarem estar em período de teste gratuito.</p><div class="tc-chips"><span class="case-chip">#449223681</span><span class="case-chip">#450388418</span><span class="case-chip">#438822396</span></div></div><div class="theme-card" style="border-left-color:#70AD47"><div class="tc-header"><span class="tc-name">Tarifa cobrada em venda cancelada ou devolvida</span><span class="tc-badge" style="background:#70AD4722;color:#70AD47">20% dos casos</span></div><p class="tc-summary">Sellers solicitam estorno de tarifas cobradas sobre vendas canceladas ou com devolução, esperando que o valor seja revertido automaticamente após o cancelamento.</p><div class="tc-chips"><span class="case-chip">#448026895</span><span class="case-chip">#447986958</span><span class="case-chip">#436559907</span></div></div><div class="theme-card" style="border-left-color:#E05252"><div class="tc-header"><span class="tc-name">"Minha Página" — cobrança não reconhecida</span><span class="tc-badge" style="background:#E0525222;color:#E05252">10% dos casos</span></div><p class="tc-summary">Sellers contestam a tarifa de manutenção da 'Minha Página', afirmando não ter contratado o serviço. Alguns relatam suspeita de uso indevido ou invasão da conta.</p><div class="tc-chips"><span class="case-chip">#438951678</span><span class="case-chip">#451099545</span><span class="case-chip">#436543608</span></div></div><div class="theme-card" style="border-left-color:#9B59B6"><div class="tc-header"><span class="tc-name">Interpretação e reconciliação de fatura</span><span class="tc-badge" style="background:#9B59B622;color:#9B59B6">10% dos casos</span></div><p class="tc-summary">Sellers solicitam detalhamento dos itens da fatura para conciliação financeira, com dúvidas sobre divergências entre o valor faturado e o esperado no período.</p><div class="tc-chips"><span class="case-chip">#450135341</span><span class="case-chip">#436722229</span><span class="case-chip">#447448743</span></div></div></div></div>
+    <div class="card">
+    <div class="th-hdr">
+      <div class="th-title-row">
+        <span class="th-label">Análise de Transcrições · CDU:</span>
+        <select class="cdu-sel" id="sel0" onchange="selectCDU(0,this.value)">
+          <option value="Dudas sobre cargos facturados" selected>Dudas sobre cargos facturados</option><option value="Bugs">Bugs</option><option value="Generales">Generales</option><option value="Dudas sobre documentos fiscales y reportes">Dudas sobre documentos fiscales y reportes</option><option value="Dudas sobre Deuda /Débito (Automático o forzado)">Dudas sobre Deuda /Débito (Automático o forzado)</option><option value="Generales Facturación">Generales Facturación</option><option value="Dudas sobre datos de facturación">Dudas sobre datos de facturación</option><option value="Dudas sobre Impuestos">Dudas sobre Impuestos</option>
+        </select>
+      </div>
+      <span class="th-sub">Motivos de contato identificados (últimos 90 dias)</span>
+    </div>
+    <div id="themes0"></div></div>
   </div>
   <div class="tab-pane " id="tp1">
     <div class="grid2">
@@ -154,7 +169,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
       </div>
     </div>
 
-    <div class="card"><div class="th-hdr"><span class="th-title">Análise de Transcrições · CDU: <strong>Faturador MeLi</strong></span><span class="th-sub">Motivos de contato identificados via IA (últimos 90 dias)</span></div><div class="themes-list"><div class="theme-card" style="border-left-color:#4472C4"><div class="tc-header"><span class="tc-name">Bloqueio na emissão — NF pendente impede envio</span><span class="tc-badge" style="background:#4472C422;color:#4472C4">30% dos casos</span></div><p class="tc-summary">Sellers não conseguem emitir NF-e e o envio fica bloqueado. Causas frequentes: pendências no SEFAZ, série não exclusiva para o ML ou instabilidade no sistema fiscal.</p><div class="tc-chips"><span class="case-chip">#449061727</span><span class="case-chip">#451571088</span><span class="case-chip">#452567701</span></div></div><div class="theme-card" style="border-left-color:#ED7D31"><div class="tc-header"><span class="tc-name">Credenciamento e dados fiscais incorretos</span><span class="tc-badge" style="background:#ED7D3122;color:#ED7D31">25% dos casos</span></div><p class="tc-summary">Sellers têm emissão bloqueada por Inscrição Estadual incorreta, CNPJ não credenciado no SEFAZ ou dados fiscais desatualizados na conta do Mercado Livre.</p><div class="tc-chips"><span class="case-chip">#449585495</span><span class="case-chip">#448557710</span><span class="case-chip">#452942438</span></div></div><div class="theme-card" style="border-left-color:#70AD47"><div class="tc-header"><span class="tc-name">Erros de configuração da NF-e (quantidade, NCM, CFOP)</span><span class="tc-badge" style="background:#70AD4722;color:#70AD47">20% dos casos</span></div><p class="tc-summary">Sellers relatam discrepâncias entre a NF emitida e o produto real: quantidade divergente, NCM ausente ou CFOP inválido para operação interestadual.</p><div class="tc-chips"><span class="case-chip">#439223431</span><span class="case-chip">#442031708</span><span class="case-chip">#450379451</span></div></div><div class="theme-card" style="border-left-color:#E05252"><div class="tc-header"><span class="tc-name">Vendas não aparecem no painel para emissão</span><span class="tc-badge" style="background:#E0525222;color:#E05252">15% dos casos</span></div><p class="tc-summary">Sellers relatam que vendas não aparecem na listagem de NF-e pendentes, impedindo a emissão em massa. Em alguns casos causado por filtro ativo no painel.</p><div class="tc-chips"><span class="case-chip">#447058713</span><span class="case-chip">#436230190</span><span class="case-chip">#449061727</span></div></div><div class="theme-card" style="border-left-color:#9B59B6"><div class="tc-header"><span class="tc-name">Primeiros passos — novo vendedor sem histórico de emissão</span><span class="tc-badge" style="background:#9B59B622;color:#9B59B6">10% dos casos</span></div><p class="tc-summary">Sellers novos ou sem experiência buscam orientação completa: como habilitar o Faturador MeLi, requisitos legais (PJ, certificado A1) e como emitir a primeira NF-e.</p><div class="tc-chips"><span class="case-chip">#448868937</span><span class="case-chip">#452942438</span><span class="case-chip">#454506635</span></div></div></div></div>
+    <div class="card">
+    <div class="th-hdr">
+      <div class="th-title-row">
+        <span class="th-label">Análise de Transcrições · CDU:</span>
+        <select class="cdu-sel" id="sel1" onchange="selectCDU(1,this.value)">
+          <option value="Faturador MeLi" selected>Faturador MeLi</option><option value="Impuesto para facturar">Impuesto para facturar</option><option value="Bugs">Bugs</option><option value="Restricción fiscal">Restricción fiscal</option><option value="Emissor externo">Emissor externo</option><option value="Optin">Optin</option><option value="Error en el facturador o anexar XML">Error en el facturador o anexar XML</option><option value="Temporal">Temporal</option>
+        </select>
+      </div>
+      <span class="th-sub">Motivos de contato identificados (últimos 90 dias)</span>
+    </div>
+    <div id="themes1"></div></div>
   </div>
 </main>
 
@@ -199,6 +224,37 @@ function go(n) {
   if (initFns[n]) { initFns[n](); initFns[n] = null; }
 }
 
+// ── CDU selector ──────────────────────────────────────────────────────────
+const ACCENT = ["#4472C4", "#ED7D31", "#70AD47", "#E05252", "#9B59B6"];
+
+const ALL_THEMES = {"0": {"Dudas sobre cargos facturados": [{"name": "Débito automático de fatura vencida", "pct": 35, "case_ids": ["450596238", "450254304", "453189041"], "summary": "Sellers são surpreendidos com débito automático de faturas vencidas do Mercado Livre descontado do saldo em conta, sem reconhecer a origem do valor."}, {"name": "Cobrança de publicidade — Mercado Ads", "pct": 25, "case_ids": ["449223681", "450388418", "438822396"], "summary": "Sellers questionam cobranças de campanhas de publicidade (Display Ads, Product Ads), frequentemente por não reconhecerem a tarifa ou acreditarem estar em período de teste gratuito."}, {"name": "Tarifa cobrada em venda cancelada ou devolvida", "pct": 20, "case_ids": ["448026895", "447986958", "436559907"], "summary": "Sellers solicitam estorno de tarifas cobradas sobre vendas canceladas ou com devolução, esperando que o valor seja revertido automaticamente após o cancelamento."}, {"name": "\"Minha Página\" — cobrança não reconhecida", "pct": 10, "case_ids": ["438951678", "451099545", "436543608"], "summary": "Sellers contestam a tarifa de manutenção da 'Minha Página', afirmando não ter contratado o serviço. Alguns relatam suspeita de uso indevido ou invasão da conta."}, {"name": "Interpretação e reconciliação de fatura", "pct": 10, "case_ids": ["450135341", "436722229", "447448743"], "summary": "Sellers solicitam detalhamento dos itens da fatura para conciliação financeira, com dúvidas sobre divergências entre o valor faturado e o esperado no período."}], "Bugs": [], "Generales": [], "Dudas sobre documentos fiscales y reportes": [], "Dudas sobre Deuda /Débito (Automático o forzado)": [], "Generales Facturación": [], "Dudas sobre datos de facturación": [], "Dudas sobre Impuestos": []}, "1": {"Faturador MeLi": [{"name": "Bloqueio na emissão — NF pendente impede envio", "pct": 30, "case_ids": ["449061727", "451571088", "452567701"], "summary": "Sellers não conseguem emitir NF-e e o envio fica bloqueado. Causas frequentes: pendências no SEFAZ, série não exclusiva para o ML ou instabilidade no sistema fiscal."}, {"name": "Credenciamento e dados fiscais incorretos", "pct": 25, "case_ids": ["449585495", "448557710", "452942438"], "summary": "Sellers têm emissão bloqueada por Inscrição Estadual incorreta, CNPJ não credenciado no SEFAZ ou dados fiscais desatualizados na conta do Mercado Livre."}, {"name": "Erros de configuração da NF-e (quantidade, NCM, CFOP)", "pct": 20, "case_ids": ["439223431", "442031708", "450379451"], "summary": "Sellers relatam discrepâncias entre a NF emitida e o produto real: quantidade divergente, NCM ausente ou CFOP inválido para operação interestadual."}, {"name": "Vendas não aparecem no painel para emissão", "pct": 15, "case_ids": ["447058713", "436230190", "449061727"], "summary": "Sellers relatam que vendas não aparecem na listagem de NF-e pendentes, impedindo a emissão em massa. Em alguns casos causado por filtro ativo no painel."}, {"name": "Primeiros passos — novo vendedor sem histórico de emissão", "pct": 10, "case_ids": ["448868937", "452942438", "454506635"], "summary": "Sellers novos ou sem experiência buscam orientação completa: como habilitar o Faturador MeLi, requisitos legais (PJ, certificado A1) e como emitir a primeira NF-e."}], "Impuesto para facturar": [], "Bugs": [], "Restricción fiscal": [], "Emissor externo": [], "Optin": [], "Error en el facturador o anexar XML": [], "Temporal": []}};
+
+function buildThemeCard(t, i) {
+  const c = ACCENT[i % ACCENT.length];
+  const chips = (t.case_ids||[]).map(id=>`<span class="case-chip">#${id}</span>`).join('');
+  return `<div class="theme-card" style="border-left-color:${c}">
+    <div class="tc-header">
+      <span class="tc-name">${t.name}</span>
+      <span class="tc-badge" style="background:${c}22;color:${c}">${t.pct}% dos casos</span>
+    </div>
+    <p class="tc-summary">${t.summary}</p>
+    <div class="tc-chips">${chips}</div>
+  </div>`;
+}
+
+function renderThemes(tabIdx, cdu) {
+  const themes = (ALL_THEMES[tabIdx]||{})[cdu] || [];
+  const el = document.getElementById('themes'+tabIdx);
+  if (!el) return;
+  if (!themes.length) {
+    el.innerHTML = '<p class="no-data">Análise não disponível para este CDU — execute o script para gerar os temas.</p>';
+  } else {
+    el.innerHTML = '<div class="themes-list">'+themes.map((t,i)=>buildThemeCard(t,i)).join('')+'</div>';
+  }
+}
+
+function selectCDU(tabIdx, cdu) { renderThemes(tabIdx, cdu); }
+
 
   initFns[0] = function() {
     bar('cM0', ["Jan", "Fev", "Mar", "Abr", "Mai"], [{label:"Dudas sobre cargos facturados",data:[2265, 1952, 2715, 2159, 648],backgroundColor:"#4472C4",borderRadius:4,stack:'s'},{label:"Bugs",data:[996, 722, 1196, 883, 374],backgroundColor:"#ED7D31",borderRadius:4,stack:'s'},{label:"Generales",data:[140, 123, 598, 1225, 583],backgroundColor:"#70AD47",borderRadius:4,stack:'s'},{label:"Dudas sobre documentos fiscales y reportes",data:[548, 526, 641, 621, 207],backgroundColor:"#FFC000",borderRadius:4,stack:'s'},{label:"Dudas sobre Deuda /Débito (Automático o forzado)",data:[445, 431, 547, 483, 143],backgroundColor:"#E05252",borderRadius:4,stack:'s'},{label:"Generales Facturación",data:[595, 301, 305, 167, 30],backgroundColor:"#9B59B6",borderRadius:4,stack:'s'},{label:"Dudas sobre datos de facturación",data:[260, 240, 308, 348, 114],backgroundColor:"#255E91",borderRadius:4,stack:'s'},{label:"Dudas sobre Impuestos",data:[95, 132, 217, 279, 77],backgroundColor:"#c45f00",borderRadius:4,stack:'s'},{label:"Sem CDU",data:[334, 118, 118, 91, 19],backgroundColor:"#D0D0D0",borderRadius:4,stack:'s'},{label:"Outros",data:[231, 191, 344, 283, 165],backgroundColor:"#BBBBBB",borderRadius:4,stack:'s'}]);
@@ -211,6 +267,11 @@ function go(n) {
 
 // Init aba 0 imediatamente
 if (initFns[0]) { initFns[0](); initFns[0] = null; }
+// Renderizar temas iniciais para cada aba
+Object.keys(ALL_THEMES).forEach(i => {
+  const sel = document.getElementById('sel'+i);
+  if (sel) renderThemes(+i, sel.value);
+});
 </script>
 </body>
 </html>
