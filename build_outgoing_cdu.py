@@ -51,10 +51,17 @@ nao na no ao dos das me você oi ola sim bom dia boa tarde noite obrigado
 obrigada ok isso este esta esse essa meu minha seu sua foi ser ter estou
 esta tenho preciso posso pode como quando onde qual quais aqui ja mais
 mas ou pois ate sobre mesmo tambem agora ainda depois antes entao porque
-pelo pela pelos pelas hello hi the and for are this that with vendedor
-comprador mercado livre meli suporte atendimento conta xxx xx x null none
-true false nbsp ola oi nao nps vou temos voce vc eles elas nos vos
-sendo sendo tendo fazendo
+pelo pela pelos pelas hello hi the and for are this that with xxx xx x
+null none true false nbsp nao nps vou temos voce vc eles elas nos vos
+sendo tendo fazendo sou chamo nome meu minha representante espero esteja
+bem hoje agradeço agradeco obrigad atendimento auxiliar auxiliarei
+ajudar ajudarei ajudo mercado livre meli vendedor comprador seller
+silence seconds silence email recipient num date hour url tramite
+andamento abertura reclamacao reclamação interacao interação autor
+descricao descrição fornecedor protocolo origem destino cola derivar
+derivaçao processo justificacao equipe venda anuncio pedido caso
+informo informei verifico verifiquei entendo entendi identifico identificamos
+peço peco solicito solicitou infelizmente lamentamos desculpas
 """.split())
 
 # ── BigQuery client ─────────────────────────────────────────────────────────
@@ -279,6 +286,106 @@ CURATED_THEMES: dict[tuple[str, str], list[dict]] = {
             ),
         },
     ],
+    # ── Bugs ──────────────────────────────────────────────────────────────────
+    ("Facturación", "Bugs"): [
+        {
+            "name": "Instabilidade no sistema de faturamento",
+            "pct": 32,
+            "case_ids": ["450587452", "449307556", "440196017"],
+            "summary": (
+                "Sellers reportam erros e instabilidades no painel de faturamento — "
+                "valores que não atualizam, NF em loop de carregamento ou informações "
+                "incorretas exibidas pelo sistema."
+            ),
+        },
+        {
+            "name": "Divergência entre comissão cobrada e NF de serviço emitida",
+            "pct": 26,
+            "case_ids": ["441387270", "450054579", "436230186"],
+            "summary": (
+                "Sellers identificam que o total de comissões e tarifas cobradas "
+                "não corresponde ao valor das notas fiscais de serviço emitidas pela plataforma."
+            ),
+        },
+        {
+            "name": "Cobrança indevida por serviço inativo ou cancelado",
+            "pct": 20,
+            "case_ids": ["433474508", "444756802", "441997784"],
+            "summary": (
+                "Sellers contestam cobranças de serviços que afirmam não estar ativos — "
+                "como 'Minha Página', tarifas Full ou campanhas — e solicitam estorno do valor."
+            ),
+        },
+        {
+            "name": "Dados fiscais incorretos ou bloqueados em anúncios",
+            "pct": 14,
+            "case_ids": ["436570008", "447901186", "445587512"],
+            "summary": (
+                "Sellers encontram erros nos dados fiscais dos anúncios: endereço incorreto "
+                "nas NFs emitidas, campos de NCM/CFOP bloqueados ou regras tributárias com falha."
+            ),
+        },
+        {
+            "name": "Escalonamento via Gov/Procon/Reclame Aqui",
+            "pct": 8,
+            "case_ids": ["435786889", "447132994", "447288327"],
+            "summary": (
+                "Sellers que não obtiveram resolução pelo canal direto escalaram a disputa de "
+                "faturamento para órgãos regulatórios (Consumidor.gov, Procon, Reclame Aqui)."
+            ),
+        },
+    ],
+    ("Emision de Nota Fiscal", "Bugs"): [
+        {
+            "name": "Emissor de NF-e travado ou sem carregar",
+            "pct": 30,
+            "case_ids": ["452942113", "455852256", "446580215"],
+            "summary": (
+                "Sellers não conseguem emitir NF-e porque o emissor fica em loop de "
+                "carregamento, a tela de configuração não abre, ou a opção de emissão em "
+                "lote desapareceu do painel."
+            ),
+        },
+        {
+            "name": "CNPJ não habilitado na SEFAZ / certificado digital com erro",
+            "pct": 25,
+            "case_ids": ["448593810", "447706064", "443778897"],
+            "summary": (
+                "Sellers recebem o erro 'CNPJ não habilitado na SEFAZ' mesmo após "
+                "credenciamento confirmado, ou o certificado digital A1 expirou ou foi "
+                "exportado sem a chave privada, impedindo a emissão."
+            ),
+        },
+        {
+            "name": "Incidente ativo de instabilidade na emissão de NF",
+            "pct": 20,
+            "case_ids": ["438061015", "445223547", "451516035"],
+            "summary": (
+                "O sistema do Mercado Livre apresenta instabilidade conhecida que impede "
+                "a emissão ou visualização de NF-es. Equipe de tecnologia já acionada, "
+                "sellers orientados a aguardar normalização."
+            ),
+        },
+        {
+            "name": "Inscrição Estadual incorreta ou duplicada no cadastro",
+            "pct": 15,
+            "case_ids": ["437266535", "435786880", "455587095"],
+            "summary": (
+                "Sellers têm Inscrição Estadual (IE) errada ou duplicada na conta do "
+                "Mercado Livre — divergência com dados da SEFAZ que bloqueia a emissão de NF-e."
+            ),
+        },
+        {
+            "name": "Nova exigência fiscal da SEFAZ (CBENEF, CFOP, rejeições)",
+            "pct": 10,
+            "case_ids": ["455195008", "450980551", "454779889"],
+            "summary": (
+                "Rejeições de NF-e causadas por novas exigências fiscais da SEFAZ: "
+                "código CBENEF obrigatório, rejeição de CT-e, ou CFOP inválido para "
+                "operações interestaduais após mudança de regime."
+            ),
+        },
+    ],
 }
 
 # ── Theme analysis via TF-IDF + KMeans ──────────────────────────────────────
@@ -297,13 +404,31 @@ def analyze_themes(
     case_list = list(case_transcripts.items())[:300]
     case_ids  = [c[0] for c in case_list]
 
-    # Texto por caso: até 4 mensagens, limpar e normalizar
+    # Padrões de ruído a remover antes do TF-IDF
+    _NOISE = [
+        re.compile(r"recipient\s*:\s*%\w+\.?\s*email\s*:", re.I),  # cabeçalhos de email
+        re.compile(r"andamento\s*:\s*tramite.*?descri[çc][aã]o\s*:", re.DOTALL | re.I),
+        re.compile(r"tipo\s+de\s+intera[çc][aã]o\s*:.*?hora\s*:", re.DOTALL | re.I),
+        re.compile(r"%\w+"),                      # %num %date %hour %email %url
+        re.compile(r"\bsilence\b.*?\bseconds?\b", re.I),
+        re.compile(r"\bof\s+seconds?\b", re.I),
+        re.compile(r"\brecipient\b", re.I),
+        re.compile(r"\bemail\b", re.I),
+        re.compile(r"\bwww\S+|\bhttp\S+"),
+        re.compile(r"\b(sao|sou|meu|nome|chamo|representante|mercado livre|espero|esteja|bem|hoje|obrigad\w*|agradeç\w*|atend\w*|auxili\w*)\b", re.I),
+    ]
+
+    def clean_text(txt: str) -> str:
+        for p in _NOISE:
+            txt = p.sub(" ", txt)
+        txt = re.sub(r"[^a-záéíóúàâêôãõç\s]", " ", txt.lower())
+        return re.sub(r"\s+", " ", txt).strip()
+
+    # Texto por caso: até 4 mensagens, limpar
     texts = []
     for _, msgs in case_list:
         combined = " ".join(m.strip() for m in msgs[:4])
-        combined = re.sub(r"[^a-záéíóúàâêôãõç\s]", " ", combined.lower())
-        combined = re.sub(r"\s+", " ", combined).strip()
-        texts.append(combined)
+        texts.append(clean_text(combined))
 
     n = min(n_themes, len(texts))
     if n < 2:
