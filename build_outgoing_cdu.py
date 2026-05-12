@@ -572,12 +572,37 @@ def palette_for(datasets: list[dict]) -> list[str]:
 
 ACCENT_COLORS = ["#4472C4", "#ED7D31", "#70AD47", "#E05252", "#9B59B6"]
 
+def _render_theme_cards_html(themes: list[dict]) -> str:
+    """Renderiza os cards de temas diretamente em HTML (sem JS)."""
+    if not themes:
+        return '<p class="no-data">Análise não disponível para este CDU — execute o script para gerar os temas.</p>'
+    cards = ""
+    for i, t in enumerate(themes):
+        color  = ACCENT_COLORS[i % len(ACCENT_COLORS)]
+        chips  = "".join(f'<span class="case-chip">#{c}</span>' for c in t.get("case_ids", []))
+        cards += (
+            f'<div class="theme-card" style="border-left-color:{color}">'
+            f'<div class="tc-header">'
+            f'<span class="tc-name">{t.get("name","—")}</span>'
+            f'<span class="tc-badge" style="background:{color}22;color:{color}">'
+            f'{t.get("pct",0)}% dos casos</span>'
+            f'</div>'
+            f'<p class="tc-summary">{t.get("summary","")}</p>'
+            f'<div class="tc-chips">{chips}</div>'
+            f'</div>'
+        )
+    return f'<div class="themes-list">{cards}</div>'
+
 def make_themes_section(idx: int, cdu_themes: dict[str, list], top_cdu: str) -> str:
-    """Gera o card de análise com <select> de CDU e themes renderizados via JS."""
+    """Gera o card de análise com <select> de CDU.
+    Conteúdo inicial renderizado em Python; trocas via JS."""
     options = "".join(
         f'<option value="{cdu}"{" selected" if cdu == top_cdu else ""}>{cdu}</option>'
         for cdu in cdu_themes
     )
+    # Renderiza HTML inicial do top CDU diretamente (não depende de JS)
+    initial_html = _render_theme_cards_html(cdu_themes.get(top_cdu, []))
+
     return f"""
     <div class="th-hdr">
       <div class="th-title-row">
@@ -588,7 +613,7 @@ def make_themes_section(idx: int, cdu_themes: dict[str, list], top_cdu: str) -> 
       </div>
       <span class="th-sub">Motivos de contato identificados (últimos {TRANSCRIPT_DAYS} dias)</span>
     </div>
-    <div id="themes{idx}"></div>"""
+    <div id="themes{idx}">{initial_html}</div>"""
 
 def make_tab(idx: int, proc_key: str, proc_label: str,
              monthly: dict, weekly: dict,
@@ -887,11 +912,6 @@ function selectCDU(tabIdx, cdu) {{ renderThemes(tabIdx, cdu); }}
 
 // Init aba 0 imediatamente
 if (initFns[0]) {{ initFns[0](); initFns[0] = null; }}
-// Renderizar temas iniciais para cada aba
-Object.keys(ALL_THEMES).forEach(i => {{
-  const sel = document.getElementById('sel'+i);
-  if (sel) renderThemes(+i, sel.value);
-}});
 </script>
 </body>
 </html>"""
