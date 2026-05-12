@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copiloto — Experiment Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f7;color:#1a1a2e}
+.header{background:#1a1a2e;color:white;padding:20px 32px}
+.header h1{font-size:18px;font-weight:700}
+.header .sub{font-size:12px;color:#94a3b8;margin-top:4px}
+.header .meta{display:flex;gap:20px;margin-top:10px;flex-wrap:wrap}
+.badge{font-size:11px;padding:4px 10px;border-radius:6px;font-weight:600}
+.badge.t{background:rgba(37,99,235,.3);color:#93c5fd}
+.badge.c{background:rgba(148,163,184,.2);color:#94a3b8}
+.badge.w{background:rgba(245,158,11,.2);color:#fbbf24}
+
+.container{max-width:1300px;margin:0 auto;padding:20px 16px 40px}
+.ptabs{display:flex;gap:3px;margin-bottom:16px;background:#e2e8f0;padding:4px;border-radius:8px;width:fit-content}
+.ptab{padding:6px 20px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:600;background:transparent;color:#64748b}
+.ptab.active{background:white;color:#1d4ed8;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.period-pane{display:none}.period-pane.active{display:block}
+
+/* Scorecards */
+.sc-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:20px}
+.kc{background:white;border-radius:10px;padding:13px 15px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.kc .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:#94a3b8;font-weight:600;margin-bottom:7px}
+.kc .val{font-size:20px;font-weight:800;color:#1d4ed8;line-height:1}
+.kc .cmp{font-size:11px;color:#94a3b8;margin-top:4px}
+.kc .dlt{font-size:11px;font-weight:600;padding:2px 7px;border-radius:5px;margin-top:7px;display:inline-block}
+.pos{background:#dcfce7;color:#15803d}.neg{background:#fee2e2;color:#dc2626}.neu{background:#f1f5f9;color:#64748b}
+
+/* Charts */
+.ch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ch-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.cc{background:white;border-radius:10px;padding:16px 20px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.cc h3{font-size:12px;font-weight:700;color:#1e293b}
+.cc p{font-size:10.5px;color:#94a3b8;margin:2px 0 10px}
+.section-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin:20px 0 10px;padding-top:8px;border-top:1px solid #e2e8f0}
+.note{font-size:11px;color:#94a3b8;background:white;padding:9px 14px;border-radius:8px;border-left:3px solid #e2e8f0;margin-top:12px;line-height:1.6}
+.note strong{color:#64748b}
+.note.warn{border-left-color:#f59e0b;background:#fffbeb}
+.note.warn strong{color:#92400e}
+hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
+.footer{font-size:11px;color:#94a3b8;text-align:center;margin-top:28px}
+@media(max-width:1000px){.sc-grid{grid-template-columns:repeat(3,1fr)}.ch-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.ch-grid{grid-template-columns:1fr}.sc-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Copiloto — Experiment Dashboard · Brasil</h1>
+  <div class="sub">Comparação Treatment (com copiloto) vs Control (sem copiloto) · Jan–Mai 2026</div>
+  <div class="meta">
+    <span class="badge t">Treatment: ~15–38 reps/semana</span>
+    <span class="badge c">Control: ~169–313 reps/semana</span>
+    <span class="badge w">Métricas: NPS · TMC · Produtividade · TDI · QI · DIBA</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Scorecards Mai* -->
+  <div class="section-lbl">Resumo — Maio/2026* vigente · Treatment vs Control</div>
+  <div class="sc-grid">
+    <div class="kc"><div class="lbl">NPS ↑</div><div class="val">72,4%</div><div class="cmp">Control: 67,1%</div><span class="dlt pos">+5,3pp ✓</span></div>
+    <div class="kc"><div class="lbl">TMC ↓</div><div class="val">20,7min</div><div class="cmp">Control: 21,9min</div><span class="dlt pos">−1,2min ✓</span></div>
+    <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">3,68</div><div class="cmp">Control: 3,57</div><span class="dlt pos">+3%</span></div>
+    <div class="kc"><div class="lbl">TDI ↓</div><div class="val">9,9%</div><div class="cmp">Control: 10,2%</div><span class="dlt pos">−0,3pp</span></div>
+    <div class="kc"><div class="lbl">QI ↑</div><div class="val">100%</div><div class="cmp">Control: 98,9%</div><span class="dlt pos">+1,1pp ✓</span></div>
+    <div class="kc"><div class="lbl">DIBA ↓</div><div class="val">48,3%</div><div class="cmp">Control: 40,4%</div><span class="dlt neg">+7,9pp ⚠️</span></div>
+  </div>
+
+  <div class="ptabs">
+    <button class="ptab active" onclick="setPeriod('mensal',this)">Mensal (Jan–Mai)</button>
+    <button class="ptab" onclick="setPeriod('semanal',this)">Semanal (últ. 8 semanas)</button>
+  </div>
+
+  <!-- MENSAL -->
+  <div id="pane-mensal" class="period-pane active">
+    <div class="ch-grid">
+      <div class="cc"><h3>NPS</h3><p>% · Maior melhor ↑ · Treatment consistentemente superior</p><canvas id="m-nps"></canvas></div>
+      <div class="cc"><h3>TMC — Tempo Médio de Conversa</h3><p>Minutos · Menor melhor ↓ · Treatment melhora a partir de Abr</p><canvas id="m-tmc"></canvas></div>
+      <div class="cc"><h3>Produtividade</h3><p>At/hora · Maior melhor ↑ · Grupos convergindo</p><canvas id="m-prod"></canvas></div>
+      <div class="cc"><h3>TDI — Devolução Indevida</h3><p>% · Menor melhor ↓ · Treatment melhor na maioria dos meses</p><canvas id="m-tdi"></canvas></div>
+      <div class="cc"><h3>QI — Qualidade</h3><p>% · Maior melhor ↑ · Treatment ligeiramente superior</p><canvas id="m-qi"></canvas></div>
+      <div class="cc"><h3>DIBA ⚠️</h3><p>% · Menor melhor ↓ · Treatment consistentemente pior</p><canvas id="m-diba"></canvas></div>
+    </div>
+    <div class="note warn"><strong>⚠️ DIBA:</strong> Treatment consistentemente 7–15pp acima do control em todos os meses. Investigar causa — pode indicar padrão de uso específico do copiloto que gera mais devoluções nessa categoria.</div>
+  </div>
+
+  <!-- SEMANAL -->
+  <div id="pane-semanal" class="period-pane">
+    <div class="ch-grid">
+      <div class="cc"><h3>NPS</h3><p>% · Treatment superior na maioria das semanas</p><canvas id="s-nps"></canvas></div>
+      <div class="cc"><h3>TMC — Tempo Médio de Conversa</h3><p>min · Grupos muito similares semanalmente</p><canvas id="s-tmc"></canvas></div>
+      <div class="cc"><h3>Produtividade</h3><p>At/hora · Grupos praticamente idênticos</p><canvas id="s-prod"></canvas></div>
+      <div class="cc"><h3>TDI</h3><p>% · Treatment geralmente melhor (menor)</p><canvas id="s-tdi"></canvas></div>
+      <div class="cc"><h3>QI</h3><p>% · Treatment igual ou superior</p><canvas id="s-qi"></canvas></div>
+      <div class="cc"><h3>DIBA ⚠️</h3><p>% · Treatment pior consistentemente</p><canvas id="s-diba"></canvas></div>
+    </div>
+    <div class="note">Semanas de 16/03 a 04/05 · N reps/semana: Treatment ~19–25 · Control ~184–264</div>
+  </div>
+
+  <hr class="div">
+  <div class="note">
+    <strong>Leitura do experimento:</strong>
+    Treatment (com copiloto) apresenta <strong>NPS consistentemente +5–7pp acima do control</strong>, TMC equivalente ou menor a partir de Abril, TDI melhor na maioria dos períodos e QI igual ou superior.
+    O único indicador desfavorável é o DIBA, que merece investigação específica.
+    O grupo treatment diminuiu de ~38 reps em Janeiro para ~15 em Maio — verificar se houve saída de reps do piloto.
+  </div>
+  <div class="footer">Gerado em <span id="ts"></span> · Fonte: BT_COPILOT_METRICS · Site: Brasil</div>
+</div>
+
+<script>
+const T='#2563EB', C='#9CA3AF';
+
+const MLBL = ['Jan','Fev','Mar','Abr','Mai*'];
+const WLBL = ['16/03','23/03','30/03','06/04','13/04','20/04','27/04','04/05'];
+
+// ─── Dados mensais ────────────────────────────────────────────────────────
+const MD = {
+  nps:  {t:[72.3,72.9,70.3,76.1,72.4], c:[65.4,67.3,65.2,70.1,67.1]},
+  tmc:  {t:[20.1,20.0,21.0,20.0,20.7], c:[18.8,18.1,20.3,20.6,21.9]},
+  prod: {t:[2.58,2.85,2.90,2.89,3.68], c:[2.50,2.85,2.76,2.98,3.57]},
+  tdi:  {t:[9.0, 7.9, 8.2, 9.0, 9.9],  c:[10.2,9.3, 9.4,10.4,10.2]},
+  qi:   {t:[98.8,99.4,98.0,95.1,100.0],c:[97.9,97.7,97.4,98.0,98.9]},
+  diba: {t:[57.1,57.6,47.0,64.6,48.3], c:[44.9,43.2,31.9,53.6,40.4]},
+};
+
+// ─── Dados semanais (16/03 a 04/05) ──────────────────────────────────────
+const WD = {
+  nps:  {t:[76.4,61.3,79.3,79.1,68.5,73.1,79.3,66.3], c:[68.9,62.2,65.3,68.9,67.9,73.6,73.3,64.7]},
+  tmc:  {t:[21.8,20.5,20.3,20.1,19.3,20.5,20.4,20.7], c:[20.7,20.1,20.2,20.4,20.7,20.8,20.7,22.2]},
+  prod: {t:[2.72,2.65,2.73,2.79,2.80,2.87,3.15,3.88], c:[2.78,2.64,2.77,2.94,2.85,3.05,3.13,3.81]},
+  tdi:  {t:[6.9, 9.1, 9.1,11.2,11.1, 6.9, 6.4, 9.6], c:[9.3, 8.8,10.9, 8.7,11.1,11.5,10.0,10.3]},
+  qi:   {t:[95.0,100, 100, 95.5,100, 83.3,100, 100],  c:[97.9,95.7,99.0,98.2,94.7,98.8,100, 98.7]},
+  diba: {t:[47.8,46.8,54.9,64.0,62.4,56.0,74.3,42.3], c:[33.9,34.0,41.9,56.6,49.3,54.9,56.5,35.0]},
+};
+
+function mkChart(id,tD,cD,labels,yLbl,yMin){
+  new Chart(document.getElementById(id),{type:'line',
+    data:{labels,datasets:[
+      {label:'Com Copiloto',data:tD,borderColor:T,backgroundColor:T+'18',borderWidth:2.5,pointRadius:5,pointHoverRadius:7,tension:.3,spanGaps:true},
+      {label:'Sem Copiloto',data:cD,borderColor:C,backgroundColor:C+'12',borderWidth:2,pointRadius:4,pointHoverRadius:6,tension:.3,borderDash:[6,4],spanGaps:true}
+    ]},
+    options:{responsive:true,aspectRatio:1.75,
+      plugins:{
+        legend:{position:'bottom',labels:{font:{size:11},padding:10,usePointStyle:true,pointStyleWidth:8}},
+        tooltip:{callbacks:{label:c=>c.parsed.y==null?null:` ${c.dataset.label}: ${c.parsed.y.toFixed(2)} ${yLbl}`}}
+      },
+      scales:{y:{min:yMin,grid:{color:'#f1f5f9'},ticks:{font:{size:11}}},x:{grid:{display:false},ticks:{font:{size:11}}}}
+    }
+  });
+}
+
+// Init mensal
+function initMensal(){
+  mkChart('m-nps', MD.nps.t, MD.nps.c, MLBL,'%',55);
+  mkChart('m-tmc', MD.tmc.t, MD.tmc.c, MLBL,'min',15);
+  mkChart('m-prod',MD.prod.t,MD.prod.c,MLBL,'at/h',2.0);
+  mkChart('m-tdi', MD.tdi.t, MD.tdi.c, MLBL,'%',5);
+  mkChart('m-qi',  MD.qi.t,  MD.qi.c,  MLBL,'%',90);
+  mkChart('m-diba',MD.diba.t,MD.diba.c,MLBL,'%',20);
+}
+
+// Init semanal
+function initSemanal(){
+  mkChart('s-nps', WD.nps.t, WD.nps.c, WLBL,'%',50);
+  mkChart('s-tmc', WD.tmc.t, WD.tmc.c, WLBL,'min',15);
+  mkChart('s-prod',WD.prod.t,WD.prod.c,WLBL,'at/h',2.0);
+  mkChart('s-tdi', WD.tdi.t, WD.tdi.c, WLBL,'%',0);
+  mkChart('s-qi',  WD.qi.t,  WD.qi.c,  WLBL,'%',75);
+  mkChart('s-diba',WD.diba.t,WD.diba.c,WLBL,'%',20);
+}
+
+const inited={};
+function setPeriod(p,btn){
+  document.querySelectorAll('.ptab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.period-pane').forEach(pp=>pp.classList.remove('active'));
+  document.getElementById('pane-'+p).classList.add('active');
+  btn.classList.add('active');
+  if(!inited[p]){ p==='mensal'?initMensal():initSemanal(); inited[p]=true; }
+}
+
+initMensal(); inited['mensal']=true;
+
+const now=new Date();
+document.getElementById('ts').textContent=
+  now.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})+' às '+
+  now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+</script>
+</body>
+</html>
