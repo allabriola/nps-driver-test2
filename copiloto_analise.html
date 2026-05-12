@@ -51,11 +51,11 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
 </head>
 <body>
 <div class="header">
-  <h1>Copiloto — Experiment Dashboard · Brasil</h1>
-  <div class="sub">Comparação Treatment (com copiloto) vs Control (sem copiloto) · Jan–Mai 2026</div>
+  <h1>Copiloto — Experiment Dashboard · BR_Ventas_Sellers_Longtail</h1>
+  <div class="sub">Comparação Com Copiloto vs Sem Copiloto · Mar–Mai 2026 · MULTICANAL CHAT · Oficinas AEC + CTX</div>
   <div class="meta">
-    <span class="badge t">Treatment: ~15–38 reps/semana</span>
-    <span class="badge c">Control: ~169–313 reps/semana</span>
+    <span class="badge t">Com Copiloto: ~11–17 reps/semana</span>
+    <span class="badge c">Sem Copiloto: ~140–220 reps/semana</span>
     <span class="badge w">Métricas: NPS · TMC · Produtividade · TDI · QI · DIBA</span>
   </div>
 </div>
@@ -63,14 +63,14 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
 <div class="container">
 
   <!-- Scorecards Mai* -->
-  <div class="section-lbl">Resumo — Maio/2026* vigente · Treatment vs Control</div>
+  <div class="section-lbl">Resumo — Maio/2026* vigente · Com Copiloto vs Sem Copiloto</div>
   <div class="sc-grid">
-    <div class="kc"><div class="lbl">NPS ↑</div><div class="val">72,4%</div><div class="cmp">Control: 67,1%</div><span class="dlt pos">+5,3pp ✓</span></div>
-    <div class="kc"><div class="lbl">TMC ↓</div><div class="val">20,7min</div><div class="cmp">Control: 21,9min</div><span class="dlt pos">−1,2min ✓</span></div>
-    <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">3,68</div><div class="cmp">Control: 3,57</div><span class="dlt pos">+3%</span></div>
-    <div class="kc"><div class="lbl">TDI ↓</div><div class="val">9,9%</div><div class="cmp">Control: 10,2%</div><span class="dlt pos">−0,3pp</span></div>
-    <div class="kc"><div class="lbl">QI ↑</div><div class="val">100%</div><div class="cmp">Control: 98,9%</div><span class="dlt pos">+1,1pp ✓</span></div>
-    <div class="kc"><div class="lbl">DIBA ↓</div><div class="val">48,3%</div><div class="cmp">Control: 40,4%</div><span class="dlt neg">+7,9pp ⚠️</span></div>
+    <div class="kc"><div class="lbl">NPS ↑</div><div class="val">70,5%</div><div class="cmp">Sem copiloto: 67,8%</div><span class="dlt pos">+2,7pp ✓</span></div>
+    <div class="kc"><div class="lbl">TMC ↓</div><div class="val">22,4min</div><div class="cmp">Sem copiloto: 23,5min</div><span class="dlt pos">−1,1min ✓</span></div>
+    <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">4,12</div><div class="cmp">Sem copiloto: 3,54</div><span class="dlt pos">+16% ✓</span></div>
+    <div class="kc"><div class="lbl">TDI ↓</div><div class="val">9,9%</div><div class="cmp">Sem copiloto: 9,8%</div><span class="dlt neu">igual</span></div>
+    <div class="kc"><div class="lbl">QI ↑</div><div class="val">100%</div><div class="cmp">Sem copiloto: 98,9%</div><span class="dlt pos">+1,1pp ✓</span></div>
+    <div class="kc"><div class="lbl">DIBA ↓</div><div class="val">48,1%</div><div class="cmp">Sem copiloto: 37,3%</div><span class="dlt neg">+10,8pp ⚠️</span></div>
   </div>
 
   <div class="ptabs">
@@ -81,14 +81,14 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
   <!-- MENSAL -->
   <div id="pane-mensal" class="period-pane active">
     <div class="ch-grid">
-      <div class="cc"><h3>NPS</h3><p>% · Maior melhor ↑ · Treatment consistentemente superior</p><canvas id="m-nps"></canvas></div>
-      <div class="cc"><h3>TMC — Tempo Médio de Conversa</h3><p>Minutos · Menor melhor ↓ · Treatment melhora a partir de Abr</p><canvas id="m-tmc"></canvas></div>
-      <div class="cc"><h3>Produtividade</h3><p>At/hora · Maior melhor ↑ · Grupos convergindo</p><canvas id="m-prod"></canvas></div>
-      <div class="cc"><h3>TDI — Devolução Indevida</h3><p>% · Menor melhor ↓ · Treatment melhor na maioria dos meses</p><canvas id="m-tdi"></canvas></div>
-      <div class="cc"><h3>QI — Qualidade</h3><p>% · Maior melhor ↑ · Treatment ligeiramente superior</p><canvas id="m-qi"></canvas></div>
-      <div class="cc"><h3>DIBA ⚠️</h3><p>% · Menor melhor ↓ · Treatment consistentemente pior</p><canvas id="m-diba"></canvas></div>
+      <div class="cc"><h3>NPS</h3><p>% · Maior melhor ↑ · Com copiloto melhor nos 3 meses (+2 a +6pp)</p><canvas id="m-nps"></canvas></div>
+      <div class="cc"><h3>TMC — Tempo Médio de Conversa</h3><p>Minutos · Menor melhor ↓ · Mar sem dados · Abr similar · Mai com copiloto −1,1min</p><canvas id="m-tmc"></canvas></div>
+      <div class="cc"><h3>Produtividade</h3><p>At/hora · Maior melhor ↑ · Destaque: Mai +16% (4,12 vs 3,54)</p><canvas id="m-prod"></canvas></div>
+      <div class="cc"><h3>TDI — Devolução Indevida</h3><p>% · Menor melhor ↓ · Mar sem dados · Com copiloto melhor em Abr</p><canvas id="m-tdi"></canvas></div>
+      <div class="cc"><h3>QI — Qualidade</h3><p>% · Maior melhor ↑ · Mar sem dados · Com copiloto 100% em Mai</p><canvas id="m-qi"></canvas></div>
+      <div class="cc"><h3>DIBA ⚠️</h3><p>% · Menor melhor ↓ · Com copiloto pior em Abr e Mai</p><canvas id="m-diba"></canvas></div>
     </div>
-    <div class="note warn"><strong>⚠️ DIBA:</strong> Treatment consistentemente 7–15pp acima do control em todos os meses. Investigar causa — pode indicar padrão de uso específico do copiloto que gera mais devoluções nessa categoria.</div>
+    <div class="note warn"><strong>⚠️ DIBA:</strong> Com copiloto consistentemente acima do controle em Abril (+0,2pp) e Maio (+10,8pp). Investigar se há correlação com o tipo de caso atendido pelo grupo com copiloto.</div>
   </div>
 
   <!-- SEMANAL -->
@@ -101,43 +101,45 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
       <div class="cc"><h3>QI</h3><p>% · Treatment igual ou superior</p><canvas id="s-qi"></canvas></div>
       <div class="cc"><h3>DIBA ⚠️</h3><p>% · Treatment pior consistentemente</p><canvas id="s-diba"></canvas></div>
     </div>
-    <div class="note">Semanas de 16/03 a 04/05 · N reps/semana: Treatment ~19–25 · Control ~184–264</div>
+    <div class="note">Semanas de 30/03 a 04/05 · N reps/semana: Com copiloto ~11–17 · Sem copiloto ~155–214</div>
   </div>
 
   <hr class="div">
   <div class="note">
-    <strong>Leitura do experimento:</strong>
-    Treatment (com copiloto) apresenta <strong>NPS consistentemente +5–7pp acima do control</strong>, TMC equivalente ou menor a partir de Abril, TDI melhor na maioria dos períodos e QI igual ou superior.
-    O único indicador desfavorável é o DIBA, que merece investigação específica.
-    O grupo treatment diminuiu de ~38 reps em Janeiro para ~15 em Maio — verificar se houve saída de reps do piloto.
+    <strong>Leitura do experimento — BR_Ventas_Sellers_Longtail:</strong>
+    Com copiloto apresenta <strong>NPS consistentemente melhor (+2–6pp)</strong>, <strong>Produtividade +16% em Mai</strong> (destaque: semana 04/05 — 4,45 vs 3,77), TMC menor a partir de Abril e QI igual ou superior.
+    Indicador de atenção: <strong>DIBA mais alta no grupo com copiloto</strong> em Abr/Mai — pode indicar tipo de caso diferente ou padrão de uso específico. Verificar correlação com volume de casos por rep.
+    Dados disponíveis a partir de março/2026 · Março: apenas NPS, PRODU e DIBA.
   </div>
-  <div class="footer">Gerado em <span id="ts"></span> · Fonte: BT_COPILOT_METRICS · Site: Brasil</div>
+  <div class="footer">Gerado em <span id="ts"></span> · Fonte: BT_COPILOT_METRICS · Equipe: BR_Ventas_Sellers_Longtail · Brasil</div>
 </div>
 
 <script>
 const T='#2563EB', C='#9CA3AF';
 
-const MLBL = ['Jan','Fev','Mar','Abr','Mai*'];
-const WLBL = ['16/03','23/03','30/03','06/04','13/04','20/04','27/04','04/05'];
+// BR_Ventas_Sellers_Longtail — dados disponíveis a partir de Mar/2026
+const MLBL = ['Mar','Abr','Mai*'];
+const WLBL = ['30/03','06/04','13/04','20/04','27/04','04/05'];
 
-// ─── Dados mensais ────────────────────────────────────────────────────────
+// ─── Dados mensais (Mar, Abr, Mai*) ──────────────────────────────────────
+// Mar: apenas NPS, PRODU e DIBA disponíveis (TMC/TDI/QI = null)
 const MD = {
-  nps:  {t:[72.3,72.9,70.3,76.1,72.4], c:[65.4,67.3,65.2,70.1,67.1]},
-  tmc:  {t:[20.1,20.0,21.0,20.0,20.7], c:[18.8,18.1,20.3,20.6,21.9]},
-  prod: {t:[2.58,2.85,2.90,2.89,3.68], c:[2.50,2.85,2.76,2.98,3.57]},
-  tdi:  {t:[9.0, 7.9, 8.2, 9.0, 9.9],  c:[10.2,9.3, 9.4,10.4,10.2]},
-  qi:   {t:[98.8,99.4,98.0,95.1,100.0],c:[97.9,97.7,97.4,98.0,98.9]},
-  diba: {t:[57.1,57.6,47.0,64.6,48.3], c:[44.9,43.2,31.9,53.6,40.4]},
+  nps:  {t:[60.0,75.1,70.5], c:[54.1,71.2,67.8]},
+  tmc:  {t:[null,21.1,22.4], c:[null,21.3,23.5]},
+  prod: {t:[2.80,2.92,4.12], c:[2.79,2.97,3.54]},
+  tdi:  {t:[null, 9.3, 9.9], c:[null,10.5, 9.8]},
+  qi:   {t:[null,95.7,100.0],c:[null,98.9,98.9]},
+  diba: {t:[33.3,54.3,48.1], c:[33.3,54.1,37.3]},
 };
 
-// ─── Dados semanais (16/03 a 04/05) ──────────────────────────────────────
+// ─── Dados semanais (30/03 a 04/05 — 6 semanas fechadas) ─────────────────
 const WD = {
-  nps:  {t:[76.4,61.3,79.3,79.1,68.5,73.1,79.3,66.3], c:[68.9,62.2,65.3,68.9,67.9,73.6,73.3,64.7]},
-  tmc:  {t:[21.8,20.5,20.3,20.1,19.3,20.5,20.4,20.7], c:[20.7,20.1,20.2,20.4,20.7,20.8,20.7,22.2]},
-  prod: {t:[2.72,2.65,2.73,2.79,2.80,2.87,3.15,3.88], c:[2.78,2.64,2.77,2.94,2.85,3.05,3.13,3.81]},
-  tdi:  {t:[6.9, 9.1, 9.1,11.2,11.1, 6.9, 6.4, 9.6], c:[9.3, 8.8,10.9, 8.7,11.1,11.5,10.0,10.3]},
-  qi:   {t:[95.0,100, 100, 95.5,100, 83.3,100, 100],  c:[97.9,95.7,99.0,98.2,94.7,98.8,100, 98.7]},
-  diba: {t:[47.8,46.8,54.9,64.0,62.4,56.0,74.3,42.3], c:[33.9,34.0,41.9,56.6,49.3,54.9,56.5,35.0]},
+  nps:  {t:[85.7,72.7,72.3,70.3,82.4,65.6], c:[67.9,70.1,69.3,73.0,76.9,64.3]},
+  tmc:  {t:[20.9,21.4,20.3,21.4,21.3,22.2], c:[21.4,21.1,21.3,21.2,21.3,23.8]},
+  prod: {t:[2.74,2.78,2.82,2.89,3.28,4.45], c:[2.77,2.91,2.83,3.05,3.15,3.77]},
+  tdi:  {t:[7.3,12.7,11.3, 7.0, 6.3, 9.5], c:[10.8, 8.9,11.5,11.2,10.6, 9.9]},
+  qi:   {t:[100, 100, 100,77.8, 100, 100],  c:[100, 98.8,97.7,98.8, 100,98.7]},
+  diba: {t:[63.6,65.1,34.7,48.6,70.8,45.5], c:[51.4,56.3,49.2,54.6,59.4,32.8]},
 };
 
 function mkChart(id,tD,cD,labels,yLbl,yMin){
@@ -158,10 +160,10 @@ function mkChart(id,tD,cD,labels,yLbl,yMin){
 
 // Init mensal
 function initMensal(){
-  mkChart('m-nps', MD.nps.t, MD.nps.c, MLBL,'%',55);
-  mkChart('m-tmc', MD.tmc.t, MD.tmc.c, MLBL,'min',15);
+  mkChart('m-nps', MD.nps.t, MD.nps.c, MLBL,'%',40);
+  mkChart('m-tmc', MD.tmc.t, MD.tmc.c, MLBL,'min',18);
   mkChart('m-prod',MD.prod.t,MD.prod.c,MLBL,'at/h',2.0);
-  mkChart('m-tdi', MD.tdi.t, MD.tdi.c, MLBL,'%',5);
+  mkChart('m-tdi', MD.tdi.t, MD.tdi.c, MLBL,'%',0);
   mkChart('m-qi',  MD.qi.t,  MD.qi.c,  MLBL,'%',90);
   mkChart('m-diba',MD.diba.t,MD.diba.c,MLBL,'%',20);
 }
