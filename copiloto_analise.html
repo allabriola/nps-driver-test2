@@ -220,6 +220,16 @@ const MON = {
 // ─── Dados semanais agregados ──────────────────────────────────────────────
 const W6 = ['30/03','06/04','13/04','20/04','27/04','04/05'];
 const W4 = ['13/04','20/04','27/04','04/05'];
+
+const REP_TL = {
+  'ext_aguivito':'ext_carlmato','ext_almlaura':'ext_carlmato','ext_arcleona':'ext_carlmato',
+  'ext_azrcrist':'ext_carlmato','ext_bebatian':'ext_carlmato','ext_carlthay':'ext_carlmato',
+  'ext_clborghe':'ext_carlmato','ext_debmiche':'ext_carlmato','ext_edolicar':'ext_carlmato',
+  'ext_emebruno':'ext_carlmato','ext_erevilly':'ext_carlmato','ext_esevelly':'ext_carlmato',
+  'ext_huhiarll':'ext_carlmato',
+  'ext_camarqug':'modelli','ext_jhosgome':'ext_simperei',
+  'ext_kemomari':'ext_simperei','ext_maracami':'ext_simperei','ext_renere':'modelli',
+};
 // AEC weekly (por office)
 const WK_AGG = {
   geral:{nps:{t:[85.7,72.7,72.3,70.3,82.4,65.6],c:[67.9,70.1,69.3,73.0,76.9,64.3]},tmc:{t:[20.9,21.4,20.3,21.4,21.3,22.2],c:[21.4,21.1,21.3,21.2,21.3,23.8]},prod:{t:[2.74,2.78,2.82,2.89,3.28,4.45],c:[2.77,2.91,2.83,3.05,3.15,3.77]},tdi:{t:[7.3,12.7,11.3,7.0,6.3,9.5],c:[10.8,8.9,11.5,11.2,10.6,9.9]}},
@@ -300,10 +310,11 @@ function renderMonTable(id, filter){
   let html='';
   KPIS.forEach(kpi=>{
     html+=`<div class="cc" style="margin-bottom:12px"><h3 style="margin-bottom:2px">${kpi.label}</h3><p>${kpi.note}</p>
-    <table class="rt"><thead><tr><th class="left">Rep</th><th>Of.</th>${MLBL.map(l=>`<th>${l}</th>`).join('')}<th>Tend.</th></tr></thead><tbody>`;
+    <table class="rt"><thead><tr><th class="left">Rep</th><th>Of.</th><th>TL</th>${MLBL.map(l=>`<th>${l}</th>`).join('')}<th>Tend.</th></tr></thead><tbody>`;
     reps.forEach(r=>{
       const d=REPS_M[r]; const vals=kpi.get(r);
       html+=`<tr><td class="rep-name">${r}</td><td class="of-${d.of.toLowerCase()}">${d.of}</td>
+      <td style="font-size:10px;color:#64748b">${REP_TL[r]||'—'}</td>
       ${vals.map(v=>`<td class="${kpi.color(v)}">${kpi.fmt(v)}</td>`).join('')}
       <td style="text-align:center">${ev(vals,kpi.hi)}</td></tr>`;
     });
@@ -324,10 +335,12 @@ function renderWkTable(id, filter){
   let html='';
   KPIS.forEach(kpi=>{
     html+=`<div class="cc" style="margin-bottom:12px"><h3 style="margin-bottom:2px">${kpi.label}</h3><p>${kpi.note}</p>
-    <table class="rt"><thead><tr><th class="left">Rep</th><th>Of.</th>${W4.map(l=>`<th>${l}</th>`).join('')}<th>Tend.</th></tr></thead><tbody>`;
+    <table class="rt"><thead><tr><th class="left">Rep</th><th>TL</th><th>Of.</th>${W6.map(l=>`<th>${l}</th>`).join('')}<th>Tend.</th></tr></thead><tbody>`;
     reps.forEach(r=>{
       const d=REPS_W[r]; const vals=kpi.get(r);
-      html+=`<tr><td class="rep-name">${r}</td><td class="of-${d.of.toLowerCase()}">${d.of}</td>
+      html+=`<tr><td class="rep-name">${r}</td>
+      <td style="font-size:10px;color:#64748b">${REP_TL[r]||'—'}</td>
+      <td class="of-${d.of.toLowerCase()}">${d.of}</td>
       ${vals.map(v=>`<td class="${kpi.color(v)}">${kpi.fmt(v)}</td>`).join('')}
       <td style="text-align:center">${ev(vals,kpi.hi)}</td></tr>`;
     });

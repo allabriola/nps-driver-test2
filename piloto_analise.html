@@ -245,6 +245,13 @@ const WK = {
 };
 const WK4 = ['13/04','20/04','27/04','04/05']; // últimas 4 semanas (indices 2-5)
 
+// ─── TL por representante ──────────────────────────────────────────────────
+const REP_TL = {
+  'ext_helljesu':'ext_jubahia','ext_alcanana':'ext_jubahia','ext_tabragan':'ext_jubahia',
+  'ext_lethiper':'ext_jubahia','ext_dasipria':'ext_jubahia','ext_saolilil':'ext_jubahia',
+  'ext_damascan':'ext_carochma','ext_saferrcr':'ext_carochma','ext_uannasci':'ext_carochma',
+};
+
 // ─── Dados rep mensal ──────────────────────────────────────────────────────
 const REPS = {
   'ext_helljesu':['ATE',100.0,12,1595,3.38, 3.0, 1,33,1.94,100, 100.0, 9,1694,3.41, 0.0, 0,11,1.96,100],
@@ -387,7 +394,7 @@ function renderMonthlyRepTables(containerId, repList) {
       <p>${kpi.note}</p>
       <table class="rt">
         <thead><tr>
-          <th class="left">Representante</th><th>Of.</th>
+          <th class="left">Representante</th><th>Of.</th><th>TL</th>
           ${COLS.map(c=>`<th>${c}</th>`).join('')}
           <th>Tend.</th>
         </tr></thead><tbody>`;
@@ -407,6 +414,7 @@ function renderMonthlyRepTables(containerId, repList) {
       html+=`<tr>
         <td class="rep-name">${rep}</td>
         <td class="of-${d.of.toLowerCase()}">${d.of}</td>
+        <td style="font-size:10px;color:#64748b">${REP_TL[rep]||'—'}</td>
         ${vals.map((v,i)=>`<td class="${kpi.color(v)}">${kpi.fmt(v,ns[i],ds[i])}</td>`).join('')}
         <td style="text-align:center">${tend}</td>
       </tr>`;
@@ -445,13 +453,13 @@ function renderRepEvoTables(containerId, repList) {
       <p>${kpi.note}</p>
       <table class="rt">
         <thead><tr>
-          <th class="left">Representante</th>
-          ${WK4.map(w=>`<th>${w}</th>`).join('')}
+          <th class="left">Representante</th><th>TL</th>
+          ${WK6.map(w=>`<th>${w}</th>`).join('')}
           <th>Tend.</th>
         </tr></thead><tbody>`;
 
     repList.forEach(rep => {
-      const vals = WK[rep][kpi.key].slice(2);
+      const vals = WK[rep][kpi.key];
       const nonNull = vals.filter(v=>v!=null);
       let tend = '<span class="arr-eq">—</span>';
       if(nonNull.length >= 2){
@@ -462,6 +470,7 @@ function renderRepEvoTables(containerId, repList) {
       }
       html += `<tr>
         <td class="rep-name">${rep}</td>
+        <td style="font-size:10px;color:#64748b">${REP_TL[rep]||'—'}</td>
         ${vals.map(v=>`<td class="${kpi.colorFn(v)}">${kpi.fmt(v)}</td>`).join('')}
         <td style="text-align:center">${tend}</td>
       </tr>`;
