@@ -478,15 +478,15 @@ const ds = (tData, cData, tLabel, cLabel) => [
 
 makeChart('chartNPS',
   ds([65.9, 59.9, 59.5, 67.7, 69.6, 69.5],[57.5, 56.0, 53.2, 53.1, 50.4, 54.9],'Com Copiloto','Sem Copiloto'),
-  '%', 35, 90);
+  '%', 45, 80);
 
 makeChart('chartTMO',
   ds([31.6, 36.8, 38.6, 39.1, 39.4, 40.4],[28.3, 31.1, 30.8, 30.7, 29.9, 30.2],'Com Copiloto','Sem Copiloto'),
-  'min', 20, 50);
+  'min', 25, 45);
 
 makeChart('chartPROD',
   ds([0.98, 0.87, 1.09, 1.17, 1.16, 1.07],[1.11, 1.1, 1.3, 1.37, 1.31, 1.25],'Com Copiloto','Sem Copiloto'),
-  'at/h', 0.6, 1.6);
+  'at/h', 0.75, 1.5);
 
 // Filtro de busca na tabela
 document.addEventListener('DOMContentLoaded', function() {
