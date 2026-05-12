@@ -328,9 +328,9 @@ function mkBar(id,labels,pD,eD,yLabel,yMin){
   });
 }
 
-function mkLine(id,pD,eD,opts){
+function mkLine(id,pD,eD,opts,labels){
   new Chart(document.getElementById(id),{type:'line',
-    data:{labels:WK6,datasets:[
+    data:{labels:labels||WK6,datasets:[
       {label:'Piloto',data:pD,borderColor:B,backgroundColor:B+'15',borderWidth:2.5,pointRadius:5,pointHoverRadius:7,tension:.3,spanGaps:true},
       {label:'Equipe',data:eD,borderColor:'#9CA3AF',backgroundColor:'#9CA3AF10',borderWidth:2,pointRadius:4,pointHoverRadius:6,tension:.3,borderDash:[6,4],spanGaps:true}
     ]},options:opts
@@ -483,10 +483,10 @@ function initPeriod(tab,period){
   const tk=tab==='geral'?'g':tab==='ate'?'a':'k';
 
   if(period==='mensal'){
-    mkBar(`${tk}-m-nps`,MON_LBL,m.nps.p,m.nps.e,'%',30);
-    mkBar(`${tk}-m-tmo`,MON_LBL,m.tmo.p,m.tmo.e,'min',20);
-    mkBar(`${tk}-m-prod`,MON_LBL,m.prod.p,m.prod.e,'at/h',0.5);
-    mkBar(`${tk}-m-tdi`,MON_LBL,m.tdi.p,m.tdi.e,'%',0);
+    mkLine(`${tk}-m-nps`,m.nps.p,m.nps.e,lineOpts('%',30),MON_LBL);
+    mkLine(`${tk}-m-tmo`,m.tmo.p,m.tmo.e,lineOpts('min',20),MON_LBL);
+    mkLine(`${tk}-m-prod`,m.prod.p,m.prod.e,lineOpts('at/h',0.5),MON_LBL);
+    mkLine(`${tk}-m-tdi`,m.tdi.p,m.tdi.e,lineOpts('%',0),MON_LBL);
     const repFilter = tab==='geral'?Object.keys(MON_REPS).filter(k=>k!=='labels'):Object.keys(MON_REPS).filter(k=>k!=='labels'&&MON_REPS[k].of===(tab==='ate'?'ATE':'KTA'));
     renderMonthlyRepTables(`${tab}-mon-evo`, repFilter);
   } else {
