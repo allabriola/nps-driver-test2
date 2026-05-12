@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Copiloto — Experiment Dashboard</title>
+<title>Copiloto — BR_Ventas_Sellers_Longtail</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -11,188 +11,396 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .header{background:#1a1a2e;color:white;padding:20px 32px}
 .header h1{font-size:18px;font-weight:700}
 .header .sub{font-size:12px;color:#94a3b8;margin-top:4px}
-.header .meta{display:flex;gap:20px;margin-top:10px;flex-wrap:wrap}
-.badge{font-size:11px;padding:4px 10px;border-radius:6px;font-weight:600}
-.badge.t{background:rgba(37,99,235,.3);color:#93c5fd}
-.badge.c{background:rgba(148,163,184,.2);color:#94a3b8}
-.badge.w{background:rgba(245,158,11,.2);color:#fbbf24}
-
 .container{max-width:1300px;margin:0 auto;padding:20px 16px 40px}
+.tabs{display:flex;gap:4px;margin-bottom:16px;background:white;padding:6px;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.07);width:fit-content}
+.tab-btn{padding:7px 20px;border-radius:7px;border:none;cursor:pointer;font-size:13px;font-weight:600;background:transparent;color:#64748b;transition:.15s}
+.tab-btn.active{background:#1d4ed8;color:white}
+.tab-pane{display:none}.tab-pane.active{display:block}
 .ptabs{display:flex;gap:3px;margin-bottom:16px;background:#e2e8f0;padding:4px;border-radius:8px;width:fit-content}
 .ptab{padding:6px 20px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:600;background:transparent;color:#64748b}
 .ptab.active{background:white;color:#1d4ed8;box-shadow:0 1px 3px rgba(0,0,0,.1)}
 .period-pane{display:none}.period-pane.active{display:block}
-
-/* Scorecards */
-.sc-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:20px}
-.kc{background:white;border-radius:10px;padding:13px 15px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.legend{display:flex;gap:18px;align-items:center;margin-bottom:14px}
+.leg{display:flex;align-items:center;gap:6px;font-size:12px;color:#374151}
+.leg-solid{width:22px;height:0;border-top:2.5px solid}
+.leg-dash{width:22px;height:0;border-top:2.5px dashed}
+.section-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin:20px 0 10px;padding-top:8px;border-top:1px solid #e2e8f0}
+.period-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin:12px 0 8px}
+.sc-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:10px}
+.kc{background:white;border-radius:10px;padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .kc .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:#94a3b8;font-weight:600;margin-bottom:7px}
 .kc .val{font-size:20px;font-weight:800;color:#1d4ed8;line-height:1}
 .kc .cmp{font-size:11px;color:#94a3b8;margin-top:4px}
 .kc .dlt{font-size:11px;font-weight:600;padding:2px 7px;border-radius:5px;margin-top:7px;display:inline-block}
 .pos{background:#dcfce7;color:#15803d}.neg{background:#fee2e2;color:#dc2626}.neu{background:#f1f5f9;color:#64748b}
-
-/* Charts */
-.ch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.ch-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.ch-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:10px}
 .cc{background:white;border-radius:10px;padding:16px 20px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .cc h3{font-size:12px;font-weight:700;color:#1e293b}
 .cc p{font-size:10.5px;color:#94a3b8;margin:2px 0 10px}
-.section-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin:20px 0 10px;padding-top:8px;border-top:1px solid #e2e8f0}
-.note{font-size:11px;color:#94a3b8;background:white;padding:9px 14px;border-radius:8px;border-left:3px solid #e2e8f0;margin-top:12px;line-height:1.6}
+.rep-table-wrap{margin-top:10px;overflow-x:auto}
+table.rt{width:100%;border-collapse:collapse;font-size:11.5px}
+table.rt th{background:#1a1a2e;color:white;padding:7px 10px;text-align:center;font-size:10.5px;font-weight:600;letter-spacing:.3px;white-space:nowrap}
+table.rt th.left{text-align:left}
+table.rt th.sep{background:#374151}
+table.rt td{padding:5px 9px;border-bottom:1px solid #f1f5f9;text-align:center;white-space:nowrap}
+table.rt td.rep-name{text-align:left;font-weight:600;font-size:11px;color:#1e293b}
+table.rt td.of-aec{background:#eff6ff;color:#1d4ed8;font-weight:700;font-size:10px}
+table.rt td.of-ctx{background:#f0fdf4;color:#15803d;font-weight:700;font-size:10px}
+table.rt tr:hover td{filter:brightness(.97)}
+.gc{background:#dcfce7!important;color:#15803d}
+.yc{background:#fef9c3!important;color:#854d0e}
+.rc{background:#fee2e2!important;color:#dc2626}
+.sd{color:#cbd5e1;font-style:italic}
+.arr-up{color:#15803d;font-weight:700}.arr-dn{color:#dc2626;font-weight:700}.arr-eq{color:#94a3b8}
+.note{font-size:11px;color:#94a3b8;background:white;padding:9px 14px;border-radius:8px;border-left:3px solid #e2e8f0;margin-top:10px;line-height:1.6}
 .note strong{color:#64748b}
-.note.warn{border-left-color:#f59e0b;background:#fffbeb}
-.note.warn strong{color:#92400e}
+.note.warn{border-left-color:#f59e0b;background:#fffbeb}.note.warn strong{color:#92400e}
 hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
 .footer{font-size:11px;color:#94a3b8;text-align:center;margin-top:28px}
-@media(max-width:1000px){.sc-grid{grid-template-columns:repeat(3,1fr)}.ch-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.ch-grid{grid-template-columns:1fr}.sc-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.sc-grid{grid-template-columns:repeat(3,1fr)}.ch-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="header">
-  <h1>Copiloto — Experiment Dashboard · BR_Ventas_Sellers_Longtail</h1>
-  <div class="sub">Comparação Com Copiloto vs Sem Copiloto · Mar–Mai 2026 · MULTICANAL CHAT · Oficinas AEC + CTX</div>
-  <div class="meta">
-    <span class="badge t">Com Copiloto: ~11–17 reps/semana</span>
-    <span class="badge c">Sem Copiloto: ~140–220 reps/semana</span>
-    <span class="badge w">Métricas: NPS · TMC · Produtividade · TDI · QI · DIBA</span>
-  </div>
+  <h1>Copiloto — Experimento Treatment vs Control · BR_Ventas_Sellers_Longtail</h1>
+  <div class="sub">MULTICANAL CHAT · AEC + CTX · Com Copiloto (~13–17 reps/sem) vs Sem Copiloto (~155–220 reps/sem) · Mar–Mai 2026</div>
+  <div class="sub" style="margin-top:5px;color:#64748b" id="ts"></div>
 </div>
 
 <div class="container">
-
-  <!-- Scorecards Mai* -->
-  <div class="section-lbl">Resumo — Maio/2026* vigente · Com Copiloto vs Sem Copiloto</div>
-  <div class="sc-grid">
-    <div class="kc"><div class="lbl">NPS ↑</div><div class="val">70,5%</div><div class="cmp">Sem copiloto: 67,8%</div><span class="dlt pos">+2,7pp ✓</span></div>
-    <div class="kc"><div class="lbl">TMC ↓</div><div class="val">22,4min</div><div class="cmp">Sem copiloto: 23,5min</div><span class="dlt pos">−1,1min ✓</span></div>
-    <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">4,12</div><div class="cmp">Sem copiloto: 3,54</div><span class="dlt pos">+16% ✓</span></div>
-    <div class="kc"><div class="lbl">TDI ↓</div><div class="val">9,9%</div><div class="cmp">Sem copiloto: 9,8%</div><span class="dlt neu">igual</span></div>
-    <div class="kc"><div class="lbl">QI ↑</div><div class="val">100%</div><div class="cmp">Sem copiloto: 98,9%</div><span class="dlt pos">+1,1pp ✓</span></div>
-    <div class="kc"><div class="lbl">DIBA ↓</div><div class="val">48,1%</div><div class="cmp">Sem copiloto: 37,3%</div><span class="dlt neg">+10,8pp ⚠️</span></div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="setTab('geral',this)">Geral (18)</button>
+    <button class="tab-btn" onclick="setTab('aec',this)">AEC (13)</button>
+    <button class="tab-btn" onclick="setTab('ctx',this)">CTX (5)</button>
+  </div>
+  <div class="legend">
+    <div class="leg"><span class="leg-solid" style="border-color:#2563EB"></span>Com Copiloto</div>
+    <div class="leg"><span class="leg-dash" style="border-color:#9CA3AF"></span>Sem Copiloto</div>
+    <div class="leg" style="font-size:11px;color:#94a3b8">* Mai vigente até 11/05 &nbsp;·&nbsp; † NPS: amostras pequenas por rep</div>
   </div>
 
-  <div class="ptabs">
-    <button class="ptab active" onclick="setPeriod('mensal',this)">Mensal (Jan–Mai)</button>
-    <button class="ptab" onclick="setPeriod('semanal',this)">Semanal (últ. 8 semanas)</button>
-  </div>
-
-  <!-- MENSAL -->
-  <div id="pane-mensal" class="period-pane active">
-    <div class="ch-grid">
-      <div class="cc"><h3>NPS</h3><p>% · Maior melhor ↑ · Com copiloto melhor nos 3 meses (+2 a +6pp)</p><canvas id="m-nps"></canvas></div>
-      <div class="cc"><h3>TMC — Tempo Médio de Conversa</h3><p>Minutos · Menor melhor ↓ · Mar sem dados · Abr similar · Mai com copiloto −1,1min</p><canvas id="m-tmc"></canvas></div>
-      <div class="cc"><h3>Produtividade</h3><p>At/hora · Maior melhor ↑ · Destaque: Mai +16% (4,12 vs 3,54)</p><canvas id="m-prod"></canvas></div>
-      <div class="cc"><h3>TDI — Devolução Indevida</h3><p>% · Menor melhor ↓ · Mar sem dados · Com copiloto melhor em Abr</p><canvas id="m-tdi"></canvas></div>
-      <div class="cc"><h3>QI — Qualidade</h3><p>% · Maior melhor ↑ · Mar sem dados · Com copiloto 100% em Mai</p><canvas id="m-qi"></canvas></div>
-      <div class="cc"><h3>DIBA ⚠️</h3><p>% · Menor melhor ↓ · Com copiloto pior em Abr e Mai</p><canvas id="m-diba"></canvas></div>
+  <!-- ═══ GERAL ═══ -->
+  <div id="tab-geral" class="tab-pane active">
+    <div class="ptabs">
+      <button class="ptab active" onclick="setPeriod('geral','mensal',this)">Mensal</button>
+      <button class="ptab" onclick="setPeriod('geral','semanal',this)">Semanal</button>
     </div>
-    <div class="note warn"><strong>⚠️ DIBA:</strong> Com copiloto consistentemente acima do controle em Abril (+0,2pp) e Maio (+10,8pp). Investigar se há correlação com o tipo de caso atendido pelo grupo com copiloto.</div>
+    <div id="geral-mensal" class="period-pane active">
+      <div class="period-label">Abril 2026 — fechado (referência mais estável)</div>
+      <div class="sc-grid">
+        <div class="kc"><div class="lbl">NPS ↑</div><div class="val">75,1%</div><div class="cmp">Sem copiloto: 71,2%</div><span class="dlt pos">+3,9pp ✓</span></div>
+        <div class="kc"><div class="lbl">TMC ↓</div><div class="val">21,1min</div><div class="cmp">Sem copiloto: 21,3min</div><span class="dlt pos">−0,2min</span></div>
+        <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">2,92</div><div class="cmp">Sem copiloto: 2,97</div><span class="dlt neu">−2%</span></div>
+        <div class="kc"><div class="lbl">TDI ↓</div><div class="val">9,3%</div><div class="cmp">Sem copiloto: 10,5%</div><span class="dlt pos">−1,2pp ✓</span></div>
+        <div class="kc"><div class="lbl">Produt. Mai* ↑</div><div class="val">4,12</div><div class="cmp">Sem copiloto: 3,54</div><span class="dlt pos">+16% ✓</span></div>
+        <div class="kc"><div class="lbl">DIBA ↓</div><div class="val">54,3%</div><div class="cmp">Sem copiloto: 54,1%</div><span class="dlt neu">igual</span></div>
+      </div>
+      <div class="section-lbl">Tendência Mensal — Com vs Sem Copiloto (Mar, Abr, Mai*)</div>
+      <div class="ch-grid">
+        <div class="cc"><h3>NPS†</h3><p>% · Maior melhor ↑ · Com copiloto melhor em todos os meses</p><canvas id="g-m-nps"></canvas></div>
+        <div class="cc"><h3>TMC — Tempo Médio de Conversa</h3><p>min · Menor melhor ↓ · Mai* sem dados para o mês de Mar</p><canvas id="g-m-tmc"></canvas></div>
+        <div class="cc"><h3>Produtividade</h3><p>at/h · Maior melhor ↑ · Salto expressivo em Mai (+16%)</p><canvas id="g-m-prod"></canvas></div>
+        <div class="cc"><h3>TDI — Devolução Indevida</h3><p>% · Menor melhor ↓ · Mar sem dados; com copiloto melhor em Abr</p><canvas id="g-m-tdi"></canvas></div>
+      </div>
+      <div class="section-lbl">Tabela por Representante — Evolução Mensal (Mar → Mai*)</div>
+      <div id="geral-mon-table"></div>
+      <div class="note"><strong>Geral:</strong> AEC tem TMC ~17–40min · CTX tem TMC ~7–18min — tipos de caso diferentes. Comparação direta entre offices pode ser enganosa.<br><strong>† NPS:</strong> 2–12 pesquisas/rep/mês — alta variância. Use visão mensal como referência mais estável.</div>
+    </div>
+    <div id="geral-semanal" class="period-pane">
+      <div class="section-lbl">Tendência Semanal — 6 semanas fechadas (30/03 a 04/05)</div>
+      <div class="ch-grid">
+        <div class="cc"><h3>NPS†</h3><p>% · Maior melhor ↑</p><canvas id="g-s-nps"></canvas></div>
+        <div class="cc"><h3>TMC</h3><p>min · Menor melhor ↓</p><canvas id="g-s-tmc"></canvas></div>
+        <div class="cc"><h3>Produtividade</h3><p>at/h · Maior melhor ↑</p><canvas id="g-s-prod"></canvas></div>
+        <div class="cc"><h3>TDI</h3><p>% · Menor melhor ↓ · passe o mouse para erros/casos</p><canvas id="g-s-tdi"></canvas></div>
+      </div>
+      <div class="section-lbl">Evolução Semanal por Representante — Últimas 4 semanas (13/04 a 04/05)</div>
+      <div id="geral-wk-table"></div>
+    </div>
   </div>
 
-  <!-- SEMANAL -->
-  <div id="pane-semanal" class="period-pane">
-    <div class="ch-grid">
-      <div class="cc"><h3>NPS</h3><p>% · Treatment superior na maioria das semanas</p><canvas id="s-nps"></canvas></div>
-      <div class="cc"><h3>TMC — Tempo Médio de Conversa</h3><p>min · Grupos muito similares semanalmente</p><canvas id="s-tmc"></canvas></div>
-      <div class="cc"><h3>Produtividade</h3><p>At/hora · Grupos praticamente idênticos</p><canvas id="s-prod"></canvas></div>
-      <div class="cc"><h3>TDI</h3><p>% · Treatment geralmente melhor (menor)</p><canvas id="s-tdi"></canvas></div>
-      <div class="cc"><h3>QI</h3><p>% · Treatment igual ou superior</p><canvas id="s-qi"></canvas></div>
-      <div class="cc"><h3>DIBA ⚠️</h3><p>% · Treatment pior consistentemente</p><canvas id="s-diba"></canvas></div>
+  <!-- ═══ AEC ═══ -->
+  <div id="tab-aec" class="tab-pane">
+    <div class="ptabs">
+      <button class="ptab active" onclick="setPeriod('aec','mensal',this)">Mensal</button>
+      <button class="ptab" onclick="setPeriod('aec','semanal',this)">Semanal</button>
     </div>
-    <div class="note">Semanas de 30/03 a 04/05 · N reps/semana: Com copiloto ~11–17 · Sem copiloto ~155–214</div>
+    <div id="aec-mensal" class="period-pane active">
+      <div class="period-label">Abril 2026 — fechado (AEC)</div>
+      <div class="sc-grid">
+        <div class="kc"><div class="lbl">NPS ↑</div><div class="val">77,4%</div><div class="cmp">Sem copiloto AEC: 72,9%</div><span class="dlt pos">+4,5pp ✓</span></div>
+        <div class="kc"><div class="lbl">TMC ↓</div><div class="val">22,4min</div><div class="cmp">Sem copiloto: 23,7min</div><span class="dlt pos">−1,3min ✓</span></div>
+        <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">2,94</div><div class="cmp">Sem copiloto: 2,95</div><span class="dlt neu">igual</span></div>
+        <div class="kc"><div class="lbl">TDI ↓</div><div class="val">8,5%</div><div class="cmp">Sem copiloto: 10,0%</div><span class="dlt pos">−1,5pp ✓</span></div>
+        <div class="kc"><div class="lbl">Produt. Mai* ↑</div><div class="val">4,12</div><div class="cmp">Sem copiloto: 3,54</div><span class="dlt pos">+16% ✓</span></div>
+        <div class="kc"><div class="lbl">TDI Mai* ↓</div><div class="val">9,9%</div><div class="cmp">Sem copiloto: 9,8%</div><span class="dlt neu">igual</span></div>
+      </div>
+      <div class="section-lbl">Tendência Mensal — AEC (Mar, Abr, Mai*)</div>
+      <div class="ch-grid">
+        <div class="cc"><h3>NPS† — AEC</h3><p>% · Maior melhor ↑</p><canvas id="a-m-nps"></canvas></div>
+        <div class="cc"><h3>TMC — AEC</h3><p>min · Menor melhor ↓</p><canvas id="a-m-tmc"></canvas></div>
+        <div class="cc"><h3>Produtividade — AEC</h3><p>at/h · Maior melhor ↑</p><canvas id="a-m-prod"></canvas></div>
+        <div class="cc"><h3>TDI — AEC</h3><p>% · Menor melhor ↓</p><canvas id="a-m-tdi"></canvas></div>
+      </div>
+      <div class="section-lbl">Tabela por Representante — AEC · Evolução Mensal</div>
+      <div id="aec-mon-table"></div>
+    </div>
+    <div id="aec-semanal" class="period-pane">
+      <div class="section-lbl">Tendência Semanal — AEC · 6 semanas (30/03 a 04/05)</div>
+      <div class="ch-grid">
+        <div class="cc"><h3>NPS† — AEC</h3><p>%</p><canvas id="a-s-nps"></canvas></div>
+        <div class="cc"><h3>TMC — AEC</h3><p>min</p><canvas id="a-s-tmc"></canvas></div>
+        <div class="cc"><h3>Produtividade — AEC</h3><p>at/h</p><canvas id="a-s-prod"></canvas></div>
+        <div class="cc"><h3>TDI — AEC</h3><p>%</p><canvas id="a-s-tdi"></canvas></div>
+      </div>
+      <div class="section-lbl">Evolução Semanal por Representante — AEC · Últimas 4 semanas</div>
+      <div id="aec-wk-table"></div>
+      <div class="note"><strong>AEC destaque:</strong> ext_aguivito e ext_erevilly com forte crescimento de Produtividade nas últimas semanas. ext_huhiarll e ext_debmiche com TMC consistentemente alto (>30min) — investigar complexidade dos casos.</div>
+    </div>
+  </div>
+
+  <!-- ═══ CTX ═══ -->
+  <div id="tab-ctx" class="tab-pane">
+    <div class="ptabs">
+      <button class="ptab active" onclick="setPeriod('ctx','mensal',this)">Mensal</button>
+      <button class="ptab" onclick="setPeriod('ctx','semanal',this)">Semanal</button>
+    </div>
+    <div id="ctx-mensal" class="period-pane active">
+      <div class="period-label">Abril 2026 — fechado (CTX · atenção: apenas 5 reps no treatment)</div>
+      <div class="sc-grid">
+        <div class="kc"><div class="lbl">NPS ↑</div><div class="val">58,3%</div><div class="cmp">Sem copiloto CTX: 52,8%</div><span class="dlt pos">+5,5pp ✓</span></div>
+        <div class="kc"><div class="lbl">TMC ↓</div><div class="val">13,2min</div><div class="cmp">Sem copiloto: 9,9min</div><span class="dlt neg">+3,3min ✗</span></div>
+        <div class="kc"><div class="lbl">Produtividade ↑</div><div class="val">2,84</div><div class="cmp">Sem copiloto: 3,06</div><span class="dlt neg">−7% ✗</span></div>
+        <div class="kc"><div class="lbl">TDI ↓</div><div class="val">11,9%</div><div class="cmp">Sem copiloto: 12,3%</div><span class="dlt pos">−0,4pp</span></div>
+        <div class="kc"><div class="lbl">Reps treatment</div><div class="val">5</div><div class="cmp">vs ~55 sem copiloto</div><span class="dlt neg">⚠️ n pequeno</span></div>
+        <div class="kc"><div class="lbl">Dado Mai*</div><div class="val">Indisponível</div><div class="cmp">Treatment saiu em Abr</div><span class="dlt neu">s/d</span></div>
+      </div>
+      <div class="section-lbl">Tendência Mensal — CTX (Mar, Abr) · Mai* sem dados</div>
+      <div class="ch-grid">
+        <div class="cc"><h3>NPS† — CTX</h3><p>% · apenas Abr disponível (Mar muito esparso)</p><canvas id="c-m-nps"></canvas></div>
+        <div class="cc"><h3>TMC — CTX</h3><p>min · escala diferente de AEC (~7–18min)</p><canvas id="c-m-tmc"></canvas></div>
+        <div class="cc"><h3>Produtividade — CTX</h3><p>at/h</p><canvas id="c-m-prod"></canvas></div>
+        <div class="cc"><h3>TDI — CTX</h3><p>%</p><canvas id="c-m-tdi"></canvas></div>
+      </div>
+      <div class="section-lbl">Tabela por Representante — CTX · Evolução Mensal</div>
+      <div id="ctx-mon-table"></div>
+      <div class="note warn"><strong>⚠️ CTX:</strong> apenas 5 reps no treatment com dados muito limitados (1–5 surveys/rep/semana). Resultados de alta variância. Interpretar com cautela. ext_renere: NPS 0% em Abr (todas as pesquisas foram detratores).</div>
+    </div>
+    <div id="ctx-semanal" class="period-pane">
+      <div class="section-lbl">Tendência Semanal — CTX · 6 semanas (alta variância)</div>
+      <div class="ch-grid">
+        <div class="cc"><h3>NPS† — CTX</h3><p>%</p><canvas id="c-s-nps"></canvas></div>
+        <div class="cc"><h3>TMC — CTX</h3><p>min</p><canvas id="c-s-tmc"></canvas></div>
+        <div class="cc"><h3>Produtividade — CTX</h3><p>at/h</p><canvas id="c-s-prod"></canvas></div>
+        <div class="cc"><h3>TDI — CTX</h3><p>%</p><canvas id="c-s-tdi"></canvas></div>
+      </div>
+      <div class="section-lbl">Evolução Semanal por Representante — CTX · Últimas 4 semanas</div>
+      <div id="ctx-wk-table"></div>
+    </div>
   </div>
 
   <hr class="div">
   <div class="note">
-    <strong>Leitura do experimento — BR_Ventas_Sellers_Longtail:</strong>
-    Com copiloto apresenta <strong>NPS consistentemente melhor (+2–6pp)</strong>, <strong>Produtividade +16% em Mai</strong> (destaque: semana 04/05 — 4,45 vs 3,77), TMC menor a partir de Abril e QI igual ou superior.
-    Indicador de atenção: <strong>DIBA mais alta no grupo com copiloto</strong> em Abr/Mai — pode indicar tipo de caso diferente ou padrão de uso específico. Verificar correlação com volume de casos por rep.
-    Dados disponíveis a partir de março/2026 · Março: apenas NPS, PRODU e DIBA.
+    <strong>Fonte:</strong> BT_COPILOT_METRICS · Equipe: BR_Ventas_Sellers_Longtail · Site: Brasil · AEC + CTX ·
+    Treatment = com copiloto · Control = sem copiloto ·
+    <strong>Atenção CTX:</strong> 5 reps no treatment em Abril (dados de alta variância).
   </div>
-  <div class="footer">Gerado em <span id="ts"></span> · Fonte: BT_COPILOT_METRICS · Equipe: BR_Ventas_Sellers_Longtail · Brasil</div>
+  <div class="footer">Gerado em <span id="ts2"></span> · Fonte: BT_COPILOT_METRICS</div>
 </div>
 
 <script>
-const T='#2563EB', C='#9CA3AF';
-
-// BR_Ventas_Sellers_Longtail — dados disponíveis a partir de Mar/2026
+// ─── Dados mensais agregados ───────────────────────────────────────────────
 const MLBL = ['Mar','Abr','Mai*'];
-const WLBL = ['30/03','06/04','13/04','20/04','27/04','04/05'];
-
-// ─── Dados mensais (Mar, Abr, Mai*) ──────────────────────────────────────
-// Mar: apenas NPS, PRODU e DIBA disponíveis (TMC/TDI/QI = null)
-const MD = {
-  nps:  {t:[60.0,75.1,70.5], c:[54.1,71.2,67.8]},
-  tmc:  {t:[null,21.1,22.4], c:[null,21.3,23.5]},
-  prod: {t:[2.80,2.92,4.12], c:[2.79,2.97,3.54]},
-  tdi:  {t:[null, 9.3, 9.9], c:[null,10.5, 9.8]},
-  qi:   {t:[null,95.7,100.0],c:[null,98.9,98.9]},
-  diba: {t:[33.3,54.3,48.1], c:[33.3,54.1,37.3]},
+const MON = {
+  geral:{nps:{t:[60.0,75.1,70.5],c:[54.1,71.2,67.8]},tmc:{t:[null,21.1,22.4],c:[null,21.3,23.5]},prod:{t:[2.80,2.92,4.12],c:[2.79,2.97,3.54]},tdi:{t:[null,9.3,9.9],c:[null,10.5,9.8]}},
+  aec:{nps:{t:[60.0,77.4,70.5],c:[60.0,72.9,67.8]},tmc:{t:[null,22.4,22.4],c:[null,23.7,23.5]},prod:{t:[2.76,2.94,4.12],c:[2.73,2.95,3.54]},tdi:{t:[null,8.5,9.9],c:[null,10.0,9.8]}},
+  ctx:{nps:{t:[null,58.3,null],c:[null,52.8,null]},tmc:{t:[null,13.2,null],c:[null,9.9,null]},prod:{t:[3.26,2.84,null],c:[3.02,3.06,null]},tdi:{t:[null,11.9,null],c:[null,12.3,null]}},
 };
 
-// ─── Dados semanais (30/03 a 04/05 — 6 semanas fechadas) ─────────────────
-const WD = {
-  nps:  {t:[85.7,72.7,72.3,70.3,82.4,65.6], c:[67.9,70.1,69.3,73.0,76.9,64.3]},
-  tmc:  {t:[20.9,21.4,20.3,21.4,21.3,22.2], c:[21.4,21.1,21.3,21.2,21.3,23.8]},
-  prod: {t:[2.74,2.78,2.82,2.89,3.28,4.45], c:[2.77,2.91,2.83,3.05,3.15,3.77]},
-  tdi:  {t:[7.3,12.7,11.3, 7.0, 6.3, 9.5], c:[10.8, 8.9,11.5,11.2,10.6, 9.9]},
-  qi:   {t:[100, 100, 100,77.8, 100, 100],  c:[100, 98.8,97.7,98.8, 100,98.7]},
-  diba: {t:[63.6,65.1,34.7,48.6,70.8,45.5], c:[51.4,56.3,49.2,54.6,59.4,32.8]},
+// ─── Dados semanais agregados ──────────────────────────────────────────────
+const W6 = ['30/03','06/04','13/04','20/04','27/04','04/05'];
+const W4 = ['13/04','20/04','27/04','04/05'];
+// AEC weekly (por office)
+const WK_AGG = {
+  geral:{nps:{t:[85.7,72.7,72.3,70.3,82.4,65.6],c:[67.9,70.1,69.3,73.0,76.9,64.3]},tmc:{t:[20.9,21.4,20.3,21.4,21.3,22.2],c:[21.4,21.1,21.3,21.2,21.3,23.8]},prod:{t:[2.74,2.78,2.82,2.89,3.28,4.45],c:[2.77,2.91,2.83,3.05,3.15,3.77]},tdi:{t:[7.3,12.7,11.3,7.0,6.3,9.5],c:[10.8,8.9,11.5,11.2,10.6,9.9]}},
+  aec:{nps:{t:[84.6,78.3,66.7,75.8,null,65.6],c:[71.2,71.8,69.9,75.8,null,64.3]},tmc:{t:[21.9,22.3,22.3,23.0,null,22.2],c:[24.4,23.7,23.8,23.4,null,23.8]},prod:{t:[2.74,2.77,2.73,2.99,null,4.45],c:[2.68,2.88,2.80,3.07,null,3.77]},tdi:{t:[7.5,12.3,8.7,5.8,null,9.5],c:[9.7,7.9,11.5,10.9,null,9.9]}},
+  ctx:{nps:{t:[100,16.7,100,25.0,null,null],c:[34.1,52.5,63.8,42.1,null,null]},tmc:{t:[15.0,13.9,12.4,12.9,null,null],c:[10.2,10.0,9.9,10.0,null,null]},prod:{t:[2.78,2.81,3.14,2.49,null,null],c:[3.15,3.05,2.97,2.96,null,null]},tdi:{t:[6.7,13.7,17.6,10.4,null,null],c:[13.3,11.1,11.5,12.0,null,null]}},
 };
 
-function mkChart(id,tD,cD,labels,yLbl,yMin){
+// ─── Dados por representante ───────────────────────────────────────────────
+// Monthly: [Mar, Abr, Mai*] — NPS e TDI em %
+const REPS_M = {
+  'ext_aguivito':{of:'AEC',nps:[-100,80.0,50.0], tmc:[null,17.8,19.2], prod:[4.39,4.61,5.85], tdi:[null,4.3,8.7]},
+  'ext_almlaura':{of:'AEC',nps:[100,91.7,57.1],  tmc:[null,18.1,18.4], prod:[3.36,3.19,4.80], tdi:[null,3.7,0.0]},
+  'ext_arcleona':{of:'AEC',nps:[null,65.0,60.0],  tmc:[null,18.4,18.2], prod:[3.71,3.41,4.01], tdi:[null,13.8,5.6]},
+  'ext_azrcrist':{of:'AEC',nps:[null,82.4,null],  tmc:[null,28.3,29.8], prod:[null,3.04,4.32], tdi:[null,9.6,0.0]},
+  'ext_bebatian':{of:'AEC',nps:[100,50.0,null],   tmc:[null,21.9,null], prod:[2.45,2.05,null], tdi:[null,40.0,null]},
+  'ext_carlthay':{of:'AEC',nps:[null,68.2,66.7],  tmc:[null,20.0,21.6], prod:[null,3.23,4.45], tdi:[null,7.7,14.8]},
+  'ext_clborghe':{of:'AEC',nps:[null,25.0,null],  tmc:[null,22.1,null], prod:[null,3.24,null], tdi:[null,5.6,null]},
+  'ext_debmiche':{of:'AEC',nps:[null,90.9,100.0], tmc:[null,32.4,40.0], prod:[2.14,2.35,2.54], tdi:[null,6.9,6.7]},
+  'ext_edolicar':{of:'AEC',nps:[null,100.0,null],  tmc:[null,24.6,26.2], prod:[0.55,1.00,3.36], tdi:[null,3.8,0.0]},
+  'ext_emebruno':{of:'AEC',nps:[null,92.3,0.0],   tmc:[null,19.2,21.2], prod:[3.50,3.30,4.72], tdi:[null,3.4,0.0]},
+  'ext_erevilly':{of:'AEC',nps:[null,68.8,100.0], tmc:[null,18.7,14.8], prod:[null,3.54,6.05], tdi:[null,14.3,21.1]},
+  'ext_esevelly':{of:'AEC',nps:[null,87.5,75.0],  tmc:[null,28.8,27.4], prod:[1.99,2.61,3.20], tdi:[null,8.8,42.9]},
+  'ext_huhiarll':{of:'AEC',nps:[null,76.2,100.0], tmc:[null,35.6,35.7], prod:[null,2.44,2.82], tdi:[null,13.3,18.2]},
+  'ext_camarqug':{of:'CTX',nps:[null,80.0,null],  tmc:[null,14.9,null], prod:[null,3.25,null], tdi:[null,10.0,null]},
+  'ext_jhosgome':{of:'CTX',nps:[null,100.0,null], tmc:[null,15.5,null], prod:[null,3.34,null], tdi:[null,4.5,null]},
+  'ext_kemomari':{of:'CTX',nps:[null,20.0,null],  tmc:[null,6.9,null],  prod:[null,3.29,null], tdi:[null,10.0,null]},
+  'ext_maracami':{of:'CTX',nps:[null,87.5,null],  tmc:[null,14.6,null], prod:[3.26,2.60,null], tdi:[null,8.3,null]},
+  'ext_renere':  {of:'CTX',nps:[null,0.0,null],   tmc:[null,14.4,null], prod:[null,2.47,null], tdi:[null,20.3,null]},
+};
+
+// Weekly last 4 weeks [13/04, 20/04, 27/04, 04/05]
+const REPS_W = {
+  'ext_aguivito':{of:'AEC',nps:[0,100,100,40],    tmc:[15.0,18.3,19.2,19.8], prod:[3.73,4.58,4.86,6.48], tdi:[0.0,5.6,0.0,0.0]},
+  'ext_almlaura':{of:'AEC',nps:[null,75,100,40],  tmc:[16.0,20.4,17.8,18.0], prod:[2.97,3.23,3.48,4.95], tdi:[0.0,6.7,6.3,0.0]},
+  'ext_arcleona':{of:'AEC',nps:[75,0,100,66.7],   tmc:[17.7,17.6,21.5,18.3], prod:[3.84,3.65,3.57,4.28], tdi:[21.4,0.0,7.1,5.9]},
+  'ext_azrcrist':{of:'AEC',nps:[66.7,100,100,null],tmc:[31.6,29.2,27.3,33.4],prod:[3.49,2.88,3.24,6.96], tdi:[5.6,8.7,7.4,0.0]},
+  'ext_bebatian':{of:'AEC',nps:[null,null,null,null],tmc:[21.3,null,null,null],prod:[1.59,null,null,null],tdi:[33.3,null,null,null]},
+  'ext_carlthay':{of:'AEC',nps:[50,66.7,100,100], tmc:[21.2,19.0,19.5,21.2], prod:[3.31,3.39,3.46,4.51], tdi:[0.0,11.8,6.3,12.5]},
+  'ext_debmiche':{of:'AEC',nps:[66.7,100,100,100],tmc:[35.1,36.1,33.7,40.9], prod:[2.02,2.45,2.22,2.78], tdi:[8.3,0.0,25.0,7.7]},
+  'ext_edolicar':{of:'AEC',nps:[null,100,100,null],tmc:[23.5,22.6,21.0,24.9], prod:[0.71,1.01,2.25,3.77], tdi:[0.0,0.0,10.0,0.0]},
+  'ext_emebruno':{of:'AEC',nps:[75,100,100,0],    tmc:[18.5,18.0,20.0,21.3], prod:[3.07,3.19,4.12,4.91], tdi:[14.3,0.0,0.0,0.0]},
+  'ext_erevilly':{of:'AEC',nps:[100,null,0,100],  tmc:[17.8,18.9,17.8,15.0], prod:[3.33,2.85,4.56,6.34], tdi:[25.0,0.0,7.7,25.0]},
+  'ext_esevelly':{of:'AEC',nps:[100,100,71.4,50], tmc:[24.3,34.6,29.8,26.8], prod:[2.46,3.09,2.78,3.59], tdi:[0.0,16.7,0.0,33.3]},
+  'ext_huhiarll':{of:'AEC',nps:[62.5,75,100,100], tmc:[39.2,38.7,31.8,36.3], prod:[2.51,2.23,2.05,2.95], tdi:[8.3,0.0,11.1,21.1]},
+  'ext_camarqug':{of:'CTX',nps:[100,null,null,null],tmc:[14.1,null,null,null],prod:[3.87,null,null,null],tdi:[0.0,null,null,null]},
+  'ext_jhosgome':{of:'CTX',nps:[null,null,100,null],tmc:[17.6,15.9,13.6,null],prod:[4.40,3.22,3.03,null],tdi:[0.0,10.0,0.0,null]},
+  'ext_kemomari':{of:'CTX',nps:[100,null,null,null],tmc:[7.0,7.0,6.6,null],   prod:[3.84,2.23,3.24,null],tdi:[20.0,0.0,null,null]},
+  'ext_maracami':{of:'CTX',nps:[100,50,100,null], tmc:[14.9,15.2,16.3,null], prod:[2.69,2.45,2.62,null], tdi:[13.6,0.0,0.0,null]},
+  'ext_renere':  {of:'CTX',nps:[100,100,null,null],tmc:[15.0,13.6,null,null], prod:[2.60,2.25,null,null], tdi:[23.8,20.0,null,null]},
+};
+
+// ─── Helpers ──────────────────────────────────────────────────────────────
+const B='#2563EB', G='#9CA3AF';
+function fmtT(m){if(m==null)return'—';const s=Math.round(m*60);return`${Math.floor(s/60)}m ${String(s%60).padStart(2,'0')}s`;}
+function fmtN(v){if(v==null)return'<span class="sd">—</span>';return`${v.toFixed(1)}%`;}
+function fmtV(v,dp){if(v==null)return'<span class="sd">—</span>';return v.toFixed(dp);}
+function nc(v){return v==null?'':(v>=70?'gc':v>=50?'yc':'rc');}
+function tc(m){return m==null?'':(m<=20?'gc':m<=30?'yc':'rc');}
+function pc(v){return v==null?'':(v>=3.5?'gc':v>=2.0?'yc':'rc');}
+function dc(v){return v==null?'':(v<=5?'gc':v<=15?'yc':'rc');}
+function ev(vals,hi){
+  const nn=vals.filter(v=>v!=null);
+  if(nn.length<2)return'<span class="arr-eq">—</span>';
+  const d=nn[nn.length-1]-nn[0],t=Math.abs(nn[0])*0.03;
+  if(Math.abs(d)<t)return'<span class="arr-eq">→</span>';
+  return(hi?d>0:d<0)?'<span class="arr-up">↑</span>':'<span class="arr-dn">↓</span>';
+}
+
+// ─── Tabela mensal por rep ─────────────────────────────────────────────────
+function renderMonTable(id, filter){
+  const reps=Object.keys(REPS_M).filter(r=>filter==='all'||REPS_M[r].of===filter);
+  const KPIS=[
+    {label:'TMC',note:'min · Menor melhor ↓',get:r=>REPS_M[r].tmc,color:tc,fmt:v=>fmtT(v),hi:false},
+    {label:'Produtividade',note:'at/h · Maior melhor ↑',get:r=>REPS_M[r].prod,color:pc,fmt:v=>fmtV(v,2),hi:true},
+    {label:'NPS†',note:'% · Maior melhor ↑ · amostras pequenas',get:r=>REPS_M[r].nps,color:nc,fmt:v=>fmtN(v),hi:true},
+    {label:'TDI',note:'% · Menor melhor ↓',get:r=>REPS_M[r].tdi,color:dc,fmt:v=>fmtN(v),hi:false},
+  ];
+  let html='';
+  KPIS.forEach(kpi=>{
+    html+=`<div class="cc" style="margin-bottom:12px"><h3 style="margin-bottom:2px">${kpi.label}</h3><p>${kpi.note}</p>
+    <table class="rt"><thead><tr><th class="left">Rep</th><th>Of.</th>${MLBL.map(l=>`<th>${l}</th>`).join('')}<th>Tend.</th></tr></thead><tbody>`;
+    reps.forEach(r=>{
+      const d=REPS_M[r]; const vals=kpi.get(r);
+      html+=`<tr><td class="rep-name">${r}</td><td class="of-${d.of.toLowerCase()}">${d.of}</td>
+      ${vals.map(v=>`<td class="${kpi.color(v)}">${kpi.fmt(v)}</td>`).join('')}
+      <td style="text-align:center">${ev(vals,kpi.hi)}</td></tr>`;
+    });
+    html+=`</tbody></table></div>`;
+  });
+  document.getElementById(id).innerHTML=html+'<div style="font-size:10.5px;color:#94a3b8;margin-top:6px">🟢 bom &nbsp;·&nbsp; 🟡 atenção &nbsp;·&nbsp; 🔴 crítico &nbsp;·&nbsp; NPS: ≥70% verde · TMC: ≤20min verde, ≤30min amarelo · PROD: ≥3,5 verde, ≥2,0 amarelo · TDI: ≤5% verde, ≤15% amarelo · † CTX tem TMC diferente de AEC (tipos de caso distintos)</div>';
+}
+
+// ─── Tabela semanal por rep ────────────────────────────────────────────────
+function renderWkTable(id, filter){
+  const reps=Object.keys(REPS_W).filter(r=>filter==='all'||REPS_W[r].of===filter);
+  const KPIS=[
+    {label:'TMC',note:'min · Menor melhor ↓',get:r=>REPS_W[r].tmc,color:tc,fmt:v=>fmtT(v),hi:false},
+    {label:'Produtividade',note:'at/h · Maior melhor ↑',get:r=>REPS_W[r].prod,color:pc,fmt:v=>fmtV(v,2),hi:true},
+    {label:'NPS†',note:'% · amostras pequenas por semana',get:r=>REPS_W[r].nps,color:nc,fmt:v=>fmtN(v),hi:true},
+    {label:'TDI',note:'% · Menor melhor ↓',get:r=>REPS_W[r].tdi,color:dc,fmt:v=>fmtN(v),hi:false},
+  ];
+  let html='';
+  KPIS.forEach(kpi=>{
+    html+=`<div class="cc" style="margin-bottom:12px"><h3 style="margin-bottom:2px">${kpi.label}</h3><p>${kpi.note}</p>
+    <table class="rt"><thead><tr><th class="left">Rep</th><th>Of.</th>${W4.map(l=>`<th>${l}</th>`).join('')}<th>Tend.</th></tr></thead><tbody>`;
+    reps.forEach(r=>{
+      const d=REPS_W[r]; const vals=kpi.get(r);
+      html+=`<tr><td class="rep-name">${r}</td><td class="of-${d.of.toLowerCase()}">${d.of}</td>
+      ${vals.map(v=>`<td class="${kpi.color(v)}">${kpi.fmt(v)}</td>`).join('')}
+      <td style="text-align:center">${ev(vals,kpi.hi)}</td></tr>`;
+    });
+    html+=`</tbody></table></div>`;
+  });
+  document.getElementById(id).innerHTML=html;
+}
+
+// ─── Charts ────────────────────────────────────────────────────────────────
+function mkLine(id,tD,cD,labels,yLbl,yMin){
   new Chart(document.getElementById(id),{type:'line',
     data:{labels,datasets:[
-      {label:'Com Copiloto',data:tD,borderColor:T,backgroundColor:T+'18',borderWidth:2.5,pointRadius:5,pointHoverRadius:7,tension:.3,spanGaps:true},
-      {label:'Sem Copiloto',data:cD,borderColor:C,backgroundColor:C+'12',borderWidth:2,pointRadius:4,pointHoverRadius:6,tension:.3,borderDash:[6,4],spanGaps:true}
+      {label:'Com Copiloto',data:tD,borderColor:B,backgroundColor:B+'15',borderWidth:2.5,pointRadius:5,pointHoverRadius:7,tension:.3,spanGaps:true},
+      {label:'Sem Copiloto',data:cD,borderColor:G,backgroundColor:G+'10',borderWidth:2,pointRadius:4,pointHoverRadius:6,tension:.3,borderDash:[6,4],spanGaps:true}
     ]},
     options:{responsive:true,aspectRatio:1.75,
-      plugins:{
-        legend:{position:'bottom',labels:{font:{size:11},padding:10,usePointStyle:true,pointStyleWidth:8}},
-        tooltip:{callbacks:{label:c=>c.parsed.y==null?null:` ${c.dataset.label}: ${c.parsed.y.toFixed(2)} ${yLbl}`}}
-      },
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:10,usePointStyle:true,pointStyleWidth:8}},
+        tooltip:{callbacks:{label:c=>c.parsed.y==null?null:` ${c.dataset.label}: ${c.parsed.y.toFixed(2)} ${yLbl}`}}},
       scales:{y:{min:yMin,grid:{color:'#f1f5f9'},ticks:{font:{size:11}}},x:{grid:{display:false},ticks:{font:{size:11}}}}
     }
   });
 }
 
-// Init mensal
-function initMensal(){
-  mkChart('m-nps', MD.nps.t, MD.nps.c, MLBL,'%',40);
-  mkChart('m-tmc', MD.tmc.t, MD.tmc.c, MLBL,'min',18);
-  mkChart('m-prod',MD.prod.t,MD.prod.c,MLBL,'at/h',2.0);
-  mkChart('m-tdi', MD.tdi.t, MD.tdi.c, MLBL,'%',0);
-  mkChart('m-qi',  MD.qi.t,  MD.qi.c,  MLBL,'%',90);
-  mkChart('m-diba',MD.diba.t,MD.diba.c,MLBL,'%',20);
-}
-
-// Init semanal
-function initSemanal(){
-  mkChart('s-nps', WD.nps.t, WD.nps.c, WLBL,'%',50);
-  mkChart('s-tmc', WD.tmc.t, WD.tmc.c, WLBL,'min',15);
-  mkChart('s-prod',WD.prod.t,WD.prod.c,WLBL,'at/h',2.0);
-  mkChart('s-tdi', WD.tdi.t, WD.tdi.c, WLBL,'%',0);
-  mkChart('s-qi',  WD.qi.t,  WD.qi.c,  WLBL,'%',75);
-  mkChart('s-diba',WD.diba.t,WD.diba.c,WLBL,'%',20);
-}
-
+// ─── Init por tab+period ───────────────────────────────────────────────────
 const inited={};
-function setPeriod(p,btn){
-  document.querySelectorAll('.ptab').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.period-pane').forEach(pp=>pp.classList.remove('active'));
-  document.getElementById('pane-'+p).classList.add('active');
-  btn.classList.add('active');
-  if(!inited[p]){ p==='mensal'?initMensal():initSemanal(); inited[p]=true; }
+function initPeriod(tab,period){
+  const key=tab+'-'+period; if(inited[key])return; inited[key]=true;
+  const tk = tab==='geral'?'geral':tab==='aec'?'aec':'ctx';
+  const m=MON[tk]; const a=WK_AGG[tk];
+
+  if(period==='mensal'){
+    mkLine(`${tk[0]}-m-nps`,m.nps.t,m.nps.c,MLBL,'%',30);
+    mkLine(`${tk[0]}-m-tmc`,m.tmc.t,m.tmc.c,MLBL,'min',5);
+    mkLine(`${tk[0]}-m-prod`,m.prod.t,m.prod.c,MLBL,'at/h',0.5);
+    mkLine(`${tk[0]}-m-tdi`,m.tdi.t,m.tdi.c,MLBL,'%',0);
+    const filt=tab==='geral'?'all':tab.toUpperCase();
+    renderMonTable(`${tab}-mon-table`,filt);
+  } else {
+    mkLine(`${tk[0]}-s-nps`,a.nps.t,a.nps.c,W6,'%',0);
+    mkLine(`${tk[0]}-s-tmc`,a.tmc.t,a.tmc.c,W6,'min',5);
+    mkLine(`${tk[0]}-s-prod`,a.prod.t,a.prod.c,W6,'at/h',0.5);
+    mkLine(`${tk[0]}-s-tdi`,a.tdi.t,a.tdi.c,W6,'%',0);
+    const filt=tab==='geral'?'all':tab.toUpperCase();
+    renderWkTable(`${tab}-wk-table`,filt);
+  }
 }
 
-initMensal(); inited['mensal']=true;
+function setTab(t,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  btn.classList.add('active');
+  const activePtab=document.querySelector(`#tab-${t} .ptab.active`);
+  const p=activePtab&&activePtab.textContent.trim().toLowerCase()==='semanal'?'semanal':'mensal';
+  initPeriod(t,p);
+}
+function setPeriod(tab,period,btn){
+  const pane=document.getElementById('tab-'+tab);
+  pane.querySelectorAll('.ptab').forEach(b=>b.classList.remove('active'));
+  pane.querySelectorAll('.period-pane').forEach(pp=>pp.classList.remove('active'));
+  document.getElementById(tab+'-'+period).classList.add('active');
+  btn.classList.add('active');
+  initPeriod(tab,period);
+}
 
+// Init
+initPeriod('geral','mensal');
+inited['geral-mensal']=true;
 const now=new Date();
-document.getElementById('ts').textContent=
-  now.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})+' às '+
-  now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+const ds=now.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
+const hs=now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+document.getElementById('ts').textContent=`Atualizado em ${ds} às ${hs}`;
+document.getElementById('ts2').textContent=`Gerado em ${ds} às ${hs}`;
 </script>
 </body>
 </html>
