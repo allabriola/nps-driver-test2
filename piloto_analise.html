@@ -96,13 +96,14 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
       <div id="geral-mon-evo"></div>
     </div>
     <div id="geral-semanal" class="period-pane">
-      <div class="note" style="margin-bottom:12px">Tendência semanal consolidada (30/03 a 04/05) · Para evolução individual por rep, use as abas ATE ou KTA_BRASIL.</div>
       <div class="ch-grid">
         <div class="cc"><h3>TMO</h3><p>min · Menor melhor ↓</p><canvas id="g-s-tmo"></canvas></div>
         <div class="cc"><h3>Produtividade</h3><p>at/h · Maior melhor ↑</p><canvas id="g-s-prod"></canvas></div>
         <div class="cc"><h3>NPS†</h3><p>% · Maior melhor ↑</p><canvas id="g-s-nps"></canvas></div>
         <div class="cc"><h3>TDI</h3><p>% · passe o mouse para erros/casos</p><canvas id="g-s-tdi"></canvas></div>
       </div>
+      <div class="section-lbl">Evolução por Representante — Todos · 6 semanas (30/03 a 04/05)</div>
+      <div id="geral-rep-evo"></div>
     </div>
   </div>
 
@@ -131,7 +132,7 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
         <div class="cc"><h3>NPS† — ATE</h3><p>% · 30/03 e 06/04 omitidas (≤10 resp.)</p><canvas id="a-s-nps"></canvas></div>
         <div class="cc"><h3>TDI — ATE</h3><p>% · passe o mouse para erros/casos</p><canvas id="a-s-tdi"></canvas></div>
       </div>
-      <div class="section-lbl">Evolução por Representante — ATE · Últimas 4 semanas (13/04 a 04/05)</div>
+      <div class="section-lbl">Evolução por Representante — ATE · 6 semanas (30/03 a 04/05)</div>
       <div id="a-rep-evo"></div>
       <div class="note"><strong>ATE:</strong> ext_helljesu e ext_alcanana mais regulares. ext_tabragan ausente nas últ. 2 semanas. ext_saolilil sem atividade nesse período.</div>
     </div>
@@ -162,7 +163,7 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
         <div class="cc"><h3>NPS† — KTA</h3><p>% · Maior melhor ↑</p><canvas id="k-s-nps"></canvas></div>
         <div class="cc"><h3>TDI — KTA ⚠️</h3><p>% · passe o mouse para erros/casos</p><canvas id="k-s-tdi"></canvas></div>
       </div>
-      <div class="section-lbl">Evolução por Representante — KTA · Últimas 4 semanas (13/04 a 04/05)</div>
+      <div class="section-lbl">Evolução por Representante — KTA · 6 semanas (30/03 a 04/05)</div>
       <div id="k-rep-evo"></div>
       <div class="note"><strong>KTA:</strong> ext_damascan com melhor consistência de TMO e TDI. ext_saferrcr e ext_uannasci concentram TDI elevado — investigar processo.</div>
     </div>
@@ -504,7 +505,9 @@ function initPeriod(tab,period){
     mkLine(`${tk}-s-prod`,a.prod.p,a.prod.e,lineOpts('at/h',1.5));
     mkLine(`${tk}-s-nps`,a.nps.p,a.nps.e,lineOpts('%',tab==='ate'?40:20));
     mkLine(`${tk}-s-tdi`,a.tdi.p,a.tdi.e,tdiLineOpts(0,tk));
-    if(tab==='ate'){
+    if(tab==='geral'){
+      renderRepEvoTables('geral-rep-evo', Object.keys(WK));
+    } else if(tab==='ate'){
       renderRepEvoTables('a-rep-evo',['ext_helljesu','ext_alcanana','ext_tabragan','ext_lethiper','ext_dasipria','ext_saolilil']);
     } else if(tab==='kta'){
       renderRepEvoTables('k-rep-evo',['ext_damascan','ext_saferrcr','ext_uannasci']);
