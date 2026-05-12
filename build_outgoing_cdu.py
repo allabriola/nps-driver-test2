@@ -181,6 +181,106 @@ def q_transcripts_with_case(case_ids: list[str]) -> str:
       AND LENGTH(OBFUSCATED_MESSAGE_CONTENT) > 20
     """
 
+# ── Temas curados manualmente (análise de 40 casos por CDU) ─────────────────
+# Chave: (proc_key, top_cdu)
+CURATED_THEMES: dict[tuple[str, str], list[dict]] = {
+    ("Facturación", "Dudas sobre cargos facturados"): [
+        {
+            "name": "Débito automático de fatura vencida",
+            "pct": 35,
+            "case_ids": ["450596238", "450254304", "453189041"],
+            "summary": (
+                "Sellers são surpreendidos com débito automático de faturas vencidas do "
+                "Mercado Livre descontado do saldo em conta, sem reconhecer a origem do valor."
+            ),
+        },
+        {
+            "name": "Cobrança de publicidade — Mercado Ads",
+            "pct": 25,
+            "case_ids": ["449223681", "450388418", "438822396"],
+            "summary": (
+                "Sellers questionam cobranças de campanhas de publicidade (Display Ads, "
+                "Product Ads), frequentemente por não reconhecerem a tarifa ou acreditarem "
+                "estar em período de teste gratuito."
+            ),
+        },
+        {
+            "name": "Tarifa cobrada em venda cancelada ou devolvida",
+            "pct": 20,
+            "case_ids": ["448026895", "447986958", "436559907"],
+            "summary": (
+                "Sellers solicitam estorno de tarifas cobradas sobre vendas canceladas ou "
+                "com devolução, esperando que o valor seja revertido automaticamente após o cancelamento."
+            ),
+        },
+        {
+            "name": '"Minha Página" — cobrança não reconhecida',
+            "pct": 10,
+            "case_ids": ["438951678", "451099545", "436543608"],
+            "summary": (
+                "Sellers contestam a tarifa de manutenção da 'Minha Página', afirmando não "
+                "ter contratado o serviço. Alguns relatam suspeita de uso indevido ou invasão da conta."
+            ),
+        },
+        {
+            "name": "Interpretação e reconciliação de fatura",
+            "pct": 10,
+            "case_ids": ["450135341", "436722229", "447448743"],
+            "summary": (
+                "Sellers solicitam detalhamento dos itens da fatura para conciliação financeira, "
+                "com dúvidas sobre divergências entre o valor faturado e o esperado no período."
+            ),
+        },
+    ],
+    ("Emision de Nota Fiscal", "Faturador MeLi"): [
+        {
+            "name": "Bloqueio na emissão — NF pendente impede envio",
+            "pct": 30,
+            "case_ids": ["449061727", "451571088", "452567701"],
+            "summary": (
+                "Sellers não conseguem emitir NF-e e o envio fica bloqueado. Causas frequentes: "
+                "pendências no SEFAZ, série não exclusiva para o ML ou instabilidade no sistema fiscal."
+            ),
+        },
+        {
+            "name": "Credenciamento e dados fiscais incorretos",
+            "pct": 25,
+            "case_ids": ["449585495", "448557710", "452942438"],
+            "summary": (
+                "Sellers têm emissão bloqueada por Inscrição Estadual incorreta, CNPJ não "
+                "credenciado no SEFAZ ou dados fiscais desatualizados na conta do Mercado Livre."
+            ),
+        },
+        {
+            "name": "Erros de configuração da NF-e (quantidade, NCM, CFOP)",
+            "pct": 20,
+            "case_ids": ["439223431", "442031708", "450379451"],
+            "summary": (
+                "Sellers relatam discrepâncias entre a NF emitida e o produto real: "
+                "quantidade divergente, NCM ausente ou CFOP inválido para operação interestadual."
+            ),
+        },
+        {
+            "name": "Vendas não aparecem no painel para emissão",
+            "pct": 15,
+            "case_ids": ["447058713", "436230190", "449061727"],
+            "summary": (
+                "Sellers relatam que vendas não aparecem na listagem de NF-e pendentes, "
+                "impedindo a emissão em massa. Em alguns casos causado por filtro ativo no painel."
+            ),
+        },
+        {
+            "name": "Primeiros passos — novo vendedor sem histórico de emissão",
+            "pct": 10,
+            "case_ids": ["448868937", "452942438", "454506635"],
+            "summary": (
+                "Sellers novos ou sem experiência buscam orientação completa: como habilitar "
+                "o Faturador MeLi, requisitos legais (PJ, certificado A1) e como emitir a primeira NF-e."
+            ),
+        },
+    ],
+}
+
 # ── Theme analysis via TF-IDF + KMeans ──────────────────────────────────────
 def analyze_themes(
     case_transcripts: dict[str, list[str]],
@@ -378,9 +478,16 @@ def _save_cache(proc_key: str, data: dict) -> None:
     print(f"   [cache] salvo em {path}")
 
 def fetch_analysis(proc_key: str, top_cdu: str) -> list[dict]:
-    """Retorna lista de temas para o top CDU. Usa cache de transcrições se disponível."""
+    """Retorna lista de temas para o top CDU.
+    Prioridade: 1) temas curados manualmente, 2) TF-IDF+KMeans do cache."""
     if not top_cdu:
         return []
+
+    # 1) Temas curados — retorna imediatamente, sem precisar do BQ
+    curated = CURATED_THEMES.get((proc_key, top_cdu))
+    if curated:
+        print(f"   [curado] usando {len(curated)} temas manuais para '{top_cdu}'")
+        return curated
 
     # Tenta carregar transcrições do cache
     cached = _load_cache(proc_key)
