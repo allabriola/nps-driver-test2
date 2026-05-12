@@ -16,7 +16,7 @@ REPORT_DATE = _dt.now().strftime("%d/%m/%Y")
 REPORT_TIME = _dt.now().strftime("%H:%M")
 S1_LABEL  = "04/mai – 10/mai"
 S2_LABEL  = "27/abr – 03/mai"
-VIG_LABEL = "11/mai – 11/mai"
+VIG_LABEL = "11/mai – 12/mai"
 M1_LABEL  = "Maio 2026"
 M2_LABEL  = "Abril 2026"
 NPS_TARGET = 56.61  # SUM(NUM_TARGET_NPS)/SUM(DENOM_TARGET_NPS) via LK JOIN — Abril/2026 (~52,5% oficial)
@@ -55,7 +55,7 @@ DRIVER_TARGETS = {   # SUM(NUM_TARGET_NPS)/SUM(DENOM_TARGET_NPS) por driver — 
 # SECTION 2: DATA  ← skill atualiza esta seção (tuplas: promoters, detractors, surveys)
 # ═══════════════════════════════════════════════════════════════
 weekly_driver = {
-    "CBT":                                       {"S2":(56,10,67), "S1":(85,11,99)},
+    "CBT":                                       {"S2":(56,10,67), "S1":(85,12,100)},
     "Experiencia Impositiva Mature":             {"S2":(5,0,5), "S1":(5,0,5)},
     "Experiencia Impositiva Meli Pro":           {"S2":(5,2,7), "S1":(2,1,3)},
     "Experiencia Impositiva Seller Dev":         {"S2":(50,13,70), "S1":(72,36,116)},
@@ -65,23 +65,23 @@ weekly_driver = {
     "ME Vendedor Mature":                        {"S2":(48,11,65), "S1":(75,10,89)},
     "ME Vendedor Meli Pro":                      {"S2":(110,4,120), "S1":(140,11,157)},
     "ME Vendedor Seller Dev":                    {"S2":(583,67,710), "S1":(739,108,940)},
-    "Otros CV":                                  {"S2":(159,44,223), "S1":(165,45,229)},
+    "Otros CV":                                  {"S2":(159,44,223), "S1":(165,47,231)},
     "PCF Vendedor Mature":                       {"S2":(23,7,33), "S1":(30,8,42)},
     "PCF Vendedor Meli Pro":                     {"S2":(91,12,111), "S1":(113,20,157)},
     "PCF Vendedor Seller Dev":                   {"S2":(81,26,119), "S1":(94,28,138)},
-    "PDD DS&XD - Vendedor":                      {"S2":(117,96,228), "S1":(119,100,261)},
-    "PDD FBM - Vendedor":                        {"S2":(39,18,64), "S1":(28,26,58)},
-    "PDD Fotos - Vendedor":                      {"S2":(7,2,12), "S1":(13,8,23)},
+    "PDD DS&XD - Vendedor":                      {"S2":(117,96,228), "S1":(121,100,263)},
+    "PDD FBM - Vendedor":                        {"S2":(39,18,64), "S1":(31,26,61)},
+    "PDD Fotos - Vendedor":                      {"S2":(7,2,12), "S1":(14,8,24)},
     "PDD MP,FLEX & CBT - Vendedor":              {"S2":(19,13,38), "S1":(21,9,31)},
-    "PNR ME - Vendedor":                         {"S2":(38,25,68), "S1":(24,17,45)},
+    "PNR ME - Vendedor":                         {"S2":(38,25,68), "S1":(26,17,47)},
     "PNR MP - Vendedor":                         {"S2":(38,13,62), "S1":(30,18,54)},
-    "Partners":                                  {"S2":(548,99,717), "S1":(513,74,639)},
+    "Partners":                                  {"S2":(548,99,717), "S1":(516,74,642)},
     "Post Venta Mature":                         {"S2":(42,8,57), "S1":(40,8,53)},
     "Post Venta Meli Pro":                       {"S2":(135,7,150), "S1":(200,9,213)},
     "Post Venta Seller Dev":                     {"S2":(176,20,219), "S1":(215,17,248)},
     "Publicaciones Mature":                      {"S2":(19,1,22), "S1":(22,4,30)},
     "Publicaciones Meli Pro":                    {"S2":(81,5,89), "S1":(96,5,104)},
-    "Publicaciones Seller Dev":                  {"S2":(381,88,517), "S1":(369,100,518)},
+    "Publicaciones Seller Dev":                  {"S2":(381,88,517), "S1":(370,100,520)},
 }
 
 monthly_driver = {
@@ -115,33 +115,33 @@ monthly_driver = {
 }
 
 drivers_vigente = {
-    "CBT":                                       (0,0,0),
-    "Experiencia Impositiva Mature":             (0,0,0),
-    "Experiencia Impositiva Meli Pro":           (0,0,0),
-    "Experiencia Impositiva Seller Dev":         (0,0,0),
-    "FBM-S Mature":                              (0,0,0),
-    "FBM-S Meli Pro":                            (0,0,0),
-    "FBM-S Seller Dev":                          (0,0,0),
-    "ME Vendedor Mature":                        (0,0,0),
-    "ME Vendedor Meli Pro":                      (0,0,0),
-    "ME Vendedor Seller Dev":                    (0,0,0),
-    "Otros CV":                                  (0,0,0),
-    "PCF Vendedor Mature":                       (0,0,0),
-    "PCF Vendedor Meli Pro":                     (0,0,0),
-    "PCF Vendedor Seller Dev":                   (0,0,0),
-    "PDD DS&XD - Vendedor":                      (0,0,0),
-    "PDD FBM - Vendedor":                        (0,0,0),
-    "PDD Fotos - Vendedor":                      (0,0,0),
-    "PDD MP,FLEX & CBT - Vendedor":              (0,0,0),
-    "PNR ME - Vendedor":                         (0,0,0),
-    "PNR MP - Vendedor":                         (0,0,0),
-    "Partners":                                  (0,0,0),
-    "Post Venta Mature":                         (0,0,0),
-    "Post Venta Meli Pro":                       (0,0,0),
-    "Post Venta Seller Dev":                     (0,0,0),
-    "Publicaciones Mature":                      (0,0,0),
-    "Publicaciones Meli Pro":                    (0,0,0),
-    "Publicaciones Seller Dev":                  (0,0,0),
+    "CBT":                                       (9,3,12),
+    "Experiencia Impositiva Mature":             (1,1,2),
+    "Experiencia Impositiva Meli Pro":           (1,0,2),
+    "Experiencia Impositiva Seller Dev":         (14,5,20),
+    "FBM-S Mature":                              (2,3,7),
+    "FBM-S Meli Pro":                            (2,1,3),
+    "FBM-S Seller Dev":                          (9,2,11),
+    "ME Vendedor Mature":                        (8,4,12),
+    "ME Vendedor Meli Pro":                      (26,3,31),
+    "ME Vendedor Seller Dev":                    (113,12,139),
+    "Otros CV":                                  (33,11,45),
+    "PCF Vendedor Mature":                       (5,3,8),
+    "PCF Vendedor Meli Pro":                     (24,2,27),
+    "PCF Vendedor Seller Dev":                   (13,5,20),
+    "PDD DS&XD - Vendedor":                      (26,12,43),
+    "PDD FBM - Vendedor":                        (1,1,2),
+    "PDD Fotos - Vendedor":                      (1,0,1),
+    "PDD MP,FLEX & CBT - Vendedor":              (4,0,5),
+    "PNR ME - Vendedor":                         (3,3,9),
+    "PNR MP - Vendedor":                         (2,2,5),
+    "Partners":                                  (102,12,124),
+    "Post Venta Mature":                         (9,1,11),
+    "Post Venta Meli Pro":                       (44,0,44),
+    "Post Venta Seller Dev":                     (26,5,34),
+    "Publicaciones Mature":                      (6,1,7),
+    "Publicaciones Meli Pro":                    (14,0,14),
+    "Publicaciones Seller Dev":                  (55,8,71),
 }
 
 # ═══════════════════════════════════════════════════════════════
@@ -181,33 +181,33 @@ monthly_history = {
 }
 
 weekly_history = {
-    "CBT":                                       {"23/mar":(47,11,60), "30/mar":(75,9,86), "06/abr":(87,12,101), "13/abr":(87,15,102), "20/abr":(77,16,96), "27/abr":(56,10,67), "04/mai":(85,11,99)},
-    "Experiencia Impositiva Mature":             {"23/mar":(9,4,15), "30/mar":(12,5,20), "06/abr":(9,3,13), "13/abr":(6,2,8), "20/abr":(2,0,4), "27/abr":(5,0,5), "04/mai":(5,0,5)},
-    "Experiencia Impositiva Meli Pro":           {"23/mar":(2,1,3), "30/mar":(2,1,3), "06/abr":(1,0,2), "13/abr":(2,1,4), "20/abr":(3,0,3), "27/abr":(5,2,7), "04/mai":(2,1,3)},
-    "Experiencia Impositiva Seller Dev":         {"23/mar":(60,19,90), "30/mar":(66,25,100), "06/abr":(150,36,208), "13/abr":(112,33,160), "20/abr":(57,23,88), "27/abr":(50,13,70), "04/mai":(72,36,116)},
-    "FBM-S Mature":                              {"23/mar":(34,7,46), "30/mar":(30,13,48), "06/abr":(28,7,40), "13/abr":(23,4,29), "20/abr":(17,4,21), "27/abr":(13,3,20), "04/mai":(9,4,20)},
-    "FBM-S Meli Pro":                            {"23/mar":(2,0,2), "30/mar":(0,2,2), "06/abr":(9,2,12), "13/abr":(14,6,20), "20/abr":(17,0,20), "27/abr":(13,1,18), "04/mai":(9,6,16)},
-    "FBM-S Seller Dev":                          {"23/mar":(76,25,115), "30/mar":(73,23,104), "06/abr":(74,24,115), "13/abr":(68,24,101), "20/abr":(85,29,121), "27/abr":(79,25,107), "04/mai":(69,24,104)},
-    "ME Vendedor Mature":                        {"23/mar":(197,42,268), "30/mar":(170,28,219), "06/abr":(187,41,246), "13/abr":(111,22,143), "20/abr":(73,17,93), "27/abr":(48,11,65), "04/mai":(75,10,89)},
-    "ME Vendedor Meli Pro":                      {"23/mar":(15,1,17), "30/mar":(10,6,17), "06/abr":(24,6,30), "13/abr":(76,4,83), "20/abr":(104,10,120), "27/abr":(110,4,120), "04/mai":(140,11,157)},
-    "ME Vendedor Seller Dev":                    {"23/mar":(544,82,679), "30/mar":(508,79,635), "06/abr":(838,112,1053), "13/abr":(577,89,741), "20/abr":(529,76,654), "27/abr":(583,67,710), "04/mai":(739,108,940)},
-    "Otros CV":                                  {"23/mar":(170,59,253), "30/mar":(139,36,195), "06/abr":(181,63,259), "13/abr":(158,56,230), "20/abr":(183,68,260), "27/abr":(159,44,223), "04/mai":(165,45,229)},
-    "PCF Vendedor Mature":                       {"23/mar":(66,19,96), "30/mar":(68,14,91), "06/abr":(97,24,131), "13/abr":(51,19,81), "20/abr":(21,9,34), "27/abr":(23,7,33), "04/mai":(30,8,42)},
-    "PCF Vendedor Meli Pro":                     {"23/mar":(3,1,6), "30/mar":(4,3,7), "06/abr":(13,3,19), "13/abr":(67,12,89), "20/abr":(101,14,131), "27/abr":(91,12,111), "04/mai":(113,20,157)},
-    "PCF Vendedor Seller Dev":                   {"23/mar":(113,38,167), "30/mar":(84,23,125), "06/abr":(98,29,136), "13/abr":(95,28,137), "20/abr":(82,30,129), "27/abr":(81,26,119), "04/mai":(94,28,138)},
-    "PDD DS&XD - Vendedor":                      {"23/mar":(134,146,304), "30/mar":(136,106,275), "06/abr":(113,95,236), "13/abr":(135,107,261), "20/abr":(115,76,214), "27/abr":(117,96,228), "04/mai":(119,100,261)},
-    "PDD FBM - Vendedor":                        {"23/mar":(45,26,76), "30/mar":(45,16,63), "06/abr":(40,18,65), "13/abr":(38,25,72), "20/abr":(43,25,74), "27/abr":(39,18,64), "04/mai":(28,26,58)},
-    "PDD Fotos - Vendedor":                      {"23/mar":(12,7,21), "30/mar":(9,5,15), "06/abr":(7,5,12), "13/abr":(8,8,17), "20/abr":(10,7,20), "27/abr":(7,2,12), "04/mai":(13,8,23)},
-    "PDD MP,FLEX & CBT - Vendedor":              {"23/mar":(12,13,32), "30/mar":(14,7,24), "06/abr":(16,9,28), "13/abr":(21,11,39), "20/abr":(8,10,19), "27/abr":(19,13,38), "04/mai":(21,9,31)},
-    "PNR ME - Vendedor":                         {"23/mar":(12,13,27), "30/mar":(18,9,30), "06/abr":(21,15,38), "13/abr":(23,10,37), "20/abr":(63,41,110), "27/abr":(38,25,68), "04/mai":(24,17,45)},
-    "PNR MP - Vendedor":                         {"23/mar":(22,23,51), "30/mar":(33,15,56), "06/abr":(54,16,74), "13/abr":(32,13,49), "20/abr":(28,25,57), "27/abr":(38,13,62), "04/mai":(30,18,54)},
-    "Partners":                                  {"23/mar":(450,75,573), "30/mar":(448,77,574), "06/abr":(460,76,587), "13/abr":(575,85,725), "20/abr":(567,85,719), "27/abr":(548,99,717), "04/mai":(513,74,639)},
-    "Post Venta Mature":                         {"23/mar":(91,15,119), "30/mar":(88,20,114), "06/abr":(89,15,117), "13/abr":(76,11,97), "20/abr":(46,6,58), "27/abr":(42,8,57), "04/mai":(40,8,53)},
-    "Post Venta Meli Pro":                       {"23/mar":(18,3,21), "30/mar":(8,0,9), "06/abr":(25,2,29), "13/abr":(104,5,112), "20/abr":(149,1,152), "27/abr":(135,7,150), "04/mai":(200,9,213)},
-    "Post Venta Seller Dev":                     {"23/mar":(214,41,280), "30/mar":(176,39,233), "06/abr":(239,39,301), "13/abr":(194,23,233), "20/abr":(177,18,209), "27/abr":(176,20,219), "04/mai":(215,17,248)},
-    "Publicaciones Mature":                      {"23/mar":(56,11,73), "30/mar":(61,13,87), "06/abr":(72,12,101), "13/abr":(37,14,57), "20/abr":(25,3,30), "27/abr":(19,1,22), "04/mai":(22,4,30)},
-    "Publicaciones Meli Pro":                    {"23/mar":(3,2,5), "30/mar":(6,1,8), "06/abr":(6,1,8), "13/abr":(37,4,44), "20/abr":(59,4,64), "27/abr":(81,5,89), "04/mai":(96,5,104)},
-    "Publicaciones Seller Dev":                  {"23/mar":(574,74,718), "30/mar":(502,88,653), "06/abr":(607,103,769), "13/abr":(453,80,587), "20/abr":(398,76,512), "27/abr":(381,88,517), "04/mai":(369,100,518)},
+    "CBT":                                       {"30/mar":(75,9,86), "06/abr":(87,12,101), "13/abr":(87,15,102), "20/abr":(77,16,96), "27/abr":(56,10,67), "04/mai":(85,12,100), "04/mai":(85,12,100)},
+    "Experiencia Impositiva Mature":             {"30/mar":(12,5,20), "06/abr":(9,3,13), "13/abr":(6,2,8), "20/abr":(2,0,4), "27/abr":(5,0,5), "04/mai":(5,0,5), "04/mai":(5,0,5)},
+    "Experiencia Impositiva Meli Pro":           {"30/mar":(2,1,3), "06/abr":(1,0,2), "13/abr":(2,1,4), "20/abr":(3,0,3), "27/abr":(5,2,7), "04/mai":(2,1,3), "04/mai":(2,1,3)},
+    "Experiencia Impositiva Seller Dev":         {"30/mar":(66,25,100), "06/abr":(150,36,208), "13/abr":(112,33,160), "20/abr":(57,23,88), "27/abr":(50,13,70), "04/mai":(72,36,116), "04/mai":(72,36,116)},
+    "FBM-S Mature":                              {"30/mar":(30,13,48), "06/abr":(28,7,40), "13/abr":(23,4,29), "20/abr":(17,4,21), "27/abr":(13,3,20), "04/mai":(9,4,20), "04/mai":(9,4,20)},
+    "FBM-S Meli Pro":                            {"30/mar":(0,2,2), "06/abr":(9,2,12), "13/abr":(14,6,20), "20/abr":(17,0,20), "27/abr":(13,1,18), "04/mai":(9,6,16), "04/mai":(9,6,16)},
+    "FBM-S Seller Dev":                          {"30/mar":(73,23,104), "06/abr":(74,24,115), "13/abr":(68,24,101), "20/abr":(85,29,121), "27/abr":(79,25,107), "04/mai":(69,24,104), "04/mai":(69,24,104)},
+    "ME Vendedor Mature":                        {"30/mar":(170,28,219), "06/abr":(187,41,246), "13/abr":(111,22,143), "20/abr":(73,17,93), "27/abr":(48,11,65), "04/mai":(75,10,89), "04/mai":(75,10,89)},
+    "ME Vendedor Meli Pro":                      {"30/mar":(10,6,17), "06/abr":(24,6,30), "13/abr":(76,4,83), "20/abr":(104,10,120), "27/abr":(110,4,120), "04/mai":(140,11,157), "04/mai":(140,11,157)},
+    "ME Vendedor Seller Dev":                    {"30/mar":(508,79,635), "06/abr":(838,112,1053), "13/abr":(577,89,741), "20/abr":(529,76,654), "27/abr":(583,67,710), "04/mai":(739,108,940), "04/mai":(739,108,940)},
+    "Otros CV":                                  {"30/mar":(139,36,195), "06/abr":(181,63,259), "13/abr":(158,56,230), "20/abr":(183,68,260), "27/abr":(159,44,223), "04/mai":(165,47,231), "04/mai":(165,47,231)},
+    "PCF Vendedor Mature":                       {"30/mar":(68,14,91), "06/abr":(97,24,131), "13/abr":(51,19,81), "20/abr":(21,9,34), "27/abr":(23,7,33), "04/mai":(30,8,42), "04/mai":(30,8,42)},
+    "PCF Vendedor Meli Pro":                     {"30/mar":(4,3,7), "06/abr":(13,3,19), "13/abr":(67,12,89), "20/abr":(101,14,131), "27/abr":(91,12,111), "04/mai":(113,20,157), "04/mai":(113,20,157)},
+    "PCF Vendedor Seller Dev":                   {"30/mar":(84,23,125), "06/abr":(98,29,136), "13/abr":(95,28,137), "20/abr":(82,30,129), "27/abr":(81,26,119), "04/mai":(94,28,138), "04/mai":(94,28,138)},
+    "PDD DS&XD - Vendedor":                      {"30/mar":(136,106,275), "06/abr":(113,95,236), "13/abr":(135,107,261), "20/abr":(115,76,214), "27/abr":(117,96,228), "04/mai":(121,100,263), "04/mai":(121,100,263)},
+    "PDD FBM - Vendedor":                        {"30/mar":(45,16,63), "06/abr":(40,18,65), "13/abr":(38,25,72), "20/abr":(43,25,74), "27/abr":(39,18,64), "04/mai":(31,26,61), "04/mai":(31,26,61)},
+    "PDD Fotos - Vendedor":                      {"30/mar":(9,5,15), "06/abr":(7,5,12), "13/abr":(8,8,17), "20/abr":(10,7,20), "27/abr":(7,2,12), "04/mai":(14,8,24), "04/mai":(14,8,24)},
+    "PDD MP,FLEX & CBT - Vendedor":              {"30/mar":(14,7,24), "06/abr":(16,9,28), "13/abr":(21,11,39), "20/abr":(8,10,19), "27/abr":(19,13,38), "04/mai":(21,9,31), "04/mai":(21,9,31)},
+    "PNR ME - Vendedor":                         {"30/mar":(18,9,30), "06/abr":(21,15,38), "13/abr":(23,10,37), "20/abr":(63,41,110), "27/abr":(38,25,68), "04/mai":(26,17,47), "04/mai":(26,17,47)},
+    "PNR MP - Vendedor":                         {"30/mar":(33,15,56), "06/abr":(54,16,74), "13/abr":(32,13,49), "20/abr":(28,25,57), "27/abr":(38,13,62), "04/mai":(30,18,54), "04/mai":(30,18,54)},
+    "Partners":                                  {"30/mar":(448,77,574), "06/abr":(460,76,587), "13/abr":(575,85,725), "20/abr":(567,85,719), "27/abr":(548,99,717), "04/mai":(516,74,642), "04/mai":(516,74,642)},
+    "Post Venta Mature":                         {"30/mar":(88,20,114), "06/abr":(89,15,117), "13/abr":(76,11,97), "20/abr":(46,6,58), "27/abr":(42,8,57), "04/mai":(40,8,53), "04/mai":(40,8,53)},
+    "Post Venta Meli Pro":                       {"30/mar":(8,0,9), "06/abr":(25,2,29), "13/abr":(104,5,112), "20/abr":(149,1,152), "27/abr":(135,7,150), "04/mai":(200,9,213), "04/mai":(200,9,213)},
+    "Post Venta Seller Dev":                     {"30/mar":(176,39,233), "06/abr":(239,39,301), "13/abr":(194,23,233), "20/abr":(177,18,209), "27/abr":(176,20,219), "04/mai":(215,17,248), "04/mai":(215,17,248)},
+    "Publicaciones Mature":                      {"30/mar":(61,13,87), "06/abr":(72,12,101), "13/abr":(37,14,57), "20/abr":(25,3,30), "27/abr":(19,1,22), "04/mai":(22,4,30), "04/mai":(22,4,30)},
+    "Publicaciones Meli Pro":                    {"30/mar":(6,1,8), "06/abr":(6,1,8), "13/abr":(37,4,44), "20/abr":(59,4,64), "27/abr":(81,5,89), "04/mai":(96,5,104), "04/mai":(96,5,104)},
+    "Publicaciones Seller Dev":                  {"30/mar":(502,88,653), "06/abr":(607,103,769), "13/abr":(453,80,587), "20/abr":(398,76,512), "27/abr":(381,88,517), "04/mai":(370,100,520), "04/mai":(370,100,520)},
 }
 
 weekly_history_vig = {drv: {**weekly_history[drv], "27/abr ⚡": drivers_vigente[drv]} for drv in weekly_history}
@@ -2407,77 +2407,3 @@ except Exception as e:
 
 print(f"HTML: {OUTPUT}")
 print(f"S1={fn(nS1)} ({'+' if dW>=0 else ''}{fn(dW)}pp) | {M1_LABEL[:3]}={fn(nM1)} ({'+' if dM>=0 else ''}{fn(dM)}pp)")
-
-# ═══════════════════════════════════════════════════════════════
-# GRID DEPLOY
-# ═══════════════════════════════════════════════════════════════
-import json as _json_mod, base64 as _b64_mod, os as _os_mod
-
-GRID_DOC_ID    = "01KQ3BMS9EGKTB3QHEZXXW4E46"
-GRID_COOKIES_F = _os_mod.path.join(_os_mod.path.dirname(_os_mod.path.abspath(__file__)), "grid_cookies.json")
-
-if _os_mod.path.exists(GRID_COOKIES_F):
-    try:
-        from playwright.sync_api import sync_playwright as _sync_pw
-
-        with open(OUTPUT, "rb") as _f:
-            _html_b64 = _b64_mod.b64encode(_f.read()).decode()
-        with open(GRID_COOKIES_F, encoding="utf-8") as _fc:
-            _raw_ck = _json_mod.load(_fc)
-
-        _VALID_SS = {"Strict", "Lax", "None"}
-        _pw_cookies = []
-        for _c in _raw_ck:
-            _d = _c.get("domain", "grid.adminml.com")
-            if not _d.startswith(".") and not _c.get("hostOnly", False):
-                _d = "." + _d
-            _ss = _c.get("sameSite", "None")
-            if _ss not in _VALID_SS: _ss = "None"
-            _pw_cookies.append({
-                "name": _c["name"], "value": _c["value"], "domain": _d,
-                "path": _c.get("path", "/"), "secure": bool(_c.get("secure", True)),
-                "httpOnly": bool(_c.get("httpOnly", False)), "sameSite": _ss,
-            })
-
-        with _sync_pw() as _pw:
-            _browser = _pw.chromium.launch(headless=True)
-            _ctx = _browser.new_context()
-            _ctx.add_cookies(_pw_cookies)
-            _page = _ctx.new_page()
-            _page.goto("https://grid.adminml.com", wait_until="networkidle", timeout=30000)
-
-            _csrf_val = next((_c["value"] for _c in _raw_ck if _c.get("name") == "_csrf"), "")
-            _result = _page.evaluate(
-                """async ({b64html, docId, csrfToken}) => {
-                    const bin = atob(b64html);
-                    const bytes = new Uint8Array(bin.length);
-                    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-                    const fd = new FormData();
-                    fd.append("file", new Blob([bytes], {type:"text/html;charset=utf-8"}),
-                              "nps_gerencia_sellers_br.html");
-                    fd.append("title", "NPS Gerencia Sellers BR");
-                    const r = await fetch("/api/v1/documents/" + docId + "/versions",
-                                          {method:"POST", body:fd, credentials:"include",
-                                           headers: csrfToken ? {"X-CSRF-Token": csrfToken} : {}});
-                    const txt = await r.text();
-                    return {status: r.status, body: txt.substring(0, 200)};
-                }""",
-                {"b64html": _html_b64, "docId": GRID_DOC_ID, "csrfToken": _csrf_val},
-            )
-            _browser.close()
-
-        _s = _result.get("status", 0)
-        if _s in (200, 201):
-            import re as _rr
-            _vm = _rr.search(r'"version"\s*:\s*(\d+)', _result.get("body", ""))
-            _v = _vm.group(1) if _vm else "?"
-            print(f"Grid: OK (v{_v}) -> https://grid.adminml.com/d/{GRID_DOC_ID}/view")
-        elif _s == 401:
-            print("Grid: sessao expirada — rode: python save_grid_cookies.py")
-        else:
-            print(f"Grid: erro HTTP {_s} -> {_result.get('body','')[:120]}")
-
-    except Exception as _e:
-        print(f"Grid: erro -> {_e}")
-else:
-    print("Grid: grid_cookies.json nao encontrado — rode: python save_grid_cookies.py")
