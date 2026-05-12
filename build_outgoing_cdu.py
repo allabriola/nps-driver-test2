@@ -64,35 +64,29 @@ def run(sql: str) -> list[dict]:
     return [dict(r) for r in client.query(sql).result()]
 
 # ── Queries ─────────────────────────────────────────────────────────────────
-# Fonte: BT_CX_CASE_INTERACTION (volume real de atendimentos outgoing)
-# CDU via LK_CX_CDU_GROUP | Processo via LK_CX_PROCESS_ADM
+# Fonte principal: DM_CX_OUTGOING_GESTION_DETAIL (tabela oficial de outgoing)
+# Transcrições: BT_CX_TRANSCRIPT via CAS_CASE_ID de BT_CX_CASE_INTERACTION
 
-def _cdu_expr() -> str:
-    return "COALESCE(NULLIF(cdu.CDU_PT,''), NULLIF(cdu.CDU,''), 'Sem CDU')"
+TABLE_OG = f"`{PROJECT}.WHOWNER.DM_CX_OUTGOING_GESTION_DETAIL`"
+TABLE_CI = f"`{PROJECT}.WHOWNER.BT_CX_CASE_INTERACTION`"
+TABLE_TR = f"`{PROJECT}.WHOWNER.BT_CX_TRANSCRIPT`"
 
-def _base_joins() -> str:
-    return f"""
-    FROM `{PROJECT}.WHOWNER.BT_CX_CASE_INTERACTION` i
-    LEFT JOIN `{PROJECT}.WHOWNER.LK_CX_PROCESS_ADM` p
-      ON p.CX_PR_ID = i.CI_PROCESS_ID
-    LEFT JOIN `{PROJECT}.WHOWNER.LK_CX_CDU_GROUP` cdu
-      ON cdu.SOLUTION_ID = i.WCM_CONT_ID
-     AND cdu.PROCESS_ID  = i.CI_PROCESS_ID
-    """
+EVENT_FILTER = "CI_EVENT_NAME IN ('OUTGOING_CONTACT','OUTGOING_FIRST_CONTACT')"
+CDU_EXPR     = "COALESCE(NULLIF(CDU,''), 'Sem CDU')"
 
 def q_monthly() -> str:
     procs = "','".join(PROCESSES)
     return f"""
     SELECT
-      FORMAT_DATETIME('%Y-%m', i.CI_CREATED_DATE)  AS month,
-      p.CX_PR_NAME_HSP                              AS process,
-      {_cdu_expr()}                                 AS cdu,
-      COUNT(DISTINCT i.CAS_CASE_ID)                 AS volume
-    {_base_joins()}
-    WHERE i.SIT_SITE_ID          = '{SITE}'
-      AND i.FLAG_OUTGOING_GESTION = 1
-      AND p.CX_PR_NAME_HSP       IN ('{procs}')
-      AND CAST(i.CI_CREATED_DATE AS DATE) BETWEEN '{START_YEAR}' AND '{TODAY}'
+      FORMAT_DATE('%Y-%m', OUTGOING_DATE)   AS month,
+      PRO_PROCESS_NAME                      AS process,
+      {CDU_EXPR}                            AS cdu,
+      SUM(CANT_OUTGOING)                    AS volume
+    FROM {TABLE_OG}
+    WHERE SIT_SITE_ID       = '{SITE}'
+      AND {EVENT_FILTER}
+      AND PRO_PROCESS_NAME  IN ('{procs}')
+      AND OUTGOING_DATE BETWEEN '{START_YEAR}' AND '{TODAY}'
     GROUP BY 1, 2, 3
     ORDER BY 1, 2, 4 DESC
     """
@@ -101,39 +95,75 @@ def q_weekly() -> str:
     procs = "','".join(PROCESSES)
     return f"""
     SELECT
-      DATE_TRUNC(CAST(i.CI_CREATED_DATE AS DATE), ISOWEEK) AS week_start,
-      p.CX_PR_NAME_HSP                                      AS process,
-      {_cdu_expr()}                                         AS cdu,
-      COUNT(DISTINCT i.CAS_CASE_ID)                         AS volume
-    {_base_joins()}
-    WHERE i.SIT_SITE_ID          = '{SITE}'
-      AND i.FLAG_OUTGOING_GESTION = 1
-      AND p.CX_PR_NAME_HSP       IN ('{procs}')
-      AND CAST(i.CI_CREATED_DATE AS DATE) >= '{EIGHT_WEEKS_AGO}'
+      DATE_TRUNC(OUTGOING_DATE, ISOWEEK)    AS week_start,
+      PRO_PROCESS_NAME                      AS process,
+      {CDU_EXPR}                            AS cdu,
+      SUM(CANT_OUTGOING)                    AS volume
+    FROM {TABLE_OG}
+    WHERE SIT_SITE_ID       = '{SITE}'
+      AND {EVENT_FILTER}
+      AND PRO_PROCESS_NAME  IN ('{procs}')
+      AND OUTGOING_DATE >= '{EIGHT_WEEKS_AGO}'
     GROUP BY 1, 2, 3
     ORDER BY 1, 2, 4 DESC
     """
 
 def q_case_ids(process: str, cdu: str) -> str:
-    cutoff = TODAY - timedelta(days=TRANSCRIPT_DAYS)
+    """Case IDs via BT_CX_CASE_INTERACTION filtrado pelo SOLUTION_ID do CDU."""
+    cutoff    = TODAY - timedelta(days=TRANSCRIPT_DAYS)
     cdu_safe  = cdu.replace("'", "''")
     proc_safe = process.replace("'", "''")
     return f"""
     SELECT DISTINCT i.CAS_CASE_ID
-    {_base_joins()}
+    FROM {TABLE_CI} i
     WHERE i.SIT_SITE_ID          = '{SITE}'
       AND i.FLAG_OUTGOING_GESTION = 1
-      AND p.CX_PR_NAME_HSP        = '{proc_safe}'
-      AND {_cdu_expr()}           = '{cdu_safe}'
+      AND i.CI_PROCESS_ID IN (
+          SELECT DISTINCT CI_PROCESS_ID FROM {TABLE_OG}
+          WHERE SIT_SITE_ID = '{SITE}' AND PRO_PROCESS_NAME = '{proc_safe}'
+      )
+      AND i.WCM_CONT_ID IN (
+          SELECT DISTINCT SOLUTION_ID FROM {TABLE_OG}
+          WHERE SIT_SITE_ID = '{SITE}'
+            AND PRO_PROCESS_NAME = '{proc_safe}'
+            AND {CDU_EXPR} = '{cdu_safe}'
+      )
       AND CAST(i.CI_CREATED_DATE AS DATE) >= '{cutoff}'
     LIMIT 1000
     """
 
+def q_sample_cases(process: str, cdu: str, n: int = 8) -> str:
+    """Retorna exemplos recentes de CAS_CASE_ID + data para exibir no HTML."""
+    cutoff    = TODAY - timedelta(days=60)
+    cdu_safe  = cdu.replace("'", "''")
+    proc_safe = process.replace("'", "''")
+    return f"""
+    SELECT
+      CAST(i.CAS_CASE_ID AS STRING) AS case_id,
+      CAST(i.CI_CREATED_DATE AS DATE) AS date
+    FROM {TABLE_CI} i
+    WHERE i.SIT_SITE_ID          = '{SITE}'
+      AND i.FLAG_OUTGOING_GESTION = 1
+      AND i.CI_PROCESS_ID IN (
+          SELECT DISTINCT CI_PROCESS_ID FROM {TABLE_OG}
+          WHERE SIT_SITE_ID = '{SITE}' AND PRO_PROCESS_NAME = '{proc_safe}'
+      )
+      AND i.WCM_CONT_ID IN (
+          SELECT DISTINCT SOLUTION_ID FROM {TABLE_OG}
+          WHERE SIT_SITE_ID = '{SITE}'
+            AND PRO_PROCESS_NAME = '{proc_safe}'
+            AND {CDU_EXPR} = '{cdu_safe}'
+      )
+      AND CAST(i.CI_CREATED_DATE AS DATE) >= '{cutoff}'
+    ORDER BY i.CI_CREATED_DATE DESC
+    LIMIT {n}
+    """
+
 def q_transcripts(case_ids: list[str]) -> str:
-    ids = ",".join(case_ids)  # CAS_CASE_ID is NUMERIC — no quotes
+    ids = ",".join(case_ids)
     return f"""
     SELECT OBFUSCATED_MESSAGE_CONTENT AS msg
-    FROM `{PROJECT}.WHOWNER.BT_CX_TRANSCRIPT`
+    FROM {TABLE_TR}
     WHERE CAS_CASE_ID IN ({ids})
       AND OBFUSCATED_MESSAGE_CONTENT IS NOT NULL
       AND LENGTH(OBFUSCATED_MESSAGE_CONTENT) > 15
@@ -236,15 +266,23 @@ def process_weekly(raw: list[dict]) -> dict:
         }
     return result
 
-def fetch_transcripts(proc_key: str, top_cdu: str) -> list[tuple[str, int]]:
+def fetch_transcripts_and_samples(proc_key: str, top_cdu: str) -> tuple[list, list]:
+    """Retorna (keywords, sample_cases). sample_cases = [{'case_id':..,'date':..}]"""
     if not top_cdu:
-        return []
+        return [], []
     print(f"   Buscando case IDs para '{top_cdu}'…")
-    ids = [str(int(r["CAS_CASE_ID"])) for r in run(q_case_ids(proc_key, top_cdu))
-           if r.get("CAS_CASE_ID") is not None]
+    # IDs para transcrições (STRING já que q_case_ids usa CAST AS STRING internamente
+    # mas CAS_CASE_ID retorna NUMERIC — converter aqui)
+    raw_ids = run(q_case_ids(proc_key, top_cdu))
+    ids = [str(int(r["CAS_CASE_ID"])) for r in raw_ids if r.get("CAS_CASE_ID") is not None]
     if not ids:
         print("   Nenhum case ID encontrado.")
-        return []
+        return [], []
+
+    # Casos de exemplo
+    sample_rows = run(q_sample_cases(proc_key, top_cdu))
+    samples = [{"case_id": r["case_id"], "date": str(r["date"])} for r in sample_rows]
+
     print(f"   {len(ids)} casos. Buscando transcrições…")
     messages = []
     for i in range(0, len(ids), 1000):
@@ -252,7 +290,7 @@ def fetch_transcripts(proc_key: str, top_cdu: str) -> list[tuple[str, int]]:
         rows  = run(q_transcripts(batch))
         messages.extend(r["msg"] for r in rows if r.get("msg"))
     print(f"   {len(messages)} mensagens. Extraindo keywords…")
-    return extract_keywords(messages, top_n=20)
+    return extract_keywords(messages, top_n=20), samples
 
 def build_all():
     print("▸ Volume mensal…")
@@ -264,12 +302,15 @@ def build_all():
     weekly  = process_weekly(weekly_raw)
 
     keywords = {}
+    samples  = {}
     for proc_key, proc_label in PROCESSES.items():
         top_cdu = monthly[proc_key]["top_cdu"]
         print(f"\n▸ Transcrições [{proc_label}] top CDU: {top_cdu}")
-        keywords[proc_key] = fetch_transcripts(proc_key, top_cdu)
+        kws, smp = fetch_transcripts_and_samples(proc_key, top_cdu)
+        keywords[proc_key] = kws
+        samples[proc_key]  = smp
 
-    return monthly, weekly, keywords
+    return monthly, weekly, keywords, samples
 
 # ── HTML helpers ─────────────────────────────────────────────────────────────
 def jd(obj) -> str:
@@ -311,8 +352,21 @@ def make_kw_html(kws: list[tuple[str, int]], top_cdu: str) -> str:
         f'<div class="kw-grid">{items}</div>'
     )
 
+def make_samples_html(samples: list[dict]) -> str:
+    if not samples:
+        return ""
+    rows = "".join(
+        f'<tr><td class="case-id">{s["case_id"]}</td><td class="case-date">{s["date"]}</td></tr>'
+        for s in samples
+    )
+    return (
+        f'<div class="samples-hdr">Exemplos de casos recentes</div>'
+        f'<table class="stable"><thead><tr><th>CAS_CASE_ID</th><th>Data</th></tr></thead>'
+        f'<tbody>{rows}</tbody></table>'
+    )
+
 def make_tab(idx: int, proc_key: str, proc_label: str,
-             monthly: dict, weekly: dict, kws: list) -> tuple[str, str]:
+             monthly: dict, weekly: dict, kws: list, samples: list) -> tuple[str, str]:
     """Returns (tab_html, chart_js_body)"""
     m  = monthly[proc_key]
     w  = weekly[proc_key]
@@ -346,7 +400,8 @@ def make_tab(idx: int, proc_key: str, proc_label: str,
         f'<td class="vp">{sem_pct}</td></tr>'
     )
 
-    kw_html = make_kw_html(kws, top_cdu)
+    kw_html      = make_kw_html(kws, top_cdu)
+    samples_html = make_samples_html(samples)
 
     tab_html = f"""
   <div class="tab-pane {active}" id="tp{idx}">
@@ -368,10 +423,13 @@ def make_tab(idx: int, proc_key: str, proc_label: str,
         <div class="hl-sub">{top_vol:,} atendimentos · {top_pct} do total identificado</div>
         <div class="hl-sub2">Total outgoing: {total_v:,} · Com CDU: {named_v:,} ({named_v/total_v*100:.0f}%)</div>
       </div>
-      <table class="rtable">
-        <thead><tr><th>CDU</th><th>Volume</th><th>%</th></tr></thead>
-        <tbody>{rows_html}</tbody>
-      </table>
+      <div class="hl-right">
+        <table class="rtable">
+          <thead><tr><th>CDU</th><th>Volume</th><th>%</th></tr></thead>
+          <tbody>{rows_html}</tbody>
+        </table>
+        {samples_html}
+      </div>
     </div>
 
     <div class="card kw-card">{kw_html}</div>
@@ -459,6 +517,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .rtable td{padding:7px 12px;border-bottom:1px solid #f5f5f5;vertical-align:middle}
 .rtable .tr0{background:#fffde7;font-weight:600}
 .rtable .sem-cdu-row{color:#aaa;font-style:italic;border-top:1px solid #eee}
+.hl-right{display:flex;flex-direction:column;gap:14px}
+/* ── Sample cases ── */
+.samples-hdr{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;
+             letter-spacing:.6px;margin-top:4px}
+.stable{width:100%;border-collapse:collapse;font-size:11px}
+.stable th{background:#f8f9fa;padding:5px 10px;text-align:left;font-weight:700;
+           color:#aaa;font-size:10px;border-bottom:1px solid #eee}
+.stable td{padding:5px 10px;border-bottom:1px solid #f8f8f8}
+.case-id{font-family:monospace;color:#4472C4;font-size:11px}
+.case-date{color:#888}
 .vn{text-align:right;font-variant-numeric:tabular-nums}
 .vp{text-align:right;color:#888}
 
@@ -476,7 +544,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .no-data{font-size:12px;color:#999}
 """
 
-def generate_html(monthly: dict, weekly: dict, keywords: dict) -> str:
+def generate_html(monthly: dict, weekly: dict, keywords: dict, samples: dict) -> str:
     now_str = TODAY.strftime("%d/%m/%Y")
     tab_btns  = []
     tab_panes = []
@@ -489,7 +557,9 @@ def generate_html(monthly: dict, weekly: dict, keywords: dict) -> str:
         )
         pane, js = make_tab(
             idx, proc_key, proc_label,
-            monthly, weekly, keywords.get(proc_key, [])
+            monthly, weekly,
+            keywords.get(proc_key, []),
+            samples.get(proc_key, [])
         )
         tab_panes.append(pane)
         chart_jss.append(js)
@@ -509,7 +579,7 @@ def generate_html(monthly: dict, weekly: dict, keywords: dict) -> str:
   <div class="logo">ML</div>
   <div>
     <h1>Volume Outgoing por CDU — Facturación &amp; Emissão de Nota Fiscal</h1>
-    <p>MLB · Jan–Mai 2026 · Atualizado em {now_str}</p>
+    <p>MLB · Jan–Mai 2026 · Fonte: DM_CX_OUTGOING_GESTION_DETAIL · Atualizado em {now_str}</p>
   </div>
 </header>
 
@@ -570,8 +640,8 @@ if (initFns[0]) {{ initFns[0](); initFns[0] = null; }}
 # ── Main ─────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     try:
-        monthly, weekly, keywords = build_all()
-        html = generate_html(monthly, weekly, keywords)
+        monthly, weekly, keywords, samples = build_all()
+        html = generate_html(monthly, weekly, keywords, samples)
         out  = "outgoing_cdu_analysis.html"
         with open(out, "w", encoding="utf-8") as f:
             f.write(html)
