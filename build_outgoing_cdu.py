@@ -386,6 +386,596 @@ CURATED_THEMES: dict[tuple[str, str], list[dict]] = {
             ),
         },
     ],
+
+    # ── Facturación — outros CDUs ─────────────────────────────────────────────
+    ("Facturación", "Generales"): [
+        {
+            "name": "Cobrança inesperada de 'Minha Página' ou campanha não autorizada",
+            "pct": 30,
+            "case_ids": ["438599910", "445309408", "447711579"],
+            "summary": (
+                "Sellers contestam cobranças mensais da assinatura 'Minha Página' ou de "
+                "campanhas de publicidade que afirmam não ter contratado ou ativado."
+            ),
+        },
+        {
+            "name": "Débito automático de fatura vencida em conta vinculada",
+            "pct": 25,
+            "case_ids": ["440490409", "439233988", "452080824"],
+            "summary": (
+                "Sellers são surpreendidos com débito automático de faturas vencidas em "
+                "conta do Mercado Pago vinculada, sem reconhecer a origem da cobrança."
+            ),
+        },
+        {
+            "name": "Divergência entre valor cobrado e extrato esperado",
+            "pct": 20,
+            "case_ids": ["443542893", "444683513", "453746958"],
+            "summary": (
+                "Sellers identificam diferenças entre o valor de tarifas cobrado e o "
+                "esperado — juros, multas ou descontos que não correspondem ao histórico."
+            ),
+        },
+        {
+            "name": "Bloqueio fiscal impedindo envio ou entrada no Full",
+            "pct": 15,
+            "case_ids": ["444857940", "453738125", "444829921"],
+            "summary": (
+                "Dados fiscais incompletos ou inconsistentes bloqueiam o planejamento "
+                "de envios ao Full ou impedem a emissão de NF-e em vendas específicas."
+            ),
+        },
+        {
+            "name": "Dificuldade para encerrar conta com pendências alegadas",
+            "pct": 10,
+            "case_ids": ["448385295", "438567236", "451066099"],
+            "summary": (
+                "Sellers tentam encerrar a conta mas o sistema exibe 'pendências' ou "
+                "'faturas em aberto' mesmo sem dívidas confirmadas, impedindo o cancelamento."
+            ),
+        },
+    ],
+    ("Facturación", "Dudas sobre documentos fiscales y reportes"): [
+        {
+            "name": "Como baixar relatórios de vendas, NF-e e XML do faturamento",
+            "pct": 35,
+            "case_ids": ["438579265", "446880330", "449196481"],
+            "summary": (
+                "Sellers buscam orientação para baixar relatórios de vendas, XMLs de "
+                "NF-e, extratos de faturamento e documentos fiscais emitidos na plataforma."
+            ),
+        },
+        {
+            "name": "Divergência entre NF de serviço emitida e comissão cobrada",
+            "pct": 25,
+            "case_ids": ["439531044", "440989575", "443076071"],
+            "summary": (
+                "O total de comissões cobradas pelo Mercado Livre não coincide com o "
+                "valor das NFS-e de serviço emitidas — dificultando a conciliação contábil."
+            ),
+        },
+        {
+            "name": "Dados incorretos em NF já emitida (endereço, valor, CFOP)",
+            "pct": 20,
+            "case_ids": ["436570008", "453691837", "444042106"],
+            "summary": (
+                "Sellers precisam corrigir NF-e já emitida com dados errados — endereço "
+                "do tomador, valor divergente ou CFOP inválido — e não sabem como cancelar e reemitir."
+            ),
+        },
+        {
+            "name": "NF de devolução emitida automaticamente pelo Full sem autorização",
+            "pct": 12,
+            "case_ids": ["448257564", "436253303", "450849617"],
+            "summary": (
+                "O Full emite NF-e de devolução automaticamente, gerando documentos "
+                "fiscais que o seller não solicitou e não sabe como contestar ou regularizar."
+            ),
+        },
+        {
+            "name": "DIFAL e impostos estaduais aparecendo no relatório de faturamento",
+            "pct": 8,
+            "case_ids": ["444776794", "439806044", "448699099"],
+            "summary": (
+                "Sellers questionam cobranças de DIFAL e outros impostos estaduais que "
+                "aparecem no relatório de faturamento sem explicação clara da origem."
+            ),
+        },
+    ],
+    ("Facturación", "Dudas sobre Deuda /Débito (Automático o forzado)"): [
+        {
+            "name": "Débito automático de fatura vencida não reconhecido",
+            "pct": 38,
+            "case_ids": ["448117533", "447907663", "455340536"],
+            "summary": (
+                "Sellers são debitados automaticamente por faturas vencidas do Mercado "
+                "Livre e não entendem a origem do valor, solicitando explicação e estorno."
+            ),
+        },
+        {
+            "name": "Débito em conta do Mercado Pago por dívida em conta vinculada",
+            "pct": 22,
+            "case_ids": ["440396595", "442768416", "439889946"],
+            "summary": (
+                "O saldo do Mercado Pago é debitado automaticamente para quitar dívida "
+                "de outra conta vinculada ao mesmo CPF/CNPJ, sem aviso prévio ao seller."
+            ),
+        },
+        {
+            "name": "Campanha de Product Ads debitada sem autorização",
+            "pct": 20,
+            "case_ids": ["435898726", "442544341", "443341885"],
+            "summary": (
+                "Sellers contestam débito de campanhas de Product Ads que afirmam não "
+                "ter ativado ou que pausaram, mas a cobrança continua aparecendo na fatura."
+            ),
+        },
+        {
+            "name": "Pagamento realizado mas saldo não abatido da dívida",
+            "pct": 12,
+            "case_ids": ["439853086", "449802030", "438589091"],
+            "summary": (
+                "Sellers realizaram pagamento via PIX ou antecipação de saldo para quitar "
+                "fatura, mas o valor não foi debitado e a dívida continua aparecendo."
+            ),
+        },
+        {
+            "name": "Dívida por reclamações e devoluções contestada",
+            "pct": 8,
+            "case_ids": ["448854786", "453529930", "451470832"],
+            "summary": (
+                "Sellers contestam débitos gerados por reclamações e devoluções de "
+                "compradores, alegando que o produto foi enviado corretamente ou devolvido com dano."
+            ),
+        },
+    ],
+    ("Facturación", "Generales Facturación"): [
+        {
+            "name": "Contestação formal de cobrança indevida",
+            "pct": 30,
+            "case_ids": ["455819252", "443209665", "451983284"],
+            "summary": (
+                "Sellers formalizam contestação de cobranças que consideram indevidas, "
+                "solicitando baixa definitiva de débito, cessação de cobranças ou revisão técnica."
+            ),
+        },
+        {
+            "name": "Divergência entre valor líquido recebido e esperado na venda",
+            "pct": 25,
+            "case_ids": ["443572586", "441037567", "450130574"],
+            "summary": (
+                "Sellers identificam que o valor recebido na venda é diferente do "
+                "esperado após tarifas, estornos e descontos aplicados automaticamente."
+            ),
+        },
+        {
+            "name": "Tarifas de devolução e custo de envio de retorno",
+            "pct": 22,
+            "case_ids": ["440751626", "446451726", "444998630"],
+            "summary": (
+                "Sellers questionam cobranças de tarifa de devolução e frete de retorno "
+                "sobre vendas canceladas ou com reclamação, solicitando estorno dos valores."
+            ),
+        },
+        {
+            "name": "Regras fiscais bloqueando anúncios ou entrada no Full",
+            "pct": 13,
+            "case_ids": ["447949258", "440978009", "454850574"],
+            "summary": (
+                "Inconsistências nos dados fiscais da conta geram restrições que pausam "
+                "anúncios ou impedem o envio de estoque para centros do Full."
+            ),
+        },
+        {
+            "name": "Atualização de dados cadastrais e endereço fiscal nas NF-e",
+            "pct": 10,
+            "case_ids": ["435795487", "436963050", "444982420"],
+            "summary": (
+                "Sellers precisam atualizar endereço fiscal, razão social ou dados "
+                "do emitente nas NFS-e de serviço emitidas pelo Mercado Livre."
+            ),
+        },
+    ],
+    ("Facturación", "Dudas sobre datos de facturación"): [
+        {
+            "name": "Como visualizar tarifas, extratos e movimentos do faturamento",
+            "pct": 35,
+            "case_ids": ["448187409", "450864940", "449664098"],
+            "summary": (
+                "Sellers buscam orientação para acessar o painel de faturamento, "
+                "entender os movimentos do período atual e verificar o detalhamento das tarifas."
+            ),
+        },
+        {
+            "name": "Divergência no valor líquido recebido por venda",
+            "pct": 25,
+            "case_ids": ["441110596", "451138028", "442977040"],
+            "summary": (
+                "Sellers percebem que o valor recebido por uma venda difere do esperado "
+                "e buscam entender quais tarifas, rebates ou estornos causaram a diferença."
+            ),
+        },
+        {
+            "name": "Dados fiscais incorretos ou erro ao identificar cobrança",
+            "pct": 20,
+            "case_ids": ["448863348", "455567489", "450888563"],
+            "summary": (
+                "Sellers enfrentam erros por dados fiscais desatualizados — regime "
+                "tributário incorreto, CNPJs não reconhecidos ou cobranças sem detalhamento visível."
+            ),
+        },
+        {
+            "name": "Antecipação de saldo e controle do ciclo de faturamento",
+            "pct": 12,
+            "case_ids": ["440418508", "447427082", "452923645"],
+            "summary": (
+                "Sellers querem antecipar pagamento de fatura, alterar a data de "
+                "vencimento ou entender por que o ciclo de cobrança pega dois meses distintos."
+            ),
+        },
+        {
+            "name": "Migração de regime fiscal ou tipo de conta (CPF→CNPJ, MEI→Simples)",
+            "pct": 8,
+            "case_ids": ["448843887", "442195125", "454226250"],
+            "summary": (
+                "Sellers precisam migrar de CPF para CNPJ, de MEI para Simples Nacional "
+                "ou atualizar o regime tributário na conta, mas encontram bloqueios no processo."
+            ),
+        },
+    ],
+    ("Facturación", "Dudas sobre Impuestos"): [
+        {
+            "name": "Cobrança de DIFAL/ICMS na fatura e como pagar a GNRE",
+            "pct": 38,
+            "case_ids": ["442489337", "440120779", "452871485"],
+            "summary": (
+                "Sellers recebem cobrança de DIFAL na fatura por vendas interestaduais e "
+                "buscam entender como calcular, emitir e pagar a GNRE para o estado de destino."
+            ),
+        },
+        {
+            "name": "Duplicidade de cobrança de DIFAL (já pagou GNRE e ML cobrou novamente)",
+            "pct": 25,
+            "case_ids": ["452713284", "443691226", "451928378"],
+            "summary": (
+                "Sellers que já pagaram a GNRE identificam cobrança do mesmo DIFAL "
+                "no faturamento do Mercado Livre, configurando possível duplicidade de pagamento."
+            ),
+        },
+        {
+            "name": "DIFAL indevido para optantes do Simples Nacional",
+            "pct": 18,
+            "case_ids": ["442955621", "438132468", "452961236"],
+            "summary": (
+                "Empresas do Simples Nacional contestam a cobrança de DIFAL, "
+                "alegando imunidade fiscal e solicitando orientação sobre como bloquear "
+                "ou contestar o imposto cobrado pelo estado de destino."
+            ),
+        },
+        {
+            "name": "Informe de rendimentos e IR divergente do esperado",
+            "pct": 12,
+            "case_ids": ["451525089", "446695760", "449423763"],
+            "summary": (
+                "Sellers questionam divergências no informe de rendimentos anual ou "
+                "nas alíquotas de IR aplicadas sobre o Cofrinho, não entendendo o cálculo."
+            ),
+        },
+        {
+            "name": "Comprovante de GNRE e mercadoria bloqueada na SEFAZ",
+            "pct": 7,
+            "case_ids": ["456077828", "452511411", "444824695"],
+            "summary": (
+                "Mercadoria retida na SEFAZ por falta ou inconsistência do comprovante "
+                "de GNRE — seller busca orientação para anexar o documento e liberar o envio."
+            ),
+        },
+    ],
+
+    # ── Emissão de Nota Fiscal — outros CDUs ─────────────────────────────────
+    ("Emision de Nota Fiscal", "Impuesto para facturar"): [
+        {
+            "name": "Configuração de regras tributárias nos anúncios (NCM, CFOP, CSOSN)",
+            "pct": 35,
+            "case_ids": ["447406666", "444064516", "451564085"],
+            "summary": (
+                "Sellers precisam configurar regras tributárias nos anúncios — NCM, "
+                "CFOP, CSOSN e regime tributário — para habilitar a emissão de NF-e e "
+                "enviar estoque para o Full."
+            ),
+        },
+        {
+            "name": "CBENEF obrigatório — código de benefício fiscal não configurado",
+            "pct": 25,
+            "case_ids": ["448111076", "454268638", "448186992"],
+            "summary": (
+                "A SEFAZ passou a exigir o CBENEF para emissão de NF-e em determinados "
+                "CSTs/CSOSNs. Sellers recebem bloqueio e buscam entender como configurar "
+                "o código no faturador sem alterar indevidamente o regime tributário."
+            ),
+        },
+        {
+            "name": "DIFAL e GNRE em vendas interestaduais via faturamento",
+            "pct": 18,
+            "case_ids": ["436219608", "444824695", "437752896"],
+            "summary": (
+                "Sellers questionam cobranças automáticas de DIFAL por vendas interestaduais "
+                "e buscam entender como emitir e pagar a GNRE corretamente antes do envio."
+            ),
+        },
+        {
+            "name": "Regime tributário desatualizado (MEI, Simples, Lucro Real)",
+            "pct": 14,
+            "case_ids": ["439078207", "447685979", "448112779"],
+            "summary": (
+                "O regime tributário cadastrado no Mercado Livre diverge do regime "
+                "atual do CNPJ, gerando rejeições de NF-e ou bloqueio de anúncios até "
+                "a atualização dos dados fiscais."
+            ),
+        },
+        {
+            "name": "Como emitir Carta de Correção e baixar XML de documentos fiscais",
+            "pct": 8,
+            "case_ids": ["437826880", "449365655", "448091962"],
+            "summary": (
+                "Sellers precisam de orientação para emitir Carta de Correção Eletrônica "
+                "ou baixar XML de notas já emitidas no faturador do Mercado Livre."
+            ),
+        },
+    ],
+    ("Emision de Nota Fiscal", "Restricción fiscal"): [
+        {
+            "name": "Conta suspensa por dados fiscais incorretos ou IE desabilitada",
+            "pct": 35,
+            "case_ids": ["436054322", "444306755", "436138023"],
+            "summary": (
+                "A conta é suspensa parcialmente porque a Inscrição Estadual está "
+                "desabilitada na SEFAZ ou o regime tributário mudou e os dados no "
+                "Mercado Livre não foram atualizados."
+            ),
+        },
+        {
+            "name": "Restrição 'seller invoices shipping fiscal' bloqueando anúncios",
+            "pct": 28,
+            "case_ids": ["439456956", "442706636", "450629810"],
+            "summary": (
+                "Anúncios são pausados pela restrição fiscal de emissão de NF-e para "
+                "envios, impedindo despachos até que os dados fiscais sejam regularizados."
+            ),
+        },
+        {
+            "name": "NF rejeitada por dados incorretos do emitente ou destinatário",
+            "pct": 20,
+            "case_ids": ["441827322", "455393583", "446137783"],
+            "summary": (
+                "Rejeições de NF-e por IE do emitente ou destinatário inválida, série "
+                "não exclusiva ou valor da nota divergente do valor real da venda."
+            ),
+        },
+        {
+            "name": "Instabilidade no sistema impedindo emissão e geração de etiqueta",
+            "pct": 10,
+            "case_ids": ["453816596", "451143265", "451500923"],
+            "summary": (
+                "O sistema do Mercado Livre apresenta instabilidade que bloqueia a emissão "
+                "de NF-e, impedindo a geração da etiqueta de envio mesmo com dados corretos."
+            ),
+        },
+        {
+            "name": "Cancelamento ou substituição de NF já emitida",
+            "pct": 7,
+            "case_ids": ["455879792", "449456347", "452302610"],
+            "summary": (
+                "Sellers precisam cancelar ou substituir NF-e já emitida por dados "
+                "incorretos (CPF/CNPJ do comprador, valor, produto) e não conseguem "
+                "realizar o processo pelo faturador."
+            ),
+        },
+    ],
+    ("Emision de Nota Fiscal", "Emissor externo"): [
+        {
+            "name": "XML de emissor externo (ERP/Bling/Tiny) rejeitado pelo Mercado Livre",
+            "pct": 35,
+            "case_ids": ["441428470", "438099472", "448651118"],
+            "summary": (
+                "Sellers que emitem NF-e pelo ERP ou emissor externo (Bling, Tiny, Omie) "
+                "não conseguem fazer o upload do XML — o arquivo é recusado ou a venda "
+                "continua com status 'aguardando nota fiscal'."
+            ),
+        },
+        {
+            "name": "Divergência entre valor da NF emitida e valor real da venda",
+            "pct": 25,
+            "case_ids": ["443749160", "446131198", "449244979"],
+            "summary": (
+                "O valor total da NF-e emitida pelo ERP diverge do valor registrado na "
+                "venda do Mercado Livre — geralmente por desconto ou cupom não refletido "
+                "no XML."
+            ),
+        },
+        {
+            "name": "IE do destinatário inválida ou não cadastrada bloqueando emissão",
+            "pct": 18,
+            "case_ids": ["453147656", "449083998", "454754309"],
+            "summary": (
+                "A NF-e é rejeitada pela SEFAZ com erro de IE do destinatário inválida "
+                "ou não cadastrada — situação comum em vendas para PJ com IE irregular."
+            ),
+        },
+        {
+            "name": "Como baixar XML e NF-e do Full no sistema externo",
+            "pct": 12,
+            "case_ids": ["448589066", "435900289", "451169828"],
+            "summary": (
+                "Sellers que vendem pelo Full buscam orientação para baixar os XMLs das "
+                "NF-e emitidas automaticamente pela plataforma e integrá-los ao ERP próprio."
+            ),
+        },
+        {
+            "name": "Configuração de endereço e dados do emitente no emissor externo",
+            "pct": 10,
+            "case_ids": ["448883901", "436727610", "438992300"],
+            "summary": (
+                "O emissor externo está configurado com endereço ou dados fiscais "
+                "diferentes do registrado na SEFAZ, gerando rejeições na emissão da NF-e "
+                "para vendas do Mercado Livre."
+            ),
+        },
+    ],
+    ("Emision de Nota Fiscal", "Optin"): [
+        {
+            "name": "Ativação do faturador MeLi (pré-requisitos, certificado A1, passo a passo)",
+            "pct": 38,
+            "case_ids": ["453926604", "448660294", "443011009"],
+            "summary": (
+                "Sellers tentam ativar o faturador gratuito do Mercado Livre para emissão "
+                "automática de NF-e, mas encontram dificuldades com os pré-requisitos: "
+                "PJ, certificado A1 e CNPJ credenciado na SEFAZ."
+            ),
+        },
+        {
+            "name": "Credenciamento CNPJ/SEFAZ incompleto ou não reconhecido pelo ML",
+            "pct": 28,
+            "case_ids": ["441479018", "452207784", "449932099"],
+            "summary": (
+                "O CNPJ foi credenciado na SEFAZ mas o Mercado Livre ainda não reconhece "
+                "o credenciamento — o sistema continua exibindo 'CNPJ não habilitado', "
+                "impedindo a emissão de NF-e."
+            ),
+        },
+        {
+            "name": "Configuração de série exclusiva para NF-e no faturador",
+            "pct": 15,
+            "case_ids": ["441401029", "444328504", "448643486"],
+            "summary": (
+                "O faturador exige uma série de NF-e exclusiva para vendas no Mercado "
+                "Livre, diferente da série usada no ERP externo, para evitar conflitos "
+                "de numeração."
+            ),
+        },
+        {
+            "name": "Desativação ou inativação do emissor de NF-e",
+            "pct": 10,
+            "case_ids": ["438965586", "443697967", "445092679"],
+            "summary": (
+                "Sellers que não querem mais usar o faturador do Mercado Livre buscam "
+                "como desativar a emissão automática de NF-e ou remover o certificado "
+                "digital da plataforma."
+            ),
+        },
+        {
+            "name": "Anúncios pausados por opt-in fiscal pendente",
+            "pct": 9,
+            "case_ids": ["444897407", "446589739", "448825976"],
+            "summary": (
+                "Anúncios são desativados pelo Mercado Livre porque o opt-in de emissão "
+                "de NF-e ainda não foi concluído, exigindo que o seller complete o "
+                "credenciamento para reativar as publicações."
+            ),
+        },
+    ],
+    ("Emision de Nota Fiscal", "Error en el facturador o anexar XML"): [
+        {
+            "name": "NF-e pendente por instabilidade SEFAZ — etiqueta bloqueada",
+            "pct": 35,
+            "case_ids": ["452054417", "449324494", "449042479"],
+            "summary": (
+                "A NF-e fica com status 'pendente' ou 'processando' por instabilidade "
+                "entre o sistema do Mercado Livre e a SEFAZ, bloqueando a liberação da "
+                "etiqueta de envio."
+            ),
+        },
+        {
+            "name": "Rejeição de NF-e por NCM incorreto ou obrigatório ausente",
+            "pct": 25,
+            "case_ids": ["445517003", "451760725", "436757607"],
+            "summary": (
+                "A emissão é rejeitada porque o NCM do produto está ausente, inválido "
+                "ou não corresponde ao produto real — exige correção no cadastro do "
+                "anúncio antes de reemitir."
+            ),
+        },
+        {
+            "name": "Rejeição por IE do emitente ou destinatário inválida",
+            "pct": 20,
+            "case_ids": ["449083998", "455432285", "450648033"],
+            "summary": (
+                "A SEFAZ rejeita a NF-e informando que a Inscrição Estadual do emitente "
+                "ou do destinatário está inválida, inexistente ou diverge do CNPJ cadastrado."
+            ),
+        },
+        {
+            "name": "Erro ao anexar XML de emissor externo — venda bloqueada",
+            "pct": 12,
+            "case_ids": ["447939394", "448119407", "441748928"],
+            "summary": (
+                "Sellers que emitem NF-e fora da plataforma não conseguem anexar o XML "
+                "à venda no Mercado Livre — o arquivo é recusado e a etiqueta não é "
+                "liberada para envio."
+            ),
+        },
+        {
+            "name": "NF não reconhecida pelo ML após emissão no ERP",
+            "pct": 8,
+            "case_ids": ["448592335", "450602646", "436068408"],
+            "summary": (
+                "A NF-e foi emitida no ERP e autorizada pela SEFAZ, mas o Mercado Livre "
+                "ainda mostra a venda como 'aguardando nota fiscal' e não libera a etiqueta."
+            ),
+        },
+    ],
+    ("Emision de Nota Fiscal", "Temporal"): [
+        {
+            "name": "NCM incorreto, inválido ou obrigatório bloqueando emissão de NF",
+            "pct": 35,
+            "case_ids": ["440879541", "438452710", "436757607"],
+            "summary": (
+                "A emissão de NF-e é bloqueada porque o NCM do produto está ausente, "
+                "inválido para o estado ou precisa ser atualizado após mudança na tabela "
+                "da SEFAZ (ex.: reforma tributária)."
+            ),
+        },
+        {
+            "name": "NF-e automática do Full com dados divergentes (peso, quantidade, valor)",
+            "pct": 25,
+            "case_ids": ["453767268", "455358449", "455813230"],
+            "summary": (
+                "O Full emite NF-e automaticamente com peso bruto/líquido, quantidade "
+                "ou valor divergentes do pedido real, gerando inconsistências fiscais "
+                "que o seller precisa corrigir."
+            ),
+        },
+        {
+            "name": "Instabilidade na emissão — NF pendente aguardando SEFAZ",
+            "pct": 20,
+            "case_ids": ["449200234", "448858307", "439349361"],
+            "summary": (
+                "A NF-e fica com status 'pendente' por instabilidade no sistema fiscal, "
+                "impedindo a impressão da etiqueta de envio enquanto a SEFAZ não autoriza "
+                "o documento."
+            ),
+        },
+        {
+            "name": "Configuração de regras tributárias e planilha fiscal",
+            "pct": 12,
+            "case_ids": ["436569415", "439066379", "450610410"],
+            "summary": (
+                "Sellers precisam configurar ou atualizar a planilha tributária da conta "
+                "para vincular regras fiscais corretas aos anúncios e habilitar a emissão "
+                "automática de NF-e."
+            ),
+        },
+        {
+            "name": "Cancelamento ou correção de NF-e já emitida",
+            "pct": 8,
+            "case_ids": ["452304416", "446334383", "439102772"],
+            "summary": (
+                "Sellers precisam cancelar ou corrigir NF-e já emitida por dados errados "
+                "(NCM, valor, quantidade) mas enfrentam restrições no faturador ou prazo "
+                "de cancelamento expirado."
+            ),
+        },
+    ],
 }
 
 # ── Theme analysis via TF-IDF + KMeans ──────────────────────────────────────
