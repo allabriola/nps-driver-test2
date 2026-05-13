@@ -68,9 +68,13 @@
 
   /* CDU THEME SECTIONS */
   .cdu-section { margin-bottom: 24px; border: 1px solid #e8eaed; border-radius: 10px; overflow: hidden; }
-  .cdu-header { padding: 12px 16px; display: flex; align-items: center; gap: 12px; flex-wrap: nowrap; }
-  .cdu-chart-wrap { flex-shrink: 0; width: 200px; height: 80px; position: relative; }
-  .cdu-chart-wrap canvas { display: block; }
+  .cdu-header { padding: 12px 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  /* charts grid replacing matrix */
+  .charts-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 10px; }
+  .chart-cell { background: #1a1a2e; border-radius: 8px; padding: 10px 12px 8px; }
+  .chart-cell-title { font-size: 10px; font-weight: 700; color: #FFE600; margin-bottom: 2px; }
+  .chart-cell-sub { font-size: 9px; color: #aaa; margin-bottom: 6px; }
+  .chart-cell canvas { display: block; width: 100% !important; height: 110px !important; }
   .cdu-header.crit { background: #fff0f0; border-bottom: 2px solid #e53e3e; }
   .cdu-header.warn { background: #fffbe6; border-bottom: 2px solid #dd6b20; }
   .cdu-header.defl { background: #f0fff4; border-bottom: 2px solid #38a169; }
@@ -203,39 +207,38 @@
         <div class="note">🟢 deflexão = NPS acima do target, contato evitável via produto · 🔴 dor = NPS abaixo do target</div>
       </div>
 
-      <!-- MATRIX 2x2 -->
+      <!-- CHARTS GRID (CDUs de dor) -->
       <div>
-        <div class="section-title">Matriz — Volume Outgoing × NPS Lineal</div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:10px;color:#888;font-weight:700;">
-          <span>← NPS ALTO</span><span>NPS BAIXO →</span>
+        <div class="section-title">Evolução Mensal — CDUs de Dor · Fev–Mai 2026</div>
+        <div class="charts-grid">
+
+          <div class="chart-cell">
+            <div class="chart-cell-title">🔴 Métricas / Nível de Lealtad</div>
+            <div class="chart-cell-sub">NPS 51,9% · −16,6pp target · 2.306 outgoing</div>
+            <canvas id="chart-metricas"></canvas>
+          </div>
+
+          <div class="chart-cell">
+            <div class="chart-cell-title">🔴 Inconvenientes / Service Center</div>
+            <div class="chart-cell-sub">NPS 57,5% · −13,1pp target · 2.528 outgoing</div>
+            <canvas id="chart-sc"></canvas>
+          </div>
+
+          <div class="chart-cell">
+            <div class="chart-cell-title">🟡 Rota Não Paga</div>
+            <div class="chart-cell-sub">NPS 63,2% · −6,7pp target · 2.843 outgoing</div>
+            <canvas id="chart-rota"></canvas>
+          </div>
+
+          <div class="chart-cell">
+            <div class="chart-cell-title">🟡 Criação de Conta</div>
+            <div class="chart-cell-sub">NPS 59,9% · −9,4pp target · 2.970 outgoing</div>
+            <canvas id="chart-conta"></canvas>
+          </div>
+
         </div>
-        <div class="matrix-grid">
-          <div class="mc q2">
-            <div class="mc-label">🔵 Deflexão — self-service</div>
-            <div class="mc-item"><div class="dot" style="background:#3182ce"></div><div><strong>Conta inativada</strong><div class="og">25.473 · NPS 74,7%</div></div></div>
-            <div class="mc-item"><div class="dot" style="background:#3182ce"></div><div><strong>Como funciona Extra</strong><div class="og">5.503 · NPS 73,4%</div></div></div>
-            <div class="mc-item"><div class="dot" style="background:#3182ce"></div><div><strong>Onboarding Extra</strong><div class="og">1.785</div></div></div>
-          </div>
-          <div class="mc q1">
-            <div class="mc-label">🔴 Dor — fix urgente</div>
-            <div class="mc-item"><div class="dot" style="background:#e53e3e"></div><div><strong>Métricas / Lealtad</strong><div class="og">2.306 · NPS 51,9%</div></div></div>
-            <div class="mc-item"><div class="dot" style="background:#e53e3e"></div><div><strong>Inconvenientes / SC</strong><div class="og">2.528 · NPS 57,5%</div></div></div>
-            <div class="mc-item"><div class="dot" style="background:#dd6b20"></div><div><strong>Criação de conta</strong><div class="og">2.970 · NPS 59,9%</div></div></div>
-            <div class="mc-item"><div class="dot" style="background:#dd6b20"></div><div><strong>Rota não paga</strong><div class="og">2.843 · NPS 63,2%</div></div></div>
-          </div>
-          <div class="mc q4">
-            <div class="mc-label">🟢 Monitorar</div>
-            <div class="mc-item"><div class="dot" style="background:#38a169"></div><div><strong>Não recebe rotas</strong><div class="og">2.224 · NPS 78,7%</div></div></div>
-            <div class="mc-item"><div class="dot" style="background:#38a169"></div><div><strong>Flotillero Extra</strong><div class="og">788 · NPS 66,3%</div></div></div>
-          </div>
-          <div class="mc q3">
-            <div class="mc-label">🟡 Qualidade — baixo vol.</div>
-            <div class="mc-item"><div class="dot" style="background:#e53e3e"></div><div><strong>Pago de ruta</strong><div class="og">445 · NPS 55,7%</div></div></div>
-            <div class="mc-item"><div class="dot" style="background:#dd6b20"></div><div><strong>Soporte MeLi</strong><div class="og">446 · NPS 60,8%</div></div></div>
-          </div>
-        </div>
-        <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:10px;color:#888;font-weight:700;">
-          <span>↑ VOLUME ALTO</span><span>VOLUME BAIXO ↓</span>
+        <div style="margin-top:8px;font-size:10px;color:#888;">
+          ▌ Barras = outgoing mensal (eixo esq.) &nbsp;·&nbsp; <span style="color:#FFE600">— NPS%</span> (eixo dir.) &nbsp;·&nbsp; <span style="color:#ffffff66">-- Target</span>
         </div>
       </div>
     </div><!-- end grid-2 -->
@@ -254,9 +257,8 @@
           <span class="cdu-chip og">2.306 outgoing</span>
           <span class="cdu-chip nps-bad">NPS 51,9%</span>
           <span class="cdu-chip gap-neg">−16,6pp vs target</span>
-          <span style="font-size:10px;color:#888">122 transcritos · 3 temas</span>
+          <span style="font-size:10px;color:#888">122 transcritos · 3 temas identificados</span>
         </div>
-        <div class="cdu-chart-wrap"><canvas id="chart-metricas"></canvas></div>
       </div>
       <div class="themes-grid">
 
@@ -315,9 +317,8 @@
           <span class="cdu-chip og">2.528 outgoing</span>
           <span class="cdu-chip nps-bad">NPS 57,5%</span>
           <span class="cdu-chip gap-neg">−13,1pp vs target</span>
-          <span style="font-size:10px;color:#888">104 transcritos · 3 temas</span>
+          <span style="font-size:10px;color:#888">104 transcritos · 3 temas · NPS idêntico há 3 meses</span>
         </div>
-        <div class="cdu-chart-wrap"><canvas id="chart-sc"></canvas></div>
       </div>
       <div class="themes-grid">
 
@@ -378,7 +379,6 @@
           <span class="cdu-chip gap-neg">−6,7pp vs target</span>
           <span style="font-size:10px;color:#888">102 transcritos · 3 temas</span>
         </div>
-        <div class="cdu-chart-wrap"><canvas id="chart-rota"></canvas></div>
       </div>
       <div class="themes-grid">
 
@@ -437,9 +437,8 @@
           <span class="cdu-chip og">2.970 outgoing</span>
           <span class="cdu-chip nps-warn">NPS 59,9%</span>
           <span class="cdu-chip gap-neg">−9,4pp vs target</span>
-          <span style="font-size:10px;color:#888">63 transcritos · 3 temas · Mai era outlier</span>
+          <span style="font-size:10px;color:#888">63 transcritos · 3 temas · Mai era outlier (+9,8pp)</span>
         </div>
-        <div class="cdu-chart-wrap"><canvas id="chart-conta"></canvas></div>
       </div>
       <div class="themes-grid">
 
@@ -617,8 +616,8 @@ function makeChart(canvasId, d, barColor) {
         },
         yOg: {
           position: 'left',
-          ticks: { color: '#aaa', font: { size: 8 }, maxTicksLimit: 4 },
-          grid: { color: '#ffffff11' }
+          ticks: { color: '#9ab', font: { size: 8 }, maxTicksLimit: 3 },
+          grid: { color: '#ffffff15' }
         },
         yNps: {
           position: 'right',
@@ -637,11 +636,7 @@ function makeChart(canvasId, d, barColor) {
   });
 }
 
-// Fundo escuro nos canvas
-document.querySelectorAll('.cdu-chart-wrap canvas').forEach(c => {
-  c.style.background = 'rgba(0,0,0,0.35)';
-  c.style.borderRadius = '6px';
-});
+// charts are inside dark .chart-cell — no extra background needed
 
 makeChart('chart-metricas', DATA.metricas, '#e53e3e');
 makeChart('chart-sc',       DATA.sc,       '#e53e3e');
