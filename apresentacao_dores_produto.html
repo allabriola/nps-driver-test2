@@ -3,133 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dores CX BR_ME_Sellers_Longtail | Visão Produto | Mai 2026</title>
+<title>Processo Drivers — Visão Produto | BR_ME_Sellers_Longtail | Mai 2026</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #f4f5f7;
-    color: #1a1a2e;
-    font-size: 13px;
-  }
-  .page {
-    max-width: 1200px;
-    margin: 20px auto;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
-    overflow: hidden;
-  }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f5f7; color: #1a1a2e; font-size: 13px; }
+  .page { max-width: 1200px; margin: 20px auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.1); overflow: hidden; }
 
   /* HEADER */
-  .header {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    color: #fff;
-    padding: 20px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .header-left h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; }
+  .header-left h1 { font-size: 20px; font-weight: 700; }
   .header-left p { color: #FFE600; font-size: 12px; margin-top: 3px; }
-  .header-right { display: flex; gap: 18px; align-items: center; }
-  .kpi-pill {
-    text-align: center;
-    background: rgba(255,255,255,0.08);
-    border-radius: 10px;
-    padding: 10px 16px;
-    border: 1px solid rgba(255,230,0,0.3);
-  }
+  .header-right { display: flex; gap: 16px; align-items: center; }
+  .kpi-pill { text-align: center; background: rgba(255,255,255,0.08); border-radius: 10px; padding: 10px 16px; border: 1px solid rgba(255,230,0,0.3); }
   .kpi-pill .val { font-size: 22px; font-weight: 800; color: #FFE600; line-height: 1; }
   .kpi-pill .lbl { font-size: 10px; color: #aaa; margin-top: 2px; }
   .kpi-pill .sub { font-size: 10px; margin-top: 1px; }
-  .kpi-pill .pos { color: #7fff7f; }
-  .kpi-pill .neg { color: #ff7f7f; }
-  .tag-team {
-    background: rgba(255,230,0,0.15);
-    border: 1px solid #FFE600;
-    border-radius: 20px;
-    padding: 5px 12px;
-    font-size: 11px;
-    font-weight: 700;
-    color: #FFE600;
-    white-space: nowrap;
-  }
+  .pos { color: #7fff7f; } .neg { color: #ff7f7f; }
+  .tag-team { background: rgba(255,230,0,0.15); border: 1px solid #FFE600; border-radius: 20px; padding: 5px 12px; font-size: 11px; font-weight: 700; color: #FFE600; white-space: nowrap; }
+  .tag-proc { background: rgba(100,160,255,0.2); border: 1px solid #4a90d9; border-radius: 20px; padding: 5px 12px; font-size: 11px; font-weight: 700; color: #a0d0ff; white-space: nowrap; }
 
   /* BODY */
   .body { padding: 22px 28px; }
-
-  /* SECTION TITLES */
-  .section-title {
-    font-size: 11px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 1.2px; color: #666; margin-bottom: 12px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .section-title::before {
-    content: ''; display: inline-block; width: 4px; height: 14px;
-    border-radius: 2px; background: #FFE600;
-  }
-
-  /* GRID */
+  .section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #666; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .section-title::before { content: ''; display: inline-block; width: 4px; height: 14px; border-radius: 2px; background: #FFE600; }
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 22px; }
   .divider { height: 1px; background: #e8eaed; margin: 4px 0 20px; }
 
-  /* PROCESSO BARS */
-  .proc-list { display: flex; flex-direction: column; gap: 7px; }
-  .proc-row { display: flex; align-items: center; gap: 8px; }
-  .proc-name { width: 175px; font-size: 11.5px; font-weight: 600; flex-shrink: 0; color: #1a1a2e; }
-  .bar-wrap {
-    flex: 1; background: #e8eaed; border-radius: 4px; height: 20px;
-    position: relative; overflow: visible;
-  }
-  .bar-fill {
-    height: 100%; border-radius: 4px; display: flex; align-items: center;
-    padding-left: 6px; font-size: 11px; font-weight: 700; color: #fff;
-    min-width: 40px;
-  }
+  /* CDU TABLE */
+  .cdu-table { width: 100%; border-collapse: collapse; }
+  .cdu-table th { text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; color: #888; padding: 5px 8px; border-bottom: 2px solid #e8eaed; }
+  .cdu-table td { padding: 6px 8px; border-bottom: 1px solid #f0f0f0; font-size: 12px; vertical-align: middle; }
+  .cdu-table tr:last-child td { border-bottom: none; }
+  .cdu-table tr.highlight td { background: #fff8e1; }
+  .cdu-table tr.critical td { background: #fff0f0; }
+  .nps-chip { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .nps-chip.bad  { background: #ffe0e0; color: #cc0000; }
+  .nps-chip.warn { background: #fff3e0; color: #b85c00; }
+  .nps-chip.ok   { background: #e0ffe0; color: #006600; }
+  .gap-num { font-size: 11px; font-weight: 700; }
+  .gap-num.neg { color: #cc0000; }
+  .gap-num.pos { color: #006600; }
+  .gap-num.neu { color: #888; }
+  .vol-bar-wrap { display: inline-flex; align-items: center; gap: 5px; }
+  .vol-bar { height: 7px; border-radius: 3px; background: #1a1a2e; display: inline-block; }
+  .cdu-label { font-weight: 600; font-size: 12px; }
+  .pct-label { font-size: 10px; color: #888; }
+  .highlight-tag { display: inline-block; background: #FFE600; color: #1a1a2e; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; text-transform: uppercase; margin-left: 4px; vertical-align: middle; }
+
+  /* NPS BARS (right panel) */
+  .bar-list { display: flex; flex-direction: column; gap: 7px; }
+  .bar-row { display: flex; align-items: center; gap: 7px; }
+  .bar-label { width: 210px; font-size: 11.5px; font-weight: 600; flex-shrink: 0; color: #1a1a2e; }
+  .bar-track { flex: 1; background: #e8eaed; border-radius: 4px; height: 20px; position: relative; overflow: visible; }
+  .bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 7px; font-size: 11px; font-weight: 700; color: #fff; min-width: 36px; }
   .bar-fill.bad  { background: #e53e3e; }
   .bar-fill.warn { background: #dd6b20; }
   .bar-fill.ok   { background: #2d9a54; }
   .bar-fill.good { background: #1a6e3a; }
-  .target-line {
-    position: absolute; top: -4px; bottom: -4px; width: 2px;
-    background: #1a1a2e; border-radius: 1px;
-  }
-  .tgt-tip {
-    position: absolute; top: -18px; font-size: 9px; color: #555;
-    white-space: nowrap; transform: translateX(-50%);
-  }
-  .gap-tag {
-    font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;
-    white-space: nowrap; flex-shrink: 0; width: 52px; text-align: center;
-  }
+  .tgt-line { position: absolute; top: -4px; bottom: -4px; width: 2px; background: #1a1a2e; border-radius: 1px; }
+  .tgt-tip { position: absolute; top: -18px; font-size: 8.5px; color: #555; white-space: nowrap; transform: translateX(-50%); }
+  .gap-tag { font-size: 10px; font-weight: 700; padding: 2px 5px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; width: 50px; text-align: center; }
   .gap-tag.neg { background: #ffe0e0; color: #cc0000; }
   .gap-tag.pos { background: #e0ffe0; color: #006600; }
-  .n-tag { font-size: 10px; color: #999; width: 50px; text-align: right; flex-shrink: 0; }
-
-  /* CDU TABLE */
-  .cdu-table { width: 100%; border-collapse: collapse; }
-  .cdu-table th {
-    text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase;
-    color: #888; padding: 5px 8px; border-bottom: 2px solid #e8eaed;
-  }
-  .cdu-table td { padding: 6px 8px; border-bottom: 1px solid #f0f0f0; font-size: 12px; vertical-align: middle; }
-  .cdu-table tr:last-child td { border-bottom: none; }
-  .rank-num {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 20px; height: 20px; border-radius: 50%; background: #FFE600;
-    color: #1a1a2e; font-size: 10px; font-weight: 800;
-  }
-  .proc-tag { font-size: 10px; color: #888; display: block; margin-top: 1px; }
-  .vol-bar-mini { display: inline-block; height: 7px; border-radius: 3px; background: #1a1a2e; vertical-align: middle; margin-right: 5px; }
-  .nps-chip {
-    display: inline-block; padding: 2px 7px; border-radius: 20px;
-    font-size: 11px; font-weight: 700;
-  }
-  .nps-chip.bad  { background: #ffe0e0; color: #cc0000; }
-  .nps-chip.warn { background: #fff3e0; color: #b85c00; }
-  .nps-chip.ok   { background: #e0ffe0; color: #006600; }
-  .nps-chip.none { background: #eee; color: #666; }
+  .gap-tag.neu { background: #eee; color: #888; }
 
   /* PRIORITIES */
   .priority-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 22px; }
@@ -142,26 +78,23 @@
   .priority-card.p2 .p-label { color: #c05621; }
   .priority-card.p3 .p-label { color: #2b6cb0; }
   .p-title { font-size: 13px; font-weight: 700; margin-bottom: 7px; line-height: 1.3; }
-  .p-metrics { display: flex; gap: 12px; margin-bottom: 8px; }
+  .p-metrics { display: flex; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
   .pm .pv { font-size: 16px; font-weight: 800; }
   .pm .pk { font-size: 9px; color: #888; }
   .p-insight { font-size: 11px; color: #555; line-height: 1.45; }
-  .verbatim {
-    background: #f8f9fa; border-left: 3px solid #e53e3e; padding: 7px 10px;
-    border-radius: 0 7px 7px 0; font-size: 11px; font-style: italic;
-    color: #444; margin-top: 7px; line-height: 1.4;
-  }
+  .verbatim { background: #f8f9fa; border-left: 3px solid #e53e3e; padding: 7px 10px; border-radius: 0 7px 7px 0; font-size: 11px; font-style: italic; color: #444; margin-top: 7px; line-height: 1.4; }
   .verbatim .autor { font-style: normal; font-size: 10px; color: #999; margin-top: 3px; }
 
   /* MOTIVOS */
   .motivos-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 11px; margin-bottom: 20px; }
   .motivo-card { background: #f8f9fa; border-radius: 9px; padding: 13px; border: 1px solid #e8eaed; }
-  .m-header { margin-bottom: 9px; }
-  .m-header h3 { font-size: 11.5px; font-weight: 700; color: #1a1a2e; line-height: 1.3; }
-  .m-sub { font-size: 10px; color: #888; margin-top: 2px; }
+  .motivo-card.critical { border-color: #e53e3e; background: #fff8f8; }
+  .motivo-card.warning  { border-color: #dd6b20; background: #fffbf5; }
+  .m-header h3 { font-size: 11.5px; font-weight: 700; color: #1a1a2e; line-height: 1.3; margin-bottom: 2px; }
+  .m-sub { font-size: 10px; color: #888; margin-bottom: 9px; }
   .m-row { display: flex; align-items: center; gap: 5px; margin-bottom: 5px; }
-  .m-label { font-size: 10px; color: #333; flex: 1; min-width: 0; }
-  .m-bar-wrap { width: 70px; background: #e8eaed; border-radius: 3px; height: 7px; flex-shrink: 0; }
+  .m-label { font-size: 10px; color: #333; flex: 1; min-width: 0; line-height: 1.3; }
+  .m-bar-wrap { width: 65px; background: #e8eaed; border-radius: 3px; height: 7px; flex-shrink: 0; }
   .m-bar-fill { height: 100%; border-radius: 3px; }
   .m-bar-fill.dark { background: #1a1a2e; }
   .m-bar-fill.med  { background: #4a6080; }
@@ -169,29 +102,15 @@
   .m-pct { font-size: 10px; font-weight: 700; color: #1a1a2e; width: 26px; text-align: right; flex-shrink: 0; }
 
   /* INSIGHT BOX */
-  .insight-box {
-    background: #1a1a2e; border-radius: 10px; padding: 16px 20px;
-    display: flex; gap: 24px; align-items: flex-start;
-  }
-  .insight-label {
-    color: #FFE600; font-size: 11px; font-weight: 800; text-transform: uppercase;
-    letter-spacing: 1px; white-space: nowrap; padding-top: 2px; min-width: 80px;
-  }
+  .insight-box { background: #1a1a2e; border-radius: 10px; padding: 16px 20px; display: flex; gap: 24px; align-items: flex-start; }
+  .insight-label { color: #FFE600; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; padding-top: 2px; min-width: 80px; }
   .insight-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; flex: 1; }
   .insight-title { color: #FFE600; font-size: 11px; font-weight: 700; margin-bottom: 4px; }
   .insight-text { color: #ccc; font-size: 11px; line-height: 1.5; }
 
   /* FOOTER */
-  .footer {
-    background: #1a1a2e; color: #888; padding: 11px 28px; font-size: 10px;
-    display: flex; justify-content: space-between; align-items: center;
-  }
+  .footer { background: #1a1a2e; color: #888; padding: 11px 28px; font-size: 10px; display: flex; justify-content: space-between; align-items: center; }
   .footer span { color: #FFE600; font-weight: 700; }
-  .highlight-tag {
-    display: inline-block; background: #FFE600; color: #1a1a2e; font-size: 9px;
-    font-weight: 800; padding: 2px 5px; border-radius: 3px;
-    text-transform: uppercase; letter-spacing: 0.5px; margin-left: 5px;
-  }
 </style>
 </head>
 <body>
@@ -200,330 +119,312 @@
   <!-- HEADER -->
   <div class="header">
     <div class="header-left">
-      <h1>Principais Dores CX — Visão Produto</h1>
-      <p>NPS Lineal · Driver por CDU · Período: Mai 2026 MTD (01–10/05)</p>
+      <h1>Processo Drivers — Dores CX · Visão Produto</h1>
+      <p>NPS Lineal por CDU · Período: Mai 2026 MTD (01–10/05) · Partners / ME Extra</p>
     </div>
     <div class="header-right">
       <div class="tag-team">🚚 BR_ME_Sellers_Longtail</div>
+      <div class="tag-proc">📦 Processo: Drivers</div>
       <div class="kpi-pill">
-        <div class="val">61,7%</div>
-        <div class="lbl">NPS Lineal Mai MTD</div>
-        <div class="sub neg">▼ −0,7pp vs. Target (62,4%)</div>
+        <div class="val">68,5%</div>
+        <div class="lbl">NPS Lineal Drivers</div>
+        <div class="sub neg">▼ 7 de 14 CDUs abaixo do target</div>
       </div>
       <div class="kpi-pill">
-        <div class="val">2.701</div>
+        <div class="val">939</div>
         <div class="lbl">pesquisas MTD</div>
         <div class="sub pos">Fonte: BQ DM_CX_NPS</div>
       </div>
     </div>
   </div>
 
-  <!-- BODY -->
   <div class="body">
 
-    <!-- ROW 1 -->
+    <!-- ROW 1: tabela CDUs + barras NPS -->
     <div class="grid-2">
 
-      <!-- NPS POR PROCESSO -->
+      <!-- TABELA CDUs por volume -->
       <div>
-        <div class="section-title">NPS Lineal por Processo — BR_ME_Sellers_Longtail · Mai MTD</div>
-        <div class="proc-list">
-
-          <div class="proc-row">
-            <div class="proc-name">Viaje Paq. Comprador <span class="highlight-tag">⚠ crítico</span></div>
-            <div class="bar-wrap">
-              <div class="bar-fill bad" style="width:36.9%">36,9%</div>
-            </div>
-            <div class="gap-tag neg">n=498</div>
-            <div class="n-tag" style="color:#cc0000;font-weight:700">PIOR</div>
-          </div>
-
-          <div class="proc-row">
-            <div class="proc-name">Reversa</div>
-            <div class="bar-wrap">
-              <div class="bar-fill bad" style="width:47.2%">47,2%</div>
-            </div>
-            <div class="gap-tag neg">n=89</div>
-            <div class="n-tag" style="color:#cc6600;font-weight:700">−14pp tgt</div>
-          </div>
-
-          <div class="proc-row">
-            <div class="proc-name">PCF Vendedor</div>
-            <div class="bar-wrap">
-              <div class="bar-fill warn" style="width:48.1%">48,1%</div>
-            </div>
-            <div class="gap-tag neg">n=52</div>
-            <div class="n-tag"></div>
-          </div>
-
-          <div class="proc-row">
-            <div class="proc-name">Viaje Paq. Vendedor</div>
-            <div class="bar-wrap">
-              <div class="bar-fill warn" style="width:57.4%">57,4%</div>
-            </div>
-            <div class="gap-tag" style="background:#eee;color:#666">n=54</div>
-            <div class="n-tag"></div>
-          </div>
-
-          <div class="proc-row">
-            <div class="proc-name">Despacho V. y Pub.</div>
-            <div class="bar-wrap">
-              <div class="bar-fill ok" style="width:67.2%">67,2%</div>
-            </div>
-            <div class="gap-tag pos">n=743</div>
-            <div class="n-tag" style="color:#006600">+maior vol</div>
-          </div>
-
-          <div class="proc-row">
-            <div class="proc-name">Drivers (Partners)</div>
-            <div class="bar-wrap">
-              <div class="bar-fill ok" style="width:68.5%">68,5%</div>
-            </div>
-            <div class="gap-tag" style="background:#eee;color:#666">n=939</div>
-            <div class="n-tag"></div>
-          </div>
-
-          <div class="proc-row">
-            <div class="proc-name">Places Kangu</div>
-            <div class="bar-wrap">
-              <div class="bar-fill ok" style="width:70.1%">70,1%</div>
-            </div>
-            <div class="gap-tag" style="background:#eee;color:#666">n=174</div>
-            <div class="n-tag"></div>
-          </div>
-
-          <div class="proc-row">
-            <div class="proc-name">Gestiones Operativas</div>
-            <div class="bar-wrap">
-              <div class="bar-fill ok" style="width:72.5%">72,5%</div>
-            </div>
-            <div class="gap-tag" style="background:#eee;color:#666">n=98</div>
-            <div class="n-tag"></div>
-          </div>
-
-          <div class="proc-row">
-            <div class="proc-name">Reputación</div>
-            <div class="bar-wrap">
-              <div class="bar-fill good" style="width:76.9%">76,9%</div>
-            </div>
-            <div class="gap-tag pos">n=134</div>
-            <div class="n-tag"></div>
-          </div>
-
-          <div class="proc-row">
-            <div class="proc-name">Reputación ME</div>
-            <div class="bar-wrap">
-              <div class="bar-fill good" style="width:86.1%">86,1%</div>
-            </div>
-            <div class="gap-tag pos">n=144</div>
-            <div class="n-tag" style="color:#006600">MELHOR</div>
-          </div>
-
-        </div>
-        <div style="margin-top:10px;font-size:10px;color:#aaa;">
-          Barra = NPS Lineal · n = pesquisas MTD · NPS_COLAB fórmula: (P−D)/Total × 100
-        </div>
-      </div>
-
-      <!-- TOP CDUs POR VOLUME -->
-      <div>
-        <div class="section-title">Top CDUs por Volume de Pesquisas — Mai MTD</div>
+        <div class="section-title">CDUs por Volume de Pesquisas — Drivers · Mai MTD</div>
         <table class="cdu-table">
           <thead>
             <tr>
-              <th>#</th>
-              <th>Processo / CDU</th>
-              <th style="text-align:right">Pesq.</th>
+              <th>CDU</th>
+              <th style="text-align:right">Pesq. / Share</th>
               <th style="text-align:center">NPS Lineal</th>
-              <th style="text-align:center">Gap Tgt</th>
+              <th style="text-align:center">Gap Target</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><span class="rank-num">1</span></td>
-              <td>
-                <strong>Viaje Paq. Comprador</strong>
-                <span class="proc-tag">CDU: Dudas sobre estado del envío</span>
-              </td>
+              <td><span class="cdu-label">Porquê conta inativada</span></td>
               <td style="text-align:right">
-                <span class="vol-bar-mini" style="width:80px"></span><strong>338</strong>
-              </td>
-              <td style="text-align:center"><span class="nps-chip bad">31,4%</span></td>
-              <td style="text-align:center;font-size:11px;font-weight:700;color:#cc0000">−6,0pp</td>
-            </tr>
-            <tr>
-              <td><span class="rank-num">2</span></td>
-              <td>
-                <strong>Despacho V. y Pub.</strong>
-                <span class="proc-tag">CDU: Etiqueta de envío</span>
-              </td>
-              <td style="text-align:right">
-                <span class="vol-bar-mini" style="width:65px"></span><strong>274</strong>
-              </td>
-              <td style="text-align:center"><span class="nps-chip ok">70,8%</span></td>
-              <td style="text-align:center;font-size:11px;font-weight:700;color:#006600">+11,4pp</td>
-            </tr>
-            <tr>
-              <td><span class="rank-num">3</span></td>
-              <td>
-                <strong>Drivers</strong>
-                <span class="proc-tag">CDU: Porquê conta inativada</span>
-              </td>
-              <td style="text-align:right">
-                <span class="vol-bar-mini" style="width:53px"></span><strong>225</strong>
+                <div class="vol-bar-wrap"><div class="vol-bar" style="width:80px"></div><strong>225</strong></div>
+                <div class="pct-label" style="text-align:right">24,0%</div>
               </td>
               <td style="text-align:center"><span class="nps-chip ok">75,6%</span></td>
-              <td style="text-align:center;font-size:11px;font-weight:700;color:#006600">+2,2pp</td>
+              <td style="text-align:center"><span class="gap-num pos">+2,2pp</span></td>
             </tr>
             <tr>
-              <td><span class="rank-num">4</span></td>
-              <td>
-                <strong>Despacho V. y Pub.</strong>
-                <span class="proc-tag">CDU: Temporal (DCe)</span>
-              </td>
+              <td><span class="cdu-label">Como funciona Envíos Extra</span></td>
               <td style="text-align:right">
-                <span class="vol-bar-mini" style="width:47px"></span><strong>200</strong>
-              </td>
-              <td style="text-align:center"><span class="nps-chip ok">75,0%</span></td>
-              <td style="text-align:center;font-size:11px;font-weight:700;color:#006600">+21,0pp</td>
-            </tr>
-            <tr>
-              <td><span class="rank-num">5</span></td>
-              <td>
-                <strong>Drivers</strong>
-                <span class="proc-tag">CDU: Como funciona Envíos Extra</span>
-              </td>
-              <td style="text-align:right">
-                <span class="vol-bar-mini" style="width:38px"></span><strong>160</strong>
+                <div class="vol-bar-wrap"><div class="vol-bar" style="width:57px"></div><strong>160</strong></div>
+                <div class="pct-label" style="text-align:right">17,0%</div>
               </td>
               <td style="text-align:center"><span class="nps-chip ok">72,5%</span></td>
-              <td style="text-align:center;font-size:11px;font-weight:700;color:#006600">+0,6pp</td>
+              <td style="text-align:center"><span class="gap-num pos">+0,6pp</span></td>
             </tr>
             <tr>
-              <td><span class="rank-num">6</span></td>
-              <td>
-                <strong>Reputación ME</strong>
-                <span class="proc-tag">CDU: HT - Ventas</span>
-              </td>
+              <td><span class="cdu-label">Criação de conta <span class="highlight-tag">deflexão</span></span></td>
               <td style="text-align:right">
-                <span class="vol-bar-mini" style="width:34px"></span><strong>144</strong>
-              </td>
-              <td style="text-align:center"><span class="nps-chip ok">86,1%</span></td>
-              <td style="text-align:center;font-size:11px;font-weight:700;color:#006600">+0,5pp</td>
-            </tr>
-            <tr>
-              <td><span class="rank-num">7</span></td>
-              <td>
-                <strong>Despacho V. y Pub.</strong>
-                <span class="proc-tag">CDU: Reclama por custo de envío</span>
-              </td>
-              <td style="text-align:right">
-                <span class="vol-bar-mini" style="width:29px"></span><strong>122</strong>
-              </td>
-              <td style="text-align:center"><span class="nps-chip warn">54,1%</span></td>
-              <td style="text-align:center;font-size:11px;font-weight:700;color:#006600">+0,7pp</td>
-            </tr>
-            <tr>
-              <td><span class="rank-num">8</span></td>
-              <td>
-                <strong>Drivers</strong>
-                <span class="proc-tag">CDU: Problemas durante criação de rota</span>
-              </td>
-              <td style="text-align:right">
-                <span class="vol-bar-mini" style="width:26px"></span><strong>109</strong>
+                <div class="vol-bar-wrap"><div class="vol-bar" style="width:39px"></div><strong>109</strong></div>
+                <div class="pct-label" style="text-align:right">11,6%</div>
               </td>
               <td style="text-align:center"><span class="nps-chip ok">69,7%</span></td>
-              <td style="text-align:center;font-size:11px;font-weight:700;color:#888">−1,3pp</td>
+              <td style="text-align:center"><span class="gap-num neu">−1,3pp</span></td>
+            </tr>
+            <tr>
+              <td><span class="cdu-label">Não recebe rotas</span></td>
+              <td style="text-align:right">
+                <div class="vol-bar-wrap"><div class="vol-bar" style="width:28px"></div><strong>77</strong></div>
+                <div class="pct-label" style="text-align:right">8,2%</div>
+              </td>
+              <td style="text-align:center"><span class="nps-chip ok">83,1%</span></td>
+              <td style="text-align:center"><span class="gap-num pos">+10,8pp</span></td>
+            </tr>
+            <tr class="critical">
+              <td><span class="cdu-label">Métricas / Nível de Lealtad <span class="highlight-tag" style="background:#e53e3e;color:#fff">⚠ pior NPS</span></span></td>
+              <td style="text-align:right">
+                <div class="vol-bar-wrap"><div class="vol-bar" style="width:25px"></div><strong>70</strong></div>
+                <div class="pct-label" style="text-align:right">7,5%</div>
+              </td>
+              <td style="text-align:center"><span class="nps-chip bad">54,3%</span></td>
+              <td style="text-align:center"><span class="gap-num neg">−16,6pp</span></td>
+            </tr>
+            <tr class="critical">
+              <td><span class="cdu-label">Inconvenientes no recorrido / SC</span></td>
+              <td style="text-align:right">
+                <div class="vol-bar-wrap"><div class="vol-bar" style="width:24px"></div><strong>66</strong></div>
+                <div class="pct-label" style="text-align:right">7,0%</div>
+              </td>
+              <td style="text-align:center"><span class="nps-chip bad">57,6%</span></td>
+              <td style="text-align:center"><span class="gap-num neg">−12,7pp</span></td>
+            </tr>
+            <tr class="highlight">
+              <td><span class="cdu-label">Rota não paga</span></td>
+              <td style="text-align:right">
+                <div class="vol-bar-wrap"><div class="vol-bar" style="width:22px"></div><strong>61</strong></div>
+                <div class="pct-label" style="text-align:right">6,5%</div>
+              </td>
+              <td style="text-align:center"><span class="nps-chip warn">60,7%</span></td>
+              <td style="text-align:center"><span class="gap-num neg">−8,5pp</span></td>
+            </tr>
+            <tr class="highlight">
+              <td><span class="cdu-label">Flotillero — ME Extra</span></td>
+              <td style="text-align:right">
+                <div class="vol-bar-wrap"><div class="vol-bar" style="width:20px"></div><strong>56</strong></div>
+                <div class="pct-label" style="text-align:right">6,0%</div>
+              </td>
+              <td style="text-align:center"><span class="nps-chip warn">64,3%</span></td>
+              <td style="text-align:center"><span class="gap-num neg">−7,8pp</span></td>
+            </tr>
+            <tr class="highlight">
+              <td><span class="cdu-label">Oferta de rotas</span></td>
+              <td style="text-align:right">
+                <div class="vol-bar-wrap"><div class="vol-bar" style="width:19px"></div><strong>53</strong></div>
+                <div class="pct-label" style="text-align:right">5,6%</div>
+              </td>
+              <td style="text-align:center"><span class="nps-chip warn">60,4%</span></td>
+              <td style="text-align:center"><span class="gap-num neg">−7,8pp</span></td>
+            </tr>
+            <tr>
+              <td><span class="cdu-label">Gestionar conta (dados)</span></td>
+              <td style="text-align:right">
+                <div class="vol-bar-wrap"><div class="vol-bar" style="width:8px"></div><strong>22</strong></div>
+                <div class="pct-label" style="text-align:right">2,3%</div>
+              </td>
+              <td style="text-align:center"><span class="nps-chip warn">68,2%</span></td>
+              <td style="text-align:center"><span class="gap-num neg">−6,1pp</span></td>
+            </tr>
+            <tr>
+              <td><span class="cdu-label">Pago de ruta</span></td>
+              <td style="text-align:right">
+                <div class="vol-bar-wrap"><div class="vol-bar" style="width:5px"></div><strong>13</strong></div>
+                <div class="pct-label" style="text-align:right">1,4%</div>
+              </td>
+              <td style="text-align:center"><span class="nps-chip bad">38,5%</span></td>
+              <td style="text-align:center"><span class="gap-num neg">−19,0pp</span></td>
             </tr>
           </tbody>
         </table>
+        <div style="margin-top:8px;font-size:10px;color:#aaa;">
+          🔴 Vermelho = abaixo do target com impacto relevante &nbsp;|&nbsp; 🟡 Amarelo = abaixo do target
+        </div>
+      </div>
+
+      <!-- BARRAS NPS por CDU -->
+      <div>
+        <div class="section-title">NPS Lineal por CDU vs. Target — Drivers</div>
+        <div class="bar-list">
+
+          <div class="bar-row">
+            <div class="bar-label">Não recebe rotas</div>
+            <div class="bar-track">
+              <div class="bar-fill good" style="width:83.1%">83,1%</div>
+              <div class="tgt-line" style="left:72.4%"><div class="tgt-tip" style="left:50%">72,4</div></div>
+            </div>
+            <div class="gap-tag pos">+10,8</div>
+          </div>
+
+          <div class="bar-row">
+            <div class="bar-label">Conta inativada</div>
+            <div class="bar-track">
+              <div class="bar-fill good" style="width:75.6%">75,6%</div>
+              <div class="tgt-line" style="left:73.4%"><div class="tgt-tip" style="left:50%">73,4</div></div>
+            </div>
+            <div class="gap-tag pos">+2,2</div>
+          </div>
+
+          <div class="bar-row">
+            <div class="bar-label">Como funciona Envíos Extra</div>
+            <div class="bar-track">
+              <div class="bar-fill ok" style="width:72.5%">72,5%</div>
+              <div class="tgt-line" style="left:71.9%"><div class="tgt-tip" style="left:50%">71,9</div></div>
+            </div>
+            <div class="gap-tag pos">+0,6</div>
+          </div>
+
+          <div class="bar-row">
+            <div class="bar-label">Criação de conta</div>
+            <div class="bar-track">
+              <div class="bar-fill ok" style="width:69.7%">69,7%</div>
+              <div class="tgt-line" style="left:71.0%"><div class="tgt-tip" style="left:50%">71,0</div></div>
+            </div>
+            <div class="gap-tag neu">−1,3</div>
+          </div>
+
+          <div class="bar-row">
+            <div class="bar-label">Gestionar conta</div>
+            <div class="bar-track">
+              <div class="bar-fill ok" style="width:68.2%">68,2%</div>
+              <div class="tgt-line" style="left:74.3%"><div class="tgt-tip" style="left:50%">74,3</div></div>
+            </div>
+            <div class="gap-tag neu">−6,1</div>
+          </div>
+
+          <div class="bar-row">
+            <div class="bar-label">Flotillero — ME Extra</div>
+            <div class="bar-track">
+              <div class="bar-fill ok" style="width:64.3%">64,3%</div>
+              <div class="tgt-line" style="left:72.0%"><div class="tgt-tip" style="left:50%">72,0</div></div>
+            </div>
+            <div class="gap-tag neg">−7,8</div>
+          </div>
+
+          <div class="bar-row">
+            <div class="bar-label">Rota não paga</div>
+            <div class="bar-track">
+              <div class="bar-fill warn" style="width:60.7%">60,7%</div>
+              <div class="tgt-line" style="left:69.2%"><div class="tgt-tip" style="left:50%">69,2</div></div>
+            </div>
+            <div class="gap-tag neg">−8,5</div>
+          </div>
+
+          <div class="bar-row">
+            <div class="bar-label">Oferta de rotas</div>
+            <div class="bar-track">
+              <div class="bar-fill warn" style="width:60.4%">60,4%</div>
+              <div class="tgt-line" style="left:68.1%"><div class="tgt-tip" style="left:50%">68,1</div></div>
+            </div>
+            <div class="gap-tag neg">−7,8</div>
+          </div>
+
+          <div class="bar-row">
+            <div class="bar-label">Inconvenientes recorrido/SC</div>
+            <div class="bar-track">
+              <div class="bar-fill warn" style="width:57.6%">57,6%</div>
+              <div class="tgt-line" style="left:70.3%"><div class="tgt-tip" style="left:50%">70,3</div></div>
+            </div>
+            <div class="gap-tag neg">−12,7</div>
+          </div>
+
+          <div class="bar-row">
+            <div class="bar-label">Métricas / Nível de Lealtad</div>
+            <div class="bar-track">
+              <div class="bar-fill bad" style="width:54.3%">54,3%</div>
+              <div class="tgt-line" style="left:70.9%"><div class="tgt-tip" style="left:50%">70,9</div></div>
+            </div>
+            <div class="gap-tag neg">−16,6</div>
+          </div>
+
+          <div class="bar-row">
+            <div class="bar-label">Pago de ruta</div>
+            <div class="bar-track">
+              <div class="bar-fill bad" style="width:38.5%">38,5%</div>
+              <div class="tgt-line" style="left:57.5%"><div class="tgt-tip" style="left:50%">57,5</div></div>
+            </div>
+            <div class="gap-tag neg">−19,0</div>
+          </div>
+
+        </div>
+        <div style="margin-top:10px;font-size:10px;color:#aaa;">▌ = Target · Barra = NPS Lineal atual</div>
       </div>
     </div><!-- end grid-2 -->
 
     <div class="divider"></div>
 
     <!-- PRIORIDADES -->
-    <div class="section-title">Oportunidades Prioritárias — Cruzamento Volume × NPS Lineal × Gap Target</div>
+    <div class="section-title">Oportunidades Prioritárias para Produto — Processo Drivers</div>
     <div class="priority-grid">
 
-      <!-- P1 -->
       <div class="priority-card p1">
-        <div class="p-label">🔴 Prioridade 1 — alto volume + pior NPS</div>
-        <div class="p-title">Viaje del Paquete Comprador<br>— Status do Envío</div>
+        <div class="p-label">🔴 P1 — pior NPS com volume relevante</div>
+        <div class="p-title">Métricas / Nível de Lealtad</div>
         <div class="p-metrics">
-          <div class="pm">
-            <div class="pv" style="color:#c53030">31,4%</div>
-            <div class="pk">NPS Lineal</div>
-          </div>
-          <div class="pm">
-            <div class="pv">n=338</div>
-            <div class="pk">pesquisas</div>
-          </div>
-          <div class="pm">
-            <div class="pv" style="color:#c53030">−6pp</div>
-            <div class="pk">gap target</div>
-          </div>
+          <div class="pm"><div class="pv" style="color:#c53030">54,3%</div><div class="pk">NPS Lineal</div></div>
+          <div class="pm"><div class="pv" style="color:#c53030">−16,6pp</div><div class="pk">gap target</div></div>
+          <div class="pm"><div class="pv">70</div><div class="pk">pesquisas</div></div>
         </div>
         <div class="p-insight">
-          CDU com maior volume do time (n=338). 61% dos contatos = envio demorado + informamos data de entrega. 17% = envio a caminho. Seller já tentou rastrear pelo app — contata CX porque não recebe informação suficiente.
+          <strong>51%</strong> reclama diretamente das métricas · <strong>49%</strong> tem problemas com o nível de lealtad. Motorista não tem como contestar nem entender como a métrica é calculada sem acionar CX. Não há transparência ou fluxo de disputa no app.
         </div>
         <div class="verbatim">
-          "Chat não responde quando precisa, demora demais a entrar em contato."
-          <div class="autor">— Detrator Viaje Paq. Comprador (Mai 2026)</div>
+          "Motorista reclama sobre suas métricas" — 36 casos · "Problemas com meu nível" — 34 casos
+          <div class="autor">— Soluções aplicadas · Drivers / Métricas (Mai 2026)</div>
         </div>
       </div>
 
-      <!-- P2 -->
       <div class="priority-card p2">
-        <div class="p-label">🟡 Prioridade 2 — NPS crítico + gap elevado</div>
-        <div class="p-title">Places Kangu<br>— Pagamentos e Faturação</div>
+        <div class="p-label">🟡 P2 — NPS baixo + causa operacional/produto</div>
+        <div class="p-title">Inconvenientes no Recorrido<br>ou Service Center</div>
         <div class="p-metrics">
-          <div class="pm">
-            <div class="pv" style="color:#c05621">34,0%</div>
-            <div class="pk">NPS Lineal</div>
-          </div>
-          <div class="pm">
-            <div class="pv">n=47</div>
-            <div class="pk">pesquisas</div>
-          </div>
-          <div class="pm">
-            <div class="pv" style="color:#c05621">−33,5pp</div>
-            <div class="pk">gap target</div>
-          </div>
+          <div class="pm"><div class="pv" style="color:#c05621">57,6%</div><div class="pk">NPS Lineal</div></div>
+          <div class="pm"><div class="pv" style="color:#c05621">−12,7pp</div><div class="pk">gap target</div></div>
+          <div class="pm"><div class="pv">66</div><div class="pk">pesquisas</div></div>
         </div>
         <div class="p-insight">
-          Maior gap vs. target do time (−33,5pp). 43% = regularização/emissão de NF. 38% = calendário de pagamento. Agências Places não encontram as informações no app e dependem do CX para o básico.
+          <strong>56%</strong> = baixa de pacote devolvido no SC · <strong>44%</strong> = reclamação sobre o Service Center. Motorista aciona CX quando há inconsistência na baixa — processo manual e sem visibilidade em tempo real para o motorista.
         </div>
         <div class="verbatim">
-          "Não houve solução do problema."
-          <div class="autor">— Detrator Places Kangu (Mai 2026)</div>
+          "ME Extra: baixa do pacote devolvido" — 37 casos · "ME Extra: reclamação do SC" — 29 casos
+          <div class="autor">— Soluções aplicadas · Drivers / SC (Mai 2026)</div>
         </div>
       </div>
 
-      <!-- P3 -->
       <div class="priority-card p3">
-        <div class="p-label">🔵 Prioridade 3 — volume alto + NPS médio-baixo</div>
-        <div class="p-title">Despacho V. y Pub.<br>— Reclama por Custo de Envío</div>
+        <div class="p-label">🔵 P3 — volume alto + dúvidas onboarding</div>
+        <div class="p-title">Como Funciona Envíos Extra<br>— Ativação e Pagamento</div>
         <div class="p-metrics">
-          <div class="pm">
-            <div class="pv" style="color:#2b6cb0">54,1%</div>
-            <div class="pk">NPS Lineal</div>
-          </div>
-          <div class="pm">
-            <div class="pv">n=122</div>
-            <div class="pk">pesquisas</div>
-          </div>
-          <div class="pm">
-            <div class="pv" style="color:#2b6cb0">+0,7pp</div>
-            <div class="pk">vs. target</div>
-          </div>
+          <div class="pm"><div class="pv" style="color:#2b6cb0">72,5%</div><div class="pk">NPS Lineal</div></div>
+          <div class="pm"><div class="pv" style="color:#2b6cb0">+0,6pp</div><div class="pk">vs. target</div></div>
+          <div class="pm"><div class="pv">160</div><div class="pk">pesquisas</div></div>
         </div>
         <div class="p-insight">
-          NPS no target mas volume elevado. 27% = alteramos medidas. 19% = categorias especiais. 17% = explicamos benefícios ME. Processo manual e recorrente → oportunidade de self-service no cadastro de dimensões.
+          NPS no target mas <strong>2º maior volume</strong> do processo. <strong>46%</strong> = como ativar o serviço · <strong>31%</strong> = como recebo o pagamento. São dúvidas básicas que poderiam ser resolvidas por FAQ/onboarding no app sem acionar CX.
         </div>
         <div class="verbatim">
-          "Frete calculado erradamente. Infelizmente o serviço do MercadoLibre piorou."
-          <div class="autor">— Detrator Despacho (Mai 2026)</div>
+          "ME Extra: como ativar o serviço?" — 72 casos · "Como recebo o pagamento?" — 49 casos
+          <div class="autor">— Soluções aplicadas · Drivers / Envíos Extra (Mai 2026)</div>
         </div>
       </div>
 
@@ -532,156 +433,72 @@
     <div class="divider"></div>
 
     <!-- MOTIVOS -->
-    <div class="section-title">Principais Motivos de Contato — CDUs Críticas (Mai MTD · BR_ME_Sellers_Longtail)</div>
+    <div class="section-title">Principais Motivos de Contato por CDU — Processo Drivers · Mai MTD</div>
     <div class="motivos-grid">
 
-      <!-- Estado del envío -->
+      <!-- Conta inativada -->
       <div class="motivo-card">
-        <div class="m-header">
-          <h3>Estado del Envío<br>(Viaje Paq. C)</h3>
-          <div class="m-sub">n=338 · NPS 31,4%</div>
-        </div>
-        <div class="m-row">
-          <div class="m-label">Envio demorado — info data</div>
-          <div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:61%"></div></div>
-          <div class="m-pct">61%</div>
-        </div>
-        <div class="m-row">
-          <div class="m-label">Envio a caminho — info data</div>
-          <div class="m-bar-wrap"><div class="m-bar-fill med" style="width:17%"></div></div>
-          <div class="m-pct">17%</div>
-        </div>
-        <div class="m-row">
-          <div class="m-label">Envio cancelado — informamos</div>
-          <div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:5%"></div></div>
-          <div class="m-pct">5%</div>
-        </div>
-        <div class="m-row">
-          <div class="m-label">Pacote em devolução</div>
-          <div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:6%"></div></div>
-          <div class="m-pct">6%</div>
-        </div>
+        <div class="m-header"><h3>Conta Inativada</h3><div class="m-sub">n=225 · 24% do volume · NPS 75,6%</div></div>
+        <div class="m-row"><div class="m-label">Dig. Account Inabilitada</div><div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:38%"></div></div><div class="m-pct">38%</div></div>
+        <div class="m-row"><div class="m-label">Não houve visita</div><div class="m-bar-wrap"><div class="m-bar-fill med" style="width:28%"></div></div><div class="m-pct">28%</div></div>
+        <div class="m-row"><div class="m-label">Motorista ativo (OK)</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:27%"></div></div><div class="m-pct">27%</div></div>
+        <div class="m-row"><div class="m-label">Pausado — veículo</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:4%"></div></div><div class="m-pct">4%</div></div>
       </div>
 
-      <!-- Custo de Envio -->
+      <!-- Como funciona -->
       <div class="motivo-card">
-        <div class="m-header">
-          <h3>Custo de Envío<br>(Despacho)</h3>
-          <div class="m-sub">n=122 · NPS 54,1%</div>
-        </div>
-        <div class="m-row">
-          <div class="m-label">Alteramos medidas</div>
-          <div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:27%"></div></div>
-          <div class="m-pct">27%</div>
-        </div>
-        <div class="m-row">
-          <div class="m-label">Categorias especiais</div>
-          <div class="m-bar-wrap"><div class="m-bar-fill med" style="width:19%"></div></div>
-          <div class="m-pct">19%</div>
-        </div>
-        <div class="m-row">
-          <div class="m-label">Explicamos benefícios ME</div>
-          <div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:17%"></div></div>
-          <div class="m-pct">17%</div>
-        </div>
-        <div class="m-row">
-          <div class="m-label">Não alteramos medidas</div>
-          <div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:16%"></div></div>
-          <div class="m-pct">16%</div>
-        </div>
+        <div class="m-header"><h3>Como Funciona<br>Envíos Extra</h3><div class="m-sub">n=160 · 17% do volume · NPS 72,5%</div></div>
+        <div class="m-row"><div class="m-label">Como ativar o serviço?</div><div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:46%"></div></div><div class="m-pct">46%</div></div>
+        <div class="m-row"><div class="m-label">Como recebo o pagamento?</div><div class="m-bar-wrap"><div class="m-bar-fill med" style="width:31%"></div></div><div class="m-pct">31%</div></div>
+        <div class="m-row"><div class="m-label">Consulta por desafios</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:9%"></div></div><div class="m-pct">9%</div></div>
+        <div class="m-row"><div class="m-label">Dúvida sobre nível</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:5%"></div></div><div class="m-pct">5%</div></div>
       </div>
 
-      <!-- Devolução em caminho -->
-      <div class="motivo-card">
-        <div class="m-header">
-          <h3>Devolução em Caminho<br>(Reversa)</h3>
-          <div class="m-sub">n=53 · NPS 30,2% · gap −14pp</div>
-        </div>
-        <div class="m-row">
-          <div class="m-label">Cobrimos o vendedor</div>
-          <div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:49%"></div></div>
-          <div class="m-pct">49%</div>
-        </div>
-        <div class="m-row">
-          <div class="m-label">Passaram 60 dias — não bonif.</div>
-          <div class="m-bar-wrap"><div class="m-bar-fill med" style="width:20%"></div></div>
-          <div class="m-pct">20%</div>
-        </div>
-        <div class="m-row">
-          <div class="m-label">Indicamos data limite</div>
-          <div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:18%"></div></div>
-          <div class="m-pct">18%</div>
-        </div>
-        <div class="m-row">
-          <div class="m-label">Dentro da promessa</div>
-          <div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:12%"></div></div>
-          <div class="m-pct">12%</div>
-        </div>
+      <!-- Criação de conta -->
+      <div class="motivo-card warning">
+        <div class="m-header"><h3>Criação de Conta</h3><div class="m-sub">n=109 · 11,6% do volume · NPS 69,7%</div></div>
+        <div class="m-row"><div class="m-label">Problemas com CNPJ</div><div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:56%"></div></div><div class="m-pct">56%</div></div>
+        <div class="m-row"><div class="m-label">Conflito de serviços</div><div class="m-bar-wrap"><div class="m-bar-fill med" style="width:13%"></div></div><div class="m-pct">13%</div></div>
+        <div class="m-row"><div class="m-label">Carga de documentação</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:12%"></div></div><div class="m-pct">12%</div></div>
+        <div class="m-row"><div class="m-label">Erro no app</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:6%"></div></div><div class="m-pct">6%</div></div>
       </div>
 
-      <!-- Places Kangu Pagamentos -->
-      <div class="motivo-card">
-        <div class="m-header">
-          <h3>Pagamentos e NF<br>(Places Kangu)</h3>
-          <div class="m-sub">n=47 · NPS 34,0% · gap −33,5pp</div>
-        </div>
-        <div class="m-row">
-          <div class="m-label">Regularização / emissão NF</div>
-          <div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:43%"></div></div>
-          <div class="m-pct">43%</div>
-        </div>
-        <div class="m-row">
-          <div class="m-label">Calendário de pagamento</div>
-          <div class="m-bar-wrap"><div class="m-bar-fill med" style="width:38%"></div></div>
-          <div class="m-pct">38%</div>
-        </div>
-        <div class="m-row">
-          <div class="m-label">Retorno sobre faturas</div>
-          <div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:19%"></div></div>
-          <div class="m-pct">19%</div>
-        </div>
+      <!-- Métricas -->
+      <div class="motivo-card critical">
+        <div class="m-header"><h3>Métricas / Nível<br>de Lealtad</h3><div class="m-sub">n=70 · NPS 54,3% · gap −16,6pp</div></div>
+        <div class="m-row"><div class="m-label">Reclama sobre métricas</div><div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:51%"></div></div><div class="m-pct">51%</div></div>
+        <div class="m-row"><div class="m-label">Problemas com nível</div><div class="m-bar-wrap"><div class="m-bar-fill med" style="width:49%"></div></div><div class="m-pct">49%</div></div>
       </div>
 
-      <!-- Drivers Metricas -->
-      <div class="motivo-card">
-        <div class="m-header">
-          <h3>Métricas Partners<br>(Drivers Extra)</h3>
-          <div class="m-sub">n=70 · NPS 54,3% · gap −16,6pp</div>
-        </div>
-        <div class="m-row">
-          <div class="m-label">Reclama sobre métricas</div>
-          <div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:51%"></div></div>
-          <div class="m-pct">51%</div>
-        </div>
-        <div class="m-row">
-          <div class="m-label">Problemas com nível</div>
-          <div class="m-bar-wrap"><div class="m-bar-fill med" style="width:49%"></div></div>
-          <div class="m-pct">49%</div>
-        </div>
+      <!-- Inconvenientes SC -->
+      <div class="motivo-card critical">
+        <div class="m-header"><h3>Recorrido /<br>Service Center</h3><div class="m-sub">n=66 · NPS 57,6% · gap −12,7pp</div></div>
+        <div class="m-row"><div class="m-label">Baixa pacote devolvido</div><div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:56%"></div></div><div class="m-pct">56%</div></div>
+        <div class="m-row"><div class="m-label">Reclamação Service Center</div><div class="m-bar-wrap"><div class="m-bar-fill med" style="width:44%"></div></div><div class="m-pct">44%</div></div>
       </div>
 
     </div><!-- end motivos-grid -->
 
-    <!-- INSIGHTS BOX -->
+    <!-- INSIGHTS -->
     <div class="insight-box">
       <div class="insight-label">💡 Insights<br>Produto</div>
       <div class="insight-grid">
         <div>
-          <div class="insight-title">Self-service de rastreamento</div>
+          <div class="insight-title">Transparência de Métricas no App</div>
           <div class="insight-text">
-            <strong style="color:#fff">78%</strong> dos contatos de Status do Envío são passivos (informar data). CX só informa — não resolve. Notificação proativa + rastreamento em tempo real no app eliminariam a maioria desses <strong style="color:#fff">338 contatos/mês</strong>.
+            <strong style="color:#fff">100%</strong> dos contatos de Métricas são por motoristas sem acesso a detalhamento ou fluxo de disputa. Um painel de métricas com histórico + botão de contestação no app eliminaria boa parte dos <strong style="color:#fff">70 contatos/mês</strong> com NPS de apenas 54%.
           </div>
         </div>
         <div>
-          <div class="insight-title">Places Kangu — UX crítica</div>
+          <div class="insight-title">Visibilidade de Baixa no SC</div>
           <div class="insight-text">
-            NF e calendário de pagamento geram <strong style="color:#fff">81%</strong> dos contatos de pagamentos. Gap de <strong style="color:#ff9977">−33,5pp</strong> vs. target. Agências não encontram essas informações no app sem acionar CX — produto deve surfacear proativamente.
+            <strong style="color:#fff">56%</strong> dos contatos de SC são por baixa de pacote devolvido sem confirmação para o motorista. Status em tempo real no app após drop no SC reduziria a incerteza e os <strong style="color:#ff9977">66 contatos/mês</strong> (gap −12,7pp).
           </div>
         </div>
         <div>
-          <div class="insight-title">Dimensões — friction recorrente</div>
+          <div class="insight-title">Onboarding FAQ — Envíos Extra</div>
           <div class="insight-text">
-            <strong style="color:#fff">27%</strong> dos contatos de custo de envío resultam em alteração manual de medidas pelo CX. Processo recorrente e evitável com validação de dimensões no fluxo de publicação/despacho ou calculadora integrada.
+            <strong style="color:#fff">77%</strong> dos contatos de "Como funciona" são sobre ativação (<strong style="color:#fff">46%</strong>) e pagamento (<strong style="color:#fff">31%</strong>) — perguntas básicas. Um fluxo de onboarding guiado + FAQ in-app evitaria esses <strong style="color:#fff">160 contatos/mês</strong> sem impactar NPS.
           </div>
         </div>
       </div>
@@ -689,9 +506,8 @@
 
   </div><!-- end body -->
 
-  <!-- FOOTER -->
   <div class="footer">
-    <div><span>BR_ME_Sellers_Longtail</span> · NPS Lineal · Mai 2026 MTD · Fonte: BigQuery WHOWNER.DM_CX_NPS_Y20_DETAIL</div>
+    <div><span>BR_ME_Sellers_Longtail</span> · Processo: <span>Drivers</span> · NPS Lineal · Mai 2026 MTD · Fonte: BigQuery WHOWNER.DM_CX_NPS_Y20_DETAIL</div>
     <div>Elaborado por: <span>André Labriola</span> · CX Analytics BR</div>
   </div>
 
