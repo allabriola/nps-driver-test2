@@ -74,7 +74,7 @@
   .chart-cell { background: #1a1a2e; border-radius: 8px; padding: 10px 12px 8px; }
   .chart-cell-title { font-size: 10px; font-weight: 700; color: #FFE600; margin-bottom: 2px; }
   .chart-cell-sub { font-size: 9px; color: #aaa; margin-bottom: 6px; }
-  .chart-cell canvas { display: block; width: 100% !important; height: 110px !important; }
+  .chart-cell canvas { display: block; width: 100% !important; height: 130px !important; }
   .cdu-header.crit { background: #fff0f0; border-bottom: 2px solid #e53e3e; }
   .cdu-header.warn { background: #fffbe6; border-bottom: 2px solid #dd6b20; }
   .cdu-header.defl { background: #f0fff4; border-bottom: 2px solid #38a169; }
@@ -238,7 +238,7 @@
 
         </div>
         <div style="margin-top:8px;font-size:10px;color:#888;">
-          ▌ Barras = outgoing mensal (eixo esq.) &nbsp;·&nbsp; <span style="color:#FFE600">— NPS%</span> (eixo dir.) &nbsp;·&nbsp; <span style="color:#ffffff66">-- Target</span>
+          ▌ Barras = outgoing mensal (eixo esq.) &nbsp;·&nbsp; <span style="color:#FFE600">— NPS Lineal</span> (eixo dir.) &nbsp;·&nbsp; <span style="color:#63b3ed">-- Target Drivers 70,9%</span> (fixo — processo)
         </div>
       </div>
     </div><!-- end grid-2 -->
@@ -526,26 +526,30 @@
 // ── Dados mensais (Jan–Mai 2026) ─────────────────────────────────────────────
 const LABELS = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai'];
 
+// Target fixo do processo Drivers (Jan–Mai 2026): 70,9%
+const DRIVERS_TGT = 70.9;
+const TGT_LINE = [DRIVERS_TGT, DRIVERS_TGT, DRIVERS_TGT, DRIVERS_TGT, DRIVERS_TGT];
+
 const DATA = {
   metricas: {
     og:  [447, 545, 533, 737, 491],
     nps: [38.4, 52.0, 51.1, 50.9, 54.3],
-    tgt: [67.3, 69.4, 69.1, 65.7, 70.9]
+    tgt: TGT_LINE
   },
   sc: {
     og:  [487, 536, 791, 778, 423],
     nps: [51.4, 50.6, 53.7, 64.8, 57.6],
-    tgt: [70.4, 69.6, 70.1, 71.5, 70.3]
+    tgt: TGT_LINE
   },
   rota: {
     og:  [536, 660, 836, 891, 456],
     nps: [61.4, 71.2, 59.8, 60.6, 60.7],
-    tgt: [70.1, 70.9, 68.3, 70.5, 69.2]
+    tgt: TGT_LINE
   },
   conta: {
     og:  [440, 497, 748, 1152, 573],
     nps: [63.0, 51.7, 66.0, 55.9, 69.7],
-    tgt: [68.9, 68.7, 69.4, 68.9, 71.0]
+    tgt: TGT_LINE
   }
 };
 
@@ -582,13 +586,13 @@ function makeChart(canvasId, d, barColor) {
         },
         {
           type: 'line',
-          label: 'Target',
+          label: 'Target Drivers 70,9%',
           data: d.tgt,
-          borderColor: '#ffffff55',
+          borderColor: '#63b3ed',
           backgroundColor: 'transparent',
           pointRadius: 0,
-          borderWidth: 1,
-          borderDash: [4, 3],
+          borderWidth: 1.5,
+          borderDash: [5, 4],
           tension: 0,
           yAxisID: 'yNps',
           order: 1
@@ -600,7 +604,18 @@ function makeChart(canvasId, d, barColor) {
       maintainAspectRatio: false,
       animation: false,
       plugins: {
-        legend: { display: false },
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: {
+            color: '#ccc',
+            font: { size: 9 },
+            boxWidth: 20,
+            padding: 6,
+            usePointStyle: true,
+            pointStyleWidth: 10,
+          }
+        },
         tooltip: {
           callbacks: {
             label: ctx => ctx.dataset.label === 'Outgoing'
