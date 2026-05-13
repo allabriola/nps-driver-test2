@@ -3,79 +3,71 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Processo Drivers — Visão Produto | BR_ME_Sellers_Longtail | Fev–Mai 2026</title>
+<title>Processo Drivers — Outgoing × NPS | BR_ME_Sellers_Longtail | Fev–Mai 2026</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f5f7; color: #1a1a2e; font-size: 13px; }
-  .page { max-width: 1200px; margin: 20px auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.1); overflow: hidden; }
+  .page { max-width: 1220px; margin: 20px auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.1); overflow: hidden; }
 
   /* HEADER */
-  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; }
-  .header-left h1 { font-size: 20px; font-weight: 700; }
+  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .header-left h1 { font-size: 19px; font-weight: 700; }
   .header-left p { color: #FFE600; font-size: 12px; margin-top: 3px; }
-  .header-right { display: flex; gap: 16px; align-items: center; }
-  .kpi-pill { text-align: center; background: rgba(255,255,255,0.08); border-radius: 10px; padding: 10px 16px; border: 1px solid rgba(255,230,0,0.3); }
-  .kpi-pill .val { font-size: 22px; font-weight: 800; color: #FFE600; line-height: 1; }
+  .header-right { display: flex; gap: 14px; align-items: center; flex-shrink: 0; }
+  .kpi-pill { text-align: center; background: rgba(255,255,255,0.08); border-radius: 10px; padding: 9px 14px; border: 1px solid rgba(255,230,0,0.3); }
+  .kpi-pill .val { font-size: 21px; font-weight: 800; color: #FFE600; line-height: 1; }
   .kpi-pill .lbl { font-size: 10px; color: #aaa; margin-top: 2px; }
-  .kpi-pill .sub { font-size: 10px; margin-top: 1px; }
-  .pos { color: #7fff7f; } .neg { color: #ff7f7f; }
-  .tag-team { background: rgba(255,230,0,0.15); border: 1px solid #FFE600; border-radius: 20px; padding: 5px 12px; font-size: 11px; font-weight: 700; color: #FFE600; }
-  .tag-proc { background: rgba(100,160,255,0.2); border: 1px solid #4a90d9; border-radius: 20px; padding: 5px 12px; font-size: 11px; font-weight: 700; color: #a0d0ff; }
+  .kpi-pill .sub { font-size: 10px; margin-top: 1px; color: #7fff7f; }
+  .tag { border-radius: 20px; padding: 5px 11px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .tag-team { background: rgba(255,230,0,0.15); border: 1px solid #FFE600; color: #FFE600; }
+  .tag-proc { background: rgba(100,160,255,0.2); border: 1px solid #4a90d9; color: #a0d0ff; }
 
-  /* BODY */
+  /* LAYOUT */
   .body { padding: 22px 28px; }
   .section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #666; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
   .section-title::before { content: ''; display: inline-block; width: 4px; height: 14px; border-radius: 2px; background: #FFE600; }
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 22px; }
   .divider { height: 1px; background: #e8eaed; margin: 4px 0 20px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 22px; }
 
-  /* TABELA CDUs */
-  .cdu-table { width: 100%; border-collapse: collapse; }
-  .cdu-table th { text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; color: #888; padding: 5px 8px; border-bottom: 2px solid #e8eaed; }
-  .cdu-table td { padding: 5px 8px; border-bottom: 1px solid #f0f0f0; font-size: 12px; vertical-align: middle; }
-  .cdu-table tr:last-child td { border-bottom: none; }
-  .cdu-table tr.crit td { background: #fff0f0; }
-  .cdu-table tr.warn td { background: #fff8e1; }
+  /* CROSS TABLE */
+  .cross-table { width: 100%; border-collapse: collapse; }
+  .cross-table th { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #888; padding: 6px 8px; border-bottom: 2px solid #e8eaed; text-align: left; white-space: nowrap; }
+  .cross-table th.r { text-align: right; }
+  .cross-table td { padding: 5px 8px; border-bottom: 1px solid #f0f0f0; font-size: 12px; vertical-align: middle; }
+  .cross-table tr:last-child td { border-bottom: none; }
+  .cross-table tr.crit td { background: #fff0f0; }
+  .cross-table tr.warn td { background: #fffbe6; }
+  .cross-table tr.defl td { background: #f0fff4; }
+  .og-bar { height: 8px; border-radius: 3px; background: #1a1a2e; display: inline-block; vertical-align: middle; margin-right: 5px; }
+  .og-bar.large { background: #4a6fa5; }
   .nps-chip { display: inline-block; padding: 2px 7px; border-radius: 20px; font-size: 11px; font-weight: 700; }
   .nps-chip.bad  { background: #ffe0e0; color: #cc0000; }
   .nps-chip.warn { background: #fff3e0; color: #b85c00; }
   .nps-chip.ok   { background: #e0ffe0; color: #006600; }
-  .delta-chip { display: inline-block; padding: 1px 5px; border-radius: 10px; font-size: 10px; font-weight: 700; }
-  .delta-chip.worse { background: #ffe0e0; color: #cc0000; }
-  .delta-chip.better { background: #e0ffe0; color: #006600; }
-  .delta-chip.stable { background: #eee; color: #666; }
-  .delta-chip.new { background: #e8f0ff; color: #2244cc; }
-  .gap-num { font-size: 11px; font-weight: 700; }
-  .gap-num.neg { color: #cc0000; } .gap-num.pos { color: #006600; } .gap-num.neu { color: #888; }
-  .vol-bar { height: 7px; border-radius: 3px; background: #1a1a2e; display: inline-block; vertical-align: middle; margin-right: 4px; }
-  .htag { display: inline-block; background: #e53e3e; color: #fff; font-size: 8px; font-weight: 800; padding: 1px 4px; border-radius: 3px; text-transform: uppercase; margin-left: 3px; vertical-align: middle; }
-  .htag.blue { background: #3182ce; }
-  .htag.orange { background: #dd6b20; }
+  .nps-chip.na   { background: #eee; color: #888; }
+  .gap-n { font-size: 11px; font-weight: 700; color: #cc0000; }
+  .gap-p { font-size: 11px; font-weight: 700; color: #006600; }
+  .gap-u { font-size: 11px; font-weight: 700; color: #888; }
+  .tag-defl { background: #e8f4ff; color: #0055aa; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; text-transform: uppercase; margin-left: 4px; }
+  .tag-pain { background: #ffe0e0; color: #cc0000; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; text-transform: uppercase; margin-left: 4px; }
 
-  /* BARRAS */
-  .bar-list { display: flex; flex-direction: column; gap: 7px; }
-  .bar-row { display: flex; align-items: center; gap: 7px; }
-  .bar-label { width: 195px; font-size: 11px; font-weight: 600; flex-shrink: 0; }
-  .bar-track { flex: 1; background: #e8eaed; border-radius: 4px; height: 20px; position: relative; overflow: visible; }
-  .bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 7px; font-size: 11px; font-weight: 700; color: #fff; min-width: 36px; }
-  .bar-fill.bad  { background: #e53e3e; } .bar-fill.warn { background: #dd6b20; }
-  .bar-fill.ok   { background: #2d9a54; } .bar-fill.good { background: #1a6e3a; }
-  .tgt-line { position: absolute; top: -4px; bottom: -4px; width: 2px; background: #1a1a2e; border-radius: 1px; }
-  .tgt-tip { position: absolute; top: -18px; font-size: 8.5px; color: #555; white-space: nowrap; transform: translateX(-50%); }
-  .gap-tag { font-size: 10px; font-weight: 700; padding: 2px 5px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; width: 48px; text-align: center; }
-  .gap-tag.neg { background: #ffe0e0; color: #cc0000; }
-  .gap-tag.pos { background: #e0ffe0; color: #006600; }
-  .gap-tag.neu { background: #eee; color: #888; }
-
-  /* COMPARAÇÃO TABELA */
-  .comp-table { width: 100%; border-collapse: collapse; }
-  .comp-table th { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #888; padding: 5px 8px; border-bottom: 2px solid #e8eaed; text-align: left; }
-  .comp-table td { padding: 6px 8px; border-bottom: 1px solid #f0f0f0; font-size: 12px; vertical-align: middle; }
-  .comp-table tr:last-child td { border-bottom: none; }
-  .comp-table tr.reveal td { background: #fff8e1; }
-  .comp-table tr.confirm-bad td { background: #fff0f0; }
-  .comp-table tr.stable-ok td { background: #f0fff0; }
-  .change-arrow { font-size: 14px; font-weight: 900; }
+  /* MATRIX 2x2 */
+  .matrix-wrap { position: relative; }
+  .matrix-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+  .matrix-cell { border-radius: 8px; padding: 12px; border: 1px solid; min-height: 120px; }
+  .matrix-cell.q1 { background: #fff0f0; border-color: #e53e3e; }
+  .matrix-cell.q2 { background: #e8f4ff; border-color: #3182ce; }
+  .matrix-cell.q3 { background: #fffbe6; border-color: #dd6b20; }
+  .matrix-cell.q4 { background: #f0fff4; border-color: #38a169; }
+  .matrix-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 7px; }
+  .matrix-cell.q1 .matrix-label { color: #c53030; }
+  .matrix-cell.q2 .matrix-label { color: #2b6cb0; }
+  .matrix-cell.q3 .matrix-label { color: #c05621; }
+  .matrix-cell.q4 .matrix-label { color: #276749; }
+  .matrix-item { font-size: 11px; margin-bottom: 4px; display: flex; align-items: flex-start; gap: 5px; line-height: 1.35; }
+  .matrix-item .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+  .matrix-item .og { font-size: 10px; color: #888; font-weight: 600; white-space: nowrap; }
+  .matrix-axis { font-size: 9px; color: #aaa; text-align: center; font-weight: 600; }
 
   /* PRIORITIES */
   .priority-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 22px; }
@@ -91,26 +83,28 @@
   .p-metrics { display: flex; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
   .pm .pv { font-size: 15px; font-weight: 800; }
   .pm .pk { font-size: 9px; color: #888; }
-  .p-insight { font-size: 11px; color: #555; line-height: 1.45; }
-  .verbatim { background: #f8f9fa; border-left: 3px solid #e53e3e; padding: 7px 10px; border-radius: 0 7px 7px 0; font-size: 11px; font-style: italic; color: #444; margin-top: 7px; line-height: 1.4; }
-  .verbatim .autor { font-style: normal; font-size: 10px; color: #999; margin-top: 3px; }
+  .p-insight { font-size: 11px; color: #555; line-height: 1.45; margin-bottom: 7px; }
+  .transcript-quote { background: #f0f4ff; border-left: 3px solid #3182ce; padding: 7px 10px; border-radius: 0 7px 7px 0; font-size: 11px; font-style: italic; color: #2d3748; margin-top: 6px; line-height: 1.45; }
+  .transcript-quote.red { background: #fff0f0; border-left-color: #e53e3e; }
+  .transcript-quote.orange { background: #fff8e1; border-left-color: #dd6b20; }
+  .transcript-quote .autor { font-style: normal; font-size: 10px; color: #999; margin-top: 3px; }
 
   /* MOTIVOS */
   .motivos-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 11px; margin-bottom: 20px; }
-  .motivo-card { background: #f8f9fa; border-radius: 9px; padding: 13px; border: 1px solid #e8eaed; }
+  .motivo-card { background: #f8f9fa; border-radius: 9px; padding: 12px; border: 1px solid #e8eaed; }
   .motivo-card.crit  { border-color: #e53e3e; background: #fff8f8; }
+  .motivo-card.defl  { border-color: #3182ce; background: #f0f8ff; }
   .motivo-card.warn  { border-color: #dd6b20; background: #fffbf5; }
-  .motivo-card.vol   { border-color: #1a1a2e; background: #f8f9fa; }
-  .m-header h3 { font-size: 11.5px; font-weight: 700; color: #1a1a2e; line-height: 1.3; margin-bottom: 2px; }
+  .m-header h3 { font-size: 11.5px; font-weight: 700; color: #1a1a2e; line-height: 1.3; margin-bottom: 1px; }
   .m-sub { font-size: 10px; color: #888; margin-bottom: 8px; }
-  .m-row { display: flex; align-items: center; gap: 5px; margin-bottom: 5px; }
+  .m-row { display: flex; align-items: center; gap: 5px; margin-bottom: 4px; }
   .m-label { font-size: 10px; color: #333; flex: 1; line-height: 1.3; }
-  .m-bar-wrap { width: 60px; background: #e8eaed; border-radius: 3px; height: 7px; flex-shrink: 0; }
+  .m-bar-wrap { width: 55px; background: #e8eaed; border-radius: 3px; height: 7px; flex-shrink: 0; }
   .m-bar-fill { height: 100%; border-radius: 3px; }
-  .m-bar-fill.dark { background: #1a1a2e; }
-  .m-bar-fill.med  { background: #4a6080; }
-  .m-bar-fill.lite { background: #8a9ab0; }
-  .m-pct { font-size: 10px; font-weight: 700; color: #1a1a2e; width: 26px; text-align: right; flex-shrink: 0; }
+  .m-bar-fill.dark { background: #1a1a2e; } .m-bar-fill.med { background: #4a6080; } .m-bar-fill.lite { background: #8a9ab0; }
+  .m-pct { font-size: 10px; font-weight: 700; color: #1a1a2e; width: 24px; text-align: right; flex-shrink: 0; }
+  .m-transcript { margin-top: 8px; font-size: 10px; font-style: italic; color: #444; background: #f0f4ff; border-left: 2px solid #3182ce; padding: 5px 7px; border-radius: 0 5px 5px 0; line-height: 1.4; }
+  .m-transcript.red { background: #fff0f0; border-left-color: #e53e3e; }
 
   /* INSIGHT BOX */
   .insight-box { background: #1a1a2e; border-radius: 10px; padding: 16px 20px; display: flex; gap: 24px; align-items: flex-start; }
@@ -119,278 +113,245 @@
   .insight-title { color: #FFE600; font-size: 11px; font-weight: 700; margin-bottom: 4px; }
   .insight-text { color: #ccc; font-size: 11px; line-height: 1.5; }
 
-  .footer { background: #1a1a2e; color: #888; padding: 11px 28px; font-size: 10px; display: flex; justify-content: space-between; align-items: center; }
+  .footer { background: #1a1a2e; color: #888; padding: 11px 28px; font-size: 10px; display: flex; justify-content: space-between; }
   .footer span { color: #FFE600; font-weight: 700; }
 </style>
 </head>
 <body>
 <div class="page">
 
-  <!-- HEADER -->
   <div class="header">
     <div class="header-left">
-      <h1>Processo Drivers — Dores CX · Visão Produto</h1>
-      <p>NPS Lineal por CDU · Fev–Mai 2026 (3 meses + Mai) vs. Mai MTD · Partners / ME Extra</p>
+      <h1>Processo Drivers — Outgoing × NPS Lineal · Visão Produto</h1>
+      <p>Cruzamento volume real de contatos + NPS + Transcritos · Fev–Mai 2026 · BR_ME_Sellers_Longtail</p>
     </div>
     <div class="header-right">
-      <div class="tag-team">🚚 BR_ME_Sellers_Longtail</div>
-      <div class="tag-proc">📦 Processo: Drivers</div>
+      <div class="tag tag-team">🚚 BR_ME_Sellers_Longtail</div>
+      <div class="tag tag-proc">📦 Drivers</div>
       <div class="kpi-pill">
-        <div class="val">7.231</div>
-        <div class="lbl">pesquisas Fev–Mai</div>
-        <div class="sub pos">vs. 939 no MTD Mai</div>
+        <div class="val">56.502</div>
+        <div class="lbl">contatos outgoing</div>
+        <div class="sub">Fev–Mai 2026</div>
       </div>
       <div class="kpi-pill">
-        <div class="val">10 de 15</div>
+        <div class="val">10/15</div>
         <div class="lbl">CDUs abaixo do target</div>
-        <div class="sub neg">visão 3M mais precisa</div>
+        <div class="sub" style="color:#ff7f7f">NPS Lineal 3M</div>
       </div>
     </div>
   </div>
 
   <div class="body">
 
-    <!-- ROW 1: tabela CDUs + comparação Mai vs 3M -->
+    <!-- ROW 1: Cross Table + Matrix -->
     <div class="grid-2">
 
-      <!-- TABELA CDUs 3M+Mai -->
+      <!-- CROSS TABLE -->
       <div>
-        <div class="section-title">CDUs por Volume — Drivers · Fev–Mai 2026</div>
-        <table class="cdu-table">
+        <div class="section-title">Outgoing × NPS Lineal por CDU — Drivers · Fev–Mai 2026</div>
+        <table class="cross-table">
           <thead>
             <tr>
               <th>CDU</th>
-              <th style="text-align:right">n / share</th>
-              <th style="text-align:center">NPS 3M</th>
-              <th style="text-align:center">Gap Tgt</th>
+              <th class="r">Outgoing</th>
+              <th class="r">%</th>
+              <th class="r">NPS Lineal</th>
+              <th class="r">Gap Tgt</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td><div class="vol-bar" style="width:80px"></div><strong>Conta inativada</strong></td>
-              <td style="text-align:right"><strong>2.197</strong><div style="font-size:10px;color:#888">30,4%</div></td>
+            <tr class="defl">
+              <td><span class="og-bar large" style="width:78px"></span><strong>Conta inativada</strong><span class="tag-defl">deflexão</span></td>
+              <td style="text-align:right"><strong>25.473</strong></td>
+              <td style="text-align:right">45,1%</td>
               <td style="text-align:center"><span class="nps-chip ok">74,7%</span></td>
-              <td style="text-align:center"><span class="gap-num pos">+2,5pp</span></td>
+              <td style="text-align:right"><span class="gap-p">+2,5pp</span></td>
             </tr>
-            <tr>
-              <td><div class="vol-bar" style="width:56px"></div><strong>Como funciona Envíos Extra</strong></td>
-              <td style="text-align:right"><strong>1.386</strong><div style="font-size:10px;color:#888">19,2%</div></td>
+            <tr class="defl">
+              <td><span class="og-bar large" style="width:17px"></span><strong>Como funciona Envíos Extra</strong><span class="tag-defl">deflexão</span></td>
+              <td style="text-align:right"><strong>5.503</strong></td>
+              <td style="text-align:right">9,7%</td>
               <td style="text-align:center"><span class="nps-chip ok">73,4%</span></td>
-              <td style="text-align:center"><span class="gap-num pos">+2,0pp</span></td>
+              <td style="text-align:right"><span class="gap-p">+2,0pp</span></td>
             </tr>
             <tr class="warn">
-              <td><div class="vol-bar" style="width:28px"></div><strong>Criação de conta</strong> <span class="htag orange">revelado 3M</span></td>
-              <td style="text-align:right"><strong>639</strong><div style="font-size:10px;color:#888">8,8%</div></td>
+              <td><span class="og-bar" style="width:9px"></span><strong>Criação de conta</strong><span class="tag-pain">dor</span></td>
+              <td style="text-align:right"><strong>2.970</strong></td>
+              <td style="text-align:right">5,3%</td>
               <td style="text-align:center"><span class="nps-chip warn">59,9%</span></td>
-              <td style="text-align:center"><span class="gap-num neg">−9,4pp</span></td>
+              <td style="text-align:right"><span class="gap-n">−9,4pp</span></td>
             </tr>
-            <tr>
-              <td><div class="vol-bar" style="width:26px"></div><strong>Não recebe rotas</strong></td>
-              <td style="text-align:right"><strong>595</strong><div style="font-size:10px;color:#888">8,2%</div></td>
-              <td style="text-align:center"><span class="nps-chip ok">78,7%</span></td>
-              <td style="text-align:center"><span class="gap-num pos">+6,5pp</span></td>
+            <tr class="crit">
+              <td><span class="og-bar" style="width:9px"></span><strong>Bugs</strong></td>
+              <td style="text-align:right"><strong>2.969</strong></td>
+              <td style="text-align:right">5,3%</td>
+              <td style="text-align:center"><span class="nps-chip bad">33,3%</span></td>
+              <td style="text-align:right"><span class="gap-n">−28,8pp</span></td>
             </tr>
             <tr class="warn">
-              <td><div class="vol-bar" style="width:25px"></div><strong>Rota não paga</strong></td>
-              <td style="text-align:right"><strong>589</strong><div style="font-size:10px;color:#888">8,1%</div></td>
+              <td><span class="og-bar" style="width:9px"></span><strong>Rota não paga</strong><span class="tag-pain">dor</span></td>
+              <td style="text-align:right"><strong>2.843</strong></td>
+              <td style="text-align:right">5,0%</td>
               <td style="text-align:center"><span class="nps-chip warn">63,2%</span></td>
-              <td style="text-align:center"><span class="gap-num neg">−6,7pp</span></td>
+              <td style="text-align:right"><span class="gap-n">−6,7pp</span></td>
+            </tr>
+            <tr class="crit">
+              <td><span class="og-bar" style="width:8px"></span><strong>Generales</strong></td>
+              <td style="text-align:right"><strong>2.580</strong></td>
+              <td style="text-align:right">4,6%</td>
+              <td style="text-align:center"><span class="nps-chip bad">44,9%</span></td>
+              <td style="text-align:right"><span class="gap-n">−23,8pp</span></td>
+            </tr>
+            <tr class="crit">
+              <td><span class="og-bar" style="width:8px"></span><strong>Inconvenientes / SC</strong><span class="tag-pain">dor</span></td>
+              <td style="text-align:right"><strong>2.528</strong></td>
+              <td style="text-align:right">4,5%</td>
+              <td style="text-align:center"><span class="nps-chip bad">57,5%</span></td>
+              <td style="text-align:right"><span class="gap-n">−13,1pp</span></td>
+            </tr>
+            <tr class="crit">
+              <td><span class="og-bar" style="width:7px"></span><strong>Métricas / Nível Lealtad</strong><span class="tag-pain">dor</span></td>
+              <td style="text-align:right"><strong>2.306</strong></td>
+              <td style="text-align:right">4,1%</td>
+              <td style="text-align:center"><span class="nps-chip bad">51,9%</span></td>
+              <td style="text-align:right"><span class="gap-n">−16,6pp</span></td>
             </tr>
             <tr class="warn">
-              <td><div class="vol-bar" style="width:19px"></div><strong>Oferta de rotas</strong></td>
-              <td style="text-align:right"><strong>430</strong><div style="font-size:10px;color:#888">5,9%</div></td>
+              <td><span class="og-bar" style="width:7px"></span><strong>Oferta de rotas</strong><span class="tag-pain">dor</span></td>
+              <td style="text-align:right"><strong>2.247</strong></td>
+              <td style="text-align:right">4,0%</td>
               <td style="text-align:center"><span class="nps-chip warn">63,0%</span></td>
-              <td style="text-align:center"><span class="gap-num neg">−8,6pp</span></td>
-            </tr>
-            <tr class="crit">
-              <td><div class="vol-bar" style="width:19px"></div><strong>Inconvenientes / SC</strong> <span class="htag">crônico</span></td>
-              <td style="text-align:right"><strong>423</strong><div style="font-size:10px;color:#888">5,8%</div></td>
-              <td style="text-align:center"><span class="nps-chip bad">57,5%</span></td>
-              <td style="text-align:center"><span class="gap-num neg">−13,1pp</span></td>
-            </tr>
-            <tr class="crit">
-              <td><div class="vol-bar" style="width:16px"></div><strong>Métricas / Nível Lealtad</strong> <span class="htag">crônico</span></td>
-              <td style="text-align:right"><strong>366</strong><div style="font-size:10px;color:#888">5,1%</div></td>
-              <td style="text-align:center"><span class="nps-chip bad">51,9%</span></td>
-              <td style="text-align:center"><span class="gap-num neg">−16,6pp</span></td>
+              <td style="text-align:right"><span class="gap-n">−8,6pp</span></td>
             </tr>
             <tr>
-              <td><div class="vol-bar" style="width:7px"></div><strong>Flotillero — ME Extra</strong></td>
-              <td style="text-align:right"><strong>166</strong><div style="font-size:10px;color:#888">2,3%</div></td>
-              <td style="text-align:center"><span class="nps-chip warn">66,3%</span></td>
-              <td style="text-align:center"><span class="gap-num neg">−4,9pp</span></td>
+              <td><span class="og-bar" style="width:7px"></span><strong>Não recebe rotas</strong></td>
+              <td style="text-align:right"><strong>2.224</strong></td>
+              <td style="text-align:right">3,9%</td>
+              <td style="text-align:center"><span class="nps-chip ok">78,7%</span></td>
+              <td style="text-align:right"><span class="gap-p">+6,5pp</span></td>
+            </tr>
+            <tr class="defl">
+              <td><span class="og-bar" style="width:5px"></span><strong>Onboarding Extra</strong><span class="tag-defl">deflexão</span></td>
+              <td style="text-align:right"><strong>1.785</strong></td>
+              <td style="text-align:right">3,2%</td>
+              <td style="text-align:center"><span class="nps-chip na">—</span></td>
+              <td style="text-align:right"><span class="gap-u">—</span></td>
             </tr>
             <tr>
-              <td><div class="vol-bar" style="width:6px"></div><strong>Gestionar conta</strong></td>
-              <td style="text-align:right"><strong>151</strong><div style="font-size:10px;color:#888">2,1%</div></td>
+              <td><span class="og-bar" style="width:4px"></span><strong>Gestionar conta</strong></td>
+              <td style="text-align:right"><strong>1.236</strong></td>
+              <td style="text-align:right">2,2%</td>
               <td style="text-align:center"><span class="nps-chip warn">68,2%</span></td>
-              <td style="text-align:center"><span class="gap-num neg">−1,7pp</span></td>
-            </tr>
-            <tr>
-              <td><div class="vol-bar" style="width:4px"></div><strong>Soporte MeLi</strong></td>
-              <td style="text-align:right"><strong>102</strong><div style="font-size:10px;color:#888">1,4%</div></td>
-              <td style="text-align:center"><span class="nps-chip warn">60,8%</span></td>
-              <td style="text-align:center"><span class="gap-num neg">−12,8pp</span></td>
-            </tr>
-            <tr>
-              <td><div class="vol-bar" style="width:3px"></div><strong>Pago de ruta</strong></td>
-              <td style="text-align:right"><strong>79</strong><div style="font-size:10px;color:#888">1,1%</div></td>
-              <td style="text-align:center"><span class="nps-chip warn">55,7%</span></td>
-              <td style="text-align:center"><span class="gap-num neg">−13,6pp</span></td>
+              <td style="text-align:right"><span class="gap-n">−1,7pp</span></td>
             </tr>
           </tbody>
         </table>
+        <div style="margin-top:8px;font-size:10px;color:#aaa;">
+          🟢 Verde = deflexão (NPS ok, alto volume) · 🔴 Vermelho = dor (NPS baixo) · 🟡 Amarelo = atenção
+        </div>
       </div>
 
-      <!-- COMPARAÇÃO Mai vs 3M -->
+      <!-- MATRIX 2x2 -->
       <div>
-        <div class="section-title">O que mudou? — Comparação Mai MTD vs. Fev–Mai 2026</div>
-        <table class="comp-table">
-          <thead>
-            <tr>
-              <th>CDU</th>
-              <th style="text-align:center">NPS Mai</th>
-              <th style="text-align:center">NPS 3M</th>
-              <th style="text-align:center">Δ</th>
-              <th>Leitura</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="confirm-bad">
-              <td><strong>Métricas / Lealtad</strong></td>
-              <td style="text-align:center">54,3%</td>
-              <td style="text-align:center"><strong>51,9%</strong></td>
-              <td style="text-align:center"><span class="delta-chip worse">−2,4pp</span></td>
-              <td style="font-size:11px;color:#555">Pior no 3M — crônico</td>
-            </tr>
-            <tr class="confirm-bad">
-              <td><strong>Inconvenientes / SC</strong></td>
-              <td style="text-align:center">57,6%</td>
-              <td style="text-align:center"><strong>57,5%</strong></td>
-              <td style="text-align:center"><span class="delta-chip stable">−0,1pp</span></td>
-              <td style="font-size:11px;color:#555">Idêntico — crônico</td>
-            </tr>
-            <tr class="reveal">
-              <td><strong>Criação de conta ⚠</strong></td>
-              <td style="text-align:center">69,7%</td>
-              <td style="text-align:center"><strong>59,9%</strong></td>
-              <td style="text-align:center"><span class="delta-chip worse">−9,8pp</span></td>
-              <td style="font-size:11px;color:#333"><strong>Mai foi outlier!</strong> 3M revela problema crônico</td>
-            </tr>
-            <tr>
-              <td><strong>Rota não paga</strong></td>
-              <td style="text-align:center">60,7%</td>
-              <td style="text-align:center"><strong>63,2%</strong></td>
-              <td style="text-align:center"><span class="delta-chip better">+2,5pp</span></td>
-              <td style="font-size:11px;color:#555">Similar, consistente</td>
-            </tr>
-            <tr>
-              <td><strong>Oferta de rotas</strong></td>
-              <td style="text-align:center">60,4%</td>
-              <td style="text-align:center"><strong>63,0%</strong></td>
-              <td style="text-align:center"><span class="delta-chip better">+2,6pp</span></td>
-              <td style="font-size:11px;color:#555">Similar, consistente</td>
-            </tr>
-            <tr class="stable-ok">
-              <td><strong>Conta inativada</strong></td>
-              <td style="text-align:center">75,6%</td>
-              <td style="text-align:center"><strong>74,7%</strong></td>
-              <td style="text-align:center"><span class="delta-chip stable">−0,9pp</span></td>
-              <td style="font-size:11px;color:#555">Estável, alto volume</td>
-            </tr>
-            <tr class="stable-ok">
-              <td><strong>Como funciona Extra</strong></td>
-              <td style="text-align:center">72,5%</td>
-              <td style="text-align:center"><strong>73,4%</strong></td>
-              <td style="text-align:center"><span class="delta-chip better">+0,9pp</span></td>
-              <td style="font-size:11px;color:#555">Estável, alto volume</td>
-            </tr>
-            <tr>
-              <td><strong>Não recebe rotas</strong></td>
-              <td style="text-align:center">83,1%</td>
-              <td style="text-align:center"><strong>78,7%</strong></td>
-              <td style="text-align:center"><span class="delta-chip worse">−4,4pp</span></td>
-              <td style="font-size:11px;color:#555">Mai foi acima da média</td>
-            </tr>
-            <tr>
-              <td><strong>Pago de ruta</strong></td>
-              <td style="text-align:center">38,5%</td>
-              <td style="text-align:center"><strong>55,7%</strong></td>
-              <td style="text-align:center"><span class="delta-chip better">+17,2pp</span></td>
-              <td style="font-size:11px;color:#555">Mai foi outlier baixo (vol. pequeno)</td>
-            </tr>
-            <tr>
-              <td><strong>Soporte MeLi</strong></td>
-              <td style="text-align:center">81,8%</td>
-              <td style="text-align:center"><strong>60,8%</strong></td>
-              <td style="text-align:center"><span class="delta-chip worse">−21,0pp</span></td>
-              <td style="font-size:11px;color:#555">Mai foi outlier alto (vol. pequeno)</td>
-            </tr>
-          </tbody>
-        </table>
-        <div style="margin-top:10px;padding:10px;background:#fff8e1;border-radius:8px;border-left:4px solid #dd6b20;">
-          <div style="font-size:11px;font-weight:700;color:#c05621;margin-bottom:4px;">⚠ Principal revelação do período maior:</div>
-          <div style="font-size:11px;color:#555;line-height:1.5;">
-            <strong>Criação de conta</strong> parecia ok em Mai (69,7%) mas no 3M cai para 59,9% (−9,8pp) — mai foi outlier positivo. Com n=639, é agora a 3ª CDU em volume e está <strong>9,4pp abaixo do target</strong>. Problema crônico revelado.
+        <div class="section-title">Matriz Priorização — Volume Outgoing × NPS Lineal</div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;padding:0 4px;">
+          <div style="font-size:10px;color:#888;font-weight:700;">← NPS ALTO ←</div>
+          <div style="font-size:10px;color:#888;font-weight:700;">→ NPS BAIXO →</div>
+        </div>
+        <div class="matrix-grid">
+
+          <!-- Q2: Alto volume, NPS ok → Deflexão -->
+          <div class="matrix-cell q2">
+            <div class="matrix-label">🔵 Deflexão — self-service</div>
+            <div class="matrix-item"><div class="dot" style="background:#3182ce"></div><div><strong>Conta inativada</strong><div class="og">25.473 outgoing · NPS 74,7%</div></div></div>
+            <div class="matrix-item"><div class="dot" style="background:#3182ce"></div><div><strong>Como funciona Extra</strong><div class="og">5.503 outgoing · NPS 73,4%</div></div></div>
+            <div class="matrix-item"><div class="dot" style="background:#3182ce"></div><div><strong>Onboarding Extra</strong><div class="og">1.785 outgoing</div></div></div>
+          </div>
+
+          <!-- Q1: Alto volume, NPS ruim → Fix urgente -->
+          <div class="matrix-cell q1">
+            <div class="matrix-label">🔴 Dor — fix urgente</div>
+            <div class="matrix-item"><div class="dot" style="background:#e53e3e"></div><div><strong>Métricas / Lealtad</strong><div class="og">2.306 outgoing · NPS 51,9%</div></div></div>
+            <div class="matrix-item"><div class="dot" style="background:#e53e3e"></div><div><strong>Inconvenientes / SC</strong><div class="og">2.528 outgoing · NPS 57,5%</div></div></div>
+            <div class="matrix-item"><div class="dot" style="background:#dd6b20"></div><div><strong>Criação de conta</strong><div class="og">2.970 outgoing · NPS 59,9%</div></div></div>
+            <div class="matrix-item"><div class="dot" style="background:#dd6b20"></div><div><strong>Rota não paga</strong><div class="og">2.843 outgoing · NPS 63,2%</div></div></div>
+          </div>
+
+          <!-- Q4: Baixo volume, NPS ok → Monitorar -->
+          <div class="matrix-cell q4">
+            <div class="matrix-label">🟢 Monitorar</div>
+            <div class="matrix-item"><div class="dot" style="background:#38a169"></div><div><strong>Não recebe rotas</strong><div class="og">2.224 outgoing · NPS 78,7%</div></div></div>
+            <div class="matrix-item"><div class="dot" style="background:#38a169"></div><div><strong>Flotillero Extra</strong><div class="og">788 outgoing · NPS 66,3%</div></div></div>
+          </div>
+
+          <!-- Q3: Baixo volume, NPS ruim → Melhorar qualidade -->
+          <div class="matrix-cell q3">
+            <div class="matrix-label">🟡 Qualidade — baixo volume</div>
+            <div class="matrix-item"><div class="dot" style="background:#e53e3e"></div><div><strong>Pago de ruta</strong><div class="og">445 outgoing · NPS 55,7%</div></div></div>
+            <div class="matrix-item"><div class="dot" style="background:#e53e3e"></div><div><strong>Gestión cuenta</strong><div class="og">93 outgoing · NPS 57,1%</div></div></div>
+            <div class="matrix-item"><div class="dot" style="background:#dd6b20"></div><div><strong>Soporte MeLi</strong><div class="og">446 outgoing · NPS 60,8%</div></div></div>
           </div>
         </div>
+        <div style="display:flex;justify-content:space-between;padding:0 4px;margin-bottom:4px;">
+          <div style="font-size:10px;color:#888;font-weight:700;">↑ VOLUME ALTO ↑</div>
+          <div style="font-size:10px;color:#888;font-weight:700;">↓ VOLUME BAIXO ↓</div>
+        </div>
+        <div style="font-size:10px;color:#aaa;margin-top:4px;">Threshold volume: &gt;2.000 outgoing · Threshold NPS: 65% (faixa target)</div>
       </div>
     </div><!-- end grid-2 -->
 
     <div class="divider"></div>
 
     <!-- PRIORIDADES -->
-    <div class="section-title">Oportunidades Prioritárias — Processo Drivers · Visão 3 Meses</div>
+    <div class="section-title">Prioridades Produto — Dor Real (Alto Volume + NPS Baixo) · Fev–Mai 2026</div>
     <div class="priority-grid">
 
       <div class="priority-card p1">
-        <div class="p-label">🔴 P1 — pior NPS, crônico (confirmado 3M)</div>
+        <div class="p-label">🔴 P1 — maior outgoing com pior NPS (crônico 3M)</div>
         <div class="p-title">Métricas / Nível de Lealtad</div>
         <div class="p-metrics">
-          <div class="pm"><div class="pv" style="color:#c53030">51,9%</div><div class="pk">NPS 3M</div></div>
+          <div class="pm"><div class="pv" style="color:#c53030">2.306</div><div class="pk">outgoing Fev–Mai</div></div>
+          <div class="pm"><div class="pv" style="color:#c53030">51,9%</div><div class="pk">NPS Lineal</div></div>
           <div class="pm"><div class="pv" style="color:#c53030">−16,6pp</div><div class="pk">gap target</div></div>
-          <div class="pm"><div class="pv">n=366</div><div class="pk">pesquisas 3M</div></div>
         </div>
-        <div class="p-insight">
-          NPS <strong>2,4pp pior</strong> no 3M que em Mai → confirma problema crônico e não pontual. <strong>59%</strong> reclama das métricas diretamente, <strong>41%</strong> tem dúvidas sobre o nível. Motorista não tem fluxo de contestação nem visibilidade do histórico de métricas no app.
+        <div class="p-insight"><strong>59%</strong> reclama das métricas · <strong>41%</strong> tem problema com o nível. NPS estável a ~52% nos últimos 3 meses → problema estrutural, não pontual. Motorista não tem visibilidade do cálculo nem forma de contestar sem acionar CX.</div>
+        <div class="transcript-quote red">
+          "não sei o que ta acontecendo, tenho vários amigos que é platinum igual eu, ta caindo percursos pra eles e não cai pra mim"
+          <div class="autor">— Transcrição real · Motorista BR_ME (Mai 2026)</div>
         </div>
-        <div class="verbatim">
-          "ME Extra: motorista reclama sobre suas métricas" — 216 casos · "Problemas com meu nível" — 150 casos
-          <div class="autor">— Soluções 3M · Fev–Mai 2026</div>
+        <div class="transcript-quote red" style="margin-top:5px;">
+          "não estou recebendo percursos e meu nivel é platinum"
+          <div class="autor">— Transcrição real · Motorista BR_ME (Mai 2026)</div>
         </div>
       </div>
 
       <div class="priority-card p2">
-        <div class="p-label">🟡 P2 — crônico estrutural (idêntico 3M vs Mai)</div>
-        <div class="p-title">Inconvenientes no Recorrido<br>ou Service Center</div>
+        <div class="p-label">🟡 P2 — volume alto + NPS baixo crônico (idêntico 3M)</div>
+        <div class="p-title">Inconvenientes no Recorrido / SC</div>
         <div class="p-metrics">
-          <div class="pm"><div class="pv" style="color:#c05621">57,5%</div><div class="pk">NPS 3M</div></div>
+          <div class="pm"><div class="pv" style="color:#c05621">2.528</div><div class="pk">outgoing Fev–Mai</div></div>
+          <div class="pm"><div class="pv" style="color:#c05621">57,5%</div><div class="pk">NPS Lineal</div></div>
           <div class="pm"><div class="pv" style="color:#c05621">−13,1pp</div><div class="pk">gap target</div></div>
-          <div class="pm"><div class="pv">n=423</div><div class="pk">pesquisas 3M</div></div>
         </div>
-        <div class="p-insight">
-          NPS praticamente idêntico em Mai (57,6%) e 3M (57,5%) → problema completamente estável e estrutural. <strong>52%</strong> = baixa de pacote devolvido sem confirmação para o motorista · <strong>48%</strong> = reclamação do SC. Sem visibilidade em tempo real após drop no Service Center.
-        </div>
-        <div class="verbatim">
-          "ME Extra: baixa do pacote devolvido" — 219 casos · "Reclamação do SC" — 203 casos
-          <div class="autor">— Soluções 3M · Fev–Mai 2026</div>
+        <div class="p-insight"><strong>52%</strong> = baixa de pacote devolvido no SC sem confirmação · <strong>48%</strong> = reclamação sobre o Service Center. NPS virtualmente igual há 3 meses (57,6% Mai vs 57,5% 3M) → não está melhorando. Motorista vai ao SC, não consegue finalizar a viagem e aciona CX.</div>
+        <div class="transcript-quote orange">
+          "ainda estou com aquele problema desde sexta-feira que eu não consigo finalizar uma viagem, eu vim até aqui na agência e estou aqui na agência"
+          <div class="autor">— Transcrição real · Motorista BR_ME (Mai 2026)</div>
         </div>
       </div>
 
       <div class="priority-card p3">
-        <div class="p-label">🔵 P3 — revelado pelo período maior (Mai era outlier)</div>
-        <div class="p-title">Criação de Conta<br>— Problemas no Onboarding</div>
+        <div class="p-label">🔵 P3 — revelado pelo 3M (mai era outlier positivo)</div>
+        <div class="p-title">Criação de Conta / Onboarding</div>
         <div class="p-metrics">
-          <div class="pm"><div class="pv" style="color:#2b6cb0">59,9%</div><div class="pk">NPS 3M</div></div>
-          <div class="pm"><div class="pv" style="color:#c53030">−9,4pp</div><div class="pk">gap target 3M</div></div>
-          <div class="pm"><div class="pv">n=639</div><div class="pk">pesquisas 3M</div></div>
+          <div class="pm"><div class="pv" style="color:#2b6cb0">2.970</div><div class="pk">outgoing Fev–Mai</div></div>
+          <div class="pm"><div class="pv" style="color:#c53030">59,9%</div><div class="pk">NPS Lineal</div></div>
+          <div class="pm"><div class="pv" style="color:#c53030">−9,4pp</div><div class="pk">gap target</div></div>
         </div>
-        <div class="p-insight">
-          Em Mai parecia ok (69,7%), mas no 3M cai 9,8pp → <strong>mai foi outlier</strong>. Com n=639 é a <strong>3ª CDU em volume</strong>. <strong>49%</strong> = problemas com CNPJ · <strong>17%</strong> = conflito de serviços · <strong>14%</strong> = carga de documentação. Fricção no cadastro bloqueia onboarding de novos motoristas.
-        </div>
-        <div class="verbatim">
-          "ME Extra: problemas com CNPJ" — 311 casos · "Conflito de serviços" — 109 casos
-          <div class="autor">— Soluções 3M · Fev–Mai 2026</div>
+        <div class="p-insight"><strong>49%</strong> = bloqueio por CNPJ/CNAE inválido · <strong>17%</strong> = conflito de serviços · <strong>14%</strong> = carga de documentação. Em Mai parecia ok (69,7%) mas o 3M revela NPS crônico de 59,9%. Motorista chega à fase de cadastro e é bloqueado sem orientação clara.</div>
+        <div class="transcript-quote">
+          "estou tentando me cadastrar no mercado livre extra e não consigo validar o meu cnae, já fiz a alteração e o meu cnae agora é [X] — esse é aceito e fiz a alteração no dia [data]"
+          <div class="autor">— Transcrição real · Motorista BR_ME (Abr 2026)</div>
         </div>
       </div>
 
@@ -398,60 +359,71 @@
 
     <div class="divider"></div>
 
-    <!-- MOTIVOS 5 CDUs -->
-    <div class="section-title">Principais Motivos por CDU — Processo Drivers · Fev–Mai 2026</div>
+    <!-- MOTIVOS + TRANSCRITOS -->
+    <div class="section-title">Motivos de Contato + Transcritos por CDU — Processo Drivers · Fev–Mai 2026</div>
     <div class="motivos-grid">
 
-      <!-- Conta inativada -->
-      <div class="motivo-card vol">
-        <div class="m-header"><h3>Conta Inativada</h3><div class="m-sub">n=2.197 · 30% do volume · NPS 74,7%</div></div>
+      <!-- Conta inativada — DEFLEXÃO -->
+      <div class="motivo-card defl">
+        <div class="m-header"><h3>Conta Inativada</h3>
+          <div class="m-sub">25.473 outgoing · 45% · NPS 74,7%</div>
+        </div>
         <div class="m-row"><div class="m-label">Dig. Account Inabilitada</div><div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:52%"></div></div><div class="m-pct">52%</div></div>
         <div class="m-row"><div class="m-label">Não houve visita</div><div class="m-bar-wrap"><div class="m-bar-fill med" style="width:28%"></div></div><div class="m-pct">28%</div></div>
-        <div class="m-row"><div class="m-label">Motorista ativo (OK)</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:15%"></div></div><div class="m-pct">15%</div></div>
+        <div class="m-row"><div class="m-label">Motorista ativo (ok)</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:15%"></div></div><div class="m-pct">15%</div></div>
         <div class="m-row"><div class="m-label">Pausado — veículo</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:3%"></div></div><div class="m-pct">3%</div></div>
-        <div style="margin-top:7px;font-size:10px;background:#e8f0ff;border-radius:5px;padding:5px 7px;color:#1a3a7a">
-          ⚡ 80% pausado por causa externa ao motorista (Digital Account ou visita). Oportunidade de notificação proativa antes da pausa.
+        <div style="margin-top:7px;background:#e8f4ff;border-radius:5px;padding:5px 7px;font-size:10px;color:#1a3a7a;">
+          ⚡ 80% pausado por causa externa. <strong>Notificação proativa antes da pausa</strong> pode reduzir esses 25k contatos.
         </div>
       </div>
 
-      <!-- Como funciona Envíos Extra -->
-      <div class="motivo-card vol">
-        <div class="m-header"><h3>Como Funciona<br>Envíos Extra</h3><div class="m-sub">n=1.386 · 19% do volume · NPS 73,4%</div></div>
+      <!-- Como funciona Extra — DEFLEXÃO -->
+      <div class="motivo-card defl">
+        <div class="m-header"><h3>Como Funciona<br>Envíos Extra</h3>
+          <div class="m-sub">5.503 outgoing · 9,7% · NPS 73,4%</div>
+        </div>
         <div class="m-row"><div class="m-label">Como ativar o serviço?</div><div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:62%"></div></div><div class="m-pct">62%</div></div>
         <div class="m-row"><div class="m-label">Como recebo o pagamento?</div><div class="m-bar-wrap"><div class="m-bar-fill med" style="width:21%"></div></div><div class="m-pct">21%</div></div>
         <div class="m-row"><div class="m-label">Consulta por desafios</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:5%"></div></div><div class="m-pct">5%</div></div>
-        <div class="m-row"><div class="m-label">Info sobre rotas</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:3%"></div></div><div class="m-pct">3%</div></div>
-        <div style="margin-top:7px;font-size:10px;background:#e8f0ff;border-radius:5px;padding:5px 7px;color:#1a3a7a">
-          ⚡ 83% são dúvidas básicas de onboarding — ativação e pagamento. FAQ in-app evitaria quase todos esses 1.386 contatos.
+        <div style="margin-top:7px;background:#e8f4ff;border-radius:5px;padding:5px 7px;font-size:10px;color:#1a3a7a;">
+          ⚡ 83% são dúvidas básicas de ativação e pagamento → <strong>FAQ in-app / onboarding guiado</strong> elimina esses 5.5k contatos.
         </div>
       </div>
 
-      <!-- Criação de conta -->
-      <div class="motivo-card warn">
-        <div class="m-header"><h3>Criação de Conta<br><span style="font-weight:400;font-size:10px;color:#c05621">⚠ revelado pelo período 3M</span></h3><div class="m-sub">n=639 · NPS 59,9% · gap −9,4pp</div></div>
-        <div class="m-row"><div class="m-label">Problemas com CNPJ</div><div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:49%"></div></div><div class="m-pct">49%</div></div>
-        <div class="m-row"><div class="m-label">Conflito de serviços</div><div class="m-bar-wrap"><div class="m-bar-fill med" style="width:17%"></div></div><div class="m-pct">17%</div></div>
-        <div class="m-row"><div class="m-label">Carga de documentação</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:14%"></div></div><div class="m-pct">14%</div></div>
-        <div class="m-row"><div class="m-label">Erro no app</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:8%"></div></div><div class="m-pct">8%</div></div>
-      </div>
-
-      <!-- Métricas -->
+      <!-- Métricas — DOR -->
       <div class="motivo-card crit">
-        <div class="m-header"><h3>Métricas /<br>Nível de Lealtad</h3><div class="m-sub">n=366 · NPS 51,9% · gap −16,6pp</div></div>
+        <div class="m-header"><h3>Métricas / Lealtad</h3>
+          <div class="m-sub">2.306 outgoing · 4,1% · NPS 51,9% · gap −16,6pp</div>
+        </div>
         <div class="m-row"><div class="m-label">Reclama sobre métricas</div><div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:59%"></div></div><div class="m-pct">59%</div></div>
         <div class="m-row"><div class="m-label">Problemas com nível</div><div class="m-bar-wrap"><div class="m-bar-fill med" style="width:41%"></div></div><div class="m-pct">41%</div></div>
-        <div style="margin-top:7px;font-size:10px;background:#fff0f0;border-radius:5px;padding:5px 7px;color:#8b0000">
-          ⚡ 100% são problemas que o motorista não consegue resolver sozinho. Sem painel de contestação no app.
+        <div class="m-transcript red">
+          "não sei o que ta acontecendo, tenho vários amigos platinum igual eu, ta caindo percursos pra eles e não cai pra mim"
         </div>
       </div>
 
-      <!-- Inconvenientes SC -->
+      <!-- Inconvenientes SC — DOR -->
       <div class="motivo-card crit">
-        <div class="m-header"><h3>Recorrido /<br>Service Center</h3><div class="m-sub">n=423 · NPS 57,5% · gap −13,1pp</div></div>
+        <div class="m-header"><h3>Recorrido / SC</h3>
+          <div class="m-sub">2.528 outgoing · 4,5% · NPS 57,5% · gap −13,1pp</div>
+        </div>
         <div class="m-row"><div class="m-label">Baixa pacote devolvido</div><div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:52%"></div></div><div class="m-pct">52%</div></div>
         <div class="m-row"><div class="m-label">Reclamação do SC</div><div class="m-bar-wrap"><div class="m-bar-fill med" style="width:48%"></div></div><div class="m-pct">48%</div></div>
-        <div style="margin-top:7px;font-size:10px;background:#fff0f0;border-radius:5px;padding:5px 7px;color:#8b0000">
-          ⚡ NPS estável em 57,5% há 3 meses → sem melhoria. Motorista não tem confirmação de baixa no SC em tempo real.
+        <div class="m-transcript red">
+          "desde sexta-feira não consigo finalizar uma viagem, vim até aqui na agência e estou aqui na agência"
+        </div>
+      </div>
+
+      <!-- Criação conta — DOR REVELADA -->
+      <div class="motivo-card warn">
+        <div class="m-header"><h3>Criação de Conta</h3>
+          <div class="m-sub">2.970 outgoing · 5,3% · NPS 59,9% · gap −9,4pp</div>
+        </div>
+        <div class="m-row"><div class="m-label">Bloqueio por CNPJ/CNAE</div><div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:49%"></div></div><div class="m-pct">49%</div></div>
+        <div class="m-row"><div class="m-label">Conflito de serviços</div><div class="m-bar-wrap"><div class="m-bar-fill med" style="width:17%"></div></div><div class="m-pct">17%</div></div>
+        <div class="m-row"><div class="m-label">Carga de documentação</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:14%"></div></div><div class="m-pct">14%</div></div>
+        <div class="m-transcript">
+          "estou tentando me cadastrar e não consigo validar o meu cnae, já fiz a alteração no dia [data]"
         </div>
       </div>
 
@@ -462,21 +434,21 @@
       <div class="insight-label">💡 Insights<br>Produto</div>
       <div class="insight-grid">
         <div>
-          <div class="insight-title">Transparência de Métricas (P1 confirmado)</div>
+          <div class="insight-title">Deflexão de alto impacto — 31.000 contatos</div>
           <div class="insight-text">
-            Problema crônico (3 meses estável a NPS 51,9%). <strong style="color:#fff">100%</strong> dos contatos são de motoristas sem forma de entender ou contestar métricas sem acionar CX. Painel de métricas + histórico + botão de contestação no app: solução direta para <strong style="color:#fff">366 contatos/trimestre</strong>.
+            Conta inativada (<strong style="color:#fff">25.473</strong>) + Como funciona Extra (<strong style="color:#fff">5.503</strong>) + Onboarding (<strong style="color:#fff">1.785</strong>) = <strong style="color:#FFE600">32.761 contatos</strong> com NPS acima do target. São dúvidas e notificações que o app deveria resolver proativamente — <strong style="color:#fff">58% do total outgoing Drivers sem NPS crítico</strong>.
           </div>
         </div>
         <div>
-          <div class="insight-title">Criação de Conta — CNPJ (revelado 3M)</div>
+          <div class="insight-title">Métricas — transparência é o produto</div>
           <div class="insight-text">
-            <strong style="color:#ff9977">Mai foi outlier</strong> — o 3M revela NPS 59,9% (−9,4pp vs target). <strong style="color:#fff">49%</strong> são bloqueios por CNPJ no cadastro. Validação e guidance de CNPJ no fluxo de onboarding (antes de criar conta) evitaria a maioria dos <strong style="color:#fff">639 contatos/trimestre</strong>.
+            Platinum drivers não recebendo rotas sem saber o porquê. O transcritto mostra: <strong style="color:#FFE600">"tenho amigos platinum igual eu, cai percurso pra eles e não cai pra mim"</strong>. Não é reclamação de atendimento — é falta de produto. Painel de métricas com histórico + alerta quando nível muda: direto.
           </div>
         </div>
         <div>
-          <div class="insight-title">Visibilidade no SC + Notificação Proativa</div>
+          <div class="insight-title">SC — trip finalização é bug de produto</div>
           <div class="insight-text">
-            Dois problemas com solução similar: <strong style="color:#fff">Baixa no SC</strong> (52% dos 423 contatos) e <strong style="color:#fff">Conta inativada por ausência</strong> (28% dos 2.197). Ambos se resolvem com notificação push proativa — no SC após baixa e antes de pausar conta por falta de visita.
+            "Vim até a agência e não consigo finalizar a viagem desde sexta" — <strong style="color:#fff">2.528 contatos</strong> de motoristas presencialmente no SC sem conseguir dar baixa no app. Status de finalização em tempo real + possibilidade de acionar suporte direto no fluxo de entrega: <strong style="color:#FFE600">resolve os −13,1pp de gap sem mudar o processo do SC</strong>.
           </div>
         </div>
       </div>
@@ -485,7 +457,7 @@
   </div><!-- end body -->
 
   <div class="footer">
-    <div><span>BR_ME_Sellers_Longtail</span> · Processo: <span>Drivers</span> · NPS Lineal · Fev–Mai 2026 (n=7.231) · Fonte: BigQuery WHOWNER.DM_CX_NPS_Y20_DETAIL</div>
+    <div><span>BR_ME_Sellers_Longtail</span> · Processo: <span>Drivers</span> · NPS Lineal + Outgoing Real · Fev–Mai 2026 · Fontes: DM_CX_OUTGOING_GESTION_DETAIL + DM_CX_NPS_Y20_DETAIL + BT_CX_TRANSCRIPT</div>
     <div>Elaborado por: <span>André Labriola</span> · CX Analytics BR</div>
   </div>
 
