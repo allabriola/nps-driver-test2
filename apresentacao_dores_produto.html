@@ -3,44 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Processo Drivers — Outgoing × NPS | BR_ME_Sellers_Longtail | Fev–Mai 2026</title>
+<title>Processo Drivers — Outgoing × NPS × Temas | BR_ME_Sellers_Longtail | Fev–Mai 2026</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f5f7; color: #1a1a2e; font-size: 13px; }
-  .page { max-width: 1220px; margin: 20px auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.1); overflow: hidden; }
+  .page { max-width: 1240px; margin: 20px auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.1); overflow: hidden; }
 
   /* HEADER */
-  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-  .header-left h1 { font-size: 19px; font-weight: 700; }
-  .header-left p { color: #FFE600; font-size: 12px; margin-top: 3px; }
-  .header-right { display: flex; gap: 14px; align-items: center; flex-shrink: 0; }
-  .kpi-pill { text-align: center; background: rgba(255,255,255,0.08); border-radius: 10px; padding: 9px 14px; border: 1px solid rgba(255,230,0,0.3); }
-  .kpi-pill .val { font-size: 21px; font-weight: 800; color: #FFE600; line-height: 1; }
+  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; padding: 18px 28px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .header-left h1 { font-size: 18px; font-weight: 700; }
+  .header-left p { color: #FFE600; font-size: 11px; margin-top: 3px; }
+  .header-right { display: flex; gap: 12px; align-items: center; flex-shrink: 0; }
+  .kpi-pill { text-align: center; background: rgba(255,255,255,0.08); border-radius: 10px; padding: 8px 14px; border: 1px solid rgba(255,230,0,0.3); }
+  .kpi-pill .val { font-size: 20px; font-weight: 800; color: #FFE600; line-height: 1; }
   .kpi-pill .lbl { font-size: 10px; color: #aaa; margin-top: 2px; }
-  .kpi-pill .sub { font-size: 10px; margin-top: 1px; color: #7fff7f; }
-  .tag { border-radius: 20px; padding: 5px 11px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .kpi-pill .sub { font-size: 10px; margin-top: 1px; }
+  .tag { border-radius: 20px; padding: 4px 11px; font-size: 11px; font-weight: 700; white-space: nowrap; }
   .tag-team { background: rgba(255,230,0,0.15); border: 1px solid #FFE600; color: #FFE600; }
   .tag-proc { background: rgba(100,160,255,0.2); border: 1px solid #4a90d9; color: #a0d0ff; }
 
-  /* LAYOUT */
-  .body { padding: 22px 28px; }
+  /* BODY */
+  .body { padding: 20px 26px; }
   .section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #666; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
   .section-title::before { content: ''; display: inline-block; width: 4px; height: 14px; border-radius: 2px; background: #FFE600; }
-  .divider { height: 1px; background: #e8eaed; margin: 4px 0 20px; }
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 22px; }
+  .divider { height: 1px; background: #e8eaed; margin: 4px 0 18px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
 
   /* CROSS TABLE */
   .cross-table { width: 100%; border-collapse: collapse; }
-  .cross-table th { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #888; padding: 6px 8px; border-bottom: 2px solid #e8eaed; text-align: left; white-space: nowrap; }
+  .cross-table th { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #888; padding: 5px 7px; border-bottom: 2px solid #e8eaed; white-space: nowrap; }
   .cross-table th.r { text-align: right; }
-  .cross-table td { padding: 5px 8px; border-bottom: 1px solid #f0f0f0; font-size: 12px; vertical-align: middle; }
+  .cross-table td { padding: 4px 7px; border-bottom: 1px solid #f0f0f0; font-size: 12px; vertical-align: middle; }
   .cross-table tr:last-child td { border-bottom: none; }
   .cross-table tr.crit td { background: #fff0f0; }
   .cross-table tr.warn td { background: #fffbe6; }
   .cross-table tr.defl td { background: #f0fff4; }
-  .og-bar { height: 8px; border-radius: 3px; background: #1a1a2e; display: inline-block; vertical-align: middle; margin-right: 5px; }
-  .og-bar.large { background: #4a6fa5; }
-  .nps-chip { display: inline-block; padding: 2px 7px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .og-bar { height: 7px; border-radius: 3px; display: inline-block; vertical-align: middle; margin-right: 4px; }
+  .nps-chip { display: inline-block; padding: 1px 6px; border-radius: 20px; font-size: 11px; font-weight: 700; }
   .nps-chip.bad  { background: #ffe0e0; color: #cc0000; }
   .nps-chip.warn { background: #fff3e0; color: #b85c00; }
   .nps-chip.ok   { background: #e0ffe0; color: #006600; }
@@ -48,73 +47,70 @@
   .gap-n { font-size: 11px; font-weight: 700; color: #cc0000; }
   .gap-p { font-size: 11px; font-weight: 700; color: #006600; }
   .gap-u { font-size: 11px; font-weight: 700; color: #888; }
-  .tag-defl { background: #e8f4ff; color: #0055aa; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; text-transform: uppercase; margin-left: 4px; }
-  .tag-pain { background: #ffe0e0; color: #cc0000; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; text-transform: uppercase; margin-left: 4px; }
+  .badge { display: inline-block; padding: 1px 5px; border-radius: 3px; font-size: 9px; font-weight: 800; text-transform: uppercase; margin-left: 3px; vertical-align: middle; }
+  .badge-d { background: #e8f4ff; color: #0055aa; }
+  .badge-p { background: #ffe0e0; color: #cc0000; }
 
-  /* MATRIX 2x2 */
-  .matrix-wrap { position: relative; }
-  .matrix-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-  .matrix-cell { border-radius: 8px; padding: 12px; border: 1px solid; min-height: 120px; }
-  .matrix-cell.q1 { background: #fff0f0; border-color: #e53e3e; }
-  .matrix-cell.q2 { background: #e8f4ff; border-color: #3182ce; }
-  .matrix-cell.q3 { background: #fffbe6; border-color: #dd6b20; }
-  .matrix-cell.q4 { background: #f0fff4; border-color: #38a169; }
-  .matrix-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 7px; }
-  .matrix-cell.q1 .matrix-label { color: #c53030; }
-  .matrix-cell.q2 .matrix-label { color: #2b6cb0; }
-  .matrix-cell.q3 .matrix-label { color: #c05621; }
-  .matrix-cell.q4 .matrix-label { color: #276749; }
-  .matrix-item { font-size: 11px; margin-bottom: 4px; display: flex; align-items: flex-start; gap: 5px; line-height: 1.35; }
-  .matrix-item .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
-  .matrix-item .og { font-size: 10px; color: #888; font-weight: 600; white-space: nowrap; }
-  .matrix-axis { font-size: 9px; color: #aaa; text-align: center; font-weight: 600; }
+  /* MATRIX */
+  .matrix-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 7px; }
+  .mc { border-radius: 8px; padding: 11px 12px; border: 1px solid; }
+  .mc.q1 { background: #fff0f0; border-color: #e53e3e; }
+  .mc.q2 { background: #e8f4ff; border-color: #3182ce; }
+  .mc.q3 { background: #fffbe6; border-color: #dd6b20; }
+  .mc.q4 { background: #f0fff4; border-color: #38a169; }
+  .mc-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+  .mc.q1 .mc-label { color: #c53030; } .mc.q2 .mc-label { color: #2b6cb0; }
+  .mc.q3 .mc-label { color: #c05621; } .mc.q4 .mc-label { color: #276749; }
+  .mc-item { font-size: 11px; margin-bottom: 3px; display: flex; align-items: flex-start; gap: 5px; line-height: 1.3; }
+  .mc-item .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+  .mc-item .og { font-size: 10px; color: #888; font-weight: 600; white-space: nowrap; }
 
-  /* PRIORITIES */
-  .priority-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 22px; }
-  .priority-card { border-radius: 10px; padding: 14px; border: 1px solid; }
-  .priority-card.p1 { background: #fff0f0; border-color: #e53e3e; }
-  .priority-card.p2 { background: #fff8e1; border-color: #dd6b20; }
-  .priority-card.p3 { background: #f0f8ff; border-color: #3182ce; }
-  .p-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-  .priority-card.p1 .p-label { color: #c53030; }
-  .priority-card.p2 .p-label { color: #c05621; }
-  .priority-card.p3 .p-label { color: #2b6cb0; }
-  .p-title { font-size: 13px; font-weight: 700; margin-bottom: 7px; line-height: 1.3; }
-  .p-metrics { display: flex; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
-  .pm .pv { font-size: 15px; font-weight: 800; }
-  .pm .pk { font-size: 9px; color: #888; }
-  .p-insight { font-size: 11px; color: #555; line-height: 1.45; margin-bottom: 7px; }
-  .transcript-quote { background: #f0f4ff; border-left: 3px solid #3182ce; padding: 7px 10px; border-radius: 0 7px 7px 0; font-size: 11px; font-style: italic; color: #2d3748; margin-top: 6px; line-height: 1.45; }
-  .transcript-quote.red { background: #fff0f0; border-left-color: #e53e3e; }
-  .transcript-quote.orange { background: #fff8e1; border-left-color: #dd6b20; }
-  .transcript-quote .autor { font-style: normal; font-size: 10px; color: #999; margin-top: 3px; }
-
-  /* MOTIVOS */
-  .motivos-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 11px; margin-bottom: 20px; }
-  .motivo-card { background: #f8f9fa; border-radius: 9px; padding: 12px; border: 1px solid #e8eaed; }
-  .motivo-card.crit  { border-color: #e53e3e; background: #fff8f8; }
-  .motivo-card.defl  { border-color: #3182ce; background: #f0f8ff; }
-  .motivo-card.warn  { border-color: #dd6b20; background: #fffbf5; }
-  .m-header h3 { font-size: 11.5px; font-weight: 700; color: #1a1a2e; line-height: 1.3; margin-bottom: 1px; }
-  .m-sub { font-size: 10px; color: #888; margin-bottom: 8px; }
-  .m-row { display: flex; align-items: center; gap: 5px; margin-bottom: 4px; }
-  .m-label { font-size: 10px; color: #333; flex: 1; line-height: 1.3; }
-  .m-bar-wrap { width: 55px; background: #e8eaed; border-radius: 3px; height: 7px; flex-shrink: 0; }
-  .m-bar-fill { height: 100%; border-radius: 3px; }
-  .m-bar-fill.dark { background: #1a1a2e; } .m-bar-fill.med { background: #4a6080; } .m-bar-fill.lite { background: #8a9ab0; }
-  .m-pct { font-size: 10px; font-weight: 700; color: #1a1a2e; width: 24px; text-align: right; flex-shrink: 0; }
-  .m-transcript { margin-top: 8px; font-size: 10px; font-style: italic; color: #444; background: #f0f4ff; border-left: 2px solid #3182ce; padding: 5px 7px; border-radius: 0 5px 5px 0; line-height: 1.4; }
-  .m-transcript.red { background: #fff0f0; border-left-color: #e53e3e; }
+  /* CDU THEME SECTIONS */
+  .cdu-section { margin-bottom: 24px; border: 1px solid #e8eaed; border-radius: 10px; overflow: hidden; }
+  .cdu-header { padding: 12px 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .cdu-header.crit { background: #fff0f0; border-bottom: 2px solid #e53e3e; }
+  .cdu-header.warn { background: #fffbe6; border-bottom: 2px solid #dd6b20; }
+  .cdu-header.defl { background: #f0fff4; border-bottom: 2px solid #38a169; }
+  .cdu-name { font-size: 14px; font-weight: 700; flex: 1; }
+  .cdu-chips { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .cdu-chip { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .cdu-chip.og  { background: #1a1a2e; color: #FFE600; }
+  .cdu-chip.nps-bad { background: #ffe0e0; color: #cc0000; }
+  .cdu-chip.nps-ok  { background: #e0ffe0; color: #006600; }
+  .cdu-chip.nps-warn{ background: #fff3e0; color: #b85c00; }
+  .cdu-chip.gap-neg { background: #ffe0e0; color: #cc0000; }
+  .cdu-chip.gap-pos { background: #e0ffe0; color: #006600; }
+  .themes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+  .theme-card { padding: 14px; border-right: 1px solid #f0f0f0; }
+  .theme-card:last-child { border-right: none; }
+  .theme-num { font-size: 9px; font-weight: 800; text-transform: uppercase; color: #aaa; margin-bottom: 4px; letter-spacing: 1px; }
+  .theme-name { font-size: 12.5px; font-weight: 700; color: #1a1a2e; margin-bottom: 3px; line-height: 1.35; }
+  .theme-pct { display: inline-block; background: #1a1a2e; color: #FFE600; font-size: 10px; font-weight: 800; padding: 1px 7px; border-radius: 10px; margin-bottom: 8px; }
+  .theme-desc { font-size: 11px; color: #555; line-height: 1.45; margin-bottom: 9px; }
+  .theme-quote { font-size: 11px; font-style: italic; color: #333; background: #f5f5f5; border-left: 3px solid #ccc; padding: 6px 9px; border-radius: 0 6px 6px 0; line-height: 1.4; margin-bottom: 9px; }
+  .theme-quote.red    { background: #fff0f0; border-left-color: #e53e3e; }
+  .theme-quote.orange { background: #fff8e1; border-left-color: #dd6b20; }
+  .theme-quote.blue   { background: #f0f8ff; border-left-color: #3182ce; }
+  .cases-label { font-size: 9px; font-weight: 800; text-transform: uppercase; color: #999; margin-bottom: 5px; letter-spacing: 0.8px; }
+  .case-pills { display: flex; flex-wrap: wrap; gap: 5px; }
+  .case-pill {
+    display: inline-block; padding: 3px 8px; border-radius: 5px;
+    background: #f0f4ff; border: 1px solid #c5d0f0;
+    font-size: 11px; font-weight: 600; color: #2244aa;
+    font-family: monospace; cursor: pointer; user-select: all;
+  }
+  .case-pill:hover { background: #dde8ff; }
 
   /* INSIGHT BOX */
-  .insight-box { background: #1a1a2e; border-radius: 10px; padding: 16px 20px; display: flex; gap: 24px; align-items: flex-start; }
-  .insight-label { color: #FFE600; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; padding-top: 2px; min-width: 80px; }
+  .insight-box { background: #1a1a2e; border-radius: 10px; padding: 15px 20px; display: flex; gap: 22px; align-items: flex-start; }
+  .insight-label { color: #FFE600; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; padding-top: 2px; min-width: 75px; }
   .insight-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; flex: 1; }
   .insight-title { color: #FFE600; font-size: 11px; font-weight: 700; margin-bottom: 4px; }
   .insight-text { color: #ccc; font-size: 11px; line-height: 1.5; }
 
-  .footer { background: #1a1a2e; color: #888; padding: 11px 28px; font-size: 10px; display: flex; justify-content: space-between; }
+  .footer { background: #1a1a2e; color: #888; padding: 10px 28px; font-size: 10px; display: flex; justify-content: space-between; }
   .footer span { color: #FFE600; font-weight: 700; }
+  .note { font-size: 10px; color: #aaa; margin-top: 8px; font-style: italic; }
 </style>
 </head>
 <body>
@@ -122,8 +118,8 @@
 
   <div class="header">
     <div class="header-left">
-      <h1>Processo Drivers — Outgoing × NPS Lineal · Visão Produto</h1>
-      <p>Cruzamento volume real de contatos + NPS + Transcritos · Fev–Mai 2026 · BR_ME_Sellers_Longtail</p>
+      <h1>Processo Drivers — Outgoing × NPS Lineal × Temas de Contato</h1>
+      <p>Análise temática de transcritos + 3 cases por tema · BR_ME_Sellers_Longtail · Fev–Mai 2026</p>
     </div>
     <div class="header-right">
       <div class="tag tag-team">🚚 BR_ME_Sellers_Longtail</div>
@@ -131,12 +127,12 @@
       <div class="kpi-pill">
         <div class="val">56.502</div>
         <div class="lbl">contatos outgoing</div>
-        <div class="sub">Fev–Mai 2026</div>
+        <div class="sub" style="color:#7fff7f">Fev–Mai 2026</div>
       </div>
       <div class="kpi-pill">
-        <div class="val">10/15</div>
-        <div class="lbl">CDUs abaixo do target</div>
-        <div class="sub" style="color:#ff7f7f">NPS Lineal 3M</div>
+        <div class="val">600</div>
+        <div class="lbl">transcritos analisados</div>
+        <div class="sub" style="color:#aaa">TF-IDF + KMeans</div>
       </div>
     </div>
   </div>
@@ -148,307 +144,365 @@
 
       <!-- CROSS TABLE -->
       <div>
-        <div class="section-title">Outgoing × NPS Lineal por CDU — Drivers · Fev–Mai 2026</div>
+        <div class="section-title">Outgoing × NPS Lineal × Classificação — Drivers · Fev–Mai</div>
         <table class="cross-table">
           <thead>
-            <tr>
-              <th>CDU</th>
-              <th class="r">Outgoing</th>
-              <th class="r">%</th>
-              <th class="r">NPS Lineal</th>
-              <th class="r">Gap Tgt</th>
-            </tr>
+            <tr><th>CDU</th><th class="r">Outgoing</th><th class="r">%</th><th class="r">NPS</th><th class="r">Gap Tgt</th></tr>
           </thead>
           <tbody>
             <tr class="defl">
-              <td><span class="og-bar large" style="width:78px"></span><strong>Conta inativada</strong><span class="tag-defl">deflexão</span></td>
-              <td style="text-align:right"><strong>25.473</strong></td>
-              <td style="text-align:right">45,1%</td>
-              <td style="text-align:center"><span class="nps-chip ok">74,7%</span></td>
-              <td style="text-align:right"><span class="gap-p">+2,5pp</span></td>
+              <td><div class="og-bar" style="width:78px;background:#4a6fa5"></div><strong>Conta inativada</strong><span class="badge badge-d">deflexão</span></td>
+              <td style="text-align:right"><strong>25.473</strong></td><td style="text-align:right">45,1%</td>
+              <td style="text-align:center"><span class="nps-chip ok">74,7%</span></td><td style="text-align:right"><span class="gap-p">+2,5pp</span></td>
             </tr>
             <tr class="defl">
-              <td><span class="og-bar large" style="width:17px"></span><strong>Como funciona Envíos Extra</strong><span class="tag-defl">deflexão</span></td>
-              <td style="text-align:right"><strong>5.503</strong></td>
-              <td style="text-align:right">9,7%</td>
-              <td style="text-align:center"><span class="nps-chip ok">73,4%</span></td>
-              <td style="text-align:right"><span class="gap-p">+2,0pp</span></td>
+              <td><div class="og-bar" style="width:17px;background:#4a6fa5"></div><strong>Como funciona Envíos Extra</strong><span class="badge badge-d">deflexão</span></td>
+              <td style="text-align:right"><strong>5.503</strong></td><td style="text-align:right">9,7%</td>
+              <td style="text-align:center"><span class="nps-chip ok">73,4%</span></td><td style="text-align:right"><span class="gap-p">+2,0pp</span></td>
             </tr>
             <tr class="warn">
-              <td><span class="og-bar" style="width:9px"></span><strong>Criação de conta</strong><span class="tag-pain">dor</span></td>
-              <td style="text-align:right"><strong>2.970</strong></td>
-              <td style="text-align:right">5,3%</td>
-              <td style="text-align:center"><span class="nps-chip warn">59,9%</span></td>
-              <td style="text-align:right"><span class="gap-n">−9,4pp</span></td>
+              <td><div class="og-bar" style="width:9px;background:#e53e3e"></div><strong>Criação de conta</strong><span class="badge badge-p">dor</span></td>
+              <td style="text-align:right"><strong>2.970</strong></td><td style="text-align:right">5,3%</td>
+              <td style="text-align:center"><span class="nps-chip warn">59,9%</span></td><td style="text-align:right"><span class="gap-n">−9,4pp</span></td>
             </tr>
             <tr class="crit">
-              <td><span class="og-bar" style="width:9px"></span><strong>Bugs</strong></td>
-              <td style="text-align:right"><strong>2.969</strong></td>
-              <td style="text-align:right">5,3%</td>
-              <td style="text-align:center"><span class="nps-chip bad">33,3%</span></td>
-              <td style="text-align:right"><span class="gap-n">−28,8pp</span></td>
+              <td><div class="og-bar" style="width:9px;background:#e53e3e"></div><strong>Rota não paga</strong><span class="badge badge-p">dor</span></td>
+              <td style="text-align:right"><strong>2.843</strong></td><td style="text-align:right">5,0%</td>
+              <td style="text-align:center"><span class="nps-chip warn">63,2%</span></td><td style="text-align:right"><span class="gap-n">−6,7pp</span></td>
+            </tr>
+            <tr class="crit">
+              <td><div class="og-bar" style="width:8px;background:#e53e3e"></div><strong>Inconvenientes / SC</strong><span class="badge badge-p">dor</span></td>
+              <td style="text-align:right"><strong>2.528</strong></td><td style="text-align:right">4,5%</td>
+              <td style="text-align:center"><span class="nps-chip bad">57,5%</span></td><td style="text-align:right"><span class="gap-n">−13,1pp</span></td>
+            </tr>
+            <tr class="crit">
+              <td><div class="og-bar" style="width:7px;background:#e53e3e"></div><strong>Métricas / Nível Lealtad</strong><span class="badge badge-p">dor</span></td>
+              <td style="text-align:right"><strong>2.306</strong></td><td style="text-align:right">4,1%</td>
+              <td style="text-align:center"><span class="nps-chip bad">51,9%</span></td><td style="text-align:right"><span class="gap-n">−16,6pp</span></td>
             </tr>
             <tr class="warn">
-              <td><span class="og-bar" style="width:9px"></span><strong>Rota não paga</strong><span class="tag-pain">dor</span></td>
-              <td style="text-align:right"><strong>2.843</strong></td>
-              <td style="text-align:right">5,0%</td>
-              <td style="text-align:center"><span class="nps-chip warn">63,2%</span></td>
-              <td style="text-align:right"><span class="gap-n">−6,7pp</span></td>
-            </tr>
-            <tr class="crit">
-              <td><span class="og-bar" style="width:8px"></span><strong>Generales</strong></td>
-              <td style="text-align:right"><strong>2.580</strong></td>
-              <td style="text-align:right">4,6%</td>
-              <td style="text-align:center"><span class="nps-chip bad">44,9%</span></td>
-              <td style="text-align:right"><span class="gap-n">−23,8pp</span></td>
-            </tr>
-            <tr class="crit">
-              <td><span class="og-bar" style="width:8px"></span><strong>Inconvenientes / SC</strong><span class="tag-pain">dor</span></td>
-              <td style="text-align:right"><strong>2.528</strong></td>
-              <td style="text-align:right">4,5%</td>
-              <td style="text-align:center"><span class="nps-chip bad">57,5%</span></td>
-              <td style="text-align:right"><span class="gap-n">−13,1pp</span></td>
-            </tr>
-            <tr class="crit">
-              <td><span class="og-bar" style="width:7px"></span><strong>Métricas / Nível Lealtad</strong><span class="tag-pain">dor</span></td>
-              <td style="text-align:right"><strong>2.306</strong></td>
-              <td style="text-align:right">4,1%</td>
-              <td style="text-align:center"><span class="nps-chip bad">51,9%</span></td>
-              <td style="text-align:right"><span class="gap-n">−16,6pp</span></td>
-            </tr>
-            <tr class="warn">
-              <td><span class="og-bar" style="width:7px"></span><strong>Oferta de rotas</strong><span class="tag-pain">dor</span></td>
-              <td style="text-align:right"><strong>2.247</strong></td>
-              <td style="text-align:right">4,0%</td>
-              <td style="text-align:center"><span class="nps-chip warn">63,0%</span></td>
-              <td style="text-align:right"><span class="gap-n">−8,6pp</span></td>
+              <td><div class="og-bar" style="width:7px;background:#dd6b20"></div><strong>Oferta de rotas</strong></td>
+              <td style="text-align:right"><strong>2.247</strong></td><td style="text-align:right">4,0%</td>
+              <td style="text-align:center"><span class="nps-chip warn">63,0%</span></td><td style="text-align:right"><span class="gap-n">−8,6pp</span></td>
             </tr>
             <tr>
-              <td><span class="og-bar" style="width:7px"></span><strong>Não recebe rotas</strong></td>
-              <td style="text-align:right"><strong>2.224</strong></td>
-              <td style="text-align:right">3,9%</td>
-              <td style="text-align:center"><span class="nps-chip ok">78,7%</span></td>
-              <td style="text-align:right"><span class="gap-p">+6,5pp</span></td>
+              <td><div class="og-bar" style="width:7px;background:#38a169"></div><strong>Não recebe rotas</strong></td>
+              <td style="text-align:right"><strong>2.224</strong></td><td style="text-align:right">3,9%</td>
+              <td style="text-align:center"><span class="nps-chip ok">78,7%</span></td><td style="text-align:right"><span class="gap-p">+6,5pp</span></td>
             </tr>
             <tr class="defl">
-              <td><span class="og-bar" style="width:5px"></span><strong>Onboarding Extra</strong><span class="tag-defl">deflexão</span></td>
-              <td style="text-align:right"><strong>1.785</strong></td>
-              <td style="text-align:right">3,2%</td>
-              <td style="text-align:center"><span class="nps-chip na">—</span></td>
-              <td style="text-align:right"><span class="gap-u">—</span></td>
-            </tr>
-            <tr>
-              <td><span class="og-bar" style="width:4px"></span><strong>Gestionar conta</strong></td>
-              <td style="text-align:right"><strong>1.236</strong></td>
-              <td style="text-align:right">2,2%</td>
-              <td style="text-align:center"><span class="nps-chip warn">68,2%</span></td>
-              <td style="text-align:right"><span class="gap-n">−1,7pp</span></td>
+              <td><div class="og-bar" style="width:5px;background:#4a6fa5"></div><strong>Onboarding Extra</strong><span class="badge badge-d">deflexão</span></td>
+              <td style="text-align:right"><strong>1.785</strong></td><td style="text-align:right">3,2%</td>
+              <td style="text-align:center"><span class="nps-chip na">—</span></td><td style="text-align:right"><span class="gap-u">—</span></td>
             </tr>
           </tbody>
         </table>
-        <div style="margin-top:8px;font-size:10px;color:#aaa;">
-          🟢 Verde = deflexão (NPS ok, alto volume) · 🔴 Vermelho = dor (NPS baixo) · 🟡 Amarelo = atenção
-        </div>
+        <div class="note">🟢 deflexão = NPS acima do target, contato evitável via produto · 🔴 dor = NPS abaixo do target</div>
       </div>
 
       <!-- MATRIX 2x2 -->
       <div>
-        <div class="section-title">Matriz Priorização — Volume Outgoing × NPS Lineal</div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:4px;padding:0 4px;">
-          <div style="font-size:10px;color:#888;font-weight:700;">← NPS ALTO ←</div>
-          <div style="font-size:10px;color:#888;font-weight:700;">→ NPS BAIXO →</div>
+        <div class="section-title">Matriz — Volume Outgoing × NPS Lineal</div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:10px;color:#888;font-weight:700;">
+          <span>← NPS ALTO</span><span>NPS BAIXO →</span>
         </div>
         <div class="matrix-grid">
-
-          <!-- Q2: Alto volume, NPS ok → Deflexão -->
-          <div class="matrix-cell q2">
-            <div class="matrix-label">🔵 Deflexão — self-service</div>
-            <div class="matrix-item"><div class="dot" style="background:#3182ce"></div><div><strong>Conta inativada</strong><div class="og">25.473 outgoing · NPS 74,7%</div></div></div>
-            <div class="matrix-item"><div class="dot" style="background:#3182ce"></div><div><strong>Como funciona Extra</strong><div class="og">5.503 outgoing · NPS 73,4%</div></div></div>
-            <div class="matrix-item"><div class="dot" style="background:#3182ce"></div><div><strong>Onboarding Extra</strong><div class="og">1.785 outgoing</div></div></div>
+          <div class="mc q2">
+            <div class="mc-label">🔵 Deflexão — self-service</div>
+            <div class="mc-item"><div class="dot" style="background:#3182ce"></div><div><strong>Conta inativada</strong><div class="og">25.473 · NPS 74,7%</div></div></div>
+            <div class="mc-item"><div class="dot" style="background:#3182ce"></div><div><strong>Como funciona Extra</strong><div class="og">5.503 · NPS 73,4%</div></div></div>
+            <div class="mc-item"><div class="dot" style="background:#3182ce"></div><div><strong>Onboarding Extra</strong><div class="og">1.785</div></div></div>
           </div>
-
-          <!-- Q1: Alto volume, NPS ruim → Fix urgente -->
-          <div class="matrix-cell q1">
-            <div class="matrix-label">🔴 Dor — fix urgente</div>
-            <div class="matrix-item"><div class="dot" style="background:#e53e3e"></div><div><strong>Métricas / Lealtad</strong><div class="og">2.306 outgoing · NPS 51,9%</div></div></div>
-            <div class="matrix-item"><div class="dot" style="background:#e53e3e"></div><div><strong>Inconvenientes / SC</strong><div class="og">2.528 outgoing · NPS 57,5%</div></div></div>
-            <div class="matrix-item"><div class="dot" style="background:#dd6b20"></div><div><strong>Criação de conta</strong><div class="og">2.970 outgoing · NPS 59,9%</div></div></div>
-            <div class="matrix-item"><div class="dot" style="background:#dd6b20"></div><div><strong>Rota não paga</strong><div class="og">2.843 outgoing · NPS 63,2%</div></div></div>
+          <div class="mc q1">
+            <div class="mc-label">🔴 Dor — fix urgente</div>
+            <div class="mc-item"><div class="dot" style="background:#e53e3e"></div><div><strong>Métricas / Lealtad</strong><div class="og">2.306 · NPS 51,9%</div></div></div>
+            <div class="mc-item"><div class="dot" style="background:#e53e3e"></div><div><strong>Inconvenientes / SC</strong><div class="og">2.528 · NPS 57,5%</div></div></div>
+            <div class="mc-item"><div class="dot" style="background:#dd6b20"></div><div><strong>Criação de conta</strong><div class="og">2.970 · NPS 59,9%</div></div></div>
+            <div class="mc-item"><div class="dot" style="background:#dd6b20"></div><div><strong>Rota não paga</strong><div class="og">2.843 · NPS 63,2%</div></div></div>
           </div>
-
-          <!-- Q4: Baixo volume, NPS ok → Monitorar -->
-          <div class="matrix-cell q4">
-            <div class="matrix-label">🟢 Monitorar</div>
-            <div class="matrix-item"><div class="dot" style="background:#38a169"></div><div><strong>Não recebe rotas</strong><div class="og">2.224 outgoing · NPS 78,7%</div></div></div>
-            <div class="matrix-item"><div class="dot" style="background:#38a169"></div><div><strong>Flotillero Extra</strong><div class="og">788 outgoing · NPS 66,3%</div></div></div>
+          <div class="mc q4">
+            <div class="mc-label">🟢 Monitorar</div>
+            <div class="mc-item"><div class="dot" style="background:#38a169"></div><div><strong>Não recebe rotas</strong><div class="og">2.224 · NPS 78,7%</div></div></div>
+            <div class="mc-item"><div class="dot" style="background:#38a169"></div><div><strong>Flotillero Extra</strong><div class="og">788 · NPS 66,3%</div></div></div>
           </div>
-
-          <!-- Q3: Baixo volume, NPS ruim → Melhorar qualidade -->
-          <div class="matrix-cell q3">
-            <div class="matrix-label">🟡 Qualidade — baixo volume</div>
-            <div class="matrix-item"><div class="dot" style="background:#e53e3e"></div><div><strong>Pago de ruta</strong><div class="og">445 outgoing · NPS 55,7%</div></div></div>
-            <div class="matrix-item"><div class="dot" style="background:#e53e3e"></div><div><strong>Gestión cuenta</strong><div class="og">93 outgoing · NPS 57,1%</div></div></div>
-            <div class="matrix-item"><div class="dot" style="background:#dd6b20"></div><div><strong>Soporte MeLi</strong><div class="og">446 outgoing · NPS 60,8%</div></div></div>
+          <div class="mc q3">
+            <div class="mc-label">🟡 Qualidade — baixo vol.</div>
+            <div class="mc-item"><div class="dot" style="background:#e53e3e"></div><div><strong>Pago de ruta</strong><div class="og">445 · NPS 55,7%</div></div></div>
+            <div class="mc-item"><div class="dot" style="background:#dd6b20"></div><div><strong>Soporte MeLi</strong><div class="og">446 · NPS 60,8%</div></div></div>
           </div>
         </div>
-        <div style="display:flex;justify-content:space-between;padding:0 4px;margin-bottom:4px;">
-          <div style="font-size:10px;color:#888;font-weight:700;">↑ VOLUME ALTO ↑</div>
-          <div style="font-size:10px;color:#888;font-weight:700;">↓ VOLUME BAIXO ↓</div>
+        <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:10px;color:#888;font-weight:700;">
+          <span>↑ VOLUME ALTO</span><span>VOLUME BAIXO ↓</span>
         </div>
-        <div style="font-size:10px;color:#aaa;margin-top:4px;">Threshold volume: &gt;2.000 outgoing · Threshold NPS: 65% (faixa target)</div>
       </div>
     </div><!-- end grid-2 -->
 
     <div class="divider"></div>
 
-    <!-- PRIORIDADES -->
-    <div class="section-title">Prioridades Produto — Dor Real (Alto Volume + NPS Baixo) · Fev–Mai 2026</div>
-    <div class="priority-grid">
+    <!-- ══════════════════════════════════════════════════════════════
+         CDU 1: MÉTRICAS / NÍVEL DE LEALTAD
+    ══════════════════════════════════════════════════════════════ -->
+    <div class="section-title">Temas de Contato por CDU — Análise de 600 Transcritos · Drivers</div>
 
-      <div class="priority-card p1">
-        <div class="p-label">🔴 P1 — maior outgoing com pior NPS (crônico 3M)</div>
-        <div class="p-title">Métricas / Nível de Lealtad</div>
-        <div class="p-metrics">
-          <div class="pm"><div class="pv" style="color:#c53030">2.306</div><div class="pk">outgoing Fev–Mai</div></div>
-          <div class="pm"><div class="pv" style="color:#c53030">51,9%</div><div class="pk">NPS Lineal</div></div>
-          <div class="pm"><div class="pv" style="color:#c53030">−16,6pp</div><div class="pk">gap target</div></div>
-        </div>
-        <div class="p-insight"><strong>59%</strong> reclama das métricas · <strong>41%</strong> tem problema com o nível. NPS estável a ~52% nos últimos 3 meses → problema estrutural, não pontual. Motorista não tem visibilidade do cálculo nem forma de contestar sem acionar CX.</div>
-        <div class="transcript-quote red">
-          "não sei o que ta acontecendo, tenho vários amigos que é platinum igual eu, ta caindo percursos pra eles e não cai pra mim"
-          <div class="autor">— Transcrição real · Motorista BR_ME (Mai 2026)</div>
-        </div>
-        <div class="transcript-quote red" style="margin-top:5px;">
-          "não estou recebendo percursos e meu nivel é platinum"
-          <div class="autor">— Transcrição real · Motorista BR_ME (Mai 2026)</div>
+    <div class="cdu-section">
+      <div class="cdu-header crit">
+        <div class="cdu-name">🔴 Métricas / Nível de Lealtad</div>
+        <div class="cdu-chips">
+          <span class="cdu-chip og">2.306 outgoing</span>
+          <span class="cdu-chip nps-bad">NPS 51,9%</span>
+          <span class="cdu-chip gap-neg">−16,6pp vs target</span>
+          <span style="font-size:10px;color:#888">122 transcritos · 3 temas identificados</span>
         </div>
       </div>
+      <div class="themes-grid">
 
-      <div class="priority-card p2">
-        <div class="p-label">🟡 P2 — volume alto + NPS baixo crônico (idêntico 3M)</div>
-        <div class="p-title">Inconvenientes no Recorrido / SC</div>
-        <div class="p-metrics">
-          <div class="pm"><div class="pv" style="color:#c05621">2.528</div><div class="pk">outgoing Fev–Mai</div></div>
-          <div class="pm"><div class="pv" style="color:#c05621">57,5%</div><div class="pk">NPS Lineal</div></div>
-          <div class="pm"><div class="pv" style="color:#c05621">−13,1pp</div><div class="pk">gap target</div></div>
+        <div class="theme-card">
+          <div class="theme-num">Tema 1</div>
+          <div class="theme-name">Queda de Nível Sem Justificativa</div>
+          <div><span class="theme-pct">46% dos casos</span></div>
+          <div class="theme-desc">Motorista platinum foi rebaixado para prata sem receber explicação do motivo. Aciona CX para entender o que aconteceu. Não há notificação prévia nem detalhe de qual métrica causou a queda.</div>
+          <div class="theme-quote red">"pq essa alteração no nivel, de platinum para prata? gostaria de saber o motivo sendo que a pontuação estava extremamente boa"</div>
+          <div class="cases-label">Cases representativos</div>
+          <div class="case-pills">
+            <span class="case-pill">453908176</span>
+            <span class="case-pill">453920623</span>
+            <span class="case-pill">453903358</span>
+          </div>
         </div>
-        <div class="p-insight"><strong>52%</strong> = baixa de pacote devolvido no SC sem confirmação · <strong>48%</strong> = reclamação sobre o Service Center. NPS virtualmente igual há 3 meses (57,6% Mai vs 57,5% 3M) → não está melhorando. Motorista vai ao SC, não consegue finalizar a viagem e aciona CX.</div>
-        <div class="transcript-quote orange">
-          "ainda estou com aquele problema desde sexta-feira que eu não consigo finalizar uma viagem, eu vim até aqui na agência e estou aqui na agência"
-          <div class="autor">— Transcrição real · Motorista BR_ME (Mai 2026)</div>
+
+        <div class="theme-card">
+          <div class="theme-num">Tema 2</div>
+          <div class="theme-name">Pontuação Impactada por Erro do Sistema</div>
+          <div><span class="theme-pct">46% dos casos</span></div>
+          <div class="theme-desc">Motorista identificou que insucessos que "não existiram" ou pacotes contabilizados incorretamente estão impactando sua pontuação. Reclama de injustiça e falta de mecanismo para contestar.</div>
+          <div class="theme-quote red">"por erro do sistema esses insucessos que não existiram impactaram direto na minha pontuação, poxa eu trabalho muito pra manter meu nível e por erros do sistema..."</div>
+          <div class="cases-label">Cases representativos</div>
+          <div class="case-pills">
+            <span class="case-pill">453985501</span>
+            <span class="case-pill">453938234</span>
+            <span class="case-pill">452936125</span>
+          </div>
+        </div>
+
+        <div class="theme-card">
+          <div class="theme-num">Tema 3</div>
+          <div class="theme-name">Nível Platinum Sem Receber Rotas</div>
+          <div><span class="theme-pct">16% dos casos</span></div>
+          <div class="theme-desc">Motorista com nível platinum não está recebendo oferta de percursos, enquanto amigos no mesmo nível recebem normalmente. Sinaliza possível bug de distribuição de rotas por nível.</div>
+          <div class="theme-quote red">"não sei o que ta acontecendo, tenho vários amigos que é platinum igual eu, ta caindo percursos pra eles e não cai pra mim"</div>
+          <div class="cases-label">Cases representativos</div>
+          <div class="case-pills">
+            <span class="case-pill">451802077</span>
+            <span class="case-pill">451133413</span>
+            <span class="case-pill">453971580</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         CDU 2: INCONVENIENTES / SERVICE CENTER
+    ══════════════════════════════════════════════════════════════ -->
+    <div class="cdu-section">
+      <div class="cdu-header crit">
+        <div class="cdu-name">🔴 Inconvenientes no Recorrido / Service Center</div>
+        <div class="cdu-chips">
+          <span class="cdu-chip og">2.528 outgoing</span>
+          <span class="cdu-chip nps-bad">NPS 57,5%</span>
+          <span class="cdu-chip gap-neg">−13,1pp vs target</span>
+          <span style="font-size:10px;color:#888">104 transcritos · 3 temas · NPS idêntico há 3 meses</span>
         </div>
       </div>
+      <div class="themes-grid">
 
-      <div class="priority-card p3">
-        <div class="p-label">🔵 P3 — revelado pelo 3M (mai era outlier positivo)</div>
-        <div class="p-title">Criação de Conta / Onboarding</div>
-        <div class="p-metrics">
-          <div class="pm"><div class="pv" style="color:#2b6cb0">2.970</div><div class="pk">outgoing Fev–Mai</div></div>
-          <div class="pm"><div class="pv" style="color:#c53030">59,9%</div><div class="pk">NPS Lineal</div></div>
-          <div class="pm"><div class="pv" style="color:#c53030">−9,4pp</div><div class="pk">gap target</div></div>
+        <div class="theme-card">
+          <div class="theme-num">Tema 1</div>
+          <div class="theme-name">Baixa de Pacote Devolvido Sem Confirmação</div>
+          <div><span class="theme-pct">41% dos casos</span></div>
+          <div class="theme-desc">Motorista entregou pacote no SC para devolução mas não recebe confirmação de baixa no app. Em alguns casos é cobrado por pacote que não estava na saca. Precisa acionar CX para que o SC dê baixa manualmente.</div>
+          <div class="theme-quote red">"fiz uma entrega parcial, pq o pacote faltante não veio na saca, e agora me cobram" · "fiz a devolução na agência. gostaria de não ser prejudicado nas pontuações por uma falha que não é minha"</div>
+          <div class="cases-label">Cases representativos</div>
+          <div class="case-pills">
+            <span class="case-pill">452754159</span>
+            <span class="case-pill">454067033</span>
+            <span class="case-pill">452448489</span>
+          </div>
         </div>
-        <div class="p-insight"><strong>49%</strong> = bloqueio por CNPJ/CNAE inválido · <strong>17%</strong> = conflito de serviços · <strong>14%</strong> = carga de documentação. Em Mai parecia ok (69,7%) mas o 3M revela NPS crônico de 59,9%. Motorista chega à fase de cadastro e é bloqueado sem orientação clara.</div>
-        <div class="transcript-quote">
-          "estou tentando me cadastrar no mercado livre extra e não consigo validar o meu cnae, já fiz a alteração e o meu cnae agora é [X] — esse é aceito e fiz a alteração no dia [data]"
-          <div class="autor">— Transcrição real · Motorista BR_ME (Abr 2026)</div>
+
+        <div class="theme-card">
+          <div class="theme-num">Tema 2</div>
+          <div class="theme-name">Sem Rota ao Chegar no Galpão / SC</div>
+          <div><span class="theme-pct">38% dos casos</span></div>
+          <div class="theme-desc">Motorista aceitou percurso, deslocou-se até o galpão ou agência e ao chegar não havia rota disponível, outro motorista já havia pego, ou o percurso foi cancelado sem aviso. Gerou deslocamento sem compensação.</div>
+          <div class="theme-quote orange">"cheguei no aeroporto de brasília, na logistica, entrei na vaga que destinaram e não tinha rota pra mim" · "um outro motorista já havia pego a saca quando cheguei para retirar"</div>
+          <div class="cases-label">Cases representativos</div>
+          <div class="case-pills">
+            <span class="case-pill">450402942</span>
+            <span class="case-pill">451227396</span>
+            <span class="case-pill">451383381</span>
+          </div>
+        </div>
+
+        <div class="theme-card">
+          <div class="theme-num">Tema 3</div>
+          <div class="theme-name">Problema para Finalizar Viagem no App</div>
+          <div><span class="theme-pct">20% dos casos</span></div>
+          <div class="theme-desc">Motorista concluiu as entregas mas o app não permite finalizar a viagem. Problema persiste por dias, causando impacto nas métricas e no pagamento. Motorista vai presencialmente ao SC sem conseguir resolver.</div>
+          <div class="theme-quote orange">"desde sexta-feira eu não consigo finalizar uma viagem, eu vim até aqui na agência e estou aqui na agência"</div>
+          <div class="cases-label">Cases representativos</div>
+          <div class="case-pills">
+            <span class="case-pill">451757651</span>
+            <span class="case-pill">452505204</span>
+            <span class="case-pill">451075633</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         CDU 3: ROTA NÃO PAGA
+    ══════════════════════════════════════════════════════════════ -->
+    <div class="cdu-section">
+      <div class="cdu-header warn">
+        <div class="cdu-name">🟡 Rota Não Paga</div>
+        <div class="cdu-chips">
+          <span class="cdu-chip og">2.843 outgoing</span>
+          <span class="cdu-chip nps-warn">NPS 63,2%</span>
+          <span class="cdu-chip gap-neg">−6,7pp vs target</span>
+          <span style="font-size:10px;color:#888">102 transcritos · 3 temas</span>
         </div>
       </div>
+      <div class="themes-grid">
 
-    </div><!-- end priority-grid -->
+        <div class="theme-card">
+          <div class="theme-num">Tema 1</div>
+          <div class="theme-name">Percurso Cancelado e Não Remunerado</div>
+          <div><span class="theme-pct">47% dos casos</span></div>
+          <div class="theme-desc">Motorista aceitou e iniciou o percurso, mas foi cancelado pelo sistema/operações (muitas vezes já no galpão aguardando saca). O percurso some do app e o motorista não recebe nada pelo deslocamento.</div>
+          <div class="theme-quote orange">"o percurso depois de um tempo sem carregar no galpão ele some do aplicativo... tive cancelamento de outras rotas comigo dentro do hub, porém recebi os [X]%"</div>
+          <div class="cases-label">Cases representativos</div>
+          <div class="case-pills">
+            <span class="case-pill">452758989</span>
+            <span class="case-pill">453417730</span>
+            <span class="case-pill">451575654</span>
+          </div>
+        </div>
+
+        <div class="theme-card">
+          <div class="theme-num">Tema 2</div>
+          <div class="theme-name">Valor Pago Diverge do Acordado</div>
+          <div><span class="theme-pct">41% dos casos</span></div>
+          <div class="theme-desc">Motorista completou a rota mas o valor creditado é diferente do valor exibido quando aceitou o percurso. Inclui desconto não informado previamente ou valor total menor que o esperado pela distância feita.</div>
+          <div class="theme-quote orange">"esse é o valor que me mandaram quando aceitei [R$ X,XX]. bom dia, na sexta feira eu fiz uma rota... o valor que me mandaram era de [R$ X,XX] reais"</div>
+          <div class="cases-label">Cases representativos</div>
+          <div class="case-pills">
+            <span class="case-pill">452927669</span>
+            <span class="case-pill">453282042</span>
+            <span class="case-pill">452951042</span>
+          </div>
+        </div>
+
+        <div class="theme-card">
+          <div class="theme-num">Tema 3</div>
+          <div class="theme-name">Pagamento Atrasado Sem Comunicação</div>
+          <div><span class="theme-pct">12% dos casos</span></div>
+          <div class="theme-desc">Motorista completou o percurso há dias mas o valor ainda não apareceu no app. Não recebeu nenhuma comunicação sobre prazo ou motivo do atraso. Aciona CX para saber se há problema na conta.</div>
+          <div class="theme-quote orange">"sou entregadora do mercado livre extra, estava com rota ativa para hoje, mas quando cheguei no galpão não tinha rota disponível pra mim"</div>
+          <div class="cases-label">Cases representativos</div>
+          <div class="case-pills">
+            <span class="case-pill">451861278</span>
+            <span class="case-pill">452357583</span>
+            <span class="case-pill">451613292</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         CDU 4: CRIAÇÃO DE CONTA
+    ══════════════════════════════════════════════════════════════ -->
+    <div class="cdu-section">
+      <div class="cdu-header warn">
+        <div class="cdu-name">🟡 Criação de Conta — Onboarding Bloqueado</div>
+        <div class="cdu-chips">
+          <span class="cdu-chip og">2.970 outgoing</span>
+          <span class="cdu-chip nps-warn">NPS 59,9%</span>
+          <span class="cdu-chip gap-neg">−9,4pp vs target</span>
+          <span style="font-size:10px;color:#888">63 transcritos · 3 temas · Mai era outlier (+9,8pp)</span>
+        </div>
+      </div>
+      <div class="themes-grid">
+
+        <div class="theme-card">
+          <div class="theme-num">Tema 1</div>
+          <div class="theme-name">CNAE Não Aceito — Loop Infinito</div>
+          <div><span class="theme-pct">46% dos casos</span></div>
+          <div class="theme-desc">Motorista corrige o CNAE conforme orientado, mas o sistema continua rejeitando o CNPJ/MEI. Processo pode durar semanas sem resolução. Motorista tenta múltiplas vezes e o erro persiste sem mensagem clara.</div>
+          <div class="theme-quote blue">"já fazem mais de [X] dias, quando eu coloco o cnpj diz que o cnae não é aceito e continua dando a mesma mensagem — não consigo finalizar meu cadastro no envios extra mas já mudei..."</div>
+          <div class="cases-label">Cases representativos</div>
+          <div class="case-pills">
+            <span class="case-pill">453427864</span>
+            <span class="case-pill">453802772</span>
+            <span class="case-pill">453326550</span>
+          </div>
+        </div>
+
+        <div class="theme-card">
+          <div class="theme-num">Tema 2</div>
+          <div class="theme-name">Conflito com Serviço de Terceiros</div>
+          <div><span class="theme-pct">29% dos casos</span></div>
+          <div class="theme-desc">Motorista que já entrega para o Mercado Livre como prestador de transportadora tenta criar conta própria no Envíos Extra e é bloqueado pelo sistema por "conflito de serviços". Não sabe como resolver.</div>
+          <div class="theme-quote blue">"fala que faço parte de terceiros que presta serviço para o mercado livre, só que não fiz parte de nenhuma transportadora, então não faz sentido"</div>
+          <div class="cases-label">Cases representativos</div>
+          <div class="case-pills">
+            <span class="case-pill">454085935</span>
+            <span class="case-pill">453688310</span>
+            <span class="case-pill">454015985</span>
+          </div>
+        </div>
+
+        <div class="theme-card">
+          <div class="theme-num">Tema 3</div>
+          <div class="theme-name">Cadastro Travado na Validação de Docs</div>
+          <div><span class="theme-pct">25% dos casos</span></div>
+          <div class="theme-desc">Motorista chegou à etapa de upload de documentos ou validação e o app travou ou não avança. Inclui erro ao carregar CNH, dados bancários não aceitos e tela que não responde após submissão.</div>
+          <div class="theme-quote blue">"já fiz meu cadastro tudo, só que chega em uma parte travou, fica nessa parte e já passou um mês" · "não consigo finalizar meu cadastro, já fiz esse procedimento 3 vezes"</div>
+          <div class="cases-label">Cases representativos</div>
+          <div class="case-pills">
+            <span class="case-pill">453983689</span>
+            <span class="case-pill">453790943</span>
+            <span class="case-pill">453415666</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
     <div class="divider"></div>
 
-    <!-- MOTIVOS + TRANSCRITOS -->
-    <div class="section-title">Motivos de Contato + Transcritos por CDU — Processo Drivers · Fev–Mai 2026</div>
-    <div class="motivos-grid">
-
-      <!-- Conta inativada — DEFLEXÃO -->
-      <div class="motivo-card defl">
-        <div class="m-header"><h3>Conta Inativada</h3>
-          <div class="m-sub">25.473 outgoing · 45% · NPS 74,7%</div>
-        </div>
-        <div class="m-row"><div class="m-label">Dig. Account Inabilitada</div><div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:52%"></div></div><div class="m-pct">52%</div></div>
-        <div class="m-row"><div class="m-label">Não houve visita</div><div class="m-bar-wrap"><div class="m-bar-fill med" style="width:28%"></div></div><div class="m-pct">28%</div></div>
-        <div class="m-row"><div class="m-label">Motorista ativo (ok)</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:15%"></div></div><div class="m-pct">15%</div></div>
-        <div class="m-row"><div class="m-label">Pausado — veículo</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:3%"></div></div><div class="m-pct">3%</div></div>
-        <div style="margin-top:7px;background:#e8f4ff;border-radius:5px;padding:5px 7px;font-size:10px;color:#1a3a7a;">
-          ⚡ 80% pausado por causa externa. <strong>Notificação proativa antes da pausa</strong> pode reduzir esses 25k contatos.
-        </div>
-      </div>
-
-      <!-- Como funciona Extra — DEFLEXÃO -->
-      <div class="motivo-card defl">
-        <div class="m-header"><h3>Como Funciona<br>Envíos Extra</h3>
-          <div class="m-sub">5.503 outgoing · 9,7% · NPS 73,4%</div>
-        </div>
-        <div class="m-row"><div class="m-label">Como ativar o serviço?</div><div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:62%"></div></div><div class="m-pct">62%</div></div>
-        <div class="m-row"><div class="m-label">Como recebo o pagamento?</div><div class="m-bar-wrap"><div class="m-bar-fill med" style="width:21%"></div></div><div class="m-pct">21%</div></div>
-        <div class="m-row"><div class="m-label">Consulta por desafios</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:5%"></div></div><div class="m-pct">5%</div></div>
-        <div style="margin-top:7px;background:#e8f4ff;border-radius:5px;padding:5px 7px;font-size:10px;color:#1a3a7a;">
-          ⚡ 83% são dúvidas básicas de ativação e pagamento → <strong>FAQ in-app / onboarding guiado</strong> elimina esses 5.5k contatos.
-        </div>
-      </div>
-
-      <!-- Métricas — DOR -->
-      <div class="motivo-card crit">
-        <div class="m-header"><h3>Métricas / Lealtad</h3>
-          <div class="m-sub">2.306 outgoing · 4,1% · NPS 51,9% · gap −16,6pp</div>
-        </div>
-        <div class="m-row"><div class="m-label">Reclama sobre métricas</div><div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:59%"></div></div><div class="m-pct">59%</div></div>
-        <div class="m-row"><div class="m-label">Problemas com nível</div><div class="m-bar-wrap"><div class="m-bar-fill med" style="width:41%"></div></div><div class="m-pct">41%</div></div>
-        <div class="m-transcript red">
-          "não sei o que ta acontecendo, tenho vários amigos platinum igual eu, ta caindo percursos pra eles e não cai pra mim"
-        </div>
-      </div>
-
-      <!-- Inconvenientes SC — DOR -->
-      <div class="motivo-card crit">
-        <div class="m-header"><h3>Recorrido / SC</h3>
-          <div class="m-sub">2.528 outgoing · 4,5% · NPS 57,5% · gap −13,1pp</div>
-        </div>
-        <div class="m-row"><div class="m-label">Baixa pacote devolvido</div><div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:52%"></div></div><div class="m-pct">52%</div></div>
-        <div class="m-row"><div class="m-label">Reclamação do SC</div><div class="m-bar-wrap"><div class="m-bar-fill med" style="width:48%"></div></div><div class="m-pct">48%</div></div>
-        <div class="m-transcript red">
-          "desde sexta-feira não consigo finalizar uma viagem, vim até aqui na agência e estou aqui na agência"
-        </div>
-      </div>
-
-      <!-- Criação conta — DOR REVELADA -->
-      <div class="motivo-card warn">
-        <div class="m-header"><h3>Criação de Conta</h3>
-          <div class="m-sub">2.970 outgoing · 5,3% · NPS 59,9% · gap −9,4pp</div>
-        </div>
-        <div class="m-row"><div class="m-label">Bloqueio por CNPJ/CNAE</div><div class="m-bar-wrap"><div class="m-bar-fill dark" style="width:49%"></div></div><div class="m-pct">49%</div></div>
-        <div class="m-row"><div class="m-label">Conflito de serviços</div><div class="m-bar-wrap"><div class="m-bar-fill med" style="width:17%"></div></div><div class="m-pct">17%</div></div>
-        <div class="m-row"><div class="m-label">Carga de documentação</div><div class="m-bar-wrap"><div class="m-bar-fill lite" style="width:14%"></div></div><div class="m-pct">14%</div></div>
-        <div class="m-transcript">
-          "estou tentando me cadastrar e não consigo validar o meu cnae, já fiz a alteração no dia [data]"
-        </div>
-      </div>
-
-    </div><!-- end motivos-grid -->
-
-    <!-- INSIGHTS -->
+    <!-- INSIGHT BOX -->
     <div class="insight-box">
-      <div class="insight-label">💡 Insights<br>Produto</div>
+      <div class="insight-label">💡 Produto</div>
       <div class="insight-grid">
         <div>
-          <div class="insight-title">Deflexão de alto impacto — 31.000 contatos</div>
+          <div class="insight-title">Métricas — 3 bugs distintos, 1 solução</div>
           <div class="insight-text">
-            Conta inativada (<strong style="color:#fff">25.473</strong>) + Como funciona Extra (<strong style="color:#fff">5.503</strong>) + Onboarding (<strong style="color:#fff">1.785</strong>) = <strong style="color:#FFE600">32.761 contatos</strong> com NPS acima do target. São dúvidas e notificações que o app deveria resolver proativamente — <strong style="color:#fff">58% do total outgoing Drivers sem NPS crítico</strong>.
+            Os temas revelam <strong style="color:#fff">3 problemas de produto</strong>: (1) rebaixamento sem notificação, (2) insucessos fantasmas no sistema, (3) platinum sem rotas. Todos são resolvíveis com um painel de métricas transparente + histórico de alterações + canal de contestação dentro do app. NPS 51,9% há 3 meses.
           </div>
         </div>
         <div>
-          <div class="insight-title">Métricas — transparência é o produto</div>
+          <div class="insight-title">SC — "Finalizar viagem" é o maior bug</div>
           <div class="insight-text">
-            Platinum drivers não recebendo rotas sem saber o porquê. O transcritto mostra: <strong style="color:#FFE600">"tenho amigos platinum igual eu, cai percurso pra eles e não cai pra mim"</strong>. Não é reclamação de atendimento — é falta de produto. Painel de métricas com histórico + alerta quando nível muda: direto.
+            20% dos contatos de SC são por impossibilidade de finalizar viagem no app — motorista chega <strong style="color:#fff">presencialmente ao SC</strong> e ainda não consegue. Baixa manual de pacotes devolvidos (41%) e percurso ocupado ao chegar (38%) completam o quadro: <strong style="color:#FFE600">são 3 fluxos de app quebrados</strong>, não um problema de qualidade de atendimento.
           </div>
         </div>
         <div>
-          <div class="insight-title">SC — trip finalização é bug de produto</div>
+          <div class="insight-title">CNAE — loop que dura semanas</div>
           <div class="insight-text">
-            "Vim até a agência e não consigo finalizar a viagem desde sexta" — <strong style="color:#fff">2.528 contatos</strong> de motoristas presencialmente no SC sem conseguir dar baixa no app. Status de finalização em tempo real + possibilidade de acionar suporte direto no fluxo de entrega: <strong style="color:#FFE600">resolve os −13,1pp de gap sem mudar o processo do SC</strong>.
+            46% do onboarding bloqueado é por CNAE: motorista corrige, espera, tenta de novo, mesmo erro. <strong style="color:#fff">Nenhum feedback claro</strong> de qual CNAE é aceito antes de tentar. Validação em tempo real do CNAE na tela de cadastro (antes do submit) eliminaria a maioria dos <strong style="color:#FFE600">2.970 contatos/trimestre</strong> com NPS de 59,9%.
           </div>
         </div>
       </div>
@@ -457,7 +511,7 @@
   </div><!-- end body -->
 
   <div class="footer">
-    <div><span>BR_ME_Sellers_Longtail</span> · Processo: <span>Drivers</span> · NPS Lineal + Outgoing Real · Fev–Mai 2026 · Fontes: DM_CX_OUTGOING_GESTION_DETAIL + DM_CX_NPS_Y20_DETAIL + BT_CX_TRANSCRIPT</div>
+    <div><span>BR_ME_Sellers_Longtail</span> · <span>Drivers</span> · Fev–Mai 2026 · Fontes: DM_CX_OUTGOING_GESTION_DETAIL + DM_CX_NPS_Y20_DETAIL + BT_CX_TRANSCRIPT (TF-IDF/KMeans, n=600)</div>
     <div>Elaborado por: <span>André Labriola</span> · CX Analytics BR</div>
   </div>
 
