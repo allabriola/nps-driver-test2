@@ -98,9 +98,9 @@
   .theme-quote.red    { background: #fff0f0; border-left-color: #e53e3e; }
   .theme-quote.orange { background: #fff8e1; border-left-color: #dd6b20; }
   .theme-quote.blue   { background: #f0f8ff; border-left-color: #3182ce; }
-  .theme-opp { background: #f0faf4; border: 1px solid #68d391; border-radius: 6px; padding: 6px 9px; margin-bottom: 9px; }
-  .theme-opp-label { font-size: 9px; font-weight: 800; color: #276749; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 3px; }
-  .theme-opp-text { font-size: 11px; color: #276749; line-height: 1.4; }
+  .theme-opp { background: #fffbf0; border: 1px solid #f6ad55; border-radius: 6px; padding: 6px 9px; margin-bottom: 9px; }
+  .theme-opp-label { font-size: 9px; font-weight: 800; color: #7b341e; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 3px; }
+  .theme-opp-text { font-size: 11px; color: #744210; line-height: 1.4; }
   .cases-label { font-size: 9px; font-weight: 800; text-transform: uppercase; color: #999; margin-bottom: 5px; letter-spacing: 0.8px; }
   .case-pills { display: flex; flex-wrap: wrap; gap: 5px; }
   .case-pill {
@@ -272,8 +272,8 @@
           <div class="theme-desc">Motorista platinum foi rebaixado para prata sem receber explicação do motivo. Aciona CX para entender o que aconteceu. Não há notificação prévia nem detalhe de qual métrica causou a queda.</div>
           <div class="theme-quote red">"pq essa alteração no nivel, de platinum para prata? gostaria de saber o motivo sendo que a pontuação estava extremamente boa"</div>
           <div class="theme-opp">
-            <div class="theme-opp-label">💡 Oportunidade</div>
-            <div class="theme-opp-text">Notificação push antes da mudança de nível + tela de detalhamento de pontuação com histórico de alterações no app.</div>
+            <div class="theme-opp-label">⚠ Por que o rep não resolve</div>
+            <div class="theme-opp-text">O rep não tem acesso ao histórico de pontuação por métrica do motorista. Consegue confirmar que o nível mudou, mas <strong>não consegue mostrar qual métrica específica causou a queda</strong> nem qual foi o valor que ultrapassou o limite.</div>
           </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
@@ -290,8 +290,8 @@
           <div class="theme-desc">Motorista identificou que insucessos que "não existiram" ou pacotes contabilizados incorretamente estão impactando sua pontuação. Reclama de injustiça e falta de mecanismo para contestar.</div>
           <div class="theme-quote red">"por erro do sistema esses insucessos que não existiram impactaram direto na minha pontuação, poxa eu trabalho muito pra manter meu nível e por erros do sistema..."</div>
           <div class="theme-opp">
-            <div class="theme-opp-label">💡 Oportunidade</div>
-            <div class="theme-opp-text">Canal de contestação de métricas in-app com SLA de revisão + detecção automática de insucessos flaggados como erro de sistema.</div>
+            <div class="theme-opp-label">⚠ Por que o rep não resolve</div>
+            <div class="theme-opp-text">O rep não tem ferramenta para estornar ou corrigir uma métrica manualmente. Para contestar um insucesso por erro de sistema, precisa abrir uma solicitação de back-office — que pode levar dias — sem garantia de revisão.</div>
           </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
@@ -308,8 +308,8 @@
           <div class="theme-desc">Motorista com nível platinum não está recebendo oferta de percursos, enquanto amigos no mesmo nível recebem normalmente. Sinaliza possível bug de distribuição de rotas por nível.</div>
           <div class="theme-quote red">"não sei o que ta acontecendo, tenho vários amigos que é platinum igual eu, ta caindo percursos pra eles e não cai pra mim"</div>
           <div class="theme-opp">
-            <div class="theme-opp-label">💡 Oportunidade</div>
-            <div class="theme-opp-text">Status de elegibilidade de rotas visível no app + alerta proativo quando platinum não recebe oferta por mais de X horas.</div>
+            <div class="theme-opp-label">⚠ Por que o rep não resolve</div>
+            <div class="theme-opp-text">O rep não tem visibilidade sobre o algoritmo de distribuição de rotas. <strong>Não consegue explicar</strong> por que um motorista platinum não está recebendo oferta, nem acionar manualmente uma rota para ele.</div>
           </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
@@ -344,8 +344,8 @@
           <div class="theme-desc">Motorista entregou pacote no SC para devolução mas não recebe confirmação de baixa no app. Em alguns casos é cobrado por pacote que não estava na saca. Precisa acionar CX para que o SC dê baixa manualmente.</div>
           <div class="theme-quote red">"fiz uma entrega parcial, pq o pacote faltante não veio na saca, e agora me cobram" · "fiz a devolução na agência. gostaria de não ser prejudicado nas pontuações por uma falha que não é minha"</div>
           <div class="theme-opp">
-            <div class="theme-opp-label">💡 Oportunidade</div>
-            <div class="theme-opp-text">Confirmação de baixa em tempo real via app após drop no SC + proteção automática de métricas para divergências de pacote na saca.</div>
+            <div class="theme-opp-label">⚠ Por que o rep não resolve</div>
+            <div class="theme-opp-text">O rep não consegue acionar a baixa do pacote no SC diretamente — depende do time operacional presencial. A solicitação abre um chamado de back-office com SLA de 24–48h, <strong>sem resolver na hora</strong> e com risco de impacto nas métricas do motorista enquanto aguarda.</div>
           </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
@@ -362,8 +362,8 @@
           <div class="theme-desc">Motorista aceitou percurso, deslocou-se até o galpão ou agência e ao chegar não havia rota disponível, outro motorista já havia pego, ou o percurso foi cancelado sem aviso. Gerou deslocamento sem compensação.</div>
           <div class="theme-quote orange">"cheguei no aeroporto de brasília, na logistica, entrei na vaga que destinaram e não tinha rota pra mim" · "um outro motorista já havia pego a saca quando cheguei para retirar"</div>
           <div class="theme-opp">
-            <div class="theme-opp-label">💡 Oportunidade</div>
-            <div class="theme-opp-text">Bloqueio/reserva da saca ao aceitar percurso + confirmação de disponibilidade antes do deslocamento para evitar viagem sem rota.</div>
+            <div class="theme-opp-label">⚠ Por que o rep não resolve</div>
+            <div class="theme-opp-text">O rep pode registrar a reclamação, mas <strong>não tem ferramenta para compensar o deslocamento</strong> feito em vão nem para restaurar o percurso cancelado. A resolução depende de aprovação operacional fora do escopo do CX.</div>
           </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
@@ -380,8 +380,8 @@
           <div class="theme-desc">Motorista concluiu as entregas mas o app não permite finalizar a viagem. Problema persiste por dias, causando impacto nas métricas e no pagamento. Motorista vai presencialmente ao SC sem conseguir resolver.</div>
           <div class="theme-quote orange">"desde sexta-feira eu não consigo finalizar uma viagem, eu vim até aqui na agência e estou aqui na agência"</div>
           <div class="theme-opp">
-            <div class="theme-opp-label">💡 Oportunidade</div>
-            <div class="theme-opp-text">Fluxo alternativo de finalização de viagem no app + botão de suporte inline no próprio passo de finalização quando detectar timeout.</div>
+            <div class="theme-opp-label">⚠ Por que o rep não resolve</div>
+            <div class="theme-opp-text">O rep não tem acesso para forçar a finalização da viagem pelo sistema. O único caminho é escalar para o time técnico, que pode levar dias. O motorista fica com a viagem "em aberto" bloqueando novas rotas e afetando suas métricas.</div>
           </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
@@ -416,8 +416,8 @@
           <div class="theme-desc">Motorista aceitou e iniciou o percurso, mas foi cancelado pelo sistema/operações (muitas vezes já no galpão aguardando saca). O percurso some do app e o motorista não recebe nada pelo deslocamento.</div>
           <div class="theme-quote orange">"o percurso depois de um tempo sem carregar no galpão ele some do aplicativo... tive cancelamento de outras rotas comigo dentro do hub, porém recebi os [X]%"</div>
           <div class="theme-opp">
-            <div class="theme-opp-label">💡 Oportunidade</div>
-            <div class="theme-opp-text">Política de remuneração parcial para cancelamentos após chegada ao galpão + notificação de cancelamento em tempo real com motivo explícito.</div>
+            <div class="theme-opp-label">⚠ Por que o rep não resolve</div>
+            <div class="theme-opp-text">A política atual não prevê pagamento para rotas canceladas após aceite. O rep informa o motivo do cancelamento quando disponível, mas <strong>não tem autonomia para compensar</strong> o motorista pelo deslocamento ou pelo tempo aguardando no galpão.</div>
           </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
@@ -434,8 +434,8 @@
           <div class="theme-desc">Motorista completou a rota mas o valor creditado é diferente do valor exibido quando aceitou o percurso. Inclui desconto não informado previamente ou valor total menor que o esperado pela distância feita.</div>
           <div class="theme-quote orange">"esse é o valor que me mandaram quando aceitei [R$ X,XX]. bom dia, na sexta feira eu fiz uma rota... o valor que me mandaram era de [R$ X,XX] reais"</div>
           <div class="theme-opp">
-            <div class="theme-opp-label">💡 Oportunidade</div>
-            <div class="theme-opp-text">Valor do percurso bloqueado no aceite + comprovante de cálculo detalhado acessível no app após crédito.</div>
+            <div class="theme-opp-label">⚠ Por que o rep não resolve</div>
+            <div class="theme-opp-text">O rep visualiza o valor pago no sistema, mas <strong>não tem acesso à fórmula de cálculo detalhada</strong> para explicar a diferença. Não consegue ajustar o pagamento — qualquer contestação precisa ser encaminhada para o financeiro com prazo indefinido.</div>
           </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
@@ -452,8 +452,8 @@
           <div class="theme-desc">Motorista completou o percurso há dias mas o valor ainda não apareceu no app. Não recebeu nenhuma comunicação sobre prazo ou motivo do atraso. Aciona CX para saber se há problema na conta.</div>
           <div class="theme-quote orange">"sou entregadora do mercado livre extra, estava com rota ativa para hoje, mas quando cheguei no galpão não tinha rota disponível pra mim"</div>
           <div class="theme-opp">
-            <div class="theme-opp-label">💡 Oportunidade</div>
-            <div class="theme-opp-text">Status de pagamento em tempo real no app + prazo de crédito visível ao aceitar o percurso para reduzir acionamento por ansiedade.</div>
+            <div class="theme-opp-label">⚠ Por que o rep não resolve</div>
+            <div class="theme-opp-text">O rep só consegue confirmar "o pagamento está dentro do prazo previsto", mas <strong>não tem visibilidade da fila de processamento</strong> nem como dar uma data exata de crédito. Não pode antecipar ou acionar o pagamento manualmente.</div>
           </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
@@ -488,8 +488,8 @@
           <div class="theme-desc">Motorista corrige o CNAE conforme orientado, mas o sistema continua rejeitando o CNPJ/MEI. Processo pode durar semanas sem resolução. Motorista tenta múltiplas vezes e o erro persiste sem mensagem clara.</div>
           <div class="theme-quote blue">"já fazem mais de [X] dias, quando eu coloco o cnpj diz que o cnae não é aceito e continua dando a mesma mensagem — não consigo finalizar meu cadastro no envios extra mas já mudei..."</div>
           <div class="theme-opp">
-            <div class="theme-opp-label">💡 Oportunidade</div>
-            <div class="theme-opp-text">Validação de CNAE em tempo real antes do submit + lista de CNAEs aceitos exibida na própria tela + mensagem de erro com ação específica ("aguarde X dias após a alteração").</div>
+            <div class="theme-opp-label">⚠ Por que o rep não resolve</div>
+            <div class="theme-opp-text">O rep não tem ferramenta para validar ou aprovar manualmente o CNAE do motorista. Só orienta a aguardar o prazo de atualização — sem conseguir confirmar se o CNAE já foi aceito pelo sistema ou se há outro bloqueio que o motorista não vê.</div>
           </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
@@ -506,8 +506,8 @@
           <div class="theme-desc">Motorista que já entrega para o Mercado Livre como prestador de transportadora tenta criar conta própria no Envíos Extra e é bloqueado pelo sistema por "conflito de serviços". Não sabe como resolver.</div>
           <div class="theme-quote blue">"fala que faço parte de terceiros que presta serviço para o mercado livre, só que não fiz parte de nenhuma transportadora, então não faz sentido"</div>
           <div class="theme-opp">
-            <div class="theme-opp-label">💡 Oportunidade</div>
-            <div class="theme-opp-text">Detecção automática de conflito antes do submit + fluxo de migração explícito para motoristas com vínculo anterior (terceirizado → autônomo).</div>
+            <div class="theme-opp-label">⚠ Por que o rep não resolve</div>
+            <div class="theme-opp-text">O rep não tem acesso para desvincular o motorista de uma transportadora no sistema. Precisa abrir um chamado para o time de operações — <strong>sem prazo definido</strong> — e o motorista fica bloqueado de trabalhar enquanto aguarda.</div>
           </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
@@ -524,8 +524,8 @@
           <div class="theme-desc">Motorista chegou à etapa de upload de documentos ou validação e o app travou ou não avança. Inclui erro ao carregar CNH, dados bancários não aceitos e tela que não responde após submissão.</div>
           <div class="theme-quote blue">"já fiz meu cadastro tudo, só que chega em uma parte travou, fica nessa parte e já passou um mês" · "não consigo finalizar meu cadastro, já fiz esse procedimento 3 vezes"</div>
           <div class="theme-opp">
-            <div class="theme-opp-label">💡 Oportunidade</div>
-            <div class="theme-opp-text">Salvamento de progresso do cadastro por etapa + checklist de documentos com status individual + retry sem precisar reiniciar do zero.</div>
+            <div class="theme-opp-label">⚠ Por que o rep não resolve</div>
+            <div class="theme-opp-text">O rep não tem visibilidade de qual etapa do cadastro travou nem qual documento causou a falha. Só consegue orientar o motorista a "tentar novamente" — fazendo o usuário reiniciar todo o processo sem saber o que corrigir.</div>
           </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
