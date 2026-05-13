@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Processo Drivers — Outgoing × NPS × Temas | BR_ME_Sellers_Longtail | Fev–Mai 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f5f7; color: #1a1a2e; font-size: 13px; }
@@ -67,7 +68,9 @@
 
   /* CDU THEME SECTIONS */
   .cdu-section { margin-bottom: 24px; border: 1px solid #e8eaed; border-radius: 10px; overflow: hidden; }
-  .cdu-header { padding: 12px 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .cdu-header { padding: 12px 16px; display: flex; align-items: center; gap: 12px; flex-wrap: nowrap; }
+  .cdu-chart-wrap { flex-shrink: 0; width: 200px; height: 80px; position: relative; }
+  .cdu-chart-wrap canvas { display: block; }
   .cdu-header.crit { background: #fff0f0; border-bottom: 2px solid #e53e3e; }
   .cdu-header.warn { background: #fffbe6; border-bottom: 2px solid #dd6b20; }
   .cdu-header.defl { background: #f0fff4; border-bottom: 2px solid #38a169; }
@@ -251,8 +254,9 @@
           <span class="cdu-chip og">2.306 outgoing</span>
           <span class="cdu-chip nps-bad">NPS 51,9%</span>
           <span class="cdu-chip gap-neg">−16,6pp vs target</span>
-          <span style="font-size:10px;color:#888">122 transcritos · 3 temas identificados</span>
+          <span style="font-size:10px;color:#888">122 transcritos · 3 temas</span>
         </div>
+        <div class="cdu-chart-wrap"><canvas id="chart-metricas"></canvas></div>
       </div>
       <div class="themes-grid">
 
@@ -311,8 +315,9 @@
           <span class="cdu-chip og">2.528 outgoing</span>
           <span class="cdu-chip nps-bad">NPS 57,5%</span>
           <span class="cdu-chip gap-neg">−13,1pp vs target</span>
-          <span style="font-size:10px;color:#888">104 transcritos · 3 temas · NPS idêntico há 3 meses</span>
+          <span style="font-size:10px;color:#888">104 transcritos · 3 temas</span>
         </div>
+        <div class="cdu-chart-wrap"><canvas id="chart-sc"></canvas></div>
       </div>
       <div class="themes-grid">
 
@@ -373,6 +378,7 @@
           <span class="cdu-chip gap-neg">−6,7pp vs target</span>
           <span style="font-size:10px;color:#888">102 transcritos · 3 temas</span>
         </div>
+        <div class="cdu-chart-wrap"><canvas id="chart-rota"></canvas></div>
       </div>
       <div class="themes-grid">
 
@@ -431,8 +437,9 @@
           <span class="cdu-chip og">2.970 outgoing</span>
           <span class="cdu-chip nps-warn">NPS 59,9%</span>
           <span class="cdu-chip gap-neg">−9,4pp vs target</span>
-          <span style="font-size:10px;color:#888">63 transcritos · 3 temas · Mai era outlier (+9,8pp)</span>
+          <span style="font-size:10px;color:#888">63 transcritos · 3 temas · Mai era outlier</span>
         </div>
+        <div class="cdu-chart-wrap"><canvas id="chart-conta"></canvas></div>
       </div>
       <div class="themes-grid">
 
@@ -516,5 +523,130 @@
   </div>
 
 </div>
+<script>
+// ── Dados mensais (Fev, Mar, Abr, Mai 2026) ──────────────────────────────────
+const LABELS = ['Fev', 'Mar', 'Abr', 'Mai'];
+
+const DATA = {
+  metricas: {
+    og:  [545, 533, 737, 491],
+    nps: [52.0, 51.1, 50.9, 54.3],
+    tgt: [68.5, 68.5, 68.5, 68.5]
+  },
+  sc: {
+    og:  [536, 791, 778, 423],
+    nps: [50.6, 53.7, 64.8, 57.6],
+    tgt: [70.5, 70.5, 70.5, 70.5]
+  },
+  rota: {
+    og:  [660, 836, 891, 456],
+    nps: [71.2, 59.8, 60.6, 60.7],
+    tgt: [69.8, 69.8, 69.8, 69.8]
+  },
+  conta: {
+    og:  [497, 748, 1152, 573],
+    nps: [51.7, 66.0, 55.9, 69.7],
+    tgt: [69.3, 69.3, 69.3, 69.3]
+  }
+};
+
+function makeChart(canvasId, d, barColor) {
+  const ctx = document.getElementById(canvasId);
+  if (!ctx) return;
+  new Chart(ctx, {
+    data: {
+      labels: LABELS,
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Outgoing',
+          data: d.og,
+          backgroundColor: barColor + '99',
+          borderColor: barColor,
+          borderWidth: 1,
+          yAxisID: 'yOg',
+          order: 2
+        },
+        {
+          type: 'line',
+          label: 'NPS',
+          data: d.nps,
+          borderColor: '#FFE600',
+          backgroundColor: 'transparent',
+          pointBackgroundColor: '#FFE600',
+          pointRadius: 3,
+          pointHoverRadius: 4,
+          borderWidth: 2,
+          tension: 0.3,
+          yAxisID: 'yNps',
+          order: 1
+        },
+        {
+          type: 'line',
+          label: 'Target',
+          data: d.tgt,
+          borderColor: '#ffffff55',
+          backgroundColor: 'transparent',
+          pointRadius: 0,
+          borderWidth: 1,
+          borderDash: [4, 3],
+          tension: 0,
+          yAxisID: 'yNps',
+          order: 1
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.dataset.label === 'Outgoing'
+              ? ` ${ctx.parsed.y.toLocaleString('pt-BR')} contatos`
+              : ` NPS ${ctx.parsed.y}%`
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#ccc', font: { size: 9 } },
+          grid: { color: '#ffffff11' }
+        },
+        yOg: {
+          position: 'left',
+          ticks: { color: '#aaa', font: { size: 8 }, maxTicksLimit: 4 },
+          grid: { color: '#ffffff11' }
+        },
+        yNps: {
+          position: 'right',
+          min: 30,
+          max: 85,
+          ticks: {
+            color: '#FFE600',
+            font: { size: 8 },
+            maxTicksLimit: 4,
+            callback: v => v + '%'
+          },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+}
+
+// Fundo escuro nos canvas
+document.querySelectorAll('.cdu-chart-wrap canvas').forEach(c => {
+  c.style.background = 'rgba(0,0,0,0.35)';
+  c.style.borderRadius = '6px';
+});
+
+makeChart('chart-metricas', DATA.metricas, '#e53e3e');
+makeChart('chart-sc',       DATA.sc,       '#e53e3e');
+makeChart('chart-rota',     DATA.rota,     '#dd6b20');
+makeChart('chart-conta',    DATA.conta,    '#dd6b20');
+</script>
 </body>
 </html>
