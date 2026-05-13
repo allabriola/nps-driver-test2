@@ -98,6 +98,9 @@
   .theme-quote.red    { background: #fff0f0; border-left-color: #e53e3e; }
   .theme-quote.orange { background: #fff8e1; border-left-color: #dd6b20; }
   .theme-quote.blue   { background: #f0f8ff; border-left-color: #3182ce; }
+  .theme-opp { background: #f0faf4; border: 1px solid #68d391; border-radius: 6px; padding: 6px 9px; margin-bottom: 9px; }
+  .theme-opp-label { font-size: 9px; font-weight: 800; color: #276749; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 3px; }
+  .theme-opp-text { font-size: 11px; color: #276749; line-height: 1.4; }
   .cases-label { font-size: 9px; font-weight: 800; text-transform: uppercase; color: #999; margin-bottom: 5px; letter-spacing: 0.8px; }
   .case-pills { display: flex; flex-wrap: wrap; gap: 5px; }
   .case-pill {
@@ -268,6 +271,10 @@
           <div><span class="theme-pct">46% dos casos</span></div>
           <div class="theme-desc">Motorista platinum foi rebaixado para prata sem receber explicação do motivo. Aciona CX para entender o que aconteceu. Não há notificação prévia nem detalhe de qual métrica causou a queda.</div>
           <div class="theme-quote red">"pq essa alteração no nivel, de platinum para prata? gostaria de saber o motivo sendo que a pontuação estava extremamente boa"</div>
+          <div class="theme-opp">
+            <div class="theme-opp-label">💡 Oportunidade</div>
+            <div class="theme-opp-text">Notificação push antes da mudança de nível + tela de detalhamento de pontuação com histórico de alterações no app.</div>
+          </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
             <span class="case-pill">453908176</span>
@@ -282,6 +289,10 @@
           <div><span class="theme-pct">46% dos casos</span></div>
           <div class="theme-desc">Motorista identificou que insucessos que "não existiram" ou pacotes contabilizados incorretamente estão impactando sua pontuação. Reclama de injustiça e falta de mecanismo para contestar.</div>
           <div class="theme-quote red">"por erro do sistema esses insucessos que não existiram impactaram direto na minha pontuação, poxa eu trabalho muito pra manter meu nível e por erros do sistema..."</div>
+          <div class="theme-opp">
+            <div class="theme-opp-label">💡 Oportunidade</div>
+            <div class="theme-opp-text">Canal de contestação de métricas in-app com SLA de revisão + detecção automática de insucessos flaggados como erro de sistema.</div>
+          </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
             <span class="case-pill">453985501</span>
@@ -296,6 +307,10 @@
           <div><span class="theme-pct">16% dos casos</span></div>
           <div class="theme-desc">Motorista com nível platinum não está recebendo oferta de percursos, enquanto amigos no mesmo nível recebem normalmente. Sinaliza possível bug de distribuição de rotas por nível.</div>
           <div class="theme-quote red">"não sei o que ta acontecendo, tenho vários amigos que é platinum igual eu, ta caindo percursos pra eles e não cai pra mim"</div>
+          <div class="theme-opp">
+            <div class="theme-opp-label">💡 Oportunidade</div>
+            <div class="theme-opp-text">Status de elegibilidade de rotas visível no app + alerta proativo quando platinum não recebe oferta por mais de X horas.</div>
+          </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
             <span class="case-pill">451802077</span>
@@ -328,6 +343,10 @@
           <div><span class="theme-pct">41% dos casos</span></div>
           <div class="theme-desc">Motorista entregou pacote no SC para devolução mas não recebe confirmação de baixa no app. Em alguns casos é cobrado por pacote que não estava na saca. Precisa acionar CX para que o SC dê baixa manualmente.</div>
           <div class="theme-quote red">"fiz uma entrega parcial, pq o pacote faltante não veio na saca, e agora me cobram" · "fiz a devolução na agência. gostaria de não ser prejudicado nas pontuações por uma falha que não é minha"</div>
+          <div class="theme-opp">
+            <div class="theme-opp-label">💡 Oportunidade</div>
+            <div class="theme-opp-text">Confirmação de baixa em tempo real via app após drop no SC + proteção automática de métricas para divergências de pacote na saca.</div>
+          </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
             <span class="case-pill">452754159</span>
@@ -342,6 +361,10 @@
           <div><span class="theme-pct">38% dos casos</span></div>
           <div class="theme-desc">Motorista aceitou percurso, deslocou-se até o galpão ou agência e ao chegar não havia rota disponível, outro motorista já havia pego, ou o percurso foi cancelado sem aviso. Gerou deslocamento sem compensação.</div>
           <div class="theme-quote orange">"cheguei no aeroporto de brasília, na logistica, entrei na vaga que destinaram e não tinha rota pra mim" · "um outro motorista já havia pego a saca quando cheguei para retirar"</div>
+          <div class="theme-opp">
+            <div class="theme-opp-label">💡 Oportunidade</div>
+            <div class="theme-opp-text">Bloqueio/reserva da saca ao aceitar percurso + confirmação de disponibilidade antes do deslocamento para evitar viagem sem rota.</div>
+          </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
             <span class="case-pill">450402942</span>
@@ -356,6 +379,10 @@
           <div><span class="theme-pct">20% dos casos</span></div>
           <div class="theme-desc">Motorista concluiu as entregas mas o app não permite finalizar a viagem. Problema persiste por dias, causando impacto nas métricas e no pagamento. Motorista vai presencialmente ao SC sem conseguir resolver.</div>
           <div class="theme-quote orange">"desde sexta-feira eu não consigo finalizar uma viagem, eu vim até aqui na agência e estou aqui na agência"</div>
+          <div class="theme-opp">
+            <div class="theme-opp-label">💡 Oportunidade</div>
+            <div class="theme-opp-text">Fluxo alternativo de finalização de viagem no app + botão de suporte inline no próprio passo de finalização quando detectar timeout.</div>
+          </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
             <span class="case-pill">451757651</span>
@@ -388,6 +415,10 @@
           <div><span class="theme-pct">47% dos casos</span></div>
           <div class="theme-desc">Motorista aceitou e iniciou o percurso, mas foi cancelado pelo sistema/operações (muitas vezes já no galpão aguardando saca). O percurso some do app e o motorista não recebe nada pelo deslocamento.</div>
           <div class="theme-quote orange">"o percurso depois de um tempo sem carregar no galpão ele some do aplicativo... tive cancelamento de outras rotas comigo dentro do hub, porém recebi os [X]%"</div>
+          <div class="theme-opp">
+            <div class="theme-opp-label">💡 Oportunidade</div>
+            <div class="theme-opp-text">Política de remuneração parcial para cancelamentos após chegada ao galpão + notificação de cancelamento em tempo real com motivo explícito.</div>
+          </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
             <span class="case-pill">452758989</span>
@@ -402,6 +433,10 @@
           <div><span class="theme-pct">41% dos casos</span></div>
           <div class="theme-desc">Motorista completou a rota mas o valor creditado é diferente do valor exibido quando aceitou o percurso. Inclui desconto não informado previamente ou valor total menor que o esperado pela distância feita.</div>
           <div class="theme-quote orange">"esse é o valor que me mandaram quando aceitei [R$ X,XX]. bom dia, na sexta feira eu fiz uma rota... o valor que me mandaram era de [R$ X,XX] reais"</div>
+          <div class="theme-opp">
+            <div class="theme-opp-label">💡 Oportunidade</div>
+            <div class="theme-opp-text">Valor do percurso bloqueado no aceite + comprovante de cálculo detalhado acessível no app após crédito.</div>
+          </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
             <span class="case-pill">452927669</span>
@@ -416,6 +451,10 @@
           <div><span class="theme-pct">12% dos casos</span></div>
           <div class="theme-desc">Motorista completou o percurso há dias mas o valor ainda não apareceu no app. Não recebeu nenhuma comunicação sobre prazo ou motivo do atraso. Aciona CX para saber se há problema na conta.</div>
           <div class="theme-quote orange">"sou entregadora do mercado livre extra, estava com rota ativa para hoje, mas quando cheguei no galpão não tinha rota disponível pra mim"</div>
+          <div class="theme-opp">
+            <div class="theme-opp-label">💡 Oportunidade</div>
+            <div class="theme-opp-text">Status de pagamento em tempo real no app + prazo de crédito visível ao aceitar o percurso para reduzir acionamento por ansiedade.</div>
+          </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
             <span class="case-pill">451861278</span>
@@ -448,6 +487,10 @@
           <div><span class="theme-pct">46% dos casos</span></div>
           <div class="theme-desc">Motorista corrige o CNAE conforme orientado, mas o sistema continua rejeitando o CNPJ/MEI. Processo pode durar semanas sem resolução. Motorista tenta múltiplas vezes e o erro persiste sem mensagem clara.</div>
           <div class="theme-quote blue">"já fazem mais de [X] dias, quando eu coloco o cnpj diz que o cnae não é aceito e continua dando a mesma mensagem — não consigo finalizar meu cadastro no envios extra mas já mudei..."</div>
+          <div class="theme-opp">
+            <div class="theme-opp-label">💡 Oportunidade</div>
+            <div class="theme-opp-text">Validação de CNAE em tempo real antes do submit + lista de CNAEs aceitos exibida na própria tela + mensagem de erro com ação específica ("aguarde X dias após a alteração").</div>
+          </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
             <span class="case-pill">453427864</span>
@@ -462,6 +505,10 @@
           <div><span class="theme-pct">29% dos casos</span></div>
           <div class="theme-desc">Motorista que já entrega para o Mercado Livre como prestador de transportadora tenta criar conta própria no Envíos Extra e é bloqueado pelo sistema por "conflito de serviços". Não sabe como resolver.</div>
           <div class="theme-quote blue">"fala que faço parte de terceiros que presta serviço para o mercado livre, só que não fiz parte de nenhuma transportadora, então não faz sentido"</div>
+          <div class="theme-opp">
+            <div class="theme-opp-label">💡 Oportunidade</div>
+            <div class="theme-opp-text">Detecção automática de conflito antes do submit + fluxo de migração explícito para motoristas com vínculo anterior (terceirizado → autônomo).</div>
+          </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
             <span class="case-pill">454085935</span>
@@ -476,6 +523,10 @@
           <div><span class="theme-pct">25% dos casos</span></div>
           <div class="theme-desc">Motorista chegou à etapa de upload de documentos ou validação e o app travou ou não avança. Inclui erro ao carregar CNH, dados bancários não aceitos e tela que não responde após submissão.</div>
           <div class="theme-quote blue">"já fiz meu cadastro tudo, só que chega em uma parte travou, fica nessa parte e já passou um mês" · "não consigo finalizar meu cadastro, já fiz esse procedimento 3 vezes"</div>
+          <div class="theme-opp">
+            <div class="theme-opp-label">💡 Oportunidade</div>
+            <div class="theme-opp-text">Salvamento de progresso do cadastro por etapa + checklist de documentos com status individual + retry sem precisar reiniciar do zero.</div>
+          </div>
           <div class="cases-label">Cases representativos</div>
           <div class="case-pills">
             <span class="case-pill">453983689</span>
