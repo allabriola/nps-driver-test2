@@ -13,7 +13,7 @@ client = bigquery.Client(project="meli-bi-data")
 PERIODS = {
     "S1_new":  ("2026-05-04", "2026-05-10", "WEEK"),
     "S2_new":  ("2026-04-27", "2026-05-03", "WEEK"),
-    "VIG_new": ("2026-05-11", "2026-05-12", "WEEK"),
+    "VIG_new": ("2026-05-11", "2026-05-14", "WEEK"),
 }
 
 BASE_SQL = """
