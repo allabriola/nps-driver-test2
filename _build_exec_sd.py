@@ -4,8 +4,9 @@
 Gera _exec_summary_sd.html com análise automática baseada nos dados reais do dashboard.
 Estrutura: Sellers (segmentos) | Partners | Publicaciones | Exp. Impositiva
 """
-import json, re, sys
+import json, re, sys, html as _html
 sys.stdout.reconfigure(encoding='utf-8')
+def esc(s): return _html.escape(str(s))
 
 # ── Carrega dados ─────────────────────────────────────────────────────
 with open('generate_html_gerencia.py', 'r', encoding='utf-8') as f:
@@ -417,3 +418,191 @@ print(f'\nPublicaciones: {bullet_pub[:200]}...')
 print(f'\nExp. Impositiva: {bullet_ei[:200]}...')
 print(f'\nNext steps: {next_steps_parts[0][:150]}...')
 print('\nSalvo em _exec_summary_sd.html')
+
+# ══════════════════════════════════════════════════════════════════════
+# VERSÃO SEMANAL — _exec_summary_wk_sd.html (S1 vs S2)
+# ══════════════════════════════════════════════════════════════════════
+wh = ns.get('weekly_history', {})   # {driver: {label: (p,d,s)}}
+wd_drv = ns.get('weekly_driver', {})
+S1_LBL = ns.get('S1_LABEL', 'S1')
+S2_LBL = ns.get('S2_LABEL', 'S2')
+
+# Labels das semanas (últimas duas entradas de WEEK_LABELS)
+wk_labels = ns.get('WEEK_LABELS', [])
+wk_s1 = wk_labels[-1] if wk_labels else 'S1'
+wk_s2 = wk_labels[-2] if len(wk_labels) >= 2 else 'S2'
+
+def grp_nps_wk(drvs, lbl):
+    p   = sum(wh.get(d,{}).get(lbl,(0,0,0))[0] for d in drvs)
+    det = sum(wh.get(d,{}).get(lbl,(0,0,0))[1] for d in drvs)
+    s   = sum(wh.get(d,{}).get(lbl,(0,0,0))[2] for d in drvs)
+    return nps(p, det, s), s
+
+def tgt_wk(drvs):
+    drv_tgts = pt.get('weekly', {}).get(wk_s1, {}).get('drivers', {})
+    wn = sum(wh.get(d,{}).get(wk_s1,(0,0,0))[2] * drv_tgts.get(d, nt)
+             for d in drvs if drv_tgts.get(d))
+    wd2 = sum(wh.get(d,{}).get(wk_s1,(0,0,0))[2] for d in drvs if drv_tgts.get(d))
+    return round(wn/wd2, 2) if wd2 else nt
+
+# NPS semanal por grupo
+wk_drv_data = {}
+for grp, drvs in SD.items():
+    nc, sc = grp_nps_wk(drvs, wk_s1)
+    np2, _ = grp_nps_wk(drvs, wk_s2)
+    tg     = tgt_wk(drvs)
+    wk_drv_data[grp] = {
+        'nc': nc, 'np': np2, 'sc': sc, 'tgt': tg,
+        'gap': round(nc - tg, 1) if nc is not None else None,
+        'mom': round(nc - np2, 1) if nc is not None and np2 is not None else None,
+        'sr_mai': seniority(drvs, 'S1'),   # breakdown S1
+        'sr_abr': seniority(drvs, 'S2'),   # breakdown S2
+        'off_mai': office_summary(drvs, 'S1'),
+        'top_proc': pa.get(grp, {}).get('top_neg', {}).get('proc', ''),
+    }
+
+def cdu_narrative_wk(grp):
+    cats = rc.get(grp, {}).get('categories_wk') or rc.get(grp, {}).get('categories_mon') or []
+    if not cats: return None, None, 0
+    top = cats[0]
+    return top.get('sub_pattern',''), top.get('narrative',''), top.get('share_pct',0)
+
+def build_narrative_wk(grp, icon):
+    v = wk_drv_data[grp]
+    if v['nc'] is None:
+        return ''
+
+    status = (f"<strong>{sign(v['gap'])}{fn(v['gap'])} pp acima da meta</strong>"
+              if (v['gap'] or 0) >= 0 else
+              f"<strong>{fn(abs(v['gap']))} pp abaixo da meta</strong>")
+    if   (v['mom'] or 0) > 0.5:  trend_txt = f"Alta de <strong>+{fn(v['mom'])} pp WoW</strong>. "
+    elif (v['mom'] or 0) < -0.5: trend_txt = f"Queda de <strong>{fn(v['mom'])} pp WoW</strong>. "
+    else:                         trend_txt = "Performance estável na semana. "
+
+    text = (f"{icon} <strong>{esc(grp)}</strong>: NPS de <strong>{fn(v['nc'])}%</strong>, "
+            f"{status} ({fn(v['tgt'])}%). {trend_txt}")
+
+    sr = v['sr_mai']; sr_abr = v['sr_abr']
+    exp_k = next((k for k in sr if 'expert' in k.lower()), None)
+    new_k = next((k for k in sr if 'newbie' in k.lower()), None)
+    if exp_k and new_k:
+        ev = sr[exp_k]; nv = sr[new_k]
+        ea = sr_abr.get(next((k for k in sr_abr if 'expert' in k.lower()),''), {})
+        na2 = sr_abr.get(next((k for k in sr_abr if 'newbie' in k.lower()),''), {})
+        tot = sum(x.get('s',0) for x in sr.values()) or 1
+        es = round(100*ev['s']/tot) if ev.get('s') else 0
+        ns_ = round(100*nv['s']/tot) if nv.get('s') else 0
+        em = round(ev['nps']-ea['nps'],1) if ev.get('nps') and ea.get('nps') else None
+        nm = round(nv['nps']-na2['nps'],1) if nv.get('nps') and na2.get('nps') else None
+        gs = round(ev['nps']-nv['nps'],1) if ev.get('nps') and nv.get('nps') else None
+        if gs and gs > 15 and (v['gap'] or 0) < 0:
+            text += (f"Gap de senioridade: Experts {fn(ev['nps'])}% ({es}%"
+                     f"{f', {sign(em)}{fn(em)} pp WoW' if em is not None else ''})"
+                     f" vs. Newbies {fn(nv['nps'])}% ({ns_}%"
+                     f"{f', {sign(nm)}{fn(nm)} pp WoW' if nm is not None else ''})"
+                     f" — gap de <strong>{fn(gs)} pp</strong>. ")
+        else:
+            text += (f"Experts: {fn(ev['nps'])}% ({es}%"
+                     f"{f', {sign(em)}{fn(em)} pp WoW' if em is not None else ''})"
+                     f"; Newbies: {fn(nv['nps'])}% ({ns_}%"
+                     f"{f', {sign(nm)}{fn(nm)} pp WoW' if nm is not None else ''})"
+                     f"{f' — gap de {fn(gs)} pp' if gs is not None else ''}. ")
+
+    offs = v.get('off_mai', [])
+    if offs:
+        def _oms(o):
+            m = f", {sign(o['mom'])}{fn(o['mom'])} pp WoW" if o['mom'] is not None else ""
+            return f"{o['share']}%, NPS {fn(o['nps'])}%{m}"
+        worst = min(offs, key=lambda x: x['nps'] if x['nps'] is not None else 999)
+        top_o = offs[0]
+        if worst['name'] != top_o['name'] and (worst['nps'] or 100) < (top_o['nps'] or 0) - 10:
+            text += (f"Por oficina, <strong>{top_o['name']}</strong> lidera ({_oms(top_o)})"
+                     f", maior detração em <strong>{worst['name']}</strong> ({_oms(worst)}). ")
+        else:
+            text += "Principais oficinas: " + "; ".join(
+                f"<strong>{o['name']}</strong>: {fn(o['nps'])}% ({o['share']}%"
+                f"{', ' + sign(o['mom']) + fn(o['mom']) + ' pp WoW' if o['mom'] is not None else ''})"
+                for o in offs[:2]) + ". "
+
+    cdu_name, cdu_narr, cdu_share = cdu_narrative_wk(grp)
+    if cdu_name and cdu_narr:
+        proc = v.get('top_proc', '')
+        cdu_desc = cdu_narr.split('. ')[0] if '. ' in cdu_narr else cdu_narr
+        proc_str = f" no processo <strong>{proc}</strong>" if proc else ""
+        text += (f"CDU dominante{proc_str}: <strong>{esc(cdu_name)}</strong> "
+                 f"({cdu_share}% das pesquisas) — {esc(cdu_desc)}.")
+
+    return f'<p style="font-size:13px;line-height:1.9;margin-bottom:10px;color:#333">{text}</p>'
+
+# Consolida semanal
+all_sd_wk = [d for drvs in SD.values() for d in drvs]
+nc_cons_wk, _ = grp_nps_wk(all_sd_wk, wk_s1)
+np_cons_wk, _ = grp_nps_wk(all_sd_wk, wk_s2)
+cons_tgt_wk   = pt.get('weekly', {}).get(wk_s1, {}).get('consolidated', nt)
+gap_cons_wk   = round(nc_cons_wk - cons_tgt_wk, 2) if nc_cons_wk else None
+mom_cons_wk   = round(nc_cons_wk - np_cons_wk, 2)  if nc_cons_wk and np_cons_wk else None
+
+headline_wk = (f"NPS de {fn(nc_cons_wk)}% — "
+               f"{sign(gap_cons_wk)}{fn(gap_cons_wk)} pp vs. meta ({fn(cons_tgt_wk)}%) "
+               f"e {sign(mom_cons_wk)}{fn(mom_cons_wk)} pp WoW ({S2_LBL} → {S1_LBL})")
+
+# Destaques e drivers negativos (mesma lógica do mensal)
+def wk_score(grp):
+    v = wk_drv_data[grp]
+    return (1 if (v['gap'] or 0) >= 0 else 0) * 100 + (v['mom'] or 0)
+
+wk_destaques = sorted(wk_drv_data.keys(), key=lambda g: -wk_score(g))
+wk_pos = [g for g in wk_destaques if (wk_drv_data[g]['gap'] or 0) >= 0 or (wk_drv_data[g]['mom'] or 0) > 1][:3]
+
+bullet_sellers_wk  = ''.join(build_narrative_wk(g, '🟢') for g in wk_pos)
+bullet_partners_wk = build_narrative_wk('Partners',        '🟡' if (wk_drv_data['Partners']['gap'] or 0) < 0 else '🟢')
+bullet_pub_wk      = build_narrative_wk('Publicaciones',   '🔴' if (wk_drv_data['Publicaciones']['mom'] or 0) < -2 else '🟡')
+bullet_ei_wk       = build_narrative_wk('Exp. Impositiva', '🔴')
+
+# Next steps semanal
+wk_next = []
+ei_wk = wk_drv_data['Exp. Impositiva']
+pub_wk = wk_drv_data['Publicaciones']
+par_wk = wk_drv_data['Partners']
+ei_gs_wk = None
+ei_sr = ei_wk.get('sr_mai', {})
+exp_k2 = next((k for k in ei_sr if 'expert' in k.lower()), None)
+new_k2 = next((k for k in ei_sr if 'newbie' in k.lower()), None)
+if exp_k2 and new_k2 and ei_sr.get(exp_k2, {}).get('nps') and ei_sr.get(new_k2, {}).get('nps'):
+    ei_gs_wk = round(ei_sr[exp_k2]['nps'] - ei_sr[new_k2]['nps'], 1)
+
+if (ei_wk['gap'] or 0) < -10:
+    wk_next.append(f"Capacitação Newbies em <strong>Exp. Impositiva</strong>"
+                   + (f" — gap de {fn(ei_gs_wk)} pp vs. Veteranos." if ei_gs_wk else "."))
+if (pub_wk['mom'] or 0) < -2:
+    wk_next.append(f"Monitorar queda de <strong>Publicaciones</strong> "
+                   f"({fn(pub_wk['mom'])} pp WoW) — processo {pub_wk.get('top_proc','Afiliados ML')}.")
+if not wk_next:
+    wk_next.append("Manter monitoramento semanal e investigar causas de queda.")
+
+html_wk = f'''<div style="border-left:4px solid #F39C12;padding-left:14px;margin-bottom:20px">
+  <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Highlights &amp; Análise — Semana</div>
+
+  <p style="font-size:15px;font-weight:700;color:#222;margin-bottom:16px">
+    {headline_wk}
+  </p>
+
+  <p style="font-size:13px;font-weight:700;color:#333;margin-bottom:10px">Análise por driver:</p>
+
+  {bullet_sellers_wk}
+  {bullet_partners_wk}
+  {bullet_pub_wk}
+  {bullet_ei_wk}
+
+  <p style="font-size:13px;font-weight:700;color:#333;margin-bottom:10px">Next steps:</p>
+
+  <p style="font-size:13px;line-height:1.9;color:#444">
+    {'<br><br>'.join(wk_next)}
+  </p>
+</div>'''
+
+with open('_exec_summary_wk_sd.html', 'w', encoding='utf-8') as f:
+    f.write(html_wk)
+
+print(f'\nSemanal Headline: {headline_wk}')
+print('Salvo em _exec_summary_wk_sd.html')
