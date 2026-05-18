@@ -2516,10 +2516,16 @@ def _bd_table(items_m1, items_m2, max_rows=6, weekly=False, lbl1="NPS", lbl2="An
                      f'<td class="bd-vol" style="color:#3483FA">{total_s1:,}</td></tr>\n')
 
     if weekly:
-        header = (f'<thead><tr><th>Nome</th><th>{esc(lbl2)}</th><th>{esc(lbl1)}</th>'
-                  f'<th>&#916; {esc(delta_label)}</th><th>Contrib</th><th>Vol</th></tr></thead>')
+        _r = 'style="text-align:right"'
+        header = (f'<thead><tr><th>Nome</th>'
+                  f'<th {_r}>{esc(lbl2)}</th><th {_r}>{esc(lbl1)}</th>'
+                  f'<th {_r}>&#916; {esc(delta_label)}</th><th {_r}>Contrib</th><th {_r}>Vol</th>'
+                  f'</tr></thead>')
     else:
-        header = (f'<thead><tr><th>Nome</th><th>NPS</th><th>&#916; M/M</th><th>Vol</th></tr></thead>')
+        _r = 'style="text-align:right"'
+        header = (f'<thead><tr><th>Nome</th>'
+                  f'<th {_r}>NPS</th><th {_r}>&#916; M/M</th><th {_r}>Vol</th>'
+                  f'</tr></thead>')
 
 
     return f'<table class="bd-tbl"><{header}<tbody>{rows}</tbody></table>'
@@ -2587,15 +2593,21 @@ def _bd_seniority(sr_m1, sr_m2, weekly=False, lbl1="NPS", lbl2="Ant",
                  f'<td class="bd-nps" style="color:#3483FA">{fn(nps_tot1) if nps_tot1 else "—"}%</td>'
                  f'<td class="bd-delta {dt_cls}">{dt_str}</td><td></td>'
                  f'<td class="bd-vol" style="color:#3483FA">{total_s1:,}</td></tr>\n')
-        header = (f'<thead><tr><th>Seniority</th><th>{esc(lbl2)}</th><th>{esc(lbl1)}</th>'
-                  f'<th>&#916; {esc(delta_label)}</th><th>Contrib</th><th>Vol</th></tr></thead>')
+        _r2 = 'style="text-align:right"'
+        header = (f'<thead><tr><th>Seniority</th>'
+                  f'<th {_r2}>{esc(lbl2)}</th><th {_r2}>{esc(lbl1)}</th>'
+                  f'<th {_r2}>&#916; {esc(delta_label)}</th><th {_r2}>Contrib</th><th {_r2}>Vol</th>'
+                  f'</tr></thead>')
     else:
         if total_s1: rows += (f'<tr style="border-top:2px solid #3483FA;background:#f0f4ff;font-weight:700">'
                                f'<td class="bd-name" style="color:#3483FA">Total</td>'
                                f'<td class="bd-nps" style="color:#3483FA">{fn(nps_tot1) if nps_tot1 else "—"}%</td>'
                                f'<td class="bd-delta {dt_cls}">{dt_str}</td>'
                                f'<td class="bd-vol" style="color:#3483FA">{total_s1:,}</td></tr>\n')
-        header = f'<thead><tr><th>Seniority</th><th>NPS</th><th>&#916; M/M</th><th>Vol</th></tr></thead>'
+        _r3 = 'style="text-align:right"'
+        header = (f'<thead><tr><th>Seniority</th>'
+                  f'<th {_r3}>NPS</th><th {_r3}>&#916; M/M</th><th {_r3}>Vol</th>'
+                  f'</tr></thead>')
     return f'<table class="bd-tbl"><{header}<tbody>{rows}</tbody></table>'
 
 def _build_driver_breakdowns(mode="monthly"):
