@@ -1073,9 +1073,12 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
         share = v1["s"] / s_tot
         if share < 0.06: continue
         pd = round(v1["nps"] - v2["nps"], 1)
-        # MIX+NETO
-        share2 = v2["s"] / s_tot2
-        contrib = round(share * v1["nps"] - share2 * v2["nps"], 2)
+        # Contrib = Impacto Variação + Impacto Mix
+        share2   = v2["s"] / s_tot2
+        nps_tot1 = sum(v["nps"]*v["s"] for v in p1.values() if v.get("nps")) / s_tot
+        imp_var  = pd * share2
+        imp_mix  = (v1["nps"] - nps_tot1) * (share - share2)
+        contrib  = round(imp_var + imp_mix, 2)
         if abs(pd) > 1.5:
             proc_movers.append((proc, pd, round(share*100,1), v1["nps"], v1["s"], contrib))
     proc_movers.sort(key=lambda x: x[1])
@@ -1547,11 +1550,15 @@ def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
 
 def _dim_contributions(m1, m2):
     """
-    Calcula contribuição MIX+NETO de cada item: contrib_i = share_m1_i × NPS_m1_i − share_m2_i × NPS_m2_i
-    Garante que Σ contrib_i = NPS_m1_total − NPS_m2_total (variação real).
+    Contrib = Impacto Variação + Impacto Mix
+    Impacto Variação = (NPS_atual - NPS_anterior) × share_anterior
+    Impacto Mix = (NPS_atual_item - NPS_total_atual) × (share_atual - share_anterior)
+    Garante Σ contrib_i = NPS_m1_total - NPS_m2_total.
     """
     s_tot_m1 = sum(v["s"] for v in m1.values()) or 1
     s_tot_m2 = sum(v["s"] for v in m2.values()) or 1
+    # NPS total atual (ponderado)
+    nps_total_m1 = (sum(v["nps"]*v["s"] for v in m1.values() if v.get("nps") is not None) / s_tot_m1)
     results = []
     for item, v1 in m1.items():
         if v1["nps"] is None: continue
@@ -1559,15 +1566,13 @@ def _dim_contributions(m1, m2):
         nps2 = v2.get("nps")
         share_m1 = v1["s"] / s_tot_m1
         share_m2 = (v2.get("s", 0) / s_tot_m2) if v2 else 0
-        # MIX+NETO: share_m1*NPS_m1 - share_m2*NPS_m2
-        contrib = round(share_m1 * v1["nps"] - share_m2 * (nps2 or 0), 2)
+        if nps2 is not None:
+            imp_var = (v1["nps"] - nps2) * share_m2
+            imp_mix = (v1["nps"] - nps_total_m1) * (share_m1 - share_m2)
+            contrib = round(imp_var + imp_mix, 2)
+        else:
+            contrib = round(v1["nps"] * share_m1, 2)
         results.append((item, contrib, v1["nps"], nps2, v1["s"]))
-    # Items only in m2 (disappeared in m1) contribute negatively
-    for item, v2 in m2.items():
-        if item in m1 or v2.get("nps") is None: continue
-        share_m2 = v2["s"] / s_tot_m2
-        contrib = round(0 - share_m2 * v2["nps"], 2)
-        results.append((item, contrib, None, v2["nps"], 0))
     results.sort(key=lambda x: abs(x[1]), reverse=True)
     return results
 
@@ -2430,10 +2435,20 @@ def _bd_table(items_m1, items_m2, max_rows=6, weekly=False, lbl1="NPS", lbl2="An
         delta = round(nps1-nps2,1) if nps1 is not None and nps2 is not None else None
         d_cls = "bd-pos" if delta and delta>0 else ("bd-neg" if delta and delta<0 else "")
         d_str = (("+" if delta>0 else "")+f"{delta:.1f}pp") if delta is not None else "—"
-        # Contribuição MIX+NETO: share_m1*NPS_m1 - share_m2*NPS_m2
-        share_m1_bd = v1["s"] / items_s1_sum if items_s1_sum else 0
-        share_m2_bd = (v2["s"] if v2 else 0) / s_tot_m2_all
-        contrib = round(share_m1_bd*(nps1 or 0) - share_m2_bd*(nps2 or 0), 2) if nps1 is not None else None
+        # Contrib = Impacto Variação + Impacto Mix
+        # Impacto Variação = (NPS_atual - NPS_anterior) × share_anterior
+        # Impacto Mix = (NPS_atual_item - NPS_total_atual) × (share_atual - share_anterior)
+        share_m1_bd  = v1["s"] / items_s1_sum if items_s1_sum else 0
+        share_m2_bd  = (v2["s"] if v2 else 0) / s_tot_m2_all
+        nps1_tot_ref = nps_tot1 if nps_tot1 is not None else 0
+        if nps1 is not None and nps2 is not None:
+            imp_var = (nps1 - nps2) * share_m2_bd
+            imp_mix = (nps1 - nps1_tot_ref) * (share_m1_bd - share_m2_bd)
+            contrib = round(imp_var + imp_mix, 2)
+        elif nps1 is not None:
+            contrib = round(nps1 * share_m1_bd, 2)
+        else:
+            contrib = None
         c_cls   = "bd-pos" if contrib and contrib>0 else ("bd-neg" if contrib and contrib<0 else "")
         c_str   = (("+" if contrib>0 else "")+f"{contrib:.2f}pp") if contrib is not None else ""
 
@@ -2520,10 +2535,19 @@ def _bd_seniority(sr_m1, sr_m2, weekly=False, lbl1="NPS", lbl2="Ant",
         delta = round(nps1-nps2,1) if nps1 is not None and nps2 is not None else None
         d_cls = "bd-pos" if delta and delta>0 else ("bd-neg" if delta and delta<0 else "")
         d_str = (("+" if delta>0 else "")+f"{delta:.1f}pp") if delta is not None else "—"
-        # Contribuição MIX+NETO
+        # Contrib = Impacto Variação + Impacto Mix
         share_m1_bd2 = v1["s"] / items_s1_sum if items_s1_sum else 0
         share_m2_bd2 = (v2["s"] if v2 else 0) / s_tot_m2_all
-        contrib = round(share_m1_bd2*(nps1 or 0) - share_m2_bd2*(nps2 or 0), 2) if nps1 is not None else None
+        nps1_tot2    = (official_nps1 if official_nps1 is not None else
+                        round(100*(total_p1-total_d1)/total_s1,1) if total_s1 else 0)
+        if nps1 is not None and nps2 is not None:
+            imp_var2 = (nps1 - nps2) * share_m2_bd2
+            imp_mix2 = (nps1 - nps1_tot2) * (share_m1_bd2 - share_m2_bd2)
+            contrib  = round(imp_var2 + imp_mix2, 2)
+        elif nps1 is not None:
+            contrib  = round(nps1 * share_m1_bd2, 2)
+        else:
+            contrib  = None
         c_str   = (("+" if contrib and contrib>0 else "")+f"{contrib:.2f}pp") if contrib else ""
         c_cls   = "bd-pos" if contrib and contrib>0 else ("bd-neg" if contrib and contrib<0 else "")
         vol_pct = round(100 * v1["s"] / items_s1_sum, 1) if items_s1_sum else 0
