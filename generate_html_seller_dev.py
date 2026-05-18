@@ -612,12 +612,15 @@ def waterfall_chart(cid, label_a, nps_a, label_b, nps_b, d_dict, height=370):
 def chart_small_multiples(base_cid, items, cons_data, labels):
     """
     Grid de mini-gráficos: barras (resultado) + linha target + consolidado cinza.
-    items: lista de (name, series, color, target_val) ou (name, series, color, target_val, target_series)
+    items: lista de (name, series, color, target_val) ou
+           (name, series, color, target_val, target_series) ou
+           (name, series, color, target_val, target_series, surv_count)
     """
     blocks = []
     for i, item_tuple in enumerate(items):
         name, series, color, target_val = item_tuple[:4]
         target_series = item_tuple[4] if len(item_tuple) > 4 else [target_val] * len(labels)
+        surv_count    = item_tuple[5] if len(item_tuple) > 5 else None
         cid = f"{base_cid}_{i}"
 
         curr_v  = next((v for v in reversed(series) if v is not None), None)
@@ -665,12 +668,20 @@ def chart_small_multiples(base_cid, items, cons_data, labels):
                       f'<script>new Chart(document.getElementById("{cid}"),'
                       f'{_json.dumps(cfg).replace(chr(34)+"__FMT__"+chr(34), _FMT)});</script>')
 
+        surv_box = ""
+        if surv_count is not None:
+            surv_box = (f'<div style="margin-top:6px;text-align:center;'
+                        f'background:#f4f6f9;border-radius:6px;padding:4px 8px;'
+                        f'font-size:11px;color:#555">'
+                        f'&#128202; <strong>{surv_count:,}</strong> pesquisas</div>')
+
         blocks.append(
             f'<div class="sm-item" style="border-top:3px solid {color}">'
             f'<div class="sm-header"><span class="sm-cat">{esc(name)}</span>'
             f'<span class="sm-nps">{nps_str} <span class="{trend_cls}">{trend_str}</span></span></div>'
             f'<div class="sm-sub {vs_cls}">{vs_str}</div>'
-            f'{mini_chart}</div>'
+            f'{mini_chart}'
+            f'{surv_box}</div>'
         )
 
     return f'<div class="sm-grid">{"".join(blocks)}</div>'
@@ -2691,7 +2702,8 @@ def _tab_mensal():
     chart_sec = f"""<div class="section-block">
   <div class="section-title">Evolu&#231;&#227;o NPS por Categoria &mdash; Mensal</div>
   {chart_small_multiples("c_mon",
-      [(g, grp_mon[g], GROUP_COLORS[g], _grp_tgt_latest(g,"monthly"), _grp_tgt_series_monthly(g))
+      [(g, grp_mon[g], GROUP_COLORS[g], _grp_tgt_latest(g,"monthly"), _grp_tgt_series_monthly(g),
+        sum(monthly_history[d].get(MONTH_LABELS[-1],(0,0,0))[2] for d in DRIVER_GROUPS.get(g,[]) if d not in EXCLUIDOS))
        for g in DRIVER_GROUPS],
       mon_cons, MONTH_LABELS)}
 </div>"""
@@ -2707,7 +2719,8 @@ def _tab_semanal():
     S1 Fechada: {esc(S1_LABEL)} &nbsp;|&nbsp; S2 Anterior: {esc(S2_LABEL)}
   </div>
   {chart_small_multiples("c_wk",
-      [(g, grp_wk[g], GROUP_COLORS[g], _grp_tgt_latest(g,"weekly"), _grp_tgt_series_weekly(g))
+      [(g, grp_wk[g], GROUP_COLORS[g], _grp_tgt_latest(g,"weekly"), _grp_tgt_series_weekly(g),
+        sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2] for d in DRIVER_GROUPS.get(g,[]) if d not in EXCLUIDOS))
        for g in DRIVER_GROUPS],
       wk_cons, WEEK_LABELS)}
 </div>"""
