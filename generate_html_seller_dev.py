@@ -3154,7 +3154,7 @@ function buildSidebar() {{
       var nstr=(it.nps!=null)?'<br><span style="font-size:10px;color:#7a8aaa">'+it.nps.toFixed(1).replace('.',',')+' %</span>':'';
       var sstr=(it.surv>0)?'<br><span style="font-size:10px;color:#556">'+it.surv.toLocaleString()+' enc</span>':'';
       var fenc=encodeURIComponent(it.file);
-      wh+='<div class="sb-week'+act+'" data-file="'+fenc+'" onclick="sbClick(this)">'
+      wh+='<div class="sb-week'+act+'" data-file="'+fenc+'" data-badge="'+it.badge+'" onclick="sbClick(this)">'
          +'<div style="flex:1"><span class="sb-week-label">'+it.lbl+'</span>'+nstr+sstr+'</div>'
          +'<span class="sb-week-badge '+bc+'">'+bt+'</span></div>';
     }});
@@ -3175,12 +3175,12 @@ function sbToggle(el) {{
 function sbClick(el) {{
   document.querySelectorAll('.sb-week').forEach(function(w){{w.classList.remove('active');}});
   el.classList.add('active');
-  var f    = decodeURIComponent(el.getAttribute('data-file')||'');
-  var lbl  = (el.querySelector('.sb-week-label')||{{}}).textContent || '';
-  var badge= (el.querySelector('.sb-week-badge')||{{}}).textContent || '';
+  var f     = decodeURIComponent(el.getAttribute('data-file')||'');
+  var badge = el.getAttribute('data-badge') || '';
+  var lbl   = (el.querySelector('.sb-week-label')||{{}}).textContent || '';
 
   // VIG ou S1 atual — mostra o dashboard ao vivo
-  if (!f && (badge.indexOf('VIG')>=0 || badge.indexOf('S1')>=0)) {{
+  if (badge === 'vig' || badge === 's1') {{
     sbBack(); return;
   }}
 
