@@ -10,9 +10,12 @@ from datetime import date
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-DASHBOARD   = "nps_tendencias_gerencia.html"
-HISTORY_DIR = "history"
-INDEX_FILE  = os.path.join(HISTORY_DIR, "index.json")
+DASHBOARD    = "nps_tendencias_gerencia.html"
+DASHBOARD_SD = "nps_tendencias_seller_dev.html"   # também salva seller dev
+HISTORY_DIR  = "history"
+HISTORY_SD   = "history_sd"
+INDEX_FILE   = os.path.join(HISTORY_DIR, "index.json")
+INDEX_SD     = os.path.join(HISTORY_SD,  "index.json")
 
 # ── Lê dados do generate_html_gerencia.py ──────────────────────────
 with open("generate_html_gerencia.py", "r", encoding="utf-8") as f:
@@ -52,49 +55,43 @@ except:
 snapshot_name = f"semana_{snap_id}.html"
 snapshot_path = os.path.join(HISTORY_DIR, snapshot_name)
 
-# ── Copia dashboard atual para history/ ────────────────────────────
-if not os.path.exists(DASHBOARD):
-    print(f"ERRO: {DASHBOARD} não encontrado. Execute generate_html_tendencias.py primeiro.")
-    sys.exit(1)
+def save_snapshot_to(dashboard_file, history_dir, index_file, label_prefix=""):
+    if not os.path.exists(dashboard_file):
+        print(f"  AVISO: {dashboard_file} não encontrado — pulando.")
+        return None
+    if not os.path.exists(history_dir):
+        os.makedirs(history_dir)
+    snap_path = os.path.join(history_dir, snapshot_name)
+    shutil.copy2(dashboard_file, snap_path)
+    print(f"Snapshot salvo: {snap_path}")
 
-shutil.copy2(DASHBOARD, snapshot_path)
-print(f"Snapshot salvo: {snapshot_path}")
+    idx = []
+    if os.path.exists(index_file):
+        with open(index_file, "r", encoding="utf-8") as f:
+            try: idx = json.load(f)
+            except: idx = []
+    idx = [e for e in idx if e.get("file") != snapshot_name]
+    for e in idx: e["most_recent"] = False
+    ent = {
+        "label":       f"Semana {S1_LABEL}",
+        "archived_at": today_str,
+        "file":        snapshot_name,
+        "s1_label":    S1_LABEL,
+        "s2_label":    S2_LABEL,
+        "vig_label":   VIG_LABEL,
+        "month":       M1_LABEL,
+        "nps_s1":      nps_s1,
+        "most_recent": True,
+    }
+    idx.insert(0, ent)
+    idx = idx[:52]
+    with open(index_file, "w", encoding="utf-8") as f:
+        json.dump(idx, f, ensure_ascii=False, indent=2)
+    print(f"  Index: {len(idx)} snapshots | NPS S1={nps_s1}%")
+    return ent
 
-# ── Atualiza index.json ─────────────────────────────────────────────
-index = []
-if os.path.exists(INDEX_FILE):
-    with open(INDEX_FILE, "r", encoding="utf-8") as f:
-        try:
-            index = json.load(f)
-        except:
-            index = []
+# ── Salva ambos os dashboards ─────────────────────────────────────
+save_snapshot_to(DASHBOARD,    HISTORY_DIR, INDEX_FILE)
+save_snapshot_to(DASHBOARD_SD, HISTORY_SD,  INDEX_SD)
 
-# Remove entrada com mesmo snap_id se já existir (evita duplicatas)
-index = [e for e in index if e.get("file") != snapshot_name]
-
-# Marca todos como não mais recentes
-for e in index:
-    e["most_recent"] = False
-
-# Adiciona nova entrada no topo
-entry = {
-    "label":        f"Semana {S1_LABEL}",
-    "archived_at":  today_str,
-    "file":         snapshot_name,
-    "s1_label":     S1_LABEL,
-    "s2_label":     S2_LABEL,
-    "vig_label":    VIG_LABEL,
-    "month":        M1_LABEL,
-    "nps_s1":       nps_s1,
-    "most_recent":  True,
-}
-index.insert(0, entry)
-
-# Mantém no máximo 52 semanas
-index = index[:52]
-
-with open(INDEX_FILE, "w", encoding="utf-8") as f:
-    json.dump(index, f, ensure_ascii=False, indent=2)
-
-print(f"Index atualizado: {len(index)} snapshots")
-print(f"Entrada mais recente: {entry['label']} | NPS S1={nps_s1}% | {today_str}")
+print(f"\nEntrada: {S1_LABEL} | {today_str}")
