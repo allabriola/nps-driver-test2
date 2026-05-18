@@ -17,9 +17,9 @@ with open('generate_html_gerencia.py', 'r', encoding='utf-8') as f:
     src = f.read()
 
 # ── 1. Labels ────────────────────────────────────────────────────────
-src = re.sub(r'(S1_LABEL\s*=\s*)"[^"]*"',  r'\1"04/mai – 10/mai"', src)
-src = re.sub(r'(S2_LABEL\s*=\s*)"[^"]*"',  r'\1"27/abr – 03/mai"', src)
-src = re.sub(r'(VIG_LABEL\s*=\s*)"[^"]*"', r'\1"11/mai – 18/mai"', src)
+src = re.sub(r'(S1_LABEL\s*=\s*)"[^"]*"',  r'\1"11/mai – 17/mai"', src)
+src = re.sub(r'(S2_LABEL\s*=\s*)"[^"]*"',  r'\1"04/mai – 10/mai"', src)
+src = re.sub(r'(VIG_LABEL\s*=\s*)"[^"]*"', r'\1"18/mai – 18/mai"', src)
 
 # ── 2. weekly_driver ─────────────────────────────────────────────────
 stop = re.search(r'# SECTION 3', src)
