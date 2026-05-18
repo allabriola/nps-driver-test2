@@ -2770,6 +2770,52 @@ _CSS = """
 body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', sans-serif;
        font-size: 13px; background: #f4f6f9; color: #222; }
 
+/* ── Sidebar ─────────────────────────────────────────────────────── */
+.sidebar { position:fixed; top:0; left:0; width:210px; height:100vh;
+           background:#1a1e2e; color:#c8cfe0; display:flex;
+           flex-direction:column; z-index:200; overflow:hidden; }
+.sidebar-header { padding:14px 16px 10px; border-bottom:1px solid #2e3350; flex-shrink:0; }
+.sidebar-title  { font-size:13px; font-weight:700; color:#fff; margin-bottom:4px; }
+.sidebar-sub    { font-size:10px; color:#7a8aaa; }
+.sidebar-search { margin:8px 12px; position:relative; }
+.sidebar-search input { width:100%; padding:6px 10px 6px 28px; border-radius:6px;
+  border:1px solid #2e3350; background:#252a3d; color:#c8cfe0; font-size:11px; outline:none; }
+.sidebar-search input::placeholder { color:#5a6880; }
+.sidebar-search::before { content:"🔍"; position:absolute; left:8px; top:6px; font-size:11px; }
+.sidebar-nav { overflow-y:auto; flex:1; padding:4px 0 20px; }
+.sidebar-nav::-webkit-scrollbar { width:4px; }
+.sidebar-nav::-webkit-scrollbar-track { background:transparent; }
+.sidebar-nav::-webkit-scrollbar-thumb { background:#2e3350; border-radius:4px; }
+
+.sb-month { padding:10px 16px 4px; font-size:10px; font-weight:700;
+            color:#7a8aaa; text-transform:uppercase; letter-spacing:.7px;
+            display:flex; justify-content:space-between; align-items:center;
+            cursor:pointer; user-select:none; }
+.sb-month:hover { color:#c8cfe0; }
+.sb-month-count { background:#2e3350; color:#7a8aaa; font-size:9px;
+                  padding:1px 6px; border-radius:10px; font-weight:600; }
+.sb-month-arrow { font-size:10px; transition:transform .2s; }
+.sb-month.collapsed .sb-month-arrow { transform:rotate(-90deg); }
+.sb-weeks { overflow:hidden; transition:max-height .3s; }
+.sb-weeks.collapsed { max-height:0 !important; }
+
+.sb-week { padding:7px 16px; display:flex; align-items:center; gap:8px;
+           cursor:pointer; border-left:3px solid transparent;
+           transition:all .15s; }
+.sb-week:hover { background:#252a3d; color:#fff; }
+.sb-week.active { background:#252a3d; border-left-color:#3483FA; color:#fff; }
+.sb-week.active .sb-week-label { color:#fff; font-weight:700; }
+.sb-week-label { font-size:12px; color:#c8cfe0; flex:1; }
+.sb-week-badge { font-size:9px; font-weight:700; padding:1px 5px;
+                 border-radius:4px; white-space:nowrap; }
+.sb-week-badge.vig  { background:#F39C1233; color:#F39C12; border:1px solid #F39C1266; }
+.sb-week-badge.s1   { background:#3483FA22; color:#3483FA; border:1px solid #3483FA55; }
+.sb-week-badge.hist { background:#2e3350; color:#7a8aaa; }
+.sb-week-badge.mes  { background:#00A65022; color:#00A650; border:1px solid #00A65055; }
+
+/* ── Layout principal com sidebar ───────────────────────────────── */
+.main-wrap { margin-left:210px; min-height:100vh; display:flex; flex-direction:column; }
+
 .header { background: linear-gradient(135deg,#3483FA 0%,#1C5BBD 100%);
           color:#fff; padding:16px 24px; display:flex; align-items:center;
           justify-content:space-between; }
@@ -3001,64 +3047,104 @@ def build():
     js = f"""
 var _HIST_INLINE = {_hist_inline};
 var _GHPAGES_BASE = "{_GHPAGES_BASE}";
-function switchPeriod(btn,p){{
-  document.querySelectorAll('.period-btn').forEach(function(b){{b.classList.remove('active');}});
-  btn.classList.add('active');
-  document.querySelectorAll('.period-view').forEach(function(v){{
-    v.style.display=(v.dataset.p===p)?'':'none';
+var _VIG_LABEL    = "{esc(VIG_LABEL or '')}";
+var _S1_LABEL     = "{esc(S1_LABEL or '')}";
+var _M1_LABEL     = "{esc(M1_LABEL or '')}";
+
+// ── Sidebar ───────────────────────────────────────────────────────
+function buildSidebar() {{
+  var nav = document.getElementById('sidebarNav');
+  if (!nav) return;
+
+  // Monta lista de itens: atual (VIG + S1) + histórico
+  var items = [];
+
+  // Período atual (VIG)
+  items.push({{label: _VIG_LABEL || 'VIG Atual', badge: 'vig', file: null, month: _M1_LABEL || 'Atual', nps_s1: null}});
+  // S1 fechada
+  items.push({{label: _S1_LABEL || 'S1', badge: 's1', file: null, month: _M1_LABEL || 'Atual', nps_s1: null}});
+
+  // Histórico de snapshots
+  var hist = _HIST_INLINE || [];
+  hist.forEach(function(e) {{
+    items.push({{
+      label: e.label, badge: 'hist', file: e.file,
+      month: e.month || 'Anterior',
+      nps_s1: e.nps_s1, archived_at: e.archived_at
+    }});
+  }});
+
+  // Agrupa por mês
+  var months = {{}};
+  items.forEach(function(it) {{
+    if (!months[it.month]) months[it.month] = [];
+    months[it.month].push(it);
+  }});
+
+  var html = '';
+  var firstMonth = true;
+  Object.keys(months).forEach(function(mon) {{
+    var items_m = months[mon];
+    var countBadge = '<span class="sb-month-count">' + items_m.length + '</span>';
+    html += '<div class="sb-month' + (firstMonth?'':' collapsed') + '" onclick="sbToggleMonth(this)">'
+          + mon + countBadge
+          + '<span class="sb-month-arrow">&#9660;</span></div>';
+    var weeksHtml = '';
+    items_m.forEach(function(it, idx) {{
+      var isActive = (idx === 0 && firstMonth);
+      var badgeHtml = '';
+      if (it.badge === 'vig')  badgeHtml = '<span class="sb-week-badge vig">VIG</span>';
+      if (it.badge === 's1')   badgeHtml = '<span class="sb-week-badge s1">S1</span>';
+      if (it.badge === 'hist') badgeHtml = '<span class="sb-week-badge hist">S1</span>';
+      var npsStr = it.nps_s1 ? '<br><span style="font-size:10px;color:#7a8aaa">NPS ' + it.nps_s1.toFixed(1).replace('.',',') + '%</span>' : '';
+      weeksHtml += '<div class="sb-week' + (isActive?' active':'') + '" onclick="sbOpenItem(' + JSON.stringify(it) + ',this)">'
+                 + '<div style="flex:1"><span class="sb-week-label">' + it.label + '</span>' + npsStr + '</div>'
+                 + badgeHtml
+                 + '</div>';
+    }});
+    html += '<div class="sb-weeks' + (firstMonth?'':' collapsed') + '" style="max-height:' + (firstMonth ? items_m.length*52 + 'px' : '0') + '">' + weeksHtml + '</div>';
+    firstMonth = false;
+  }});
+
+  nav.innerHTML = html;
+}}
+
+function sbToggleMonth(el) {{
+  el.classList.toggle('collapsed');
+  var weeks = el.nextElementSibling;
+  if (weeks) {{
+    if (el.classList.contains('collapsed')) {{
+      weeks.style.maxHeight = '0';
+      weeks.classList.add('collapsed');
+    }} else {{
+      weeks.style.maxHeight = weeks.querySelectorAll('.sb-week').length * 52 + 'px';
+      weeks.classList.remove('collapsed');
+    }}
+  }}
+}}
+
+function sbOpenItem(item, el) {{
+  document.querySelectorAll('.sb-week').forEach(function(w){{w.classList.remove('active');}});
+  el.classList.add('active');
+  if (item.file) {{
+    window.open(_GHPAGES_BASE + 'history/' + item.file, '_blank');
+  }}
+}}
+
+function sbFilter(q) {{
+  var qq = q.toLowerCase();
+  document.querySelectorAll('.sb-week').forEach(function(w) {{
+    var lbl = w.querySelector('.sb-week-label');
+    w.style.display = (!qq || (lbl && lbl.textContent.toLowerCase().includes(qq))) ? '' : 'none';
   }});
 }}
-// ── Histórico de Semanas ──────────────────────────────────────────
-var _histLoaded = false;
-function openHistory() {{
-  document.getElementById('histOverlay').classList.add('open');
-  if (!_histLoaded) {{ loadHistory(); _histLoaded = true; }}
-}}
-function closeHistory() {{
-  document.getElementById('histOverlay').classList.remove('open');
-}}
-function closeHistoryOutside(e) {{
-  if (e.target === document.getElementById('histOverlay')) closeHistory();
-}}
-function loadHistory() {{
-  var list = document.getElementById('histList');
-  function renderHist(data) {{
-    if (!data || !data.length) {{
-      list.innerHTML = '<div class="hist-empty">Nenhum snapshot salvo ainda.<br>O histórico é criado automaticamente toda segunda-feira.</div>';
-      return;
-    }}
-    var html = '';
-    data.forEach(function(e) {{
-      var badge = e.most_recent ? '<span class="hist-badge-new">MAIS RECENTE</span>' : '';
-      var nps   = e.nps_s1 ? ' &nbsp;<span style="color:#888;font-size:10px">NPS S1: ' + e.nps_s1.toFixed(1).replace('.',',') + '%</span>' : '';
-      var icon  = e.most_recent ? '&#128197;' : '&#128441;';
-      html += '<div class="hist-item" onclick="openSnapshot(\\'' + e.file + '\\')">'
-            + '  <div class="hist-item-left">'
-            + '    <div class="hist-item-icon">' + icon + '</div>'
-            + '    <div>'
-            + '      <div class="hist-item-label">' + e.label + badge + '</div>'
-            + '      <div class="hist-item-date">Arquivado em ' + e.archived_at + nps + '</div>'
-            + '    </div>'
-            + '  </div>'
-            + '  <span class="hist-open-link">Abrir &#8594;</span>'
-            + '</div>';
-    }});
-    list.innerHTML = html;
-  }}
-  if (_HIST_INLINE && _HIST_INLINE.length) {{
-    renderHist(_HIST_INLINE);
-  }} else {{
-    fetch('history/index.json?_=' + Date.now())
-      .then(function(r) {{ return r.json(); }})
-      .then(renderHist)
-      .catch(function() {{
-        list.innerHTML = '<div class="hist-empty">Histórico não encontrado.<br>Execute o update semanal para criar o primeiro snapshot.</div>';
-      }});
-  }}
-}}
+
 function openSnapshot(file) {{
   window.open(_GHPAGES_BASE + 'history/' + file, '_blank');
 }}
+
+// Inicia sidebar
+document.addEventListener('DOMContentLoaded', buildSidebar);
 
 function showTab(n){{
   document.querySelectorAll('.tab-btn').forEach(function(b,i){{b.classList.toggle('active',i===n);}});
@@ -3093,35 +3179,31 @@ function filterDrv(btn, grp){{
 </head>
 <body>
 
+<!-- ── Sidebar de Navegação ──────────────────────────────────────── -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-title">NPS Seller Dev BR</div>
+    <div class="sidebar-sub">Dados at&#233; {DADOS_ATE} &middot; {REPORT_DATE}</div>
+  </div>
+  <div class="sidebar-search">
+    <input type="text" id="sbSearch" placeholder="Buscar semana ou m&#234;s..." oninput="sbFilter(this.value)">
+  </div>
+  <nav class="sidebar-nav" id="sidebarNav">
+    <!-- preenchido pelo JS com _HIST_INLINE + período atual -->
+  </nav>
+</div>
+
+<!-- ── Conteúdo principal ─────────────────────────────────────────── -->
+<div class="main-wrap">
+
 <div class="header">
   <div>
     <div class="header-title">NPS Tend&#234;ncias &mdash; Seller Dev BR</div>
     <div class="header-sub">Exp. Impositiva &middot; ME Vendedor &middot; PCF Vendedor &middot; Post Venta &middot; Publicaciones &middot; Partners &middot; Center BR &middot; e-commerce</div>
   </div>
-  <div style="display:flex;align-items:center;gap:12px">
-    <button class="hist-btn" onclick="openHistory()">
-      &#128193; Hist&#243;rico de Semanas
-    </button>
-    <div style="text-align:right;line-height:1.6">
-      <div style="font-weight:700;font-size:13px;color:#fff">Dados at&#233; {DADOS_ATE}</div>
-      <div style="font-size:11px;opacity:.8;color:#fff">Atualizado em {REPORT_DATE} &#224;s {REPORT_TIME}</div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Histórico de Semanas -->
-<div class="hist-overlay" id="histOverlay" onclick="closeHistoryOutside(event)">
-  <div class="hist-panel">
-    <div class="hist-header">
-      <div>
-        <div class="hist-title">&#128193; Hist&#243;rico de Semanas</div>
-        <div class="hist-sub">Snapshots semanais salvos automaticamente</div>
-      </div>
-      <button class="hist-close" onclick="closeHistory()">&#10005;</button>
-    </div>
-    <div class="hist-list" id="histList">
-      <div class="hist-empty">Carregando...</div>
-    </div>
+  <div style="text-align:right;line-height:1.6">
+    <div style="font-weight:700;font-size:13px;color:#fff">Dados at&#233; {DADOS_ATE}</div>
+    <div style="font-size:11px;opacity:.8;color:#fff">Atualizado em {REPORT_DATE} &#224;s {REPORT_TIME}</div>
   </div>
 </div>
 
@@ -3134,6 +3216,8 @@ function filterDrv(btn, grp){{
 <div class="tab-pane active">{t0}</div>
 <div class="tab-pane">{t1}</div>
 <div class="tab-pane">{t2}</div>
+
+</div><!-- /.main-wrap -->
 
 <script>{js}</script>
 </body>
