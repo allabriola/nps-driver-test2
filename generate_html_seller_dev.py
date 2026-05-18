@@ -1398,87 +1398,129 @@ def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
               f" (<span style='{wow_cls}'>{wow_txt}</span>, {gap_txt})"
               f" com {surv:,} pesquisas{days_txt}.")
 
-    # ── 2. Seniority: Mix vs Skill ────────────────────────────────────
-    # Usa bd_curr para ambos: Sr_M1=atual, Sr_M2=anterior (correto para S1 e VIG)
+    # ── 2. Seniority — sempre mostrar Expert vs Newbie ───────────────
     sr_c = bd_curr.get("Sr_M1", {}) if bd_curr else {}
     sr_p = bd_curr.get("Sr_M2", {}) if bd_curr else {}
     sen_txt = ""
-    if sr_c and sr_p:
-        exp_c = sr_c.get("Expert",{}); exp_p = sr_p.get("Expert",{})
-        new_c = sr_c.get("Newbie",{}); new_p = sr_p.get("Newbie",{})
-        ed = round((exp_c.get("nps") or 0) - (exp_p.get("nps") or 0), 1) if exp_c.get("nps") and exp_p.get("nps") else None
-        nd = round((new_c.get("nps") or 0) - (new_p.get("nps") or 0), 1) if new_c.get("nps") and new_p.get("nps") else None
+    exp_c = sr_c.get("Expert",{}); exp_p = sr_p.get("Expert",{})
+    new_c = sr_c.get("Newbie",{}); new_p = sr_p.get("Newbie",{})
+    if exp_c.get("nps") is not None or new_c.get("nps") is not None:
         en = fn(exp_c.get("nps")); nn = fn(new_c.get("nps"))
         es = exp_c.get("s",0); ns_ = new_c.get("s",0)
-        if ed is not None and nd is not None:
-            if ed < -1.5 and nd < -1.5:
-                sen_txt = (f" Expert ({en}%, {ed:+.1f}pp) e Newbie ({nn}%, {nd:+.1f}pp) "
-                           f"recuaram juntos — padrão de problema no produto ou processo, não de capacitação.")
-            elif nd is not None and nd < -2 and (ed is None or ed > -1):
-                sen_txt = (f" Newbie ({nn}%, {nd:+.1f}pp, {ns_:,} pesq) concentra a queda enquanto "
-                           f"Expert manteve estabilidade ({en}%, {ed:+.1f}pp, {es:,} pesq) — "
-                           f"indicativo de gap de capacitação no perfil menos experiente.")
-            elif ed is not None and ed > 1.5:
-                sen_txt = (f" Expert ({en}%, {ed:+.1f}pp) liderou a melhora"
-                           + (f"; Newbie ({nn}%, {nd:+.1f}pp) acompanhou." if nd and nd > 0 else "."))
+        ed = round(exp_c["nps"]-exp_p["nps"],1) if exp_c.get("nps") and exp_p.get("nps") else None
+        nd = round(new_c["nps"]-new_p["nps"],1) if new_c.get("nps") and new_p.get("nps") else None
+        s_tot_sr = (es + ns_ + sr_c.get("Training",{}).get("s",0)) or 1
+        es_pct = round(100*es/s_tot_sr); ns_pct = round(100*ns_/s_tot_sr)
+        ed_str = f", {ed:+.1f}pp WoW" if ed is not None else ""
+        nd_str = f", {nd:+.1f}pp WoW" if nd is not None else ""
+        gap_sen = round(exp_c["nps"]-new_c["nps"],1) if exp_c.get("nps") and new_c.get("nps") else None
+        if gap_sen and gap_sen > 15 and (gap or 0) < 0:
+            sen_txt = (f" Gap de senioridade expressivo: Expert {en}% ({es_pct}%{ed_str}) vs "
+                       f"Newbie {nn}% ({ns_pct}%{nd_str}) — gap de <strong>{gap_sen}pp</strong>, "
+                       f"lacuna de capacitação.")
+        elif ed is not None and nd is not None and ed < -1.5 and nd < -1.5:
+            sen_txt = (f" Expert ({en}%{ed_str}) e Newbie ({nn}%{nd_str}) recuaram juntos — "
+                       f"padrão sistêmico, não de capacitação.")
+        else:
+            sen_txt = (f" Senioridade: Expert {en}% ({es_pct}%{ed_str}); "
+                       f"Newbie {nn}% ({ns_pct}%{nd_str}).")
 
-    # ── 3. Processos + Equipes com maior WoW ────────────────────────
-    # Usa bd_curr para ambos: M1=atual, M2=anterior
+    # ── 3. Canal (C2C vs CHAT) ───────────────────────────────────────
+    ch_c = bd_curr.get("C_M1", {}) if bd_curr else {}
+    ch_p = bd_curr.get("C_M2", {}) if bd_curr else {}
+    ch_norm = {"MULTICANAL CHAT":"CHAT","MULTICANAL C2C":"C2C","Chat":"CHAT","C2C":"C2C","CHAT":"CHAT"}
+    ch_agg = {}
+    for k,v in ch_c.items():
+        cn = ch_norm.get(k,k)
+        x = ch_agg.setdefault(cn, {"s":0,"nps":v.get("nps"),"s_p":0,"nps_p":None})
+        x["s"] += v.get("s",0)
+    for k,v in ch_p.items():
+        cn = ch_norm.get(k,k)
+        if cn in ch_agg:
+            ch_agg[cn]["s_p"] += v.get("s",0)
+            ch_agg[cn]["nps_p"] = v.get("nps")
+    ch_txt = ""
+    ch_sorted = sorted(ch_agg.items(), key=lambda x: -x[1]["s"])
+    if ch_sorted:
+        ch_parts = []
+        ch_tot = sum(v["s"] for _,v in ch_sorted) or 1
+        for cn, cv in ch_sorted[:3]:
+            if cv.get("nps") is None: continue
+            pct = round(100*cv["s"]/ch_tot)
+            wd = round(cv["nps"]-(cv["nps_p"] or cv["nps"]),1) if cv.get("nps_p") is not None else None
+            wd_str = f", {wd:+.1f}pp WoW" if wd is not None else ""
+            ch_parts.append(f"<strong>{cn}</strong>: {fn(cv['nps'])}% ({pct}%{wd_str})")
+        if ch_parts:
+            ch_txt = " Canal: " + "; ".join(ch_parts) + "."
+
+    # ── 4. Processos + Oficinas com maior impacto ────────────────────
     proc_m1 = bd_curr.get("P_M1", {}) if bd_curr else {}
     proc_m2 = bd_curr.get("P_M2", {}) if bd_curr else {}
+    off_m1  = bd_curr.get("O_M1", {}) if bd_curr else {}
+    off_m2  = bd_curr.get("O_M2", {}) if bd_curr else {}
 
-    # Equipe dominante para o resumo narrativo
-    team_m1 = bd_curr.get("T_M1", {}) if bd_curr else {}
-    team_m2 = bd_curr.get("T_M2", {}) if bd_curr else {}
-    team_txt = ""
-    if team_m1 and team_m2:
-        t_tot = sum(v["s"] for v in team_m1.values()) or 1
-        t_movers = [(t, round(v["nps"]-(team_m2[t]["nps"] if t in team_m2 and team_m2[t].get("nps") else v["nps"]),1),
-                     round(v["s"]/t_tot*100,1), v["nps"])
-                    for t,v in team_m1.items()
-                    if v.get("nps") is not None and t in team_m2 and team_m2[t].get("nps") is not None and v["s"]/t_tot>=0.05]
-        t_movers.sort(key=lambda x: x[1])
-        if t_movers and abs(t_movers[0][1]) > 2:
-            tm = t_movers[0]
-            team_txt = f" A equipe <strong>{esc(tm[0][:45])}</strong> registrou {tm[1]:+.1f}pp ({tm[2]:.0f}% do volume, NPS {fn(tm[3])}%)."
     proc_txt = ""
-    if proc_m1 and proc_m2:
+    if proc_m1:
         s_tot = sum(v["s"] for v in proc_m1.values()) or 1
         movers = []
         for proc, v1 in proc_m1.items():
-            v2 = proc_m2.get(proc)
-            if not v2 or v1.get("nps") is None or v2.get("nps") is None: continue
+            if v1.get("nps") is None: continue
             share = v1["s"] / s_tot
-            if share < 0.07: continue
-            pd = round(v1["nps"] - v2["nps"], 1)
-            if abs(pd) > 2:
-                movers.append((proc, pd, round(share*100,1), v1["nps"], v1["s"]))
-        movers.sort(key=lambda x: x[1])
+            if share < 0.05: continue
+            v2 = proc_m2.get(proc,{})
+            pd = round(v1["nps"] - v2["nps"], 1) if v2.get("nps") else None
+            movers.append((proc, pd, round(share*100,1), v1["nps"], v1["s"]))
+        movers.sort(key=lambda x: (x[1] or 0))
         parts = []
-        if movers and movers[0][1] < 0:
+        if movers:
             w = movers[0]
-            parts.append(f"<strong>{esc(w[0])}</strong> recuou {w[1]:.1f}pp ({w[2]:.0f}% do volume, NPS {fn(w[3])}%)")
-        if len(movers) > 1 and movers[-1][1] > 0:
+            wd_s = f" ({w[1]:+.1f}pp WoW)" if w[1] is not None else ""
+            parts.append(f"<strong>{esc(w[0])}</strong> {w[2]:.0f}% do vol, NPS {fn(w[3])}%{wd_s}")
+        if len(movers) > 1 and (movers[-1][1] or 0) > 1 and movers[-1] != movers[0]:
             b = movers[-1]
-            parts.append(f"<strong>{esc(b[0])}</strong> avançou +{b[1]:.1f}pp (NPS {fn(b[3])}%)")
+            bd_s = f" ({b[1]:+.1f}pp WoW)" if b[1] is not None else ""
+            parts.append(f"<strong>{esc(b[0])}</strong> {b[2]:.0f}% do vol, NPS {fn(b[3])}%{bd_s}")
         if parts:
-            proc_txt = " Nos processos: " + "; ".join(parts) + "." + team_txt
+            proc_txt = " Processos: " + "; ".join(parts) + "."
 
-    # ── 4. Contexto mensal ───────────────────────────────────────────
+    off_txt = ""
+    if off_m1:
+        o_tot = sum(v["s"] for v in off_m1.values()) or 1
+        offs = [(k, round(100*v["s"]/o_tot), v.get("nps"),
+                 round(v["nps"]-(off_m2.get(k,{}).get("nps") or v["nps"]),1) if off_m2.get(k,{}).get("nps") else None)
+                for k,v in sorted(off_m1.items(), key=lambda x: -x[1]["s"])[:3]
+                if v.get("nps") is not None]
+        if offs:
+            o_parts = [f"<strong>{k}</strong>: {fn(n)}% ({p}%{', '+f'{w:+.1f}pp' if w is not None else ''})"
+                       for k,p,n,w in offs[:2]]
+            off_txt = " Oficinas: " + "; ".join(o_parts) + "."
+
+    # ── 5. CDU do processo top (de _RC) ─────────────────────────────
+    cdu_txt = ""
+    rc_grp = _RC.get(grp, {})
+    cats_wk = rc_grp.get("categories_wk") or rc_grp.get("categories_mon") or []
+    if cats_wk:
+        top = cats_wk[0]
+        cdu_n = top.get("sub_pattern",""); cdu_pct = top.get("share_pct",0)
+        cdu_desc = (top.get("narrative","") or "").split(". ")[0]
+        top_proc = rc_grp.get("top_proc","")
+        if cdu_n and cdu_desc:
+            proc_str = f" ({esc(top_proc)})" if top_proc else ""
+            cdu_txt = (f" CDU{proc_str}: <strong>{esc(cdu_n)}</strong> ({cdu_pct}% das pesquisas) — {esc(cdu_desc)}.")
+
+    # ── 6. Contexto mensal ───────────────────────────────────────────
     m_series = grp_mon.get(grp, [])
     m_last   = next((v for v in reversed(m_series) if v is not None), None)
     m_lbl    = MONTH_LABELS[-1] if MONTH_LABELS else ""
-    ctx_txt  = (f" No acumulado de {esc(m_lbl)}, NPS em {fn(m_last)}%." if m_last else "")
+    ctx_txt  = (f" Acumulado {esc(m_lbl)}: NPS {fn(m_last)}%." if m_last else "")
 
-    # ── 5. Sinal prioritário ──────────────────────────────────────────
+    # ── 7. Sinal prioritário ──────────────────────────────────────────
     if gap is not None and gap < -5:
-        signal = f' <span style="color:#E84142;font-weight:600">&#9888; Abaixo do target — monitorar em {esc(lbl_curr)}.</span>'
-    elif is_vig and delta is not None and abs(delta) > 5:
-        signal = f' <span style="color:#F39C12;font-weight:600">Variação relevante WTD — verificar tendência no fechamento.</span>'
+        signal = f' <span style="color:#E84142;font-weight:600">&#9888; Abaixo do target — atenção.</span>'
     else:
         signal = ""
 
-    full_p = p_open + sen_txt + proc_txt + ctx_txt + signal
+    full_p = p_open + sen_txt + ch_txt + proc_txt + off_txt + cdu_txt + ctx_txt + signal
 
     # ── 6. Bullets diagnósticos (Processo | Seniority | Canal | Mix/Neto | Transcrições) ──
     trx_block = ""
