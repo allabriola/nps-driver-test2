@@ -101,6 +101,22 @@ for i, s1_lbl in enumerate(WEEK_LABELS):
     # ── Labels de mês: M1 e M2 corretos para o período ────────────────
     mod_src = re.sub(r'(M1_LABEL\s*=\s*)"[^"]*"', f'\\1"{m1_label}"', mod_src)
     mod_src = re.sub(r'(M2_LABEL\s*=\s*)"[^"]*"', f'\\1"{m2_label}"', mod_src)
+
+    # ── MONTH_LABELS: trunca até m1_key (mês atual do snapshot) ───────
+    # Garante que mon_cons[-1] = m1_key e mon_cons[-2] = m2_key
+    all_month_labels = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']
+    month_labels_until_m1 = [m for m in all_month_labels
+                              if all_month_labels.index(m) <= all_month_labels.index(m1_key)]
+    import json as _json_snap
+    mod_src = re.sub(r'(MONTH_LABELS\s*=\s*)\[.*?\]',
+                     f'\\1{_json_snap.dumps(month_labels_until_m1)}', mod_src)
+
+    # ── WEEK_LABELS: trunca até s1_lbl (semana atual do snapshot) ─────
+    # Garante que o gráfico de linha só vai até a semana selecionada
+    s1_idx_in_wk = WEEK_LABELS.index(s1_lbl) if s1_lbl in WEEK_LABELS else len(WEEK_LABELS)-1
+    week_labels_until_s1 = WEEK_LABELS[:s1_idx_in_wk+1]
+    mod_src = re.sub(r'(WEEK_LABELS\s*=\s*)\[.*?\]',
+                     f'\\1{_json_snap.dumps(week_labels_until_s1)}', mod_src)
     mod_src = re.sub(r'(VIG_LABEL\s*=\s*)"[^"]*"', f'\\1""',           mod_src)
     mod_src = re.sub(r'(REPORT_DATE\s*=\s*)"[^"]*"', f'\\1"{snap_date}"', mod_src)
 
