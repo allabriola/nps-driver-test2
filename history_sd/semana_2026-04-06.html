@@ -36,6 +36,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
 .wk-badge.vig { background:#F39C1233; color:#F39C12; border:1px solid #F39C1266; }
 .wk-badge.s1  { background:#3483FA22; color:#3483FA; border:1px solid #3483FA55; }
 .wk-badge.old { background:#2e3350; color:#7a8aaa; }
+.wk-sb-mon-toggle { cursor:pointer; user-select:none; justify-content:space-between !important; }
+.wk-sb-mon-toggle:hover { color:#a0b0cc; }
+.sb-mon-arrow { font-size:8px; opacity:.7; transition:transform .15s; }
+#wkVigEntry { border-left-color:#F39C12 !important; }
 
 /* ── Conteúdo principal deslocado ───────────────────────────────── */
 .main-content { margin-left:220px; min-height:100vh; }
@@ -292,7 +296,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
   </div>
   <div style="text-align:right;line-height:1.6">
     <div style="font-weight:700;font-size:13px;color:#fff">Dados at&#233; 18/05/2026</div>
-    <div style="font-size:11px;opacity:.8;color:#fff">Atualizado em 18/05/2026 &#224;s 13:04</div>
+    <div style="font-size:11px;opacity:.8;color:#fff">Atualizado em 18/05/2026 &#224;s 14:01</div>
   </div>
 </div>
 
@@ -514,79 +518,95 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
 
 <script>
 var _HIST_INLINE   = [{"label": "Semana 11/mai", "archived_at": "2026-05-18", "file": "semana_2026-05-11.html", "s1_label": "11/mai", "s2_label": "04/mai", "vig_label": "", "month": "Maio 2026", "nps_s1": 60.24, "most_recent": true, "has_sd": true}, {"label": "Semana 04/mai", "archived_at": "2026-05-18", "file": "semana_2026-05-04.html", "s1_label": "04/mai", "s2_label": "27/abr", "vig_label": "", "month": "Maio 2026", "nps_s1": 58.75, "most_recent": false, "has_sd": true}, {"label": "Semana 27/abr", "archived_at": "2026-05-18", "file": "semana_2026-04-27.html", "s1_label": "27/abr", "s2_label": "20/abr", "vig_label": "", "month": "Abril 2026", "nps_s1": 59.62, "most_recent": false, "has_sd": true}, {"label": "Semana 20/abr", "archived_at": "2026-05-18", "file": "semana_2026-04-20.html", "s1_label": "20/abr", "s2_label": "13/abr", "vig_label": "", "month": "Abril 2026", "nps_s1": 58.97, "most_recent": false, "has_sd": true}, {"label": "Semana 13/abr", "archived_at": "2026-05-18", "file": "semana_2026-04-13.html", "s1_label": "13/abr", "s2_label": "06/abr", "vig_label": "", "month": "Abril 2026", "nps_s1": 57.98, "most_recent": false, "has_sd": true}, {"label": "Semana 06/abr", "archived_at": "2026-05-18", "file": "semana_2026-04-06.html", "s1_label": "06/abr", "s2_label": "30/mar", "vig_label": "", "month": "Abril 2026", "nps_s1": 58.71, "most_recent": false, "has_sd": true}, {"label": "Semana 30/mar", "archived_at": "2026-05-18", "file": "semana_2026-03-30.html", "s1_label": "30/mar", "s2_label": "", "vig_label": "", "month": "Marco 2026", "nps_s1": 55.95, "most_recent": false, "has_sd": true}];
-var _MENSAL_INLINE = [{"label": "Abril 2026", "file": "mensal_2026-04.html", "nps_mes": 64.67, "surveys": 11039, "archived_at": "2026-04-30", "most_recent": true, "has_sd": true}];
+var _MENSAL_INLINE = [{"label": "Maio 2026", "file": "mensal_2026-05.html", "month_label": "Maio 2026", "prev_label": "Abril 2026", "nps_mes": 65.42, "surveys": 5821, "archived_at": "2026-05-18", "most_recent": true, "has_sd": true}, {"label": "Abril 2026", "file": "mensal_2026-04.html", "nps_mes": 64.67, "surveys": 11039, "archived_at": "2026-04-30", "most_recent": false, "has_sd": true}];
 var _GHPAGES_BASE  = "https://allabriola.github.io/nps-driver-test2/";
 var _VIG_LABEL     = "";
+var _VIG_NPS       = null;
 var _S1_LABEL      = "06/abr";
 var _M1_LABEL      = "Abril 2026";
 
 // ── Sidebar de semanas ────────────────────────────────────────────
 (function buildSidebar(){
-  // Só constrói se não estiver dentro de um snapshot (URL com history_sd)
   if (window.location.pathname.indexOf('history_sd') >= 0 ||
       window.location.pathname.indexOf('history/') >= 0) return;
-
   var nav = document.getElementById('wkNav');
   if (!nav) return;
 
-  // Itens: período atual + snapshots históricos
+  var html = '';
+
+  // ── Semana Vigente (topo) ────────────────────────────────────────
+  if (_VIG_LABEL) {
+    var vigNpsHtml = (_VIG_NPS !== null)
+      ? '<div class="wk-nps">NPS ' + String(_VIG_NPS).replace('.',',') + '%</div>'
+      : '<div class="wk-nps" style="color:#F39C12">dados em andamento</div>';
+    html += '<div class="wk-sb-month" style="display:flex;justify-content:space-between;align-items:center">Semana Vigente</div>';
+    html += '<div class="wk-sb-week active" id="wkVigEntry" data-file="" data-lbl="Semana Vigente" onclick="wkClick(this)">'
+         +  '<div style="flex:1"><div class="wk-lbl">&#9889; ' + _VIG_LABEL + '</div>' + vigNpsHtml + '</div>'
+         +  '<span class="wk-badge vig">VIG</span>'
+         +  '</div>';
+    html += '<div style="height:6px;margin:4px 0;border-bottom:1px solid #2e3350"></div>';
+  }
+
+  // ── Semanas Fechadas (por mês, colapsáveis) ──────────────────────
   var months = {};
-  function addItem(mon, lbl, badge, file, nps){
-    if (!months[mon]) months[mon] = [];
-    months[mon].push({lbl:lbl, badge:badge, file:file||'', nps:nps});
-  }
-
-  // Período atual (sem arquivo — mostra dashboard ao vivo)
-  addItem(_M1_LABEL||'Atual', _S1_LABEL||'S1 Fechada', 's1', '', null);
-
-  // Snapshots semanais
   (_HIST_INLINE||[]).forEach(function(e){
-    addItem(e.month||'Anterior', e.label||e.s1_label, 'old', e.file, e.nps_s1);
+    var mon = e.month || 'Anterior';
+    if (!months[mon]) months[mon] = [];
+    months[mon].push({lbl: e.label||e.s1_label, file: e.file||'', nps: e.nps_s1});
   });
 
-  // Fechamentos mensais (seção separada)
-  if (_MENSAL_INLINE && _MENSAL_INLINE.length) {
-    months['__mensal__'] = [];
-    (_MENSAL_INLINE||[]).forEach(function(e){
-      months['__mensal__'].push({lbl:e.label, badge:'mes', file:e.file||'', nps:e.nps_mes, surv:e.surveys});
-    });
-  }
-
-  var html = '', first = true;
-  // Renderiza semanas primeiro, depois fechamentos mensais
-  var monthKeys = Object.keys(months).filter(function(k){ return k !== '__mensal__'; });
-  var mensalItems = months['__mensal__'] || [];
-
-  monthKeys.forEach(function(mon){
-    html += '<div class="wk-sb-month">' + mon + '</div>';
-    months[mon].forEach(function(it, idx){
-      var isActive = (idx===0 && first) ? ' active' : '';
-      var badgeHtml = it.badge==='s1'
-        ? '<span class="wk-badge s1">S1 ✓</span>'
-        : '<span class="wk-badge old">S1</span>';
+  var monthKeys = Object.keys(months);
+  monthKeys.forEach(function(mon, idx){
+    var isFirst = (idx === 0);
+    var monId   = 'sbmon_' + idx;
+    var arrow   = isFirst ? '&#9660;' : '&#9654;';
+    html += '<div class="wk-sb-month wk-sb-mon-toggle" data-mon="' + monId + '" onclick="toggleSbMonth(this)">'
+         +  '<span>' + mon + '</span>'
+         +  '<span class="sb-mon-arrow">' + arrow + '</span>'
+         +  '</div>';
+    html += '<div id="' + monId + '" class="sb-month-items"' + (isFirst ? '' : ' style="display:none"') + '>';
+    months[mon].forEach(function(it){
       var npsHtml = it.nps ? '<div class="wk-nps">NPS ' + it.nps.toFixed(1).replace('.',',') + '%</div>' : '';
-      html += '<div class="wk-sb-week' + isActive + '" data-file="' + encodeURIComponent(it.file) + '" data-lbl="' + it.lbl + '" onclick="wkClick(this)">'
-           + '<div style="flex:1"><div class="wk-lbl">' + it.lbl + '</div>' + npsHtml + '</div>'
-           + badgeHtml + '</div>';
+      html += '<div class="wk-sb-week" data-file="' + encodeURIComponent(it.file) + '" data-lbl="' + it.lbl + '" onclick="wkClick(this)">'
+           +  '<div style="flex:1"><div class="wk-lbl">' + it.lbl + '</div>' + npsHtml + '</div>'
+           +  '<span class="wk-badge old">S1</span>'
+           +  '</div>';
     });
-    first = false;
+    html += '</div>';
   });
 
-  // Seção Fechamentos Mensais
-  if (mensalItems.length) {
-    html += '<div class="wk-sb-month" style="margin-top:8px;border-top:1px solid #2e3350;padding-top:10px">Fechamentos Mensais</div>';
-    mensalItems.forEach(function(it){
-      var npsHtml = it.nps ? '<div class="wk-nps">NPS ' + it.nps.toFixed(1).replace('.',',') + '%'
-        + (it.surv ? ' &middot; ' + it.surv.toLocaleString() + ' enc' : '') + '</div>' : '';
-      html += '<div class="wk-sb-week" data-file="' + encodeURIComponent(it.file) + '" data-lbl="' + it.lbl + '" onclick="wkClick(this)">'
-           + '<div style="flex:1"><div class="wk-lbl">' + it.lbl + '</div>' + npsHtml + '</div>'
-           + '<span class="wk-badge" style="background:#00A65022;color:#00A650;border:1px solid #00A65055">M&#202;S</span>'
-           + '</div>';
+  // ── Fechamentos Mensais (colapsável) ─────────────────────────────
+  if (_MENSAL_INLINE && _MENSAL_INLINE.length) {
+    html += '<div style="height:6px;margin:4px 0;border-top:1px solid #2e3350"></div>';
+    html += '<div class="wk-sb-month wk-sb-mon-toggle" data-mon="sbmon_mensal" onclick="toggleSbMonth(this)">'
+         +  '<span>Fechamentos Mensais</span><span class="sb-mon-arrow">&#9654;</span></div>';
+    html += '<div id="sbmon_mensal" class="sb-month-items" style="display:none">';
+    (_MENSAL_INLINE||[]).forEach(function(it){
+      var npsHtml = it.nps_mes ? '<div class="wk-nps">NPS ' + it.nps_mes.toFixed(1).replace('.',',') + '%</div>' : '';
+      html += '<div class="wk-sb-week" data-file="' + encodeURIComponent(it.file||'') + '" data-lbl="' + it.label + '" onclick="wkClick(this)">'
+           +  '<div style="flex:1"><div class="wk-lbl">' + it.label + '</div>' + npsHtml + '</div>'
+           +  '<span class="wk-badge" style="background:#00A65022;color:#00A650;border:1px solid #00A65055">M&#202;S</span>'
+           +  '</div>';
     });
+    html += '</div>';
   }
 
   nav.innerHTML = html;
 })();
+
+function toggleSbMonth(header){
+  var id    = header.getAttribute('data-mon');
+  var items = document.getElementById(id);
+  var arrow = header.querySelector('.sb-mon-arrow');
+  if (!items) return;
+  if (items.style.display === 'none') {
+    items.style.display = '';
+    arrow.innerHTML = '&#9660;';
+  } else {
+    items.style.display = 'none';
+    arrow.innerHTML = '&#9654;';
+  }
+}
 
 function wkClick(el){
   document.querySelectorAll('.wk-sb-week').forEach(function(w){w.classList.remove('active');});
@@ -594,14 +614,13 @@ function wkClick(el){
   var file = decodeURIComponent(el.getAttribute('data-file')||'');
   var lbl  = el.getAttribute('data-lbl')||'';
   if (!file) { wkBack(); return; }
-  // Abre snapshot no viewer
   var viewer = document.getElementById('wkViewer');
   var frame  = document.getElementById('wkFrame');
   var main   = document.getElementById('mainContent');
   document.getElementById('wkTitle').textContent = lbl;
   viewer.classList.add('open');
   main.style.display = 'none';
-  frame.src = _GHPAGES_BASE + 'history_sd/' + file;
+  frame.src = _GHPAGES_BASE + 'history_sd/' + file + '?t=' + Date.now();
 }
 
 function wkBack(){
@@ -611,12 +630,10 @@ function wkBack(){
   viewer.classList.remove('open');
   main.style.display = '';
   frame.src = 'about:blank';
-  // Marca primeira semana como ativa
-  var first = document.querySelector('.wk-sb-week');
-  if (first){
-    document.querySelectorAll('.wk-sb-week').forEach(function(w){w.classList.remove('active');});
-    first.classList.add('active');
-  }
+  document.querySelectorAll('.wk-sb-week').forEach(function(w){w.classList.remove('active');});
+  var vigEntry = document.getElementById('wkVigEntry');
+  if (vigEntry) vigEntry.classList.add('active');
+  else { var first = document.querySelector('.wk-sb-week'); if (first) first.classList.add('active'); }
 }
 
 // Esconde sidebar se estiver dentro de snapshot

@@ -7,7 +7,7 @@
     "s2_label": "04/mai",
     "vig_label": "",
     "month": "Maio 2026",
-    "nps_s1": 60.24,
+    "nps_s1": 67.29,
     "most_recent": true,
     "has_sd": true
   },
@@ -19,7 +19,7 @@
     "s2_label": "27/abr",
     "vig_label": "",
     "month": "Maio 2026",
-    "nps_s1": 58.75,
+    "nps_s1": 63.03,
     "most_recent": false,
     "has_sd": true
   },
@@ -31,7 +31,7 @@
     "s2_label": "20/abr",
     "vig_label": "",
     "month": "Abril 2026",
-    "nps_s1": 59.62,
+    "nps_s1": 64.03,
     "most_recent": false,
     "has_sd": true
   },
@@ -43,7 +43,7 @@
     "s2_label": "13/abr",
     "vig_label": "",
     "month": "Abril 2026",
-    "nps_s1": 58.97,
+    "nps_s1": 64.99,
     "most_recent": false,
     "has_sd": true
   },
@@ -55,7 +55,7 @@
     "s2_label": "06/abr",
     "vig_label": "",
     "month": "Abril 2026",
-    "nps_s1": 57.98,
+    "nps_s1": 64.58,
     "most_recent": false,
     "has_sd": true
   },
@@ -67,7 +67,7 @@
     "s2_label": "30/mar",
     "vig_label": "",
     "month": "Abril 2026",
-    "nps_s1": 58.71,
+    "nps_s1": 65.39,
     "most_recent": false,
     "has_sd": true
   },
@@ -79,7 +79,7 @@
     "s2_label": "",
     "vig_label": "",
     "month": "Marco 2026",
-    "nps_s1": 55.95,
+    "nps_s1": 62.63,
     "most_recent": false,
     "has_sd": true
   }

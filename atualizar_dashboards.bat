@@ -80,15 +80,28 @@ if %errorlevel% equ 0 (
     echo [%date% %time%] NPS Tendencias Seller Dev: ERRO (codigo %errorlevel%) >> "%LOG%"
 )
 
-:: 7 - Snapshot semanal (somente segunda-feira, DOW=1)
+:: 7 - Snapshot mensal parcial (diario - mantem Maio MTD atualizado)
+echo [%date% %time%] Atualizando snapshot mensal MTD... >> "%LOG%"
+python _save_monthly_snapshot.py >> "%LOG%" 2>&1
+if %errorlevel% equ 0 (
+    git add history_sd/mensal_*.html history_sd/mensal_index.json >> "%LOG%" 2>&1
+    git commit -m "Auto-update snapshot mensal MTD - %date%" >> "%LOG%" 2>&1
+    git push origin main >> "%LOG%" 2>&1
+    echo [%date% %time%] Snapshot mensal: OK >> "%LOG%"
+) else (
+    echo [%date% %time%] Snapshot mensal: ERRO (codigo %errorlevel%) >> "%LOG%"
+)
+
+:: 8 - Snapshot semanal (somente segunda-feira, DOW=1)
 if "%DOW%"=="1" (
-    echo [%date% %time%] Segunda-feira: salvando snapshot semanal... >> "%LOG%"
+    echo [%date% %time%] Segunda-feira: salvando snapshots e gerando semanas fechadas... >> "%LOG%"
     python _save_snapshot.py >> "%LOG%" 2>&1
+    python _generate_weekly_snapshots.py >> "%LOG%" 2>&1
     if %errorlevel% equ 0 (
         :: Regera SD para embutir history atualizado e faz push
         python generate_html_seller_dev.py >> "%LOG%" 2>&1
-        git add history/index.json history/semana_*.html nps_tendencias_gerencia.html nps_tendencias_seller_dev.html >> "%LOG%" 2>&1
-        git commit -m "Auto-snapshot semanal - %date%" >> "%LOG%" 2>&1
+        git add history/ history_sd/ nps_tendencias_gerencia.html nps_tendencias_seller_dev.html >> "%LOG%" 2>&1
+        git commit -m "Auto-snapshot semanal + semanas fechadas - %date%" >> "%LOG%" 2>&1
         git push origin main >> "%LOG%" 2>&1
         echo [%date% %time%] Snapshot semanal: OK >> "%LOG%"
     ) else (

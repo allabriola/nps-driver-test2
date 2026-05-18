@@ -1,10 +1,20 @@
 [
   {
+    "label": "Maio 2026",
+    "file": "mensal_2026-05.html",
+    "month_label": "Maio 2026",
+    "prev_label": "Abril 2026",
+    "nps_mes": 65.42,
+    "surveys": 5821,
+    "archived_at": "2026-05-18",
+    "most_recent": true
+  },
+  {
     "label": "Abril 2026",
     "file": "mensal_2026-04.html",
     "nps_mes": 64.67,
     "surveys": 11039,
     "archived_at": "2026-04-30",
-    "most_recent": true
+    "most_recent": false
   }
 ]

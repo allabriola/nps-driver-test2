@@ -45,10 +45,14 @@ def lbl_to_month(lbl):
         return f"{MON_NAMES.get(mon, mon.capitalize())} 2026"
     return "2026"
 
+_SD_DRIVERS = ['Experiencia Impositiva Seller Dev','ME Vendedor Seller Dev',
+               'PCF Vendedor Seller Dev','Post Venta Seller Dev',
+               'Publicaciones Seller Dev','Partners']
+
 def cons_nps_wk(lbl):
-    tp = sum(weekly_history[d].get(lbl,(0,0,0))[0] for d in weekly_history)
-    td = sum(weekly_history[d].get(lbl,(0,0,0))[1] for d in weekly_history)
-    ts = sum(weekly_history[d].get(lbl,(0,0,0))[2] for d in weekly_history)
+    tp = sum(weekly_history.get(d,{}).get(lbl,(0,0,0))[0] for d in _SD_DRIVERS)
+    td = sum(weekly_history.get(d,{}).get(lbl,(0,0,0))[1] for d in _SD_DRIVERS)
+    ts = sum(weekly_history.get(d,{}).get(lbl,(0,0,0))[2] for d in _SD_DRIVERS)
     return round(100*(tp-td)/ts, 2) if ts > 0 else None, ts
 
 # ── Carrega index existente ────────────────────────────────────────────
@@ -95,12 +99,12 @@ for i, s1_lbl in enumerate(WEEK_LABELS):
     mod_src = gerencia_src
 
     # ── Labels de semana ──────────────────────────────────────────────
-    mod_src = re.sub(r'(S1_LABEL\s*=\s*)"[^"]*"',  f'\\1"{s1_lbl}"',  mod_src)
-    mod_src = re.sub(r'(S2_LABEL\s*=\s*)"[^"]*"',  f'\\1"{s2_lbl}"',  mod_src)
+    mod_src = re.sub(r'(S1_LABEL\s*=\s*)"[^"]*"',  r'\g<1>"' + s1_lbl + '"',  mod_src)
+    mod_src = re.sub(r'(S2_LABEL\s*=\s*)"[^"]*"',  r'\g<1>"' + s2_lbl + '"',  mod_src)
 
     # ── Labels de mês: M1 e M2 corretos para o período ────────────────
-    mod_src = re.sub(r'(M1_LABEL\s*=\s*)"[^"]*"', f'\\1"{m1_label}"', mod_src)
-    mod_src = re.sub(r'(M2_LABEL\s*=\s*)"[^"]*"', f'\\1"{m2_label}"', mod_src)
+    mod_src = re.sub(r'(M1_LABEL\s*=\s*)"[^"]*"', r'\g<1>"' + m1_label + '"', mod_src)
+    mod_src = re.sub(r'(M2_LABEL\s*=\s*)"[^"]*"', r'\g<1>"' + m2_label + '"', mod_src)
 
     # ── MONTH_LABELS: trunca até m1_key (mês atual do snapshot) ───────
     # Garante que mon_cons[-1] = m1_key e mon_cons[-2] = m2_key
@@ -109,16 +113,16 @@ for i, s1_lbl in enumerate(WEEK_LABELS):
                               if all_month_labels.index(m) <= all_month_labels.index(m1_key)]
     import json as _json_snap
     mod_src = re.sub(r'(MONTH_LABELS\s*=\s*)\[.*?\]',
-                     f'\\1{_json_snap.dumps(month_labels_until_m1)}', mod_src)
+                     r'\g<1>' + _json_snap.dumps(month_labels_until_m1), mod_src)
 
     # ── WEEK_LABELS: trunca até s1_lbl (semana atual do snapshot) ─────
     # Garante que o gráfico de linha só vai até a semana selecionada
     s1_idx_in_wk = WEEK_LABELS.index(s1_lbl) if s1_lbl in WEEK_LABELS else len(WEEK_LABELS)-1
     week_labels_until_s1 = WEEK_LABELS[:s1_idx_in_wk+1]
     mod_src = re.sub(r'(WEEK_LABELS\s*=\s*)\[.*?\]',
-                     f'\\1{_json_snap.dumps(week_labels_until_s1)}', mod_src)
-    mod_src = re.sub(r'(VIG_LABEL\s*=\s*)"[^"]*"', f'\\1""',           mod_src)
-    mod_src = re.sub(r'(REPORT_DATE\s*=\s*)"[^"]*"', f'\\1"{snap_date}"', mod_src)
+                     r'\g<1>' + _json_snap.dumps(week_labels_until_s1), mod_src)
+    mod_src = re.sub(r'(VIG_LABEL\s*=\s*)"[^"]*"',    r'\g<1>""',              mod_src)
+    mod_src = re.sub(r'(REPORT_DATE\s*=\s*)"[^"]*"', r'\g<1>"' + snap_date + '"', mod_src)
 
     # ── weekly_driver: usa dados da semana histórica correta ──────────
     # Constrói novo bloco weekly_driver com S1=s1_lbl, S2=s2_lbl
@@ -267,17 +271,30 @@ for i, s1_lbl in enumerate(WEEK_LABELS):
         json.dump(mb_mod, f, ensure_ascii=False)
 
     # Salva com backup
-    bak_path = os.path.join(BASE_DIR, '_gerencia_bak.py')
+    bak_path    = os.path.join(BASE_DIR, '_gerencia_bak.py')
+    bak_exec_m  = os.path.join(BASE_DIR, '_exec_summary_sd_bak.html')
+    bak_exec_wk = os.path.join(BASE_DIR, '_exec_summary_wk_sd_bak.html')
+    exec_m_path  = os.path.join(BASE_DIR, '_exec_summary_sd.html')
+    exec_wk_path = os.path.join(BASE_DIR, '_exec_summary_wk_sd.html')
+
     shutil.copy2(os.path.join(BASE_DIR, 'generate_html_gerencia.py'), bak_path)
+    if os.path.exists(exec_m_path):  shutil.copy2(exec_m_path,  bak_exec_m)
+    if os.path.exists(exec_wk_path): shutil.copy2(exec_wk_path, bak_exec_wk)
+
     with open(os.path.join(BASE_DIR, 'generate_html_gerencia.py'), 'w', encoding='utf-8') as f:
         f.write(mod_src)
 
+    exec_sd_path = os.path.join(BASE_DIR, '_build_exec_sd.py')
+
     try:
-        # Roda generate_html_seller_dev.py com OUTPUT redirecionado para history_sd/
-        # Usa um script auxiliar mínimo
+        # Gera exec summaries para este período histórico, depois monta o HTML
         helper = f"""
-import sys
+import sys, subprocess
 sys.path.insert(0, r'{BASE_DIR}')
+# Gera resumo executivo para o período do snapshot
+subprocess.run([sys.executable, r'{exec_sd_path}'],
+    capture_output=True, cwd=r'{BASE_DIR}')
+# Monta snapshot
 import generate_html_seller_dev as gsd
 html = gsd.build()
 with open(r'{snap_path}', 'w', encoding='utf-8') as f:
@@ -286,7 +303,7 @@ print("OK")
 """
         result = subprocess.run(
             [sys.executable, '-c', helper],
-            capture_output=True, text=True, timeout=120,
+            capture_output=True, text=True, timeout=180,
             cwd=BASE_DIR
         )
         if result.returncode == 0:
@@ -306,7 +323,7 @@ print("OK")
             index = [e for e in index if e.get("file") != snap_name]
             index.append(ent)
         else:
-            print(f"    ERRO: {result.stderr[:200]}")
+            print(f"    ERRO: {result.stderr[:300]}")
     except Exception as e:
         print(f"    EXCEÇÃO: {e}")
     finally:
@@ -322,6 +339,12 @@ print("OK")
         if os.path.exists(bak_mb):
             shutil.copy2(bak_mb, mb_path)
             os.remove(bak_mb)
+        if os.path.exists(bak_exec_m):
+            shutil.copy2(bak_exec_m, exec_m_path)
+            os.remove(bak_exec_m)
+        if os.path.exists(bak_exec_wk):
+            shutil.copy2(bak_exec_wk, exec_wk_path)
+            os.remove(bak_exec_wk)
 
 # ── Atualiza index ────────────────────────────────────────────────────
 index.sort(key=lambda e: e.get("file",""), reverse=True)
