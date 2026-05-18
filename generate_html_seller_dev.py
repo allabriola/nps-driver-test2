@@ -3054,14 +3054,25 @@ def build():
     t1 = _tab_mensal()
     t2 = _tab_semanal()
 
-    # Embutir history/index.json inline para funcionar no Grid (sem fetch relativo)
+    # Embutir history_sd/index.json inline (snapshots seller dev específicos)
     _GHPAGES_BASE = "https://allabriola.github.io/nps-driver-test2/"
-    _hist_inline = "[]"
-    import os as _os_hist
-    _hist_path = _os_hist.path.join(_os_hist.path.dirname(_os_hist.path.abspath(__file__)), "history", "index.json")
+    import os as _os_hist, json as _json_hist
+    _base_dir = _os_hist.path.dirname(_os_hist.path.abspath(__file__))
+
+    # Quais arquivos existem em history_sd/
+    _sd_dir = _os_hist.path.join(_base_dir, "history_sd")
+    _sd_files = set(_os_hist.listdir(_sd_dir)) if _os_hist.path.exists(_sd_dir) else set()
+
+    # Carrega history/index.json (snapshots com NPS) e marca quais têm arquivo sd
+    _hist_path = _os_hist.path.join(_base_dir, "history", "index.json")
+    _hist_items = []
     if _os_hist.path.exists(_hist_path):
         with open(_hist_path, encoding="utf-8") as _fh:
-            _hist_inline = _fh.read().strip()
+            _hist_items = _json_hist.load(_fh)
+    # Adiciona flag has_sd para cada entrada
+    for _hi in _hist_items:
+        _hi["has_sd"] = _hi.get("file","") in _sd_files
+    _hist_inline = _json_hist.dumps(_hist_items)
 
 
     # Sidebar: histrico de semanas com NPS
@@ -3081,7 +3092,8 @@ def build():
         _td = sum(weekly_history[d].get(_wlbl,(0,0,0))[1] for d in ALL_DRIVERS)
         _ts = sum(weekly_history[d].get(_wlbl,(0,0,0))[2] for d in ALL_DRIVERS)
         _n  = round(100*(_tp-_td)/_ts, 1) if _ts > 0 else None
-        _wk_hist_items.append({'lbl': _wlbl, 'month': _wk_to_month(_wlbl), 'nps': _n, 's': _ts})
+        # Label padronizado: "Semana XX/XX" para consistência com os snapshots
+        _wk_hist_items.append({'lbl': f"Semana {_wlbl}", 'month': _wk_to_month(_wlbl), 'nps': _n, 's': _ts})
     _wk_hist_json = _json.dumps(_wk_hist_items)
 
     js = f"""
@@ -3111,9 +3123,11 @@ function buildSidebar() {{
   add(_M1_LABEL||'Atual', _VIG_LABEL||'VIG Atual', 'vig', '', null, 0);
   add(_M1_LABEL||'Atual', _S1_LABEL||'S1 Fechada', 's1', '', null, 0);
 
-  // Snapshots históricos (têm arquivo)
+  // Snapshots históricos
   (_HIST_INLINE||[]).forEach(function(e) {{
-    add(e.month||'Anterior', e.label, 'snap', e.file, e.nps_s1, 0);
+    // has_sd=true → carrega no viewer; has_sd=false → mostra card com NPS
+    var badge = e.has_sd ? 'snap' : 'nosnap';
+    add(e.month||'Anterior', e.label, badge, e.has_sd ? e.file : '', e.nps_s1, 0);
   }});
 
   // Semanas do weekly_history — adiciona as que não foram cobertas acima
@@ -3135,8 +3149,8 @@ function buildSidebar() {{
     var wh='';
     mits.forEach(function(it,idx) {{
       var act=(idx===0&&first)?' active':'';
-      var bc=it.badge==='vig'?'vig':it.badge==='s1'?'s1':it.badge==='snap'?'s1':'hist';
-      var bt=it.badge==='vig'?'VIG':it.badge==='s1'?'S1 ✓':it.badge==='snap'?'S1':'WTD';
+      var bc=it.badge==='vig'?'vig':it.badge==='s1'?'s1':(it.badge==='snap'||it.badge==='nosnap')?'s1':'hist';
+      var bt=it.badge==='vig'?'VIG':it.badge==='s1'?'S1 ✓':(it.badge==='snap'||it.badge==='nosnap')?'S1':'WTD';
       var nstr=(it.nps!=null)?'<br><span style="font-size:10px;color:#7a8aaa">'+it.nps.toFixed(1).replace('.',',')+' %</span>':'';
       var sstr=(it.surv>0)?'<br><span style="font-size:10px;color:#556">'+it.surv.toLocaleString()+' enc</span>':'';
       var fenc=encodeURIComponent(it.file);
@@ -3180,24 +3194,27 @@ function sbClick(el) {{
   title.textContent = lbl;
 
   if (f) {{
-    // Tem snapshot: carrega no iframe
+    // Tem snapshot seller dev: carrega no iframe
     frame.style.display = '';
     nosnap.style.display = 'none';
     frame.src = _GHPAGES_BASE + 'history_sd/' + f;
   }} else {{
-    // Sem snapshot: mostra painel com dados do _WK_HIST
+    // Sem snapshot sd: mostra card com NPS disponível
     frame.style.display = 'none';
     nosnap.style.display = 'flex';
-    var wkLabel = lbl.replace('Semana ','').trim();
-    var wkData  = _WK_HIST.find(function(w){{ return w.lbl === wkLabel; }});
-    document.getElementById('hvNosnapTitle').textContent = 'Semana ' + wkLabel;
-    if (wkData && wkData.nps != null) {{
-      document.getElementById('hvNosnapNps').textContent  = wkData.nps.toFixed(1).replace('.',',') + '%';
-      document.getElementById('hvNosnapSurv').textContent = wkData.s.toLocaleString() + ' pesquisas';
+    document.getElementById('hvNosnapTitle').textContent = lbl;
+    // Tenta NPS do _HIST_INLINE primeiro, depois do _WK_HIST
+    var npsVal = null, survVal = 0;
+    var hiEntry = (_HIST_INLINE||[]).find(function(e){{ return e.label === lbl; }});
+    if (hiEntry && hiEntry.nps_s1 != null) {{
+      npsVal = hiEntry.nps_s1; survVal = 0;
     }} else {{
-      document.getElementById('hvNosnapNps').textContent  = '—';
-      document.getElementById('hvNosnapSurv').textContent = '';
+      var wkLabel = lbl.replace('Semana ','').trim();
+      var wkEntry = _WK_HIST.find(function(w){{ return w.lbl === wkLabel; }});
+      if (wkEntry) {{ npsVal = wkEntry.nps; survVal = wkEntry.s; }}
     }}
+    document.getElementById('hvNosnapNps').textContent  = npsVal != null ? npsVal.toFixed(1).replace('.',',')+'%' : '—';
+    document.getElementById('hvNosnapSurv').textContent = survVal > 0 ? survVal.toLocaleString()+' pesquisas' : '';
   }}
 }}
 

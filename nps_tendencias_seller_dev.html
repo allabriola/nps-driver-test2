@@ -325,7 +325,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
   </div>
   <div style="text-align:right;line-height:1.6">
     <div style="font-weight:700;font-size:13px;color:#fff">Dados at&#233; 18/05/2026</div>
-    <div style="font-size:11px;opacity:.8;color:#fff">Atualizado em 18/05/2026 &#224;s 09:39</div>
+    <div style="font-size:11px;opacity:.8;color:#fff">Atualizado em 18/05/2026 &#224;s 09:44</div>
   </div>
 </div>
 
@@ -695,46 +695,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
 </div><!-- /.main-wrap -->
 
 <script>
-var _HIST_INLINE  = [
-  {
-    "label": "Semana 11/mai – 17/mai",
-    "archived_at": "2026-05-18",
-    "file": "semana_2026-05-11.html",
-    "s1_label": "11/mai – 17/mai",
-    "s2_label": "04/mai – 10/mai",
-    "vig_label": "18/mai – 18/mai",
-    "month": "Maio 2026",
-    "nps_s1": 66.33,
-    "most_recent": true
-  },
-  {
-    "label": "Semana 04/mai – 10/mai",
-    "archived_at": "2026-05-11",
-    "file": "semana_2026-05-04.html",
-    "s1_label": "04/mai – 10/mai",
-    "s2_label": "27/abr – 03/mai",
-    "vig_label": "11/mai – 11/mai",
-    "month": "Maio 2026",
-    "nps_s1": 64.35,
-    "most_recent": false
-  },
-  {
-    "label": "Semana 27/abr – 03/mai",
-    "archived_at": "2026-05-11",
-    "file": "semana_2026-04-27.html",
-    "s1_label": "27/abr – 03/mai",
-    "s2_label": "20/abr – 26/abr",
-    "vig_label": "04/mai – 08/mai",
-    "month": "Maio 2026",
-    "nps_s1": 65.08,
-    "most_recent": false
-  }
-];
+var _HIST_INLINE  = [{"label": "Semana 11/mai \u2013 17/mai", "archived_at": "2026-05-18", "file": "semana_2026-05-11.html", "s1_label": "11/mai \u2013 17/mai", "s2_label": "04/mai \u2013 10/mai", "vig_label": "18/mai \u2013 18/mai", "month": "Maio 2026", "nps_s1": 66.33, "most_recent": true, "has_sd": true}, {"label": "Semana 04/mai \u2013 10/mai", "archived_at": "2026-05-11", "file": "semana_2026-05-04.html", "s1_label": "04/mai \u2013 10/mai", "s2_label": "27/abr \u2013 03/mai", "vig_label": "11/mai \u2013 11/mai", "month": "Maio 2026", "nps_s1": 64.35, "most_recent": false, "has_sd": false}, {"label": "Semana 27/abr \u2013 03/mai", "archived_at": "2026-05-11", "file": "semana_2026-04-27.html", "s1_label": "27/abr \u2013 03/mai", "s2_label": "20/abr \u2013 26/abr", "vig_label": "04/mai \u2013 08/mai", "month": "Maio 2026", "nps_s1": 65.08, "most_recent": false, "has_sd": false}];
 var _GHPAGES_BASE = "https://allabriola.github.io/nps-driver-test2/";
 var _VIG_LABEL    = "18/mai – 18/mai";
 var _S1_LABEL     = "11/mai – 17/mai";
 var _M1_LABEL     = "Maio 2026";
-var _WK_HIST      = [{"lbl": "30/mar", "month": "Marco 2026", "nps": 62.6, "s": 2320}, {"lbl": "06/abr", "month": "Abril 2026", "nps": 65.4, "s": 3054}, {"lbl": "13/abr", "month": "Abril 2026", "nps": 64.6, "s": 2583}, {"lbl": "20/abr", "month": "Abril 2026", "nps": 65.0, "s": 2311}, {"lbl": "27/abr", "month": "Abril 2026", "nps": 64.0, "s": 2352}, {"lbl": "04/mai", "month": "Maio 2026", "nps": 67.3, "s": 2580}, {"lbl": "11/mai", "month": "Maio 2026", "nps": 67.3, "s": 2580}];
+var _WK_HIST      = [{"lbl": "Semana 30/mar", "month": "Marco 2026", "nps": 62.6, "s": 2320}, {"lbl": "Semana 06/abr", "month": "Abril 2026", "nps": 65.4, "s": 3054}, {"lbl": "Semana 13/abr", "month": "Abril 2026", "nps": 64.6, "s": 2583}, {"lbl": "Semana 20/abr", "month": "Abril 2026", "nps": 65.0, "s": 2311}, {"lbl": "Semana 27/abr", "month": "Abril 2026", "nps": 64.0, "s": 2352}, {"lbl": "Semana 04/mai", "month": "Maio 2026", "nps": 67.3, "s": 2580}, {"lbl": "Semana 11/mai", "month": "Maio 2026", "nps": 67.3, "s": 2580}];
 
 function buildSidebar() {
   var nav = document.getElementById('sidebarNav');
@@ -755,9 +721,11 @@ function buildSidebar() {
   add(_M1_LABEL||'Atual', _VIG_LABEL||'VIG Atual', 'vig', '', null, 0);
   add(_M1_LABEL||'Atual', _S1_LABEL||'S1 Fechada', 's1', '', null, 0);
 
-  // Snapshots históricos (têm arquivo)
+  // Snapshots históricos
   (_HIST_INLINE||[]).forEach(function(e) {
-    add(e.month||'Anterior', e.label, 'snap', e.file, e.nps_s1, 0);
+    // has_sd=true → carrega no viewer; has_sd=false → mostra card com NPS
+    var badge = e.has_sd ? 'snap' : 'nosnap';
+    add(e.month||'Anterior', e.label, badge, e.has_sd ? e.file : '', e.nps_s1, 0);
   });
 
   // Semanas do weekly_history — adiciona as que não foram cobertas acima
@@ -779,8 +747,8 @@ function buildSidebar() {
     var wh='';
     mits.forEach(function(it,idx) {
       var act=(idx===0&&first)?' active':'';
-      var bc=it.badge==='vig'?'vig':it.badge==='s1'?'s1':it.badge==='snap'?'s1':'hist';
-      var bt=it.badge==='vig'?'VIG':it.badge==='s1'?'S1 ✓':it.badge==='snap'?'S1':'WTD';
+      var bc=it.badge==='vig'?'vig':it.badge==='s1'?'s1':(it.badge==='snap'||it.badge==='nosnap')?'s1':'hist';
+      var bt=it.badge==='vig'?'VIG':it.badge==='s1'?'S1 ✓':(it.badge==='snap'||it.badge==='nosnap')?'S1':'WTD';
       var nstr=(it.nps!=null)?'<br><span style="font-size:10px;color:#7a8aaa">'+it.nps.toFixed(1).replace('.',',')+' %</span>':'';
       var sstr=(it.surv>0)?'<br><span style="font-size:10px;color:#556">'+it.surv.toLocaleString()+' enc</span>':'';
       var fenc=encodeURIComponent(it.file);
@@ -824,24 +792,27 @@ function sbClick(el) {
   title.textContent = lbl;
 
   if (f) {
-    // Tem snapshot: carrega no iframe
+    // Tem snapshot seller dev: carrega no iframe
     frame.style.display = '';
     nosnap.style.display = 'none';
     frame.src = _GHPAGES_BASE + 'history_sd/' + f;
   } else {
-    // Sem snapshot: mostra painel com dados do _WK_HIST
+    // Sem snapshot sd: mostra card com NPS disponível
     frame.style.display = 'none';
     nosnap.style.display = 'flex';
-    var wkLabel = lbl.replace('Semana ','').trim();
-    var wkData  = _WK_HIST.find(function(w){ return w.lbl === wkLabel; });
-    document.getElementById('hvNosnapTitle').textContent = 'Semana ' + wkLabel;
-    if (wkData && wkData.nps != null) {
-      document.getElementById('hvNosnapNps').textContent  = wkData.nps.toFixed(1).replace('.',',') + '%';
-      document.getElementById('hvNosnapSurv').textContent = wkData.s.toLocaleString() + ' pesquisas';
+    document.getElementById('hvNosnapTitle').textContent = lbl;
+    // Tenta NPS do _HIST_INLINE primeiro, depois do _WK_HIST
+    var npsVal = null, survVal = 0;
+    var hiEntry = (_HIST_INLINE||[]).find(function(e){ return e.label === lbl; });
+    if (hiEntry && hiEntry.nps_s1 != null) {
+      npsVal = hiEntry.nps_s1; survVal = 0;
     } else {
-      document.getElementById('hvNosnapNps').textContent  = '—';
-      document.getElementById('hvNosnapSurv').textContent = '';
+      var wkLabel = lbl.replace('Semana ','').trim();
+      var wkEntry = _WK_HIST.find(function(w){ return w.lbl === wkLabel; });
+      if (wkEntry) { npsVal = wkEntry.nps; survVal = wkEntry.s; }
     }
+    document.getElementById('hvNosnapNps').textContent  = npsVal != null ? npsVal.toFixed(1).replace('.',',')+'%' : '—';
+    document.getElementById('hvNosnapSurv').textContent = survVal > 0 ? survVal.toLocaleString()+' pesquisas' : '';
   }
 }
 
