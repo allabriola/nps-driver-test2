@@ -3249,17 +3249,19 @@ function filterDrv(btn,grp){{
   }});
 }})();
 
-// Se dentro de iframe (snapshot), esconde o sidebar e remove margem
-if (window.self !== window.top) {{
+// Esconde sidebar apenas quando é snapshot histórico carregado no viewer
+// (detecta pelo path da URL, não por estar num iframe — Grid também usa iframe)
+var _isSnapshot = window.location.pathname.indexOf('history_sd') >= 0
+                  || window.location.pathname.indexOf('history/') >= 0;
+if (_isSnapshot) {{
   var sb = document.getElementById('sidebar');
   var mw = document.getElementById('mainWrap');
   var hv = document.getElementById('histViewer');
   if (sb) sb.style.display = 'none';
   if (mw) mw.style.marginLeft = '0';
   if (hv) hv.style.left = '0';
-}} else {{
-  buildSidebar();
 }}
+buildSidebar();
 """
     tgt_str = str(NPS_TARGET).replace('.', ',')
     return f"""<!DOCTYPE html>

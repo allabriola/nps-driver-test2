@@ -325,7 +325,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
   </div>
   <div style="text-align:right;line-height:1.6">
     <div style="font-weight:700;font-size:13px;color:#fff">Dados at&#233; 18/05/2026</div>
-    <div style="font-size:11px;opacity:.8;color:#fff">Atualizado em 18/05/2026 &#224;s 09:32</div>
+    <div style="font-size:11px;opacity:.8;color:#fff">Atualizado em 18/05/2026 &#224;s 09:39</div>
   </div>
 </div>
 
@@ -893,17 +893,19 @@ function filterDrv(btn,grp){
   });
 })();
 
-// Se dentro de iframe (snapshot), esconde o sidebar e remove margem
-if (window.self !== window.top) {
+// Esconde sidebar apenas quando é snapshot histórico carregado no viewer
+// (detecta pelo path da URL, não por estar num iframe — Grid também usa iframe)
+var _isSnapshot = window.location.pathname.indexOf('history_sd') >= 0
+                  || window.location.pathname.indexOf('history/') >= 0;
+if (_isSnapshot) {
   var sb = document.getElementById('sidebar');
   var mw = document.getElementById('mainWrap');
   var hv = document.getElementById('histViewer');
   if (sb) sb.style.display = 'none';
   if (mw) mw.style.marginLeft = '0';
   if (hv) hv.style.left = '0';
-} else {
-  buildSidebar();
 }
+buildSidebar();
 </script>
 </body>
 </html>
