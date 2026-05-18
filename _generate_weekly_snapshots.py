@@ -78,10 +78,56 @@ for i, s1_lbl in enumerate(WEEK_LABELS):
 
     # Modifica temporariamente generate_html_gerencia.py
     mod_src = gerencia_src
+
+    # ── Labels de semana ──────────────────────────────────────────────
     mod_src = re.sub(r'(S1_LABEL\s*=\s*)"[^"]*"',  f'\\1"{s1_lbl}"',  mod_src)
     mod_src = re.sub(r'(S2_LABEL\s*=\s*)"[^"]*"',  f'\\1"{s2_lbl}"',  mod_src)
     mod_src = re.sub(r'(VIG_LABEL\s*=\s*)"[^"]*"', f'\\1""',           mod_src)
     mod_src = re.sub(r'(REPORT_DATE\s*=\s*)"[^"]*"', f'\\1"{snap_date}"', mod_src)
+
+    # ── weekly_driver: usa dados da semana histórica correta ──────────
+    # Constrói novo bloco weekly_driver com S1=s1_lbl, S2=s2_lbl
+    all_drvs = list(weekly_history.keys())
+    def fmt3(t): return f"({t[0]},{t[1]},{t[2]})"
+    wd_lines = ['weekly_driver = {']
+    for drv in all_drvs:
+        s2_t = weekly_history[drv].get(s2_lbl, (0,0,0)) if s2_lbl else (0,0,0)
+        s1_t = weekly_history[drv].get(s1_lbl, (0,0,0))
+        pad  = ' ' * max(1, 42 - len(drv))
+        wd_lines.append(f'    "{drv}":{pad}{{"S2":{fmt3(s2_t)}, "S1":{fmt3(s1_t)}}},')
+    wd_lines.append('}')
+    # Substitui bloco weekly_driver no source
+    old_wd_start = mod_src.find('weekly_driver = {')
+    old_wd_end   = mod_src.find('\n}', old_wd_start) + 2
+    mod_src = mod_src[:old_wd_start] + '\n'.join(wd_lines) + mod_src[old_wd_end:]
+
+    # ── drivers_vigente: zera (sem VIG para semanas históricas) ───────
+    old_vg_start = mod_src.find('drivers_vigente = {')
+    old_vg_end   = mod_src.find('\n}', old_vg_start) + 2
+    vg_lines = ['drivers_vigente = {']
+    for drv in all_drvs:
+        pad = ' ' * max(1, 42 - len(drv))
+        vg_lines.append(f'    "{drv}":{pad}(0,0,0),')
+    vg_lines.append('}')
+    mod_src = mod_src[:old_vg_start] + '\n'.join(vg_lines) + mod_src[old_vg_end:]
+
+    # ── monthly_history["Mai"]: acumula dados até o fim da semana S1 ──
+    # Soma as semanas de Maio até s1_lbl inclusive
+    mai_weeks_until = [w for w in WEEK_LABELS
+                       if lbl_to_month(w).startswith('Maio')
+                       and WEEK_LABELS.index(w) <= WEEK_LABELS.index(s1_lbl)]
+
+    for drv in all_drvs:
+        tp = sum(weekly_history[drv].get(w,(0,0,0))[0] for w in mai_weeks_until)
+        td = sum(weekly_history[drv].get(w,(0,0,0))[1] for w in mai_weeks_until)
+        ts = sum(weekly_history[drv].get(w,(0,0,0))[2] for w in mai_weeks_until)
+        # Substitui "Mai":(p,d,s) para este driver especificamente
+        drv_esc = re.escape(drv)
+        mod_src = re.sub(
+            rf'("{drv_esc}".*?"Mai"\s*:\s*)\(\d+,\s*\d+,\s*\d+\)',
+            rf'\1({tp},{td},{ts})',
+            mod_src, count=1, flags=re.DOTALL
+        )
 
     # Salva com backup
     bak_path = os.path.join(BASE_DIR, '_gerencia_bak.py')
