@@ -3044,126 +3044,110 @@ def build():
         with open(_hist_path, encoding="utf-8") as _fh:
             _hist_inline = _fh.read().strip()
 
+
+    # Sidebar: histrico de semanas com NPS
+    _MON_NAMES = {'jan':'Janeiro','fev':'Fevereiro','mar':'Marco','abr':'Abril',
+                  'mai':'Maio','jun':'Junho','jul':'Julho','ago':'Agosto',
+                  'set':'Setembro','out':'Outubro','nov':'Novembro','dez':'Dezembro'}
+    def _wk_to_month(lbl):
+        parts = lbl.split('/')
+        if len(parts)==2:
+            mon = parts[1].lower().strip()
+            return f"{_MON_NAMES.get(mon, mon.capitalize())} 2026"
+        return '2026'
+
+    _wk_hist_items = []
+    for _wlbl in WEEK_LABELS:
+        _tp = sum(weekly_history[d].get(_wlbl,(0,0,0))[0] for d in ALL_DRIVERS)
+        _td = sum(weekly_history[d].get(_wlbl,(0,0,0))[1] for d in ALL_DRIVERS)
+        _ts = sum(weekly_history[d].get(_wlbl,(0,0,0))[2] for d in ALL_DRIVERS)
+        _n  = round(100*(_tp-_td)/_ts, 1) if _ts > 0 else None
+        _wk_hist_items.append({'lbl': _wlbl, 'month': _wk_to_month(_wlbl), 'nps': _n, 's': _ts})
+    _wk_hist_json = _json.dumps(_wk_hist_items)
+
     js = f"""
-var _HIST_INLINE = {_hist_inline};
+var _HIST_INLINE  = {_hist_inline};
 var _GHPAGES_BASE = "{_GHPAGES_BASE}";
 var _VIG_LABEL    = "{esc(VIG_LABEL or '')}";
 var _S1_LABEL     = "{esc(S1_LABEL or '')}";
 var _M1_LABEL     = "{esc(M1_LABEL or '')}";
+var _WK_HIST      = {_wk_hist_json};
 
-// ── Sidebar ───────────────────────────────────────────────────────
 function buildSidebar() {{
   var nav = document.getElementById('sidebarNav');
   if (!nav) return;
-
-  // Monta lista de itens: atual (VIG + S1) + histórico
-  var items = [];
-
-  // Período atual (VIG)
-  items.push({{label: _VIG_LABEL || 'VIG Atual', badge: 'vig', file: null, month: _M1_LABEL || 'Atual', nps_s1: null}});
-  // S1 fechada
-  items.push({{label: _S1_LABEL || 'S1', badge: 's1', file: null, month: _M1_LABEL || 'Atual', nps_s1: null}});
-
-  // Histórico de snapshots
-  var hist = _HIST_INLINE || [];
-  hist.forEach(function(e) {{
-    items.push({{
-      label: e.label, badge: 'hist', file: e.file,
-      month: e.month || 'Anterior',
-      nps_s1: e.nps_s1, archived_at: e.archived_at
-    }});
-  }});
-
-  // Agrupa por mês
   var months = {{}};
-  items.forEach(function(it) {{
-    if (!months[it.month]) months[it.month] = [];
-    months[it.month].push(it);
-  }});
-
-  var html = '';
-  var firstMonth = true;
-  Object.keys(months).forEach(function(mon) {{
-    var items_m = months[mon];
-    var countBadge = '<span class="sb-month-count">' + items_m.length + '</span>';
-    html += '<div class="sb-month' + (firstMonth?'':' collapsed') + '" onclick="sbToggleMonth(this)">'
-          + mon + countBadge
-          + '<span class="sb-month-arrow">&#9660;</span></div>';
-    var weeksHtml = '';
-    items_m.forEach(function(it, idx) {{
-      var isActive = (idx === 0 && firstMonth);
-      var badgeHtml = '';
-      if (it.badge === 'vig')  badgeHtml = '<span class="sb-week-badge vig">VIG</span>';
-      if (it.badge === 's1')   badgeHtml = '<span class="sb-week-badge s1">S1</span>';
-      if (it.badge === 'hist') badgeHtml = '<span class="sb-week-badge hist">S1</span>';
-      var npsStr = it.nps_s1 ? '<br><span style="font-size:10px;color:#7a8aaa">NPS ' + it.nps_s1.toFixed(1).replace('.',',') + '%</span>' : '';
-      weeksHtml += '<div class="sb-week' + (isActive?' active':'') + '" onclick="sbOpenItem(' + JSON.stringify(it) + ',this)">'
-                 + '<div style="flex:1"><span class="sb-week-label">' + it.label + '</span>' + npsStr + '</div>'
-                 + badgeHtml
-                 + '</div>';
-    }});
-    html += '<div class="sb-weeks' + (firstMonth?'':' collapsed') + '" style="max-height:' + (firstMonth ? items_m.length*52 + 'px' : '0') + '">' + weeksHtml + '</div>';
-    firstMonth = false;
-  }});
-
-  nav.innerHTML = html;
-}}
-
-function sbToggleMonth(el) {{
-  el.classList.toggle('collapsed');
-  var weeks = el.nextElementSibling;
-  if (weeks) {{
-    if (el.classList.contains('collapsed')) {{
-      weeks.style.maxHeight = '0';
-      weeks.classList.add('collapsed');
-    }} else {{
-      weeks.style.maxHeight = weeks.querySelectorAll('.sb-week').length * 52 + 'px';
-      weeks.classList.remove('collapsed');
-    }}
+  function add(mon, lbl, badge, file, nps, surv) {{
+    if (!months[mon]) months[mon] = [];
+    months[mon].push({{lbl:lbl,badge:badge,file:file||'',nps:nps,surv:surv||0}});
   }}
+  add(_M1_LABEL||'Atual', _VIG_LABEL||'VIG Atual', 'vig', '', null, 0);
+  add(_M1_LABEL||'Atual', _S1_LABEL||'S1 Fechada', 's1', '', null, 0);
+  (_HIST_INLINE||[]).forEach(function(e) {{
+    add(e.month||'Anterior', e.label, 'snap', e.file, e.nps_s1, 0);
+  }});
+  var wkCopy = _WK_HIST.slice().reverse();
+  wkCopy.forEach(function(w) {{
+    var already = (_HIST_INLINE||[]).some(function(e){{ return e.label&&e.label.indexOf(w.lbl)>=0; }});
+    if (!already) add(w.month, w.lbl, 'wk', '', w.nps, w.s);
+  }});
+  var html='', first=true;
+  Object.keys(months).forEach(function(mon) {{
+    var mits=months[mon];
+    var cls=first?'':' collapsed';
+    html+='<div class="sb-month'+cls+'" onclick="sbToggle(this)">'
+         +'<span>'+mon+'</span><span class="sb-month-count">'+mits.length+'</span>'
+         +'<span class="sb-month-arrow">&#9660;</span></div>';
+    var wh='';
+    mits.forEach(function(it,idx) {{
+      var act=(idx===0&&first)?' active':'';
+      var bc=it.badge==='vig'?'vig':it.badge==='s1'?'s1':it.badge==='snap'?'s1':'hist';
+      var bt=it.badge==='vig'?'VIG':it.badge==='s1'?'S1':it.badge==='snap'?'S1':'WTD';
+      var nstr=(it.nps!=null)?'<br><span style="font-size:10px;color:#7a8aaa">'+it.nps.toFixed(1).replace('.',',')+' %</span>':'';
+      var sstr=(it.surv>0)?'<br><span style="font-size:10px;color:#556">'+it.surv.toLocaleString()+' enc</span>':'';
+      var fenc=encodeURIComponent(it.file);
+      wh+='<div class="sb-week'+act+'" data-file="'+fenc+'" onclick="sbClick(this)">'
+         +'<div style="flex:1"><span class="sb-week-label">'+it.lbl+'</span>'+nstr+sstr+'</div>'
+         +'<span class="sb-week-badge '+bc+'">'+bt+'</span></div>';
+    }});
+    var mh=first?(mits.length*60+8)+'px':'0';
+    html+='<div class="sb-weeks'+cls+'" style="max-height:'+mh+'">'+wh+'</div>';
+    first=false;
+  }});
+  nav.innerHTML=html;
 }}
 
-function sbOpenItem(item, el) {{
+function sbToggle(el) {{
+  el.classList.toggle('collapsed');
+  var w=el.nextElementSibling; if(!w) return;
+  w.style.maxHeight=el.classList.contains('collapsed')?'0':(w.querySelectorAll('.sb-week').length*60+8)+'px';
+}}
+
+function sbClick(el) {{
   document.querySelectorAll('.sb-week').forEach(function(w){{w.classList.remove('active');}});
   el.classList.add('active');
-  if (item.file) {{
-    window.open(_GHPAGES_BASE + 'history/' + item.file, '_blank');
-  }}
+  var f=decodeURIComponent(el.getAttribute('data-file')||'');
+  if(f) window.open(_GHPAGES_BASE+'history/'+f,'_blank');
 }}
 
 function sbFilter(q) {{
-  var qq = q.toLowerCase();
-  document.querySelectorAll('.sb-week').forEach(function(w) {{
-    var lbl = w.querySelector('.sb-week-label');
-    w.style.display = (!qq || (lbl && lbl.textContent.toLowerCase().includes(qq))) ? '' : 'none';
+  var qq=q.toLowerCase();
+  document.querySelectorAll('.sb-week').forEach(function(w){{
+    var t=w.querySelector('.sb-week-label');
+    w.style.display=(!qq||(t&&t.textContent.toLowerCase().indexOf(qq)>=0))?'':'none';
   }});
 }}
 
-function openSnapshot(file) {{
-  window.open(_GHPAGES_BASE + 'history/' + file, '_blank');
-}}
-
-// Inicia sidebar
-document.addEventListener('DOMContentLoaded', buildSidebar);
-
-function showTab(n){{
-  document.querySelectorAll('.tab-btn').forEach(function(b,i){{b.classList.toggle('active',i===n);}});
-  document.querySelectorAll('.tab-pane').forEach(function(p,i){{p.classList.toggle('active',i===n);}});
-}}
-function filterDrv(btn, grp){{
-  document.querySelectorAll('.drv-fbtn').forEach(function(b){{b.classList.remove('active');}});
+function switchPeriod(btn,p){{
+  document.querySelectorAll('.period-btn').forEach(function(b){{b.classList.remove('active');}});
   btn.classList.add('active');
-  document.querySelectorAll('.drv-card').forEach(function(c){{
-    c.style.display = (c.dataset.grp===grp) ? '' : 'none';
+  document.querySelectorAll('.period-view').forEach(function(v){{
+    v.style.display=(v.dataset.p===p)?'':'none';
   }});
 }}
-// Inicializa cada grupo de cards: esconde todos exceto o primeiro por container
-(function(){{
-  document.querySelectorAll('.drv-cards').forEach(function(container){{
-    var cards = container.querySelectorAll('.drv-card');
-    for(var i=1;i<cards.length;i++) cards[i].style.display='none';
-  }});
-}})();
+
+function openSnapshot(f){{ window.open(_GHPAGES_BASE+'history/'+f,'_blank'); }}
+document.addEventListener('DOMContentLoaded', buildSidebar);
 """
     tgt_str = str(NPS_TARGET).replace('.', ',')
     return f"""<!DOCTYPE html>

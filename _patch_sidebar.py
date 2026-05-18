@@ -1,0 +1,131 @@
+#!/usr/bin/env python3
+"""Patches the sidebar JS in generate_html_seller_dev.py"""
+import os
+
+NEW_JS = (
+    "\n"
+    "    # Sidebar: histrico de semanas com NPS\n"
+    "    _MON_NAMES = {'jan':'Janeiro','fev':'Fevereiro','mar':'Marco','abr':'Abril',\n"
+    "                  'mai':'Maio','jun':'Junho','jul':'Julho','ago':'Agosto',\n"
+    "                  'set':'Setembro','out':'Outubro','nov':'Novembro','dez':'Dezembro'}\n"
+    "    def _wk_to_month(lbl):\n"
+    "        parts = lbl.split('/')\n"
+    "        if len(parts)==2:\n"
+    "            mon = parts[1].lower().strip()\n"
+    "            return f\"{_MON_NAMES.get(mon, mon.capitalize())} 2026\"\n"
+    "        return '2026'\n"
+    "\n"
+    "    _wk_hist_items = []\n"
+    "    for _wlbl in WEEK_LABELS:\n"
+    "        _tp = sum(weekly_history[d].get(_wlbl,(0,0,0))[0] for d in ALL_DRIVERS)\n"
+    "        _td = sum(weekly_history[d].get(_wlbl,(0,0,0))[1] for d in ALL_DRIVERS)\n"
+    "        _ts = sum(weekly_history[d].get(_wlbl,(0,0,0))[2] for d in ALL_DRIVERS)\n"
+    "        _n  = round(100*(_tp-_td)/_ts, 1) if _ts > 0 else None\n"
+    "        _wk_hist_items.append({'lbl': _wlbl, 'month': _wk_to_month(_wlbl), 'nps': _n, 's': _ts})\n"
+    "    _wk_hist_json = _json.dumps(_wk_hist_items)\n"
+    "\n"
+    "    js = f\"\"\"\n"
+    "var _HIST_INLINE  = {_hist_inline};\n"
+    "var _GHPAGES_BASE = \"{_GHPAGES_BASE}\";\n"
+    "var _VIG_LABEL    = \"{esc(VIG_LABEL or '')}\";\n"
+    "var _S1_LABEL     = \"{esc(S1_LABEL or '')}\";\n"
+    "var _M1_LABEL     = \"{esc(M1_LABEL or '')}\";\n"
+    "var _WK_HIST      = {_wk_hist_json};\n"
+    "\n"
+    "function buildSidebar() {{\n"
+    "  var nav = document.getElementById('sidebarNav');\n"
+    "  if (!nav) return;\n"
+    "  var months = {{}};\n"
+    "  function add(mon, lbl, badge, file, nps, surv) {{\n"
+    "    if (!months[mon]) months[mon] = [];\n"
+    "    months[mon].push({{lbl:lbl,badge:badge,file:file||'',nps:nps,surv:surv||0}});\n"
+    "  }}\n"
+    "  add(_M1_LABEL||'Atual', _VIG_LABEL||'VIG Atual', 'vig', '', null, 0);\n"
+    "  add(_M1_LABEL||'Atual', _S1_LABEL||'S1 Fechada', 's1', '', null, 0);\n"
+    "  (_HIST_INLINE||[]).forEach(function(e) {{\n"
+    "    add(e.month||'Anterior', e.label, 'snap', e.file, e.nps_s1, 0);\n"
+    "  }});\n"
+    "  var wkCopy = _WK_HIST.slice().reverse();\n"
+    "  wkCopy.forEach(function(w) {{\n"
+    "    var already = (_HIST_INLINE||[]).some(function(e){{ return e.label&&e.label.indexOf(w.lbl)>=0; }});\n"
+    "    if (!already) add(w.month, w.lbl, 'wk', '', w.nps, w.s);\n"
+    "  }});\n"
+    "  var html='', first=true;\n"
+    "  Object.keys(months).forEach(function(mon) {{\n"
+    "    var mits=months[mon];\n"
+    "    var cls=first?'':' collapsed';\n"
+    "    html+='<div class=\"sb-month'+cls+'\" onclick=\"sbToggle(this)\">'\n"
+    "         +'<span>'+mon+'</span><span class=\"sb-month-count\">'+mits.length+'</span>'\n"
+    "         +'<span class=\"sb-month-arrow\">&#9660;</span></div>';\n"
+    "    var wh='';\n"
+    "    mits.forEach(function(it,idx) {{\n"
+    "      var act=(idx===0&&first)?' active':'';\n"
+    "      var bc=it.badge==='vig'?'vig':it.badge==='s1'?'s1':it.badge==='snap'?'s1':'hist';\n"
+    "      var bt=it.badge==='vig'?'VIG':it.badge==='s1'?'S1':it.badge==='snap'?'S1':'WTD';\n"
+    "      var nstr=(it.nps!=null)?'<br><span style=\"font-size:10px;color:#7a8aaa\">'+it.nps.toFixed(1).replace('.',',')+' %</span>':'';\n"
+    "      var sstr=(it.surv>0)?'<br><span style=\"font-size:10px;color:#556\">'+it.surv.toLocaleString()+' enc</span>':'';\n"
+    "      var fenc=encodeURIComponent(it.file);\n"
+    "      wh+='<div class=\"sb-week'+act+'\" data-file=\"'+fenc+'\" onclick=\"sbClick(this)\">'\n"
+    "         +'<div style=\"flex:1\"><span class=\"sb-week-label\">'+it.lbl+'</span>'+nstr+sstr+'</div>'\n"
+    "         +'<span class=\"sb-week-badge '+bc+'\">'+bt+'</span></div>';\n"
+    "    }});\n"
+    "    var mh=first?(mits.length*60+8)+'px':'0';\n"
+    "    html+='<div class=\"sb-weeks'+cls+'\" style=\"max-height:'+mh+'\">'+wh+'</div>';\n"
+    "    first=false;\n"
+    "  }});\n"
+    "  nav.innerHTML=html;\n"
+    "}}\n"
+    "\n"
+    "function sbToggle(el) {{\n"
+    "  el.classList.toggle('collapsed');\n"
+    "  var w=el.nextElementSibling; if(!w) return;\n"
+    "  w.style.maxHeight=el.classList.contains('collapsed')?'0':(w.querySelectorAll('.sb-week').length*60+8)+'px';\n"
+    "}}\n"
+    "\n"
+    "function sbClick(el) {{\n"
+    "  document.querySelectorAll('.sb-week').forEach(function(w){{w.classList.remove('active');}});\n"
+    "  el.classList.add('active');\n"
+    "  var f=decodeURIComponent(el.getAttribute('data-file')||'');\n"
+    "  if(f) window.open(_GHPAGES_BASE+'history/'+f,'_blank');\n"
+    "}}\n"
+    "\n"
+    "function sbFilter(q) {{\n"
+    "  var qq=q.toLowerCase();\n"
+    "  document.querySelectorAll('.sb-week').forEach(function(w){{\n"
+    "    var t=w.querySelector('.sb-week-label');\n"
+    "    w.style.display=(!qq||(t&&t.textContent.toLowerCase().indexOf(qq)>=0))?'':'none';\n"
+    "  }});\n"
+    "}}\n"
+    "\n"
+    "function switchPeriod(btn,p){{\n"
+    "  document.querySelectorAll('.period-btn').forEach(function(b){{b.classList.remove('active');}});\n"
+    "  btn.classList.add('active');\n"
+    "  document.querySelectorAll('.period-view').forEach(function(v){{\n"
+    "    v.style.display=(v.dataset.p===p)?'':'none';\n"
+    "  }});\n"
+    "}}\n"
+    "\n"
+    "function openSnapshot(f){{ window.open(_GHPAGES_BASE+'history/'+f,'_blank'); }}\n"
+    "document.addEventListener('DOMContentLoaded', buildSidebar);\n"
+    "\"\"\"\n"
+)
+
+with open('generate_html_seller_dev.py', 'r', encoding='utf-8') as f:
+    lines = f.readlines()
+
+# Find js = f""" block
+js_start = next(i for i,l in enumerate(lines) if '    js = f"""' in l)
+# Find the closing """ that ends the js block (next """ on its own line after js_start)
+js_end = next(i for i,l in enumerate(lines) if i > js_start+5 and l.strip() == '"""')
+
+# Also need to include any lines between the js block and the old switchPeriod/showTab functions
+# Find where showTab is defined (it was inside the old js block)
+showtab_line = next((i for i,l in enumerate(lines) if i > js_start and 'function showTab' in l), None)
+if showtab_line and showtab_line < js_end:
+    # showTab is still inside the old js block - we need to keep js_end as is
+    pass
+
+new_lines = lines[:js_start] + [NEW_JS] + lines[js_end+1:]
+with open('generate_html_seller_dev.py', 'w', encoding='utf-8') as f:
+    f.writelines(new_lines)
+print(f'Patched: {js_start+1} to {js_end+1}, total lines: {len(new_lines)}')
