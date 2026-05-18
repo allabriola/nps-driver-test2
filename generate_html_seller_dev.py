@@ -3110,21 +3110,36 @@ def build():
     t1 = _tab_mensal()
     t2 = _tab_semanal()
 
-    # Embutir history/index.json inline para funcionar no Grid (sem fetch relativo)
+    # Embutir snapshots inline (semanais + fechamentos mensais)
     _GHPAGES_BASE = "https://allabriola.github.io/nps-driver-test2/"
+    import os as _os_hist, json as _json_hist2
+    _base_dir2 = _os_hist.path.dirname(_os_hist.path.abspath(__file__))
+    _sd_dir2   = _os_hist.path.join(_base_dir2, "history_sd")
+    _sd_files2 = set(_os_hist.listdir(_sd_dir2)) if _os_hist.path.exists(_sd_dir2) else set()
+
+    # Snapshots semanais (history_sd/index.json)
     _hist_inline = "[]"
-    import os as _os_hist
-    _hist_path = _os_hist.path.join(_os_hist.path.dirname(_os_hist.path.abspath(__file__)), "history", "index.json")
-    if _os_hist.path.exists(_hist_path):
-        with open(_hist_path, encoding="utf-8") as _fh:
-            _hist_inline = _fh.read().strip()
+    _wk_path = _os_hist.path.join(_sd_dir2, "index.json")
+    if _os_hist.path.exists(_wk_path):
+        _wk_items = _json_hist2.load(open(_wk_path, encoding="utf-8"))
+        for _hi in _wk_items: _hi["has_sd"] = _hi.get("file","") in _sd_files2
+        _hist_inline = _json_hist2.dumps(_wk_items)
+
+    # Fechamentos mensais (history_sd/mensal_index.json)
+    _mensal_inline = "[]"
+    _men_path = _os_hist.path.join(_sd_dir2, "mensal_index.json")
+    if _os_hist.path.exists(_men_path):
+        _men_items = _json_hist2.load(open(_men_path, encoding="utf-8"))
+        for _mi in _men_items: _mi["has_sd"] = _mi.get("file","") in _sd_files2
+        _mensal_inline = _json_hist2.dumps(_men_items)
 
     js = f"""
-var _HIST_INLINE = {_hist_inline};
-var _GHPAGES_BASE = "{_GHPAGES_BASE}";
-var _VIG_LABEL    = "{esc(VIG_LABEL or '')}";
-var _S1_LABEL     = "{esc(S1_LABEL or '')}";
-var _M1_LABEL     = "{esc(M1_LABEL or '')}";
+var _HIST_INLINE   = {_hist_inline};
+var _MENSAL_INLINE = {_mensal_inline};
+var _GHPAGES_BASE  = "{_GHPAGES_BASE}";
+var _VIG_LABEL     = "{esc(VIG_LABEL or '')}";
+var _S1_LABEL      = "{esc(S1_LABEL or '')}";
+var _M1_LABEL      = "{esc(M1_LABEL or '')}";
 
 // ── Sidebar de semanas ────────────────────────────────────────────
 (function buildSidebar(){{
@@ -3145,13 +3160,25 @@ var _M1_LABEL     = "{esc(M1_LABEL or '')}";
   // Período atual (sem arquivo — mostra dashboard ao vivo)
   addItem(_M1_LABEL||'Atual', _S1_LABEL||'S1 Fechada', 's1', '', null);
 
-  // Snapshots históricos do history_sd/index.json
+  // Snapshots semanais
   (_HIST_INLINE||[]).forEach(function(e){{
     addItem(e.month||'Anterior', e.label||e.s1_label, 'old', e.file, e.nps_s1);
   }});
 
+  // Fechamentos mensais (seção separada)
+  if (_MENSAL_INLINE && _MENSAL_INLINE.length) {{
+    months['__mensal__'] = [];
+    (_MENSAL_INLINE||[]).forEach(function(e){{
+      months['__mensal__'].push({{lbl:e.label, badge:'mes', file:e.file||'', nps:e.nps_mes, surv:e.surveys}});
+    }});
+  }}
+
   var html = '', first = true;
-  Object.keys(months).forEach(function(mon){{
+  // Renderiza semanas primeiro, depois fechamentos mensais
+  var monthKeys = Object.keys(months).filter(function(k){{ return k !== '__mensal__'; }});
+  var mensalItems = months['__mensal__'] || [];
+
+  monthKeys.forEach(function(mon){{
     html += '<div class="wk-sb-month">' + mon + '</div>';
     months[mon].forEach(function(it, idx){{
       var isActive = (idx===0 && first) ? ' active' : '';
@@ -3165,6 +3192,19 @@ var _M1_LABEL     = "{esc(M1_LABEL or '')}";
     }});
     first = false;
   }});
+
+  // Seção Fechamentos Mensais
+  if (mensalItems.length) {{
+    html += '<div class="wk-sb-month" style="margin-top:8px;border-top:1px solid #2e3350;padding-top:10px">Fechamentos Mensais</div>';
+    mensalItems.forEach(function(it){{
+      var npsHtml = it.nps ? '<div class="wk-nps">NPS ' + it.nps.toFixed(1).replace('.',',') + '%'
+        + (it.surv ? ' &middot; ' + it.surv.toLocaleString() + ' enc' : '') + '</div>' : '';
+      html += '<div class="wk-sb-week" data-file="' + encodeURIComponent(it.file) + '" data-lbl="' + it.lbl + '" onclick="wkClick(this)">'
+           + '<div style="flex:1"><div class="wk-lbl">' + it.lbl + '</div>' + npsHtml + '</div>'
+           + '<span class="wk-badge" style="background:#00A65022;color:#00A650;border:1px solid #00A65055">M&#202;S</span>'
+           + '</div>';
+    }});
+  }}
 
   nav.innerHTML = html;
 }})();
