@@ -2478,25 +2478,28 @@ def _bd_table(items_m1, items_m2, max_rows=6, weekly=False, lbl1="NPS", lbl2="An
     else:
         header = (f'<thead><tr><th>Nome</th><th>NPS</th><th>&#916; M/M</th><th>Vol</th></tr></thead>')
 
-    # Linha "(outros)" quando coverage < 95%: fecha o balanço de contribuições
-    if weekly and official_surv1 and official_nps1 is not None and total_s1 < official_surv1 * 0.95:
-        outros_surv = official_surv1 - total_s1
-        # Contribuição dos outros = delta_total - soma_contribuições_itens
-        sum_item_contribs = sum(
-            round((v1["s"]/official_surv1) * (v1["nps"] - items_m2.get(k,{}).get("nps",v1["nps"])), 2)
-            for k, v1 in items_m1.items()
-            if v1.get("nps") is not None and items_m2.get(k,{}).get("nps") is not None
-        ) if delta_tot is not None else 0
-        outros_contrib = round(delta_tot - sum_item_contribs, 2) if delta_tot is not None else None
-        c_cls = "bd-pos" if outros_contrib and outros_contrib > 0 else ("bd-neg" if outros_contrib and outros_contrib < 0 else "")
-        c_str = (("+" if outros_contrib > 0 else "") + f"{outros_contrib:.2f}pp") if outros_contrib is not None else "—"
-        rows += (f'<tr style="background:#fffbf0;font-style:italic;color:#888">'
-                 f'<td class="bd-name" style="color:#aaa">(sem categoria)</td>'
-                 f'<td class="bd-nps" style="color:#aaa">—</td>'
-                 f'<td class="bd-nps" style="color:#aaa">—</td>'
-                 f'<td class="bd-delta" style="color:#aaa">—</td>'
-                 f'<td class="bd-delta {c_cls}" style="font-size:10px">{c_str}</td>'
-                 f'<td class="bd-vol" style="color:#aaa">{outros_surv:,}</td></tr>\n')
+    # Linha de residual: garante que a soma dos Contribs = variação oficial
+    # Residual = delta_oficial - Σ contrib_items_mostrados
+    if weekly and delta_tot is not None:
+        s_off1 = official_surv1 or items_s1_sum or 1
+        s_off2 = (official_surv2 or s_tot_m2_all) or 1
+        sum_shown = sum(
+            round((v1["s"]/s_off1)*(v1["nps"] or 0) - (items_m2.get(k,{}).get("s",0)/s_off2)*(items_m2.get(k,{}).get("nps") or 0), 2)
+            for k, v1 in sorted_items
+            if v1.get("nps") is not None
+        )
+        residual = round(delta_tot - sum_shown, 2)
+        if abs(residual) >= 0.05:  # só mostra se diferença relevante
+            outros_surv = (official_surv1 or 0) - total_s1
+            c_cls = "bd-pos" if residual > 0 else "bd-neg"
+            c_str = ("+" if residual > 0 else "") + f"{residual:.2f}pp"
+            rows += (f'<tr style="background:#fffbf0;font-style:italic;color:#888">'
+                     f'<td class="bd-name" style="color:#aaa">(outros/sem categ.)</td>'
+                     f'<td class="bd-nps" style="color:#aaa">—</td>'
+                     f'<td class="bd-nps" style="color:#aaa">—</td>'
+                     f'<td class="bd-delta" style="color:#aaa">—</td>'
+                     f'<td class="bd-delta {c_cls}" style="font-size:10px">{c_str}</td>'
+                     f'<td class="bd-vol" style="color:#aaa">{max(0,outros_surv):,}</td></tr>\n')
 
     return f'<table class="bd-tbl"><{header}<tbody>{rows}</tbody></table>'
 
@@ -2556,6 +2559,26 @@ def _bd_seniority(sr_m1, sr_m2, weekly=False, lbl1="NPS", lbl2="Ant",
                  f'<td class="bd-vol" style="color:#3483FA">{total_s1:,}</td></tr>\n')
         header = (f'<thead><tr><th>Seniority</th><th>{esc(lbl2)}</th><th>{esc(lbl1)}</th>'
                   f'<th>&#916; {esc(delta_label)}</th><th>Contrib</th><th>Vol</th></tr></thead>')
+        # Residual de senioridade (delta_tot aqui = dtot)
+        delta_tot = dtot
+        if delta_tot is not None:
+            s_off1 = official_surv1 or total_s1 or 1
+            s_off2 = official_surv2 or total_s2 or 1
+            sum_sr = sum(
+                round((sr_m1.get(k,{}).get("s",0)/s_off1)*(sr_m1.get(k,{}).get("nps") or 0)
+                      - (sr_m2.get(k,{}).get("s",0)/s_off2)*(sr_m2.get(k,{}).get("nps") or 0), 2)
+                for k in ["Expert","Newbie","Training"]
+                if sr_m1.get(k,{}).get("nps") is not None
+            )
+            resid = round(delta_tot - sum_sr, 2)
+            if abs(resid) >= 0.05:
+                c_cls = "bd-pos" if resid > 0 else "bd-neg"
+                rows += (f'<tr style="background:#fffbf0;font-style:italic;color:#888">'
+                         f'<td class="bd-name" style="color:#aaa">(outros)</td>'
+                         f'<td style="color:#aaa">—</td><td style="color:#aaa">—</td>'
+                         f'<td style="color:#aaa">—</td>'
+                         f'<td class="bd-delta {c_cls}" style="font-size:10px">{"+" if resid>0 else ""}{resid:.2f}pp</td>'
+                         f'<td style="color:#aaa">—</td></tr>\n')
     else:
         if total_s1: rows += (f'<tr style="border-top:2px solid #3483FA;background:#f0f4ff;font-weight:700">'
                                f'<td class="bd-name" style="color:#3483FA">Total</td>'
