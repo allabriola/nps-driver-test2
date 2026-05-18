@@ -2770,71 +2770,6 @@ _CSS = """
 body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', sans-serif;
        font-size: 13px; background: #f4f6f9; color: #222; }
 
-/* ── Sidebar ─────────────────────────────────────────────────────── */
-.sidebar { position:fixed; top:0; left:0; width:210px; height:100vh;
-           background:#1a1e2e; color:#c8cfe0; display:flex;
-           flex-direction:column; z-index:200; overflow:hidden; }
-.sidebar-header { padding:14px 16px 10px; border-bottom:1px solid #2e3350; flex-shrink:0; }
-.sidebar-title  { font-size:13px; font-weight:700; color:#fff; margin-bottom:4px; }
-.sidebar-sub    { font-size:10px; color:#7a8aaa; }
-.sidebar-search { margin:8px 12px; position:relative; }
-.sidebar-search input { width:100%; padding:6px 10px 6px 28px; border-radius:6px;
-  border:1px solid #2e3350; background:#252a3d; color:#c8cfe0; font-size:11px; outline:none; }
-.sidebar-search input::placeholder { color:#5a6880; }
-.sidebar-search::before { content:"🔍"; position:absolute; left:8px; top:6px; font-size:11px; }
-.sidebar-nav { overflow-y:auto; flex:1; padding:4px 0 20px; }
-.sidebar-nav::-webkit-scrollbar { width:4px; }
-.sidebar-nav::-webkit-scrollbar-track { background:transparent; }
-.sidebar-nav::-webkit-scrollbar-thumb { background:#2e3350; border-radius:4px; }
-
-.sb-month { padding:10px 16px 4px; font-size:10px; font-weight:700;
-            color:#7a8aaa; text-transform:uppercase; letter-spacing:.7px;
-            display:flex; justify-content:space-between; align-items:center;
-            cursor:pointer; user-select:none; }
-.sb-month:hover { color:#c8cfe0; }
-.sb-month-count { background:#2e3350; color:#7a8aaa; font-size:9px;
-                  padding:1px 6px; border-radius:10px; font-weight:600; }
-.sb-month-arrow { font-size:10px; transition:transform .2s; }
-.sb-month.collapsed .sb-month-arrow { transform:rotate(-90deg); }
-.sb-weeks { overflow:hidden; transition:max-height .3s; }
-.sb-weeks.collapsed { max-height:0 !important; }
-
-.sb-week { padding:7px 16px; display:flex; align-items:center; gap:8px;
-           cursor:pointer; border-left:3px solid transparent;
-           transition:all .15s; }
-.sb-week:hover { background:#252a3d; color:#fff; }
-.sb-week.active { background:#252a3d; border-left-color:#3483FA; color:#fff; }
-.sb-week.active .sb-week-label { color:#fff; font-weight:700; }
-.sb-week-label { font-size:12px; color:#c8cfe0; flex:1; }
-.sb-week-badge { font-size:9px; font-weight:700; padding:1px 5px;
-                 border-radius:4px; white-space:nowrap; }
-.sb-week-badge.vig  { background:#F39C1233; color:#F39C12; border:1px solid #F39C1266; }
-.sb-week-badge.s1   { background:#3483FA22; color:#3483FA; border:1px solid #3483FA55; }
-.sb-week-badge.hist { background:#2e3350; color:#7a8aaa; }
-.sb-week-badge.mes  { background:#00A65022; color:#00A650; border:1px solid #00A65055; }
-
-/* ── Visualizador inline de semana historica ─────────────────────── */
-.hist-viewer { display:none; position:fixed; top:0; left:210px; right:0; bottom:0;
-               z-index:150; flex-direction:column; background:#f4f6f9; }
-.hist-viewer.open { display:flex; }
-.hist-viewer-bar { background:#1a1e2e; color:#fff; padding:8px 16px;
-                   display:flex; align-items:center; gap:12px; flex-shrink:0; }
-.hist-viewer-back { background:#3483FA; color:#fff; border:none; border-radius:6px;
-                    padding:5px 14px; font-size:12px; font-weight:700; cursor:pointer; }
-.hist-viewer-back:hover { background:#1c5bbd; }
-.hist-viewer-title { font-size:13px; font-weight:700; flex:1; }
-.hist-viewer-iframe { flex:1; border:none; width:100%; }
-.hist-nosnap { flex:1; display:flex; align-items:center; justify-content:center; padding:40px; }
-.hist-nosnap-card { background:#fff; border-radius:12px; padding:32px 40px;
-                    box-shadow:0 4px 24px rgba(0,0,0,.1); text-align:center; max-width:420px; }
-.hist-nosnap-card h2 { font-size:16px; font-weight:700; color:#222; margin-bottom:4px; }
-.hist-nosnap-card .hnps { font-size:52px; font-weight:800; color:#3483FA; margin:16px 0 8px; }
-.hist-nosnap-card .hsurv { font-size:14px; color:#555; font-weight:600; }
-.hist-nosnap-card .hsub  { font-size:12px; color:#aaa; margin-top:8px; }
-
-/* ── Layout principal com sidebar ───────────────────────────────── */
-.main-wrap { margin-left:210px; min-height:100vh; display:flex; flex-direction:column; }
-
 .header { background: linear-gradient(135deg,#3483FA 0%,#1C5BBD 100%);
           color:#fff; padding:16px 24px; display:flex; align-items:center;
           justify-content:space-between; }
@@ -3054,188 +2989,18 @@ def build():
     t1 = _tab_mensal()
     t2 = _tab_semanal()
 
-    # Embutir history_sd/index.json inline (snapshots seller dev específicos)
+    # Embutir history/index.json inline para funcionar no Grid (sem fetch relativo)
     _GHPAGES_BASE = "https://allabriola.github.io/nps-driver-test2/"
-    import os as _os_hist, json as _json_hist
-    _base_dir = _os_hist.path.dirname(_os_hist.path.abspath(__file__))
-
-    # Carrega history_sd/index.json (snapshots seller dev — meses corretos + has_sd=True)
-    _sd_dir   = _os_hist.path.join(_base_dir, "history_sd")
-    _sd_files = set(_os_hist.listdir(_sd_dir)) if _os_hist.path.exists(_sd_dir) else set()
-    _hist_path_sd = _os_hist.path.join(_base_dir, "history_sd", "index.json")
-    _hist_items   = []
-    if _os_hist.path.exists(_hist_path_sd):
-        with open(_hist_path_sd, encoding="utf-8") as _fh:
-            _hist_items = _json_hist.load(_fh)
-    # Marca has_sd para cada entrada
-    for _hi in _hist_items:
-        _hi["has_sd"] = _hi.get("file","") in _sd_files
-    _hist_inline = _json_hist.dumps(_hist_items)
-
-
-    # Sidebar: histrico de semanas com NPS
-    _MON_NAMES = {'jan':'Janeiro','fev':'Fevereiro','mar':'Marco','abr':'Abril',
-                  'mai':'Maio','jun':'Junho','jul':'Julho','ago':'Agosto',
-                  'set':'Setembro','out':'Outubro','nov':'Novembro','dez':'Dezembro'}
-    def _wk_to_month(lbl):
-        parts = lbl.split('/')
-        if len(parts)==2:
-            mon = parts[1].lower().strip()
-            return f"{_MON_NAMES.get(mon, mon.capitalize())} 2026"
-        return '2026'
-
-    _wk_hist_items = []
-    for _wlbl in WEEK_LABELS:
-        _tp = sum(weekly_history[d].get(_wlbl,(0,0,0))[0] for d in ALL_DRIVERS)
-        _td = sum(weekly_history[d].get(_wlbl,(0,0,0))[1] for d in ALL_DRIVERS)
-        _ts = sum(weekly_history[d].get(_wlbl,(0,0,0))[2] for d in ALL_DRIVERS)
-        _n  = round(100*(_tp-_td)/_ts, 1) if _ts > 0 else None
-        # Label padronizado: "Semana XX/XX" para consistência com os snapshots
-        _wk_hist_items.append({'lbl': f"Semana {_wlbl}", 'month': _wk_to_month(_wlbl), 'nps': _n, 's': _ts})
-    _wk_hist_json = _json.dumps(_wk_hist_items)
+    _hist_inline = "[]"
+    import os as _os_hist
+    _hist_path = _os_hist.path.join(_os_hist.path.dirname(_os_hist.path.abspath(__file__)), "history", "index.json")
+    if _os_hist.path.exists(_hist_path):
+        with open(_hist_path, encoding="utf-8") as _fh:
+            _hist_inline = _fh.read().strip()
 
     js = f"""
-var _HIST_INLINE  = {_hist_inline};
+var _HIST_INLINE = {_hist_inline};
 var _GHPAGES_BASE = "{_GHPAGES_BASE}";
-var _VIG_LABEL    = "{esc(VIG_LABEL or '')}";
-var _S1_LABEL     = "{esc(S1_LABEL or '')}";
-var _M1_LABEL     = "{esc(M1_LABEL or '')}";
-var _WK_HIST      = {_wk_hist_json};
-
-function buildSidebar() {{
-  var nav = document.getElementById('sidebarNav');
-  if (!nav) return;
-  var months = {{}};
-  // Rastreia labels já adicionados para evitar duplicatas
-  var addedLabels = {{}};
-
-  function add(mon, lbl, badge, file, nps, surv) {{
-    var key = lbl.trim().toLowerCase();
-    if (addedLabels[key]) return;   // evita duplicata
-    addedLabels[key] = true;
-    if (!months[mon]) months[mon] = [];
-    months[mon].push({{lbl:lbl, badge:badge, file:file||'', nps:nps, surv:surv||0}});
-  }}
-
-  // Período atual
-  add(_M1_LABEL||'Atual', _VIG_LABEL||'VIG Atual', 'vig', '', null, 0);
-  add(_M1_LABEL||'Atual', _S1_LABEL||'S1 Fechada', 's1', '', null, 0);
-
-  // Snapshots históricos
-  (_HIST_INLINE||[]).forEach(function(e) {{
-    // has_sd=true → carrega no viewer; has_sd=false → mostra card com NPS
-    var badge = e.has_sd ? 'snap' : 'nosnap';
-    add(e.month||'Anterior', e.label, badge, e.has_sd ? e.file : '', e.nps_s1, 0);
-  }});
-
-  // Semanas do weekly_history — adiciona as que não foram cobertas acima
-  // Também verifica se o lbl é prefixo de alguma entrada já adicionada (ex: "11/mai" vs "11/mai – 17/mai")
-  var wkCopy = _WK_HIST.slice().reverse();
-  wkCopy.forEach(function(w) {{
-    var wlbl = w.lbl.trim().toLowerCase();
-    var covered = Object.keys(addedLabels).some(function(k){{ return k.indexOf(wlbl)===0 || wlbl.indexOf(k.split(' ')[0])===0; }});
-    if (!covered) add(w.month, w.lbl, 'wk', '', w.nps, w.s);
-  }});
-
-  // Renderiza — todos os meses abertos por padrão
-  var html='', first=true;
-  Object.keys(months).forEach(function(mon) {{
-    var mits=months[mon];
-    html+='<div class="sb-month" onclick="sbToggle(this)">'
-         +'<span>'+mon+'</span><span class="sb-month-count">'+mits.length+'</span>'
-         +'<span class="sb-month-arrow">&#9660;</span></div>';
-    var wh='';
-    mits.forEach(function(it,idx) {{
-      var act=(idx===0&&first)?' active':'';
-      var bc=it.badge==='vig'?'vig':it.badge==='s1'?'s1':(it.badge==='snap'||it.badge==='nosnap')?'s1':'hist';
-      var bt=it.badge==='vig'?'VIG':it.badge==='s1'?'S1 ✓':(it.badge==='snap'||it.badge==='nosnap')?'S1':'WTD';
-      var nstr=(it.nps!=null)?'<br><span style="font-size:10px;color:#7a8aaa">'+it.nps.toFixed(1).replace('.',',')+' %</span>':'';
-      var sstr=(it.surv>0)?'<br><span style="font-size:10px;color:#556">'+it.surv.toLocaleString()+' enc</span>':'';
-      var fenc=encodeURIComponent(it.file);
-      wh+='<div class="sb-week'+act+'" data-file="'+fenc+'" data-badge="'+it.badge+'" onclick="sbClick(this)">'
-         +'<div style="flex:1"><span class="sb-week-label">'+it.lbl+'</span>'+nstr+sstr+'</div>'
-         +'<span class="sb-week-badge '+bc+'">'+bt+'</span></div>';
-    }});
-    // Todos os meses abertos (max-height calculado)
-    var mh=(mits.length*60+8)+'px';
-    html+='<div class="sb-weeks" style="max-height:'+mh+'">'+wh+'</div>';
-    first=false;
-  }});
-  nav.innerHTML=html;
-}}
-
-function sbToggle(el) {{
-  el.classList.toggle('collapsed');
-  var w=el.nextElementSibling; if(!w) return;
-  w.style.maxHeight=el.classList.contains('collapsed')?'0':(w.querySelectorAll('.sb-week').length*60+8)+'px';
-}}
-
-function sbClick(el) {{
-  document.querySelectorAll('.sb-week').forEach(function(w){{w.classList.remove('active');}});
-  el.classList.add('active');
-  var f     = decodeURIComponent(el.getAttribute('data-file')||'');
-  var badge = el.getAttribute('data-badge') || '';
-  var lbl   = (el.querySelector('.sb-week-label')||{{}}).textContent || '';
-
-  // VIG ou S1 atual — mostra o dashboard ao vivo
-  if (badge === 'vig' || badge === 's1') {{
-    sbBack(); return;
-  }}
-
-  // Abre o visualizador inline
-  var viewer  = document.getElementById('histViewer');
-  var frame   = document.getElementById('hvFrame');
-  var nosnap  = document.getElementById('hvNosnap');
-  var title   = document.getElementById('hvTitle');
-  viewer.classList.add('open');
-  document.getElementById('mainWrap').style.display = 'none';
-  title.textContent = lbl;
-
-  if (f) {{
-    // Tem snapshot seller dev: carrega no iframe
-    frame.style.display = '';
-    nosnap.style.display = 'none';
-    frame.src = _GHPAGES_BASE + 'history_sd/' + f;
-  }} else {{
-    // Sem snapshot sd: mostra card com NPS disponível
-    frame.style.display = 'none';
-    nosnap.style.display = 'flex';
-    document.getElementById('hvNosnapTitle').textContent = lbl;
-    // Tenta NPS do _HIST_INLINE primeiro, depois do _WK_HIST
-    var npsVal = null, survVal = 0;
-    var hiEntry = (_HIST_INLINE||[]).find(function(e){{ return e.label === lbl; }});
-    if (hiEntry && hiEntry.nps_s1 != null) {{
-      npsVal = hiEntry.nps_s1; survVal = 0;
-    }} else {{
-      var wkLabel = lbl.replace('Semana ','').trim();
-      var wkEntry = _WK_HIST.find(function(w){{ return w.lbl === wkLabel; }});
-      if (wkEntry) {{ npsVal = wkEntry.nps; survVal = wkEntry.s; }}
-    }}
-    document.getElementById('hvNosnapNps').textContent  = npsVal != null ? npsVal.toFixed(1).replace('.',',')+'%' : '—';
-    document.getElementById('hvNosnapSurv').textContent = survVal > 0 ? survVal.toLocaleString()+' pesquisas' : '';
-  }}
-}}
-
-function sbBack() {{
-  var viewer = document.getElementById('histViewer');
-  var frame  = document.getElementById('hvFrame');
-  viewer.classList.remove('open');
-  document.getElementById('mainWrap').style.display = '';
-  frame.src = 'about:blank';
-  // Volta para semana atual no sidebar
-  var first = document.querySelector('.sb-week');
-  if (first) {{ document.querySelectorAll('.sb-week').forEach(function(w){{w.classList.remove('active');}});
-                first.classList.add('active'); }}
-}}
-
-function sbFilter(q) {{
-  var qq=q.toLowerCase();
-  document.querySelectorAll('.sb-week').forEach(function(w){{
-    var t=w.querySelector('.sb-week-label');
-    w.style.display=(!qq||(t&&t.textContent.toLowerCase().indexOf(qq)>=0))?'':'none';
-  }});
-}}
-
 function switchPeriod(btn,p){{
   document.querySelectorAll('.period-btn').forEach(function(b){{b.classList.remove('active');}});
   btn.classList.add('active');
@@ -3243,40 +3008,76 @@ function switchPeriod(btn,p){{
     v.style.display=(v.dataset.p===p)?'':'none';
   }});
 }}
-
-function openSnapshot(f){{ window.open(_GHPAGES_BASE+'history/'+f,'_blank'); }}
+// ── Histórico de Semanas ──────────────────────────────────────────
+var _histLoaded = false;
+function openHistory() {{
+  document.getElementById('histOverlay').classList.add('open');
+  if (!_histLoaded) {{ loadHistory(); _histLoaded = true; }}
+}}
+function closeHistory() {{
+  document.getElementById('histOverlay').classList.remove('open');
+}}
+function closeHistoryOutside(e) {{
+  if (e.target === document.getElementById('histOverlay')) closeHistory();
+}}
+function loadHistory() {{
+  var list = document.getElementById('histList');
+  function renderHist(data) {{
+    if (!data || !data.length) {{
+      list.innerHTML = '<div class="hist-empty">Nenhum snapshot salvo ainda.<br>O histórico é criado automaticamente toda segunda-feira.</div>';
+      return;
+    }}
+    var html = '';
+    data.forEach(function(e) {{
+      var badge = e.most_recent ? '<span class="hist-badge-new">MAIS RECENTE</span>' : '';
+      var nps   = e.nps_s1 ? ' &nbsp;<span style="color:#888;font-size:10px">NPS S1: ' + e.nps_s1.toFixed(1).replace('.',',') + '%</span>' : '';
+      var icon  = e.most_recent ? '&#128197;' : '&#128441;';
+      html += '<div class="hist-item" onclick="openSnapshot(\\'' + e.file + '\\')">'
+            + '  <div class="hist-item-left">'
+            + '    <div class="hist-item-icon">' + icon + '</div>'
+            + '    <div>'
+            + '      <div class="hist-item-label">' + e.label + badge + '</div>'
+            + '      <div class="hist-item-date">Arquivado em ' + e.archived_at + nps + '</div>'
+            + '    </div>'
+            + '  </div>'
+            + '  <span class="hist-open-link">Abrir &#8594;</span>'
+            + '</div>';
+    }});
+    list.innerHTML = html;
+  }}
+  if (_HIST_INLINE && _HIST_INLINE.length) {{
+    renderHist(_HIST_INLINE);
+  }} else {{
+    fetch('history/index.json?_=' + Date.now())
+      .then(function(r) {{ return r.json(); }})
+      .then(renderHist)
+      .catch(function() {{
+        list.innerHTML = '<div class="hist-empty">Histórico não encontrado.<br>Execute o update semanal para criar o primeiro snapshot.</div>';
+      }});
+  }}
+}}
+function openSnapshot(file) {{
+  window.open(_GHPAGES_BASE + 'history/' + file, '_blank');
+}}
 
 function showTab(n){{
   document.querySelectorAll('.tab-btn').forEach(function(b,i){{b.classList.toggle('active',i===n);}});
   document.querySelectorAll('.tab-pane').forEach(function(p,i){{p.classList.toggle('active',i===n);}});
 }}
-function filterDrv(btn,grp){{
+function filterDrv(btn, grp){{
   document.querySelectorAll('.drv-fbtn').forEach(function(b){{b.classList.remove('active');}});
   btn.classList.add('active');
   document.querySelectorAll('.drv-card').forEach(function(c){{
-    c.style.display=(c.dataset.grp===grp)?'':'none';
+    c.style.display = (c.dataset.grp===grp) ? '' : 'none';
   }});
 }}
+// Inicializa cada grupo de cards: esconde todos exceto o primeiro por container
 (function(){{
   document.querySelectorAll('.drv-cards').forEach(function(container){{
-    var cards=container.querySelectorAll('.drv-card');
+    var cards = container.querySelectorAll('.drv-card');
     for(var i=1;i<cards.length;i++) cards[i].style.display='none';
   }});
 }})();
-
-// Esconde sidebar apenas quando é snapshot histórico carregado no viewer
-// (detecta pelo path da URL, não por estar num iframe — Grid também usa iframe)
-var _isSnapshot = window.location.pathname.indexOf('history_sd') >= 0
-                  || window.location.pathname.indexOf('history/') >= 0;
-if (_isSnapshot) {{
-  var sb = document.getElementById('sidebar');
-  var mw = document.getElementById('mainWrap');
-  var hv = document.getElementById('histViewer');
-  if (sb) sb.style.display = 'none';
-  if (mw) mw.style.marginLeft = '0';
-  if (hv) hv.style.left = '0';
-}}
-buildSidebar();
 """
     tgt_str = str(NPS_TARGET).replace('.', ',')
     return f"""<!DOCTYPE html>
@@ -3292,49 +3093,35 @@ buildSidebar();
 </head>
 <body>
 
-<!-- ── Sidebar de Navegação ──────────────────────────────────────── -->
-<div class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <div class="sidebar-title">NPS Seller Dev BR</div>
-    <div class="sidebar-sub">Dados at&#233; {DADOS_ATE} &middot; {REPORT_DATE}</div>
-  </div>
-  <div class="sidebar-search">
-    <input type="text" id="sbSearch" placeholder="Buscar semana ou m&#234;s..." oninput="sbFilter(this.value)">
-  </div>
-  <nav class="sidebar-nav" id="sidebarNav">
-    <!-- preenchido pelo JS com _HIST_INLINE + período atual -->
-  </nav>
-</div>
-
-<!-- ── Visualizador inline de semana histórica ────────────────────── -->
-<div class="hist-viewer" id="histViewer">
-  <div class="hist-viewer-bar">
-    <button class="hist-viewer-back" onclick="sbBack()">&#8592; Voltar ao atual</button>
-    <span class="hist-viewer-title" id="hvTitle"></span>
-    <span style="font-size:11px;color:#7a8aaa">Dados da semana selecionada</span>
-  </div>
-  <iframe class="hist-viewer-iframe" id="hvFrame" src="about:blank"></iframe>
-  <div class="hist-nosnap" id="hvNosnap" style="display:none">
-    <div class="hist-nosnap-card">
-      <h2 id="hvNosnapTitle">Semana</h2>
-      <div class="hnps" id="hvNosnapNps">—</div>
-      <div class="hsurv" id="hvNosnapSurv"></div>
-      <div class="hsub">Snapshot completo não disponível para esta semana.<br>O histórico é salvo automaticamente toda segunda-feira.</div>
-    </div>
-  </div>
-</div>
-
-<!-- ── Conteúdo principal ─────────────────────────────────────────── -->
-<div class="main-wrap" id="mainWrap">
-
 <div class="header">
   <div>
     <div class="header-title">NPS Tend&#234;ncias &mdash; Seller Dev BR</div>
     <div class="header-sub">Exp. Impositiva &middot; ME Vendedor &middot; PCF Vendedor &middot; Post Venta &middot; Publicaciones &middot; Partners &middot; Center BR &middot; e-commerce</div>
   </div>
-  <div style="text-align:right;line-height:1.6">
-    <div style="font-weight:700;font-size:13px;color:#fff">Dados at&#233; {DADOS_ATE}</div>
-    <div style="font-size:11px;opacity:.8;color:#fff">Atualizado em {REPORT_DATE} &#224;s {REPORT_TIME}</div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <button class="hist-btn" onclick="openHistory()">
+      &#128193; Hist&#243;rico de Semanas
+    </button>
+    <div style="text-align:right;line-height:1.6">
+      <div style="font-weight:700;font-size:13px;color:#fff">Dados at&#233; {DADOS_ATE}</div>
+      <div style="font-size:11px;opacity:.8;color:#fff">Atualizado em {REPORT_DATE} &#224;s {REPORT_TIME}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Histórico de Semanas -->
+<div class="hist-overlay" id="histOverlay" onclick="closeHistoryOutside(event)">
+  <div class="hist-panel">
+    <div class="hist-header">
+      <div>
+        <div class="hist-title">&#128193; Hist&#243;rico de Semanas</div>
+        <div class="hist-sub">Snapshots semanais salvos automaticamente</div>
+      </div>
+      <button class="hist-close" onclick="closeHistory()">&#10005;</button>
+    </div>
+    <div class="hist-list" id="histList">
+      <div class="hist-empty">Carregando...</div>
+    </div>
   </div>
 </div>
 
@@ -3347,8 +3134,6 @@ buildSidebar();
 <div class="tab-pane active">{t0}</div>
 <div class="tab-pane">{t1}</div>
 <div class="tab-pane">{t2}</div>
-
-</div><!-- /.main-wrap -->
 
 <script>{js}</script>
 </body>
