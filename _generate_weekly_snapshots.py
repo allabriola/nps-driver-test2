@@ -144,8 +144,7 @@ for i, s1_lbl in enumerate(WEEK_LABELS):
     with open(monthly_result_path, 'w', encoding='utf-8') as f:
         json.dump(mr_hist, f, ensure_ascii=False)
 
-    # ── dd_breakdown.json: remapeia S1/S2 para a semana histórica ────
-    # Os dados disponíveis são: S1=11/mai-17/mai, S2=04/mai-10/mai
+    # ── dd_breakdown.json e _monthly_breakdown.json com dados históricos ─
     dd_path  = os.path.join(BASE_DIR, 'dd_breakdown.json')
     bak_dd   = os.path.join(BASE_DIR, '_dd_bak.json')
     mb_path  = os.path.join(BASE_DIR, '_monthly_breakdown.json')
@@ -156,64 +155,57 @@ for i, s1_lbl in enumerate(WEEK_LABELS):
     with open(dd_path, encoding='utf-8') as f: dd_curr = json.load(f)
     with open(mb_path, encoding='utf-8') as f: mb_curr = json.load(f)
 
-    # Identifica mapeamento: qual chave usar para S1 e S2 históricos
-    # S1_key = chave do dd_breakdown que corresponde ao s1_lbl histórico
-    # S2_key = chave do dd_breakdown que corresponde ao s2_lbl histórico
-    _WEEK_TO_KEY = {"11/mai": "S1", "04/mai": "S2"}
-    s1_key = _WEEK_TO_KEY.get(s1_lbl)   # ex: "04/mai" → "S2"
-    s2_key = _WEEK_TO_KEY.get(s2_lbl)   # ex: "27/abr" → None
+    # Carrega dados históricos por semana
+    bh_path = os.path.join(BASE_DIR, '_breakdown_historical.json')
+    bh = {}
+    if os.path.exists(bh_path):
+        with open(bh_path, encoding='utf-8') as f: bh = json.load(f)
 
-    def _remap_period(src_dict, from_key, to_key):
-        """Copia dados de from_key para to_key em todos os drivers do dict."""
-        result = json.loads(json.dumps(src_dict))  # deep copy
-        for drv in result:
-            if isinstance(result[drv], dict):
-                for dim in result[drv]:
-                    if isinstance(result[drv][dim], dict):
-                        # Copia from_key → to_key, zera S1/S2 que não temos
-                        src_data = result[drv][dim].get(from_key, {}) if from_key else {}
-                        result[drv][dim][to_key] = src_data
-                        # Zera chaves que não temos dados
-                        for k in ['S1', 'S2', 'VIG']:
-                            if k != to_key:
-                                result[drv][dim][k] = {}
+    def _bh_to_dd_period(week_lbl):
+        """Converte breakdown histórico para o formato de período do dd_breakdown."""
+        wk_data = bh.get(week_lbl, {})
+        if not wk_data: return {}
+        # dd_breakdown[drv][dim][period_key] = {value: {p,d,s,nps}}
+        # bh[week][drv][dim] = {value: {p,d,s,nps}}
+        result = {}
+        for drv, dims in wk_data.items():
+            result[drv] = {}
+            for dim, values in dims.items():
+                if dim in ('P','C','O','Sr','T'):
+                    result[drv][dim] = values
         return result
 
-    # dd_breakdown modificado
-    if s1_key:
-        # Remapeia: a chave histórica s1_key vira S1, s2_key vira S2
-        dd_mod = json.loads(json.dumps(dd_curr))
-        for drv in dd_mod:
-            if isinstance(dd_mod[drv], dict):
-                for dim in list(dd_mod[drv].keys()):
-                    if isinstance(dd_mod[drv][dim], dict):
-                        s1_data = dd_mod[drv][dim].get(s1_key, {})
-                        s2_data = dd_mod[drv][dim].get(s2_key, {}) if s2_key else {}
-                        dd_mod[drv][dim]['S1']  = s1_data
-                        dd_mod[drv][dim]['S2']  = s2_data
-                        dd_mod[drv][dim]['VIG'] = {}
-        with open(dd_path, 'w', encoding='utf-8') as f:
-            json.dump(dd_mod, f, ensure_ascii=False)
-    # else: não temos dados, mantém atual (aba mostrará dados incorretos mas não 404)
+    s1_hist = _bh_to_dd_period(s1_lbl)
+    s2_hist = _bh_to_dd_period(s2_lbl) if s2_lbl else {}
 
-    # _monthly_breakdown.json modificado
+    # Constrói dd_breakdown modificado com S1/S2 históricos
+    dd_mod = json.loads(json.dumps(dd_curr))
+    dims_map = {'P':'P','C':'C','O':'O','Sr':'Sr','Sr_P':'Sr','C_Sr':'C','O_Sr':'O','P_C':'P','P_O':'P'}
+    for drv in dd_mod:
+        for dd_dim in list(dd_mod[drv].keys()):
+            base_dim = dims_map.get(dd_dim, dd_dim)
+            s1_d = s1_hist.get(drv, {}).get(base_dim, {})
+            s2_d = s2_hist.get(drv, {}).get(base_dim, {})
+            dd_mod[drv][dd_dim]['S1']  = s1_d
+            dd_mod[drv][dd_dim]['S2']  = s2_d
+            dd_mod[drv][dd_dim]['VIG'] = {}
+            dd_mod[drv][dd_dim]['M1']  = s1_d  # mensal M1 = S1 histórico
+            dd_mod[drv][dd_dim]['M2']  = s2_d
+    with open(dd_path, 'w', encoding='utf-8') as f:
+        json.dump(dd_mod, f, ensure_ascii=False)
+
+    # Constrói _monthly_breakdown.json modificado
     mb_mod = json.loads(json.dumps(mb_curr))
-    for drv in mb_mod.get('Mai', {}):
-        # Filtra Mai para acumular só semanas até s1_lbl
-        mai_weeks_until = [w for w in WEEK_LABELS
-                           if lbl_to_month(w).startswith('Maio')
-                           and WEEK_LABELS.index(w) <= WEEK_LABELS.index(s1_lbl)]
-        for dim in mb_mod['Mai'].get(drv, {}):
-            # Zera os valores de Mai — serão recalculados pelo _monthly_result.json
-            # (já fixado acima); aqui só garantimos que S1/S2 estejam corretos
-            pass
-    # Remapeia S1/S2 no _monthly_breakdown.json
-    if s1_key:
-        for drv in mb_mod.get('S1', {}):
-            s1_drv = mb_mod.get(s1_key if s1_key in mb_mod else 'S1', {}).get(drv, {})
-            s2_drv = mb_mod.get(s2_key if s2_key and s2_key in mb_mod else 'S2', {}).get(drv, {})
-            if 'S1' in mb_mod: mb_mod['S1'][drv] = s1_drv
-            if 'S2' in mb_mod: mb_mod['S2'][drv] = s2_drv
+    for period_key, hist_lbl in [('S1', s1_lbl), ('S2', s2_lbl)]:
+        if not hist_lbl: continue
+        hist_data = bh.get(hist_lbl, {})
+        if not hist_data: continue
+        for drv, dims in hist_data.items():
+            if period_key not in mb_mod: mb_mod[period_key] = {}
+            mb_mod[period_key][drv] = {}
+            for dim in ('P','C','O','T','Sr'):
+                if dim in dims:
+                    mb_mod[period_key][drv][dim] = dims[dim]
     with open(mb_path, 'w', encoding='utf-8') as f:
         json.dump(mb_mod, f, ensure_ascii=False)
 
