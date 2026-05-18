@@ -176,16 +176,20 @@ for i, s1_lbl in enumerate(WEEK_LABELS):
             # Mês anterior a M1 → mantém completo
             mr_hist[lbl] = mr_current[lbl]
         elif lbl == m1_key:
-            # M1 → acumula semanas desse mês até s1_lbl
-            m1_weeks = [w for w in WEEK_LABELS
-                        if w.split('/')[1].lower().startswith(m1_prefix)
-                        and WEEK_LABELS.index(w) <= WEEK_LABELS.index(s1_lbl)]
-            mr_hist[lbl] = {}
-            for drv in mr_current.get(lbl, {}).keys():
-                tp = sum(weekly_history.get(drv,{}).get(w,(0,0,0))[0] for w in m1_weeks)
-                td = sum(weekly_history.get(drv,{}).get(w,(0,0,0))[1] for w in m1_weeks)
-                ts = sum(weekly_history.get(drv,{}).get(w,(0,0,0))[2] for w in m1_weeks)
-                mr_hist[lbl][drv] = [tp, td, ts]
+            if s1_lbl == WEEK_LABELS[-1]:
+                # Semana mais recente → usa dado oficial de _monthly_result.json
+                mr_hist[lbl] = mr_current[lbl]
+            else:
+                # Semana histórica → reconstrói só até s1_lbl
+                m1_weeks = [w for w in WEEK_LABELS
+                            if w.split('/')[1].lower().startswith(m1_prefix)
+                            and WEEK_LABELS.index(w) <= WEEK_LABELS.index(s1_lbl)]
+                mr_hist[lbl] = {}
+                for drv in mr_current.get(lbl, {}).keys():
+                    tp = sum(weekly_history.get(drv,{}).get(w,(0,0,0))[0] for w in m1_weeks)
+                    td = sum(weekly_history.get(drv,{}).get(w,(0,0,0))[1] for w in m1_weeks)
+                    ts = sum(weekly_history.get(drv,{}).get(w,(0,0,0))[2] for w in m1_weeks)
+                    mr_hist[lbl][drv] = [tp, td, ts]
         else:
             # Mês posterior a M1 → zera (ainda não aconteceu)
             mr_hist[lbl] = {drv: [0,0,0] for drv in mr_current.get(lbl,{}).keys()}
