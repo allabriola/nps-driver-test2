@@ -275,139 +275,139 @@
   },
   "VIG_new": {
     "CBT": [
-      27,
-      11,
-      39
+      59,
+      14,
+      75
     ],
     "Experiencia Impositiva Mature": [
-      2,
+      4,
       1,
-      3
+      5
     ],
     "Experiencia Impositiva Meli Pro": [
-      3,
-      0,
-      4
-    ],
-    "Experiencia Impositiva Seller Dev": [
-      35,
-      18,
-      57
-    ],
-    "FBM-S Mature": [
-      6,
-      5,
-      13
-    ],
-    "FBM-S Meli Pro": [
-      9,
-      1,
-      11
-    ],
-    "FBM-S Seller Dev": [
-      39,
-      14,
-      56
-    ],
-    "ME Vendedor Mature": [
-      35,
-      10,
-      46
-    ],
-    "ME Vendedor Meli Pro": [
-      74,
-      7,
-      86
-    ],
-    "ME Vendedor Seller Dev": [
-      422,
-      41,
-      502
-    ],
-    "Otros CV": [
-      110,
-      34,
-      155
-    ],
-    "PCF Vendedor Mature": [
-      14,
-      6,
-      22
-    ],
-    "PCF Vendedor Meli Pro": [
-      60,
-      6,
-      72
-    ],
-    "PCF Vendedor Seller Dev": [
-      47,
-      17,
-      70
-    ],
-    "PDD DS&XD - Vendedor": [
-      43,
-      40,
-      91
-    ],
-    "PDD FBM - Vendedor": [
-      9,
-      8,
-      18
-    ],
-    "PDD Fotos - Vendedor": [
       4,
       0,
-      4
+      5
     ],
-    "PDD MP,FLEX & CBT - Vendedor": [
-      8,
-      2,
-      12
+    "Experiencia Impositiva Seller Dev": [
+      67,
+      29,
+      103
     ],
-    "PNR ME - Vendedor": [
-      5,
-      10,
-      20
-    ],
-    "PNR MP - Vendedor": [
-      9,
-      3,
-      14
-    ],
-    "Partners": [
-      276,
-      53,
-      367
-    ],
-    "Post Venta Mature": [
-      34,
-      1,
-      41
-    ],
-    "Post Venta Meli Pro": [
-      118,
-      6,
-      128
-    ],
-    "Post Venta Seller Dev": [
-      100,
-      15,
-      125
-    ],
-    "Publicaciones Mature": [
-      22,
-      3,
+    "FBM-S Mature": [
+      12,
+      11,
       25
     ],
-    "Publicaciones Meli Pro": [
-      53,
+    "FBM-S Meli Pro": [
+      19,
       1,
-      54
+      22
+    ],
+    "FBM-S Seller Dev": [
+      74,
+      27,
+      104
+    ],
+    "ME Vendedor Mature": [
+      53,
+      16,
+      72
+    ],
+    "ME Vendedor Meli Pro": [
+      114,
+      12,
+      134
+    ],
+    "ME Vendedor Seller Dev": [
+      748,
+      64,
+      887
+    ],
+    "Otros CV": [
+      223,
+      87,
+      328
+    ],
+    "PCF Vendedor Mature": [
+      18,
+      8,
+      28
+    ],
+    "PCF Vendedor Meli Pro": [
+      111,
+      10,
+      130
+    ],
+    "PCF Vendedor Seller Dev": [
+      82,
+      29,
+      123
+    ],
+    "PDD DS&XD - Vendedor": [
+      113,
+      107,
+      243
+    ],
+    "PDD FBM - Vendedor": [
+      33,
+      20,
+      58
+    ],
+    "PDD Fotos - Vendedor": [
+      7,
+      3,
+      11
+    ],
+    "PDD MP,FLEX & CBT - Vendedor": [
+      25,
+      9,
+      38
+    ],
+    "PNR ME - Vendedor": [
+      22,
+      26,
+      59
+    ],
+    "PNR MP - Vendedor": [
+      30,
+      17,
+      56
+    ],
+    "Partners": [
+      588,
+      86,
+      740
+    ],
+    "Post Venta Mature": [
+      62,
+      3,
+      71
+    ],
+    "Post Venta Meli Pro": [
+      179,
+      8,
+      191
+    ],
+    "Post Venta Seller Dev": [
+      194,
+      24,
+      235
+    ],
+    "Publicaciones Mature": [
+      27,
+      5,
+      32
+    ],
+    "Publicaciones Meli Pro": [
+      89,
+      3,
+      92
     ],
     "Publicaciones Seller Dev": [
-      179,
-      39,
-      236
+      370,
+      81,
+      492
     ]
   }
 }
