@@ -3059,17 +3059,15 @@ def build():
     import os as _os_hist, json as _json_hist
     _base_dir = _os_hist.path.dirname(_os_hist.path.abspath(__file__))
 
-    # Quais arquivos existem em history_sd/
-    _sd_dir = _os_hist.path.join(_base_dir, "history_sd")
+    # Carrega history_sd/index.json (snapshots seller dev — meses corretos + has_sd=True)
+    _sd_dir   = _os_hist.path.join(_base_dir, "history_sd")
     _sd_files = set(_os_hist.listdir(_sd_dir)) if _os_hist.path.exists(_sd_dir) else set()
-
-    # Carrega history/index.json (snapshots com NPS) e marca quais têm arquivo sd
-    _hist_path = _os_hist.path.join(_base_dir, "history", "index.json")
-    _hist_items = []
-    if _os_hist.path.exists(_hist_path):
-        with open(_hist_path, encoding="utf-8") as _fh:
+    _hist_path_sd = _os_hist.path.join(_base_dir, "history_sd", "index.json")
+    _hist_items   = []
+    if _os_hist.path.exists(_hist_path_sd):
+        with open(_hist_path_sd, encoding="utf-8") as _fh:
             _hist_items = _json_hist.load(_fh)
-    # Adiciona flag has_sd para cada entrada
+    # Marca has_sd para cada entrada
     for _hi in _hist_items:
         _hi["has_sd"] = _hi.get("file","") in _sd_files
     _hist_inline = _json_hist.dumps(_hist_items)
