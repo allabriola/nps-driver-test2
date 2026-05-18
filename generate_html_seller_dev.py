@@ -2597,54 +2597,16 @@ def _build_driver_breakdowns(mode="monthly"):
         )
 
         if mode == "weekly":
+            # Mostra apenas S1 fechada (sem VIG)
             nps_c = nps_curr_fn(grp); nps_p = nps_prev_fn(grp)
             surv_s1 = sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2] for d in DRIVER_GROUPS.get(grp,[]))
             tgt_g   = _grp_tgt_latest(grp, "weekly")
-            # Resumo S1
             s1_exec = _analytical_exec(
                 grp, nps_c, nps_p, surv_s1, tgt_g,
                 bd_src.get(grp), bd_src.get(grp),
                 lM1, lM2, color, period_type="S1", days=7
             )
-            # Resumo VIG
-            nps_v, surv_v = grp_vig.get(grp, (None, 0))
-            vig_exec = _analytical_exec(
-                grp, nps_v, nps_c, surv_v, tgt_g,
-                grp_wk_vig_bd.get(grp), grp_wk_bd.get(grp),
-                esc(VIG_LABEL), lM1, color, period_type="VIG", days=4
-            )
-            # Grid VIG (VIG vs S1) — Total usa NPS oficial do grupo
-            bd_vig  = grp_wk_vig_bd.get(grp, {})
-            lVIG    = esc(VIG_LABEL); lS1 = lM1
-            surv_vig_g = sum(drivers_vigente.get(d,(0,0,0))[2]
-                             for d in DRIVER_GROUPS.get(grp,[]) if d not in EXCLUIDOS)
-            kw_vig = dict(weekly=True, lbl1=lVIG, lbl2=lS1,
-                          official_nps1=nps_v, official_nps2=nps_c,
-                          official_surv1=surv_vig_g, official_surv2=surv_s1)
-            proc_vig  = _bd_table(bd_vig.get("P_M1",{}), bd_vig.get("P_M2",{}), max_rows=6, **kw_vig)
-            canal_vig = _bd_table(bd_vig.get("C_M1",{}), bd_vig.get("C_M2",{}), max_rows=5, **kw_vig)
-            ofic_vig  = _bd_table(bd_vig.get("O_M1",{}), bd_vig.get("O_M2",{}), max_rows=4, **kw_vig)
-            sen_vig   = _bd_seniority(bd_vig.get("Sr_M1",{}), bd_vig.get("Sr_M2",{}),
-                                      weekly=True, lbl1=lVIG, lbl2=lS1,
-                                      official_nps1=nps_v, official_nps2=nps_c,
-                                      official_surv1=surv_vig_g, official_surv2=surv_s1)
-            team_vig = _bd_table(grp_wk_vig_bd.get(grp,{}).get("T_M1",{}),
-                                   grp_wk_vig_bd.get(grp,{}).get("T_M2",{}), max_rows=6, **kw_vig)
-            grid_vig = (
-                f'<div class="bd-grid">'
-                f'<div class="bd-sec"><div class="bd-sec-title">&#128204; Processos</div>{proc_vig}</div>'
-                f'<div class="bd-sec"><div class="bd-sec-title">&#127970; Oficina</div>{ofic_vig}</div>'
-                f'<div class="bd-sec"><div class="bd-sec-title">&#128101; Equipes</div>{team_vig}</div>'
-                f'<div class="bd-sec"><div class="bd-sec-title">&#127891; Senioridade</div>{sen_vig}</div>'
-                f'</div>'
-            )
-
-            # Separador visual entre as duas seções
-            sep = (f'<div style="border-top:1px dashed #e0e4ec;margin:12px 0 8px;'
-                   f'padding-top:8px;font-size:10px;color:#aaa;font-weight:600;'
-                   f'text-transform:uppercase;letter-spacing:.5px">'
-                   f'&#9889; Semana Atual &mdash; VIG: {esc(VIG_LABEL)}</div>')
-            analysis = s1_exec + sep + grid_vig + vig_exec
+            analysis = s1_exec
         else:
             analysis = _process_exec_html(grp, mode=mode) or _drv_analysis_html(grp)
         cards += (f'<div class="drv-card" data-grp="{slug}">'
@@ -2681,32 +2643,32 @@ def _tab_semanal():
       wk_cons, WEEK_LABELS)}
 </div>"""
 
-    # ── KPIs consolidados (S1 fechada + VIG atual) ──────────────────
-    s1_nps  = wk_cons[-1] if wk_cons else None
-    s2_nps  = wk_cons[-2] if len(wk_cons) >= 2 else None
-    vig_d   = round(vig_cons_nps - s1_nps, 2) if vig_cons_nps and s1_nps else None
-    s1_d    = round(s1_nps - s2_nps, 2) if s1_nps and s2_nps else None
-    d_vig_cls = "kpi-pos" if vig_d and vig_d >= 0 else "kpi-neg"
-    d_s1_cls  = "kpi-pos" if s1_d  and s1_d  >= 0 else "kpi-neg"
+    # ── KPIs consolidados — apenas semanas fechadas (S1 e S2, sem VIG) ─
+    s1_nps = wk_cons[-1] if wk_cons else None
+    s2_nps = wk_cons[-2] if len(wk_cons) >= 2 else None
+    s1_d   = round(s1_nps - s2_nps, 2) if s1_nps and s2_nps else None
+    s1_vtgt = round(s1_nps - NPS_TARGET, 2) if s1_nps else None
+    d_s1_cls = "kpi-pos" if s1_d  and s1_d  >= 0 else "kpi-neg"
+    g_cls    = "kpi-pos" if s1_vtgt and s1_vtgt >= 0 else "kpi-neg"
+    g_bc     = "#00A650" if s1_vtgt and s1_vtgt >= 0 else "#E84142"
 
-    # Ordem: NPS VIG ATUAL | Δ VIG VS S1 | TARGET | NPS S1 FECHADA | Δ WoW
     kpis_wk = (f'<div class="kpi-strip" style="grid-template-columns:repeat(5,1fr);margin-bottom:0">'
-               f'<div class="kpi-card" style="border-top:4px solid #F39C12">'
-               f'<div class="kpi-label">NPS VIG Atual &#9889;</div>'
-               f'<div class="kpi-value">{fn(vig_cons_nps)}%</div>'
-               f'<div class="kpi-sub">{esc(VIG_LABEL)}</div></div>'
-               f'<div class="kpi-card" style="border-top:4px solid #F39C12">'
-               f'<div class="kpi-label">&#916; VIG vs S1</div>'
-               f'<div class="kpi-value {d_vig_cls}">{"+" if vig_d and vig_d>=0 else ""}{fn(vig_d)}pp</div>'
-               f'<div class="kpi-sub">{vig_cons_surv:,} pesquisas</div></div>'
-               f'<div class="kpi-card" style="border-top:4px solid #888">'
-               f'<div class="kpi-label">Target</div>'
-               f'<div class="kpi-value">{str(NPS_TARGET).replace(".",",")}%</div>'
-               f'<div class="kpi-sub">Base sem media&#231;&#227;o</div></div>'
                f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
                f'<div class="kpi-label">NPS S1 Fechada</div>'
                f'<div class="kpi-value">{fn(s1_nps)}%</div>'
                f'<div class="kpi-sub">{esc(S1_LABEL)}</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid #888">'
+               f'<div class="kpi-label">NPS S2 Anterior</div>'
+               f'<div class="kpi-value">{fn(s2_nps)}%</div>'
+               f'<div class="kpi-sub">{esc(S2_LABEL)}</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid #888">'
+               f'<div class="kpi-label">Target</div>'
+               f'<div class="kpi-value">{str(NPS_TARGET).replace(".",",")}%</div>'
+               f'<div class="kpi-sub">Base sem media&#231;&#227;o</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid {g_bc}">'
+               f'<div class="kpi-label">GAP vs Target</div>'
+               f'<div class="kpi-value {g_cls}">{"+" if s1_vtgt and s1_vtgt>=0 else ""}{fn(s1_vtgt)}pp</div>'
+               f'<div class="kpi-sub">Target {str(NPS_TARGET).replace(".",",")}%</div></div>'
                f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
                f'<div class="kpi-label">&#916; WoW (S2&#8594;S1)</div>'
                f'<div class="kpi-value {d_s1_cls}">{"+" if s1_d and s1_d>=0 else ""}{fn(s1_d)}pp</div>'
