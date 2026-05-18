@@ -325,7 +325,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
   </div>
   <div style="text-align:right;line-height:1.6">
     <div style="font-weight:700;font-size:13px;color:#fff">Dados at&#233; 18/05/2026</div>
-    <div style="font-size:11px;opacity:.8;color:#fff">Atualizado em 18/05/2026 &#224;s 09:24</div>
+    <div style="font-size:11px;opacity:.8;color:#fff">Atualizado em 18/05/2026 &#224;s 09:28</div>
   </div>
 </div>
 
@@ -740,32 +740,47 @@ function buildSidebar() {
   var nav = document.getElementById('sidebarNav');
   if (!nav) return;
   var months = {};
+  // Rastreia labels já adicionados para evitar duplicatas
+  var addedLabels = {};
+
   function add(mon, lbl, badge, file, nps, surv) {
+    var key = lbl.trim().toLowerCase();
+    if (addedLabels[key]) return;   // evita duplicata
+    addedLabels[key] = true;
     if (!months[mon]) months[mon] = [];
-    months[mon].push({lbl:lbl,badge:badge,file:file||'',nps:nps,surv:surv||0});
+    months[mon].push({lbl:lbl, badge:badge, file:file||'', nps:nps, surv:surv||0});
   }
+
+  // Período atual
   add(_M1_LABEL||'Atual', _VIG_LABEL||'VIG Atual', 'vig', '', null, 0);
   add(_M1_LABEL||'Atual', _S1_LABEL||'S1 Fechada', 's1', '', null, 0);
+
+  // Snapshots históricos (têm arquivo)
   (_HIST_INLINE||[]).forEach(function(e) {
     add(e.month||'Anterior', e.label, 'snap', e.file, e.nps_s1, 0);
   });
+
+  // Semanas do weekly_history — adiciona as que não foram cobertas acima
+  // Também verifica se o lbl é prefixo de alguma entrada já adicionada (ex: "11/mai" vs "11/mai – 17/mai")
   var wkCopy = _WK_HIST.slice().reverse();
   wkCopy.forEach(function(w) {
-    var already = (_HIST_INLINE||[]).some(function(e){ return e.label&&e.label.indexOf(w.lbl)>=0; });
-    if (!already) add(w.month, w.lbl, 'wk', '', w.nps, w.s);
+    var wlbl = w.lbl.trim().toLowerCase();
+    var covered = Object.keys(addedLabels).some(function(k){ return k.indexOf(wlbl)===0 || wlbl.indexOf(k.split(' ')[0])===0; });
+    if (!covered) add(w.month, w.lbl, 'wk', '', w.nps, w.s);
   });
+
+  // Renderiza — todos os meses abertos por padrão
   var html='', first=true;
   Object.keys(months).forEach(function(mon) {
     var mits=months[mon];
-    var cls=first?'':' collapsed';
-    html+='<div class="sb-month'+cls+'" onclick="sbToggle(this)">'
+    html+='<div class="sb-month" onclick="sbToggle(this)">'
          +'<span>'+mon+'</span><span class="sb-month-count">'+mits.length+'</span>'
          +'<span class="sb-month-arrow">&#9660;</span></div>';
     var wh='';
     mits.forEach(function(it,idx) {
       var act=(idx===0&&first)?' active':'';
       var bc=it.badge==='vig'?'vig':it.badge==='s1'?'s1':it.badge==='snap'?'s1':'hist';
-      var bt=it.badge==='vig'?'VIG':it.badge==='s1'?'S1':it.badge==='snap'?'S1':'WTD';
+      var bt=it.badge==='vig'?'VIG':it.badge==='s1'?'S1 ✓':it.badge==='snap'?'S1':'WTD';
       var nstr=(it.nps!=null)?'<br><span style="font-size:10px;color:#7a8aaa">'+it.nps.toFixed(1).replace('.',',')+' %</span>':'';
       var sstr=(it.surv>0)?'<br><span style="font-size:10px;color:#556">'+it.surv.toLocaleString()+' enc</span>':'';
       var fenc=encodeURIComponent(it.file);
@@ -773,8 +788,9 @@ function buildSidebar() {
          +'<div style="flex:1"><span class="sb-week-label">'+it.lbl+'</span>'+nstr+sstr+'</div>'
          +'<span class="sb-week-badge '+bc+'">'+bt+'</span></div>';
     });
-    var mh=first?(mits.length*60+8)+'px':'0';
-    html+='<div class="sb-weeks'+cls+'" style="max-height:'+mh+'">'+wh+'</div>';
+    // Todos os meses abertos (max-height calculado)
+    var mh=(mits.length*60+8)+'px';
+    html+='<div class="sb-weeks" style="max-height:'+mh+'">'+wh+'</div>';
     first=false;
   });
   nav.innerHTML=html;
@@ -877,7 +893,21 @@ function filterDrv(btn,grp){
   });
 })();
 
-document.addEventListener('DOMContentLoaded', buildSidebar);
+// Se dentro de iframe (snapshot), esconde o sidebar e remove margem
+(function() {
+  if (window.self !== window.top) {
+    var sb = document.getElementById('sidebar');
+    var mw = document.getElementById('mainWrap');
+    var hv = document.getElementById('histViewer');
+    if (sb) sb.style.display = 'none';
+    if (mw) mw.style.marginLeft = '0';
+    if (hv) hv.style.left = '0';
+  }
+})();
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.self === window.top) buildSidebar();
+});
 </script>
 </body>
 </html>
