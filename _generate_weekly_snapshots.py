@@ -111,23 +111,38 @@ for i, s1_lbl in enumerate(WEEK_LABELS):
     vg_lines.append('}')
     mod_src = mod_src[:old_vg_start] + '\n'.join(vg_lines) + mod_src[old_vg_end:]
 
-    # ── monthly_history["Mai"]: acumula dados até o fim da semana S1 ──
-    # Soma as semanas de Maio até s1_lbl inclusive
-    mai_weeks_until = [w for w in WEEK_LABELS
-                       if lbl_to_month(w).startswith('Maio')
-                       and WEEK_LABELS.index(w) <= WEEK_LABELS.index(s1_lbl)]
+    # ── _monthly_result.json temporário com dados até o fim da semana ──
+    # generate_html_seller_dev.py sobrescreve monthly_history com este arquivo,
+    # então preciso criar uma versão histórica que só tem dados até s1_lbl.
+    monthly_result_path = os.path.join(BASE_DIR, '_monthly_result.json')
+    bak_mr_path = os.path.join(BASE_DIR, '_monthly_result_bak.json')
+    shutil.copy2(monthly_result_path, bak_mr_path)
 
-    for drv in all_drvs:
-        tp = sum(weekly_history[drv].get(w,(0,0,0))[0] for w in mai_weeks_until)
-        td = sum(weekly_history[drv].get(w,(0,0,0))[1] for w in mai_weeks_until)
-        ts = sum(weekly_history[drv].get(w,(0,0,0))[2] for w in mai_weeks_until)
-        # Substitui "Mai":(p,d,s) para este driver especificamente
-        drv_esc = re.escape(drv)
-        mod_src = re.sub(
-            rf'("{drv_esc}".*?"Mai"\s*:\s*)\(\d+,\s*\d+,\s*\d+\)',
-            rf'\1({tp},{td},{ts})',
-            mod_src, count=1, flags=re.DOTALL
-        )
+    # Carrega _monthly_result.json atual e constrói versão histórica
+    with open(monthly_result_path, encoding='utf-8') as f:
+        mr_current = json.load(f)
+
+    mr_hist = {}
+    all_months = list(mr_current.keys())  # ["Jan","Fev","Mar","Abr","Mai"]
+
+    for lbl in all_months:
+        if lbl == 'Mai':
+            # Maio: soma apenas semanas até s1_lbl
+            mai_weeks_until = [w for w in WEEK_LABELS
+                               if lbl_to_month(w).startswith('Maio')
+                               and WEEK_LABELS.index(w) <= WEEK_LABELS.index(s1_lbl)]
+            mr_hist['Mai'] = {}
+            for drv in mr_current.get('Mai', {}).keys():
+                tp = sum(weekly_history.get(drv, {}).get(w,(0,0,0))[0] for w in mai_weeks_until)
+                td = sum(weekly_history.get(drv, {}).get(w,(0,0,0))[1] for w in mai_weeks_until)
+                ts = sum(weekly_history.get(drv, {}).get(w,(0,0,0))[2] for w in mai_weeks_until)
+                mr_hist['Mai'][drv] = [tp, td, ts]
+        else:
+            # Meses anteriores a Maio: mantém dados originais
+            mr_hist[lbl] = mr_current[lbl]
+
+    with open(monthly_result_path, 'w', encoding='utf-8') as f:
+        json.dump(mr_hist, f, ensure_ascii=False)
 
     # Salva com backup
     bak_path = os.path.join(BASE_DIR, '_gerencia_bak.py')
@@ -173,9 +188,12 @@ print("OK")
     except Exception as e:
         print(f"    EXCEÇÃO: {e}")
     finally:
-        # Sempre restaura o original
+        # Sempre restaura os arquivos originais
         shutil.copy2(bak_path, os.path.join(BASE_DIR, 'generate_html_gerencia.py'))
         os.remove(bak_path)
+        if os.path.exists(bak_mr_path):
+            shutil.copy2(bak_mr_path, monthly_result_path)
+            os.remove(bak_mr_path)
 
 # ── Atualiza index ────────────────────────────────────────────────────
 index.sort(key=lambda e: e.get("file",""), reverse=True)
