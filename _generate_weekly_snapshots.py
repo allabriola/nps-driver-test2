@@ -144,6 +144,79 @@ for i, s1_lbl in enumerate(WEEK_LABELS):
     with open(monthly_result_path, 'w', encoding='utf-8') as f:
         json.dump(mr_hist, f, ensure_ascii=False)
 
+    # ── dd_breakdown.json: remapeia S1/S2 para a semana histórica ────
+    # Os dados disponíveis são: S1=11/mai-17/mai, S2=04/mai-10/mai
+    dd_path  = os.path.join(BASE_DIR, 'dd_breakdown.json')
+    bak_dd   = os.path.join(BASE_DIR, '_dd_bak.json')
+    mb_path  = os.path.join(BASE_DIR, '_monthly_breakdown.json')
+    bak_mb   = os.path.join(BASE_DIR, '_mb_bak.json')
+    shutil.copy2(dd_path, bak_dd)
+    shutil.copy2(mb_path, bak_mb)
+
+    with open(dd_path, encoding='utf-8') as f: dd_curr = json.load(f)
+    with open(mb_path, encoding='utf-8') as f: mb_curr = json.load(f)
+
+    # Identifica mapeamento: qual chave usar para S1 e S2 históricos
+    # S1_key = chave do dd_breakdown que corresponde ao s1_lbl histórico
+    # S2_key = chave do dd_breakdown que corresponde ao s2_lbl histórico
+    _WEEK_TO_KEY = {"11/mai": "S1", "04/mai": "S2"}
+    s1_key = _WEEK_TO_KEY.get(s1_lbl)   # ex: "04/mai" → "S2"
+    s2_key = _WEEK_TO_KEY.get(s2_lbl)   # ex: "27/abr" → None
+
+    def _remap_period(src_dict, from_key, to_key):
+        """Copia dados de from_key para to_key em todos os drivers do dict."""
+        result = json.loads(json.dumps(src_dict))  # deep copy
+        for drv in result:
+            if isinstance(result[drv], dict):
+                for dim in result[drv]:
+                    if isinstance(result[drv][dim], dict):
+                        # Copia from_key → to_key, zera S1/S2 que não temos
+                        src_data = result[drv][dim].get(from_key, {}) if from_key else {}
+                        result[drv][dim][to_key] = src_data
+                        # Zera chaves que não temos dados
+                        for k in ['S1', 'S2', 'VIG']:
+                            if k != to_key:
+                                result[drv][dim][k] = {}
+        return result
+
+    # dd_breakdown modificado
+    if s1_key:
+        # Remapeia: a chave histórica s1_key vira S1, s2_key vira S2
+        dd_mod = json.loads(json.dumps(dd_curr))
+        for drv in dd_mod:
+            if isinstance(dd_mod[drv], dict):
+                for dim in list(dd_mod[drv].keys()):
+                    if isinstance(dd_mod[drv][dim], dict):
+                        s1_data = dd_mod[drv][dim].get(s1_key, {})
+                        s2_data = dd_mod[drv][dim].get(s2_key, {}) if s2_key else {}
+                        dd_mod[drv][dim]['S1']  = s1_data
+                        dd_mod[drv][dim]['S2']  = s2_data
+                        dd_mod[drv][dim]['VIG'] = {}
+        with open(dd_path, 'w', encoding='utf-8') as f:
+            json.dump(dd_mod, f, ensure_ascii=False)
+    # else: não temos dados, mantém atual (aba mostrará dados incorretos mas não 404)
+
+    # _monthly_breakdown.json modificado
+    mb_mod = json.loads(json.dumps(mb_curr))
+    for drv in mb_mod.get('Mai', {}):
+        # Filtra Mai para acumular só semanas até s1_lbl
+        mai_weeks_until = [w for w in WEEK_LABELS
+                           if lbl_to_month(w).startswith('Maio')
+                           and WEEK_LABELS.index(w) <= WEEK_LABELS.index(s1_lbl)]
+        for dim in mb_mod['Mai'].get(drv, {}):
+            # Zera os valores de Mai — serão recalculados pelo _monthly_result.json
+            # (já fixado acima); aqui só garantimos que S1/S2 estejam corretos
+            pass
+    # Remapeia S1/S2 no _monthly_breakdown.json
+    if s1_key:
+        for drv in mb_mod.get('S1', {}):
+            s1_drv = mb_mod.get(s1_key if s1_key in mb_mod else 'S1', {}).get(drv, {})
+            s2_drv = mb_mod.get(s2_key if s2_key and s2_key in mb_mod else 'S2', {}).get(drv, {})
+            if 'S1' in mb_mod: mb_mod['S1'][drv] = s1_drv
+            if 'S2' in mb_mod: mb_mod['S2'][drv] = s2_drv
+    with open(mb_path, 'w', encoding='utf-8') as f:
+        json.dump(mb_mod, f, ensure_ascii=False)
+
     # Salva com backup
     bak_path = os.path.join(BASE_DIR, '_gerencia_bak.py')
     shutil.copy2(os.path.join(BASE_DIR, 'generate_html_gerencia.py'), bak_path)
@@ -188,12 +261,18 @@ print("OK")
     except Exception as e:
         print(f"    EXCEÇÃO: {e}")
     finally:
-        # Sempre restaura os arquivos originais
+        # Sempre restaura todos os arquivos originais
         shutil.copy2(bak_path, os.path.join(BASE_DIR, 'generate_html_gerencia.py'))
         os.remove(bak_path)
         if os.path.exists(bak_mr_path):
             shutil.copy2(bak_mr_path, monthly_result_path)
             os.remove(bak_mr_path)
+        if os.path.exists(bak_dd):
+            shutil.copy2(bak_dd, dd_path)
+            os.remove(bak_dd)
+        if os.path.exists(bak_mb):
+            shutil.copy2(bak_mb, mb_path)
+            os.remove(bak_mb)
 
 # ── Atualiza index ────────────────────────────────────────────────────
 index.sort(key=lambda e: e.get("file",""), reverse=True)
