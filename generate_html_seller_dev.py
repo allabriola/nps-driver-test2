@@ -310,6 +310,13 @@ cat_wk  = {cat: _cons(weekly_history,  WEEK_LABELS,  drvs) for cat, drvs in CATE
 
 grp_mon = {grp: _cons(monthly_history, MONTH_LABELS, drvs) for grp, drvs in DRIVER_GROUPS.items()}
 grp_wk  = {grp: _cons(weekly_history,  WEEK_LABELS,  drvs) for grp, drvs in DRIVER_GROUPS.items()}
+
+# Surveys por período para os mini-gráficos
+def _surv_series(hist, labels, drvs):
+    return [sum(hist[d].get(lbl,(0,0,0))[2] for d in drvs if d in hist) for lbl in labels]
+
+grp_mon_surv = {grp: _surv_series(monthly_history, MONTH_LABELS, drvs) for grp, drvs in DRIVER_GROUPS.items()}
+grp_wk_surv  = {grp: _surv_series(weekly_history,  WEEK_LABELS,  drvs) for grp, drvs in DRIVER_GROUPS.items()}
 grp_wk_vig  = {g: (grp_wk[g] + [grp_vig[g][0]]) for g in DRIVER_GROUPS}
 wk_cons_vig = wk_cons + [vig_cons_nps]
 
@@ -609,18 +616,21 @@ def waterfall_chart(cid, label_a, nps_a, label_b, nps_b, d_dict, height=370):
     cfg_json = _json.dumps(cfg).replace('"__WF_FMT__"', wf_fmt)
     return _chart_script(cid, cfg_json, height)
 
-def chart_small_multiples(base_cid, items, cons_data, labels):
+def chart_small_multiples(base_cid, items, cons_data, labels, surv_map=None):
     """
     Grid de mini-gráficos: barras (resultado) + linha target + consolidado cinza.
     items: lista de (name, series, color, target_val) ou
            (name, series, color, target_val, target_series) ou
-           (name, series, color, target_val, target_series, surv_count)
+           (name, series, color, target_val, target_series, surv_count_current)
+    surv_map: dict {group_name: [surv_per_period]} para mostrar surveys em cada barra
     """
     blocks = []
     for i, item_tuple in enumerate(items):
         name, series, color, target_val = item_tuple[:4]
         target_series = item_tuple[4] if len(item_tuple) > 4 else [target_val] * len(labels)
         surv_count    = item_tuple[5] if len(item_tuple) > 5 else None
+        # Surveys por período (para labels do eixo X)
+        surv_series   = surv_map.get(name) if surv_map else None
         cid = f"{base_cid}_{i}"
 
         curr_v  = next((v for v in reversed(series) if v is not None), None)
@@ -650,8 +660,14 @@ def chart_small_multiples(base_cid, items, cons_data, labels):
              "borderWidth": 1.8, "pointRadius": 0, "fill": False,
              "datalabels": {"display": False}},
         ]
+        # Combina labels com surveys: ["30/mar\n706 enc", ...]
+        if surv_series and len(surv_series) == len(labels):
+            chart_labels = [[lbl, f"{s:,} enc"] if s else [lbl] for lbl, s in zip(labels, surv_series)]
+        else:
+            chart_labels = labels
+
         cfg = {"type": "bar",
-               "data": {"labels": labels, "datasets": datasets},
+               "data": {"labels": chart_labels, "datasets": datasets},
                "options": {
                    "responsive": True, "maintainAspectRatio": False,
                    "layout": {"padding": {"top": 14, "right": 46, "bottom": 2, "left": 4}},
@@ -661,19 +677,20 @@ def chart_small_multiples(base_cid, items, cons_data, labels):
                        "y": {"min": -20, "max": 100,
                              "ticks": {"stepSize": 20, "font": {"size": 9}},
                              "grid": {"color": "#f0f0f0"}},
-                       "x": {"ticks": {"font": {"size": 9}}, "grid": {"display": False}}}}}
+                       "x": {"ticks": {"font": {"size": 9}, "color": "#888"}, "grid": {"display": False}}}}}
 
         mini_chart = (f'<div style="position:relative;height:155px;">'
                       f'<canvas id="{cid}"></canvas></div>'
                       f'<script>new Chart(document.getElementById("{cid}"),'
                       f'{_json.dumps(cfg).replace(chr(34)+"__FMT__"+chr(34), _FMT)});</script>')
 
+        # Caixinha de total do período atual
         surv_box = ""
         if surv_count is not None:
-            surv_box = (f'<div style="margin-top:6px;text-align:center;'
-                        f'background:#f4f6f9;border-radius:6px;padding:4px 8px;'
-                        f'font-size:11px;color:#555">'
-                        f'&#128202; <strong>{surv_count:,}</strong> pesquisas</div>')
+            surv_box = (f'<div style="margin-top:4px;text-align:center;'
+                        f'background:#f4f6f9;border-radius:6px;padding:3px 8px;'
+                        f'font-size:10px;color:#666">'
+                        f'&#128202; <strong>{surv_count:,}</strong> pesquisas no período</div>')
 
         blocks.append(
             f'<div class="sm-item" style="border-top:3px solid {color}">'
@@ -2705,7 +2722,7 @@ def _tab_mensal():
       [(g, grp_mon[g], GROUP_COLORS[g], _grp_tgt_latest(g,"monthly"), _grp_tgt_series_monthly(g),
         sum(monthly_history[d].get(MONTH_LABELS[-1],(0,0,0))[2] for d in DRIVER_GROUPS.get(g,[]) if d not in EXCLUIDOS))
        for g in DRIVER_GROUPS],
-      mon_cons, MONTH_LABELS)}
+      mon_cons, MONTH_LABELS, surv_map=grp_mon_surv)}
 </div>"""
 
     return chart_sec + _build_driver_breakdowns()
@@ -2722,7 +2739,7 @@ def _tab_semanal():
       [(g, grp_wk[g], GROUP_COLORS[g], _grp_tgt_latest(g,"weekly"), _grp_tgt_series_weekly(g),
         sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2] for d in DRIVER_GROUPS.get(g,[]) if d not in EXCLUIDOS))
        for g in DRIVER_GROUPS],
-      wk_cons, WEEK_LABELS)}
+      wk_cons, WEEK_LABELS, surv_map=grp_wk_surv)}
 </div>"""
 
     # ── KPIs consolidados — apenas semanas fechadas (S1 e S2, sem VIG) ─
