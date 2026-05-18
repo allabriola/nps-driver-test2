@@ -325,7 +325,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
   </div>
   <div style="text-align:right;line-height:1.6">
     <div style="font-weight:700;font-size:13px;color:#fff">Dados at&#233; 18/05/2026</div>
-    <div style="font-size:11px;opacity:.8;color:#fff">Atualizado em 18/05/2026 &#224;s 09:21</div>
+    <div style="font-size:11px;opacity:.8;color:#fff">Atualizado em 18/05/2026 &#224;s 09:24</div>
   </div>
 </div>
 
@@ -858,6 +858,25 @@ function switchPeriod(btn,p){
 }
 
 function openSnapshot(f){ window.open(_GHPAGES_BASE+'history/'+f,'_blank'); }
+
+function showTab(n){
+  document.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.toggle('active',i===n);});
+  document.querySelectorAll('.tab-pane').forEach(function(p,i){p.classList.toggle('active',i===n);});
+}
+function filterDrv(btn,grp){
+  document.querySelectorAll('.drv-fbtn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  document.querySelectorAll('.drv-card').forEach(function(c){
+    c.style.display=(c.dataset.grp===grp)?'':'none';
+  });
+}
+(function(){
+  document.querySelectorAll('.drv-cards').forEach(function(container){
+    var cards=container.querySelectorAll('.drv-card');
+    for(var i=1;i<cards.length;i++) cards[i].style.display='none';
+  });
+})();
+
 document.addEventListener('DOMContentLoaded', buildSidebar);
 </script>
 </body>

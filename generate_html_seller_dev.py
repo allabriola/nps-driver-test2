@@ -3214,6 +3214,25 @@ function switchPeriod(btn,p){{
 }}
 
 function openSnapshot(f){{ window.open(_GHPAGES_BASE+'history/'+f,'_blank'); }}
+
+function showTab(n){{
+  document.querySelectorAll('.tab-btn').forEach(function(b,i){{b.classList.toggle('active',i===n);}});
+  document.querySelectorAll('.tab-pane').forEach(function(p,i){{p.classList.toggle('active',i===n);}});
+}}
+function filterDrv(btn,grp){{
+  document.querySelectorAll('.drv-fbtn').forEach(function(b){{b.classList.remove('active');}});
+  btn.classList.add('active');
+  document.querySelectorAll('.drv-card').forEach(function(c){{
+    c.style.display=(c.dataset.grp===grp)?'':'none';
+  }});
+}}
+(function(){{
+  document.querySelectorAll('.drv-cards').forEach(function(container){{
+    var cards=container.querySelectorAll('.drv-card');
+    for(var i=1;i<cards.length;i++) cards[i].style.display='none';
+  }});
+}})();
+
 document.addEventListener('DOMContentLoaded', buildSidebar);
 """
     tgt_str = str(NPS_TARGET).replace('.', ',')
