@@ -2660,10 +2660,10 @@ def _build_driver_breakdowns(mode="monthly"):
                   official_nps1=off1, official_nps2=off2,
                   official_surv1=surv1, official_surv2=surv2,
                   delta_label=delta_lbl)
-        proc_tbl  = _bd_table(bd.get("P_M1",{}), bd.get("P_M2",{}), max_rows=6, **kw)
+        proc_tbl  = _bd_table(bd.get("P_M1",{}), bd.get("P_M2",{}), max_rows=8, **kw)
         canal_tbl = _bd_table(bd.get("C_M1",{}), bd.get("C_M2",{}), max_rows=5, **kw)
-        ofic_tbl  = _bd_table(bd.get("O_M1",{}), bd.get("O_M2",{}), max_rows=4, **kw)
-        team_tbl  = _bd_table(bd.get("T_M1",{}), bd.get("T_M2",{}), max_rows=6, **kw)
+        ofic_tbl  = _bd_table(bd.get("O_M1",{}), bd.get("O_M2",{}), max_rows=6, **kw)
+        team_tbl  = _bd_table(bd.get("T_M1",{}), bd.get("T_M2",{}), max_rows=8, **kw)
         sen_tbl   = _bd_seniority(bd.get("Sr_M1",{}), bd.get("Sr_M2",{}),
                                   weekly=is_wk, lbl1=lM1, lbl2=lM2,
                                   official_nps1=off1 if is_wk else None,
@@ -2671,12 +2671,15 @@ def _build_driver_breakdowns(mode="monthly"):
                                   official_surv1=surv1, official_surv2=surv2,
                                   delta_label=delta_lbl)
 
+        # Grid 2x2 para tabelas semanais (6 colunas cada — mais espaço)
         grid = (
-            f'<div class="bd-grid">'
+            f'<div class="bd-grid-2">'
             f'<div class="bd-sec"><div class="bd-sec-title">&#128204; Processos</div>{proc_tbl}</div>'
+            f'<div class="bd-sec"><div class="bd-sec-title">&#127891; Senioridade</div>{sen_tbl}</div>'
+            f'</div>'
+            f'<div class="bd-grid-2" style="border-top:none">'
             f'<div class="bd-sec"><div class="bd-sec-title">&#127970; Oficina</div>{ofic_tbl}</div>'
             f'<div class="bd-sec"><div class="bd-sec-title">&#128101; Equipes</div>{team_tbl}</div>'
-            f'<div class="bd-sec"><div class="bd-sec-title">&#127891; Senioridade</div>{sen_tbl}</div>'
             f'</div>'
         )
 
@@ -2916,19 +2919,21 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
 
 .bd-grid   { display:grid; grid-template-columns:repeat(4,1fr); gap:0;
              border-top:1px solid #e8eaf0; }
-.bd-sec    { padding:14px 16px; border-right:1px solid #e8eaf0; }
+.bd-grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:0;
+             border-top:1px solid #e8eaf0; }
+.bd-sec    { padding:12px 14px; border-right:1px solid #e8eaf0; overflow-x:auto; }
 .bd-sec:last-child { border-right:none; }
 .bd-sec-title { font-size:11px; font-weight:700; color:#888; text-transform:uppercase;
                 letter-spacing:.5px; margin-bottom:8px; }
 
-.bd-tbl    { width:100%; border-collapse:collapse; font-size:10px; }
-.bd-tbl th { color:#aaa; font-weight:600; padding:2px 3px; text-align:left;
-             border-bottom:1px solid #f0f0f0; font-size:9px; }
-.bd-tbl td { padding:2px 3px; border-bottom:1px solid #f5f5f5; }
-.bd-name   { max-width:110px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#333; }
+.bd-tbl    { width:100%; border-collapse:collapse; font-size:10px; min-width:220px; }
+.bd-tbl th { color:#aaa; font-weight:600; padding:2px 4px; text-align:left;
+             border-bottom:1px solid #f0f0f0; font-size:9px; white-space:nowrap; }
+.bd-tbl td { padding:3px 4px; border-bottom:1px solid #f5f5f5; }
+.bd-name   { max-width:140px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#333; }
 .bd-nps    { font-weight:600; color:#1a1a2e; text-align:right; white-space:nowrap; }
 .bd-delta  { text-align:right; white-space:nowrap; font-weight:600; font-size:9px; }
-.bd-vol    { text-align:right; color:#aaa; font-size:10px; }
+.bd-vol    { text-align:right; color:#aaa; font-size:10px; white-space:nowrap; }
 .bd-pos    { color:#00A650; }
 .bd-neg    { color:#E84142; }
 
