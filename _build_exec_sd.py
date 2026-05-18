@@ -551,8 +551,14 @@ def wk_score(grp):
     v = wk_drv_data[grp]
     return (1 if (v['gap'] or 0) >= 0 else 0) * 100 + (v['mom'] or 0)
 
-wk_destaques = sorted(wk_drv_data.keys(), key=lambda g: -wk_score(g))
-wk_pos = [g for g in wk_destaques if (wk_drv_data[g]['gap'] or 0) >= 0 or (wk_drv_data[g]['mom'] or 0) > 1][:3]
+# Drivers com bullets próprios — não entram em wk_pos para evitar duplicatas
+_WK_FIXED = {'Partners', 'Publicaciones', 'Exp. Impositiva'}
+wk_destaques = sorted(
+    [g for g in wk_drv_data.keys() if g not in _WK_FIXED],
+    key=lambda g: -wk_score(g)
+)
+wk_pos = [g for g in wk_destaques
+          if (wk_drv_data[g]['gap'] or 0) >= 0 or (wk_drv_data[g]['mom'] or 0) > 1][:3]
 
 bullet_sellers_wk  = ''.join(build_narrative_wk(g, '🟢') for g in wk_pos)
 bullet_partners_wk = build_narrative_wk('Partners',        '🟡' if (wk_drv_data['Partners']['gap'] or 0) < 0 else '🟢')
