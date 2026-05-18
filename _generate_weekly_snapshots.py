@@ -74,14 +74,33 @@ for i, s1_lbl in enumerate(WEEK_LABELS):
     s2_lbl    = WEEK_LABELS[i-1] if i > 0 else ""
     nps_s1, surv_s1 = cons_nps_wk(s1_lbl)
 
-    print(f"  [{i+1}/{len(WEEK_LABELS)}] {snap_name} | S1={s1_lbl} NPS={nps_s1}% surv={surv_s1:,}...")
+    # ── Determina M1/M2 corretos baseados no mês da semana ────────────
+    # M1 = mês do início da semana S1, M2 = mês anterior
+    MONTH_KEY = {
+        '30/mar': ('Mar', 'Fev', 'Marco 2026',    'Fevereiro 2026'),
+        '06/abr': ('Abr', 'Mar', 'Abril 2026',    'Marco 2026'),
+        '13/abr': ('Abr', 'Mar', 'Abril 2026',    'Marco 2026'),
+        '20/abr': ('Abr', 'Mar', 'Abril 2026',    'Marco 2026'),
+        '27/abr': ('Abr', 'Mar', 'Abril 2026',    'Marco 2026'),
+        '04/mai': ('Mai', 'Abr', 'Maio 2026',     'Abril 2026'),
+        '11/mai': ('Mai', 'Abr', 'Maio 2026',     'Abril 2026'),
+    }
+    m1_key, m2_key, m1_label, m2_label = MONTH_KEY.get(s1_lbl, ('Mai','Abr','Maio 2026','Abril 2026'))
+    month_order = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']
+    m1_idx = month_order.index(m1_key) if m1_key in month_order else 99
 
-    # Modifica temporariamente generate_html_gerencia.py
+    print(f"  [{i+1}/{len(WEEK_LABELS)}] {snap_name} | S1={s1_lbl} M1={m1_key} M2={m2_key} NPS={nps_s1}% surv={surv_s1:,}...")
+
+    # ── Modifica temporariamente generate_html_gerencia.py ────────────
     mod_src = gerencia_src
 
     # ── Labels de semana ──────────────────────────────────────────────
     mod_src = re.sub(r'(S1_LABEL\s*=\s*)"[^"]*"',  f'\\1"{s1_lbl}"',  mod_src)
     mod_src = re.sub(r'(S2_LABEL\s*=\s*)"[^"]*"',  f'\\1"{s2_lbl}"',  mod_src)
+
+    # ── Labels de mês: M1 e M2 corretos para o período ────────────────
+    mod_src = re.sub(r'(M1_LABEL\s*=\s*)"[^"]*"', f'\\1"{m1_label}"', mod_src)
+    mod_src = re.sub(r'(M2_LABEL\s*=\s*)"[^"]*"', f'\\1"{m2_label}"', mod_src)
     mod_src = re.sub(r'(VIG_LABEL\s*=\s*)"[^"]*"', f'\\1""',           mod_src)
     mod_src = re.sub(r'(REPORT_DATE\s*=\s*)"[^"]*"', f'\\1"{snap_date}"', mod_src)
 
@@ -122,24 +141,34 @@ for i, s1_lbl in enumerate(WEEK_LABELS):
     with open(monthly_result_path, encoding='utf-8') as f:
         mr_current = json.load(f)
 
+    # Mapeia mês → prefixo para identificar semanas daquele mês
+    M_PREFIX = {'Jan':'jan','Fev':'fev','Mar':'mar','Abr':'abr','Mai':'mai'}
+    m1_prefix = M_PREFIX.get(m1_key, m1_key.lower())
+
     mr_hist = {}
-    all_months = list(mr_current.keys())  # ["Jan","Fev","Mar","Abr","Mai"]
+    all_months = list(mr_current.keys())
+    month_order = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']
 
     for lbl in all_months:
-        if lbl == 'Mai':
-            # Maio: soma apenas semanas até s1_lbl
-            mai_weeks_until = [w for w in WEEK_LABELS
-                               if lbl_to_month(w).startswith('Maio')
-                               and WEEK_LABELS.index(w) <= WEEK_LABELS.index(s1_lbl)]
-            mr_hist['Mai'] = {}
-            for drv in mr_current.get('Mai', {}).keys():
-                tp = sum(weekly_history.get(drv, {}).get(w,(0,0,0))[0] for w in mai_weeks_until)
-                td = sum(weekly_history.get(drv, {}).get(w,(0,0,0))[1] for w in mai_weeks_until)
-                ts = sum(weekly_history.get(drv, {}).get(w,(0,0,0))[2] for w in mai_weeks_until)
-                mr_hist['Mai'][drv] = [tp, td, ts]
-        else:
-            # Meses anteriores a Maio: mantém dados originais
+        lbl_idx    = month_order.index(lbl) if lbl in month_order else 99
+        m1_idx     = month_order.index(m1_key) if m1_key in month_order else 99
+        if lbl_idx < m1_idx:
+            # Mês anterior a M1 → mantém completo
             mr_hist[lbl] = mr_current[lbl]
+        elif lbl == m1_key:
+            # M1 → acumula semanas desse mês até s1_lbl
+            m1_weeks = [w for w in WEEK_LABELS
+                        if w.split('/')[1].lower().startswith(m1_prefix)
+                        and WEEK_LABELS.index(w) <= WEEK_LABELS.index(s1_lbl)]
+            mr_hist[lbl] = {}
+            for drv in mr_current.get(lbl, {}).keys():
+                tp = sum(weekly_history.get(drv,{}).get(w,(0,0,0))[0] for w in m1_weeks)
+                td = sum(weekly_history.get(drv,{}).get(w,(0,0,0))[1] for w in m1_weeks)
+                ts = sum(weekly_history.get(drv,{}).get(w,(0,0,0))[2] for w in m1_weeks)
+                mr_hist[lbl][drv] = [tp, td, ts]
+        else:
+            # Mês posterior a M1 → zera (ainda não aconteceu)
+            mr_hist[lbl] = {drv: [0,0,0] for drv in mr_current.get(lbl,{}).keys()}
 
     with open(monthly_result_path, 'w', encoding='utf-8') as f:
         json.dump(mr_hist, f, ensure_ascii=False)
@@ -194,18 +223,30 @@ for i, s1_lbl in enumerate(WEEK_LABELS):
     with open(dd_path, 'w', encoding='utf-8') as f:
         json.dump(dd_mod, f, ensure_ascii=False)
 
-    # Constrói _monthly_breakdown.json modificado
+    # Constrói _monthly_breakdown.json com meses corretos para o período
     mb_mod = json.loads(json.dumps(mb_curr))
+
+    # Popula m1_key com dados históricos do s1_lbl (processo/canal/office/seniority)
+    if s1_hist:
+        if m1_key not in mb_mod: mb_mod[m1_key] = {}
+        for drv, dims in s1_hist.items():
+            mb_mod[m1_key][drv] = {dim: dims[dim] for dim in ('P','C','O','T','Sr') if dim in dims}
+
+    # Zera meses posteriores ao M1 (ainda não aconteceram)
+    for lbl in list(mb_mod.keys()):
+        if lbl in month_order:
+            lbl_idx = month_order.index(lbl)
+            if lbl_idx > m1_idx:
+                del mb_mod[lbl]
+
+    # Remapeia S1/S2 com dados históricos corretos
     for period_key, hist_lbl in [('S1', s1_lbl), ('S2', s2_lbl)]:
-        if not hist_lbl: continue
-        hist_data = bh.get(hist_lbl, {})
-        if not hist_data: continue
-        for drv, dims in hist_data.items():
-            if period_key not in mb_mod: mb_mod[period_key] = {}
-            mb_mod[period_key][drv] = {}
-            for dim in ('P','C','O','T','Sr'):
-                if dim in dims:
-                    mb_mod[period_key][drv][dim] = dims[dim]
+        hist_data = bh.get(hist_lbl, {}) if hist_lbl else {}
+        if hist_data:
+            mb_mod[period_key] = {}
+            for drv, dims in hist_data.items():
+                mb_mod[period_key][drv] = {dim: dims[dim] for dim in ('P','C','O','T','Sr') if dim in dims}
+
     with open(mb_path, 'w', encoding='utf-8') as f:
         json.dump(mb_mod, f, ensure_ascii=False)
 
