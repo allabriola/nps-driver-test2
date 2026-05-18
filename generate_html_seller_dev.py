@@ -2846,6 +2846,49 @@ _CSS = """
 body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', sans-serif;
        font-size: 13px; background: #f4f6f9; color: #222; }
 
+/* ── Sidebar de semanas ─────────────────────────────────────────── */
+.wk-sidebar { position:fixed; top:0; left:0; width:220px; height:100vh;
+              background:#1a1e2e; color:#c8cfe0; display:flex;
+              flex-direction:column; z-index:300; }
+.wk-sb-head { padding:14px 16px 10px; border-bottom:1px solid #2e3350; flex-shrink:0; }
+.wk-sb-title { font-size:13px; font-weight:700; color:#fff; margin-bottom:3px; }
+.wk-sb-sub   { font-size:10px; color:#7a8aaa; }
+.wk-sb-nav   { overflow-y:auto; flex:1; padding:6px 0 20px; }
+.wk-sb-nav::-webkit-scrollbar { width:3px; }
+.wk-sb-nav::-webkit-scrollbar-thumb { background:#2e3350; border-radius:4px; }
+.wk-sb-month { padding:10px 16px 4px; font-size:10px; font-weight:700;
+               color:#7a8aaa; text-transform:uppercase; letter-spacing:.6px;
+               display:flex; justify-content:space-between; align-items:center; }
+.wk-sb-week  { padding:8px 16px; display:flex; align-items:center; gap:8px;
+               cursor:pointer; border-left:3px solid transparent; transition:all .15s; }
+.wk-sb-week:hover  { background:#252a3d; color:#fff; }
+.wk-sb-week.active { background:#252a3d; border-left-color:#3483FA; }
+.wk-sb-week.active .wk-lbl { color:#fff; font-weight:700; }
+.wk-lbl  { font-size:12px; color:#c8cfe0; flex:1; line-height:1.4; }
+.wk-nps  { font-size:10px; color:#7a8aaa; }
+.wk-badge { font-size:9px; font-weight:700; padding:1px 5px; border-radius:4px; white-space:nowrap; }
+.wk-badge.vig { background:#F39C1233; color:#F39C12; border:1px solid #F39C1266; }
+.wk-badge.s1  { background:#3483FA22; color:#3483FA; border:1px solid #3483FA55; }
+.wk-badge.old { background:#2e3350; color:#7a8aaa; }
+
+/* ── Conteúdo principal deslocado ───────────────────────────────── */
+.main-content { margin-left:220px; min-height:100vh; }
+
+/* ── Viewer de snapshot histórico ──────────────────────────────── */
+.wk-viewer { display:none; position:fixed; top:0; left:220px; right:0; bottom:0;
+             z-index:200; flex-direction:column; background:#f4f6f9; }
+.wk-viewer.open { display:flex; }
+.wk-viewer-bar { background:#1a1e2e; color:#fff; padding:8px 16px;
+                 display:flex; align-items:center; gap:14px; flex-shrink:0;
+                 box-shadow:0 2px 8px rgba(0,0,0,.3); }
+.wk-back-btn { background:#3483FA; color:#fff; border:none; border-radius:6px;
+               padding:5px 14px; font-size:12px; font-weight:700; cursor:pointer;
+               display:flex; align-items:center; gap:6px; }
+.wk-back-btn:hover { background:#1c5bbd; }
+.wk-viewer-title { font-size:13px; font-weight:700; flex:1; }
+.wk-viewer-sub   { font-size:11px; color:#7a8aaa; }
+.wk-viewer-frame { flex:1; border:none; width:100%; }
+
 .header { background: linear-gradient(135deg,#3483FA 0%,#1C5BBD 100%);
           color:#fff; padding:16px 24px; display:flex; align-items:center;
           justify-content:space-between; }
@@ -3079,6 +3122,93 @@ def build():
     js = f"""
 var _HIST_INLINE = {_hist_inline};
 var _GHPAGES_BASE = "{_GHPAGES_BASE}";
+var _VIG_LABEL    = "{esc(VIG_LABEL or '')}";
+var _S1_LABEL     = "{esc(S1_LABEL or '')}";
+var _M1_LABEL     = "{esc(M1_LABEL or '')}";
+
+// ── Sidebar de semanas ────────────────────────────────────────────
+(function buildSidebar(){{
+  // Só constrói se não estiver dentro de um snapshot (URL com history_sd)
+  if (window.location.pathname.indexOf('history_sd') >= 0 ||
+      window.location.pathname.indexOf('history/') >= 0) return;
+
+  var nav = document.getElementById('wkNav');
+  if (!nav) return;
+
+  // Itens: período atual + snapshots históricos
+  var months = {{}};
+  function addItem(mon, lbl, badge, file, nps){{
+    if (!months[mon]) months[mon] = [];
+    months[mon].push({{lbl:lbl, badge:badge, file:file||'', nps:nps}});
+  }}
+
+  // Período atual (sem arquivo — mostra dashboard ao vivo)
+  addItem(_M1_LABEL||'Atual', _S1_LABEL||'S1 Fechada', 's1', '', null);
+
+  // Snapshots históricos do history_sd/index.json
+  (_HIST_INLINE||[]).forEach(function(e){{
+    addItem(e.month||'Anterior', e.label||e.s1_label, 'old', e.file, e.nps_s1);
+  }});
+
+  var html = '', first = true;
+  Object.keys(months).forEach(function(mon){{
+    html += '<div class="wk-sb-month">' + mon + '</div>';
+    months[mon].forEach(function(it, idx){{
+      var isActive = (idx===0 && first) ? ' active' : '';
+      var badgeHtml = it.badge==='s1'
+        ? '<span class="wk-badge s1">S1 ✓</span>'
+        : '<span class="wk-badge old">S1</span>';
+      var npsHtml = it.nps ? '<div class="wk-nps">NPS ' + it.nps.toFixed(1).replace('.',',') + '%</div>' : '';
+      html += '<div class="wk-sb-week' + isActive + '" data-file="' + encodeURIComponent(it.file) + '" data-lbl="' + it.lbl + '" onclick="wkClick(this)">'
+           + '<div style="flex:1"><div class="wk-lbl">' + it.lbl + '</div>' + npsHtml + '</div>'
+           + badgeHtml + '</div>';
+    }});
+    first = false;
+  }});
+
+  nav.innerHTML = html;
+}})();
+
+function wkClick(el){{
+  document.querySelectorAll('.wk-sb-week').forEach(function(w){{w.classList.remove('active');}});
+  el.classList.add('active');
+  var file = decodeURIComponent(el.getAttribute('data-file')||'');
+  var lbl  = el.getAttribute('data-lbl')||'';
+  if (!file) {{ wkBack(); return; }}
+  // Abre snapshot no viewer
+  var viewer = document.getElementById('wkViewer');
+  var frame  = document.getElementById('wkFrame');
+  var main   = document.getElementById('mainContent');
+  document.getElementById('wkTitle').textContent = lbl;
+  viewer.classList.add('open');
+  main.style.display = 'none';
+  frame.src = _GHPAGES_BASE + 'history_sd/' + file;
+}}
+
+function wkBack(){{
+  var viewer = document.getElementById('wkViewer');
+  var frame  = document.getElementById('wkFrame');
+  var main   = document.getElementById('mainContent');
+  viewer.classList.remove('open');
+  main.style.display = '';
+  frame.src = 'about:blank';
+  // Marca primeira semana como ativa
+  var first = document.querySelector('.wk-sb-week');
+  if (first){{
+    document.querySelectorAll('.wk-sb-week').forEach(function(w){{w.classList.remove('active');}});
+    first.classList.add('active');
+  }}
+}}
+
+// Esconde sidebar se estiver dentro de snapshot
+if (window.location.pathname.indexOf('history_sd') >= 0 ||
+    window.location.pathname.indexOf('history/') >= 0) {{
+  var sb = document.getElementById('wkSidebar');
+  var mc = document.getElementById('mainContent');
+  if (sb) sb.style.display = 'none';
+  if (mc) mc.style.marginLeft = '0';
+}}
+
 function switchPeriod(btn,p){{
   document.querySelectorAll('.period-btn').forEach(function(b){{b.classList.remove('active');}});
   btn.classList.add('active');
@@ -3171,35 +3301,36 @@ function filterDrv(btn, grp){{
 </head>
 <body>
 
+<!-- ── Sidebar de semanas ──────────────────────────────────────── -->
+<nav class="wk-sidebar" id="wkSidebar">
+  <div class="wk-sb-head">
+    <div class="wk-sb-title">NPS Seller Dev BR</div>
+    <div class="wk-sb-sub">Dados at&#233; {DADOS_ATE}</div>
+  </div>
+  <div class="wk-sb-nav" id="wkNav"><!-- preenchido pelo JS --></div>
+</nav>
+
+<!-- ── Viewer de snapshot histórico ─────────────────────────────── -->
+<div class="wk-viewer" id="wkViewer">
+  <div class="wk-viewer-bar">
+    <button class="wk-back-btn" onclick="wkBack()">&#8592; Atual</button>
+    <span class="wk-viewer-title" id="wkTitle"></span>
+    <span class="wk-viewer-sub">Dados do per&#237;odo selecionado</span>
+  </div>
+  <iframe class="wk-viewer-frame" id="wkFrame" src="about:blank"></iframe>
+</div>
+
+<!-- ── Conteúdo principal ─────────────────────────────────────── -->
+<div class="main-content" id="mainContent">
+
 <div class="header">
   <div>
     <div class="header-title">NPS Tend&#234;ncias &mdash; Seller Dev BR</div>
     <div class="header-sub">Exp. Impositiva &middot; ME Vendedor &middot; PCF Vendedor &middot; Post Venta &middot; Publicaciones &middot; Partners &middot; Center BR &middot; e-commerce</div>
   </div>
-  <div style="display:flex;align-items:center;gap:12px">
-    <button class="hist-btn" onclick="openHistory()">
-      &#128193; Hist&#243;rico de Semanas
-    </button>
-    <div style="text-align:right;line-height:1.6">
-      <div style="font-weight:700;font-size:13px;color:#fff">Dados at&#233; {DADOS_ATE}</div>
-      <div style="font-size:11px;opacity:.8;color:#fff">Atualizado em {REPORT_DATE} &#224;s {REPORT_TIME}</div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Histórico de Semanas -->
-<div class="hist-overlay" id="histOverlay" onclick="closeHistoryOutside(event)">
-  <div class="hist-panel">
-    <div class="hist-header">
-      <div>
-        <div class="hist-title">&#128193; Hist&#243;rico de Semanas</div>
-        <div class="hist-sub">Snapshots semanais salvos automaticamente</div>
-      </div>
-      <button class="hist-close" onclick="closeHistory()">&#10005;</button>
-    </div>
-    <div class="hist-list" id="histList">
-      <div class="hist-empty">Carregando...</div>
-    </div>
+  <div style="text-align:right;line-height:1.6">
+    <div style="font-weight:700;font-size:13px;color:#fff">Dados at&#233; {DADOS_ATE}</div>
+    <div style="font-size:11px;opacity:.8;color:#fff">Atualizado em {REPORT_DATE} &#224;s {REPORT_TIME}</div>
   </div>
 </div>
 
@@ -3212,6 +3343,8 @@ function filterDrv(btn, grp){{
 <div class="tab-pane active">{t0}</div>
 <div class="tab-pane">{t1}</div>
 <div class="tab-pane">{t2}</div>
+
+</div><!-- /.main-content -->
 
 <script>{js}</script>
 </body>
