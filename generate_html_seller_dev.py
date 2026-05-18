@@ -265,19 +265,21 @@ for _grp, _drvs in DRIVER_GROUPS.items():
     }
 
 # S1 = semana atual, S2 = semana anterior
+# grp_wk_bd usa _monthly_breakdown.json (S1/S2) que tem dados mais completos
+# que dd_breakdown.json — garante que NPS do breakdown bate com oficial
 grp_wk_bd = {}
 for _grp, _drvs in DRIVER_GROUPS.items():
     grp_wk_bd[_grp] = {
-        "P_M1":  _agg_dim(_drvs, "P",  "S1", _DD),
-        "P_M2":  _agg_dim(_drvs, "P",  "S2", _DD),
-        "C_M1":  _agg_dim(_drvs, "C",  "S1", _DD),
-        "C_M2":  _agg_dim(_drvs, "C",  "S2", _DD),
-        "O_M1":  _agg_dim(_drvs, "O",  "S1", _DD),
-        "O_M2":  _agg_dim(_drvs, "O",  "S2", _DD),
-        "T_M1":  _agg_mb(_drvs,  "T",  "S1"),     # equipes S1 (tabela oficial)
-        "T_M2":  _agg_mb(_drvs,  "T",  "S2"),     # equipes S2
-        "Sr_M1": _agg_dim(_drvs, "Sr", "S1", _DD),
-        "Sr_M2": _agg_dim(_drvs, "Sr", "S2", _DD),
+        "P_M1":  _agg_mb(_drvs,  "P",  "S1"),
+        "P_M2":  _agg_mb(_drvs,  "P",  "S2"),
+        "C_M1":  _agg_mb(_drvs,  "C",  "S1"),
+        "C_M2":  _agg_mb(_drvs,  "C",  "S2"),
+        "O_M1":  _agg_mb(_drvs,  "O",  "S1"),
+        "O_M2":  _agg_mb(_drvs,  "O",  "S2"),
+        "T_M1":  _agg_mb(_drvs,  "T",  "S1"),
+        "T_M2":  _agg_mb(_drvs,  "T",  "S2"),
+        "Sr_M1": _agg_mb(_drvs,  "Sr", "S1"),
+        "Sr_M2": _agg_mb(_drvs,  "Sr", "S2"),
     }
 
 # ══════════════════════════════════════════════════════════════════════
