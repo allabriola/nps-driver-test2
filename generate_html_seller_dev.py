@@ -3250,20 +3250,16 @@ function filterDrv(btn,grp){{
 }})();
 
 // Se dentro de iframe (snapshot), esconde o sidebar e remove margem
-(function() {{
-  if (window.self !== window.top) {{
-    var sb = document.getElementById('sidebar');
-    var mw = document.getElementById('mainWrap');
-    var hv = document.getElementById('histViewer');
-    if (sb) sb.style.display = 'none';
-    if (mw) mw.style.marginLeft = '0';
-    if (hv) hv.style.left = '0';
-  }}
-}})();
-
-document.addEventListener('DOMContentLoaded', function() {{
-  if (window.self === window.top) buildSidebar();
-}});
+if (window.self !== window.top) {{
+  var sb = document.getElementById('sidebar');
+  var mw = document.getElementById('mainWrap');
+  var hv = document.getElementById('histViewer');
+  if (sb) sb.style.display = 'none';
+  if (mw) mw.style.marginLeft = '0';
+  if (hv) hv.style.left = '0';
+}} else {{
+  buildSidebar();
+}}
 """
     tgt_str = str(NPS_TARGET).replace('.', ',')
     return f"""<!DOCTYPE html>
