@@ -803,23 +803,27 @@ def _tab_exec():
     vig_d2    = round(vig_cons_nps - wk_nps_s1, 2) if vig_cons_nps and wk_nps_s1 else None
     vig_d_cls2= "kpi-pos" if vig_d2 and vig_d2 >= 0 else "kpi-neg"
 
+    # KPIs semanais — apenas semanas fechadas (sem VIG)
+    g_sign = "+" if wk_vtgt is not None and wk_vtgt >= 0 else ""
+    g_cls  = "kpi-pos" if wk_vtgt is not None and wk_vtgt >= 0 else "kpi-neg"
+    g_bc   = "#00A650" if wk_vtgt is not None and wk_vtgt >= 0 else "#E84142"
     wk_kpis = (f'<div class="kpi-strip" style="grid-template-columns:repeat(5,1fr)">'
-               f'<div class="kpi-card" style="border-top:4px solid #F39C12">'
-               f'<div class="kpi-label">NPS VIG Atual &#9889;</div>'
-               f'<div class="kpi-value">{fn(vig_cons_nps)}%</div>'
-               f'<div class="kpi-sub">{esc(VIG_LABEL)}</div></div>'
-               f'<div class="kpi-card" style="border-top:4px solid #F39C12">'
-               f'<div class="kpi-label">&#916; VIG vs S1</div>'
-               f'<div class="kpi-value {vig_d_cls2}">{"+"if vig_d2 and vig_d2>=0 else ""}{fn(vig_d2)}pp</div>'
-               f'<div class="kpi-sub">{vig_cons_surv:,} pesquisas</div></div>'
-               f'<div class="kpi-card" style="border-top:4px solid #888">'
-               f'<div class="kpi-label">Target</div>'
-               f'<div class="kpi-value">{tgt_str}%</div>'
-               f'<div class="kpi-sub">Base sem media&#231;&#227;o</div></div>'
                f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
                f'<div class="kpi-label">NPS S1 Fechada</div>'
                f'<div class="kpi-value">{fn(wk_nps_s1)}%</div>'
                f'<div class="kpi-sub">{esc(S1_LABEL)}</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid #888">'
+               f'<div class="kpi-label">NPS S2 Anterior</div>'
+               f'<div class="kpi-value">{fn(wk_nps_s2)}%</div>'
+               f'<div class="kpi-sub">{esc(S2_LABEL)}</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid #888">'
+               f'<div class="kpi-label">Target</div>'
+               f'<div class="kpi-value">{tgt_str}%</div>'
+               f'<div class="kpi-sub">Base sem media&#231;&#227;o</div></div>'
+               f'<div class="kpi-card" style="border-top:{g_bc} solid 4px">'
+               f'<div class="kpi-label">GAP vs Target</div>'
+               f'<div class="kpi-value {g_cls}">{g_sign}{fn(wk_vtgt)}pp</div>'
+               f'<div class="kpi-sub">Target {tgt_str}%</div></div>'
                f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
                f'<div class="kpi-label">&#916; WoW (S2&#8594;S1)</div>'
                f'<div class="kpi-value {wk_d_cls}">{"+"if wk_delta and wk_delta>=0 else ""}{fn(wk_delta)}pp</div>'
@@ -829,10 +833,10 @@ def _tab_exec():
     # Gráfico semanal (linha + área, inclui VIG)
     wk_line_chart = chart_line_area_monthly("c_wk_exec_hist",
                                             height=270)  # reutiliza com dados semanais
-    # Sobrescreve dados do chart semanal dinamicamente via JS inline
-    wk_lbl_js  = _json.dumps(WEEK_LABELS_VIG)
-    wk_cons_js = _json.dumps(wk_cons_vig)
-    tgt_vals_js= _json.dumps(wk_target_series)
+    # Gráfico semanal — apenas semanas fechadas (sem VIG)
+    wk_lbl_js  = _json.dumps(WEEK_LABELS)
+    wk_cons_js = _json.dumps(wk_cons)
+    tgt_vals_js= _json.dumps(wk_target_series[:-1] if len(wk_target_series) > len(WEEK_LABELS) else wk_target_series)
 
     wk_line_chart = (f'<div style="position:relative;height:270px;">'
                      f'<canvas id="c_wk_exec_line"></canvas></div>'
@@ -877,7 +881,7 @@ def _tab_exec():
                      f'<div style="padding:18px 20px;border-right:1px solid #f0f2f5">'
                      f'<div class="section-title">Hist&#243;rico NPS &mdash; Semanal</div>'
                      f'<div style="font-size:11px;color:#aaa;margin-bottom:10px">'
-                     f'&#218;ltimas {len(WEEK_LABELS_VIG)} semanas incl. VIG</div>'
+                     f'&#218;ltimas {len(WEEK_LABELS)} semanas fechadas</div>'
                      f'{wk_line_chart}</div>'
                      f'{wf_wk}'
                      f'</div></div>')
@@ -2669,13 +2673,12 @@ def _tab_semanal():
     chart_sec = f"""<div class="section-block">
   <div class="section-title">Evolu&#231;&#227;o NPS &mdash; Semanal (incl. semana atual)</div>
   <div style="font-size:11px;color:#aaa;margin-bottom:10px">
-    Semana atual (VIG): <strong>{esc(VIG_LABEL)}</strong> &mdash; dados parciais &nbsp;|&nbsp;
-    Semana fechada (S1): {esc(S1_LABEL)}
+    S1 Fechada: {esc(S1_LABEL)} &nbsp;|&nbsp; S2 Anterior: {esc(S2_LABEL)}
   </div>
   {chart_small_multiples("c_wk",
-      [(g, grp_wk_vig[g], GROUP_COLORS[g], _grp_tgt_latest(g,"weekly"), _grp_tgt_series_weekly(g))
+      [(g, grp_wk[g], GROUP_COLORS[g], _grp_tgt_latest(g,"weekly"), _grp_tgt_series_weekly(g))
        for g in DRIVER_GROUPS],
-      wk_cons_vig, WEEK_LABELS_VIG)}
+      wk_cons, WEEK_LABELS)}
 </div>"""
 
     # ── KPIs consolidados (S1 fechada + VIG atual) ──────────────────
