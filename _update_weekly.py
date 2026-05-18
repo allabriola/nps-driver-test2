@@ -51,14 +51,16 @@ for drv in ALL_DRIVERS:
 lines_v.append('}')
 src = src[:old_vg_start] + '\n'.join(lines_v) + src[old_vg_end:]
 
-# ── 4. weekly_history — adiciona "04/mai" ───────────────────────────
+# ── 4. weekly_history — adiciona nova S1 label ──────────────────────
 old_wh_start = src.find('weekly_history = {')
 old_wh_end   = src.find('\n}', old_wh_start) + 2
 
-wh = ns['monthly_history']   # borrow ALL_DRIVERS; history is in ns['weekly_history']
 wh_hist = ns['weekly_history']
 old_lbls = ns['WEEK_LABELS']
-NEW_LBL_WH = "04/mai"
+
+# Label da nova S1: extrai "11/mai" de S1_LABEL "11/mai – 17/mai"
+_s1_lbl_raw = re.search(r'"(S1_LABEL\s*=\s*)"[^"]*"', src)
+NEW_LBL_WH = S1_LABEL_NEW = "11/mai"   # início da nova semana S1
 
 lines_wh = ['weekly_history = {']
 for drv in ALL_DRIVERS:
@@ -76,7 +78,6 @@ stop2 = re.search(r'# SECTION 3', src)
 ns2 = {}
 exec(compile(src[:stop2.start()], 'g', 'exec'), ns2)
 old_lbls2 = ns2['WEEK_LABELS']
-NEW_LBL_WH = "04/mai"
 if NEW_LBL_WH not in old_lbls2:
     new_lbls = (old_lbls2 + [NEW_LBL_WH])[-7:]
     src = re.sub(r'(WEEK_LABELS\s*=\s*)\[.*?\]',
