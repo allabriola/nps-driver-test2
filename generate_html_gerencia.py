@@ -16,7 +16,7 @@ REPORT_DATE = _dt.now().strftime("%d/%m/%Y")
 REPORT_TIME = _dt.now().strftime("%H:%M")
 S1_LABEL  = "11/mai – 17/mai"
 S2_LABEL  = "04/mai – 10/mai"
-VIG_LABEL = "18/mai – 18/mai"
+VIG_LABEL = "18/mai – 19/mai"
 M1_LABEL  = "Maio 2026"
 M2_LABEL  = "Abril 2026"
 NPS_TARGET = 56.61  # SUM(NUM_TARGET_NPS)/SUM(DENOM_TARGET_NPS) via LK JOIN — Abril/2026 (~52,5% oficial)
@@ -65,16 +65,16 @@ weekly_driver = {
     "ME Vendedor Mature":                        {"S2":(75,10,89), "S1":(53,16,72)},
     "ME Vendedor Meli Pro":                      {"S2":(140,11,157), "S1":(114,12,134)},
     "ME Vendedor Seller Dev":                    {"S2":(739,108,940), "S1":(748,64,887)},
-    "Otros CV":                                  {"S2":(165,47,231), "S1":(223,87,328)},
+    "Otros CV":                                  {"S2":(165,47,231), "S1":(223,88,329)},
     "PCF Vendedor Mature":                       {"S2":(30,8,42), "S1":(18,8,28)},
     "PCF Vendedor Meli Pro":                     {"S2":(113,20,157), "S1":(111,10,130)},
     "PCF Vendedor Seller Dev":                   {"S2":(94,28,138), "S1":(82,29,123)},
-    "PDD DS&XD - Vendedor":                      {"S2":(122,104,268), "S1":(113,107,243)},
+    "PDD DS&XD - Vendedor":                      {"S2":(122,104,268), "S1":(113,108,244)},
     "PDD FBM - Vendedor":                        {"S2":(31,26,61), "S1":(33,20,58)},
     "PDD Fotos - Vendedor":                      {"S2":(14,8,24), "S1":(7,3,11)},
     "PDD MP,FLEX & CBT - Vendedor":              {"S2":(21,9,31), "S1":(25,9,38)},
     "PNR ME - Vendedor":                         {"S2":(26,18,48), "S1":(22,26,59)},
-    "PNR MP - Vendedor":                         {"S2":(30,18,54), "S1":(30,17,56)},
+    "PNR MP - Vendedor":                         {"S2":(30,18,54), "S1":(31,17,57)},
     "Partners":                                  {"S2":(516,74,642), "S1":(588,86,740)},
     "Post Venta Mature":                         {"S2":(40,8,53), "S1":(62,3,71)},
     "Post Venta Meli Pro":                       {"S2":(200,9,213), "S1":(179,8,191)},
@@ -115,33 +115,33 @@ monthly_driver = {
 }
 
 drivers_vigente = {
-    "CBT":                                       (0,0,0),
+    "CBT":                                       (10,3,13),
     "Experiencia Impositiva Mature":             (0,0,0),
-    "Experiencia Impositiva Meli Pro":           (0,0,0),
-    "Experiencia Impositiva Seller Dev":         (0,0,0),
-    "FBM-S Mature":                              (0,0,0),
-    "FBM-S Meli Pro":                            (0,0,0),
-    "FBM-S Seller Dev":                          (0,0,0),
-    "ME Vendedor Mature":                        (0,0,0),
-    "ME Vendedor Meli Pro":                      (0,0,0),
-    "ME Vendedor Seller Dev":                    (0,0,0),
-    "Otros CV":                                  (0,0,0),
-    "PCF Vendedor Mature":                       (0,0,0),
-    "PCF Vendedor Meli Pro":                     (0,0,0),
-    "PCF Vendedor Seller Dev":                   (0,0,0),
-    "PDD DS&XD - Vendedor":                      (0,0,0),
-    "PDD FBM - Vendedor":                        (0,0,0),
-    "PDD Fotos - Vendedor":                      (0,0,0),
-    "PDD MP,FLEX & CBT - Vendedor":              (0,0,0),
-    "PNR ME - Vendedor":                         (0,0,0),
-    "PNR MP - Vendedor":                         (0,0,0),
-    "Partners":                                  (0,0,0),
-    "Post Venta Mature":                         (0,0,0),
-    "Post Venta Meli Pro":                       (0,0,0),
-    "Post Venta Seller Dev":                     (0,0,0),
-    "Publicaciones Mature":                      (0,0,0),
-    "Publicaciones Meli Pro":                    (0,0,0),
-    "Publicaciones Seller Dev":                  (0,0,0),
+    "Experiencia Impositiva Meli Pro":           (1,1,3),
+    "Experiencia Impositiva Seller Dev":         (14,3,17),
+    "FBM-S Mature":                              (2,0,3),
+    "FBM-S Meli Pro":                            (6,0,7),
+    "FBM-S Seller Dev":                          (7,3,11),
+    "ME Vendedor Mature":                        (13,4,19),
+    "ME Vendedor Meli Pro":                      (26,4,30),
+    "ME Vendedor Seller Dev":                    (125,10,149),
+    "Otros CV":                                  (32,16,51),
+    "PCF Vendedor Mature":                       (7,1,8),
+    "PCF Vendedor Meli Pro":                     (22,4,28),
+    "PCF Vendedor Seller Dev":                   (9,9,18),
+    "PDD DS&XD - Vendedor":                      (27,15,47),
+    "PDD FBM - Vendedor":                        (8,6,14),
+    "PDD Fotos - Vendedor":                      (3,0,3),
+    "PDD MP,FLEX & CBT - Vendedor":              (2,0,2),
+    "PNR ME - Vendedor":                         (2,2,4),
+    "PNR MP - Vendedor":                         (4,2,7),
+    "Partners":                                  (122,19,158),
+    "Post Venta Mature":                         (10,2,13),
+    "Post Venta Meli Pro":                       (51,3,54),
+    "Post Venta Seller Dev":                     (39,4,45),
+    "Publicaciones Mature":                      (3,1,5),
+    "Publicaciones Meli Pro":                    (17,1,18),
+    "Publicaciones Seller Dev":                  (54,14,74),
 }
 
 # ═══════════════════════════════════════════════════════════════
