@@ -223,7 +223,7 @@ def ch_summary(grp, canal='C2C'):
 def cdu_narrative(grp):
     """Retorna a narrativa do top CDU do processo principal (de _recurrence_cases.json)."""
     cats = rc.get(grp, {}).get('categories_mon') or []
-    if not cats: return None, None
+    if not cats: return None, None, 0
     top = cats[0]
     return top.get('sub_pattern',''), top.get('narrative',''), top.get('share_pct',0)
 
