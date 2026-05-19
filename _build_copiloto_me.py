@@ -258,15 +258,17 @@ def build_tab_content(suffix, nps_m, tmo_m, prod_m, tdi_m, rec_m,
         sc('Recontato ↓',    t_rec_m[4],  c_rec_m[4],  'nps'),
     ])
 
-    sid = suffix
-    return f'''
-{"<div class='note warn'>" + note + "</div>" if note else ""}
-
+    scorecards_html = '' if suffix != 'geral' else f'''
 <div class="section-lbl">Scorecards Mensais</div>
 <div class="period-label">Abril 2026 — fechado</div>
 <div class="sc-grid">{sc_abr}</div>
 <div class="period-label">Maio 2026* — vigente até 18/05</div>
-<div class="sc-grid">{sc_mai}</div>
+<div class="sc-grid">{sc_mai}</div>'''
+
+    sid = suffix
+    return f'''
+{"<div class='note warn'>" + note + "</div>" if note else ""}
+{scorecards_html}
 
 <div class="section-lbl">Evolução Mensal — Jan a Mai/2026</div>
 <div class="ch-grid-5">
