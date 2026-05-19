@@ -7,58 +7,76 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f7;color:#1a1a2e}
-.header{background:#1a1a2e;color:white;padding:20px 32px}
-.header h1{font-size:18px;font-weight:700}
-.header .sub{font-size:12px;color:#94a3b8;margin-top:4px}
-.container{max-width:1320px;margin:0 auto;padding:20px 16px 40px}
-.legend{display:flex;gap:18px;align-items:center;margin-bottom:14px}
-.leg{display:flex;align-items:center;gap:6px;font-size:12px;color:#374151}
-.leg-solid{width:22px;height:0;border-top:2.5px solid}
-.leg-dash{width:22px;height:0;border-top:2.5px dashed}
-.section-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin:22px 0 10px;padding-top:10px;border-top:1px solid #e2e8f0}
-.period-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin:12px 0 8px}
-.sc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:10px}
-.kc{background:white;border-radius:10px;padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.kc .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:#94a3b8;font-weight:600;margin-bottom:7px}
-.kc .val{font-size:20px;font-weight:800;color:#1d4ed8;line-height:1}
-.kc .cmp{font-size:11px;color:#94a3b8;margin-top:4px}
-.dlt{font-size:11px;font-weight:600;padding:2px 7px;border-radius:5px;margin-top:7px;display:inline-block}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f7;color:#1a1a2e;font-size:13px}
+.header{background:#1a1a2e;color:white;padding:18px 28px}
+.header h1{font-size:17px;font-weight:700}
+.header .sub{font-size:11px;color:#94a3b8;margin-top:3px}
+.container{max-width:1400px;margin:0 auto;padding:16px 14px 40px}
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:16px;background:white;padding:5px;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.07);width:fit-content}
+.tab-btn{padding:6px 22px;border-radius:7px;border:none;cursor:pointer;font-size:12px;font-weight:600;background:transparent;color:#64748b;transition:.15s}
+.tab-btn.active{background:#1d4ed8;color:white}
+.tab-pane{display:none}.tab-pane.active{display:block}
+/* Legend */
+.legend{display:flex;gap:16px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:#374151}
+.leg-solid{width:20px;height:0;border-top:2.5px solid}
+.leg-dash{width:20px;height:0;border-top:2.5px dashed}
+/* Sections */
+.section-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#94a3b8;margin:20px 0 8px;padding-top:8px;border-top:1px solid #e2e8f0}
+.period-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#94a3b8;margin:10px 0 6px}
+/* Scorecards */
+.sc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:8px}
+.kc{background:white;border-radius:9px;padding:10px 12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.kc .lbl{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:#94a3b8;font-weight:600;margin-bottom:5px}
+.kc .val{font-size:18px;font-weight:800;color:#1d4ed8;line-height:1}
+.kc .cmp{font-size:10px;color:#94a3b8;margin-top:3px}
+.dlt{font-size:10px;font-weight:600;padding:1px 6px;border-radius:4px;margin-top:5px;display:inline-block}
 .pos{background:#dcfce7;color:#15803d}.neg{background:#fee2e2;color:#dc2626}.neu{background:#f1f5f9;color:#64748b}
-.ch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:10px}
-.cc{background:white;border-radius:10px;padding:16px 20px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.cc h3{font-size:12px;font-weight:700;color:#1e293b}
-.cc p{font-size:10.5px;color:#94a3b8;margin:2px 0 10px}
-.rep-table-wrap{margin-top:14px;overflow-x:auto}
-table.rt{width:100%;border-collapse:collapse;font-size:11.5px}
-table.rt th{background:#1a1a2e;color:white;padding:7px 10px;text-align:center;font-size:10.5px;font-weight:600;letter-spacing:.3px;white-space:nowrap}
+/* Charts 5-col */
+.ch-grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:8px}
+.cc{background:white;border-radius:9px;padding:12px 14px 10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.cc h3{font-size:11px;font-weight:700;color:#1e293b}
+.cc p{font-size:9.5px;color:#94a3b8;margin:2px 0 8px}
+/* TMO processo table */
+.proc-table-wrap{margin-top:8px;overflow-x:auto}
+table.rt{width:100%;border-collapse:collapse;font-size:11px}
+table.rt th{background:#1a1a2e;color:white;padding:6px 9px;text-align:center;font-size:10px;font-weight:600;letter-spacing:.2px;white-space:nowrap}
 table.rt th.left{text-align:left}
-table.rt td{padding:5px 9px;border-bottom:1px solid #f1f5f9;text-align:center;white-space:nowrap}
-table.rt td.rep-name{text-align:left;font-weight:600;font-size:11px;color:#1e293b}
-table.rt tr:hover td{filter:brightness(.97)}
-.gc{background:#dcfce7;color:#15803d;font-weight:700;padding:1px 6px;border-radius:4px}
-.yc{background:#fef9c3;color:#854d0e;font-weight:700;padding:1px 6px;border-radius:4px}
-.rc{background:#fee2e2;color:#dc2626;font-weight:700;padding:1px 6px;border-radius:4px}
+table.rt td{padding:4px 8px;border-bottom:1px solid #f1f5f9;text-align:center;white-space:nowrap}
+table.rt td.rep-name{text-align:left;font-weight:600;font-size:10.5px;color:#1e293b}
+table.rt tr:hover td{background:#f8fafc}
+/* Colors */
+.gc{background:#dcfce7;color:#15803d;font-weight:700;padding:1px 5px;border-radius:3px;font-size:10.5px}
+.yc{background:#fef9c3;color:#854d0e;font-weight:700;padding:1px 5px;border-radius:3px;font-size:10.5px}
+.rc{background:#fee2e2;color:#dc2626;font-weight:700;padding:1px 5px;border-radius:3px;font-size:10.5px}
+.neu-cell{background:#f1f5f9;color:#64748b;font-weight:600;padding:1px 5px;border-radius:3px;font-size:10.5px}
 .sd{color:#cbd5e1;font-style:italic}
-.n-small{font-size:9.5px;color:#94a3b8}
-.sen-e{background:#dbeafe;color:#1d4ed8;font-size:9px;font-weight:700;padding:1px 4px;border-radius:3px;margin-left:3px}
-.sen-n{background:#fef9c3;color:#854d0e;font-size:9px;font-weight:700;padding:1px 4px;border-radius:3px;margin-left:3px}
-.note{font-size:11px;color:#94a3b8;background:white;padding:9px 14px;border-radius:8px;border-left:3px solid #e2e8f0;margin-top:10px;line-height:1.6}
+.n-small{font-size:9px;color:#94a3b8}
+.sen-e{background:#dbeafe;color:#1d4ed8;font-size:8px;font-weight:700;padding:1px 3px;border-radius:2px;margin-left:2px}
+.sen-n{background:#fef9c3;color:#854d0e;font-size:8px;font-weight:700;padding:1px 3px;border-radius:2px;margin-left:2px}
+/* Utilização bar */
+.util-bar{display:inline-block;width:50px;height:6px;background:#e2e8f0;border-radius:3px;vertical-align:middle;margin-right:4px}
+.util-fill{height:6px;border-radius:3px}
+.util-val{font-size:10.5px;color:#374151;font-weight:600}
+/* Notes */
+.note{font-size:10.5px;color:#94a3b8;background:white;padding:8px 12px;border-radius:7px;border-left:3px solid #e2e8f0;margin-top:8px;line-height:1.6}
 .note strong{color:#64748b}
 .note.warn{border-left-color:#f59e0b;background:#fffbeb}.note.warn strong{color:#92400e}
-hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
-.footer{font-size:11px;color:#94a3b8;text-align:center;margin-top:28px}
-.stat-row{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
-.stat-chip{background:white;border-radius:8px;padding:8px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06);font-size:12px;color:#374151}
-.stat-chip strong{color:#1d4ed8;font-size:15px}
-@media(max-width:900px){.sc-grid{grid-template-columns:repeat(2,1fr)}.ch-grid{grid-template-columns:1fr}}
+hr.div{border:none;border-top:2px solid #e2e8f0;margin:20px 0}
+.footer{font-size:10px;color:#94a3b8;text-align:center;margin-top:24px}
+/* Sen filter buttons */
+.sen-filter{display:flex;gap:6px;margin-bottom:10px;align-items:center}
+.sen-btn{padding:4px 14px;border-radius:6px;border:1px solid #e2e8f0;cursor:pointer;font-size:11px;font-weight:600;background:white;color:#64748b;transition:.1s}
+.sen-btn.active{background:#1d4ed8;color:white;border-color:#1d4ed8}
+@media(max-width:1100px){.sc-grid{grid-template-columns:repeat(3,1fr)}.ch-grid-5{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.sc-grid{grid-template-columns:repeat(2,1fr)}.ch-grid-5{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="header">
   <h1>Copiloto — Experimento Treatment vs Control · BR_ME_Sellers_Longtail</h1>
-  <div class="sub">MULTICANAL CHAT · 209 reps com Copilot vs ~436 sem Copilot · Abr–Mai 2026 (rollout iniciado ~22/04)</div>
-  <div class="sub" style="margin-top:5px;color:#64748b" id="ts"></div>
+  <div class="sub">209 reps com Copilot vs ~436 sem Copilot · Rollout iniciado ~22/04/2026 · Atualizado em <span id="ts"></span></div>
 </div>
 
 <div class="container">
@@ -66,439 +84,525 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:24px 0}
   <div class="legend">
     <div class="leg"><span class="leg-solid" style="border-color:#2563EB"></span>Com Copiloto (Treatment)</div>
     <div class="leg"><span class="leg-dash" style="border-color:#9CA3AF"></span>Sem Copiloto (Controle)</div>
-    <div class="leg" style="font-size:11px;color:#94a3b8">* Mai vigente até 11/05 &nbsp;·&nbsp; NPS por rep com &lt;5 pesquisas tem alta variância</div>
+    <div class="leg" style="font-size:10px;color:#94a3b8">* Mai até 18/05 · NPS com &lt;5 pesquisas/rep tem alta variância · Controle não tem split de senioridade (exibe Expert como baseline)</div>
   </div>
 
-  <!-- ===================== SCORECARD CONSOLIDADO ===================== -->
-  <div class="section-lbl">Scorecard Consolidado — Últimas 2 Semanas (28/04–11/05)</div>
-  <div class="stat-row">
-    <div class="stat-chip">Treatment: <strong>202 reps</strong> · 1,652 pesquisas NPS</div>
-    <div class="stat-chip">Controle: <strong>311 reps</strong> · 2,003 pesquisas NPS</div>
-    <div class="stat-chip">Total: <strong>21.196 conversas Copilot</strong> registradas</div>
-  </div>
-  <div class="sc-grid">
-    
-    <div class="kc">
-      <div class="lbl">NPS ↑</div>
-      <div class="val">70.5%</div>
-      <div class="cmp">Controle: 52.6%</div>
-      <span class="dlt pos">+17.9pp</span>
-    </div>
-    
-    <div class="kc">
-      <div class="lbl">TMO ↓ ↓</div>
-      <div class="val">38.8 min</div>
-      <div class="cmp">Controle: 31.3 min</div>
-      <span class="dlt neg">+24.0%</span>
-    </div>
-    
-    <div class="kc">
-      <div class="lbl">Produtividade ↑</div>
-      <div class="val">1.06</div>
-      <div class="cmp">Controle: 1.24</div>
-      <span class="dlt neg">-14.5%</span>
-    </div>
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="setTab('geral',this)">Geral</button>
+    <button class="tab-btn" onclick="setTab('expert',this)">Expert</button>
+    <button class="tab-btn" onclick="setTab('newbie',this)">Newbie</button>
   </div>
 
-  <!-- ===================== MENSAL ===================== -->
-  <div class="section-lbl">Por Mês</div>
+  <div class="tab-pane active" id="tab-geral">
 
-  <div class="period-label">Março 2026 — fechado · <em style="color:#f59e0b;font-size:10px">⚠ Copilot ainda não ativo para a maioria. Dados do NPS com amostras reduzidas (n=63 treatment / n=114 controle)</em></div>
-  <div class="sc-grid">
-    
-    <div class="kc">
-      <div class="lbl">NPS ↑</div>
-      <div class="val">49.2%</div>
-      <div class="cmp">Controle: 61.4%</div>
-      <span class="dlt neg">-12.2pp</span>
-    </div>
-    
-    <div class="kc">
-      <div class="lbl">TMO ↓ ↓</div>
-      <div class="val">34.7 min</div>
-      <div class="cmp">Controle: 29.7 min</div>
-      <span class="dlt neg">+16.8%</span>
-    </div>
-    
-    <div class="kc">
-      <div class="lbl">Produtividade ↑</div>
-      <div class="val">1.15</div>
-      <div class="cmp">Controle: 1.38</div>
-      <span class="dlt neg">-16.7%</span>
-    </div>
-  </div>
 
-  <div class="period-label">Abril 2026 — fechado · n=3,087 pesquisas treatment / n=5,454 controle</div>
-  <div class="sc-grid">
-    
-    <div class="kc">
-      <div class="lbl">NPS ↑</div>
-      <div class="val">64.2%</div>
-      <div class="cmp">Controle: 53.9%</div>
-      <span class="dlt pos">+10.3pp</span>
-    </div>
-    
-    <div class="kc">
-      <div class="lbl">TMO ↓ ↓</div>
-      <div class="val">38.8 min</div>
-      <div class="cmp">Controle: 31.3 min</div>
-      <span class="dlt neg">+24.0%</span>
-    </div>
-    
-    <div class="kc">
-      <div class="lbl">Produtividade ↑</div>
-      <div class="val">1.06</div>
-      <div class="cmp">Controle: 1.24</div>
-      <span class="dlt neg">-14.5%</span>
-    </div>
-  </div>
+<div class="section-lbl">Scorecards Mensais</div>
+<div class="period-label">Abril 2026 — fechado</div>
+<div class="sc-grid"><div class="kc"><div class="lbl">NPS ↑</div>
+<div class="val">64.2%</div><div class="cmp">Controle: 53.9%</div><span class="dlt pos">+10.3pp</span></div><div class="kc"><div class="lbl">TMO ↓</div>
+<div class="val">38.8 min</div><div class="cmp">Controle: 31.3 min</div><span class="dlt neg">+24.0%</span></div><div class="kc"><div class="lbl">Produtividade ↑</div>
+<div class="val">1.06</div><div class="cmp">Controle: 1.24</div><span class="dlt neg">-14.5%</span></div><div class="kc"><div class="lbl">TDI ↓</div>
+<div class="val">8.7%</div><div class="cmp">Controle: 8.2%</div><span class="dlt pos">+0.5pp</span></div><div class="kc"><div class="lbl">Recontato ↓</div>
+<div class="val">4.8%</div><div class="cmp">Controle: 4.1%</div><span class="dlt pos">+0.7pp</span></div></div>
+<div class="period-label">Maio 2026* — vigente até 18/05</div>
+<div class="sc-grid"><div class="kc"><div class="lbl">NPS ↑</div>
+<div class="val">70.0%</div><div class="cmp">Controle: 57.0%</div><span class="dlt pos">+13.0pp</span></div><div class="kc"><div class="lbl">TMO ↓</div>
+<div class="val">40.2 min</div><div class="cmp">Controle: 29.8 min</div><span class="dlt neg">+34.9%</span></div><div class="kc"><div class="lbl">Produtividade ↑</div>
+<div class="val">1.10</div><div class="cmp">Controle: 1.31</div><span class="dlt neg">-16.0%</span></div><div class="kc"><div class="lbl">TDI ↓</div>
+<div class="val">6.2%</div><div class="cmp">Controle: 7.2%</div><span class="dlt neg">-1.0pp</span></div><div class="kc"><div class="lbl">Recontato ↓</div>
+<div class="val">3.2%</div><div class="cmp">Controle: 2.5%</div><span class="dlt pos">+0.7pp</span></div></div>
 
-  <div class="period-label">Maio 2026* — vigente até 11/05 · n=1,276 pesquisas treatment / n=1,441 controle</div>
-  <div class="sc-grid">
-    
-    <div class="kc">
-      <div class="lbl">NPS ↑</div>
-      <div class="val">70.0%</div>
-      <div class="cmp">Controle: 53.7%</div>
-      <span class="dlt pos">+16.3pp</span>
-    </div>
-    
-    <div class="kc">
-      <div class="lbl">TMO ↓ ↓</div>
-      <div class="val">40.2 min</div>
-      <div class="cmp">Controle: 29.8 min</div>
-      <span class="dlt neg">+34.9%</span>
-    </div>
-    
-    <div class="kc">
-      <div class="lbl">Produtividade ↑</div>
-      <div class="val">1.10</div>
-      <div class="cmp">Controle: 1.30</div>
-      <span class="dlt neg">-15.4%</span>
-    </div>
-  </div>
+<div class="section-lbl">Evolução Mensal — Jan a Mai/2026</div>
+<div class="ch-grid-5">
+  <div class="cc"><h3>NPS ↑</h3><p>% · Maior é melhor · Mar–Mai (Jan/Fev sem dados p/ este time)</p><canvas id="mNPS_geral"></canvas></div>
+  <div class="cc"><h3>TMO ↓</h3><p>min · Menor é melhor</p><canvas id="mTMO_geral"></canvas></div>
+  <div class="cc"><h3>Produtividade ↑</h3><p>at/h · Maior é melhor</p><canvas id="mPROD_geral"></canvas></div>
+  <div class="cc"><h3>TDI ↓</h3><p>% · Menor é melhor · Apenas Abr–Mai disponíveis</p><canvas id="mTDI_geral"></canvas></div>
+  <div class="cc"><h3>Recontato ↓</h3><p>% · Menor é melhor · A partir de Mar</p><canvas id="mREC_geral"></canvas></div>
+</div>
+
+<div class="section-lbl">Evolução Semanal — 8 Semanas (30/03–18/05)</div>
+<div class="ch-grid-5">
+  <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="wNPS_geral"></canvas></div>
+  <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="wTMO_geral"></canvas></div>
+  <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="wPROD_geral"></canvas></div>
+  <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_geral"></canvas></div>
+  <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_geral"></canvas></div>
+</div>
+
+<script>
+(function(){
+const BLUE='{"#2563EB"}',GRAY='{"#9CA3AF"}',ORANGE='{"#F59E0B"}';
+const MONTHS=["Jan", "Fev", "Mar", "Abr", "Mai*"];
+const WEEKS=["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05*"];
+function mk(id,labels,ds,yLabel,yMin,yMax){
+  new Chart(document.getElementById(id),{type:'line',data:{labels,datasets:ds},options:{
+    responsive:true,maintainAspectRatio:true,aspectRatio:1.55,
+    plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:8,usePointStyle:true,pointStyleWidth:6}},
+      tooltip:{callbacks:{label:c=>c.parsed.y==null?null:` ${c.dataset.label}: ${c.parsed.y.toFixed(1)} ${yLabel}`}}},
+    scales:{y:{min:yMin,max:yMax,grid:{color:'#f1f5f9'},ticks:{font:{size:10}}},x:{grid:{display:false},ticks:{font:{size:10}}}}
+  }});
+}
+function d(data,color,label,dashed){return {label,data,borderColor:color,backgroundColor:color+'18',
+  borderWidth:dashed?2:2.5,pointRadius:4,tension:0.35,spanGaps:true,borderDash:dashed?[6,4]:[]}}
+
+// Mensais
+mk('mNPS_geral',MONTHS,[d([null, null, 49.2, 64.2, 70.0],'#2563EB','Com Copiloto'),d([null, null, 61.4, 53.9, 57.0],'#9CA3AF','Sem Copiloto',true)],'%',40,85);
+mk('mTMO_geral',MONTHS,[d([30.0, 29.9, 34.7, 38.8, 40.2],'#2563EB','Com Copiloto'),d([26.4, 25.2, 29.7, 31.3, 29.8],'#9CA3AF','Sem Copiloto',true)],'min',22,45);
+mk('mPROD_geral',MONTHS,[d([1.12, 1.4, 1.15, 1.06, 1.1],'#2563EB','Com Copiloto'),d([1.31, 1.61, 1.39, 1.24, 1.31],'#9CA3AF','Sem Copiloto',true)],'at/h',0.8,1.8);
+mk('mTDI_geral',MONTHS,[d([null, null, null, 8.7, 6.2],'#2563EB','Com Copiloto'),d([null, null, null, 8.2, 7.2],'#9CA3AF','Sem Copiloto',true)],'%',2,16);
+mk('mREC_geral',MONTHS,[d([null, null, 22.5, 4.8, 3.2],'#2563EB','Com Copiloto'),d([null, null, 18.9, 4.1, 2.5],'#9CA3AF','Sem Copiloto',true)],'%',0,30);
+
+// Semanais
+mk('wNPS_geral',WEEKS,[d([65.9, 59.9, 59.5, 67.7, 69.6, 69.5, 71.7, 73.2],'#2563EB','Com Copiloto'),d([57.5, 56.0, 53.2, 53.1, 50.4, 54.9, 59.2, 57.4],'#9CA3AF','Sem Copiloto',true)],'%',40,85);
+mk('wTMO_geral',WEEKS,[d([31.6, 36.8, 38.6, 39.1, 39.4, 40.4, 38.0, 38.0],'#2563EB','Com Copiloto'),d([28.3, 31.1, 30.8, 30.7, 29.9, 30.2, 30.5, 28.2],'#9CA3AF','Sem Copiloto',true)],'min',24,44);
+mk('wPROD_geral',WEEKS,[d([0.98, 0.87, 1.09, 1.17, 1.16, 1.07, 1.08, 1.11],'#2563EB','Com Copiloto'),d([1.11, 1.1, 1.3, 1.37, 1.31, 1.25, 1.31, 1.32],'#9CA3AF','Sem Copiloto',true)],'at/h',0.75,1.5);
+mk('wTDI_geral',WEEKS,[d([6.3, 7.0, 9.1, 12.3, 8.7, 4.6, 7.0, 4.5],'#2563EB','Com Copiloto'),d([7.6, 7.7, 8.1, 8.6, 8.6, 7.7, 7.4, 4.1],'#9CA3AF','Sem Copiloto',true)],'%',2,18);
+mk('wREC_geral',WEEKS,[d([6.3, 4.9, 4.9, 4.5, 4.2, 4.0, 2.6, 0.5],'#2563EB','Com Copiloto'),d([6.0, 4.6, 4.3, 3.5, 2.6, 3.1, 2.2, 0.2],'#9CA3AF','Sem Copiloto',true)],'%',0,10);
+})();
+</script>
+</div>
+  <div class="tab-pane" id="tab-expert">
+<div class='note warn'>Experts: NPS superiores desde a ativação (+20pp vs controle em Mai). TDI Expert com Copiloto caiu de 6.9% → 4.8% (Abr→Mai).</div>
+
+<div class="section-lbl">Scorecards Mensais</div>
+<div class="period-label">Abril 2026 — fechado</div>
+<div class="sc-grid"><div class="kc"><div class="lbl">NPS ↑</div>
+<div class="val">71.4%</div><div class="cmp">Controle: 53.8%</div><span class="dlt pos">+17.6pp</span></div><div class="kc"><div class="lbl">TMO ↓</div>
+<div class="val">33.5 min</div><div class="cmp">Controle: 31.3 min</div><span class="dlt neg">+7.0%</span></div><div class="kc"><div class="lbl">Produtividade ↑</div>
+<div class="val">1.03</div><div class="cmp">Controle: 1.24</div><span class="dlt neg">-16.9%</span></div><div class="kc"><div class="lbl">TDI ↓</div>
+<div class="val">6.9%</div><div class="cmp">Controle: 8.2%</div><span class="dlt neg">-1.3pp</span></div><div class="kc"><div class="lbl">Recontato ↓</div>
+<div class="val">4.1%</div><div class="cmp">Controle: 4.1%</div><span class="dlt neu">0.0pp</span></div></div>
+<div class="period-label">Maio 2026* — vigente até 18/05</div>
+<div class="sc-grid"><div class="kc"><div class="lbl">NPS ↑</div>
+<div class="val">74.1%</div><div class="cmp">Controle: 56.1%</div><span class="dlt pos">+18.0pp</span></div><div class="kc"><div class="lbl">TMO ↓</div>
+<div class="val">35.6 min</div><div class="cmp">Controle: 30.4 min</div><span class="dlt neg">+17.1%</span></div><div class="kc"><div class="lbl">Produtividade ↑</div>
+<div class="val">1.07</div><div class="cmp">Controle: 1.31</div><span class="dlt neg">-18.3%</span></div><div class="kc"><div class="lbl">TDI ↓</div>
+<div class="val">4.8%</div><div class="cmp">Controle: 7.2%</div><span class="dlt neg">-2.4pp</span></div><div class="kc"><div class="lbl">Recontato ↓</div>
+<div class="val">2.8%</div><div class="cmp">Controle: 2.5%</div><span class="dlt pos">+0.3pp</span></div></div>
+
+<div class="section-lbl">Evolução Mensal — Jan a Mai/2026</div>
+<div class="ch-grid-5">
+  <div class="cc"><h3>NPS ↑</h3><p>% · Maior é melhor · Mar–Mai (Jan/Fev sem dados p/ este time)</p><canvas id="mNPS_expert"></canvas></div>
+  <div class="cc"><h3>TMO ↓</h3><p>min · Menor é melhor</p><canvas id="mTMO_expert"></canvas></div>
+  <div class="cc"><h3>Produtividade ↑</h3><p>at/h · Maior é melhor</p><canvas id="mPROD_expert"></canvas></div>
+  <div class="cc"><h3>TDI ↓</h3><p>% · Menor é melhor · Apenas Abr–Mai disponíveis</p><canvas id="mTDI_expert"></canvas></div>
+  <div class="cc"><h3>Recontato ↓</h3><p>% · Menor é melhor · A partir de Mar</p><canvas id="mREC_expert"></canvas></div>
+</div>
+
+<div class="section-lbl">Evolução Semanal — 8 Semanas (30/03–18/05)</div>
+<div class="ch-grid-5">
+  <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="wNPS_expert"></canvas></div>
+  <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="wTMO_expert"></canvas></div>
+  <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="wPROD_expert"></canvas></div>
+  <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_expert"></canvas></div>
+  <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_expert"></canvas></div>
+</div>
+
+<script>
+(function(){
+const BLUE='{"#2563EB"}',GRAY='{"#9CA3AF"}',ORANGE='{"#F59E0B"}';
+const MONTHS=["Jan", "Fev", "Mar", "Abr", "Mai*"];
+const WEEKS=["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05*"];
+function mk(id,labels,ds,yLabel,yMin,yMax){
+  new Chart(document.getElementById(id),{type:'line',data:{labels,datasets:ds},options:{
+    responsive:true,maintainAspectRatio:true,aspectRatio:1.55,
+    plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:8,usePointStyle:true,pointStyleWidth:6}},
+      tooltip:{callbacks:{label:c=>c.parsed.y==null?null:` ${c.dataset.label}: ${c.parsed.y.toFixed(1)} ${yLabel}`}}},
+    scales:{y:{min:yMin,max:yMax,grid:{color:'#f1f5f9'},ticks:{font:{size:10}}},x:{grid:{display:false},ticks:{font:{size:10}}}}
+  }});
+}
+function d(data,color,label,dashed){return {label,data,borderColor:color,backgroundColor:color+'18',
+  borderWidth:dashed?2:2.5,pointRadius:4,tension:0.35,spanGaps:true,borderDash:dashed?[6,4]:[]}}
+
+// Mensais
+mk('mNPS_expert',MONTHS,[d([null, null, 47.1, 71.4, 74.1],'#2563EB','Com Copiloto'),d([null, null, 61.4, 53.8, 56.1],'#9CA3AF','Sem Copiloto',true)],'%',40,85);
+mk('mTMO_expert',MONTHS,[d([30.6, 29.9, 33.1, 33.5, 35.6],'#2563EB','Com Copiloto'),d([26.4, 25.2, 29.6, 31.3, 30.4],'#9CA3AF','Sem Copiloto',true)],'min',22,45);
+mk('mPROD_expert',MONTHS,[d([1.12, 1.4, 1.16, 1.03, 1.07],'#2563EB','Com Copiloto'),d([1.31, 1.61, 1.39, 1.24, 1.31],'#9CA3AF','Sem Copiloto',true)],'at/h',0.8,1.8);
+mk('mTDI_expert',MONTHS,[d([null, null, null, 6.9, 4.8],'#2563EB','Com Copiloto'),d([null, null, null, 8.2, 7.2],'#9CA3AF','Sem Copiloto',true)],'%',2,16);
+mk('mREC_expert',MONTHS,[d([null, null, 20.9, 4.1, 2.8],'#2563EB','Com Copiloto'),d([null, null, 18.9, 4.1, 2.5],'#9CA3AF','Sem Copiloto',true)],'%',0,30);
+
+// Semanais
+mk('wNPS_expert',WEEKS,[d([67.1, 69.7, 71.7, 72.9, 72.7, 75.4, 74.5, 69.1],'#2563EB','Com Copiloto'),d([57.3, 55.9, 53.2, 53.1, 50.2, 54.7, 59.2, 57.4],'#9CA3AF','Sem Copiloto',true)],'%',40,85);
+mk('wTMO_expert',WEEKS,[d([29.8, 33.4, 33.1, 33.3, 33.7, 34.8, 36.2, 34.8],'#2563EB','Com Copiloto'),d([28.3, 31.0, 30.8, 30.6, 29.8, 30.2, 30.5, 28.2],'#9CA3AF','Sem Copiloto',true)],'min',24,44);
+mk('wPROD_expert',WEEKS,[d([0.98, 0.87, 1.09, 1.14, 1.14, 1.03, 1.06, 1.12],'#2563EB','Com Copiloto'),d([1.11, 1.1, 1.3, 1.37, 1.32, 1.25, 1.31, 1.32],'#9CA3AF','Sem Copiloto',true)],'at/h',0.75,1.5);
+mk('wTDI_expert',WEEKS,[d([5.4, 6.3, 5.8, 10.2, 7.0, 3.7, 5.6, 5.2],'#2563EB','Com Copiloto'),d([7.6, 7.7, 8.1, 8.6, 8.6, 7.7, 7.4, 4.1],'#9CA3AF','Sem Copiloto',true)],'%',2,18);
+mk('wREC_expert',WEEKS,[d([5.2, 3.8, 4.2, 3.9, 3.9, 3.7, 2.2, 0.4],'#2563EB','Com Copiloto'),d([6.0, 4.6, 4.3, 3.5, 2.6, 3.1, 2.2, 0.2],'#9CA3AF','Sem Copiloto',true)],'%',0,10);
+})();
+</script>
+</div>
+  <div class="tab-pane" id="tab-newbie">
+<div class='note warn'>Newbies: NPS crescendo rapidamente (+10pp de Abr→Mai). TDI era alto em Abr (11.5%) mas caiu para 7.3% em Mai. Controle = baseline Expert (sem split de senioridade disponível para o grupo controle).</div>
+
+<div class="section-lbl">Scorecards Mensais</div>
+<div class="period-label">Abril 2026 — fechado</div>
+<div class="sc-grid"><div class="kc"><div class="lbl">NPS ↑</div>
+<div class="val">56.7%</div><div class="cmp">Controle: 53.8%</div><span class="dlt pos">+2.9pp</span></div><div class="kc"><div class="lbl">TMO ↓</div>
+<div class="val">39.2 min</div><div class="cmp">Controle: 31.3 min</div><span class="dlt neg">+25.2%</span></div><div class="kc"><div class="lbl">Produtividade ↑</div>
+<div class="val">1.08</div><div class="cmp">Controle: 1.24</div><span class="dlt neg">-12.9%</span></div><div class="kc"><div class="lbl">TDI ↓</div>
+<div class="val">11.5%</div><div class="cmp">Controle: 8.2%</div><span class="dlt pos">+3.3pp</span></div><div class="kc"><div class="lbl">Recontato ↓</div>
+<div class="val">5.5%</div><div class="cmp">Controle: 4.1%</div><span class="dlt pos">+1.4pp</span></div></div>
+<div class="period-label">Maio 2026* — vigente até 18/05</div>
+<div class="sc-grid"><div class="kc"><div class="lbl">NPS ↑</div>
+<div class="val">66.9%</div><div class="cmp">Controle: 56.1%</div><span class="dlt pos">+10.8pp</span></div><div class="kc"><div class="lbl">TMO ↓</div>
+<div class="val">39.0 min</div><div class="cmp">Controle: 30.4 min</div><span class="dlt neg">+28.3%</span></div><div class="kc"><div class="lbl">Produtividade ↑</div>
+<div class="val">1.12</div><div class="cmp">Controle: 1.31</div><span class="dlt neg">-14.5%</span></div><div class="kc"><div class="lbl">TDI ↓</div>
+<div class="val">7.3%</div><div class="cmp">Controle: 7.2%</div><span class="dlt pos">+0.1pp</span></div><div class="kc"><div class="lbl">Recontato ↓</div>
+<div class="val">3.7%</div><div class="cmp">Controle: 2.5%</div><span class="dlt pos">+1.2pp</span></div></div>
+
+<div class="section-lbl">Evolução Mensal — Jan a Mai/2026</div>
+<div class="ch-grid-5">
+  <div class="cc"><h3>NPS ↑</h3><p>% · Maior é melhor · Mar–Mai (Jan/Fev sem dados p/ este time)</p><canvas id="mNPS_newbie"></canvas></div>
+  <div class="cc"><h3>TMO ↓</h3><p>min · Menor é melhor</p><canvas id="mTMO_newbie"></canvas></div>
+  <div class="cc"><h3>Produtividade ↑</h3><p>at/h · Maior é melhor</p><canvas id="mPROD_newbie"></canvas></div>
+  <div class="cc"><h3>TDI ↓</h3><p>% · Menor é melhor · Apenas Abr–Mai disponíveis</p><canvas id="mTDI_newbie"></canvas></div>
+  <div class="cc"><h3>Recontato ↓</h3><p>% · Menor é melhor · A partir de Mar</p><canvas id="mREC_newbie"></canvas></div>
+</div>
+
+<div class="section-lbl">Evolução Semanal — 8 Semanas (30/03–18/05)</div>
+<div class="ch-grid-5">
+  <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="wNPS_newbie"></canvas></div>
+  <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="wTMO_newbie"></canvas></div>
+  <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="wPROD_newbie"></canvas></div>
+  <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_newbie"></canvas></div>
+  <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_newbie"></canvas></div>
+</div>
+
+<script>
+(function(){
+const BLUE='{"#2563EB"}',GRAY='{"#9CA3AF"}',ORANGE='{"#F59E0B"}';
+const MONTHS=["Jan", "Fev", "Mar", "Abr", "Mai*"];
+const WEEKS=["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05*"];
+function mk(id,labels,ds,yLabel,yMin,yMax){
+  new Chart(document.getElementById(id),{type:'line',data:{labels,datasets:ds},options:{
+    responsive:true,maintainAspectRatio:true,aspectRatio:1.55,
+    plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:8,usePointStyle:true,pointStyleWidth:6}},
+      tooltip:{callbacks:{label:c=>c.parsed.y==null?null:` ${c.dataset.label}: ${c.parsed.y.toFixed(1)} ${yLabel}`}}},
+    scales:{y:{min:yMin,max:yMax,grid:{color:'#f1f5f9'},ticks:{font:{size:10}}},x:{grid:{display:false},ticks:{font:{size:10}}}}
+  }});
+}
+function d(data,color,label,dashed){return {label,data,borderColor:color,backgroundColor:color+'18',
+  borderWidth:dashed?2:2.5,pointRadius:4,tension:0.35,spanGaps:true,borderDash:dashed?[6,4]:[]}}
+
+// Mensais
+mk('mNPS_newbie',MONTHS,[d([null, null, 51.7, 56.7, 66.9],'#2563EB','Com Copiloto'),d([null, null, 61.4, 53.8, 56.1],'#9CA3AF','Sem Copiloto',true)],'%',40,85);
+mk('mTMO_newbie',MONTHS,[d([null, 25.3, 37.4, 39.2, 39.0],'#2563EB','Com Copiloto'),d([26.4, 25.2, 29.6, 31.3, 30.4],'#9CA3AF','Sem Copiloto',true)],'min',22,45);
+mk('mPROD_newbie',MONTHS,[d([null, 1.54, 1.07, 1.08, 1.12],'#2563EB','Com Copiloto'),d([1.31, 1.61, 1.39, 1.24, 1.31],'#9CA3AF','Sem Copiloto',true)],'at/h',0.8,1.8);
+mk('mTDI_newbie',MONTHS,[d([null, null, null, 11.5, 7.3],'#2563EB','Com Copiloto'),d([null, null, null, 8.2, 7.2],'#9CA3AF','Sem Copiloto',true)],'%',2,16);
+mk('mREC_newbie',MONTHS,[d([null, null, 24.7, 5.5, 3.7],'#2563EB','Com Copiloto'),d([null, null, 18.9, 4.1, 2.5],'#9CA3AF','Sem Copiloto',true)],'%',0,30);
+
+// Semanais
+mk('wNPS_newbie',WEEKS,[d([64.6, 45.7, 48.3, 63.3, 67.0, 62.6, 68.7, 76.7],'#2563EB','Com Copiloto'),d([57.3, 55.9, 53.2, 53.1, 50.2, 54.7, 59.2, 57.4],'#9CA3AF','Sem Copiloto',true)],'%',40,85);
+mk('wTMO_newbie',WEEKS,[d([33.9, 37.6, 39.2, 38.7, 38.4, 38.3, 39.5, 39.5],'#2563EB','Com Copiloto'),d([28.3, 31.0, 30.8, 30.6, 29.8, 30.2, 30.5, 28.2],'#9CA3AF','Sem Copiloto',true)],'min',24,44);
+mk('wPROD_newbie',WEEKS,[d([0.97, 0.88, 1.07, 1.18, 1.16, 1.09, 1.1, 1.1],'#2563EB','Com Copiloto'),d([1.11, 1.1, 1.3, 1.37, 1.32, 1.25, 1.31, 1.32],'#9CA3AF','Sem Copiloto',true)],'at/h',0.75,1.5);
+mk('wTDI_newbie',WEEKS,[d([7.7, 8.1, 12.4, 14.9, 11.0, 5.8, 8.6, 3.2],'#2563EB','Com Copiloto'),d([7.6, 7.7, 8.1, 8.6, 8.6, 7.7, 7.4, 4.1],'#9CA3AF','Sem Copiloto',true)],'%',2,18);
+mk('wREC_newbie',WEEKS,[d([7.8, 6.3, 5.7, 5.2, 4.8, 4.4, 3.0, 0.6],'#2563EB','Com Copiloto'),d([6.0, 4.6, 4.3, 3.5, 2.6, 3.1, 2.2, 0.2],'#9CA3AF','Sem Copiloto',true)],'%',0,10);
+})();
+</script>
+</div>
 
   <hr class="div">
 
-  <!-- ===================== GRÁFICOS SEMANAIS ===================== -->
-  <div class="section-lbl">Evolução Semanal — 6 Semanas (30/03–04/05)</div>
-  <div class="ch-grid">
-    <div class="cc">
-      <h3>NPS †</h3>
-      <p>% · Maior é melhor ↑ · Treatment consistentemente acima do controle a partir de Abr</p>
-      <canvas id="chartNPS"></canvas>
-    </div>
-    <div class="cc">
-      <h3>TMO por Caso</h3>
-      <p>min · Menor é melhor ↓ · Treatment com TMO mais alto (~+9 min): reps gastam mais tempo com respostas qualificadas</p>
-      <canvas id="chartTMO"></canvas>
-    </div>
-    <div class="cc">
-      <h3>Produtividade</h3>
-      <p>at/h · Maior é melhor ↑ · Controle com produtividade levemente superior</p>
-      <canvas id="chartPROD"></canvas>
-    </div>
-  </div>
-
-  <div class="note warn">
-    <strong>⚠ Interpretação:</strong> Treatment tem NPS <strong>+16.3pp</strong> em Maio vs Controle, mas TMO <strong>+10.4 min</strong> maior e Produtividade <strong>-15%</strong> menor. O trade-off sugere que o Copilot melhora a qualidade percebida pelo cliente (respostas mais completas/assertivas) ao custo de maior tempo de atendimento. O volume de casos diferentes entre os grupos (64,124 treatment vs 119,526 controle em Abr) reflete o número de reps, não uma seleção de casos.
-  </div>
-
-  <hr class="div">
-
-  <!-- ===================== TABELA POR REPRESENTANTE ===================== -->
-  <div class="section-lbl">Acompanhamento por Representante — Treatment Group (209 reps com Copilot)</div>
-  <div class="note" style="margin-bottom:10px">
-    <strong>Colunas:</strong> Conversas Copilot = total de sessões com o assistente (Abr+Mai) · NPS Abr / NPS Mai = % NPS do rep no período · (n) = número de pesquisas respondidas · <span class="gc">Verde</span> ≥ 65% · <span class="yc">Amarelo</span> 50–65% · <span class="rc">Vermelho</span> &lt; 50% · <span class="sen-e">E</span> Expert / <span class="sen-n">N</span> Newbie
-  </div>
-  <div class="rep-table-wrap">
+  <!-- TMO POR PROCESSO -->
+  <div class="section-lbl">TMO por Processo — Com Copiloto vs Sem Copiloto (Abr–Mai 2026 · Treatment reps)</div>
+  <div class="note" style="margin-bottom:8px">Comparação do TMO médio por caso para os mesmos reps (treatment), separando interações onde o Copiloto foi acionado (FLAG_COPILOT=1) das que não foram. Delta positivo = Copiloto aumenta TMO naquele processo.</div>
+  <div class="proc-table-wrap">
     <table class="rt">
       <thead>
         <tr>
+          <th class="left">Processo</th>
+          <th>TMO c/ Copiloto</th><th class="n-small">Casos</th>
+          <th>TMO s/ Copiloto</th><th class="n-small">Casos</th>
+          <th>Delta</th>
+        </tr>
+      </thead>
+      <tbody><tr><td class="rep-name">Despacho Vendas e Publicaciones</td><td>41.2</td><td class="n-small">2,428</td><td>40.2</td><td class="n-small">33,936</td><td><span class="neu-cell">+1.0 min</span></td></tr>
+<tr><td class="rep-name">Drivers</td><td>40.0</td><td class="n-small">1,246</td><td>40.4</td><td class="n-small">14,548</td><td><span class="neu-cell">-0.4 min</span></td></tr>
+<tr><td class="rep-name">Post Compra Funcionalidades</td><td>40.2</td><td class="n-small">743</td><td>36.1</td><td class="n-small">11,624</td><td><span class="rc">+4.1 min</span></td></tr>
+<tr><td class="rep-name">Reversa</td><td>36.5</td><td class="n-small">572</td><td>38.9</td><td class="n-small">9,732</td><td><span class="gc">-2.4 min</span></td></tr>
+<tr><td class="rep-name">Places Kangu</td><td>38.3</td><td class="n-small">853</td><td>39.7</td><td class="n-small">9,065</td><td><span class="neu-cell">-1.4 min</span></td></tr>
+<tr><td class="rep-name">Gestiones Operativas</td><td>39.4</td><td class="n-small">631</td><td>36.5</td><td class="n-small">7,438</td><td><span class="rc">+2.9 min</span></td></tr>
+<tr><td class="rep-name">Reputación</td><td>39.8</td><td class="n-small">347</td><td>32.6</td><td class="n-small">7,688</td><td><span class="rc">+7.2 min</span></td></tr>
+<tr><td class="rep-name">Reputación ME</td><td>35.4</td><td class="n-small">210</td><td>32.0</td><td class="n-small">4,514</td><td><span class="rc">+3.4 min</span></td></tr>
+<tr><td class="rep-name">Viaje del paquete - Vendedor</td><td>38.9</td><td class="n-small">277</td><td>37.6</td><td class="n-small">3,646</td><td><span class="neu-cell">+1.3 min</span></td></tr>
+<tr><td class="rep-name">Asignación ME Sellers LT</td><td>41.1</td><td class="n-small">144</td><td>34.6</td><td class="n-small">1,458</td><td><span class="rc">+6.5 min</span></td></tr></tbody>
+    </table>
+  </div>
+
+  <hr class="div">
+
+  <!-- TABELA POR REP -->
+  <div class="section-lbl">Representantes com Copiloto — 209 reps · Filtro por Senioridade</div>
+  <div class="note" style="margin-bottom:8px">
+    <strong>% Utilização:</strong> conversas Copilot / total casos atendidos (Abr–Mai) ·
+    <strong>NPS:</strong> verde ≥65% · amarelo 50–65% · vermelho &lt;50% · (n) = pesquisas ·
+    <span class="sen-e">E</span> Expert &nbsp; <span class="sen-n">N</span> Newbie
+  </div>
+  <div class="sen-filter">
+    <span style="font-size:11px;font-weight:600;color:#64748b">Filtrar:</span>
+    <button class="sen-btn active" onclick="filterSen('ALL',this)">Todos</button>
+    <button class="sen-btn" onclick="filterSen('EXPERT',this)">Expert</button>
+    <button class="sen-btn" onclick="filterSen('NEWBIE',this)">Newbie</button>
+    <input id="rep-search" type="text" placeholder="Buscar LDAP..." style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:11px;margin-left:8px;">
+  </div>
+  <div class="proc-table-wrap">
+    <table class="rt" id="rep-table">
+      <thead>
+        <tr>
           <th class="left">Representante</th>
-          <th>Conversas<br>Copilot</th>
+          <th>Conversas Copilot</th>
+          <th style="min-width:110px">% Utilização</th>
           <th>NPS Abril</th>
           <th>NPS Maio*</th>
         </tr>
       </thead>
-      <tbody>
-        <tr><td class="rep-name">ext_veronjes <span class="sen-e">E</span></td><td>401</td><td><span class="yc">57.1%</span> <span class="n-small">(14)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(2)</span></td></tr>
-<tr><td class="rep-name">ext_petemore <span class="sen-e">E</span></td><td>389</td><td><span class="yc">64.0%</span> <span class="n-small">(25)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(18)</span></td></tr>
-<tr><td class="rep-name">ext_leandrmi <span class="sen-e">E</span></td><td>353</td><td><span class="gc">86.7%</span> <span class="n-small">(30)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(12)</span></td></tr>
-<tr><td class="rep-name">ext_helljesu <span class="sen-e">E</span></td><td>324</td><td><span class="gc">100.0%</span> <span class="n-small">(12)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(9)</span></td></tr>
-<tr><td class="rep-name">ext_lethiper <span class="sen-e">E</span></td><td>321</td><td><span class="gc">100.0%</span> <span class="n-small">(4)</span></td><td><span class="rc">20.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_rodraf <span class="sen-n">N</span></td><td>312</td><td><span class="gc">76.2%</span> <span class="n-small">(21)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_ludcorde <span class="sen-e">E</span></td><td>289</td><td><span class="gc">81.8%</span> <span class="n-small">(22)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(9)</span></td></tr>
-<tr><td class="rep-name">ext_ravolive <span class="sen-e">E</span></td><td>273</td><td><span class="gc">70.0%</span> <span class="n-small">(10)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_jomamona <span class="sen-e">E</span></td><td>255</td><td><span class="gc">70.6%</span> <span class="n-small">(17)</span></td><td><span class="gc">87.5%</span> <span class="n-small">(8)</span></td></tr>
-<tr><td class="rep-name">ext_stefanun <span class="sen-e">E</span></td><td>255</td><td><span class="gc">87.5%</span> <span class="n-small">(24)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_juliaaze <span class="sen-e">E</span></td><td>214</td><td><span class="gc">100.0%</span> <span class="n-small">(4)</span></td><td><span class="sd">—</span></td></tr>
-<tr><td class="rep-name">ext_cauhora <span class="sen-e">E</span></td><td>203</td><td><span class="gc">74.2%</span> <span class="n-small">(31)</span></td><td><span class="gc">84.2%</span> <span class="n-small">(19)</span></td></tr>
-<tr><td class="rep-name">ext_lavinisi <span class="sen-e">E</span></td><td>180</td><td><span class="gc">73.3%</span> <span class="n-small">(15)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_rearcove <span class="sen-n">N</span></td><td>177</td><td><span class="yc">60.0%</span> <span class="n-small">(10)</span></td><td><span class="rc">20.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_victkarl <span class="sen-n">N</span></td><td>174</td><td><span class="gc">75.0%</span> <span class="n-small">(20)</span></td><td><span class="gc">91.7%</span> <span class="n-small">(12)</span></td></tr>
-<tr><td class="rep-name">ext_tabragan <span class="sen-e">E</span></td><td>172</td><td><span class="yc">57.1%</span> <span class="n-small">(14)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_walbarro <span class="sen-e">E</span></td><td>171</td><td><span class="gc">85.7%</span> <span class="n-small">(14)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_edirchav <span class="sen-n">N</span></td><td>170</td><td><span class="yc">53.8%</span> <span class="n-small">(13)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_anacatha <span class="sen-n">N</span></td><td>167</td><td><span class="gc">73.9%</span> <span class="n-small">(23)</span></td><td><span class="gc">77.8%</span> <span class="n-small">(9)</span></td></tr>
-<tr><td class="rep-name">ext_jespenha <span class="sen-e">E</span></td><td>167</td><td><span class="yc">63.6%</span> <span class="n-small">(11)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(10)</span></td></tr>
-<tr><td class="rep-name">ext_estbispo <span class="sen-e">E</span></td><td>164</td><td><span class="yc">52.0%</span> <span class="n-small">(25)</span></td><td><span class="rc">20.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_lors <span class="sen-e">E</span></td><td>159</td><td><span class="gc">66.7%</span> <span class="n-small">(15)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(8)</span></td></tr>
-<tr><td class="rep-name">ext_vinivida <span class="sen-n">N</span></td><td>157</td><td><span class="rc">42.9%</span> <span class="n-small">(14)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(10)</span></td></tr>
-<tr><td class="rep-name">ext_jesaalic <span class="sen-e">E</span></td><td>155</td><td><span class="gc">68.4%</span> <span class="n-small">(19)</span></td><td><span class="yc">62.5%</span> <span class="n-small">(8)</span></td></tr>
-<tr><td class="rep-name">ext_ramomaya <span class="sen-e">E</span></td><td>154</td><td><span class="yc">64.7%</span> <span class="n-small">(17)</span></td><td><span class="rc">42.9%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_jamilgom <span class="sen-e">E</span></td><td>153</td><td><span class="yc">62.5%</span> <span class="n-small">(8)</span></td><td><span class="gc">83.3%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_elabrasi <span class="sen-e">E</span></td><td>153</td><td><span class="gc">100.0%</span> <span class="n-small">(25)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(13)</span></td></tr>
-<tr><td class="rep-name">ext_vanlobo <span class="sen-n">N</span></td><td>152</td><td><span class="gc">81.3%</span> <span class="n-small">(16)</span></td><td><span class="rc">20.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_davidsri <span class="sen-n">N</span></td><td>150</td><td><span class="rc">38.1%</span> <span class="n-small">(21)</span></td><td><span class="rc">45.5%</span> <span class="n-small">(11)</span></td></tr>
-<tr><td class="rep-name">ext_yurafons <span class="sen-e">E</span></td><td>147</td><td><span class="gc">100.0%</span> <span class="n-small">(17)</span></td><td><span class="gc">83.3%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_analanda <span class="sen-n">N</span></td><td>146</td><td><span class="yc">63.2%</span> <span class="n-small">(19)</span></td><td><span class="yc">61.5%</span> <span class="n-small">(13)</span></td></tr>
-<tr><td class="rep-name">ext_lohmatos <span class="sen-n">N</span></td><td>145</td><td><span class="gc">73.9%</span> <span class="n-small">(23)</span></td><td><span class="rc">0.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_gabramon <span class="sen-e">E</span></td><td>144</td><td><span class="gc">66.7%</span> <span class="n-small">(12)</span></td><td><span class="gc">83.3%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_cathevit <span class="sen-n">N</span></td><td>142</td><td><span class="yc">64.3%</span> <span class="n-small">(14)</span></td><td><span class="rc">42.9%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_daianlim <span class="sen-e">E</span></td><td>141</td><td><span class="gc">75.0%</span> <span class="n-small">(24)</span></td><td><span class="rc">42.9%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_elhelois <span class="sen-n">N</span></td><td>141</td><td><span class="yc">53.6%</span> <span class="n-small">(28)</span></td><td><span class="rc">35.0%</span> <span class="n-small">(20)</span></td></tr>
-<tr><td class="rep-name">ext_galimand <span class="sen-e">E</span></td><td>141</td><td><span class="gc">70.0%</span> <span class="n-small">(30)</span></td><td><span class="gc">85.7%</span> <span class="n-small">(14)</span></td></tr>
-<tr><td class="rep-name">ext_janierib <span class="sen-n">N</span></td><td>138</td><td><span class="gc">67.7%</span> <span class="n-small">(31)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_pobomfim <span class="sen-n">N</span></td><td>137</td><td><span class="yc">64.3%</span> <span class="n-small">(14)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_iaraapar <span class="sen-e">E</span></td><td>137</td><td><span class="gc">85.7%</span> <span class="n-small">(7)</span></td><td><span class="sd">—</span></td></tr>
-<tr><td class="rep-name">ext_uannasci <span class="sen-e">E</span></td><td>135</td><td><span class="gc">73.7%</span> <span class="n-small">(19)</span></td><td><span class="rc">38.5%</span> <span class="n-small">(13)</span></td></tr>
-<tr><td class="rep-name">ext_emanubis <span class="sen-n">N</span></td><td>135</td><td><span class="gc">85.7%</span> <span class="n-small">(14)</span></td><td><span class="yc">60.0%</span> <span class="n-small">(10)</span></td></tr>
-<tr><td class="rep-name">ext_lislsilv <span class="sen-e">E</span></td><td>134</td><td><span class="yc">50.0%</span> <span class="n-small">(16)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_dasipria <span class="sen-e">E</span></td><td>130</td><td><span class="rc">25.0%</span> <span class="n-small">(4)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(2)</span></td></tr>
-<tr><td class="rep-name">ext_jorgdani <span class="sen-e">E</span></td><td>129</td><td><span class="gc">72.7%</span> <span class="n-small">(11)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(8)</span></td></tr>
-<tr><td class="rep-name">ext_daemanoe <span class="sen-e">E</span></td><td>127</td><td><span class="yc">53.8%</span> <span class="n-small">(13)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_ingpaz <span class="sen-e">E</span></td><td>127</td><td><span class="gc">100.0%</span> <span class="n-small">(14)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(1)</span></td></tr>
-<tr><td class="rep-name">ext_daisesil <span class="sen-n">N</span></td><td>127</td><td><span class="gc">85.7%</span> <span class="n-small">(21)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_luaneman <span class="sen-n">N</span></td><td>126</td><td><span class="rc">42.9%</span> <span class="n-small">(7)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_renlaure <span class="sen-n">N</span></td><td>124</td><td><span class="yc">56.5%</span> <span class="n-small">(23)</span></td><td><span class="rc">14.3%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_caiqmach <span class="sen-n">N</span></td><td>122</td><td><span class="rc">16.7%</span> <span class="n-small">(12)</span></td><td><span class="gc">71.4%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_damascan <span class="sen-e">E</span></td><td>122</td><td><span class="gc">88.9%</span> <span class="n-small">(18)</span></td><td><span class="yc">63.6%</span> <span class="n-small">(11)</span></td></tr>
-<tr><td class="rep-name">ext_jebriluc <span class="sen-n">N</span></td><td>122</td><td><span class="yc">50.0%</span> <span class="n-small">(14)</span></td><td><span class="gc">85.7%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_ceisabel <span class="sen-n">N</span></td><td>122</td><td><span class="rc">40.0%</span> <span class="n-small">(10)</span></td><td><span class="rc">14.3%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_brcampea <span class="sen-e">E</span></td><td>119</td><td><span class="gc">85.7%</span> <span class="n-small">(7)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(1)</span></td></tr>
-<tr><td class="rep-name">ext_pinigor <span class="sen-e">E</span></td><td>117</td><td><span class="rc">40.0%</span> <span class="n-small">(10)</span></td><td><span class="rc">-100.0%</span> <span class="n-small">(3)</span></td></tr>
-<tr><td class="rep-name">ext_relana <span class="sen-n">N</span></td><td>117</td><td><span class="yc">50.0%</span> <span class="n-small">(14)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_gumi <span class="sen-e">E</span></td><td>117</td><td><span class="yc">54.5%</span> <span class="n-small">(11)</span></td><td><span class="gc">87.5%</span> <span class="n-small">(8)</span></td></tr>
-<tr><td class="rep-name">ext_pirlara <span class="sen-n">N</span></td><td>116</td><td><span class="yc">50.0%</span> <span class="n-small">(14)</span></td><td><span class="gc">76.9%</span> <span class="n-small">(13)</span></td></tr>
-<tr><td class="rep-name">ext_ramosmic <span class="sen-e">E</span></td><td>115</td><td><span class="gc">83.3%</span> <span class="n-small">(12)</span></td><td><span class="gc">75.0%</span> <span class="n-small">(8)</span></td></tr>
-<tr><td class="rep-name">ext_kecilene <span class="sen-e">E</span></td><td>114</td><td><span class="rc">16.7%</span> <span class="n-small">(6)</span></td><td><span class="gc">85.7%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_ansancam <span class="sen-n">N</span></td><td>114</td><td><span class="rc">27.3%</span> <span class="n-small">(11)</span></td><td><span class="gc">77.8%</span> <span class="n-small">(9)</span></td></tr>
-<tr><td class="rep-name">ext_nunmiche <span class="sen-e">E</span></td><td>113</td><td><span class="gc">90.9%</span> <span class="n-small">(11)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_fejesube <span class="sen-n">N</span></td><td>112</td><td><span class="rc">37.5%</span> <span class="n-small">(8)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_kamils <span class="sen-n">N</span></td><td>112</td><td><span class="yc">52.9%</span> <span class="n-small">(17)</span></td><td><span class="yc">60.0%</span> <span class="n-small">(10)</span></td></tr>
-<tr><td class="rep-name">ext_suelcerq <span class="sen-e">E</span></td><td>112</td><td><span class="yc">52.6%</span> <span class="n-small">(19)</span></td><td><span class="yc">63.6%</span> <span class="n-small">(11)</span></td></tr>
-<tr><td class="rep-name">ext_vinicco <span class="sen-n">N</span></td><td>111</td><td><span class="gc">65.4%</span> <span class="n-small">(26)</span></td><td><span class="gc">81.8%</span> <span class="n-small">(11)</span></td></tr>
-<tr><td class="rep-name">ext_kleyoliv <span class="sen-n">N</span></td><td>110</td><td><span class="yc">55.6%</span> <span class="n-small">(9)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_lagavazz <span class="sen-e">E</span></td><td>109</td><td><span class="gc">66.7%</span> <span class="n-small">(21)</span></td><td><span class="gc">78.6%</span> <span class="n-small">(14)</span></td></tr>
-<tr><td class="rep-name">ext_irialves <span class="sen-e">E</span></td><td>109</td><td><span class="yc">60.0%</span> <span class="n-small">(5)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(1)</span></td></tr>
-<tr><td class="rep-name">ext_julietmu <span class="sen-n">N</span></td><td>108</td><td><span class="rc">22.7%</span> <span class="n-small">(22)</span></td><td><span class="gc">75.0%</span> <span class="n-small">(8)</span></td></tr>
-<tr><td class="rep-name">ext_micaquin <span class="sen-n">N</span></td><td>108</td><td><span class="gc">70.4%</span> <span class="n-small">(27)</span></td><td><span class="gc">87.5%</span> <span class="n-small">(8)</span></td></tr>
-<tr><td class="rep-name">ext_clebmont <span class="sen-n">N</span></td><td>108</td><td><span class="yc">50.0%</span> <span class="n-small">(30)</span></td><td><span class="gc">71.4%</span> <span class="n-small">(14)</span></td></tr>
-<tr><td class="rep-name">ext_marisile <span class="sen-e">E</span></td><td>107</td><td><span class="rc">42.9%</span> <span class="n-small">(21)</span></td><td><span class="rc">-16.7%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_cacardma <span class="sen-n">N</span></td><td>107</td><td><span class="yc">64.3%</span> <span class="n-small">(14)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_jaianero <span class="sen-n">N</span></td><td>107</td><td><span class="rc">30.0%</span> <span class="n-small">(10)</span></td><td><span class="yc">60.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_alaustri <span class="sen-n">N</span></td><td>105</td><td><span class="rc">44.4%</span> <span class="n-small">(9)</span></td><td><span class="yc">55.6%</span> <span class="n-small">(9)</span></td></tr>
-<tr><td class="rep-name">ext_igoamaro <span class="sen-e">E</span></td><td>105</td><td><span class="gc">100.0%</span> <span class="n-small">(7)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_olsilved <span class="sen-n">N</span></td><td>105</td><td><span class="gc">100.0%</span> <span class="n-small">(9)</span></td><td><span class="yc">62.5%</span> <span class="n-small">(8)</span></td></tr>
-<tr><td class="rep-name">ext_davmacen <span class="sen-e">E</span></td><td>103</td><td><span class="gc">83.3%</span> <span class="n-small">(12)</span></td><td><span class="gc">76.9%</span> <span class="n-small">(13)</span></td></tr>
-<tr><td class="rep-name">ext_sarosane <span class="sen-e">E</span></td><td>102</td><td><span class="gc">81.8%</span> <span class="n-small">(11)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_eliasasi <span class="sen-n">N</span></td><td>102</td><td><span class="yc">61.1%</span> <span class="n-small">(18)</span></td><td><span class="gc">75.0%</span> <span class="n-small">(12)</span></td></tr>
-<tr><td class="rep-name">ext_yaregia <span class="sen-e">E</span></td><td>101</td><td><span class="yc">60.0%</span> <span class="n-small">(10)</span></td><td><span class="gc">75.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_kanilo <span class="sen-n">N</span></td><td>101</td><td><span class="sd">—</span></td><td><span class="sd">—</span></td></tr>
-<tr><td class="rep-name">ext_mtesca <span class="sen-e">E</span></td><td>101</td><td><span class="gc">85.0%</span> <span class="n-small">(40)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(21)</span></td></tr>
-<tr><td class="rep-name">ext_rogyasmi <span class="sen-e">E</span></td><td>101</td><td><span class="gc">65.2%</span> <span class="n-small">(23)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_loluara <span class="sen-e">E</span></td><td>101</td><td><span class="gc">77.8%</span> <span class="n-small">(18)</span></td><td><span class="rc">40.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_guilvito <span class="sen-n">N</span></td><td>100</td><td><span class="gc">78.6%</span> <span class="n-small">(14)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_frlouise <span class="sen-n">N</span></td><td>98</td><td><span class="gc">82.6%</span> <span class="n-small">(23)</span></td><td><span class="gc">71.4%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_sogeisa <span class="sen-n">N</span></td><td>98</td><td><span class="gc">70.0%</span> <span class="n-small">(30)</span></td><td><span class="rc">33.3%</span> <span class="n-small">(12)</span></td></tr>
-<tr><td class="rep-name">ext_mamila <span class="sen-n">N</span></td><td>97</td><td><span class="yc">57.9%</span> <span class="n-small">(19)</span></td><td><span class="rc">44.4%</span> <span class="n-small">(9)</span></td></tr>
-<tr><td class="rep-name">ext_calmorei <span class="sen-e">E</span></td><td>97</td><td><span class="gc">92.9%</span> <span class="n-small">(14)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(9)</span></td></tr>
-<tr><td class="rep-name">ext_ankamile <span class="sen-n">N</span></td><td>97</td><td><span class="rc">30.8%</span> <span class="n-small">(13)</span></td><td><span class="gc">75.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_beaoli <span class="sen-n">N</span></td><td>97</td><td><span class="gc">76.9%</span> <span class="n-small">(26)</span></td><td><span class="rc">-20.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_munizcri <span class="sen-e">E</span></td><td>97</td><td><span class="gc">75.0%</span> <span class="n-small">(8)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_odborges <span class="sen-e">E</span></td><td>96</td><td><span class="gc">87.5%</span> <span class="n-small">(8)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(1)</span></td></tr>
-<tr><td class="rep-name">ext_livosori <span class="sen-n">N</span></td><td>96</td><td><span class="rc">33.3%</span> <span class="n-small">(15)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_jessycli <span class="sen-n">N</span></td><td>96</td><td><span class="gc">71.4%</span> <span class="n-small">(21)</span></td><td><span class="rc">33.3%</span> <span class="n-small">(3)</span></td></tr>
-<tr><td class="rep-name">ext_anpalope <span class="sen-e">E</span></td><td>95</td><td><span class="rc">37.5%</span> <span class="n-small">(8)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_dandarac <span class="sen-n">N</span></td><td>95</td><td><span class="rc">0.0%</span> <span class="n-small">(6)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_edilelim <span class="sen-e">E</span></td><td>95</td><td><span class="yc">58.8%</span> <span class="n-small">(17)</span></td><td><span class="rc">40.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_amancoel <span class="sen-e">E</span></td><td>95</td><td><span class="gc">78.6%</span> <span class="n-small">(14)</span></td><td><span class="gc">87.5%</span> <span class="n-small">(16)</span></td></tr>
-<tr><td class="rep-name">ext_dimribei <span class="sen-e">E</span></td><td>94</td><td><span class="gc">78.9%</span> <span class="n-small">(19)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_mirecabr <span class="sen-n">N</span></td><td>94</td><td><span class="rc">46.2%</span> <span class="n-small">(13)</span></td><td><span class="rc">0.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_sibrguil <span class="sen-n">N</span></td><td>94</td><td><span class="rc">20.0%</span> <span class="n-small">(5)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_sambarau <span class="sen-n">N</span></td><td>94</td><td><span class="rc">36.0%</span> <span class="n-small">(25)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_biancbea <span class="sen-e">E</span></td><td>94</td><td><span class="yc">51.5%</span> <span class="n-small">(33)</span></td><td><span class="gc">71.4%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_dinizdan <span class="sen-n">N</span></td><td>93</td><td><span class="gc">66.7%</span> <span class="n-small">(36)</span></td><td><span class="yc">62.5%</span> <span class="n-small">(8)</span></td></tr>
-<tr><td class="rep-name">ext_ravale <span class="sen-e">E</span></td><td>92</td><td><span class="yc">58.8%</span> <span class="n-small">(17)</span></td><td><span class="gc">72.7%</span> <span class="n-small">(11)</span></td></tr>
-<tr><td class="rep-name">ext_mamachma <span class="sen-n">N</span></td><td>92</td><td><span class="yc">62.5%</span> <span class="n-small">(16)</span></td><td><span class="rc">-33.3%</span> <span class="n-small">(3)</span></td></tr>
-<tr><td class="rep-name">ext_clalbmar <span class="sen-n">N</span></td><td>91</td><td><span class="rc">38.1%</span> <span class="n-small">(21)</span></td><td><span class="rc">33.3%</span> <span class="n-small">(9)</span></td></tr>
-<tr><td class="rep-name">ext_fanasmar <span class="sen-n">N</span></td><td>91</td><td><span class="rc">45.5%</span> <span class="n-small">(11)</span></td><td><span class="rc">44.4%</span> <span class="n-small">(9)</span></td></tr>
-<tr><td class="rep-name">ext_flvarjao <span class="sen-n">N</span></td><td>91</td><td><span class="rc">44.0%</span> <span class="n-small">(25)</span></td><td><span class="rc">42.9%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_josenire <span class="sen-n">N</span></td><td>91</td><td><span class="rc">45.0%</span> <span class="n-small">(20)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_edt <span class="sen-n">N</span></td><td>91</td><td><span class="yc">57.9%</span> <span class="n-small">(19)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_sicazais <span class="sen-n">N</span></td><td>91</td><td><span class="yc">63.6%</span> <span class="n-small">(22)</span></td><td><span class="rc">42.9%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_brunnchr <span class="sen-e">E</span></td><td>90</td><td><span class="sd">—</span></td><td><span class="rc">0.0%</span> <span class="n-small">(2)</span></td></tr>
-<tr><td class="rep-name">ext_bivinici <span class="sen-e">E</span></td><td>89</td><td><span class="gc">88.9%</span> <span class="n-small">(27)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(11)</span></td></tr>
-<tr><td class="rep-name">ext_vivsique <span class="sen-e">E</span></td><td>89</td><td><span class="gc">85.7%</span> <span class="n-small">(14)</span></td><td><span class="gc">72.7%</span> <span class="n-small">(11)</span></td></tr>
-<tr><td class="rep-name">ext_jencarmo <span class="sen-e">E</span></td><td>87</td><td><span class="gc">100.0%</span> <span class="n-small">(10)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(9)</span></td></tr>
-<tr><td class="rep-name">ext_macester <span class="sen-n">N</span></td><td>87</td><td><span class="yc">64.3%</span> <span class="n-small">(14)</span></td><td><span class="gc">75.0%</span> <span class="n-small">(8)</span></td></tr>
-<tr><td class="rep-name">ext_palomgab <span class="sen-e">E</span></td><td>86</td><td><span class="gc">100.0%</span> <span class="n-small">(9)</span></td><td><span class="gc">75.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_crjkaren <span class="sen-n">N</span></td><td>85</td><td><span class="yc">62.5%</span> <span class="n-small">(8)</span></td><td><span class="rc">-66.7%</span> <span class="n-small">(3)</span></td></tr>
-<tr><td class="rep-name">ext_solipaul <span class="sen-n">N</span></td><td>85</td><td><span class="yc">50.0%</span> <span class="n-small">(8)</span></td><td><span class="yc">60.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_alcanana <span class="sen-e">E</span></td><td>84</td><td><span class="rc">45.5%</span> <span class="n-small">(11)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_lsil <span class="sen-e">E</span></td><td>84</td><td><span class="gc">71.4%</span> <span class="n-small">(7)</span></td><td><span class="gc">72.7%</span> <span class="n-small">(11)</span></td></tr>
-<tr><td class="rep-name">ext_yaneres <span class="sen-e">E</span></td><td>82</td><td><span class="gc">80.0%</span> <span class="n-small">(10)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_mesapatr <span class="sen-n">N</span></td><td>82</td><td><span class="gc">88.0%</span> <span class="n-small">(25)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_jofiscin <span class="sen-n">N</span></td><td>82</td><td><span class="rc">40.0%</span> <span class="n-small">(10)</span></td><td><span class="rc">40.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_vivialei <span class="sen-e">E</span></td><td>82</td><td><span class="yc">62.5%</span> <span class="n-small">(8)</span></td><td><span class="rc">-33.3%</span> <span class="n-small">(3)</span></td></tr>
-<tr><td class="rep-name">ext_jacimasa <span class="sen-n">N</span></td><td>81</td><td><span class="rc">15.4%</span> <span class="n-small">(13)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(1)</span></td></tr>
-<tr><td class="rep-name">ext_ityara <span class="sen-n">N</span></td><td>81</td><td><span class="rc">18.2%</span> <span class="n-small">(11)</span></td><td><span class="gc">88.9%</span> <span class="n-small">(9)</span></td></tr>
-<tr><td class="rep-name">ext_jesusigo <span class="sen-e">E</span></td><td>80</td><td><span class="gc">74.2%</span> <span class="n-small">(31)</span></td><td><span class="gc">87.5%</span> <span class="n-small">(8)</span></td></tr>
-<tr><td class="rep-name">ext_filhedua <span class="sen-n">N</span></td><td>80</td><td><span class="rc">30.0%</span> <span class="n-small">(10)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(2)</span></td></tr>
-<tr><td class="rep-name">ext_liroana <span class="sen-e">E</span></td><td>80</td><td><span class="rc">27.8%</span> <span class="n-small">(18)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(9)</span></td></tr>
-<tr><td class="rep-name">ext_joladisl <span class="sen-n">N</span></td><td>80</td><td><span class="rc">30.0%</span> <span class="n-small">(10)</span></td><td><span class="yc">58.3%</span> <span class="n-small">(12)</span></td></tr>
-<tr><td class="rep-name">ext_caif <span class="sen-n">N</span></td><td>79</td><td><span class="gc">66.7%</span> <span class="n-small">(6)</span></td><td><span class="yc">60.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_rocsilvi <span class="sen-e">E</span></td><td>79</td><td><span class="gc">83.3%</span> <span class="n-small">(18)</span></td><td><span class="gc">78.6%</span> <span class="n-small">(14)</span></td></tr>
-<tr><td class="rep-name">ext_rasuene <span class="sen-n">N</span></td><td>77</td><td><span class="rc">33.3%</span> <span class="n-small">(18)</span></td><td><span class="gc">83.3%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_revilela <span class="sen-e">E</span></td><td>76</td><td><span class="gc">75.0%</span> <span class="n-small">(8)</span></td><td><span class="rc">0.0%</span> <span class="n-small">(2)</span></td></tr>
-<tr><td class="rep-name">ext_cavalvic <span class="sen-e">E</span></td><td>75</td><td><span class="gc">87.5%</span> <span class="n-small">(8)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(1)</span></td></tr>
-<tr><td class="rep-name">ext_iacribei <span class="sen-n">N</span></td><td>74</td><td><span class="rc">28.6%</span> <span class="n-small">(14)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(10)</span></td></tr>
-<tr><td class="rep-name">ext_fafrois <span class="sen-n">N</span></td><td>73</td><td><span class="gc">72.7%</span> <span class="n-small">(22)</span></td><td><span class="gc">90.0%</span> <span class="n-small">(10)</span></td></tr>
-<tr><td class="rep-name">ext_maicvict <span class="sen-n">N</span></td><td>73</td><td><span class="yc">50.0%</span> <span class="n-small">(16)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_anebonfi <span class="sen-n">N</span></td><td>71</td><td><span class="yc">55.6%</span> <span class="n-small">(18)</span></td><td><span class="yc">57.1%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_kailysan <span class="sen-e">E</span></td><td>71</td><td><span class="gc">94.4%</span> <span class="n-small">(18)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(1)</span></td></tr>
-<tr><td class="rep-name">ext_coppaulo <span class="sen-n">N</span></td><td>71</td><td><span class="gc">78.6%</span> <span class="n-small">(14)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(3)</span></td></tr>
-<tr><td class="rep-name">ext_marchen <span class="sen-n">N</span></td><td>70</td><td><span class="yc">54.5%</span> <span class="n-small">(11)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(2)</span></td></tr>
-<tr><td class="rep-name">ext_cofangel <span class="sen-n">N</span></td><td>70</td><td><span class="gc">78.6%</span> <span class="n-small">(14)</span></td><td><span class="sd">—</span></td></tr>
-<tr><td class="rep-name">ext_gersreis <span class="sen-n">N</span></td><td>70</td><td><span class="gc">65.0%</span> <span class="n-small">(20)</span></td><td><span class="gc">77.8%</span> <span class="n-small">(9)</span></td></tr>
-<tr><td class="rep-name">ext_paun <span class="sen-n">N</span></td><td>69</td><td><span class="rc">33.3%</span> <span class="n-small">(12)</span></td><td><span class="gc">71.4%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_edbaluiz <span class="sen-e">E</span></td><td>69</td><td><span class="rc">27.3%</span> <span class="n-small">(11)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(3)</span></td></tr>
-<tr><td class="rep-name">ext_keljenni <span class="sen-n">N</span></td><td>68</td><td><span class="gc">65.0%</span> <span class="n-small">(20)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(9)</span></td></tr>
-<tr><td class="rep-name">ext_doairan <span class="sen-n">N</span></td><td>67</td><td><span class="rc">40.9%</span> <span class="n-small">(22)</span></td><td><span class="gc">77.8%</span> <span class="n-small">(9)</span></td></tr>
-<tr><td class="rep-name">ext_filvitor <span class="sen-n">N</span></td><td>66</td><td><span class="yc">62.5%</span> <span class="n-small">(8)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_riscassi <span class="sen-n">N</span></td><td>66</td><td><span class="rc">40.0%</span> <span class="n-small">(10)</span></td><td><span class="rc">0.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_alandmir <span class="sen-n">N</span></td><td>65</td><td><span class="rc">31.3%</span> <span class="n-small">(16)</span></td><td><span class="rc">25.0%</span> <span class="n-small">(8)</span></td></tr>
-<tr><td class="rep-name">ext_victalic <span class="sen-e">E</span></td><td>65</td><td><span class="gc">85.0%</span> <span class="n-small">(20)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_pacurvel <span class="sen-e">E</span></td><td>64</td><td><span class="yc">56.3%</span> <span class="n-small">(16)</span></td><td><span class="rc">20.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_siribere <span class="sen-e">E</span></td><td>63</td><td><span class="gc">71.0%</span> <span class="n-small">(31)</span></td><td><span class="yc">60.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_exsan <span class="sen-e">E</span></td><td>63</td><td><span class="gc">80.9%</span> <span class="n-small">(47)</span></td><td><span class="yc">63.6%</span> <span class="n-small">(11)</span></td></tr>
-<tr><td class="rep-name">ext_bernalet <span class="sen-e">E</span></td><td>62</td><td><span class="gc">80.0%</span> <span class="n-small">(10)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(7)</span></td></tr>
-<tr><td class="rep-name">ext_telucian <span class="sen-e">E</span></td><td>61</td><td><span class="gc">92.3%</span> <span class="n-small">(13)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_julyavic <span class="sen-e">E</span></td><td>60</td><td><span class="gc">92.9%</span> <span class="n-small">(14)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_mosvicto <span class="sen-e">E</span></td><td>60</td><td><span class="gc">100.0%</span> <span class="n-small">(5)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(2)</span></td></tr>
-<tr><td class="rep-name">ext_raislima <span class="sen-e">E</span></td><td>59</td><td><span class="gc">71.4%</span> <span class="n-small">(7)</span></td><td><span class="rc">40.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_saolilil <span class="sen-e">E</span></td><td>58</td><td><span class="sd">—</span></td><td><span class="gc">66.7%</span> <span class="n-small">(3)</span></td></tr>
-<tr><td class="rep-name">ext_anaregis <span class="sen-n">N</span></td><td>57</td><td><span class="gc">100.0%</span> <span class="n-small">(16)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(8)</span></td></tr>
-<tr><td class="rep-name">ext_saferrcr <span class="sen-e">E</span></td><td>57</td><td><span class="yc">63.6%</span> <span class="n-small">(11)</span></td><td><span class="gc">83.3%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_nascil <span class="sen-n">N</span></td><td>56</td><td><span class="rc">0.0%</span> <span class="n-small">(7)</span></td><td><span class="rc">-100.0%</span> <span class="n-small">(1)</span></td></tr>
-<tr><td class="rep-name">ext_allanafe <span class="sen-e">E</span></td><td>56</td><td><span class="gc">66.7%</span> <span class="n-small">(18)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_cocaaman <span class="sen-n">N</span></td><td>55</td><td><span class="rc">41.7%</span> <span class="n-small">(12)</span></td><td><span class="rc">40.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_kaleiras <span class="sen-n">N</span></td><td>55</td><td><span class="rc">0.0%</span> <span class="n-small">(3)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(1)</span></td></tr>
-<tr><td class="rep-name">ext_kamsanti <span class="sen-e">E</span></td><td>53</td><td><span class="gc">100.0%</span> <span class="n-small">(3)</span></td><td><span class="sd">—</span></td></tr>
-<tr><td class="rep-name">ext_sacamcam <span class="sen-e">E</span></td><td>51</td><td><span class="rc">44.4%</span> <span class="n-small">(9)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(1)</span></td></tr>
-<tr><td class="rep-name">ext_elaragao <span class="sen-n">N</span></td><td>51</td><td><span class="gc">71.4%</span> <span class="n-small">(14)</span></td><td><span class="gc">75.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_sahemarc <span class="sen-n">N</span></td><td>51</td><td><span class="rc">40.0%</span> <span class="n-small">(5)</span></td><td><span class="sd">—</span></td></tr>
-<tr><td class="rep-name">ext_azevjuli <span class="sen-n">N</span></td><td>46</td><td><span class="rc">15.4%</span> <span class="n-small">(13)</span></td><td><span class="yc">60.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_marilsa <span class="sen-e">E</span></td><td>45</td><td><span class="gc">93.8%</span> <span class="n-small">(16)</span></td><td><span class="yc">60.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_letjusti <span class="sen-n">N</span></td><td>45</td><td><span class="rc">22.2%</span> <span class="n-small">(9)</span></td><td><span class="gc">75.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_aledonat <span class="sen-e">E</span></td><td>45</td><td><span class="rc">0.0%</span> <span class="n-small">(2)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(2)</span></td></tr>
-<tr><td class="rep-name">ext_ampeixot <span class="sen-e">E</span></td><td>43</td><td><span class="yc">60.0%</span> <span class="n-small">(5)</span></td><td><span class="rc">33.3%</span> <span class="n-small">(3)</span></td></tr>
-<tr><td class="rep-name">ext_taias <span class="sen-n">N</span></td><td>41</td><td><span class="yc">58.3%</span> <span class="n-small">(12)</span></td><td><span class="rc">-50.0%</span> <span class="n-small">(2)</span></td></tr>
-<tr><td class="rep-name">ext_brwinnie <span class="sen-n">N</span></td><td>40</td><td><span class="yc">60.0%</span> <span class="n-small">(10)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(3)</span></td></tr>
-<tr><td class="rep-name">ext_julisani <span class="sen-n">N</span></td><td>37</td><td><span class="gc">100.0%</span> <span class="n-small">(13)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(1)</span></td></tr>
-<tr><td class="rep-name">ext_analouis <span class="sen-n">N</span></td><td>36</td><td><span class="yc">57.1%</span> <span class="n-small">(14)</span></td><td><span class="gc">87.5%</span> <span class="n-small">(8)</span></td></tr>
-<tr><td class="rep-name">ext_barcmari <span class="sen-n">N</span></td><td>34</td><td><span class="rc">33.3%</span> <span class="n-small">(3)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_lidianen <span class="sen-e">E</span></td><td>32</td><td><span class="yc">50.0%</span> <span class="n-small">(8)</span></td><td><span class="yc">60.0%</span> <span class="n-small">(5)</span></td></tr>
-<tr><td class="rep-name">ext_marisanu <span class="sen-e">E</span></td><td>32</td><td><span class="yc">53.8%</span> <span class="n-small">(13)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(3)</span></td></tr>
-<tr><td class="rep-name">ext_xabianca <span class="sen-n">N</span></td><td>31</td><td><span class="gc">83.3%</span> <span class="n-small">(6)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(1)</span></td></tr>
-<tr><td class="rep-name">ext_suecasti <span class="sen-e">E</span></td><td>29</td><td><span class="gc">72.2%</span> <span class="n-small">(18)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_peavitor <span class="sen-e">E</span></td><td>29</td><td><span class="rc">-40.0%</span> <span class="n-small">(5)</span></td><td><span class="rc">-100.0%</span> <span class="n-small">(1)</span></td></tr>
-<tr><td class="rep-name">ext_erygonca <span class="sen-n">N</span></td><td>29</td><td><span class="yc">50.0%</span> <span class="n-small">(2)</span></td><td><span class="sd">—</span></td></tr>
-<tr><td class="rep-name">ext_lucat <span class="sen-e">E</span></td><td>28</td><td><span class="gc">74.1%</span> <span class="n-small">(27)</span></td><td><span class="gc">83.3%</span> <span class="n-small">(6)</span></td></tr>
-<tr><td class="rep-name">ext_elimanue <span class="sen-n">N</span></td><td>28</td><td><span class="gc">71.4%</span> <span class="n-small">(7)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(3)</span></td></tr>
-<tr><td class="rep-name">ext_jeorange <span class="sen-n">N</span></td><td>25</td><td><span class="gc">85.7%</span> <span class="n-small">(7)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(1)</span></td></tr>
-<tr><td class="rep-name">ext_sueloure <span class="sen-e">E</span></td><td>24</td><td><span class="rc">41.7%</span> <span class="n-small">(12)</span></td><td><span class="rc">33.3%</span> <span class="n-small">(3)</span></td></tr>
-<tr><td class="rep-name">ext_taianunc <span class="sen-n">N</span></td><td>23</td><td><span class="yc">58.3%</span> <span class="n-small">(12)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(4)</span></td></tr>
-<tr><td class="rep-name">ext_simcerqu <span class="sen-n">N</span></td><td>22</td><td><span class="gc">81.8%</span> <span class="n-small">(11)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(8)</span></td></tr>
-<tr><td class="rep-name">ext_frlobo <span class="sen-e">E</span></td><td>19</td><td><span class="gc">76.0%</span> <span class="n-small">(25)</span></td><td><span class="rc">11.1%</span> <span class="n-small">(9)</span></td></tr>
-<tr><td class="rep-name">ext_celcaval <span class="sen-e">E</span></td><td>15</td><td><span class="rc">33.3%</span> <span class="n-small">(12)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(2)</span></td></tr>
-<tr><td class="rep-name">ext_masetuba <span class="sen-e">E</span></td><td>13</td><td><span class="gc">100.0%</span> <span class="n-small">(6)</span></td><td><span class="sd">—</span></td></tr>
-<tr><td class="rep-name">ext_figuerga <span class="sen-e">E</span></td><td>11</td><td><span class="rc">37.5%</span> <span class="n-small">(8)</span></td><td><span class="sd">—</span></td></tr>
-<tr><td class="rep-name">ext_cosancri <span class="sen-e">E</span></td><td>8</td><td><span class="gc">78.3%</span> <span class="n-small">(23)</span></td><td><span class="rc">0.0%</span> <span class="n-small">(1)</span></td></tr>
-<tr><td class="rep-name">ext_daportal <span class="sen-e">E</span></td><td>6</td><td><span class="gc">69.2%</span> <span class="n-small">(13)</span></td><td><span class="sd">—</span></td></tr>
-<tr><td class="rep-name">ext_wafroes <span class="sen-e">E</span></td><td>4</td><td><span class="gc">80.0%</span> <span class="n-small">(10)</span></td><td><span class="sd">—</span></td></tr>
-<tr><td class="rep-name">ext_laisanti <span class="sen-e">E</span></td><td>4</td><td><span class="yc">63.2%</span> <span class="n-small">(19)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(2)</span></td></tr>
-<tr><td class="rep-name">ext_olikarla <span class="sen-e">E</span></td><td>3</td><td><span class="gc">75.0%</span> <span class="n-small">(8)</span></td><td><span class="sd">—</span></td></tr>
-<tr><td class="rep-name">ext_makopke <span class="sen-e">E</span></td><td>1</td><td><span class="rc">20.0%</span> <span class="n-small">(10)</span></td><td><span class="sd">—</span></td></tr>
-      </tbody>
+      <tbody><tr data-sen="EXPERT"><td class="rep-name">ext_petemore <span class="sen-e">E</span></td><td>618</td><td><div class="util-bar"><div class="util-fill" style="width:45.3%;background:#10b981"></div></div><span class="util-val">45%</span></td><td><span class="yc">64.0%</span> <span class="n-small">(25)</span></td><td><span class="gc">92.3%</span> <span class="n-small">(26)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_rodraf <span class="sen-n">N</span></td><td>561</td><td><div class="util-bar"><div class="util-fill" style="width:36.6%;background:#10b981"></div></div><span class="util-val">37%</span></td><td><span class="gc">76.2%</span> <span class="n-small">(21)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_leandrmi <span class="sen-e">E</span></td><td>547</td><td><div class="util-bar"><div class="util-fill" style="width:53.9%;background:#10b981"></div></div><span class="util-val">54%</span></td><td><span class="gc">86.7%</span> <span class="n-small">(30)</span></td><td><span class="gc">90.5%</span> <span class="n-small">(21)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_ludcorde <span class="sen-e">E</span></td><td>464</td><td><div class="util-bar"><div class="util-fill" style="width:44.5%;background:#10b981"></div></div><span class="util-val">44%</span></td><td><span class="gc">81.8%</span> <span class="n-small">(22)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(16)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_lethiper <span class="sen-e">E</span></td><td>461</td><td><div class="util-bar"><div class="util-fill" style="width:92.9%;background:#10b981"></div></div><span class="util-val">93%</span></td><td><span class="gc">100.0%</span> <span class="n-small">(4)</span></td><td><span class="rc">38.5%</span> <span class="n-small">(13)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_helljesu <span class="sen-e">E</span></td><td>437</td><td><div class="util-bar"><div class="util-fill" style="width:54.8%;background:#10b981"></div></div><span class="util-val">55%</span></td><td><span class="gc">100.0%</span> <span class="n-small">(12)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(13)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_stefanun <span class="sen-e">E</span></td><td>421</td><td><div class="util-bar"><div class="util-fill" style="width:41.9%;background:#10b981"></div></div><span class="util-val">42%</span></td><td><span class="gc">87.5%</span> <span class="n-small">(24)</span></td><td><span class="gc">91.7%</span> <span class="n-small">(12)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_cauhora <span class="sen-e">E</span></td><td>416</td><td><div class="util-bar"><div class="util-fill" style="width:39.7%;background:#10b981"></div></div><span class="util-val">40%</span></td><td><span class="gc">74.2%</span> <span class="n-small">(31)</span></td><td><span class="gc">88.5%</span> <span class="n-small">(26)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_ravolive <span class="sen-e">E</span></td><td>406</td><td><div class="util-bar"><div class="util-fill" style="width:52.0%;background:#10b981"></div></div><span class="util-val">52%</span></td><td><span class="gc">70.0%</span> <span class="n-small">(10)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(8)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_veronjes <span class="sen-e">E</span></td><td>405</td><td><div class="util-bar"><div class="util-fill" style="width:84.0%;background:#10b981"></div></div><span class="util-val">84%</span></td><td><span class="yc">57.1%</span> <span class="n-small">(14)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(2)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_victkarl <span class="sen-n">N</span></td><td>402</td><td><div class="util-bar"><div class="util-fill" style="width:32.6%;background:#10b981"></div></div><span class="util-val">33%</span></td><td><span class="gc">75.0%</span> <span class="n-small">(20)</span></td><td><span class="gc">94.7%</span> <span class="n-small">(19)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_anacatha <span class="sen-n">N</span></td><td>386</td><td><div class="util-bar"><div class="util-fill" style="width:21.4%;background:#f59e0b"></div></div><span class="util-val">21%</span></td><td><span class="gc">73.9%</span> <span class="n-small">(23)</span></td><td><span class="gc">81.8%</span> <span class="n-small">(11)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_jesaalic <span class="sen-e">E</span></td><td>383</td><td><div class="util-bar"><div class="util-fill" style="width:31.6%;background:#10b981"></div></div><span class="util-val">32%</span></td><td><span class="gc">68.4%</span> <span class="n-small">(19)</span></td><td><span class="gc">75.0%</span> <span class="n-small">(12)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_jomamona <span class="sen-e">E</span></td><td>359</td><td><div class="util-bar"><div class="util-fill" style="width:44.7%;background:#10b981"></div></div><span class="util-val">45%</span></td><td><span class="gc">70.6%</span> <span class="n-small">(17)</span></td><td><span class="gc">76.9%</span> <span class="n-small">(13)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_rearcove <span class="sen-n">N</span></td><td>353</td><td><div class="util-bar"><div class="util-fill" style="width:35.9%;background:#10b981"></div></div><span class="util-val">36%</span></td><td><span class="yc">60.0%</span> <span class="n-small">(10)</span></td><td><span class="rc">25.0%</span> <span class="n-small">(8)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_analanda <span class="sen-n">N</span></td><td>351</td><td><div class="util-bar"><div class="util-fill" style="width:31.5%;background:#10b981"></div></div><span class="util-val">32%</span></td><td><span class="yc">63.2%</span> <span class="n-small">(19)</span></td><td><span class="yc">60.0%</span> <span class="n-small">(15)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_walbarro <span class="sen-e">E</span></td><td>350</td><td><div class="util-bar"><div class="util-fill" style="width:36.4%;background:#10b981"></div></div><span class="util-val">36%</span></td><td><span class="gc">85.7%</span> <span class="n-small">(14)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(12)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_jamilgom <span class="sen-e">E</span></td><td>345</td><td><div class="util-bar"><div class="util-fill" style="width:30.4%;background:#10b981"></div></div><span class="util-val">30%</span></td><td><span class="yc">62.5%</span> <span class="n-small">(8)</span></td><td><span class="gc">90.9%</span> <span class="n-small">(11)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_lors <span class="sen-e">E</span></td><td>345</td><td><div class="util-bar"><div class="util-fill" style="width:38.9%;background:#10b981"></div></div><span class="util-val">39%</span></td><td><span class="gc">66.7%</span> <span class="n-small">(15)</span></td><td><span class="yc">60.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_jorgdani <span class="sen-e">E</span></td><td>343</td><td><div class="util-bar"><div class="util-fill" style="width:40.7%;background:#10b981"></div></div><span class="util-val">41%</span></td><td><span class="gc">72.7%</span> <span class="n-small">(11)</span></td><td><span class="gc">93.8%</span> <span class="n-small">(16)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_laisanti <span class="sen-e">E</span></td><td>325</td><td><div class="util-bar"><div class="util-fill" style="width:24.6%;background:#f59e0b"></div></div><span class="util-val">25%</span></td><td><span class="yc">63.2%</span> <span class="n-small">(19)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(6)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_micaquin <span class="sen-n">N</span></td><td>320</td><td><div class="util-bar"><div class="util-fill" style="width:30.9%;background:#10b981"></div></div><span class="util-val">31%</span></td><td><span class="gc">70.4%</span> <span class="n-small">(27)</span></td><td><span class="gc">92.3%</span> <span class="n-small">(13)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_davidsri <span class="sen-n">N</span></td><td>320</td><td><div class="util-bar"><div class="util-fill" style="width:43.2%;background:#10b981"></div></div><span class="util-val">43%</span></td><td><span class="rc">38.1%</span> <span class="n-small">(21)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(18)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_galimand <span class="sen-e">E</span></td><td>318</td><td><div class="util-bar"><div class="util-fill" style="width:31.3%;background:#10b981"></div></div><span class="util-val">31%</span></td><td><span class="gc">70.0%</span> <span class="n-small">(30)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(26)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_daisesil <span class="sen-n">N</span></td><td>308</td><td><div class="util-bar"><div class="util-fill" style="width:32.0%;background:#10b981"></div></div><span class="util-val">32%</span></td><td><span class="gc">85.7%</span> <span class="n-small">(21)</span></td><td><span class="gc">88.9%</span> <span class="n-small">(9)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_jespenha <span class="sen-e">E</span></td><td>307</td><td><div class="util-bar"><div class="util-fill" style="width:32.5%;background:#10b981"></div></div><span class="util-val">32%</span></td><td><span class="yc">63.6%</span> <span class="n-small">(11)</span></td><td><span class="gc">73.3%</span> <span class="n-small">(15)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_ramomaya <span class="sen-e">E</span></td><td>303</td><td><div class="util-bar"><div class="util-fill" style="width:30.4%;background:#10b981"></div></div><span class="util-val">30%</span></td><td><span class="yc">64.7%</span> <span class="n-small">(17)</span></td><td><span class="rc">33.3%</span> <span class="n-small">(12)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_tabragan <span class="sen-e">E</span></td><td>302</td><td><div class="util-bar"><div class="util-fill" style="width:48.8%;background:#10b981"></div></div><span class="util-val">49%</span></td><td><span class="yc">57.1%</span> <span class="n-small">(14)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_estbispo <span class="sen-e">E</span></td><td>296</td><td><div class="util-bar"><div class="util-fill" style="width:36.9%;background:#10b981"></div></div><span class="util-val">37%</span></td><td><span class="yc">52.0%</span> <span class="n-small">(25)</span></td><td><span class="rc">40.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_elhelois <span class="sen-n">N</span></td><td>294</td><td><div class="util-bar"><div class="util-fill" style="width:25.3%;background:#f59e0b"></div></div><span class="util-val">25%</span></td><td><span class="yc">53.6%</span> <span class="n-small">(28)</span></td><td><span class="rc">40.7%</span> <span class="n-small">(27)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_vinivida <span class="sen-n">N</span></td><td>286</td><td><div class="util-bar"><div class="util-fill" style="width:43.3%;background:#10b981"></div></div><span class="util-val">43%</span></td><td><span class="rc">42.9%</span> <span class="n-small">(14)</span></td><td><span class="gc">68.4%</span> <span class="n-small">(19)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_daemanoe <span class="sen-e">E</span></td><td>286</td><td><div class="util-bar"><div class="util-fill" style="width:30.3%;background:#10b981"></div></div><span class="util-val">30%</span></td><td><span class="yc">53.8%</span> <span class="n-small">(13)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(8)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_caiqmach <span class="sen-n">N</span></td><td>285</td><td><div class="util-bar"><div class="util-fill" style="width:46.0%;background:#10b981"></div></div><span class="util-val">46%</span></td><td><span class="rc">16.7%</span> <span class="n-small">(12)</span></td><td><span class="gc">87.5%</span> <span class="n-small">(16)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_vanlobo <span class="sen-n">N</span></td><td>285</td><td><div class="util-bar"><div class="util-fill" style="width:32.7%;background:#10b981"></div></div><span class="util-val">33%</span></td><td><span class="gc">81.3%</span> <span class="n-small">(16)</span></td><td><span class="rc">44.4%</span> <span class="n-small">(9)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_emanubis <span class="sen-n">N</span></td><td>285</td><td><div class="util-bar"><div class="util-fill" style="width:47.0%;background:#10b981"></div></div><span class="util-val">47%</span></td><td><span class="gc">85.7%</span> <span class="n-small">(14)</span></td><td><span class="gc">68.8%</span> <span class="n-small">(16)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_ingpaz <span class="sen-e">E</span></td><td>283</td><td><div class="util-bar"><div class="util-fill" style="width:41.2%;background:#10b981"></div></div><span class="util-val">41%</span></td><td><span class="gc">100.0%</span> <span class="n-small">(14)</span></td><td><span class="gc">71.4%</span> <span class="n-small">(14)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_lohmatos <span class="sen-n">N</span></td><td>278</td><td><div class="util-bar"><div class="util-fill" style="width:31.5%;background:#10b981"></div></div><span class="util-val">32%</span></td><td><span class="gc">73.9%</span> <span class="n-small">(23)</span></td><td><span class="rc">0.0%</span> <span class="n-small">(8)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_damascan <span class="sen-e">E</span></td><td>277</td><td><div class="util-bar"><div class="util-fill" style="width:31.0%;background:#10b981"></div></div><span class="util-val">31%</span></td><td><span class="gc">88.9%</span> <span class="n-small">(18)</span></td><td><span class="yc">52.9%</span> <span class="n-small">(17)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_davmacen <span class="sen-e">E</span></td><td>275</td><td><div class="util-bar"><div class="util-fill" style="width:29.8%;background:#f59e0b"></div></div><span class="util-val">30%</span></td><td><span class="gc">83.3%</span> <span class="n-small">(12)</span></td><td><span class="gc">87.0%</span> <span class="n-small">(23)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_gabramon <span class="sen-e">E</span></td><td>275</td><td><div class="util-bar"><div class="util-fill" style="width:35.1%;background:#10b981"></div></div><span class="util-val">35%</span></td><td><span class="gc">66.7%</span> <span class="n-small">(12)</span></td><td><span class="gc">83.3%</span> <span class="n-small">(6)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_alcanana <span class="sen-e">E</span></td><td>275</td><td><div class="util-bar"><div class="util-fill" style="width:29.0%;background:#f59e0b"></div></div><span class="util-val">29%</span></td><td><span class="rc">45.5%</span> <span class="n-small">(11)</span></td><td><span class="gc">90.9%</span> <span class="n-small">(11)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_elabrasi <span class="sen-e">E</span></td><td>274</td><td><div class="util-bar"><div class="util-fill" style="width:30.9%;background:#10b981"></div></div><span class="util-val">31%</span></td><td><span class="gc">100.0%</span> <span class="n-small">(25)</span></td><td><span class="gc">95.0%</span> <span class="n-small">(20)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_brunnchr <span class="sen-e">E</span></td><td>273</td><td><div class="util-bar"><div class="util-fill" style="width:67.1%;background:#10b981"></div></div><span class="util-val">67%</span></td><td><span class="sd">—</span></td><td><span class="yc">55.6%</span> <span class="n-small">(9)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_amancoel <span class="sen-e">E</span></td><td>269</td><td><div class="util-bar"><div class="util-fill" style="width:30.9%;background:#10b981"></div></div><span class="util-val">31%</span></td><td><span class="gc">78.6%</span> <span class="n-small">(14)</span></td><td><span class="gc">88.5%</span> <span class="n-small">(26)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_uannasci <span class="sen-e">E</span></td><td>267</td><td><div class="util-bar"><div class="util-fill" style="width:35.9%;background:#10b981"></div></div><span class="util-val">36%</span></td><td><span class="gc">73.7%</span> <span class="n-small">(19)</span></td><td><span class="yc">52.9%</span> <span class="n-small">(17)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_kailysan <span class="sen-e">E</span></td><td>266</td><td><div class="util-bar"><div class="util-fill" style="width:26.9%;background:#f59e0b"></div></div><span class="util-val">27%</span></td><td><span class="gc">94.4%</span> <span class="n-small">(18)</span></td><td><span class="gc">88.9%</span> <span class="n-small">(9)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_pobomfim <span class="sen-n">N</span></td><td>263</td><td><div class="util-bar"><div class="util-fill" style="width:38.9%;background:#10b981"></div></div><span class="util-val">39%</span></td><td><span class="yc">64.3%</span> <span class="n-small">(14)</span></td><td><span class="gc">75.0%</span> <span class="n-small">(8)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_renlaure <span class="sen-n">N</span></td><td>261</td><td><div class="util-bar"><div class="util-fill" style="width:44.5%;background:#10b981"></div></div><span class="util-val">44%</span></td><td><span class="yc">56.5%</span> <span class="n-small">(23)</span></td><td><span class="rc">40.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_dasipria <span class="sen-e">E</span></td><td>261</td><td><div class="util-bar"><div class="util-fill" style="width:51.7%;background:#10b981"></div></div><span class="util-val">52%</span></td><td><span class="rc">25.0%</span> <span class="n-small">(4)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(4)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_mtesca <span class="sen-e">E</span></td><td>259</td><td><div class="util-bar"><div class="util-fill" style="width:26.2%;background:#f59e0b"></div></div><span class="util-val">26%</span></td><td><span class="gc">85.0%</span> <span class="n-small">(40)</span></td><td><span class="gc">91.2%</span> <span class="n-small">(34)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_edirchav <span class="sen-n">N</span></td><td>259</td><td><div class="util-bar"><div class="util-fill" style="width:35.3%;background:#10b981"></div></div><span class="util-val">35%</span></td><td><span class="yc">53.8%</span> <span class="n-small">(13)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_kleyoliv <span class="sen-n">N</span></td><td>259</td><td><div class="util-bar"><div class="util-fill" style="width:41.5%;background:#10b981"></div></div><span class="util-val">42%</span></td><td><span class="yc">55.6%</span> <span class="n-small">(9)</span></td><td><span class="gc">87.5%</span> <span class="n-small">(8)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_ansancam <span class="sen-n">N</span></td><td>257</td><td><div class="util-bar"><div class="util-fill" style="width:36.8%;background:#10b981"></div></div><span class="util-val">37%</span></td><td><span class="rc">27.3%</span> <span class="n-small">(11)</span></td><td><span class="gc">84.6%</span> <span class="n-small">(13)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_pirlara <span class="sen-n">N</span></td><td>257</td><td><div class="util-bar"><div class="util-fill" style="width:42.5%;background:#10b981"></div></div><span class="util-val">42%</span></td><td><span class="yc">50.0%</span> <span class="n-small">(14)</span></td><td><span class="gc">72.2%</span> <span class="n-small">(18)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_jebriluc <span class="sen-n">N</span></td><td>256</td><td><div class="util-bar"><div class="util-fill" style="width:42.2%;background:#10b981"></div></div><span class="util-val">42%</span></td><td><span class="yc">50.0%</span> <span class="n-small">(14)</span></td><td><span class="gc">84.6%</span> <span class="n-small">(13)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_guilvito <span class="sen-n">N</span></td><td>254</td><td><div class="util-bar"><div class="util-fill" style="width:25.3%;background:#f59e0b"></div></div><span class="util-val">25%</span></td><td><span class="gc">78.6%</span> <span class="n-small">(14)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(12)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_cathevit <span class="sen-n">N</span></td><td>253</td><td><div class="util-bar"><div class="util-fill" style="width:43.2%;background:#10b981"></div></div><span class="util-val">43%</span></td><td><span class="yc">64.3%</span> <span class="n-small">(14)</span></td><td><span class="rc">25.0%</span> <span class="n-small">(8)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_clebmont <span class="sen-n">N</span></td><td>253</td><td><div class="util-bar"><div class="util-fill" style="width:36.1%;background:#10b981"></div></div><span class="util-val">36%</span></td><td><span class="yc">50.0%</span> <span class="n-small">(30)</span></td><td><span class="gc">82.6%</span> <span class="n-small">(23)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_edilelim <span class="sen-e">E</span></td><td>252</td><td><div class="util-bar"><div class="util-fill" style="width:26.9%;background:#f59e0b"></div></div><span class="util-val">27%</span></td><td><span class="yc">58.8%</span> <span class="n-small">(17)</span></td><td><span class="yc">62.5%</span> <span class="n-small">(8)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_dandarac <span class="sen-n">N</span></td><td>251</td><td><div class="util-bar"><div class="util-fill" style="width:46.0%;background:#10b981"></div></div><span class="util-val">46%</span></td><td><span class="rc">0.0%</span> <span class="n-small">(6)</span></td><td><span class="gc">73.3%</span> <span class="n-small">(15)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_rogyasmi <span class="sen-e">E</span></td><td>251</td><td><div class="util-bar"><div class="util-fill" style="width:30.2%;background:#10b981"></div></div><span class="util-val">30%</span></td><td><span class="gc">65.2%</span> <span class="n-small">(23)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_kamils <span class="sen-n">N</span></td><td>250</td><td><div class="util-bar"><div class="util-fill" style="width:37.4%;background:#10b981"></div></div><span class="util-val">37%</span></td><td><span class="yc">52.9%</span> <span class="n-small">(17)</span></td><td><span class="yc">56.3%</span> <span class="n-small">(16)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_pinigor <span class="sen-e">E</span></td><td>249</td><td><div class="util-bar"><div class="util-fill" style="width:28.6%;background:#f59e0b"></div></div><span class="util-val">29%</span></td><td><span class="rc">40.0%</span> <span class="n-small">(10)</span></td><td><span class="rc">0.0%</span> <span class="n-small">(7)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_olsilved <span class="sen-n">N</span></td><td>249</td><td><div class="util-bar"><div class="util-fill" style="width:28.7%;background:#f59e0b"></div></div><span class="util-val">29%</span></td><td><span class="gc">100.0%</span> <span class="n-small">(9)</span></td><td><span class="gc">73.3%</span> <span class="n-small">(15)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_suelcerq <span class="sen-e">E</span></td><td>249</td><td><div class="util-bar"><div class="util-fill" style="width:43.5%;background:#10b981"></div></div><span class="util-val">44%</span></td><td><span class="yc">52.6%</span> <span class="n-small">(19)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(21)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_lislsilv <span class="sen-e">E</span></td><td>248</td><td><div class="util-bar"><div class="util-fill" style="width:31.8%;background:#10b981"></div></div><span class="util-val">32%</span></td><td><span class="yc">50.0%</span> <span class="n-small">(16)</span></td><td><span class="yc">55.6%</span> <span class="n-small">(9)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_loluara <span class="sen-e">E</span></td><td>245</td><td><div class="util-bar"><div class="util-fill" style="width:27.7%;background:#f59e0b"></div></div><span class="util-val">28%</span></td><td><span class="gc">77.8%</span> <span class="n-small">(18)</span></td><td><span class="gc">72.7%</span> <span class="n-small">(11)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_calmorei <span class="sen-e">E</span></td><td>245</td><td><div class="util-bar"><div class="util-fill" style="width:29.6%;background:#f59e0b"></div></div><span class="util-val">30%</span></td><td><span class="gc">92.9%</span> <span class="n-small">(14)</span></td><td><span class="gc">69.2%</span> <span class="n-small">(13)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_fejesube <span class="sen-n">N</span></td><td>241</td><td><div class="util-bar"><div class="util-fill" style="width:46.7%;background:#10b981"></div></div><span class="util-val">47%</span></td><td><span class="rc">37.5%</span> <span class="n-small">(8)</span></td><td><span class="gc">70.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_vivsique <span class="sen-e">E</span></td><td>240</td><td><div class="util-bar"><div class="util-fill" style="width:32.9%;background:#10b981"></div></div><span class="util-val">33%</span></td><td><span class="gc">85.7%</span> <span class="n-small">(14)</span></td><td><span class="gc">68.8%</span> <span class="n-small">(16)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_eliasasi <span class="sen-n">N</span></td><td>240</td><td><div class="util-bar"><div class="util-fill" style="width:29.1%;background:#f59e0b"></div></div><span class="util-val">29%</span></td><td><span class="yc">61.1%</span> <span class="n-small">(18)</span></td><td><span class="gc">75.0%</span> <span class="n-small">(16)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_vinicco <span class="sen-n">N</span></td><td>240</td><td><div class="util-bar"><div class="util-fill" style="width:31.6%;background:#10b981"></div></div><span class="util-val">32%</span></td><td><span class="gc">65.4%</span> <span class="n-small">(26)</span></td><td><span class="gc">82.4%</span> <span class="n-small">(17)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_jessycli <span class="sen-n">N</span></td><td>235</td><td><div class="util-bar"><div class="util-fill" style="width:39.4%;background:#10b981"></div></div><span class="util-val">39%</span></td><td><span class="gc">71.4%</span> <span class="n-small">(21)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_victalic <span class="sen-e">E</span></td><td>234</td><td><div class="util-bar"><div class="util-fill" style="width:20.9%;background:#f59e0b"></div></div><span class="util-val">21%</span></td><td><span class="gc">85.0%</span> <span class="n-small">(20)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_frlouise <span class="sen-n">N</span></td><td>234</td><td><div class="util-bar"><div class="util-fill" style="width:29.2%;background:#f59e0b"></div></div><span class="util-val">29%</span></td><td><span class="gc">82.6%</span> <span class="n-small">(23)</span></td><td><span class="yc">58.8%</span> <span class="n-small">(17)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_nunmiche <span class="sen-e">E</span></td><td>230</td><td><div class="util-bar"><div class="util-fill" style="width:27.4%;background:#f59e0b"></div></div><span class="util-val">27%</span></td><td><span class="gc">90.9%</span> <span class="n-small">(11)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_julietmu <span class="sen-n">N</span></td><td>228</td><td><div class="util-bar"><div class="util-fill" style="width:33.3%;background:#10b981"></div></div><span class="util-val">33%</span></td><td><span class="rc">22.7%</span> <span class="n-small">(22)</span></td><td><span class="gc">69.2%</span> <span class="n-small">(13)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_biancbea <span class="sen-e">E</span></td><td>227</td><td><div class="util-bar"><div class="util-fill" style="width:26.3%;background:#f59e0b"></div></div><span class="util-val">26%</span></td><td><span class="yc">51.5%</span> <span class="n-small">(33)</span></td><td><span class="yc">63.6%</span> <span class="n-small">(11)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_jencarmo <span class="sen-e">E</span></td><td>225</td><td><div class="util-bar"><div class="util-fill" style="width:31.0%;background:#10b981"></div></div><span class="util-val">31%</span></td><td><span class="gc">100.0%</span> <span class="n-small">(10)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(18)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_gumi <span class="sen-e">E</span></td><td>225</td><td><div class="util-bar"><div class="util-fill" style="width:41.4%;background:#10b981"></div></div><span class="util-val">41%</span></td><td><span class="yc">54.5%</span> <span class="n-small">(11)</span></td><td><span class="gc">81.3%</span> <span class="n-small">(16)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_janierib <span class="sen-n">N</span></td><td>224</td><td><div class="util-bar"><div class="util-fill" style="width:22.1%;background:#f59e0b"></div></div><span class="util-val">22%</span></td><td><span class="gc">67.7%</span> <span class="n-small">(31)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(11)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_marisile <span class="sen-e">E</span></td><td>223</td><td><div class="util-bar"><div class="util-fill" style="width:25.4%;background:#f59e0b"></div></div><span class="util-val">25%</span></td><td><span class="rc">42.9%</span> <span class="n-small">(21)</span></td><td><span class="yc">56.3%</span> <span class="n-small">(16)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_ceisabel <span class="sen-n">N</span></td><td>222</td><td><div class="util-bar"><div class="util-fill" style="width:35.0%;background:#10b981"></div></div><span class="util-val">35%</span></td><td><span class="rc">40.0%</span> <span class="n-small">(10)</span></td><td><span class="rc">16.7%</span> <span class="n-small">(12)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_mesapatr <span class="sen-n">N</span></td><td>222</td><td><div class="util-bar"><div class="util-fill" style="width:30.0%;background:#10b981"></div></div><span class="util-val">30%</span></td><td><span class="gc">88.0%</span> <span class="n-small">(25)</span></td><td><span class="gc">76.9%</span> <span class="n-small">(13)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_relana <span class="sen-n">N</span></td><td>220</td><td><div class="util-bar"><div class="util-fill" style="width:48.7%;background:#10b981"></div></div><span class="util-val">49%</span></td><td><span class="yc">50.0%</span> <span class="n-small">(14)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(7)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_dinizdan <span class="sen-n">N</span></td><td>220</td><td><div class="util-bar"><div class="util-fill" style="width:28.3%;background:#f59e0b"></div></div><span class="util-val">28%</span></td><td><span class="gc">66.7%</span> <span class="n-small">(36)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(15)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_sogeisa <span class="sen-n">N</span></td><td>219</td><td><div class="util-bar"><div class="util-fill" style="width:25.2%;background:#f59e0b"></div></div><span class="util-val">25%</span></td><td><span class="gc">70.0%</span> <span class="n-small">(30)</span></td><td><span class="rc">27.8%</span> <span class="n-small">(18)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_marisanu <span class="sen-e">E</span></td><td>217</td><td><div class="util-bar"><div class="util-fill" style="width:31.6%;background:#10b981"></div></div><span class="util-val">32%</span></td><td><span class="yc">53.8%</span> <span class="n-small">(13)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(6)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_ramosmic <span class="sen-e">E</span></td><td>215</td><td><div class="util-bar"><div class="util-fill" style="width:24.7%;background:#f59e0b"></div></div><span class="util-val">25%</span></td><td><span class="gc">83.3%</span> <span class="n-small">(12)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(9)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_beaoli <span class="sen-n">N</span></td><td>214</td><td><div class="util-bar"><div class="util-fill" style="width:28.5%;background:#f59e0b"></div></div><span class="util-val">28%</span></td><td><span class="gc">76.9%</span> <span class="n-small">(26)</span></td><td><span class="rc">33.3%</span> <span class="n-small">(9)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_juliaaze <span class="sen-e">E</span></td><td>214</td><td><div class="util-bar"><div class="util-fill" style="width:83.9%;background:#10b981"></div></div><span class="util-val">84%</span></td><td><span class="gc">100.0%</span> <span class="n-small">(4)</span></td><td><span class="sd">—</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_crjkaren <span class="sen-n">N</span></td><td>213</td><td><div class="util-bar"><div class="util-fill" style="width:44.7%;background:#10b981"></div></div><span class="util-val">45%</span></td><td><span class="yc">62.5%</span> <span class="n-small">(8)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_anpalope <span class="sen-e">E</span></td><td>210</td><td><div class="util-bar"><div class="util-fill" style="width:31.9%;background:#10b981"></div></div><span class="util-val">32%</span></td><td><span class="rc">37.5%</span> <span class="n-small">(8)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(9)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_irialves <span class="sen-e">E</span></td><td>210</td><td><div class="util-bar"><div class="util-fill" style="width:26.9%;background:#f59e0b"></div></div><span class="util-val">27%</span></td><td><span class="yc">60.0%</span> <span class="n-small">(5)</span></td><td><span class="rc">33.3%</span> <span class="n-small">(3)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_luaneman <span class="sen-n">N</span></td><td>210</td><td><div class="util-bar"><div class="util-fill" style="width:47.9%;background:#10b981"></div></div><span class="util-val">48%</span></td><td><span class="rc">42.9%</span> <span class="n-small">(7)</span></td><td><span class="gc">87.5%</span> <span class="n-small">(8)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_sicazais <span class="sen-n">N</span></td><td>210</td><td><div class="util-bar"><div class="util-fill" style="width:26.2%;background:#f59e0b"></div></div><span class="util-val">26%</span></td><td><span class="yc">63.6%</span> <span class="n-small">(22)</span></td><td><span class="yc">54.5%</span> <span class="n-small">(11)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_mamila <span class="sen-n">N</span></td><td>210</td><td><div class="util-bar"><div class="util-fill" style="width:29.0%;background:#f59e0b"></div></div><span class="util-val">29%</span></td><td><span class="yc">57.9%</span> <span class="n-small">(19)</span></td><td><span class="rc">46.2%</span> <span class="n-small">(13)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_livosori <span class="sen-n">N</span></td><td>209</td><td><div class="util-bar"><div class="util-fill" style="width:44.4%;background:#10b981"></div></div><span class="util-val">44%</span></td><td><span class="rc">33.3%</span> <span class="n-small">(15)</span></td><td><span class="yc">57.9%</span> <span class="n-small">(19)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_liroana <span class="sen-e">E</span></td><td>208</td><td><div class="util-bar"><div class="util-fill" style="width:28.6%;background:#f59e0b"></div></div><span class="util-val">29%</span></td><td><span class="rc">27.8%</span> <span class="n-small">(18)</span></td><td><span class="gc">78.6%</span> <span class="n-small">(14)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_cacardma <span class="sen-n">N</span></td><td>208</td><td><div class="util-bar"><div class="util-fill" style="width:29.8%;background:#f59e0b"></div></div><span class="util-val">30%</span></td><td><span class="yc">64.3%</span> <span class="n-small">(14)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(13)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_ravale <span class="sen-e">E</span></td><td>207</td><td><div class="util-bar"><div class="util-fill" style="width:25.1%;background:#f59e0b"></div></div><span class="util-val">25%</span></td><td><span class="yc">58.8%</span> <span class="n-small">(17)</span></td><td><span class="gc">76.9%</span> <span class="n-small">(13)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_macester <span class="sen-n">N</span></td><td>206</td><td><div class="util-bar"><div class="util-fill" style="width:33.8%;background:#10b981"></div></div><span class="util-val">34%</span></td><td><span class="yc">64.3%</span> <span class="n-small">(14)</span></td><td><span class="gc">84.6%</span> <span class="n-small">(13)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_kamsanti <span class="sen-e">E</span></td><td>206</td><td><div class="util-bar"><div class="util-fill" style="width:31.5%;background:#10b981"></div></div><span class="util-val">32%</span></td><td><span class="gc">100.0%</span> <span class="n-small">(3)</span></td><td><span class="sd">—</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_clalbmar <span class="sen-n">N</span></td><td>205</td><td><div class="util-bar"><div class="util-fill" style="width:33.0%;background:#10b981"></div></div><span class="util-val">33%</span></td><td><span class="rc">38.1%</span> <span class="n-small">(21)</span></td><td><span class="rc">36.8%</span> <span class="n-small">(19)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_flvarjao <span class="sen-n">N</span></td><td>204</td><td><div class="util-bar"><div class="util-fill" style="width:27.6%;background:#f59e0b"></div></div><span class="util-val">28%</span></td><td><span class="rc">44.0%</span> <span class="n-small">(25)</span></td><td><span class="rc">43.8%</span> <span class="n-small">(16)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_dimribei <span class="sen-e">E</span></td><td>204</td><td><div class="util-bar"><div class="util-fill" style="width:30.5%;background:#10b981"></div></div><span class="util-val">30%</span></td><td><span class="gc">78.9%</span> <span class="n-small">(19)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(6)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_alaustri <span class="sen-n">N</span></td><td>204</td><td><div class="util-bar"><div class="util-fill" style="width:40.1%;background:#10b981"></div></div><span class="util-val">40%</span></td><td><span class="rc">44.4%</span> <span class="n-small">(9)</span></td><td><span class="yc">60.0%</span> <span class="n-small">(15)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_mamachma <span class="sen-n">N</span></td><td>204</td><td><div class="util-bar"><div class="util-fill" style="width:26.1%;background:#f59e0b"></div></div><span class="util-val">26%</span></td><td><span class="yc">62.5%</span> <span class="n-small">(16)</span></td><td><span class="rc">0.0%</span> <span class="n-small">(4)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_kecilene <span class="sen-e">E</span></td><td>202</td><td><div class="util-bar"><div class="util-fill" style="width:40.4%;background:#10b981"></div></div><span class="util-val">40%</span></td><td><span class="rc">16.7%</span> <span class="n-small">(6)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(15)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_brcampea <span class="sen-e">E</span></td><td>200</td><td><div class="util-bar"><div class="util-fill" style="width:38.6%;background:#10b981"></div></div><span class="util-val">39%</span></td><td><span class="gc">85.7%</span> <span class="n-small">(7)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(4)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_fanasmar <span class="sen-n">N</span></td><td>199</td><td><div class="util-bar"><div class="util-fill" style="width:37.8%;background:#10b981"></div></div><span class="util-val">38%</span></td><td><span class="rc">45.5%</span> <span class="n-small">(11)</span></td><td><span class="gc">68.8%</span> <span class="n-small">(16)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_ankamile <span class="sen-n">N</span></td><td>198</td><td><div class="util-bar"><div class="util-fill" style="width:45.9%;background:#10b981"></div></div><span class="util-val">46%</span></td><td><span class="rc">30.8%</span> <span class="n-small">(13)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_edbaluiz <span class="sen-e">E</span></td><td>198</td><td><div class="util-bar"><div class="util-fill" style="width:32.7%;background:#10b981"></div></div><span class="util-val">33%</span></td><td><span class="rc">27.3%</span> <span class="n-small">(11)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(3)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_sarosane <span class="sen-e">E</span></td><td>198</td><td><div class="util-bar"><div class="util-fill" style="width:31.5%;background:#10b981"></div></div><span class="util-val">32%</span></td><td><span class="gc">81.8%</span> <span class="n-small">(11)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(8)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_yaneres <span class="sen-e">E</span></td><td>197</td><td><div class="util-bar"><div class="util-fill" style="width:26.8%;background:#f59e0b"></div></div><span class="util-val">27%</span></td><td><span class="gc">80.0%</span> <span class="n-small">(10)</span></td><td><span class="gc">85.7%</span> <span class="n-small">(7)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_palomgab <span class="sen-e">E</span></td><td>195</td><td><div class="util-bar"><div class="util-fill" style="width:30.5%;background:#10b981"></div></div><span class="util-val">30%</span></td><td><span class="gc">100.0%</span> <span class="n-small">(9)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(6)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_josenire <span class="sen-n">N</span></td><td>194</td><td><div class="util-bar"><div class="util-fill" style="width:39.8%;background:#10b981"></div></div><span class="util-val">40%</span></td><td><span class="rc">45.0%</span> <span class="n-small">(20)</span></td><td><span class="gc">90.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_saolilil <span class="sen-e">E</span></td><td>191</td><td><div class="util-bar"><div class="util-fill" style="width:89.7%;background:#10b981"></div></div><span class="util-val">90%</span></td><td><span class="sd">—</span></td><td><span class="gc">83.3%</span> <span class="n-small">(6)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_caif <span class="sen-n">N</span></td><td>190</td><td><div class="util-bar"><div class="util-fill" style="width:43.1%;background:#10b981"></div></div><span class="util-val">43%</span></td><td><span class="gc">66.7%</span> <span class="n-small">(6)</span></td><td><span class="gc">76.9%</span> <span class="n-small">(13)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_edt <span class="sen-n">N</span></td><td>189</td><td><div class="util-bar"><div class="util-fill" style="width:24.7%;background:#f59e0b"></div></div><span class="util-val">25%</span></td><td><span class="yc">57.9%</span> <span class="n-small">(19)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_raislima <span class="sen-e">E</span></td><td>188</td><td><div class="util-bar"><div class="util-fill" style="width:25.4%;background:#f59e0b"></div></div><span class="util-val">25%</span></td><td><span class="gc">71.4%</span> <span class="n-small">(7)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(9)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_ityara <span class="sen-n">N</span></td><td>188</td><td><div class="util-bar"><div class="util-fill" style="width:37.5%;background:#10b981"></div></div><span class="util-val">38%</span></td><td><span class="rc">18.2%</span> <span class="n-small">(11)</span></td><td><span class="gc">84.2%</span> <span class="n-small">(19)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_filhedua <span class="sen-n">N</span></td><td>188</td><td><div class="util-bar"><div class="util-fill" style="width:42.0%;background:#10b981"></div></div><span class="util-val">42%</span></td><td><span class="rc">30.0%</span> <span class="n-small">(10)</span></td><td><span class="rc">42.9%</span> <span class="n-small">(7)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_cofangel <span class="sen-n">N</span></td><td>186</td><td><div class="util-bar"><div class="util-fill" style="width:37.7%;background:#10b981"></div></div><span class="util-val">38%</span></td><td><span class="gc">78.6%</span> <span class="n-small">(14)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(8)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_jaianero <span class="sen-n">N</span></td><td>186</td><td><div class="util-bar"><div class="util-fill" style="width:44.6%;background:#10b981"></div></div><span class="util-val">45%</span></td><td><span class="rc">30.0%</span> <span class="n-small">(10)</span></td><td><span class="yc">58.3%</span> <span class="n-small">(12)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_sambarau <span class="sen-n">N</span></td><td>186</td><td><div class="util-bar"><div class="util-fill" style="width:26.5%;background:#f59e0b"></div></div><span class="util-val">26%</span></td><td><span class="rc">36.0%</span> <span class="n-small">(25)</span></td><td><span class="gc">88.9%</span> <span class="n-small">(9)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_telucian <span class="sen-e">E</span></td><td>185</td><td><div class="util-bar"><div class="util-fill" style="width:23.4%;background:#f59e0b"></div></div><span class="util-val">23%</span></td><td><span class="gc">92.3%</span> <span class="n-small">(13)</span></td><td><span class="gc">87.5%</span> <span class="n-small">(8)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_lagavazz <span class="sen-e">E</span></td><td>185</td><td><div class="util-bar"><div class="util-fill" style="width:28.2%;background:#f59e0b"></div></div><span class="util-val">28%</span></td><td><span class="gc">66.7%</span> <span class="n-small">(21)</span></td><td><span class="gc">70.6%</span> <span class="n-small">(17)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_sibrguil <span class="sen-n">N</span></td><td>183</td><td><div class="util-bar"><div class="util-fill" style="width:57.5%;background:#10b981"></div></div><span class="util-val">58%</span></td><td><span class="rc">20.0%</span> <span class="n-small">(5)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_iacribei <span class="sen-n">N</span></td><td>181</td><td><div class="util-bar"><div class="util-fill" style="width:34.7%;background:#10b981"></div></div><span class="util-val">35%</span></td><td><span class="rc">28.6%</span> <span class="n-small">(14)</span></td><td><span class="gc">85.7%</span> <span class="n-small">(14)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_lavinisi <span class="sen-e">E</span></td><td>180</td><td><div class="util-bar"><div class="util-fill" style="width:17.9%;background:#f59e0b"></div></div><span class="util-val">18%</span></td><td><span class="gc">73.3%</span> <span class="n-small">(15)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(7)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_odborges <span class="sen-e">E</span></td><td>178</td><td><div class="util-bar"><div class="util-fill" style="width:31.8%;background:#10b981"></div></div><span class="util-val">32%</span></td><td><span class="gc">87.5%</span> <span class="n-small">(8)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(2)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_gersreis <span class="sen-n">N</span></td><td>177</td><td><div class="util-bar"><div class="util-fill" style="width:29.2%;background:#f59e0b"></div></div><span class="util-val">29%</span></td><td><span class="gc">65.0%</span> <span class="n-small">(20)</span></td><td><span class="gc">73.3%</span> <span class="n-small">(15)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_anebonfi <span class="sen-n">N</span></td><td>175</td><td><div class="util-bar"><div class="util-fill" style="width:26.0%;background:#f59e0b"></div></div><span class="util-val">26%</span></td><td><span class="yc">55.6%</span> <span class="n-small">(18)</span></td><td><span class="rc">30.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_fafrois <span class="sen-n">N</span></td><td>175</td><td><div class="util-bar"><div class="util-fill" style="width:31.2%;background:#10b981"></div></div><span class="util-val">31%</span></td><td><span class="gc">72.7%</span> <span class="n-small">(22)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(20)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_joladisl <span class="sen-n">N</span></td><td>174</td><td><div class="util-bar"><div class="util-fill" style="width:40.9%;background:#10b981"></div></div><span class="util-val">41%</span></td><td><span class="rc">30.0%</span> <span class="n-small">(10)</span></td><td><span class="yc">55.6%</span> <span class="n-small">(18)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_munizcri <span class="sen-e">E</span></td><td>173</td><td><div class="util-bar"><div class="util-fill" style="width:39.1%;background:#10b981"></div></div><span class="util-val">39%</span></td><td><span class="gc">75.0%</span> <span class="n-small">(8)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(6)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_jacimasa <span class="sen-n">N</span></td><td>173</td><td><div class="util-bar"><div class="util-fill" style="width:33.6%;background:#10b981"></div></div><span class="util-val">34%</span></td><td><span class="rc">15.4%</span> <span class="n-small">(13)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(6)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_vivialei <span class="sen-e">E</span></td><td>172</td><td><div class="util-bar"><div class="util-fill" style="width:32.5%;background:#10b981"></div></div><span class="util-val">32%</span></td><td><span class="yc">62.5%</span> <span class="n-small">(8)</span></td><td><span class="rc">16.7%</span> <span class="n-small">(6)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_revilela <span class="sen-e">E</span></td><td>170</td><td><div class="util-bar"><div class="util-fill" style="width:27.9%;background:#f59e0b"></div></div><span class="util-val">28%</span></td><td><span class="gc">75.0%</span> <span class="n-small">(8)</span></td><td><span class="rc">40.0%</span> <span class="n-small">(5)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_kanilo <span class="sen-n">N</span></td><td>170</td><td><div class="util-bar"><div class="util-fill" style="width:48.9%;background:#10b981"></div></div><span class="util-val">49%</span></td><td><span class="sd">—</span></td><td><span class="rc">0.0%</span> <span class="n-small">(2)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_solipaul <span class="sen-n">N</span></td><td>168</td><td><div class="util-bar"><div class="util-fill" style="width:36.6%;background:#10b981"></div></div><span class="util-val">37%</span></td><td><span class="yc">50.0%</span> <span class="n-small">(8)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(6)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_jesusigo <span class="sen-e">E</span></td><td>167</td><td><div class="util-bar"><div class="util-fill" style="width:38.5%;background:#10b981"></div></div><span class="util-val">38%</span></td><td><span class="gc">74.2%</span> <span class="n-small">(31)</span></td><td><span class="gc">78.6%</span> <span class="n-small">(14)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_cavalvic <span class="sen-e">E</span></td><td>166</td><td><div class="util-bar"><div class="util-fill" style="width:26.5%;background:#f59e0b"></div></div><span class="util-val">26%</span></td><td><span class="gc">87.5%</span> <span class="n-small">(8)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(6)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_rasuene <span class="sen-n">N</span></td><td>164</td><td><div class="util-bar"><div class="util-fill" style="width:24.8%;background:#f59e0b"></div></div><span class="util-val">25%</span></td><td><span class="rc">33.3%</span> <span class="n-small">(18)</span></td><td><span class="gc">85.7%</span> <span class="n-small">(7)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_jofiscin <span class="sen-n">N</span></td><td>163</td><td><div class="util-bar"><div class="util-fill" style="width:46.7%;background:#10b981"></div></div><span class="util-val">47%</span></td><td><span class="rc">40.0%</span> <span class="n-small">(10)</span></td><td><span class="rc">28.6%</span> <span class="n-small">(7)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_maicvict <span class="sen-n">N</span></td><td>163</td><td><div class="util-bar"><div class="util-fill" style="width:37.2%;background:#10b981"></div></div><span class="util-val">37%</span></td><td><span class="yc">50.0%</span> <span class="n-small">(16)</span></td><td><span class="gc">87.5%</span> <span class="n-small">(8)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_yurafons <span class="sen-e">E</span></td><td>163</td><td><div class="util-bar"><div class="util-fill" style="width:17.6%;background:#f59e0b"></div></div><span class="util-val">18%</span></td><td><span class="gc">100.0%</span> <span class="n-small">(17)</span></td><td><span class="gc">83.3%</span> <span class="n-small">(6)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_analouis <span class="sen-n">N</span></td><td>163</td><td><div class="util-bar"><div class="util-fill" style="width:24.8%;background:#f59e0b"></div></div><span class="util-val">25%</span></td><td><span class="yc">57.1%</span> <span class="n-small">(14)</span></td><td><span class="gc">90.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_igoamaro <span class="sen-e">E</span></td><td>163</td><td><div class="util-bar"><div class="util-fill" style="width:44.5%;background:#10b981"></div></div><span class="util-val">44%</span></td><td><span class="gc">100.0%</span> <span class="n-small">(7)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(7)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_bernalet <span class="sen-e">E</span></td><td>162</td><td><div class="util-bar"><div class="util-fill" style="width:20.8%;background:#f59e0b"></div></div><span class="util-val">21%</span></td><td><span class="gc">80.0%</span> <span class="n-small">(10)</span></td><td><span class="gc">83.3%</span> <span class="n-small">(12)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_lidianen <span class="sen-e">E</span></td><td>161</td><td><div class="util-bar"><div class="util-fill" style="width:23.1%;background:#f59e0b"></div></div><span class="util-val">23%</span></td><td><span class="yc">50.0%</span> <span class="n-small">(8)</span></td><td><span class="yc">54.5%</span> <span class="n-small">(11)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_nascil <span class="sen-n">N</span></td><td>160</td><td><div class="util-bar"><div class="util-fill" style="width:38.6%;background:#10b981"></div></div><span class="util-val">39%</span></td><td><span class="rc">0.0%</span> <span class="n-small">(7)</span></td><td><span class="yc">60.0%</span> <span class="n-small">(5)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_sacamcam <span class="sen-e">E</span></td><td>159</td><td><div class="util-bar"><div class="util-fill" style="width:29.4%;background:#f59e0b"></div></div><span class="util-val">29%</span></td><td><span class="rc">44.4%</span> <span class="n-small">(9)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(2)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_allanafe <span class="sen-e">E</span></td><td>157</td><td><div class="util-bar"><div class="util-fill" style="width:24.5%;background:#f59e0b"></div></div><span class="util-val">24%</span></td><td><span class="gc">66.7%</span> <span class="n-small">(18)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(10)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_paun <span class="sen-n">N</span></td><td>151</td><td><div class="util-bar"><div class="util-fill" style="width:27.4%;background:#f59e0b"></div></div><span class="util-val">27%</span></td><td><span class="rc">33.3%</span> <span class="n-small">(12)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(15)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_anaregis <span class="sen-n">N</span></td><td>151</td><td><div class="util-bar"><div class="util-fill" style="width:29.1%;background:#f59e0b"></div></div><span class="util-val">29%</span></td><td><span class="gc">100.0%</span> <span class="n-small">(16)</span></td><td><span class="yc">57.1%</span> <span class="n-small">(14)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_sueloure <span class="sen-e">E</span></td><td>148</td><td><div class="util-bar"><div class="util-fill" style="width:19.3%;background:#f59e0b"></div></div><span class="util-val">19%</span></td><td><span class="rc">41.7%</span> <span class="n-small">(12)</span></td><td><span class="gc">75.0%</span> <span class="n-small">(8)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_coppaulo <span class="sen-n">N</span></td><td>147</td><td><div class="util-bar"><div class="util-fill" style="width:35.7%;background:#10b981"></div></div><span class="util-val">36%</span></td><td><span class="gc">78.6%</span> <span class="n-small">(14)</span></td><td><span class="yc">57.1%</span> <span class="n-small">(7)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_mirecabr <span class="sen-n">N</span></td><td>144</td><td><div class="util-bar"><div class="util-fill" style="width:27.7%;background:#f59e0b"></div></div><span class="util-val">28%</span></td><td><span class="rc">46.2%</span> <span class="n-small">(13)</span></td><td><span class="rc">33.3%</span> <span class="n-small">(6)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_keljenni <span class="sen-n">N</span></td><td>142</td><td><div class="util-bar"><div class="util-fill" style="width:36.4%;background:#10b981"></div></div><span class="util-val">36%</span></td><td><span class="gc">65.0%</span> <span class="n-small">(20)</span></td><td><span class="gc">81.8%</span> <span class="n-small">(11)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_daianlim <span class="sen-e">E</span></td><td>141</td><td><div class="util-bar"><div class="util-fill" style="width:14.9%;background:#f59e0b"></div></div><span class="util-val">15%</span></td><td><span class="gc">75.0%</span> <span class="n-small">(24)</span></td><td><span class="rc">42.9%</span> <span class="n-small">(7)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_yaregia <span class="sen-e">E</span></td><td>141</td><td><div class="util-bar"><div class="util-fill" style="width:26.8%;background:#f59e0b"></div></div><span class="util-val">27%</span></td><td><span class="yc">60.0%</span> <span class="n-small">(10)</span></td><td><span class="rc">40.0%</span> <span class="n-small">(5)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_bivinici <span class="sen-e">E</span></td><td>139</td><td><div class="util-bar"><div class="util-fill" style="width:20.7%;background:#f59e0b"></div></div><span class="util-val">21%</span></td><td><span class="gc">88.9%</span> <span class="n-small">(27)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(13)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_lsil <span class="sen-e">E</span></td><td>139</td><td><div class="util-bar"><div class="util-fill" style="width:19.9%;background:#f59e0b"></div></div><span class="util-val">20%</span></td><td><span class="gc">71.4%</span> <span class="n-small">(7)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(15)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_exsan <span class="sen-e">E</span></td><td>138</td><td><div class="util-bar"><div class="util-fill" style="width:21.0%;background:#f59e0b"></div></div><span class="util-val">21%</span></td><td><span class="gc">80.9%</span> <span class="n-small">(47)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(20)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_pacurvel <span class="sen-e">E</span></td><td>137</td><td><div class="util-bar"><div class="util-fill" style="width:22.2%;background:#f59e0b"></div></div><span class="util-val">22%</span></td><td><span class="yc">56.3%</span> <span class="n-small">(16)</span></td><td><span class="rc">42.9%</span> <span class="n-small">(7)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_iaraapar <span class="sen-e">E</span></td><td>137</td><td><div class="util-bar"><div class="util-fill" style="width:62.6%;background:#10b981"></div></div><span class="util-val">63%</span></td><td><span class="gc">85.7%</span> <span class="n-small">(7)</span></td><td><span class="sd">—</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_doairan <span class="sen-n">N</span></td><td>136</td><td><div class="util-bar"><div class="util-fill" style="width:33.8%;background:#10b981"></div></div><span class="util-val">34%</span></td><td><span class="rc">40.9%</span> <span class="n-small">(22)</span></td><td><span class="gc">77.8%</span> <span class="n-small">(9)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_siribere <span class="sen-e">E</span></td><td>134</td><td><div class="util-bar"><div class="util-fill" style="width:23.7%;background:#f59e0b"></div></div><span class="util-val">24%</span></td><td><span class="gc">71.0%</span> <span class="n-small">(31)</span></td><td><span class="gc">77.8%</span> <span class="n-small">(9)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_filvitor <span class="sen-n">N</span></td><td>132</td><td><div class="util-bar"><div class="util-fill" style="width:47.1%;background:#10b981"></div></div><span class="util-val">47%</span></td><td><span class="yc">62.5%</span> <span class="n-small">(8)</span></td><td><span class="gc">88.9%</span> <span class="n-small">(9)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_taias <span class="sen-n">N</span></td><td>123</td><td><div class="util-bar"><div class="util-fill" style="width:30.4%;background:#10b981"></div></div><span class="util-val">30%</span></td><td><span class="yc">58.3%</span> <span class="n-small">(12)</span></td><td><span class="rc">0.0%</span> <span class="n-small">(4)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_sahemarc <span class="sen-n">N</span></td><td>123</td><td><div class="util-bar"><div class="util-fill" style="width:46.4%;background:#10b981"></div></div><span class="util-val">46%</span></td><td><span class="rc">40.0%</span> <span class="n-small">(5)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(3)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_riscassi <span class="sen-n">N</span></td><td>122</td><td><div class="util-bar"><div class="util-fill" style="width:26.4%;background:#f59e0b"></div></div><span class="util-val">26%</span></td><td><span class="rc">40.0%</span> <span class="n-small">(10)</span></td><td><span class="rc">33.3%</span> <span class="n-small">(6)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_cosancri <span class="sen-e">E</span></td><td>118</td><td><div class="util-bar"><div class="util-fill" style="width:17.7%;background:#f59e0b"></div></div><span class="util-val">18%</span></td><td><span class="gc">78.3%</span> <span class="n-small">(23)</span></td><td><span class="yc">60.0%</span> <span class="n-small">(5)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_cocaaman <span class="sen-n">N</span></td><td>117</td><td><div class="util-bar"><div class="util-fill" style="width:38.2%;background:#10b981"></div></div><span class="util-val">38%</span></td><td><span class="rc">41.7%</span> <span class="n-small">(12)</span></td><td><span class="rc">44.4%</span> <span class="n-small">(9)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_masetuba <span class="sen-e">E</span></td><td>114</td><td><div class="util-bar"><div class="util-fill" style="width:18.0%;background:#f59e0b"></div></div><span class="util-val">18%</span></td><td><span class="gc">100.0%</span> <span class="n-small">(6)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(1)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_azevjuli <span class="sen-n">N</span></td><td>109</td><td><div class="util-bar"><div class="util-fill" style="width:28.9%;background:#f59e0b"></div></div><span class="util-val">29%</span></td><td><span class="rc">15.4%</span> <span class="n-small">(13)</span></td><td><span class="gc">83.3%</span> <span class="n-small">(12)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_rocsilvi <span class="sen-e">E</span></td><td>109</td><td><div class="util-bar"><div class="util-fill" style="width:15.7%;background:#f59e0b"></div></div><span class="util-val">16%</span></td><td><span class="gc">83.3%</span> <span class="n-small">(18)</span></td><td><span class="gc">70.6%</span> <span class="n-small">(17)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_marilsa <span class="sen-e">E</span></td><td>107</td><td><div class="util-bar"><div class="util-fill" style="width:32.9%;background:#10b981"></div></div><span class="util-val">33%</span></td><td><span class="gc">93.8%</span> <span class="n-small">(16)</span></td><td><span class="rc">46.2%</span> <span class="n-small">(13)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_kaleiras <span class="sen-n">N</span></td><td>103</td><td><div class="util-bar"><div class="util-fill" style="width:54.2%;background:#10b981"></div></div><span class="util-val">54%</span></td><td><span class="rc">0.0%</span> <span class="n-small">(3)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(1)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_brwinnie <span class="sen-n">N</span></td><td>101</td><td><div class="util-bar"><div class="util-fill" style="width:29.8%;background:#f59e0b"></div></div><span class="util-val">30%</span></td><td><span class="yc">60.0%</span> <span class="n-small">(10)</span></td><td><span class="gc">75.0%</span> <span class="n-small">(4)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_taianunc <span class="sen-n">N</span></td><td>99</td><td><div class="util-bar"><div class="util-fill" style="width:27.0%;background:#f59e0b"></div></div><span class="util-val">27%</span></td><td><span class="yc">58.3%</span> <span class="n-small">(12)</span></td><td><span class="rc">-14.3%</span> <span class="n-small">(7)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_barcmari <span class="sen-n">N</span></td><td>99</td><td><div class="util-bar"><div class="util-fill" style="width:51.3%;background:#10b981"></div></div><span class="util-val">51%</span></td><td><span class="rc">33.3%</span> <span class="n-small">(3)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(5)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_xabianca <span class="sen-n">N</span></td><td>93</td><td><div class="util-bar"><div class="util-fill" style="width:30.0%;background:#10b981"></div></div><span class="util-val">30%</span></td><td><span class="gc">83.3%</span> <span class="n-small">(6)</span></td><td><span class="rc">40.0%</span> <span class="n-small">(5)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_saferrcr <span class="sen-e">E</span></td><td>93</td><td><div class="util-bar"><div class="util-fill" style="width:20.8%;background:#f59e0b"></div></div><span class="util-val">21%</span></td><td><span class="yc">63.6%</span> <span class="n-small">(11)</span></td><td><span class="gc">77.8%</span> <span class="n-small">(9)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_daportal <span class="sen-e">E</span></td><td>88</td><td><div class="util-bar"><div class="util-fill" style="width:18.3%;background:#f59e0b"></div></div><span class="util-val">18%</span></td><td><span class="gc">69.2%</span> <span class="n-small">(13)</span></td><td><span class="rc">-100.0%</span> <span class="n-small">(1)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_letjusti <span class="sen-n">N</span></td><td>84</td><td><div class="util-bar"><div class="util-fill" style="width:40.8%;background:#10b981"></div></div><span class="util-val">41%</span></td><td><span class="rc">22.2%</span> <span class="n-small">(9)</span></td><td><span class="gc">80.0%</span> <span class="n-small">(5)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_elaragao <span class="sen-n">N</span></td><td>84</td><td><div class="util-bar"><div class="util-fill" style="width:31.2%;background:#10b981"></div></div><span class="util-val">31%</span></td><td><span class="gc">71.4%</span> <span class="n-small">(14)</span></td><td><span class="yc">60.0%</span> <span class="n-small">(5)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_mosvicto <span class="sen-e">E</span></td><td>83</td><td><div class="util-bar"><div class="util-fill" style="width:16.3%;background:#f59e0b"></div></div><span class="util-val">16%</span></td><td><span class="gc">100.0%</span> <span class="n-small">(5)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(2)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_julisani <span class="sen-n">N</span></td><td>83</td><td><div class="util-bar"><div class="util-fill" style="width:18.2%;background:#f59e0b"></div></div><span class="util-val">18%</span></td><td><span class="gc">100.0%</span> <span class="n-small">(13)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(2)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_erygonca <span class="sen-n">N</span></td><td>77</td><td><div class="util-bar"><div class="util-fill" style="width:50.7%;background:#10b981"></div></div><span class="util-val">51%</span></td><td><span class="yc">50.0%</span> <span class="n-small">(2)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(1)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_marchen <span class="sen-n">N</span></td><td>75</td><td><div class="util-bar"><div class="util-fill" style="width:18.5%;background:#f59e0b"></div></div><span class="util-val">18%</span></td><td><span class="yc">54.5%</span> <span class="n-small">(11)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(2)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_elimanue <span class="sen-n">N</span></td><td>73</td><td><div class="util-bar"><div class="util-fill" style="width:33.2%;background:#10b981"></div></div><span class="util-val">33%</span></td><td><span class="gc">71.4%</span> <span class="n-small">(7)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(3)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_aledonat <span class="sen-e">E</span></td><td>71</td><td><div class="util-bar"><div class="util-fill" style="width:25.4%;background:#f59e0b"></div></div><span class="util-val">25%</span></td><td><span class="rc">0.0%</span> <span class="n-small">(2)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(3)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_jeorange <span class="sen-n">N</span></td><td>71</td><td><div class="util-bar"><div class="util-fill" style="width:35.3%;background:#10b981"></div></div><span class="util-val">35%</span></td><td><span class="gc">85.7%</span> <span class="n-small">(7)</span></td><td><span class="gc">66.7%</span> <span class="n-small">(12)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_makopke <span class="sen-e">E</span></td><td>68</td><td><div class="util-bar"><div class="util-fill" style="width:21.1%;background:#f59e0b"></div></div><span class="util-val">21%</span></td><td><span class="rc">20.0%</span> <span class="n-small">(10)</span></td><td><span class="rc">25.0%</span> <span class="n-small">(4)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_suecasti <span class="sen-e">E</span></td><td>67</td><td><div class="util-bar"><div class="util-fill" style="width:10.9%;background:#f59e0b"></div></div><span class="util-val">11%</span></td><td><span class="gc">72.2%</span> <span class="n-small">(18)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(6)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_alandmir <span class="sen-n">N</span></td><td>65</td><td><div class="util-bar"><div class="util-fill" style="width:16.2%;background:#f59e0b"></div></div><span class="util-val">16%</span></td><td><span class="rc">31.3%</span> <span class="n-small">(16)</span></td><td><span class="rc">25.0%</span> <span class="n-small">(8)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_peavitor <span class="sen-e">E</span></td><td>64</td><td><div class="util-bar"><div class="util-fill" style="width:14.5%;background:#f59e0b"></div></div><span class="util-val">14%</span></td><td><span class="rc">-40.0%</span> <span class="n-small">(5)</span></td><td><span class="rc">-100.0%</span> <span class="n-small">(1)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_julyavic <span class="sen-e">E</span></td><td>63</td><td><div class="util-bar"><div class="util-fill" style="width:13.8%;background:#f59e0b"></div></div><span class="util-val">14%</span></td><td><span class="gc">92.9%</span> <span class="n-small">(14)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(4)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_ampeixot <span class="sen-e">E</span></td><td>61</td><td><div class="util-bar"><div class="util-fill" style="width:21.7%;background:#f59e0b"></div></div><span class="util-val">22%</span></td><td><span class="yc">60.0%</span> <span class="n-small">(5)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(4)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_anpaulfe <span class="sen-e">E</span></td><td>51</td><td><div class="util-bar"><div class="util-fill" style="width:16.7%;background:#f59e0b"></div></div><span class="util-val">17%</span></td><td><span class="gc">66.7%</span> <span class="n-small">(12)</span></td><td><span class="gc">100.0%</span> <span class="n-small">(1)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_lucat <span class="sen-e">E</span></td><td>28</td><td><div class="util-bar"><div class="util-fill" style="width:4.4%;background:#ef4444"></div></div><span class="util-val">4%</span></td><td><span class="gc">74.1%</span> <span class="n-small">(27)</span></td><td><span class="gc">83.3%</span> <span class="n-small">(6)</span></td></tr>
+<tr data-sen="NEWBIE"><td class="rep-name">ext_simcerqu <span class="sen-n">N</span></td><td>22</td><td><div class="util-bar"><div class="util-fill" style="width:8.8%;background:#ef4444"></div></div><span class="util-val">9%</span></td><td><span class="gc">81.8%</span> <span class="n-small">(11)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(8)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_cardotia <span class="sen-e">E</span></td><td>22</td><td><div class="util-bar"><div class="util-fill" style="width:91.7%;background:#10b981"></div></div><span class="util-val">92%</span></td><td><span class="sd">—</span></td><td><span class="gc">100.0%</span> <span class="n-small">(2)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_frlobo <span class="sen-e">E</span></td><td>19</td><td><div class="util-bar"><div class="util-fill" style="width:3.3%;background:#ef4444"></div></div><span class="util-val">3%</span></td><td><span class="gc">76.0%</span> <span class="n-small">(25)</span></td><td><span class="rc">11.1%</span> <span class="n-small">(9)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_celcaval <span class="sen-e">E</span></td><td>15</td><td><div class="util-bar"><div class="util-fill" style="width:6.0%;background:#ef4444"></div></div><span class="util-val">6%</span></td><td><span class="rc">33.3%</span> <span class="n-small">(12)</span></td><td><span class="yc">50.0%</span> <span class="n-small">(2)</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_figuerga <span class="sen-e">E</span></td><td>11</td><td><div class="util-bar"><div class="util-fill" style="width:4.2%;background:#ef4444"></div></div><span class="util-val">4%</span></td><td><span class="rc">37.5%</span> <span class="n-small">(8)</span></td><td><span class="sd">—</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_gomaluan <span class="sen-e">E</span></td><td>8</td><td><div class="util-bar"><div class="util-fill" style="width:7.0%;background:#ef4444"></div></div><span class="util-val">7%</span></td><td><span class="gc">100.0%</span> <span class="n-small">(3)</span></td><td><span class="sd">—</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_caetanda <span class="sen-e">E</span></td><td>4</td><td><div class="util-bar"><div class="util-fill" style="width:16.0%;background:#f59e0b"></div></div><span class="util-val">16%</span></td><td><span class="sd">—</span></td><td><span class="sd">—</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_wafroes <span class="sen-e">E</span></td><td>4</td><td><div class="util-bar"><div class="util-fill" style="width:1.1%;background:#ef4444"></div></div><span class="util-val">1%</span></td><td><span class="gc">80.0%</span> <span class="n-small">(10)</span></td><td><span class="sd">—</span></td></tr>
+<tr data-sen="EXPERT"><td class="rep-name">ext_olikarla <span class="sen-e">E</span></td><td>3</td><td><div class="util-bar"><div class="util-fill" style="width:0.9%;background:#ef4444"></div></div><span class="util-val">1%</span></td><td><span class="gc">75.0%</span> <span class="n-small">(8)</span></td><td><span class="sd">—</span></td></tr></tbody>
     </table>
   </div>
+  <div class="note" style="margin-top:8px">Reps sem NPS: sem pesquisas respondidas no período (ex: filas sem survey, treinamento). Ordenado por volume de conversas Copilot.</div>
 
-  <div class="note" style="margin-top:10px">
-    <strong>Reps sem NPS:</strong> alguns dos 209 reps com Copilot não aparecem na tabela por não ter tido pesquisas respondidas no período analisado (ex: reps novos, em treinamento ou em filas sem survey).<br>
-    <strong>Fonte:</strong> BT_CX_COPILOT_METRICS (Copilot) · DM_CX_NPS_Y20_DETAIL (NPS) · BT_CX_CXCOPILOT_TMO (TMO/Produt.) · Equipe: BR_ME_Sellers_Longtail · Período: Abr–Mai 2026
-  </div>
-
-  <div class="footer">Gerado em <span id="ts2"></span> · BR_ME_Sellers_Longtail Copiloto Analysis</div>
+  <div class="footer">Gerado em <span id="ts2"></span> · Fonte: BT_CX_COPILOT_METRICS · DM_CX_NPS_Y20_DETAIL · BT_CX_CXCOPILOT_TMO · BT_CX_TDI · BT_CX_BASIC_CS_RECONTACTS · BR_ME_Sellers_Longtail</div>
 </div>
 
 <script>
-document.getElementById('ts').textContent = new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
+// Tabs
+document.getElementById('ts').textContent = new Date().toLocaleDateString('pt-BR');
 document.getElementById('ts2').textContent = document.getElementById('ts').textContent;
 
-const WEEKS = ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05"];
-const BLUE  = '#2563EB';
-const GRAY  = '#9CA3AF';
-
-function makeChart(id, ds, yLabel, yMin, yMax) {
-  new Chart(document.getElementById(id), {
-    type: 'line',
-    data: { labels: WEEKS, datasets: ds },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      aspectRatio: 1.6,
-      plugins: {
-        legend: { position:'bottom', labels:{ font:{size:11}, padding:12, usePointStyle:true, pointStyleWidth:8 } },
-        tooltip: { callbacks: { label: ctx => ctx.parsed.y==null ? null : ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)} ${yLabel}` } }
-      },
-      scales: {
-        y: { min:yMin, max:yMax, grid:{color:'#f1f5f9'}, ticks:{font:{size:11}} },
-        x: { grid:{display:false}, ticks:{font:{size:11}} }
-      }
-    }
-  });
+function setTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
 }
 
-const ds = (tData, cData, tLabel, cLabel) => [
-  {label:tLabel, data:tData, borderColor:BLUE, backgroundColor:BLUE+'18', borderWidth:2.5, pointRadius:5, tension:0.35, spanGaps:true},
-  {label:cLabel, data:cData, borderColor:GRAY, backgroundColor:GRAY+'18', borderWidth:2, pointRadius:4, tension:0.35, borderDash:[6,4], spanGaps:true}
-];
-
-makeChart('chartNPS',
-  ds([65.9, 59.9, 59.5, 67.7, 69.6, 69.5],[57.5, 56.0, 53.2, 53.1, 50.4, 54.9],'Com Copiloto','Sem Copiloto'),
-  '%', 45, 80);
-
-makeChart('chartTMO',
-  ds([31.6, 36.8, 38.6, 39.1, 39.4, 40.4],[28.3, 31.1, 30.8, 30.7, 29.9, 30.2],'Com Copiloto','Sem Copiloto'),
-  'min', 25, 45);
-
-makeChart('chartPROD',
-  ds([0.98, 0.87, 1.09, 1.17, 1.16, 1.07],[1.11, 1.1, 1.3, 1.37, 1.31, 1.25],'Com Copiloto','Sem Copiloto'),
-  'at/h', 0.75, 1.5);
-
-// Filtro de busca na tabela
-document.addEventListener('DOMContentLoaded', function() {
-  const rows = document.querySelectorAll('table.rt tbody tr');
-  const input = document.createElement('input');
-  input.type = 'text'; input.placeholder = 'Buscar representante...';
-  input.style.cssText = 'width:280px;padding:6px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px;margin-bottom:8px;';
-  input.oninput = () => {
-    const q = input.value.toLowerCase();
-    rows.forEach(r => r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none');
-  };
-  document.querySelector('.rep-table-wrap').before(input);
+// Seniority filter + search
+function filterSen(sen, btn) {
+  document.querySelectorAll('.sen-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const q = document.getElementById('rep-search').value.toLowerCase();
+  document.querySelectorAll('#rep-table tbody tr').forEach(r => {
+    const okSen = sen === 'ALL' || r.dataset.sen === sen;
+    const okSearch = !q || r.textContent.toLowerCase().includes(q);
+    r.style.display = okSen && okSearch ? '' : 'none';
+  });
+}
+document.getElementById('rep-search').addEventListener('input', () => {
+  const active = document.querySelector('.sen-btn.active');
+  filterSen(active ? active.textContent.trim().toUpperCase().replace('TODOS','ALL') : 'ALL', active || document.querySelector('.sen-btn'));
 });
 </script>
 </body>
