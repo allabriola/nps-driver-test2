@@ -228,7 +228,7 @@ def sc(label, t, c, mode='nps'):
 
 def build_tab_content(suffix, nps_m, tmo_m, prod_m, tdi_m, rec_m,
                       nps_w, tmo_w, prod_w, tdi_w, rec_w,
-                      note=''):
+                      note='', compact=False):
     key_t = 'treatment' if suffix != 'geral' else 'treatment_all'
     key_c = 'control'   if suffix != 'geral' else 'control_all'
     t_nps_m  = nps_m[key_t];  c_nps_m  = nps_m[key_c]
@@ -259,6 +259,9 @@ def build_tab_content(suffix, nps_m, tmo_m, prod_m, tdi_m, rec_m,
     ])
 
     scorecards_html = ''
+    grid_cls = 'ch-grid-5 compact' if compact else 'ch-grid-5'
+    ar = 2.6 if compact else 1.55
+    pr = 3 if compact else 4
 
     sid = suffix
     return f'''
@@ -266,16 +269,16 @@ def build_tab_content(suffix, nps_m, tmo_m, prod_m, tdi_m, rec_m,
 {scorecards_html}
 
 <div class="section-lbl">Evolução Mensal — Jan a Mai/2026</div>
-<div class="ch-grid-5">
-  <div class="cc"><h3>NPS ↑</h3><p>% · Maior é melhor · Mar–Mai (Jan/Fev sem dados p/ este time)</p><canvas id="mNPS_{sid}"></canvas></div>
-  <div class="cc"><h3>TMO ↓</h3><p>min · Menor é melhor</p><canvas id="mTMO_{sid}"></canvas></div>
-  <div class="cc"><h3>Produtividade ↑</h3><p>at/h · Maior é melhor</p><canvas id="mPROD_{sid}"></canvas></div>
-  <div class="cc"><h3>TDI ↓</h3><p>% · Menor é melhor · Apenas Abr–Mai disponíveis</p><canvas id="mTDI_{sid}"></canvas></div>
-  <div class="cc"><h3>Recontato ↓</h3><p>% · Menor é melhor · A partir de Mar</p><canvas id="mREC_{sid}"></canvas></div>
+<div class="{grid_cls}">
+  <div class="cc"><h3>NPS ↑</h3><p>% · Mar–Mai</p><canvas id="mNPS_{sid}"></canvas></div>
+  <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="mTMO_{sid}"></canvas></div>
+  <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="mPROD_{sid}"></canvas></div>
+  <div class="cc"><h3>TDI ↓</h3><p>% · Abr–Mai</p><canvas id="mTDI_{sid}"></canvas></div>
+  <div class="cc"><h3>Recontato ↓</h3><p>% · Mar–Mai</p><canvas id="mREC_{sid}"></canvas></div>
 </div>
 
 <div class="section-lbl">Evolução Semanal — 8 Semanas (30/03–18/05)</div>
-<div class="ch-grid-5">
+<div class="{grid_cls}">
   <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="wNPS_{sid}"></canvas></div>
   <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="wTMO_{sid}"></canvas></div>
   <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="wPROD_{sid}"></canvas></div>
@@ -290,12 +293,15 @@ const MONTHS={json.dumps(MONTH_LABELS)};
 const WEEKS={json.dumps(WEEK_LABELS)};
 function mk(id,labels,ds,yLabel,yMin,yMax){{
   new Chart(document.getElementById(id),{{type:'line',data:{{labels,datasets:ds}},options:{{
-    responsive:true,maintainAspectRatio:true,aspectRatio:1.55,
-    plugins:{{legend:{{position:'bottom',labels:{{font:{{size:10}},padding:8,usePointStyle:true,pointStyleWidth:6}}}},
+    responsive:true,maintainAspectRatio:true,aspectRatio:{ar},
+    plugins:{{legend:{{position:'bottom',labels:{{font:{{size:9}},padding:6,usePointStyle:true,pointStyleWidth:5}}}},
       tooltip:{{callbacks:{{label:c=>c.parsed.y==null?null:` ${{c.dataset.label}}: ${{c.parsed.y.toFixed(1)}} ${{yLabel}}`}}}}}},
-    scales:{{y:{{min:yMin,max:yMax,grid:{{color:'#f1f5f9'}},ticks:{{font:{{size:10}}}}}},x:{{grid:{{display:false}},ticks:{{font:{{size:10}}}}}}}}
+    scales:{{y:{{min:yMin,max:yMax,grid:{{color:'#f1f5f9'}},ticks:{{font:{{size:9}}}}}},x:{{grid:{{display:false}},ticks:{{font:{{size:9}}}}}}}}
   }}}});
 }}
+function d(data,color,label,dashed){{return {{label,data,borderColor:color,backgroundColor:color+'18',
+  borderWidth:dashed?1.5:2,pointRadius:{pr},tension:0.35,spanGaps:true,borderDash:dashed?[6,4]:[]}}}}
+
 function d(data,color,label,dashed){{return {{label,data,borderColor:color,backgroundColor:color+'18',
   borderWidth:dashed?2:2.5,pointRadius:4,tension:0.35,spanGaps:true,borderDash:dashed?[6,4]:[]}}}}
 
@@ -369,7 +375,7 @@ def rep_rows():
 # HTML
 # ═══════════════════════════════════════════════════════════════════════
 
-geral_html   = build_tab_content('geral',  NPS_M, TMO_M, PROD_M, TDI_M, REC_M, NPS_W, TMO_W, PROD_W, TDI_W, REC_W)
+geral_html   = build_tab_content('geral',  NPS_M, TMO_M, PROD_M, TDI_M, REC_M, NPS_W, TMO_W, PROD_W, TDI_W, REC_W, compact=True)
 expert_html  = build_tab_content('expert', NPS_M_E, TMO_M_E, PROD_M_E, TDI_M_E, REC_M_E, NPS_W_E, TMO_W_E, PROD_W_E, TDI_W_E, REC_W_E,
                                  note='Experts: NPS superiores desde a ativação (+20pp vs controle em Mai). TDI Expert com Copiloto caiu de 6.9% → 4.8% (Abr→Mai).')
 newbie_html  = build_tab_content('newbie', NPS_M_N, TMO_M_N, PROD_M_N, TDI_M_N, REC_M_N, NPS_W_N, TMO_W_N, PROD_W_N, TDI_W_N, REC_W_N,
@@ -412,6 +418,10 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .pos{{background:#dcfce7;color:#15803d}}.neg{{background:#fee2e2;color:#dc2626}}.neu{{background:#f1f5f9;color:#64748b}}
 /* Charts 5-col */
 .ch-grid-5{{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:8px}}
+.ch-grid-5.compact{{gap:6px;margin-top:6px}}
+.ch-grid-5.compact .cc{{padding:7px 9px 6px}}
+.ch-grid-5.compact .cc h3{{font-size:10px}}
+.ch-grid-5.compact .cc p{{font-size:8.5px;margin:1px 0 5px}}
 .cc{{background:white;border-radius:9px;padding:12px 14px 10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}}
 .cc h3{{font-size:11px;font-weight:700;color:#1e293b}}
 .cc p{{font-size:9.5px;color:#94a3b8;margin:2px 0 8px}}
