@@ -99,9 +99,9 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:20px 0}
 <!-- SIDEBAR -->
 <div class="sidebar">
   <div class="sidebar-label">Comparação</div>
-  <button class="sb-btn active" onclick="setOpcao('rep',this)">Por Representante</button>
-  <button class="sb-btn" onclick="setOpcao('A',this)">Opção A</button>
-  <button class="sb-btn" onclick="setOpcao('B',this)">Opção B</button>
+  <button class="sb-btn active" onclick="setOpcao('rep',this)">Tem vs Não tem Copilot</button>
+  <button class="sb-btn" onclick="setOpcao('A',this)">Usou vs Não usou (A)</button>
+  <button class="sb-btn" onclick="setOpcao('B',this)">Usou vs Não usou (B)</button>
   <div class="sidebar-label" style="margin-top:14px">O que é?</div>
   <div id="sb-desc" style="font-size:9.5px;color:#64748b;line-height:1.5;padding:4px 2px">
     Treatment reps vs controle (por representante)
@@ -492,14 +492,14 @@ let currentOpcao   = 'rep';
 const TABS_CREATED = {'geral':false,'expert':false,'newbie':false};
 
 const SB_DESCS = {
-  rep: 'Compara os <b>209 reps com Copilot</b> (treatment) vs os demais reps do time (controle), independente de cada caso ter usado ou não o assistente.',
-  A:   'Compara os <b>casos dos 209 reps com Copilot</b> onde o assistente foi acionado (FLAG=1) vs casos dos mesmos reps onde não foi (FLAG=0). Elimina viés de seleção de reps.',
-  B:   'Compara <b>todos os casos do time BR_ME</b> onde o Copilot foi acionado (FLAG=1) vs todos os casos onde não foi, incluindo reps sem acesso ao assistente.'
+  rep: '<b>Quem tem acesso</b> ao Copilot vs quem não tem.<br><br>Com = todos os casos dos 209 reps habilitados (mesmo os que não acionaram o assistente naquele caso).<br>Sem = casos dos reps sem acesso ao Copilot.',
+  A:   '<b>Usou ou não usou</b> — dentro dos mesmos 209 reps.<br><br>Com = casos onde o assistente foi acionado (FLAG=1).<br>Sem = casos dos mesmos reps onde não foi acionado (FLAG=0).<br><br>Elimina viés de seleção entre reps.',
+  B:   '<b>Usou ou não usou</b> — time completo.<br><br>Com = qualquer caso do time onde o Copilot foi acionado (FLAG=1).<br>Sem = qualquer caso onde não foi, incluindo reps sem acesso.<br><br>Mistura diferenças de perfil de rep.',
 };
 const LEGENDS = {
-  rep: ['Com Copiloto (Treatment)', 'Sem Copiloto (Controle)'],
-  A:   ['Usou Copiloto (FLAG=1)', 'Não usou (FLAG=0) — mesmos reps'],
-  B:   ['Usou Copiloto (FLAG=1)', 'Não usou (FLAG=0) — time completo'],
+  rep: ['Com Copiloto (tem acesso)', 'Sem Copiloto (sem acesso)'],
+  A:   ['Usou Copiloto (FLAG=1)', 'Não usou — mesmos reps (FLAG=0)'],
+  B:   ['Usou Copiloto (FLAG=1)', 'Não usou — time completo (FLAG=0)'],
 };
 
 function activeDataset(office, channel, tab) {
