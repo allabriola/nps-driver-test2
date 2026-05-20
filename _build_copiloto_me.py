@@ -324,10 +324,9 @@ def build_dset_opc():
         rec_raw = json.load(f)
 
     def by_scope(rows, opcao):
-        # A: só treatment reps; B: todo time
         if opcao == 'A':
             return [r for r in rows if r.get('opcao_scope') == 'A']
-        return rows  # B = A + B_only
+        return rows  # B = todos
 
     def by_oc(rows, office, channel):
         if office != 'ALL':
@@ -336,88 +335,84 @@ def build_dset_opc():
             rows = [r for r in rows if r.get('channel') == channel]
         return rows
 
-    def flag_key(r, col='FLAG_CASE_COPILOT'):
-        return str(r.get(col, r.get('flag_copilot', r.get('FLAG_COPILOT', '0'))))
+    def by_sen(rows, seniority):
+        if seniority is None:
+            return rows
+        return [r for r in rows if r.get('seniority') == seniority]
+
+    def fk(r, *cols):  # flag key
+        for c in cols:
+            v = r.get(c)
+            if v is not None:
+                return str(v)
+        return '0'
 
     def rnd(lst, d=1):
         return [round(v, d) if v is not None else None for v in lst]
 
-    def calc_opc(nps_s, tmo_s, tdi_s, rec_s):
+    # Calcula uma série temporal para uma métrica e um flag (1=com, 0=sem)
+    def calc_series(rows, periods, period_key, metric, flag_col, flag_val):
+        result = []
+        for p in periods:
+            subset = [r for r in rows if fk(r, flag_col) == flag_val and r.get(period_key) == p]
+            if metric == 'nps':
+                ag = _agg(subset, ['prom','det','pesquisas'])
+                result.append(_safe((ag['prom']-ag['det'])*100, ag['pesquisas']))
+            elif metric == 'tmo':
+                ag = _agg(subset, ['tmo_outgoing_seg','outgoing'])
+                result.append(_safe(ag['tmo_outgoing_seg'], ag['outgoing']*60) if ag['outgoing'] else None)
+            elif metric == 'tdi':
+                ag = _agg(subset, ['deriv','tdi_incorretas'])
+                result.append(_safe(ag['tdi_incorretas']*100, ag['deriv']) if ag['deriv'] else None)
+            elif metric == 'rec':
+                ag = _agg(subset, ['atrib','recontatos'])
+                result.append(_safe(ag['recontatos']*100, ag['atrib']) if ag['atrib'] else None)
+        return rnd(result)
+
+    # Produz {metric: {t: {m, w}, c: {m, w}}} compatível com renderTabCharts
+    # t = com copiloto (flag=1), c = sem copiloto (flag=0)
+    def calc_tab_opc(nps_s, tmo_s, tdi_s, rec_s):
         result = {}
-        # NPS
-        nps_com_m, nps_sem_m, nps_com_w, nps_sem_w = [], [], [], []
-        for m in MONTHS:
-            for flag, lst in [('1', nps_com_m), ('0', nps_sem_m)]:
-                rows = [r for r in nps_s if flag_key(r,'FLAG_CASE_COPILOT')==flag and r.get('mes')==m]
-                ag = _agg(rows, ['prom','det','pesquisas'])
-                lst.append(_safe((ag['prom']-ag['det'])*100, ag['pesquisas']))
-        for w in WEEKS:
-            for flag, lst in [('1', nps_com_w), ('0', nps_sem_w)]:
-                rows = [r for r in nps_s if flag_key(r,'FLAG_CASE_COPILOT')==flag and r.get('semana')==w]
-                ag = _agg(rows, ['prom','det','pesquisas'])
-                lst.append(_safe((ag['prom']-ag['det'])*100, ag['pesquisas']))
-        result['nps'] = {'com':{'m':rnd(nps_com_m),'w':rnd(nps_com_w)},
-                         'sem':{'m':rnd(nps_sem_m),'w':rnd(nps_sem_w)}}
-        # TMO
-        tmo_com_m, tmo_sem_m, tmo_com_w, tmo_sem_w = [], [], [], []
-        for m in MONTHS:
-            for flag, lst in [('1', tmo_com_m), ('0', tmo_sem_m)]:
-                rows = [r for r in tmo_s if flag_key(r,'FLAG_COPILOT')==flag and r.get('mes')==m]
-                ag = _agg(rows, ['tmo_outgoing_seg','outgoing'])
-                lst.append(_safe(ag['tmo_outgoing_seg'], ag['outgoing']*60) if ag['outgoing'] else None)
-        for w in WEEKS:
-            for flag, lst in [('1', tmo_com_w), ('0', tmo_sem_w)]:
-                rows = [r for r in tmo_s if flag_key(r,'FLAG_COPILOT')==flag and r.get('semana')==w]
-                ag = _agg(rows, ['tmo_outgoing_seg','outgoing'])
-                lst.append(_safe(ag['tmo_outgoing_seg'], ag['outgoing']*60) if ag['outgoing'] else None)
-        result['tmo'] = {'com':{'m':rnd(tmo_com_m),'w':rnd(tmo_com_w)},
-                         'sem':{'m':rnd(tmo_sem_m),'w':rnd(tmo_sem_w)}}
-        result['prod'] = {'com':{'m':[None]*5,'w':[None]*8}, 'sem':{'m':[None]*5,'w':[None]*8}}  # n/a
-        # TDI
-        tdi_com_m, tdi_sem_m, tdi_com_w, tdi_sem_w = [], [], [], []
-        for m in MONTHS:
-            for flag, lst in [('1', tdi_com_m), ('0', tdi_sem_m)]:
-                rows = [r for r in tdi_s if flag_key(r,'flag_copilot')==flag and r.get('mes')==m]
-                ag = _agg(rows, ['deriv','tdi_incorretas'])
-                lst.append(_safe(ag['tdi_incorretas']*100, ag['deriv']) if ag['deriv'] else None)
-        for w in WEEKS:
-            for flag, lst in [('1', tdi_com_w), ('0', tdi_sem_w)]:
-                rows = [r for r in tdi_s if flag_key(r,'flag_copilot')==flag and r.get('semana')==w]
-                ag = _agg(rows, ['deriv','tdi_incorretas'])
-                lst.append(_safe(ag['tdi_incorretas']*100, ag['deriv']) if ag['deriv'] else None)
-        result['tdi'] = {'com':{'m':rnd(tdi_com_m),'w':rnd(tdi_com_w)},
-                         'sem':{'m':rnd(tdi_sem_m),'w':rnd(tdi_sem_w)}}
-        # REC
-        rec_com_m, rec_sem_m, rec_com_w, rec_sem_w = [], [], [], []
-        for m in MONTHS:
-            for flag, lst in [('1', rec_com_m), ('0', rec_sem_m)]:
-                rows = [r for r in rec_s if flag_key(r,'flag_copilot')==flag and r.get('mes')==m]
-                ag = _agg(rows, ['atrib','recontatos'])
-                lst.append(_safe(ag['recontatos']*100, ag['atrib']) if ag['atrib'] else None)
-        for w in WEEKS:
-            for flag, lst in [('1', rec_com_w), ('0', rec_sem_w)]:
-                rows = [r for r in rec_s if flag_key(r,'flag_copilot')==flag and r.get('semana')==w]
-                ag = _agg(rows, ['atrib','recontatos'])
-                lst.append(_safe(ag['recontatos']*100, ag['atrib']) if ag['atrib'] else None)
-        result['rec'] = {'com':{'m':rnd(rec_com_m),'w':rnd(rec_com_w)},
-                         'sem':{'m':rnd(rec_sem_m),'w':rnd(rec_sem_w)}}
+        for metric, rows, fcol in [
+            ('nps', nps_s, 'FLAG_CASE_COPILOT'),
+            ('tmo', tmo_s, 'FLAG_COPILOT'),
+            ('tdi', tdi_s, 'flag_copilot'),
+            ('rec', rec_s, 'flag_copilot'),
+        ]:
+            t_m = calc_series(rows, MONTHS, 'mes',    metric, fcol, '1')
+            c_m = calc_series(rows, MONTHS, 'mes',    metric, fcol, '0')
+            t_w = calc_series(rows, WEEKS,  'semana', metric, fcol, '1')
+            c_w = calc_series(rows, WEEKS,  'semana', metric, fcol, '0')
+            result[metric] = {'t': {'m': t_m, 'w': t_w}, 'c': {'m': c_m, 'w': c_w}}
+        # Prod não disponível por caso — null
+        result['prod'] = {'t': {'m': [None]*5, 'w': [None]*8},
+                          'c': {'m': [None]*5, 'w': [None]*8}}
         return result
 
+    # TAB_SEN: mapeamento tab → seniority filter
+    TAB_SEN = {'geral': None, 'expert': 'EXPERT', 'newbie': 'NEWBIE'}
+
+    # DSET_OPC[opcao][office][channel][tab] = {metric: {t/c: {m/w}}}
     DSET_OPC = {}
     for opcao in ['A', 'B']:
         DSET_OPC[opcao] = {}
-        nps_s  = by_scope(nps_raw, opcao)
-        tmo_s  = by_scope(tmo_raw, opcao)
-        tdi_s  = by_scope(tdi_raw, opcao)
-        rec_s  = by_scope(rec_raw, opcao)
+        nps_o = by_scope(nps_raw, opcao)
+        tmo_o = by_scope(tmo_raw, opcao)
+        tdi_o = by_scope(tdi_raw, opcao)
+        rec_o = by_scope(rec_raw, opcao)
         for office in OFFICES:
             DSET_OPC[opcao][office] = {}
             for channel in CHANNELS:
-                nps_oc = by_oc(nps_s, office, channel)
-                tmo_oc = by_oc(tmo_s, office, channel)
-                tdi_oc = by_oc(tdi_s, office, channel)
-                rec_oc = by_oc(rec_s, office, channel)
-                DSET_OPC[opcao][office][channel] = calc_opc(nps_oc, tmo_oc, tdi_oc, rec_oc)
+                DSET_OPC[opcao][office][channel] = {}
+                nps_oc = by_oc(nps_o, office, channel)
+                tmo_oc = by_oc(tmo_o, office, channel)
+                tdi_oc = by_oc(tdi_o, office, channel)
+                rec_oc = by_oc(rec_o, office, channel)
+                for tab, sen in TAB_SEN.items():
+                    DSET_OPC[opcao][office][channel][tab] = calc_tab_opc(
+                        by_sen(nps_oc, sen), by_sen(tmo_oc, sen),
+                        by_sen(tdi_oc, sen), by_sen(rec_oc, sen)
+                    )
     return DSET_OPC
 
 DSET_OPC = build_dset_opc()
@@ -442,7 +437,14 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .header{{background:#1a1a2e;color:white;padding:18px 28px}}
 .header h1{{font-size:17px;font-weight:700}}
 .header .sub{{font-size:11px;color:#94a3b8;margin-top:3px}}
-.container{{max-width:1400px;margin:0 auto;padding:16px 14px 40px}}
+.page-wrap{{display:flex;gap:0;max-width:1440px;margin:0 auto}}
+.sidebar{{width:148px;flex-shrink:0;background:white;border-right:1px solid #e2e8f0;padding:16px 10px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow-y:auto}}
+.sidebar-label{{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#94a3b8;margin:10px 0 4px;padding-top:8px;border-top:1px solid #f1f5f9}}
+.sidebar-label:first-child{{margin-top:0;border-top:none}}
+.sb-btn{{padding:7px 10px;border-radius:7px;border:none;cursor:pointer;font-size:11.5px;font-weight:600;background:transparent;color:#64748b;text-align:left;transition:.15s;white-space:nowrap}}
+.sb-btn:hover{{background:#f1f5f9}}
+.sb-btn.active{{background:#1d4ed8;color:white}}
+.container{{flex:1;min-width:0;padding:16px 16px 40px}}
 /* Tabs */
 .tabs{{display:flex;gap:4px;margin-bottom:16px;background:white;padding:5px;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.07);width:fit-content}}
 .tab-btn{{padding:6px 22px;border-radius:7px;border:none;cursor:pointer;font-size:12px;font-weight:600;background:transparent;color:#64748b;transition:.15s}}
@@ -518,12 +520,27 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
   <div class="sub">209 reps com Copilot vs ~436 sem Copilot · Rollout iniciado ~22/04/2026 · Atualizado em <span id="ts"></span></div>
 </div>
 
+<div class="page-wrap">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-label">Comparação</div>
+  <button class="sb-btn active" onclick="setOpcao('rep',this)">Por Representante</button>
+  <button class="sb-btn" onclick="setOpcao('A',this)">Opção A</button>
+  <button class="sb-btn" onclick="setOpcao('B',this)">Opção B</button>
+  <div class="sidebar-label" style="margin-top:14px">O que é?</div>
+  <div id="sb-desc" style="font-size:9.5px;color:#64748b;line-height:1.5;padding:4px 2px">
+    Treatment reps vs controle (por representante)
+  </div>
+</div>
+
+<!-- CONTEÚDO PRINCIPAL -->
 <div class="container">
 
-  <div class="legend">
-    <div class="leg"><span class="leg-solid" style="border-color:#2563EB"></span>Com Copiloto (Treatment)</div>
-    <div class="leg"><span class="leg-dash" style="border-color:#9CA3AF"></span>Sem Copiloto (Controle)</div>
-    <div class="leg" style="font-size:10px;color:#94a3b8">* Mai até 18/05 · NPS com &lt;5 pesquisas/rep tem alta variância · Controle não tem split de senioridade (exibe Expert como baseline)</div>
+  <div class="legend" id="legend-bar">
+    <div class="leg"><span class="leg-solid" style="border-color:#2563EB"></span><span id="leg-t">Com Copiloto (Treatment)</span></div>
+    <div class="leg"><span class="leg-dash" style="border-color:#9CA3AF"></span><span id="leg-c">Sem Copiloto (Controle)</span></div>
+    <div class="leg" style="font-size:10px;color:#94a3b8">* Mai até 18/05 · NPS com &lt;5 pesquisas/rep tem alta variância</div>
   </div>
 
   <!-- FILTROS GLOBAIS -->
@@ -545,9 +562,6 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
     <button class="tab-btn active" onclick="setTab('geral',this)">Geral</button>
     <button class="tab-btn" onclick="setTab('expert',this)">Expert</button>
     <button class="tab-btn" onclick="setTab('newbie',this)">Newbie</button>
-    <span style="width:1px;background:#e2e8f0;margin:0 4px"></span>
-    <button class="tab-btn" onclick="setTab('opcA',this)" title="Casos dos 209 reps com Copilot: usaram vs não usaram">Opção A</button>
-    <button class="tab-btn" onclick="setTab('opcB',this)" title="Todo o time BR_ME: casos com Copilot vs sem Copilot">Opção B</button>
   </div>
 
   <!-- TAB GERAL -->
@@ -612,44 +626,6 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
     </div>
   </div>
 
-  <!-- OPÇÃO A -->
-  <div class="tab-pane" id="tab-opcA">
-    <div class="note warn" style="margin-bottom:10px"><strong>Opção A — Por uso do Copiloto (mesmo grupo de reps):</strong> compara os <em>casos</em> dos 209 reps com Copilot onde o assistente foi acionado (FLAG_COPILOT=1) vs casos do mesmo grupo onde não foi acionado (FLAG_COPILOT=0). Elimina o viés de seleção de reps.</div>
-    <div class="section-lbl">Evolução Mensal — Jan a Mai/2026</div>
-    <div class="ch-grid-5 compact">
-      <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="mNPS_opcA"></canvas></div>
-      <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="mTMO_opcA"></canvas></div>
-      <div class="cc"><h3>TDI ↓</h3><p>% · Abr–Mai</p><canvas id="mTDI_opcA"></canvas></div>
-      <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="mREC_opcA"></canvas></div>
-    </div>
-    <div class="section-lbl">Evolução Semanal — 8 Semanas (30/03–18/05)</div>
-    <div class="ch-grid-5 compact">
-      <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="wNPS_opcA"></canvas></div>
-      <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="wTMO_opcA"></canvas></div>
-      <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_opcA"></canvas></div>
-      <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_opcA"></canvas></div>
-    </div>
-  </div>
-
-  <!-- OPÇÃO B -->
-  <div class="tab-pane" id="tab-opcB">
-    <div class="note warn" style="margin-bottom:10px"><strong>Opção B — Por uso do Copiloto (time completo):</strong> compara todos os casos do time BR_ME onde o Copilot foi acionado vs todos os casos onde não foi, independente do rep. Inclui reps sem acesso ao Copilot no grupo "sem".</div>
-    <div class="section-lbl">Evolução Mensal — Jan a Mai/2026</div>
-    <div class="ch-grid-5 compact">
-      <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="mNPS_opcB"></canvas></div>
-      <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="mTMO_opcB"></canvas></div>
-      <div class="cc"><h3>TDI ↓</h3><p>% · Abr–Mai</p><canvas id="mTDI_opcB"></canvas></div>
-      <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="mREC_opcB"></canvas></div>
-    </div>
-    <div class="section-lbl">Evolução Semanal — 8 Semanas (30/03–18/05)</div>
-    <div class="ch-grid-5 compact">
-      <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="wNPS_opcB"></canvas></div>
-      <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="wTMO_opcB"></canvas></div>
-      <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_opcB"></canvas></div>
-      <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_opcB"></canvas></div>
-    </div>
-  </div>
-
   <hr class="div">
 
   <!-- TMO POR PROCESSO -->
@@ -708,6 +684,8 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
   <div class="note" style="margin-top:8px">Reps sem NPS: sem pesquisas respondidas no período. Ordenado por Oficina A-Z e depois por % Utilização desc.</div>
 
   <div class="footer">Gerado em <span id="ts2"></span> · Fonte: BT_CX_COPILOT_METRICS · DM_CX_NPS_Y20_DETAIL · BT_CX_CXCOPILOT_TMO · BT_CX_TDI · BT_CX_BASIC_CS_RECONTACTS · BR_ME_Sellers_Longtail</div>
+</div><!-- /container -->
+</div><!-- /page-wrap -->
 </div>
 
 <script>
@@ -724,8 +702,42 @@ const CHARTS = {{}};
 let currentOffice  = 'ALL';
 let currentChannel = 'ALL';
 let currentTab     = 'geral';
-const TABS_CREATED = {{'geral':false,'expert':false,'newbie':false,'opcA':false,'opcB':false}};
-const OPC_METRICS  = ['nps','tmo','tdi','rec'];  // Opção A/B não tem Produtividade
+let currentOpcao   = 'rep';
+const TABS_CREATED = {{'geral':false,'expert':false,'newbie':false}};
+
+const SB_DESCS = {{
+  rep: 'Compara os <b>209 reps com Copilot</b> (treatment) vs os demais reps do time (controle), independente de cada caso ter usado ou não o assistente.',
+  A:   'Compara os <b>casos dos 209 reps com Copilot</b> onde o assistente foi acionado (FLAG=1) vs casos dos mesmos reps onde não foi (FLAG=0). Elimina viés de seleção de reps.',
+  B:   'Compara <b>todos os casos do time BR_ME</b> onde o Copilot foi acionado (FLAG=1) vs todos os casos onde não foi, incluindo reps sem acesso ao assistente.'
+}};
+const LEGENDS = {{
+  rep: ['Com Copiloto (Treatment)', 'Sem Copiloto (Controle)'],
+  A:   ['Usou Copiloto (FLAG=1)', 'Não usou (FLAG=0) — mesmos reps'],
+  B:   ['Usou Copiloto (FLAG=1)', 'Não usou (FLAG=0) — time completo'],
+}};
+
+function activeDataset(office, channel, tab) {{
+  if (currentOpcao === 'rep') return DSET[office][channel][tab];
+  return DSET_OPC[currentOpcao][office][channel][tab];
+}}
+
+// ── setOpcao ──────────────────────────────────────────────────────────
+function setOpcao(opcao, btn) {{
+  currentOpcao = opcao;
+  document.querySelectorAll('.sb-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sb-desc').innerHTML = SB_DESCS[opcao];
+  const [lt, lc] = LEGENDS[opcao];
+  document.getElementById('leg-t').textContent = lt;
+  document.getElementById('leg-c').textContent = lc;
+  // Reset TABS_CREATED para forçar recriação com novos dados
+  Object.keys(TABS_CREATED).forEach(k => TABS_CREATED[k] = false);
+  Object.keys(CHARTS).forEach(id => {{ if(CHARTS[id]) {{ CHARTS[id].destroy(); delete CHARTS[id]; }} }});
+  // Recriar tab ativa
+  renderTabCharts(currentTab, currentOffice, currentChannel);
+  TABS_CREATED[currentTab] = true;
+  renderProcTable(currentOffice, currentChannel);
+}}
 
 // ── Chart helpers ─────────────────────────────────────────────────────
 function ds(data, color, label, dashed) {{
@@ -825,8 +837,7 @@ function renderOpcCharts(tab, office, channel) {{
 }}
 
 function renderTabCharts(tab, office, channel) {{
-  if (tab === 'opcA' || tab === 'opcB') {{ renderOpcCharts(tab, office, channel); return; }}
-  const d = DSET[office][channel][tab];
+  const d = activeDataset(office, channel, tab);
   const isGeral = (tab === 'geral');
   const arM = isGeral ? 2.6 : 1.55;
   const arW = isGeral ? 2.6 : 1.55;
@@ -845,8 +856,7 @@ function renderTabCharts(tab, office, channel) {{
 }}
 
 function updateTabCharts(tab, office, channel) {{
-  if (tab === 'opcA' || tab === 'opcB') {{ renderOpcCharts(tab, office, channel); return; }}
-  const d = DSET[office][channel][tab];
+  const d = activeDataset(office, channel, tab);
   updateChart('mNPS_'  + tab, d.nps.t.m,  d.nps.c.m);
   updateChart('mTMO_'  + tab, d.tmo.t.m,  d.tmo.c.m);
   updateChart('mPROD_' + tab, d.prod.t.m, d.prod.c.m);
