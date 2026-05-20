@@ -362,7 +362,7 @@ def rep_rows():
         abr_cell = f'{fmt_nps(n_abr)} <span class="n-small">({p_abr})</span>' if p_abr else '<span class="sd">—</span>'
         mai_cell = f'{fmt_nps(n_mai)} <span class="n-small">({p_mai})</span>' if p_mai else '<span class="sd">—</span>'
         out.append(
-            f'<tr data-sen="{sen}">'
+            f'<tr data-sen="{sen}" data-office="{office}">'
             f'<td class="rep-name">{ldap} {sen_badge}</td>'
             f'<td>{office}</td>'
             f'<td class="n-small" style="color:#475569">{tl}</td>'
@@ -517,10 +517,14 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
     <span class="sen-e">E</span> Expert &nbsp; <span class="sen-n">N</span> Newbie
   </div>
   <div class="sen-filter">
-    <span style="font-size:11px;font-weight:600;color:#64748b">Filtrar:</span>
-    <button class="sen-btn active" onclick="filterSen('ALL',this)">Todos</button>
-    <button class="sen-btn" onclick="filterSen('EXPERT',this)">Expert</button>
-    <button class="sen-btn" onclick="filterSen('NEWBIE',this)">Newbie</button>
+    <span style="font-size:11px;font-weight:600;color:#64748b">Senioridade:</span>
+    <button class="sen-btn active" data-filter="sen" data-val="ALL" onclick="applyFilter(this)">Todos</button>
+    <button class="sen-btn" data-filter="sen" data-val="EXPERT" onclick="applyFilter(this)">Expert</button>
+    <button class="sen-btn" data-filter="sen" data-val="NEWBIE" onclick="applyFilter(this)">Newbie</button>
+    <span style="font-size:11px;font-weight:600;color:#64748b;margin-left:12px">Oficina:</span>
+    <button class="sen-btn active" data-filter="office" data-val="ALL" onclick="applyFilter(this)">Todas</button>
+    <button class="sen-btn" data-filter="office" data-val="ATE" onclick="applyFilter(this)">ATE</button>
+    <button class="sen-btn" data-filter="office" data-val="KTA_BRASIL" onclick="applyFilter(this)">KTA</button>
     <input id="rep-search" type="text" placeholder="Buscar LDAP..." style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:11px;margin-left:8px;">
   </div>
   <div class="proc-table-wrap">
@@ -557,20 +561,24 @@ function setTab(id, btn) {{
 }}
 
 // Seniority filter + search
-function filterSen(sen, btn) {{
-  document.querySelectorAll('.sen-btn').forEach(b => b.classList.remove('active'));
+function applyFilter(btn) {{
+  const group = btn.dataset.filter;
+  document.querySelectorAll(`.sen-btn[data-filter="${{group}}"]`).forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  runFilter();
+}}
+function runFilter() {{
+  const sen    = (document.querySelector('.sen-btn[data-filter="sen"].active')   || {{}}).dataset?.val || 'ALL';
+  const office = (document.querySelector('.sen-btn[data-filter="office"].active') || {{}}).dataset?.val || 'ALL';
   const q = document.getElementById('rep-search').value.toLowerCase();
   document.querySelectorAll('#rep-table tbody tr').forEach(r => {{
-    const okSen = sen === 'ALL' || r.dataset.sen === sen;
+    const okSen    = sen    === 'ALL' || r.dataset.sen    === sen;
+    const okOffice = office === 'ALL' || r.dataset.office === office;
     const okSearch = !q || r.textContent.toLowerCase().includes(q);
-    r.style.display = okSen && okSearch ? '' : 'none';
+    r.style.display = okSen && okOffice && okSearch ? '' : 'none';
   }});
 }}
-document.getElementById('rep-search').addEventListener('input', () => {{
-  const active = document.querySelector('.sen-btn.active');
-  filterSen(active ? active.textContent.trim().toUpperCase().replace('TODOS','ALL') : 'ALL', active || document.querySelector('.sen-btn'));
-}});
+document.getElementById('rep-search').addEventListener('input', runFilter);
 </script>
 </body>
 </html>'''
