@@ -690,6 +690,7 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
 
   <!-- TABELA POR REP -->
   <div id="section-reps">
+  <div id="rep-mode-note" class="note warn" style="display:none;margin-bottom:8px">Esta tabela mostra os <strong>209 reps com Copiloto</strong> e seus indicadores individuais. Os dados não mudam com a seleção de Opção A/B — é sempre a visão por representante.</div>
   <div class="section-lbl">Representantes com Copiloto — {len(REPS_RAW)} reps · Filtro por Senioridade e Oficina</div>
   <div class="note" style="margin-bottom:8px">
     <strong>% Utilização:</strong> conversas Copilot / total casos atendidos (Abr–Mai) ·
@@ -750,9 +751,9 @@ let currentOpcao   = 'rep';
 const TABS_CREATED = {{'geral':false,'expert':false,'newbie':false}};
 
 const SB_DESCS = {{
-  rep: '<b>Quem tem acesso</b> ao Copilot vs quem não tem.<br><br>Com = todos os casos dos 209 reps habilitados (mesmo os que não acionaram o assistente naquele caso).<br>Sem = casos dos reps sem acesso ao Copilot.',
-  A:   '<b>Usou ou não usou</b> — dentro dos mesmos 209 reps.<br><br>Com = casos onde o assistente foi acionado (FLAG=1).<br>Sem = casos dos mesmos reps onde não foi acionado (FLAG=0).<br><br>Elimina viés de seleção entre reps.',
-  B:   '<b>Usou ou não usou</b> — time completo.<br><br>Com = qualquer caso do time onde o Copilot foi acionado (FLAG=1).<br>Sem = qualquer caso onde não foi, incluindo reps sem acesso.<br><br>Mistura diferenças de perfil de rep.',
+  rep: '<b>Quem tem acesso</b> ao Copilot vs quem não tem.<br><br><b>Com</b> = todos os casos dos 209 reps habilitados (mesmo sem usar o assistente naquele caso).<br><b>Sem</b> = casos dos reps sem acesso.',
+  A:   '<b>Usou ou não usou</b> — dentro dos mesmos 209 reps.<br><br><b>Com</b> = casos com FLAG=1 (assistente acionado).<br><b>Sem</b> = casos FLAG=0 dos mesmos reps.<br><br>⚠ A linha "Com" é igual à Opção B — o grupo "Sem" é diferente: aqui são só os 209 reps (NPS mais alto), na B inclui o time todo.',
+  B:   '<b>Usou ou não usou</b> — time completo.<br><br><b>Com</b> = qualquer caso com FLAG=1 (igual à Opção A).<br><b>Sem</b> = todos os casos FLAG=0 do time, incluindo reps sem Copilot.<br><br>⚠ O grupo "Sem" inclui reps de controle (NPS mais baixo), ampliando o delta visível.',
 }};
 const LEGENDS = {{
   rep: ['Com Copiloto (tem acesso)', 'Sem Copiloto (sem acesso)'],
@@ -780,10 +781,10 @@ function setOpcao(opcao, btn) {{
   // Recriar tab ativa
   renderTabCharts(currentTab, currentOffice, currentChannel);
   TABS_CREATED[currentTab] = true;
-  renderProcTable(currentOffice, currentChannel);
-  // Mostrar/ocultar tabela de reps (só faz sentido no modo "rep")
-  const secReps = document.getElementById('section-reps');
-  if (secReps) secReps.style.display = opcao === 'rep' ? '' : 'none';
+  renderProcTable(currentOffice, currentChannel, opcao);
+  // Nota contextual na tabela de reps
+  var repNote = document.getElementById('rep-mode-note');
+  if (repNote) repNote.style.display = opcao === 'rep' ? 'none' : '';
 }}
 
 // ── Chart helpers ─────────────────────────────────────────────────────
@@ -918,53 +919,54 @@ function updateTabCharts(tab, office, channel) {{
 
 // ── refreshAllCharts — chamado após mudança de office ou channel ──────
 // ── renderProcTable — tabela TMO por processo dinâmica ────────────────
-function renderProcTable(office, channel) {{
-  const isRep = currentOpcao === 'rep';
-  const data  = isRep
-    ? (PROC_DATA_REP[office]?.[channel] || {{}})
-    : (PROC_DATA[office]?.[channel]     || {{}});
-  const keyA  = isRep ? 'treatment' : 'com';
-  const keyB  = isRep ? 'control'   : 'sem';
-  const hdrA  = isRep ? 'Com Copiloto (Treatment)' : 'Com Copiloto (FLAG=1)';
-  const hdrB  = isRep ? 'Sem Copiloto (Controle)'  : 'Sem Copiloto (FLAG=0)';
+function renderProcTable(office, channel, opcao) {{
+  opcao = opcao || currentOpcao;
+  var isRep = opcao === 'rep';
+  var src   = isRep ? PROC_DATA_REP : PROC_DATA;
+  var data  = (src[office] && src[office][channel]) ? src[office][channel] : {{}};
+  var keyA  = isRep ? 'treatment' : 'com';
+  var keyB  = isRep ? 'control'   : 'sem';
+  var hdrA  = isRep ? 'Com Copiloto (Treatment)' : 'Com Copiloto (FLAG=1)';
+  var hdrB  = isRep ? 'Sem Copiloto (Controle)'  : 'Sem Copiloto (FLAG=0)';
 
-  // atualizar cabeçalhos
-  const ths = document.querySelectorAll('#proc-thead th');
-  if (ths.length >= 5) {{ ths[1].textContent = hdrA; ths[3].textContent = hdrB; }}
+  var ths = document.querySelectorAll('#proc-thead th');
+  if (ths[1]) ths[1].textContent = hdrA;
+  if (ths[3]) ths[3].textContent = hdrB;
 
-  const order = Object.keys(PROC_NAMES).map(Number)
-    .sort((a,b) => {{
-      const na = (data[a]?.[keyA]?.[1]||0)+(data[a]?.[keyB]?.[1]||0);
-      const nb = (data[b]?.[keyA]?.[1]||0)+(data[b]?.[keyB]?.[1]||0);
-      return nb - na;
-    }});
-  const rows = order.map(pid => {{
-    const nm = PROC_NAMES[pid];
-    const d  = data[pid];
-    if (!d) return '';
-    const vA = d[keyA] || [null, 0];
-    const vB = d[keyB] || [null, 0];
-    const tA = vA[0], nA = vA[1];
-    const tB = vB[0], nB = vB[1];
-    if (!tA && !tB) return '';
-    const delta = (tA != null && tB != null) ? (tA - tB).toFixed(1) : null;
-    const sign  = delta && parseFloat(delta) > 0 ? '+' : '';
-    const cls   = delta ? (parseFloat(delta) > 2 ? 'rc' : (parseFloat(delta) < -2 ? 'gc' : 'neu-cell')) : '';
-    const deltaCell = delta != null
-      ? `<span class="${{cls}}">${{sign}}${{delta}} min</span>` : '<span class="sd">—</span>';
-    return `<tr><td class="rep-name">${{nm}}</td>
-      <td>${{tA!=null?tA.toFixed(1):'—'}}</td><td class="n-small">${{nA?nA.toLocaleString('pt-BR'):'—'}}</td>
-      <td>${{tB!=null?tB.toFixed(1):'—'}}</td><td class="n-small">${{nB?nB.toLocaleString('pt-BR'):'—'}}</td>
-      <td>${{deltaCell}}</td></tr>`;
-  }}).filter(Boolean);
-  document.getElementById('proc-tbody').innerHTML = rows.length ? rows.join('') : '<tr><td colspan="6" class="sd" style="text-align:center;padding:12px">Sem dados suficientes para este filtro</td></tr>';
+  var pids = Object.keys(PROC_NAMES).map(Number).sort(function(a,b) {{
+    var na = ((data[a] && data[a][keyA]) ? data[a][keyA][1] : 0) + ((data[a] && data[a][keyB]) ? data[a][keyB][1] : 0);
+    var nb = ((data[b] && data[b][keyA]) ? data[b][keyA][1] : 0) + ((data[b] && data[b][keyB]) ? data[b][keyB][1] : 0);
+    return nb - na;
+  }});
+  var html = '';
+  for (var i=0; i<pids.length; i++) {{
+    var pid = pids[i];
+    var nm  = PROC_NAMES[pid];
+    var d   = data[pid];
+    if (!d) continue;
+    var vA = d[keyA] || [null, 0];
+    var vB = d[keyB] || [null, 0];
+    var tA = vA[0], nA = vA[1], tB = vB[0], nB = vB[1];
+    if (tA == null && tB == null) continue;
+    var diff  = (tA != null && tB != null) ? tA - tB : null;
+    var dTxt  = diff != null ? (diff > 0 ? '+' : '') + diff.toFixed(1) + ' min' : '—';
+    var dCls  = diff != null ? (diff > 2 ? 'rc' : diff < -2 ? 'gc' : 'neu-cell') : 'sd';
+    html += '<tr><td class="rep-name">' + nm + '</td>'
+          + '<td>' + (tA!=null ? tA.toFixed(1) : '—') + '</td>'
+          + '<td class="n-small">' + (nA ? nA.toLocaleString('pt-BR') : '—') + '</td>'
+          + '<td>' + (tB!=null ? tB.toFixed(1) : '—') + '</td>'
+          + '<td class="n-small">' + (nB ? nB.toLocaleString('pt-BR') : '—') + '</td>'
+          + '<td><span class="' + dCls + '">' + dTxt + '</span></td></tr>';
+  }}
+  document.getElementById('proc-tbody').innerHTML = html ||
+    '<tr><td colspan="6" class="sd" style="text-align:center;padding:12px">Sem dados para este filtro</td></tr>';
 }}
 
 function refreshAllCharts() {{
   ['geral','expert','newbie'].forEach(tab => {{
     if (TABS_CREATED[tab]) updateTabCharts(tab, currentOffice, currentChannel);
   }});
-  renderProcTable(currentOffice, currentChannel);
+  renderProcTable(currentOffice, currentChannel, currentOpcao);
 }}
 
 // ── setOffice ─────────────────────────────────────────────────────────
@@ -1024,7 +1026,7 @@ document.getElementById('ts2').textContent = new Date().toLocaleDateString('pt-B
 
 // Criar charts da tab geral (visível inicialmente)
 renderTabCharts('geral', 'ALL', 'ALL');
-renderProcTable('ALL', 'ALL');
+renderProcTable('ALL', 'ALL', 'rep');
 TABS_CREATED['geral'] = true;
 </script>
 </body>
