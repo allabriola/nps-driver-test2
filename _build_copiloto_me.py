@@ -10,6 +10,7 @@ MONTHS       = ['2026-01','2026-02','2026-03','2026-04','2026-05']
 WEEK_LABELS  = ['30/03','06/04','13/04','20/04','27/04','04/05','11/05','18/05*']
 WEEKS        = ['2026-03-30','2026-04-06','2026-04-13','2026-04-20','2026-04-27','2026-05-04','2026-05-11','2026-05-18']
 OFFICES      = ['ALL', 'ATE', 'KTA_BRASIL', 'AEC', 'CTX']
+CHANNELS     = ['ALL', 'MULTICANAL CHAT', 'MULTICANAL C2C']
 TABS         = ['geral', 'expert', 'newbie']
 METRICS      = ['nps', 'tmo', 'prod', 'tdi', 'rec']
 
@@ -81,11 +82,16 @@ def build_dset():
     with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_rec_by_office.json', encoding='utf-8') as f:
         rec_raw = json.load(f)
 
-    # Helper: filtrar por office (None = ALL)
+    # Helper: filtrar por office e channel
     def by_office(rows, office):
         if office == 'ALL':
             return rows
         return [r for r in rows if r.get('office') == office]
+
+    def by_channel(rows, channel):
+        if channel == 'ALL':
+            return rows
+        return [r for r in rows if r.get('channel') == channel]
 
     # Helper: filtrar por grupo + seniority
     def by_gs(rows, grupo, seniority):
@@ -104,115 +110,97 @@ def build_dset():
         'newbie': ('treatment', 'NEWBIE',  'control', 'EXPERT'),
     }
 
-    # DSET[office][tab][metric] = {'t': {'m': [...], 'w': [...]}, 'c': {...}}
-    DSET = {}
+    def rnd(lst, decimals=2):
+        return [round(v, decimals) if v is not None else None for v in lst]
 
+    def calc_tab(nps_oc, tmo_oc, tdi_oc, rec_oc, tab):
+        tg, ts, cg, cs = TAB_FILTERS[tab]
+        result = {}
+
+        # NPS
+        t_nps = by_gs(nps_oc, tg, ts); c_nps = by_gs(nps_oc, cg, cs)
+        nps_t_m, nps_t_w, nps_c_m, nps_c_w = [], [], [], []
+        for m in MONTHS:
+            ag_t = _agg([r for r in t_nps if r.get('mes')==m], ['prom','det','pesquisas'])
+            ag_c = _agg([r for r in c_nps if r.get('mes')==m], ['prom','det','pesquisas'])
+            nps_t_m.append(_safe((ag_t['prom']-ag_t['det'])*100, ag_t['pesquisas']))
+            nps_c_m.append(_safe((ag_c['prom']-ag_c['det'])*100, ag_c['pesquisas']))
+        for w in WEEKS:
+            ag_t = _agg([r for r in t_nps if r.get('semana')==w], ['prom','det','pesquisas'])
+            ag_c = _agg([r for r in c_nps if r.get('semana')==w], ['prom','det','pesquisas'])
+            nps_t_w.append(_safe((ag_t['prom']-ag_t['det'])*100, ag_t['pesquisas']))
+            nps_c_w.append(_safe((ag_c['prom']-ag_c['det'])*100, ag_c['pesquisas']))
+        result['nps'] = {'t':{'m':rnd(nps_t_m,1),'w':rnd(nps_t_w,1)}, 'c':{'m':rnd(nps_c_m,1),'w':rnd(nps_c_w,1)}}
+
+        # TMO + PROD
+        t_tmo = by_gs(tmo_oc, tg, ts); c_tmo = by_gs(tmo_oc, cg, cs)
+        tmo_t_m,tmo_t_w,tmo_c_m,tmo_c_w = [],[],[],[]
+        prod_t_m,prod_t_w,prod_c_m,prod_c_w = [],[],[],[]
+        for m in MONTHS:
+            ag_t = _agg([r for r in t_tmo if r.get('mes')==m], ['casos','tmo_total_seg','outgoing'])
+            ag_c = _agg([r for r in c_tmo if r.get('mes')==m], ['casos','tmo_total_seg','outgoing'])
+            tmo_t_m.append(_safe(ag_t['tmo_total_seg'], ag_t['casos']*60) if ag_t['casos'] else None)
+            tmo_c_m.append(_safe(ag_c['tmo_total_seg'], ag_c['casos']*60) if ag_c['casos'] else None)
+            prod_t_m.append(_safe(ag_t['outgoing']*3600, ag_t['tmo_total_seg']) if ag_t['tmo_total_seg'] else None)
+            prod_c_m.append(_safe(ag_c['outgoing']*3600, ag_c['tmo_total_seg']) if ag_c['tmo_total_seg'] else None)
+        for w in WEEKS:
+            ag_t = _agg([r for r in t_tmo if r.get('semana')==w], ['casos','tmo_total_seg','outgoing'])
+            ag_c = _agg([r for r in c_tmo if r.get('semana')==w], ['casos','tmo_total_seg','outgoing'])
+            tmo_t_w.append(_safe(ag_t['tmo_total_seg'], ag_t['casos']*60) if ag_t['casos'] else None)
+            tmo_c_w.append(_safe(ag_c['tmo_total_seg'], ag_c['casos']*60) if ag_c['casos'] else None)
+            prod_t_w.append(_safe(ag_t['outgoing']*3600, ag_t['tmo_total_seg']) if ag_t['tmo_total_seg'] else None)
+            prod_c_w.append(_safe(ag_c['outgoing']*3600, ag_c['tmo_total_seg']) if ag_c['tmo_total_seg'] else None)
+        result['tmo']  = {'t':{'m':rnd(tmo_t_m,1),'w':rnd(tmo_t_w,1)}, 'c':{'m':rnd(tmo_c_m,1),'w':rnd(tmo_c_w,1)}}
+        result['prod'] = {'t':{'m':rnd(prod_t_m,2),'w':rnd(prod_t_w,2)}, 'c':{'m':rnd(prod_c_m,2),'w':rnd(prod_c_w,2)}}
+
+        # TDI
+        t_tdi = by_gs(tdi_oc, tg, ts); c_tdi = by_gs(tdi_oc, cg, cs)
+        tdi_t_m,tdi_t_w,tdi_c_m,tdi_c_w = [],[],[],[]
+        for m in MONTHS:
+            ag_t = _agg([r for r in t_tdi if r.get('mes')==m], ['deriv','tdi_incorretas'])
+            ag_c = _agg([r for r in c_tdi if r.get('mes')==m], ['deriv','tdi_incorretas'])
+            tdi_t_m.append(_safe(ag_t['tdi_incorretas']*100, ag_t['deriv']) if ag_t['deriv'] else None)
+            tdi_c_m.append(_safe(ag_c['tdi_incorretas']*100, ag_c['deriv']) if ag_c['deriv'] else None)
+        for w in WEEKS:
+            ag_t = _agg([r for r in t_tdi if r.get('semana')==w], ['deriv','tdi_incorretas'])
+            ag_c = _agg([r for r in c_tdi if r.get('semana')==w], ['deriv','tdi_incorretas'])
+            tdi_t_w.append(_safe(ag_t['tdi_incorretas']*100, ag_t['deriv']) if ag_t['deriv'] else None)
+            tdi_c_w.append(_safe(ag_c['tdi_incorretas']*100, ag_c['deriv']) if ag_c['deriv'] else None)
+        result['tdi'] = {'t':{'m':rnd(tdi_t_m,1),'w':rnd(tdi_t_w,1)}, 'c':{'m':rnd(tdi_c_m,1),'w':rnd(tdi_c_w,1)}}
+
+        # REC
+        t_rec = by_gs(rec_oc, tg, ts); c_rec = by_gs(rec_oc, cg, cs)
+        rec_t_m,rec_t_w,rec_c_m,rec_c_w = [],[],[],[]
+        for m in MONTHS:
+            ag_t = _agg([r for r in t_rec if r.get('mes')==m], ['atrib','recontatos'])
+            ag_c = _agg([r for r in c_rec if r.get('mes')==m], ['atrib','recontatos'])
+            rec_t_m.append(_safe(ag_t['recontatos']*100, ag_t['atrib']) if ag_t['atrib'] else None)
+            rec_c_m.append(_safe(ag_c['recontatos']*100, ag_c['atrib']) if ag_c['atrib'] else None)
+        for w in WEEKS:
+            ag_t = _agg([r for r in t_rec if r.get('semana')==w], ['atrib','recontatos'])
+            ag_c = _agg([r for r in c_rec if r.get('semana')==w], ['atrib','recontatos'])
+            rec_t_w.append(_safe(ag_t['recontatos']*100, ag_t['atrib']) if ag_t['atrib'] else None)
+            rec_c_w.append(_safe(ag_c['recontatos']*100, ag_c['atrib']) if ag_c['atrib'] else None)
+        result['rec'] = {'t':{'m':rnd(rec_t_m,1),'w':rnd(rec_t_w,1)}, 'c':{'m':rnd(rec_c_m,1),'w':rnd(rec_c_w,1)}}
+
+        return result
+
+    # DSET[office][channel][tab][metric]
+    DSET = {}
     for office in OFFICES:
         DSET[office] = {}
-        nps_o   = by_office(nps_raw, office)
-        tmo_o   = by_office(tmo_raw, office)
-        tdi_o   = by_office(tdi_raw, office)
-        rec_o   = by_office(rec_raw, office)
-
-        for tab in TABS:
-            tg, ts, cg, cs = TAB_FILTERS[tab]
-            DSET[office][tab] = {}
-
-            # ─ NPS ────────────────────────────────────────────────────
-            t_nps = by_gs(nps_o, tg, ts)
-            c_nps = by_gs(nps_o, cg, cs)
-            nps_t_m, nps_t_w, nps_c_m, nps_c_w = [], [], [], []
-            for m in MONTHS:
-                rows_t = [r for r in t_nps if r.get('mes') == m]
-                rows_c = [r for r in c_nps if r.get('mes') == m]
-                ag_t = _agg(rows_t, ['prom','det','pesquisas'])
-                ag_c = _agg(rows_c, ['prom','det','pesquisas'])
-                nps_t_m.append(_safe((ag_t['prom']-ag_t['det'])*100, ag_t['pesquisas']))
-                nps_c_m.append(_safe((ag_c['prom']-ag_c['det'])*100, ag_c['pesquisas']))
-            for w in WEEKS:
-                rows_t = [r for r in t_nps if r.get('semana') == w]
-                rows_c = [r for r in c_nps if r.get('semana') == w]
-                ag_t = _agg(rows_t, ['prom','det','pesquisas'])
-                ag_c = _agg(rows_c, ['prom','det','pesquisas'])
-                nps_t_w.append(_safe((ag_t['prom']-ag_t['det'])*100, ag_t['pesquisas']))
-                nps_c_w.append(_safe((ag_c['prom']-ag_c['det'])*100, ag_c['pesquisas']))
-
-            # ─ TMO + PROD ─────────────────────────────────────────────
-            t_tmo = by_gs(tmo_o, tg, ts)
-            c_tmo = by_gs(tmo_o, cg, cs)
-            tmo_t_m, tmo_t_w, tmo_c_m, tmo_c_w = [], [], [], []
-            prod_t_m, prod_t_w, prod_c_m, prod_c_w = [], [], [], []
-            for m in MONTHS:
-                rows_t = [r for r in t_tmo if r.get('mes') == m]
-                rows_c = [r for r in c_tmo if r.get('mes') == m]
-                ag_t = _agg(rows_t, ['casos','tmo_total_seg','outgoing'])
-                ag_c = _agg(rows_c, ['casos','tmo_total_seg','outgoing'])
-                tmo_t_m.append(_safe(ag_t['tmo_total_seg'], ag_t['casos'] * 60) if ag_t['casos'] else None)
-                tmo_c_m.append(_safe(ag_c['tmo_total_seg'], ag_c['casos'] * 60) if ag_c['casos'] else None)
-                prod_t_m.append(_safe(ag_t['outgoing'] * 3600, ag_t['tmo_total_seg']) if ag_t['tmo_total_seg'] else None)
-                prod_c_m.append(_safe(ag_c['outgoing'] * 3600, ag_c['tmo_total_seg']) if ag_c['tmo_total_seg'] else None)
-            for w in WEEKS:
-                rows_t = [r for r in t_tmo if r.get('semana') == w]
-                rows_c = [r for r in c_tmo if r.get('semana') == w]
-                ag_t = _agg(rows_t, ['casos','tmo_total_seg','outgoing'])
-                ag_c = _agg(rows_c, ['casos','tmo_total_seg','outgoing'])
-                tmo_t_w.append(_safe(ag_t['tmo_total_seg'], ag_t['casos'] * 60) if ag_t['casos'] else None)
-                tmo_c_w.append(_safe(ag_c['tmo_total_seg'], ag_c['casos'] * 60) if ag_c['casos'] else None)
-                prod_t_w.append(_safe(ag_t['outgoing'] * 3600, ag_t['tmo_total_seg']) if ag_t['tmo_total_seg'] else None)
-                prod_c_w.append(_safe(ag_c['outgoing'] * 3600, ag_c['tmo_total_seg']) if ag_c['tmo_total_seg'] else None)
-
-            # ─ TDI ────────────────────────────────────────────────────
-            t_tdi = by_gs(tdi_o, tg, ts)
-            c_tdi = by_gs(tdi_o, cg, cs)
-            tdi_t_m, tdi_t_w, tdi_c_m, tdi_c_w = [], [], [], []
-            for m in MONTHS:
-                rows_t = [r for r in t_tdi if r.get('mes') == m]
-                rows_c = [r for r in c_tdi if r.get('mes') == m]
-                ag_t = _agg(rows_t, ['deriv','tdi_incorretas'])
-                ag_c = _agg(rows_c, ['deriv','tdi_incorretas'])
-                tdi_t_m.append(_safe(ag_t['tdi_incorretas']*100, ag_t['deriv']) if ag_t['deriv'] else None)
-                tdi_c_m.append(_safe(ag_c['tdi_incorretas']*100, ag_c['deriv']) if ag_c['deriv'] else None)
-            for w in WEEKS:
-                rows_t = [r for r in t_tdi if r.get('semana') == w]
-                rows_c = [r for r in c_tdi if r.get('semana') == w]
-                ag_t = _agg(rows_t, ['deriv','tdi_incorretas'])
-                ag_c = _agg(rows_c, ['deriv','tdi_incorretas'])
-                tdi_t_w.append(_safe(ag_t['tdi_incorretas']*100, ag_t['deriv']) if ag_t['deriv'] else None)
-                tdi_c_w.append(_safe(ag_c['tdi_incorretas']*100, ag_c['deriv']) if ag_c['deriv'] else None)
-
-            # ─ REC ────────────────────────────────────────────────────
-            t_rec = by_gs(rec_o, tg, ts)
-            c_rec = by_gs(rec_o, cg, cs)
-            rec_t_m, rec_t_w, rec_c_m, rec_c_w = [], [], [], []
-            for m in MONTHS:
-                rows_t = [r for r in t_rec if r.get('mes') == m]
-                rows_c = [r for r in c_rec if r.get('mes') == m]
-                ag_t = _agg(rows_t, ['atrib','recontatos'])
-                ag_c = _agg(rows_c, ['atrib','recontatos'])
-                rec_t_m.append(_safe(ag_t['recontatos']*100, ag_t['atrib']) if ag_t['atrib'] else None)
-                rec_c_m.append(_safe(ag_c['recontatos']*100, ag_c['atrib']) if ag_c['atrib'] else None)
-            for w in WEEKS:
-                rows_t = [r for r in t_rec if r.get('semana') == w]
-                rows_c = [r for r in c_rec if r.get('semana') == w]
-                ag_t = _agg(rows_t, ['atrib','recontatos'])
-                ag_c = _agg(rows_c, ['atrib','recontatos'])
-                rec_t_w.append(_safe(ag_t['recontatos']*100, ag_t['atrib']) if ag_t['atrib'] else None)
-                rec_c_w.append(_safe(ag_c['recontatos']*100, ag_c['atrib']) if ag_c['atrib'] else None)
-
-            # Arredondamento para 2 casas
-            def rnd(lst, decimals=2):
-                return [round(v, decimals) if v is not None else None for v in lst]
-
-            DSET[office][tab]['nps']  = {'t': {'m': rnd(nps_t_m,1),  'w': rnd(nps_t_w,1)},
-                                          'c': {'m': rnd(nps_c_m,1),  'w': rnd(nps_c_w,1)}}
-            DSET[office][tab]['tmo']  = {'t': {'m': rnd(tmo_t_m,2),  'w': rnd(tmo_t_w,2)},
-                                          'c': {'m': rnd(tmo_c_m,2),  'w': rnd(tmo_c_w,2)}}
-            DSET[office][tab]['prod'] = {'t': {'m': rnd(prod_t_m,3), 'w': rnd(prod_t_w,3)},
-                                          'c': {'m': rnd(prod_c_m,3), 'w': rnd(prod_c_w,3)}}
-            DSET[office][tab]['tdi']  = {'t': {'m': rnd(tdi_t_m,1),  'w': rnd(tdi_t_w,1)},
-                                          'c': {'m': rnd(tdi_c_m,1),  'w': rnd(tdi_c_w,1)}}
-            DSET[office][tab]['rec']  = {'t': {'m': rnd(rec_t_m,1),  'w': rnd(rec_t_w,1)},
-                                          'c': {'m': rnd(rec_c_m,1),  'w': rnd(rec_c_w,1)}}
+        nps_o  = by_office(nps_raw, office)
+        tmo_o  = by_office(tmo_raw, office)
+        tdi_o  = by_office(tdi_raw, office)
+        rec_o  = by_office(rec_raw, office)
+        for channel in CHANNELS:
+            DSET[office][channel] = {}
+            nps_oc = by_channel(nps_o, channel)
+            tmo_oc = by_channel(tmo_o, channel)
+            tdi_oc = by_channel(tdi_o, channel)
+            rec_oc = by_channel(rec_o, channel)
+            for tab in TABS:
+                DSET[office][channel][tab] = calc_tab(nps_oc, tmo_oc, tdi_oc, rec_oc, tab)
 
     return DSET
 
@@ -385,7 +373,7 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
     <div class="leg" style="font-size:10px;color:#94a3b8">* Mai até 18/05 · NPS com &lt;5 pesquisas/rep tem alta variância · Controle não tem split de senioridade (exibe Expert como baseline)</div>
   </div>
 
-  <!-- FILTRO DE OFICINA -->
+  <!-- FILTROS GLOBAIS -->
   <div class="office-filter">
     <span style="font-size:11px;font-weight:700;color:#374151;margin-right:4px">Oficina:</span>
     <button class="office-btn active" onclick="setOffice('ALL',this)">Todas</button>
@@ -393,6 +381,10 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
     <button class="office-btn" onclick="setOffice('KTA_BRASIL',this)">KTA</button>
     <button class="office-btn" onclick="setOffice('AEC',this)">AEC</button>
     <button class="office-btn" onclick="setOffice('CTX',this)">CTX</button>
+    <span style="font-size:11px;font-weight:700;color:#374151;margin-left:14px;margin-right:4px">Canal:</span>
+    <button class="office-btn active channel-btn" onclick="setChannel('ALL',this)">Todos</button>
+    <button class="office-btn channel-btn" onclick="setChannel('MULTICANAL CHAT',this)">Chat</button>
+    <button class="office-btn channel-btn" onclick="setChannel('MULTICANAL C2C',this)">C2C</button>
   </div>
 
   <!-- TABS SENIORIDADE -->
@@ -532,8 +524,9 @@ const WEEK_LABELS  = {json.dumps(WEEK_LABELS)};
 
 // ── Estado ────────────────────────────────────────────────────────────
 const CHARTS = {{}};
-let currentOffice = 'ALL';
-let currentTab    = 'geral';
+let currentOffice  = 'ALL';
+let currentChannel = 'ALL';
+let currentTab     = 'geral';
 const TABS_CREATED = {{'geral': false, 'expert': false, 'newbie': false}};
 
 // ── Chart helpers ─────────────────────────────────────────────────────
@@ -598,8 +591,8 @@ function updateChart(id, tData, cData) {{
 }}
 
 // ── Criação / atualização de gráficos de uma tab ──────────────────────
-function renderTabCharts(tab, office) {{
-  const d = DSET[office][tab];
+function renderTabCharts(tab, office, channel) {{
+  const d = DSET[office][channel][tab];
   const isGeral = (tab === 'geral');
   const arM = isGeral ? 2.6 : 1.55;
   const arW = isGeral ? 2.6 : 1.55;
@@ -617,8 +610,8 @@ function renderTabCharts(tab, office) {{
   mkChart('wREC_'  + tab, WEEK_LABELS,  d.rec.t.w,  d.rec.c.w,  '%',    0,   10,  arW);
 }}
 
-function updateTabCharts(tab, office) {{
-  const d = DSET[office][tab];
+function updateTabCharts(tab, office, channel) {{
+  const d = DSET[office][channel][tab];
   updateChart('mNPS_'  + tab, d.nps.t.m,  d.nps.c.m);
   updateChart('mTMO_'  + tab, d.tmo.t.m,  d.tmo.c.m);
   updateChart('mPROD_' + tab, d.prod.t.m, d.prod.c.m);
@@ -631,17 +624,27 @@ function updateTabCharts(tab, office) {{
   updateChart('wREC_'  + tab, d.rec.t.w,  d.rec.c.w);
 }}
 
-// ── setOffice — atualiza todas as tabs ───────────────────────────────
+// ── refreshAllCharts — chamado após mudança de office ou channel ──────
+function refreshAllCharts() {{
+  ['geral','expert','newbie'].forEach(tab => {{
+    if (TABS_CREATED[tab]) updateTabCharts(tab, currentOffice, currentChannel);
+  }});
+}}
+
+// ── setOffice ─────────────────────────────────────────────────────────
 function setOffice(office, btn) {{
   currentOffice = office;
-  document.querySelectorAll('.office-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.office-btn:not(.channel-btn)').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  // Atualiza todas as tabs já criadas
-  ['geral','expert','newbie'].forEach(tab => {{
-    if (TABS_CREATED[tab]) {{
-      updateTabCharts(tab, office);
-    }}
-  }});
+  refreshAllCharts();
+}}
+
+// ── setChannel ────────────────────────────────────────────────────────
+function setChannel(channel, btn) {{
+  currentChannel = channel;
+  document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  refreshAllCharts();
 }}
 
 // ── setTab — cria charts se necessário ───────────────────────────────
@@ -652,10 +655,10 @@ function setTab(id, btn) {{
   btn.classList.add('active');
   currentTab = id;
   if (!TABS_CREATED[id]) {{
-    renderTabCharts(id, currentOffice);
+    renderTabCharts(id, currentOffice, currentChannel);
     TABS_CREATED[id] = true;
   }} else {{
-    updateTabCharts(id, currentOffice);
+    updateTabCharts(id, currentOffice, currentChannel);
   }}
 }}
 
@@ -684,7 +687,7 @@ document.getElementById('ts').textContent  = new Date().toLocaleDateString('pt-B
 document.getElementById('ts2').textContent = new Date().toLocaleDateString('pt-BR');
 
 // Criar charts da tab geral (visível inicialmente)
-renderTabCharts('geral', 'ALL');
+renderTabCharts('geral', 'ALL', 'ALL');
 TABS_CREATED['geral'] = true;
 </script>
 </body>
