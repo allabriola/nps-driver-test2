@@ -1,159 +1,19 @@
 import json, math
+from collections import defaultdict
 
 # ═══════════════════════════════════════════════════════════════════════
-# DADOS  (coletados do BigQuery em 19/05/2026)
+# CONFIGURAÇÃO
 # ═══════════════════════════════════════════════════════════════════════
 
-# ── Labels ──────────────────────────────────────────────────────────────
 MONTH_LABELS = ['Jan','Fev','Mar','Abr','Mai*']
 MONTHS       = ['2026-01','2026-02','2026-03','2026-04','2026-05']
 WEEK_LABELS  = ['30/03','06/04','13/04','20/04','27/04','04/05','11/05','18/05*']
+WEEKS        = ['2026-03-30','2026-04-06','2026-04-13','2026-04-20','2026-04-27','2026-05-04','2026-05-11','2026-05-18']
+OFFICES      = ['ALL', 'ATE', 'KTA_BRASIL', 'AEC', 'CTX']
+TABS         = ['geral', 'expert', 'newbie']
+METRICS      = ['nps', 'tmo', 'prod', 'tdi', 'rec']
 
-# ── NPS Mensal (Mar,Abr,Mai - NaN para Jan/Fev) ─────────────────────────
-# Geral (treatment_all vs control_all)
-NPS_M = {
-    'treatment_all': [None, None, 49.2, 64.2, 70.0],
-    'control_all':   [None, None, 61.4, 53.9, 57.0],  # mai: 56.1 (expert-only) ~57
-}
-# Expert
-NPS_M_E = {
-    'treatment': [None, None, 47.1, 71.4, 74.1],
-    'control':   [None, None, 61.4, 53.8, 56.1],
-}
-# Newbie (control = baseline expert pois sem split controle)
-NPS_M_N = {
-    'treatment': [None, None, 51.7, 56.7, 66.9],
-    'control':   [None, None, 61.4, 53.8, 56.1],
-}
-
-# ── NPS Semanal ──────────────────────────────────────────────────────────
-NPS_W = {
-    'treatment_all': [65.9, 59.9, 59.5, 67.7, 69.6, 69.5, 71.7, 73.2],
-    'control_all':   [57.5, 56.0, 53.2, 53.1, 50.4, 54.9, 59.2, 57.4],
-}
-NPS_W_E = {
-    'treatment': [67.1, 69.7, 71.7, 72.9, 72.7, 75.4, 74.5, 69.1],
-    'control':   [57.3, 55.9, 53.2, 53.1, 50.2, 54.7, 59.2, 57.4],
-}
-NPS_W_N = {
-    'treatment': [64.6, 45.7, 48.3, 63.3, 67.0, 62.6, 68.7, 76.7],
-    'control':   [57.3, 55.9, 53.2, 53.1, 50.2, 54.7, 59.2, 57.4],
-}
-
-# ── TMO Mensal (min, Jan-Mai) ─────────────────────────────────────────────
-TMO_M = {
-    'treatment_all': [30.0, 29.9, 34.7, 38.8, 40.2],  # jan~avg expert (only exp jan/feb)
-    'control_all':   [26.4, 25.2, 29.7, 31.3, 29.8],
-}
-TMO_M_E = {
-    'treatment': [30.6, 29.9, 33.1, 33.5, 35.6],
-    'control':   [26.4, 25.2, 29.6, 31.3, 30.4],
-}
-TMO_M_N = {
-    'treatment': [None, 25.3, 37.4, 39.2, 39.0],
-    'control':   [26.4, 25.2, 29.6, 31.3, 30.4],
-}
-
-# ── TMO Semanal ──────────────────────────────────────────────────────────
-TMO_W = {
-    'treatment_all': [31.6, 36.8, 38.6, 39.1, 39.4, 40.4, 38.0, 38.0],
-    'control_all':   [28.3, 31.1, 30.8, 30.7, 29.9, 30.2, 30.5, 28.2],
-}
-TMO_W_E = {
-    'treatment': [29.8, 33.4, 33.1, 33.3, 33.7, 34.8, 36.2, 34.8],
-    'control':   [28.3, 31.0, 30.8, 30.6, 29.8, 30.2, 30.5, 28.2],
-}
-TMO_W_N = {
-    'treatment': [33.9, 37.6, 39.2, 38.7, 38.4, 38.3, 39.5, 39.5],
-    'control':   [28.3, 31.0, 30.8, 30.6, 29.8, 30.2, 30.5, 28.2],
-}
-
-# ── Produtividade Mensal (at/h) ─────────────────────────────────────────
-PROD_M = {
-    'treatment_all': [1.12, 1.40, 1.15, 1.06, 1.10],
-    'control_all':   [1.31, 1.61, 1.39, 1.24, 1.31],
-}
-PROD_M_E = {
-    'treatment': [1.12, 1.40, 1.16, 1.03, 1.07],
-    'control':   [1.31, 1.61, 1.39, 1.24, 1.31],
-}
-PROD_M_N = {
-    'treatment': [None, 1.54, 1.07, 1.08, 1.12],
-    'control':   [1.31, 1.61, 1.39, 1.24, 1.31],
-}
-
-# ── Produtividade Semanal ─────────────────────────────────────────────────
-PROD_W = {
-    'treatment_all': [0.98, 0.87, 1.09, 1.17, 1.16, 1.07, 1.08, 1.11],
-    'control_all':   [1.11, 1.10, 1.30, 1.37, 1.31, 1.25, 1.31, 1.32],
-}
-PROD_W_E = {
-    'treatment': [0.98, 0.87, 1.09, 1.14, 1.14, 1.03, 1.06, 1.12],
-    'control':   [1.11, 1.10, 1.30, 1.37, 1.32, 1.25, 1.31, 1.32],
-}
-PROD_W_N = {
-    'treatment': [0.97, 0.88, 1.07, 1.18, 1.16, 1.09, 1.10, 1.10],
-    'control':   [1.11, 1.10, 1.30, 1.37, 1.32, 1.25, 1.31, 1.32],
-}
-
-# ── TDI Mensal (Abr,Mai - NaN para Jan-Mar) ─────────────────────────────
-TDI_M = {
-    'treatment_all': [None, None, None, 8.7,  6.2],  # weighted avg exp+newbie
-    'control_all':   [None, None, None, 8.2,  7.2],
-}
-TDI_M_E = {
-    'treatment': [None, None, None, 6.9, 4.8],
-    'control':   [None, None, None, 8.2, 7.2],
-}
-TDI_M_N = {
-    'treatment': [None, None, None, 11.5, 7.3],
-    'control':   [None, None, None, 8.2,  7.2],
-}
-
-# ── TDI Semanal (sem 23/Mar onward, mas TDI só existe a partir de Mar-30 real)
-# Usando semanas de 30/03 para consistência
-TDI_W = {
-    'treatment_all': [6.3, 7.0, 9.1, 12.3, 8.7, 4.6, 7.0, 4.5],
-    'control_all':   [7.6, 7.7, 8.1, 8.6,  8.6, 7.7, 7.4, 4.1],
-}
-TDI_W_E = {
-    'treatment': [5.4, 6.3, 5.8, 10.2, 7.0, 3.7, 5.6, 5.2],
-    'control':   [7.6, 7.7, 8.1, 8.6,  8.6, 7.7, 7.4, 4.1],
-}
-TDI_W_N = {
-    'treatment': [7.7, 8.1, 12.4, 14.9, 11.0, 5.8, 8.6, 3.2],
-    'control':   [7.6, 7.7, 8.1,  8.6,  8.6,  7.7, 7.4, 4.1],
-}
-
-# ── Recontato Mensal (%) ─────────────────────────────────────────────────
-REC_M = {
-    'treatment_all': [None, None, 22.5, 4.8,  3.2],
-    'control_all':   [None, None, 18.9, 4.1,  2.5],
-}
-REC_M_E = {
-    'treatment': [None, None, 20.9, 4.1, 2.8],
-    'control':   [None, None, 18.9, 4.1, 2.5],
-}
-REC_M_N = {
-    'treatment': [None, None, 24.7, 5.5, 3.7],
-    'control':   [None, None, 18.9, 4.1, 2.5],
-}
-
-# ── Recontato Semanal (excl. semana 23/Mar que é ruidosa) ────────────────
-REC_W = {
-    'treatment_all': [6.3, 4.9, 4.9, 4.5, 4.2, 4.0, 2.6, 0.5],
-    'control_all':   [6.0, 4.6, 4.3, 3.5, 2.6, 3.1, 2.2, 0.2],
-}
-REC_W_E = {
-    'treatment': [5.2, 3.8, 4.2, 3.9, 3.9, 3.7, 2.2, 0.4],
-    'control':   [6.0, 4.6, 4.3, 3.5, 2.6, 3.1, 2.2, 0.2],
-}
-REC_W_N = {
-    'treatment': [7.8, 6.3, 5.7, 5.2, 4.8, 4.4, 3.0, 0.6],
-    'control':   [6.0, 4.6, 4.3, 3.5, 2.6, 3.1, 2.2, 0.2],
-}
-
-# ── TMO por Processo ──────────────────────────────────────────────────────
+# ── TMO por Processo (hardcoded) ──────────────────────────────────────
 PROC_NAMES = {
     81:   'Reputación',
     683:  'Post Compra Funcionalidades',
@@ -166,7 +26,6 @@ PROC_NAMES = {
     2358: 'Places Kangu',
     2570: 'Viaje del paquete - Vendedor',
 }
-# {proc_id: {'com': (tmo, casos), 'sem': (tmo, casos)}}
 PROC_TMO = {
     81:   {'com': (39.8, 347),   'sem': (32.6, 7688)},
     683:  {'com': (40.2, 743),   'sem': (36.1, 11624)},
@@ -180,22 +39,188 @@ PROC_TMO = {
     2570: {'com': (38.9, 277),   'sem': (37.6, 3646)},
 }
 
-# ── Reps individuais ─────────────────────────────────────────────────────
+# ── Reps individuais ─────────────────────────────────────────────────
 with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_rep_data_me.json', encoding='utf-8') as f:
     REPS_RAW = json.load(f)
 
-# Corrigir pct_utilizacao = conversas_cop / total_casos * 100
 for r in REPS_RAW:
     cc = int(r.get('conversas_cop') or 0)
     tc = int(r.get('total_casos') or 0)
     r['pct_utilizacao'] = round(cc/tc*100, 1) if tc > 0 else 0.0
 
 # ═══════════════════════════════════════════════════════════════════════
-# HELPERS
+# CONSTRUÇÃO DO DSET — agrega JSONs por (office, grupo, seniority, mes/semana)
 # ═══════════════════════════════════════════════════════════════════════
 
-def jnull(lst):
-    return json.dumps([x if x is not None else 'null' for x in lst]).replace('"null"','null')
+def _agg(rows, keys):
+    """Agrega lista de dicts numéricos pelo dict de somas."""
+    totals = defaultdict(int)
+    for r in rows:
+        for k in keys:
+            v = r.get(k)
+            if v is not None:
+                try:
+                    totals[k] += int(v)
+                except (ValueError, TypeError):
+                    pass
+    return totals
+
+def _safe(num, den):
+    if den == 0:
+        return None
+    return num / den
+
+def build_dset():
+    # Carregar JSONs
+    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_nps_by_office.json', encoding='utf-8') as f:
+        nps_raw = json.load(f)
+    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_tmo_by_office.json', encoding='utf-8') as f:
+        tmo_raw = json.load(f)
+    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_tdi_by_office.json', encoding='utf-8') as f:
+        tdi_raw = json.load(f)
+    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_rec_by_office.json', encoding='utf-8') as f:
+        rec_raw = json.load(f)
+
+    # Helper: filtrar por office (None = ALL)
+    def by_office(rows, office):
+        if office == 'ALL':
+            return rows
+        return [r for r in rows if r.get('office') == office]
+
+    # Helper: filtrar por grupo + seniority
+    def by_gs(rows, grupo, seniority):
+        out = [r for r in rows if r.get('grupo') == grupo]
+        if seniority is not None:
+            out = [r for r in out if r.get('seniority') == seniority]
+        return out
+
+    # tab → (t_grupo, t_sen, c_grupo, c_sen)
+    # geral: treatment any vs control any
+    # expert: treatment EXPERT vs control EXPERT (controle não tem split, mas queremos filtrar EXPERT do controle)
+    # newbie: treatment NEWBIE vs control EXPERT (baseline)
+    TAB_FILTERS = {
+        'geral':  ('treatment', None,      'control', None),
+        'expert': ('treatment', 'EXPERT',  'control', 'EXPERT'),
+        'newbie': ('treatment', 'NEWBIE',  'control', 'EXPERT'),
+    }
+
+    # DSET[office][tab][metric] = {'t': {'m': [...], 'w': [...]}, 'c': {...}}
+    DSET = {}
+
+    for office in OFFICES:
+        DSET[office] = {}
+        nps_o   = by_office(nps_raw, office)
+        tmo_o   = by_office(tmo_raw, office)
+        tdi_o   = by_office(tdi_raw, office)
+        rec_o   = by_office(rec_raw, office)
+
+        for tab in TABS:
+            tg, ts, cg, cs = TAB_FILTERS[tab]
+            DSET[office][tab] = {}
+
+            # ─ NPS ────────────────────────────────────────────────────
+            t_nps = by_gs(nps_o, tg, ts)
+            c_nps = by_gs(nps_o, cg, cs)
+            nps_t_m, nps_t_w, nps_c_m, nps_c_w = [], [], [], []
+            for m in MONTHS:
+                rows_t = [r for r in t_nps if r.get('mes') == m]
+                rows_c = [r for r in c_nps if r.get('mes') == m]
+                ag_t = _agg(rows_t, ['prom','det','pesquisas'])
+                ag_c = _agg(rows_c, ['prom','det','pesquisas'])
+                nps_t_m.append(_safe((ag_t['prom']-ag_t['det'])*100, ag_t['pesquisas']))
+                nps_c_m.append(_safe((ag_c['prom']-ag_c['det'])*100, ag_c['pesquisas']))
+            for w in WEEKS:
+                rows_t = [r for r in t_nps if r.get('semana') == w]
+                rows_c = [r for r in c_nps if r.get('semana') == w]
+                ag_t = _agg(rows_t, ['prom','det','pesquisas'])
+                ag_c = _agg(rows_c, ['prom','det','pesquisas'])
+                nps_t_w.append(_safe((ag_t['prom']-ag_t['det'])*100, ag_t['pesquisas']))
+                nps_c_w.append(_safe((ag_c['prom']-ag_c['det'])*100, ag_c['pesquisas']))
+
+            # ─ TMO + PROD ─────────────────────────────────────────────
+            t_tmo = by_gs(tmo_o, tg, ts)
+            c_tmo = by_gs(tmo_o, cg, cs)
+            tmo_t_m, tmo_t_w, tmo_c_m, tmo_c_w = [], [], [], []
+            prod_t_m, prod_t_w, prod_c_m, prod_c_w = [], [], [], []
+            for m in MONTHS:
+                rows_t = [r for r in t_tmo if r.get('mes') == m]
+                rows_c = [r for r in c_tmo if r.get('mes') == m]
+                ag_t = _agg(rows_t, ['casos','tmo_total_seg','outgoing'])
+                ag_c = _agg(rows_c, ['casos','tmo_total_seg','outgoing'])
+                tmo_t_m.append(_safe(ag_t['tmo_total_seg'], ag_t['casos'] * 60) if ag_t['casos'] else None)
+                tmo_c_m.append(_safe(ag_c['tmo_total_seg'], ag_c['casos'] * 60) if ag_c['casos'] else None)
+                prod_t_m.append(_safe(ag_t['outgoing'] * 3600, ag_t['tmo_total_seg']) if ag_t['tmo_total_seg'] else None)
+                prod_c_m.append(_safe(ag_c['outgoing'] * 3600, ag_c['tmo_total_seg']) if ag_c['tmo_total_seg'] else None)
+            for w in WEEKS:
+                rows_t = [r for r in t_tmo if r.get('semana') == w]
+                rows_c = [r for r in c_tmo if r.get('semana') == w]
+                ag_t = _agg(rows_t, ['casos','tmo_total_seg','outgoing'])
+                ag_c = _agg(rows_c, ['casos','tmo_total_seg','outgoing'])
+                tmo_t_w.append(_safe(ag_t['tmo_total_seg'], ag_t['casos'] * 60) if ag_t['casos'] else None)
+                tmo_c_w.append(_safe(ag_c['tmo_total_seg'], ag_c['casos'] * 60) if ag_c['casos'] else None)
+                prod_t_w.append(_safe(ag_t['outgoing'] * 3600, ag_t['tmo_total_seg']) if ag_t['tmo_total_seg'] else None)
+                prod_c_w.append(_safe(ag_c['outgoing'] * 3600, ag_c['tmo_total_seg']) if ag_c['tmo_total_seg'] else None)
+
+            # ─ TDI ────────────────────────────────────────────────────
+            t_tdi = by_gs(tdi_o, tg, ts)
+            c_tdi = by_gs(tdi_o, cg, cs)
+            tdi_t_m, tdi_t_w, tdi_c_m, tdi_c_w = [], [], [], []
+            for m in MONTHS:
+                rows_t = [r for r in t_tdi if r.get('mes') == m]
+                rows_c = [r for r in c_tdi if r.get('mes') == m]
+                ag_t = _agg(rows_t, ['deriv','tdi_incorretas'])
+                ag_c = _agg(rows_c, ['deriv','tdi_incorretas'])
+                tdi_t_m.append(_safe(ag_t['tdi_incorretas']*100, ag_t['deriv']) if ag_t['deriv'] else None)
+                tdi_c_m.append(_safe(ag_c['tdi_incorretas']*100, ag_c['deriv']) if ag_c['deriv'] else None)
+            for w in WEEKS:
+                rows_t = [r for r in t_tdi if r.get('semana') == w]
+                rows_c = [r for r in c_tdi if r.get('semana') == w]
+                ag_t = _agg(rows_t, ['deriv','tdi_incorretas'])
+                ag_c = _agg(rows_c, ['deriv','tdi_incorretas'])
+                tdi_t_w.append(_safe(ag_t['tdi_incorretas']*100, ag_t['deriv']) if ag_t['deriv'] else None)
+                tdi_c_w.append(_safe(ag_c['tdi_incorretas']*100, ag_c['deriv']) if ag_c['deriv'] else None)
+
+            # ─ REC ────────────────────────────────────────────────────
+            t_rec = by_gs(rec_o, tg, ts)
+            c_rec = by_gs(rec_o, cg, cs)
+            rec_t_m, rec_t_w, rec_c_m, rec_c_w = [], [], [], []
+            for m in MONTHS:
+                rows_t = [r for r in t_rec if r.get('mes') == m]
+                rows_c = [r for r in c_rec if r.get('mes') == m]
+                ag_t = _agg(rows_t, ['atrib','recontatos'])
+                ag_c = _agg(rows_c, ['atrib','recontatos'])
+                rec_t_m.append(_safe(ag_t['recontatos']*100, ag_t['atrib']) if ag_t['atrib'] else None)
+                rec_c_m.append(_safe(ag_c['recontatos']*100, ag_c['atrib']) if ag_c['atrib'] else None)
+            for w in WEEKS:
+                rows_t = [r for r in t_rec if r.get('semana') == w]
+                rows_c = [r for r in c_rec if r.get('semana') == w]
+                ag_t = _agg(rows_t, ['atrib','recontatos'])
+                ag_c = _agg(rows_c, ['atrib','recontatos'])
+                rec_t_w.append(_safe(ag_t['recontatos']*100, ag_t['atrib']) if ag_t['atrib'] else None)
+                rec_c_w.append(_safe(ag_c['recontatos']*100, ag_c['atrib']) if ag_c['atrib'] else None)
+
+            # Arredondamento para 2 casas
+            def rnd(lst, decimals=2):
+                return [round(v, decimals) if v is not None else None for v in lst]
+
+            DSET[office][tab]['nps']  = {'t': {'m': rnd(nps_t_m,1),  'w': rnd(nps_t_w,1)},
+                                          'c': {'m': rnd(nps_c_m,1),  'w': rnd(nps_c_w,1)}}
+            DSET[office][tab]['tmo']  = {'t': {'m': rnd(tmo_t_m,2),  'w': rnd(tmo_t_w,2)},
+                                          'c': {'m': rnd(tmo_c_m,2),  'w': rnd(tmo_c_w,2)}}
+            DSET[office][tab]['prod'] = {'t': {'m': rnd(prod_t_m,3), 'w': rnd(prod_t_w,3)},
+                                          'c': {'m': rnd(prod_c_m,3), 'w': rnd(prod_c_w,3)}}
+            DSET[office][tab]['tdi']  = {'t': {'m': rnd(tdi_t_m,1),  'w': rnd(tdi_t_w,1)},
+                                          'c': {'m': rnd(tdi_c_m,1),  'w': rnd(tdi_c_w,1)}}
+            DSET[office][tab]['rec']  = {'t': {'m': rnd(rec_t_m,1),  'w': rnd(rec_t_w,1)},
+                                          'c': {'m': rnd(rec_c_m,1),  'w': rnd(rec_c_w,1)}}
+
+    return DSET
+
+DSET = build_dset()
+
+# ═══════════════════════════════════════════════════════════════════════
+# HELPERS HTML
+# ═══════════════════════════════════════════════════════════════════════
 
 def fmt_nps(v):
     if v is None: return '<span class="sd">—</span>'
@@ -203,126 +228,6 @@ def fmt_nps(v):
     cls = 'gc' if v >= 65 else ('yc' if v >= 50 else 'rc')
     return f'<span class="{cls}">{v:.1f}%</span>'
 
-def delta_pp(t, c):
-    if t is None or c is None: return ''
-    d = round(t - c, 1)
-    cls = 'pos' if d > 0 else ('neg' if d < 0 else 'neu')
-    sign = '+' if d > 0 else ''
-    return f'<span class="dlt {cls}">{sign}{d}pp</span>'
-
-def delta_pct_rel(t, c, reverse=False):
-    if t is None or c is None or c == 0: return ''
-    d = round((t - c) / c * 100, 1)
-    better = d < 0 if reverse else d > 0
-    cls = 'pos' if better else ('neg' if not better else 'neu')
-    sign = '+' if d > 0 else ''
-    return f'<span class="dlt {cls}">{sign}{d}%</span>'
-
-def sc(label, t, c, mode='nps'):
-    if t is None: return ''
-    tv = f'{t:.1f}%' if mode=='nps' else (f'{t:.1f} min' if mode=='tmo' else f'{t:.2f}')
-    cv = f'{c:.1f}%' if mode=='nps' else (f'{c:.1f} min' if mode=='tmo' else f'{c:.2f}')
-    d  = delta_pp(t,c) if mode=='nps' else (delta_pct_rel(t,c,reverse=True) if mode=='tmo' else delta_pct_rel(t,c))
-    return f'''<div class="kc"><div class="lbl">{label}</div>
-<div class="val">{tv}</div><div class="cmp">Controle: {cv}</div>{d}</div>'''
-
-def build_tab_content(suffix, nps_m, tmo_m, prod_m, tdi_m, rec_m,
-                      nps_w, tmo_w, prod_w, tdi_w, rec_w,
-                      note='', compact=False):
-    key_t = 'treatment' if suffix != 'geral' else 'treatment_all'
-    key_c = 'control'   if suffix != 'geral' else 'control_all'
-    t_nps_m  = nps_m[key_t];  c_nps_m  = nps_m[key_c]
-    t_tmo_m  = tmo_m[key_t];  c_tmo_m  = tmo_m[key_c]
-    t_prod_m = prod_m[key_t]; c_prod_m = prod_m[key_c]
-    t_tdi_m  = tdi_m[key_t];  c_tdi_m  = tdi_m[key_c]
-    t_rec_m  = rec_m[key_t];  c_rec_m  = rec_m[key_c]
-    t_nps_w  = nps_w[key_t];  c_nps_w  = nps_w[key_c]
-    t_tmo_w  = tmo_w[key_t];  c_tmo_w  = tmo_w[key_c]
-    t_prod_w = prod_w[key_t]; c_prod_w = prod_w[key_c]
-    t_tdi_w  = tdi_w[key_t];  c_tdi_w  = tdi_w[key_c]
-    t_rec_w  = rec_w[key_t];  c_rec_w  = rec_w[key_c]
-
-    # Scorecard Abr e Mai
-    sc_abr = ''.join([
-        sc('NPS ↑',         t_nps_m[3],  c_nps_m[3],  'nps'),
-        sc('TMO ↓',         t_tmo_m[3],  c_tmo_m[3],  'tmo'),
-        sc('Produtividade ↑',t_prod_m[3], c_prod_m[3], 'prod'),
-        sc('TDI ↓',         t_tdi_m[3],  c_tdi_m[3],  'nps'),
-        sc('Recontato ↓',   t_rec_m[3],  c_rec_m[3],  'nps'),
-    ])
-    sc_mai = ''.join([
-        sc('NPS ↑',          t_nps_m[4],  c_nps_m[4],  'nps'),
-        sc('TMO ↓',          t_tmo_m[4],  c_tmo_m[4],  'tmo'),
-        sc('Produtividade ↑', t_prod_m[4], c_prod_m[4], 'prod'),
-        sc('TDI ↓',          t_tdi_m[4],  c_tdi_m[4],  'nps'),
-        sc('Recontato ↓',    t_rec_m[4],  c_rec_m[4],  'nps'),
-    ])
-
-    scorecards_html = ''
-    grid_cls = 'ch-grid-5 compact' if compact else 'ch-grid-5'
-    ar = 2.6 if compact else 1.55
-    pr = 3 if compact else 4
-
-    sid = suffix
-    return f'''
-{"<div class='note warn'>" + note + "</div>" if note else ""}
-{scorecards_html}
-
-<div class="section-lbl">Evolução Mensal — Jan a Mai/2026</div>
-<div class="{grid_cls}">
-  <div class="cc"><h3>NPS ↑</h3><p>% · Mar–Mai</p><canvas id="mNPS_{sid}"></canvas></div>
-  <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="mTMO_{sid}"></canvas></div>
-  <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="mPROD_{sid}"></canvas></div>
-  <div class="cc"><h3>TDI ↓</h3><p>% · Abr–Mai</p><canvas id="mTDI_{sid}"></canvas></div>
-  <div class="cc"><h3>Recontato ↓</h3><p>% · Mar–Mai</p><canvas id="mREC_{sid}"></canvas></div>
-</div>
-
-<div class="section-lbl">Evolução Semanal — 8 Semanas (30/03–18/05)</div>
-<div class="{grid_cls}">
-  <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="wNPS_{sid}"></canvas></div>
-  <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="wTMO_{sid}"></canvas></div>
-  <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="wPROD_{sid}"></canvas></div>
-  <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_{sid}"></canvas></div>
-  <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_{sid}"></canvas></div>
-</div>
-
-<script>
-(function(){{
-const BLUE='{{"#2563EB"}}',GRAY='{{"#9CA3AF"}}',ORANGE='{{"#F59E0B"}}';
-const MONTHS={json.dumps(MONTH_LABELS)};
-const WEEKS={json.dumps(WEEK_LABELS)};
-function mk(id,labels,ds,yLabel,yMin,yMax){{
-  new Chart(document.getElementById(id),{{type:'line',data:{{labels,datasets:ds}},options:{{
-    responsive:true,maintainAspectRatio:true,aspectRatio:{ar},
-    plugins:{{legend:{{position:'bottom',labels:{{font:{{size:9}},padding:6,usePointStyle:true,pointStyleWidth:5}}}},
-      tooltip:{{callbacks:{{label:c=>c.parsed.y==null?null:` ${{c.dataset.label}}: ${{c.parsed.y.toFixed(1)}} ${{yLabel}}`}}}}}},
-    scales:{{y:{{min:yMin,max:yMax,grid:{{color:'#f1f5f9'}},ticks:{{font:{{size:9}}}}}},x:{{grid:{{display:false}},ticks:{{font:{{size:9}}}}}}}}
-  }}}});
-}}
-function d(data,color,label,dashed){{return {{label,data,borderColor:color,backgroundColor:color+'18',
-  borderWidth:dashed?1.5:2,pointRadius:{pr},tension:0.35,spanGaps:true,borderDash:dashed?[6,4]:[]}}}}
-
-function d(data,color,label,dashed){{return {{label,data,borderColor:color,backgroundColor:color+'18',
-  borderWidth:dashed?2:2.5,pointRadius:4,tension:0.35,spanGaps:true,borderDash:dashed?[6,4]:[]}}}}
-
-// Mensais
-mk('mNPS_{sid}',MONTHS,[d({jnull(t_nps_m)},'#2563EB','Com Copiloto'),d({jnull(c_nps_m)},'#9CA3AF','Sem Copiloto',true)],'%',40,85);
-mk('mTMO_{sid}',MONTHS,[d({jnull(t_tmo_m)},'#2563EB','Com Copiloto'),d({jnull(c_tmo_m)},'#9CA3AF','Sem Copiloto',true)],'min',22,45);
-mk('mPROD_{sid}',MONTHS,[d({jnull(t_prod_m)},'#2563EB','Com Copiloto'),d({jnull(c_prod_m)},'#9CA3AF','Sem Copiloto',true)],'at/h',0.8,1.8);
-mk('mTDI_{sid}',MONTHS,[d({jnull(t_tdi_m)},'#2563EB','Com Copiloto'),d({jnull(c_tdi_m)},'#9CA3AF','Sem Copiloto',true)],'%',2,16);
-mk('mREC_{sid}',MONTHS,[d({jnull(t_rec_m)},'#2563EB','Com Copiloto'),d({jnull(c_rec_m)},'#9CA3AF','Sem Copiloto',true)],'%',0,30);
-
-// Semanais
-mk('wNPS_{sid}',WEEKS,[d({jnull(t_nps_w)},'#2563EB','Com Copiloto'),d({jnull(c_nps_w)},'#9CA3AF','Sem Copiloto',true)],'%',40,85);
-mk('wTMO_{sid}',WEEKS,[d({jnull(t_tmo_w)},'#2563EB','Com Copiloto'),d({jnull(c_tmo_w)},'#9CA3AF','Sem Copiloto',true)],'min',24,44);
-mk('wPROD_{sid}',WEEKS,[d({jnull(t_prod_w)},'#2563EB','Com Copiloto'),d({jnull(c_prod_w)},'#9CA3AF','Sem Copiloto',true)],'at/h',0.75,1.5);
-mk('wTDI_{sid}',WEEKS,[d({jnull(t_tdi_w)},'#2563EB','Com Copiloto'),d({jnull(c_tdi_w)},'#9CA3AF','Sem Copiloto',true)],'%',2,18);
-mk('wREC_{sid}',WEEKS,[d({jnull(t_rec_w)},'#2563EB','Com Copiloto'),d({jnull(c_rec_w)},'#9CA3AF','Sem Copiloto',true)],'%',0,10);
-}})();
-</script>
-'''
-
-# ── Tabela de processos ───────────────────────────────────────────────────
 def proc_table():
     rows = []
     for pid, nm in sorted(PROC_NAMES.items(), key=lambda x: -(PROC_TMO[x[0]]['com'][1]+PROC_TMO[x[0]]['sem'][1])):
@@ -340,7 +245,6 @@ def proc_table():
         )
     return '\n'.join(rows)
 
-# ── Tabela por representante ──────────────────────────────────────────────
 def rep_rows():
     out = []
     sorted_reps = sorted(REPS_RAW, key=lambda r: (
@@ -348,16 +252,16 @@ def rep_rows():
         -(float(r.get('pct_utilizacao') or 0))
     ))
     for r in sorted_reps:
-        ldap  = r['ldap']
-        sen   = r.get('seniority','')
-        conv  = int(r.get('conversas_cop',0) or 0)
-        pct_u = float(r.get('pct_utilizacao',0) or 0)
+        ldap   = r['ldap']
+        sen    = r.get('seniority','')
+        conv   = int(r.get('conversas_cop',0) or 0)
+        pct_u  = float(r.get('pct_utilizacao',0) or 0)
         office = r.get('office','—') or '—'
         tl     = r.get('tl_ldap','—') or '—'
-        p_abr = int(r.get('pesq_abr',0) or 0)
-        n_abr = r.get('nps_abr')
-        p_mai = int(r.get('pesq_mai',0) or 0)
-        n_mai = r.get('nps_mai')
+        p_abr  = int(r.get('pesq_abr',0) or 0)
+        n_abr  = r.get('nps_abr')
+        p_mai  = int(r.get('pesq_mai',0) or 0)
+        n_mai  = r.get('nps_mai')
         sen_badge = '<span class="sen-e">E</span>' if sen=='EXPERT' else '<span class="sen-n">N</span>'
         bar_w = min(pct_u, 100)
         bar_col = '#10b981' if pct_u >= 30 else ('#f59e0b' if pct_u >= 10 else '#ef4444')
@@ -382,11 +286,7 @@ def rep_rows():
 # HTML
 # ═══════════════════════════════════════════════════════════════════════
 
-geral_html   = build_tab_content('geral',  NPS_M, TMO_M, PROD_M, TDI_M, REC_M, NPS_W, TMO_W, PROD_W, TDI_W, REC_W, compact=True)
-expert_html  = build_tab_content('expert', NPS_M_E, TMO_M_E, PROD_M_E, TDI_M_E, REC_M_E, NPS_W_E, TMO_W_E, PROD_W_E, TDI_W_E, REC_W_E,
-                                 note='Experts: NPS superiores desde a ativação (+20pp vs controle em Mai). TDI Expert com Copiloto caiu de 6.9% → 4.8% (Abr→Mai).')
-newbie_html  = build_tab_content('newbie', NPS_M_N, TMO_M_N, PROD_M_N, TDI_M_N, REC_M_N, NPS_W_N, TMO_W_N, PROD_W_N, TDI_W_N, REC_W_N,
-                                 note='Newbies: NPS crescendo rapidamente (+10pp de Abr→Mai). TDI era alto em Abr (11.5%) mas caiu para 7.3% em Mai. Controle = baseline Expert (sem split de senioridade disponível para o grupo controle).')
+dset_json = json.dumps(DSET, ensure_ascii=False)
 
 html = f'''<!DOCTYPE html>
 <html lang="pt-BR">
@@ -463,6 +363,10 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
 .sen-filter{{display:flex;gap:6px;margin-bottom:10px;align-items:center}}
 .sen-btn{{padding:4px 14px;border-radius:6px;border:1px solid #e2e8f0;cursor:pointer;font-size:11px;font-weight:600;background:white;color:#64748b;transition:.1s}}
 .sen-btn.active{{background:#1d4ed8;color:white;border-color:#1d4ed8}}
+/* Office filter buttons */
+.office-filter{{display:flex;gap:5px;margin-bottom:14px;align-items:center;flex-wrap:wrap}}
+.office-btn{{padding:5px 16px;border-radius:7px;border:1px solid #e2e8f0;cursor:pointer;font-size:11px;font-weight:600;background:white;color:#64748b;transition:.15s}}
+.office-btn.active{{background:#0f172a;color:white;border-color:#0f172a}}
 @media(max-width:1100px){{.sc-grid{{grid-template-columns:repeat(3,1fr)}}.ch-grid-5{{grid-template-columns:repeat(2,1fr)}}}}
 @media(max-width:700px){{.sc-grid{{grid-template-columns:repeat(2,1fr)}}.ch-grid-5{{grid-template-columns:1fr}}}}
 </style>
@@ -481,16 +385,84 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
     <div class="leg" style="font-size:10px;color:#94a3b8">* Mai até 18/05 · NPS com &lt;5 pesquisas/rep tem alta variância · Controle não tem split de senioridade (exibe Expert como baseline)</div>
   </div>
 
-  <!-- TABS -->
+  <!-- FILTRO DE OFICINA -->
+  <div class="office-filter">
+    <span style="font-size:11px;font-weight:700;color:#374151;margin-right:4px">Oficina:</span>
+    <button class="office-btn active" onclick="setOffice('ALL',this)">Todas</button>
+    <button class="office-btn" onclick="setOffice('ATE',this)">ATE</button>
+    <button class="office-btn" onclick="setOffice('KTA_BRASIL',this)">KTA</button>
+    <button class="office-btn" onclick="setOffice('AEC',this)">AEC</button>
+    <button class="office-btn" onclick="setOffice('CTX',this)">CTX</button>
+  </div>
+
+  <!-- TABS SENIORIDADE -->
   <div class="tabs">
     <button class="tab-btn active" onclick="setTab('geral',this)">Geral</button>
     <button class="tab-btn" onclick="setTab('expert',this)">Expert</button>
     <button class="tab-btn" onclick="setTab('newbie',this)">Newbie</button>
   </div>
 
-  <div class="tab-pane active" id="tab-geral">{geral_html}</div>
-  <div class="tab-pane" id="tab-expert">{expert_html}</div>
-  <div class="tab-pane" id="tab-newbie">{newbie_html}</div>
+  <!-- TAB GERAL -->
+  <div class="tab-pane active" id="tab-geral">
+    <div class="section-lbl">Evolução Mensal — Jan a Mai/2026</div>
+    <div class="ch-grid-5 compact">
+      <div class="cc"><h3>NPS ↑</h3><p>% · Mar–Mai</p><canvas id="mNPS_geral"></canvas></div>
+      <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="mTMO_geral"></canvas></div>
+      <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="mPROD_geral"></canvas></div>
+      <div class="cc"><h3>TDI ↓</h3><p>% · Abr–Mai</p><canvas id="mTDI_geral"></canvas></div>
+      <div class="cc"><h3>Recontato ↓</h3><p>% · Mar–Mai</p><canvas id="mREC_geral"></canvas></div>
+    </div>
+    <div class="section-lbl">Evolução Semanal — 8 Semanas (30/03–18/05)</div>
+    <div class="ch-grid-5 compact">
+      <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="wNPS_geral"></canvas></div>
+      <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="wTMO_geral"></canvas></div>
+      <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="wPROD_geral"></canvas></div>
+      <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_geral"></canvas></div>
+      <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_geral"></canvas></div>
+    </div>
+  </div>
+
+  <!-- TAB EXPERT -->
+  <div class="tab-pane" id="tab-expert">
+    <div class="note warn" style="margin-bottom:10px">Experts: NPS superiores desde a ativação. TDI Expert com Copiloto apresenta melhora contínua. Controle = todos os Experts sem Copiloto.</div>
+    <div class="section-lbl">Evolução Mensal — Jan a Mai/2026</div>
+    <div class="ch-grid-5">
+      <div class="cc"><h3>NPS ↑</h3><p>% · Mar–Mai</p><canvas id="mNPS_expert"></canvas></div>
+      <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="mTMO_expert"></canvas></div>
+      <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="mPROD_expert"></canvas></div>
+      <div class="cc"><h3>TDI ↓</h3><p>% · Abr–Mai</p><canvas id="mTDI_expert"></canvas></div>
+      <div class="cc"><h3>Recontato ↓</h3><p>% · Mar–Mai</p><canvas id="mREC_expert"></canvas></div>
+    </div>
+    <div class="section-lbl">Evolução Semanal — 8 Semanas (30/03–18/05)</div>
+    <div class="ch-grid-5">
+      <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="wNPS_expert"></canvas></div>
+      <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="wTMO_expert"></canvas></div>
+      <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="wPROD_expert"></canvas></div>
+      <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_expert"></canvas></div>
+      <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_expert"></canvas></div>
+    </div>
+  </div>
+
+  <!-- TAB NEWBIE -->
+  <div class="tab-pane" id="tab-newbie">
+    <div class="note warn" style="margin-bottom:10px">Newbies: NPS crescendo rapidamente. TDI era alto em Abr mas caiu em Mai. Controle = baseline Expert (sem split de senioridade disponível para o grupo controle).</div>
+    <div class="section-lbl">Evolução Mensal — Jan a Mai/2026</div>
+    <div class="ch-grid-5">
+      <div class="cc"><h3>NPS ↑</h3><p>% · Mar–Mai</p><canvas id="mNPS_newbie"></canvas></div>
+      <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="mTMO_newbie"></canvas></div>
+      <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="mPROD_newbie"></canvas></div>
+      <div class="cc"><h3>TDI ↓</h3><p>% · Abr–Mai</p><canvas id="mTDI_newbie"></canvas></div>
+      <div class="cc"><h3>Recontato ↓</h3><p>% · Mar–Mai</p><canvas id="mREC_newbie"></canvas></div>
+    </div>
+    <div class="section-lbl">Evolução Semanal — 8 Semanas (30/03–18/05)</div>
+    <div class="ch-grid-5">
+      <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="wNPS_newbie"></canvas></div>
+      <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="wTMO_newbie"></canvas></div>
+      <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="wPROD_newbie"></canvas></div>
+      <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_newbie"></canvas></div>
+      <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_newbie"></canvas></div>
+    </div>
+  </div>
 
   <hr class="div">
 
@@ -514,7 +486,7 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
   <hr class="div">
 
   <!-- TABELA POR REP -->
-  <div class="section-lbl">Representantes com Copiloto — 209 reps · Filtro por Senioridade</div>
+  <div class="section-lbl">Representantes com Copiloto — {len(REPS_RAW)} reps · Filtro por Senioridade e Oficina</div>
   <div class="note" style="margin-bottom:8px">
     <strong>% Utilização:</strong> conversas Copilot / total casos atendidos (Abr–Mai) ·
     <strong>NPS:</strong> verde ≥65% · amarelo 50–65% · vermelho &lt;50% · (n) = pesquisas ·
@@ -547,24 +519,147 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
       <tbody>{rep_rows()}</tbody>
     </table>
   </div>
-  <div class="note" style="margin-top:8px">Reps sem NPS: sem pesquisas respondidas no período (ex: filas sem survey, treinamento). Ordenado por volume de conversas Copilot.</div>
+  <div class="note" style="margin-top:8px">Reps sem NPS: sem pesquisas respondidas no período. Ordenado por Oficina A-Z e depois por % Utilização desc.</div>
 
   <div class="footer">Gerado em <span id="ts2"></span> · Fonte: BT_CX_COPILOT_METRICS · DM_CX_NPS_Y20_DETAIL · BT_CX_CXCOPILOT_TMO · BT_CX_TDI · BT_CX_BASIC_CS_RECONTACTS · BR_ME_Sellers_Longtail</div>
 </div>
 
 <script>
-// Tabs
-document.getElementById('ts').textContent = new Date().toLocaleDateString('pt-BR');
-document.getElementById('ts2').textContent = document.getElementById('ts').textContent;
+// ── Dados ──────────────────────────────────────────────────────────────
+const DSET = {dset_json};
+const MONTH_LABELS = {json.dumps(MONTH_LABELS)};
+const WEEK_LABELS  = {json.dumps(WEEK_LABELS)};
 
+// ── Estado ────────────────────────────────────────────────────────────
+const CHARTS = {{}};
+let currentOffice = 'ALL';
+let currentTab    = 'geral';
+const TABS_CREATED = {{'geral': false, 'expert': false, 'newbie': false}};
+
+// ── Chart helpers ─────────────────────────────────────────────────────
+function ds(data, color, label, dashed) {{
+  return {{
+    label, data,
+    borderColor: color,
+    backgroundColor: color + '18',
+    borderWidth: dashed ? 1.5 : 2.5,
+    pointRadius: 3,
+    tension: 0.35,
+    spanGaps: true,
+    borderDash: dashed ? [6,4] : []
+  }};
+}}
+
+function mkChart(id, labels, tData, cData, yLabel, yMin, yMax, aspectRatio) {{
+  if (CHARTS[id]) {{
+    updateChart(id, tData, cData);
+    return;
+  }}
+  const el = document.getElementById(id);
+  if (!el) return;
+  CHARTS[id] = new Chart(el, {{
+    type: 'line',
+    data: {{
+      labels,
+      datasets: [
+        ds(tData, '#2563EB', 'Com Copiloto', false),
+        ds(cData, '#9CA3AF', 'Sem Copiloto', true)
+      ]
+    }},
+    options: {{
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: aspectRatio,
+      plugins: {{
+        legend: {{
+          position: 'bottom',
+          labels: {{ font: {{size: 9}}, padding: 6, usePointStyle: true, pointStyleWidth: 5 }}
+        }},
+        tooltip: {{
+          callbacks: {{
+            label: c => c.parsed.y == null ? null : ` ${{c.dataset.label}}: ${{c.parsed.y.toFixed(1)}} ${{yLabel}}`
+          }}
+        }}
+      }},
+      scales: {{
+        y: {{ min: yMin, max: yMax, grid: {{color:'#f1f5f9'}}, ticks: {{font:{{size:9}}}} }},
+        x: {{ grid: {{display:false}}, ticks: {{font:{{size:9}}}} }}
+      }}
+    }}
+  }});
+}}
+
+function updateChart(id, tData, cData) {{
+  const ch = CHARTS[id];
+  if (!ch) return;
+  ch.data.datasets[0].data = tData;
+  ch.data.datasets[1].data = cData;
+  ch.update('none');
+}}
+
+// ── Criação / atualização de gráficos de uma tab ──────────────────────
+function renderTabCharts(tab, office) {{
+  const d = DSET[office][tab];
+  const isGeral = (tab === 'geral');
+  const arM = isGeral ? 2.6 : 1.55;
+  const arW = isGeral ? 2.6 : 1.55;
+
+  mkChart('mNPS_'  + tab, MONTH_LABELS, d.nps.t.m,  d.nps.c.m,  '%',    40,  85,  arM);
+  mkChart('mTMO_'  + tab, MONTH_LABELS, d.tmo.t.m,  d.tmo.c.m,  'min',  22,  45,  arM);
+  mkChart('mPROD_' + tab, MONTH_LABELS, d.prod.t.m, d.prod.c.m, 'at/h', 0.8, 1.8, arM);
+  mkChart('mTDI_'  + tab, MONTH_LABELS, d.tdi.t.m,  d.tdi.c.m,  '%',    2,   18,  arM);
+  mkChart('mREC_'  + tab, MONTH_LABELS, d.rec.t.m,  d.rec.c.m,  '%',    0,   30,  arM);
+
+  mkChart('wNPS_'  + tab, WEEK_LABELS,  d.nps.t.w,  d.nps.c.w,  '%',    40,  85,  arW);
+  mkChart('wTMO_'  + tab, WEEK_LABELS,  d.tmo.t.w,  d.tmo.c.w,  'min',  24,  44,  arW);
+  mkChart('wPROD_' + tab, WEEK_LABELS,  d.prod.t.w, d.prod.c.w, 'at/h', 0.75,1.5, arW);
+  mkChart('wTDI_'  + tab, WEEK_LABELS,  d.tdi.t.w,  d.tdi.c.w,  '%',    2,   18,  arW);
+  mkChart('wREC_'  + tab, WEEK_LABELS,  d.rec.t.w,  d.rec.c.w,  '%',    0,   10,  arW);
+}}
+
+function updateTabCharts(tab, office) {{
+  const d = DSET[office][tab];
+  updateChart('mNPS_'  + tab, d.nps.t.m,  d.nps.c.m);
+  updateChart('mTMO_'  + tab, d.tmo.t.m,  d.tmo.c.m);
+  updateChart('mPROD_' + tab, d.prod.t.m, d.prod.c.m);
+  updateChart('mTDI_'  + tab, d.tdi.t.m,  d.tdi.c.m);
+  updateChart('mREC_'  + tab, d.rec.t.m,  d.rec.c.m);
+  updateChart('wNPS_'  + tab, d.nps.t.w,  d.nps.c.w);
+  updateChart('wTMO_'  + tab, d.tmo.t.w,  d.tmo.c.w);
+  updateChart('wPROD_' + tab, d.prod.t.w, d.prod.c.w);
+  updateChart('wTDI_'  + tab, d.tdi.t.w,  d.tdi.c.w);
+  updateChart('wREC_'  + tab, d.rec.t.w,  d.rec.c.w);
+}}
+
+// ── setOffice — atualiza todas as tabs ───────────────────────────────
+function setOffice(office, btn) {{
+  currentOffice = office;
+  document.querySelectorAll('.office-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // Atualiza todas as tabs já criadas
+  ['geral','expert','newbie'].forEach(tab => {{
+    if (TABS_CREATED[tab]) {{
+      updateTabCharts(tab, office);
+    }}
+  }});
+}}
+
+// ── setTab — cria charts se necessário ───────────────────────────────
 function setTab(id, btn) {{
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + id).classList.add('active');
   btn.classList.add('active');
+  currentTab = id;
+  if (!TABS_CREATED[id]) {{
+    renderTabCharts(id, currentOffice);
+    TABS_CREATED[id] = true;
+  }} else {{
+    updateTabCharts(id, currentOffice);
+  }}
 }}
 
-// Seniority filter + search
+// ── Seniority / office filter na tabela de reps ───────────────────────
 function applyFilter(btn) {{
   const group = btn.dataset.filter;
   document.querySelectorAll(`.sen-btn[data-filter="${{group}}"]`).forEach(b => b.classList.remove('active'));
@@ -572,7 +667,7 @@ function applyFilter(btn) {{
   runFilter();
 }}
 function runFilter() {{
-  const sen    = (document.querySelector('.sen-btn[data-filter="sen"].active')   || {{}}).dataset?.val || 'ALL';
+  const sen    = (document.querySelector('.sen-btn[data-filter="sen"].active')    || {{}}).dataset?.val || 'ALL';
   const office = (document.querySelector('.sen-btn[data-filter="office"].active') || {{}}).dataset?.val || 'ALL';
   const q = document.getElementById('rep-search').value.toLowerCase();
   document.querySelectorAll('#rep-table tbody tr').forEach(r => {{
@@ -583,6 +678,14 @@ function runFilter() {{
   }});
 }}
 document.getElementById('rep-search').addEventListener('input', runFilter);
+
+// ── Init ──────────────────────────────────────────────────────────────
+document.getElementById('ts').textContent  = new Date().toLocaleDateString('pt-BR');
+document.getElementById('ts2').textContent = new Date().toLocaleDateString('pt-BR');
+
+// Criar charts da tab geral (visível inicialmente)
+renderTabCharts('geral', 'ALL');
+TABS_CREATED['geral'] = true;
 </script>
 </body>
 </html>'''
