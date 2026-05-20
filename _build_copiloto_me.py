@@ -267,6 +267,46 @@ def build_proc_data():
 
 PROC_DATA = build_proc_data()
 
+def build_proc_data_rep():
+    """TMO por processo para modo 'Por Representante': treatment vs control."""
+    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_proc_tmo_rep.json', encoding='utf-8') as f:
+        raw = json.load(f)
+    from collections import defaultdict
+    acc = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: {'tmo_num':0.0,'casos':0}))))
+    def accumulate(office, channel, row):
+        pid   = int(row['ASSIGN_PROCESS_ID'])
+        grupo = row['grupo']
+        tmo   = float(row['tmo_min'] or 0)
+        casos = int(row['casos'] or 0)
+        acc[office][channel][pid][grupo]['tmo_num'] += tmo * casos
+        acc[office][channel][pid][grupo]['casos']   += casos
+    for row in raw:
+        o = row['office']; ch = row['channel']
+        accumulate(o, ch, row)
+        accumulate(o, 'ALL', row)
+        accumulate('ALL', ch, row)
+        accumulate('ALL', 'ALL', row)
+    result = {}
+    for office in list(acc.keys()):
+        result[office] = {}
+        for channel in list(acc[office].keys()):
+            result[office][channel] = {}
+            for pid in list(acc[office][channel].keys()):
+                entry = {}
+                for grupo in ['treatment', 'control']:
+                    d = acc[office][channel][pid].get(grupo, {})
+                    casos = d.get('casos', 0)
+                    tmo = round(d['tmo_num'] / casos, 1) if casos else None
+                    entry[grupo] = [tmo, casos]
+                result[office][channel][pid] = entry
+    for o in OFFICES:
+        result.setdefault(o, {})
+        for ch in CHANNELS:
+            result[o].setdefault(ch, {})
+    return result
+
+PROC_DATA_REP = build_proc_data_rep()
+
 def rep_rows():
     out = []
     sorted_reps = sorted(REPS_RAW, key=lambda r: (
@@ -419,10 +459,11 @@ DSET_OPC = build_dset_opc()
 
 # ═══════════════════════════════════════════════════════════════════════
 
-dset_json       = json.dumps(DSET,      ensure_ascii=False)
-dset_opc_json   = json.dumps(DSET_OPC,  ensure_ascii=False)
-proc_data_json  = json.dumps(PROC_DATA, ensure_ascii=False)
-proc_names_json = json.dumps({str(k): v for k, v in PROC_NAMES.items()}, ensure_ascii=False)
+dset_json         = json.dumps(DSET,          ensure_ascii=False)
+dset_opc_json     = json.dumps(DSET_OPC,      ensure_ascii=False)
+proc_data_json    = json.dumps(PROC_DATA,     ensure_ascii=False)
+proc_data_rep_json= json.dumps(PROC_DATA_REP, ensure_ascii=False)
+proc_names_json   = json.dumps({str(k): v for k, v in PROC_NAMES.items()}, ensure_ascii=False)
 
 html = f'''<!DOCTYPE html>
 <html lang="pt-BR">
@@ -633,11 +674,11 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
   <div class="note" style="margin-bottom:8px">Comparação do TMO médio por caso para os mesmos reps (treatment), separando interações onde o Copiloto foi acionado (FLAG_COPILOT=1) das que não foram. Delta positivo = Copiloto aumenta TMO naquele processo.</div>
   <div class="proc-table-wrap">
     <table class="rt">
-      <thead>
+      <thead id="proc-thead">
         <tr>
           <th class="left">Processo</th>
-          <th>TMO c/ Copiloto</th><th class="n-small">Casos</th>
-          <th>TMO s/ Copiloto</th><th class="n-small">Casos</th>
+          <th>Com Copiloto (Treatment)</th><th class="n-small">Casos</th>
+          <th>Sem Copiloto (Controle)</th><th class="n-small">Casos</th>
           <th>Delta</th>
         </tr>
       </thead>
@@ -648,6 +689,7 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
   <hr class="div">
 
   <!-- TABELA POR REP -->
+  <div id="section-reps">
   <div class="section-lbl">Representantes com Copiloto — {len(REPS_RAW)} reps · Filtro por Senioridade e Oficina</div>
   <div class="note" style="margin-bottom:8px">
     <strong>% Utilização:</strong> conversas Copilot / total casos atendidos (Abr–Mai) ·
@@ -682,6 +724,7 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
     </table>
   </div>
   <div class="note" style="margin-top:8px">Reps sem NPS: sem pesquisas respondidas no período. Ordenado por Oficina A-Z e depois por % Utilização desc.</div>
+  </div><!-- /section-reps -->
 
   <div class="footer">Gerado em <span id="ts2"></span> · Fonte: BT_CX_COPILOT_METRICS · DM_CX_NPS_Y20_DETAIL · BT_CX_CXCOPILOT_TMO · BT_CX_TDI · BT_CX_BASIC_CS_RECONTACTS · BR_ME_Sellers_Longtail</div>
 </div><!-- /container -->
@@ -690,10 +733,11 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
 
 <script>
 // ── Dados ──────────────────────────────────────────────────────────────
-const DSET      = {dset_json};
-const DSET_OPC  = {dset_opc_json};
-const PROC_DATA  = {proc_data_json};
-const PROC_NAMES = {proc_names_json};
+const DSET          = {dset_json};
+const DSET_OPC      = {dset_opc_json};
+const PROC_DATA     = {proc_data_json};
+const PROC_DATA_REP = {proc_data_rep_json};
+const PROC_NAMES    = {proc_names_json};
 const MONTH_LABELS = {json.dumps(MONTH_LABELS)};
 const WEEK_LABELS  = {json.dumps(WEEK_LABELS)};
 
@@ -737,6 +781,9 @@ function setOpcao(opcao, btn) {{
   renderTabCharts(currentTab, currentOffice, currentChannel);
   TABS_CREATED[currentTab] = true;
   renderProcTable(currentOffice, currentChannel);
+  // Mostrar/ocultar tabela de reps (só faz sentido no modo "rep")
+  const secReps = document.getElementById('section-reps');
+  if (secReps) secReps.style.display = opcao === 'rep' ? '' : 'none';
 }}
 
 // ── Chart helpers ─────────────────────────────────────────────────────
@@ -748,7 +795,7 @@ function ds(data, color, label, dashed) {{
     borderWidth: dashed ? 1.5 : 2.5,
     pointRadius: 3,
     tension: 0.35,
-    spanGaps: true,
+    spanGaps: false,
     borderDash: dashed ? [6,4] : []
   }};
 }}
@@ -872,34 +919,45 @@ function updateTabCharts(tab, office, channel) {{
 // ── refreshAllCharts — chamado após mudança de office ou channel ──────
 // ── renderProcTable — tabela TMO por processo dinâmica ────────────────
 function renderProcTable(office, channel) {{
-  const data = PROC_DATA[office]?.[channel] || {{}};
+  const isRep = currentOpcao === 'rep';
+  const data  = isRep
+    ? (PROC_DATA_REP[office]?.[channel] || {{}})
+    : (PROC_DATA[office]?.[channel]     || {{}});
+  const keyA  = isRep ? 'treatment' : 'com';
+  const keyB  = isRep ? 'control'   : 'sem';
+  const hdrA  = isRep ? 'Com Copiloto (Treatment)' : 'Com Copiloto (FLAG=1)';
+  const hdrB  = isRep ? 'Sem Copiloto (Controle)'  : 'Sem Copiloto (FLAG=0)';
+
+  // atualizar cabeçalhos
+  const ths = document.querySelectorAll('#proc-thead th');
+  if (ths.length >= 5) {{ ths[1].textContent = hdrA; ths[3].textContent = hdrB; }}
+
   const order = Object.keys(PROC_NAMES).map(Number)
     .sort((a,b) => {{
-      const na = (data[a]?.com?.[1]||0)+(data[a]?.sem?.[1]||0);
-      const nb = (data[b]?.com?.[1]||0)+(data[b]?.sem?.[1]||0);
+      const na = (data[a]?.[keyA]?.[1]||0)+(data[a]?.[keyB]?.[1]||0);
+      const nb = (data[b]?.[keyA]?.[1]||0)+(data[b]?.[keyB]?.[1]||0);
       return nb - na;
     }});
   const rows = order.map(pid => {{
-    const nm  = PROC_NAMES[pid];
-    const d   = data[pid];
+    const nm = PROC_NAMES[pid];
+    const d  = data[pid];
     if (!d) return '';
-    const com = d.com || [null, 0];
-    const sem = d.sem || [null, 0];
-    const tco = com[0], nco = com[1];
-    const tse = sem[0], nse = sem[1];
-    if (!tco && !tse) return '';
-    const delta = (tco != null && tse != null) ? (tco - tse).toFixed(1) : '—';
-    const sign  = parseFloat(delta) > 0 ? '+' : '';
-    const cls   = parseFloat(delta) > 2 ? 'rc' : (parseFloat(delta) < -2 ? 'gc' : 'neu-cell');
-    const ncoFmt = nco ? nco.toLocaleString('pt-BR') : '—';
-    const nseFmt = nse ? nse.toLocaleString('pt-BR') : '—';
-    const tcoFmt = tco != null ? tco.toFixed(1) : '—';
-    const tseFmt = tse != null ? tse.toFixed(1) : '—';
-    const deltaCell = tco != null && tse != null
+    const vA = d[keyA] || [null, 0];
+    const vB = d[keyB] || [null, 0];
+    const tA = vA[0], nA = vA[1];
+    const tB = vB[0], nB = vB[1];
+    if (!tA && !tB) return '';
+    const delta = (tA != null && tB != null) ? (tA - tB).toFixed(1) : null;
+    const sign  = delta && parseFloat(delta) > 0 ? '+' : '';
+    const cls   = delta ? (parseFloat(delta) > 2 ? 'rc' : (parseFloat(delta) < -2 ? 'gc' : 'neu-cell')) : '';
+    const deltaCell = delta != null
       ? `<span class="${{cls}}">${{sign}}${{delta}} min</span>` : '<span class="sd">—</span>';
-    return `<tr><td class="rep-name">${{nm}}</td><td>${{tcoFmt}}</td><td class="n-small">${{ncoFmt}}</td><td>${{tseFmt}}</td><td class="n-small">${{nseFmt}}</td><td>${{deltaCell}}</td></tr>`;
+    return `<tr><td class="rep-name">${{nm}}</td>
+      <td>${{tA!=null?tA.toFixed(1):'—'}}</td><td class="n-small">${{nA?nA.toLocaleString('pt-BR'):'—'}}</td>
+      <td>${{tB!=null?tB.toFixed(1):'—'}}</td><td class="n-small">${{nB?nB.toLocaleString('pt-BR'):'—'}}</td>
+      <td>${{deltaCell}}</td></tr>`;
   }}).filter(Boolean);
-  document.getElementById('proc-tbody').innerHTML = rows.join('');
+  document.getElementById('proc-tbody').innerHTML = rows.length ? rows.join('') : '<tr><td colspan="6" class="sd" style="text-align:center;padding:12px">Sem dados suficientes para este filtro</td></tr>';
 }}
 
 function refreshAllCharts() {{
