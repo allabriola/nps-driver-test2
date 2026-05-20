@@ -343,7 +343,11 @@ def proc_table():
 # ── Tabela por representante ──────────────────────────────────────────────
 def rep_rows():
     out = []
-    for r in REPS_RAW:
+    sorted_reps = sorted(REPS_RAW, key=lambda r: (
+        r.get('office') or 'zzz',
+        -(float(r.get('pct_utilizacao') or 0))
+    ))
+    for r in sorted_reps:
         ldap  = r['ldap']
         sen   = r.get('seniority','')
         conv  = int(r.get('conversas_cop',0) or 0)
