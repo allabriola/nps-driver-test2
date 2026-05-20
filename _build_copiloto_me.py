@@ -307,9 +307,126 @@ def rep_rows():
 # ═══════════════════════════════════════════════════════════════════════
 # HTML
 # ═══════════════════════════════════════════════════════════════════════
+# DSET_OPC — comparação por uso do Copiloto (FLAG_COPILOT)
+# DSET_OPC[opcao][office][channel] = {metric: {com/sem: {m/w: [...]}}}
+# Opção A: apenas 209 reps treatment (scope='A')
+# Opção B: todo time BR_ME (scope='A' + 'B_only')
+# ═══════════════════════════════════════════════════════════════════════
 
-dset_json      = json.dumps(DSET,      ensure_ascii=False)
-proc_data_json = json.dumps(PROC_DATA, ensure_ascii=False)
+def build_dset_opc():
+    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_opc_nps.json', encoding='utf-8') as f:
+        nps_raw = json.load(f)
+    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_opc_tmo.json', encoding='utf-8') as f:
+        tmo_raw = json.load(f)
+    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_opc_tdi.json', encoding='utf-8') as f:
+        tdi_raw = json.load(f)
+    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_opc_rec.json', encoding='utf-8') as f:
+        rec_raw = json.load(f)
+
+    def by_scope(rows, opcao):
+        # A: só treatment reps; B: todo time
+        if opcao == 'A':
+            return [r for r in rows if r.get('opcao_scope') == 'A']
+        return rows  # B = A + B_only
+
+    def by_oc(rows, office, channel):
+        if office != 'ALL':
+            rows = [r for r in rows if r.get('office') == office]
+        if channel != 'ALL':
+            rows = [r for r in rows if r.get('channel') == channel]
+        return rows
+
+    def flag_key(r, col='FLAG_CASE_COPILOT'):
+        return str(r.get(col, r.get('flag_copilot', r.get('FLAG_COPILOT', '0'))))
+
+    def rnd(lst, d=1):
+        return [round(v, d) if v is not None else None for v in lst]
+
+    def calc_opc(nps_s, tmo_s, tdi_s, rec_s):
+        result = {}
+        # NPS
+        nps_com_m, nps_sem_m, nps_com_w, nps_sem_w = [], [], [], []
+        for m in MONTHS:
+            for flag, lst in [('1', nps_com_m), ('0', nps_sem_m)]:
+                rows = [r for r in nps_s if flag_key(r,'FLAG_CASE_COPILOT')==flag and r.get('mes')==m]
+                ag = _agg(rows, ['prom','det','pesquisas'])
+                lst.append(_safe((ag['prom']-ag['det'])*100, ag['pesquisas']))
+        for w in WEEKS:
+            for flag, lst in [('1', nps_com_w), ('0', nps_sem_w)]:
+                rows = [r for r in nps_s if flag_key(r,'FLAG_CASE_COPILOT')==flag and r.get('semana')==w]
+                ag = _agg(rows, ['prom','det','pesquisas'])
+                lst.append(_safe((ag['prom']-ag['det'])*100, ag['pesquisas']))
+        result['nps'] = {'com':{'m':rnd(nps_com_m),'w':rnd(nps_com_w)},
+                         'sem':{'m':rnd(nps_sem_m),'w':rnd(nps_sem_w)}}
+        # TMO
+        tmo_com_m, tmo_sem_m, tmo_com_w, tmo_sem_w = [], [], [], []
+        for m in MONTHS:
+            for flag, lst in [('1', tmo_com_m), ('0', tmo_sem_m)]:
+                rows = [r for r in tmo_s if flag_key(r,'FLAG_COPILOT')==flag and r.get('mes')==m]
+                ag = _agg(rows, ['tmo_outgoing_seg','outgoing'])
+                lst.append(_safe(ag['tmo_outgoing_seg'], ag['outgoing']*60) if ag['outgoing'] else None)
+        for w in WEEKS:
+            for flag, lst in [('1', tmo_com_w), ('0', tmo_sem_w)]:
+                rows = [r for r in tmo_s if flag_key(r,'FLAG_COPILOT')==flag and r.get('semana')==w]
+                ag = _agg(rows, ['tmo_outgoing_seg','outgoing'])
+                lst.append(_safe(ag['tmo_outgoing_seg'], ag['outgoing']*60) if ag['outgoing'] else None)
+        result['tmo'] = {'com':{'m':rnd(tmo_com_m),'w':rnd(tmo_com_w)},
+                         'sem':{'m':rnd(tmo_sem_m),'w':rnd(tmo_sem_w)}}
+        result['prod'] = {'com':{'m':[None]*5,'w':[None]*8}, 'sem':{'m':[None]*5,'w':[None]*8}}  # n/a
+        # TDI
+        tdi_com_m, tdi_sem_m, tdi_com_w, tdi_sem_w = [], [], [], []
+        for m in MONTHS:
+            for flag, lst in [('1', tdi_com_m), ('0', tdi_sem_m)]:
+                rows = [r for r in tdi_s if flag_key(r,'flag_copilot')==flag and r.get('mes')==m]
+                ag = _agg(rows, ['deriv','tdi_incorretas'])
+                lst.append(_safe(ag['tdi_incorretas']*100, ag['deriv']) if ag['deriv'] else None)
+        for w in WEEKS:
+            for flag, lst in [('1', tdi_com_w), ('0', tdi_sem_w)]:
+                rows = [r for r in tdi_s if flag_key(r,'flag_copilot')==flag and r.get('semana')==w]
+                ag = _agg(rows, ['deriv','tdi_incorretas'])
+                lst.append(_safe(ag['tdi_incorretas']*100, ag['deriv']) if ag['deriv'] else None)
+        result['tdi'] = {'com':{'m':rnd(tdi_com_m),'w':rnd(tdi_com_w)},
+                         'sem':{'m':rnd(tdi_sem_m),'w':rnd(tdi_sem_w)}}
+        # REC
+        rec_com_m, rec_sem_m, rec_com_w, rec_sem_w = [], [], [], []
+        for m in MONTHS:
+            for flag, lst in [('1', rec_com_m), ('0', rec_sem_m)]:
+                rows = [r for r in rec_s if flag_key(r,'flag_copilot')==flag and r.get('mes')==m]
+                ag = _agg(rows, ['atrib','recontatos'])
+                lst.append(_safe(ag['recontatos']*100, ag['atrib']) if ag['atrib'] else None)
+        for w in WEEKS:
+            for flag, lst in [('1', rec_com_w), ('0', rec_sem_w)]:
+                rows = [r for r in rec_s if flag_key(r,'flag_copilot')==flag and r.get('semana')==w]
+                ag = _agg(rows, ['atrib','recontatos'])
+                lst.append(_safe(ag['recontatos']*100, ag['atrib']) if ag['atrib'] else None)
+        result['rec'] = {'com':{'m':rnd(rec_com_m),'w':rnd(rec_com_w)},
+                         'sem':{'m':rnd(rec_sem_m),'w':rnd(rec_sem_w)}}
+        return result
+
+    DSET_OPC = {}
+    for opcao in ['A', 'B']:
+        DSET_OPC[opcao] = {}
+        nps_s  = by_scope(nps_raw, opcao)
+        tmo_s  = by_scope(tmo_raw, opcao)
+        tdi_s  = by_scope(tdi_raw, opcao)
+        rec_s  = by_scope(rec_raw, opcao)
+        for office in OFFICES:
+            DSET_OPC[opcao][office] = {}
+            for channel in CHANNELS:
+                nps_oc = by_oc(nps_s, office, channel)
+                tmo_oc = by_oc(tmo_s, office, channel)
+                tdi_oc = by_oc(tdi_s, office, channel)
+                rec_oc = by_oc(rec_s, office, channel)
+                DSET_OPC[opcao][office][channel] = calc_opc(nps_oc, tmo_oc, tdi_oc, rec_oc)
+    return DSET_OPC
+
+DSET_OPC = build_dset_opc()
+
+# ═══════════════════════════════════════════════════════════════════════
+
+dset_json       = json.dumps(DSET,      ensure_ascii=False)
+dset_opc_json   = json.dumps(DSET_OPC,  ensure_ascii=False)
+proc_data_json  = json.dumps(PROC_DATA, ensure_ascii=False)
 proc_names_json = json.dumps({str(k): v for k, v in PROC_NAMES.items()}, ensure_ascii=False)
 
 html = f'''<!DOCTYPE html>
@@ -428,6 +545,9 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
     <button class="tab-btn active" onclick="setTab('geral',this)">Geral</button>
     <button class="tab-btn" onclick="setTab('expert',this)">Expert</button>
     <button class="tab-btn" onclick="setTab('newbie',this)">Newbie</button>
+    <span style="width:1px;background:#e2e8f0;margin:0 4px"></span>
+    <button class="tab-btn" onclick="setTab('opcA',this)" title="Casos dos 209 reps com Copilot: usaram vs não usaram">Opção A</button>
+    <button class="tab-btn" onclick="setTab('opcB',this)" title="Todo o time BR_ME: casos com Copilot vs sem Copilot">Opção B</button>
   </div>
 
   <!-- TAB GERAL -->
@@ -489,6 +609,44 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
       <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="wPROD_newbie"></canvas></div>
       <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_newbie"></canvas></div>
       <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_newbie"></canvas></div>
+    </div>
+  </div>
+
+  <!-- OPÇÃO A -->
+  <div class="tab-pane" id="tab-opcA">
+    <div class="note warn" style="margin-bottom:10px"><strong>Opção A — Por uso do Copiloto (mesmo grupo de reps):</strong> compara os <em>casos</em> dos 209 reps com Copilot onde o assistente foi acionado (FLAG_COPILOT=1) vs casos do mesmo grupo onde não foi acionado (FLAG_COPILOT=0). Elimina o viés de seleção de reps.</div>
+    <div class="section-lbl">Evolução Mensal — Jan a Mai/2026</div>
+    <div class="ch-grid-5 compact">
+      <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="mNPS_opcA"></canvas></div>
+      <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="mTMO_opcA"></canvas></div>
+      <div class="cc"><h3>TDI ↓</h3><p>% · Abr–Mai</p><canvas id="mTDI_opcA"></canvas></div>
+      <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="mREC_opcA"></canvas></div>
+    </div>
+    <div class="section-lbl">Evolução Semanal — 8 Semanas (30/03–18/05)</div>
+    <div class="ch-grid-5 compact">
+      <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="wNPS_opcA"></canvas></div>
+      <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="wTMO_opcA"></canvas></div>
+      <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_opcA"></canvas></div>
+      <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_opcA"></canvas></div>
+    </div>
+  </div>
+
+  <!-- OPÇÃO B -->
+  <div class="tab-pane" id="tab-opcB">
+    <div class="note warn" style="margin-bottom:10px"><strong>Opção B — Por uso do Copiloto (time completo):</strong> compara todos os casos do time BR_ME onde o Copilot foi acionado vs todos os casos onde não foi, independente do rep. Inclui reps sem acesso ao Copilot no grupo "sem".</div>
+    <div class="section-lbl">Evolução Mensal — Jan a Mai/2026</div>
+    <div class="ch-grid-5 compact">
+      <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="mNPS_opcB"></canvas></div>
+      <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="mTMO_opcB"></canvas></div>
+      <div class="cc"><h3>TDI ↓</h3><p>% · Abr–Mai</p><canvas id="mTDI_opcB"></canvas></div>
+      <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="mREC_opcB"></canvas></div>
+    </div>
+    <div class="section-lbl">Evolução Semanal — 8 Semanas (30/03–18/05)</div>
+    <div class="ch-grid-5 compact">
+      <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="wNPS_opcB"></canvas></div>
+      <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="wTMO_opcB"></canvas></div>
+      <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_opcB"></canvas></div>
+      <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_opcB"></canvas></div>
     </div>
   </div>
 
@@ -555,6 +713,7 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
 <script>
 // ── Dados ──────────────────────────────────────────────────────────────
 const DSET      = {dset_json};
+const DSET_OPC  = {dset_opc_json};
 const PROC_DATA  = {proc_data_json};
 const PROC_NAMES = {proc_names_json};
 const MONTH_LABELS = {json.dumps(MONTH_LABELS)};
@@ -565,7 +724,8 @@ const CHARTS = {{}};
 let currentOffice  = 'ALL';
 let currentChannel = 'ALL';
 let currentTab     = 'geral';
-const TABS_CREATED = {{'geral': false, 'expert': false, 'newbie': false}};
+const TABS_CREATED = {{'geral':false,'expert':false,'newbie':false,'opcA':false,'opcB':false}};
+const OPC_METRICS  = ['nps','tmo','tdi','rec'];  // Opção A/B não tem Produtividade
 
 // ── Chart helpers ─────────────────────────────────────────────────────
 function ds(data, color, label, dashed) {{
@@ -629,7 +789,43 @@ function updateChart(id, tData, cData) {{
 }}
 
 // ── Criação / atualização de gráficos de uma tab ──────────────────────
+// ── Opção A / B — render/update ────────────────────────────────────────
+function renderOpcCharts(tab, office, channel) {{
+  const opcao = tab === 'opcA' ? 'A' : 'B';
+  const d = DSET_OPC[opcao][office][channel];
+  const ar = 2.6;
+  const lbl = tab === 'opcA' ? 'Usou Copiloto' : 'Com Copiloto';
+  const lbl2 = 'Sem Copiloto';
+  function mkO(id, labels, com, sem, yLbl, yMin, yMax) {{
+    if (!CHARTS[id]) {{
+      CHARTS[id] = new Chart(document.getElementById(id), {{type:'line',
+        data:{{labels,datasets:[
+          {{label:lbl,data:com,borderColor:'#2563EB',backgroundColor:'#2563EB18',borderWidth:2.5,pointRadius:3,tension:0.35,spanGaps:true}},
+          {{label:lbl2,data:sem,borderColor:'#9CA3AF',backgroundColor:'#9CA3AF18',borderWidth:2,pointRadius:3,tension:0.35,borderDash:[6,4],spanGaps:true}}
+        ]}},
+        options:{{responsive:true,maintainAspectRatio:true,aspectRatio:ar,
+          plugins:{{legend:{{position:'bottom',labels:{{font:{{size:9}},padding:6,usePointStyle:true,pointStyleWidth:5}}}},
+            tooltip:{{callbacks:{{label:c=>c.parsed.y==null?null:` ${{c.dataset.label}}: ${{c.parsed.y.toFixed(1)}} ${{yLbl}}`}}}}}},
+          scales:{{y:{{suggestedMin:yMin,suggestedMax:yMax,grid:{{color:'#f1f5f9'}},ticks:{{font:{{size:9}}}}}},x:{{grid:{{display:false}},ticks:{{font:{{size:9}}}}}}}}}}
+      }});
+    }} else {{
+      CHARTS[id].data.datasets[0].data = com;
+      CHARTS[id].data.datasets[1].data = sem;
+      CHARTS[id].update();
+    }}
+  }}
+  mkO('mNPS_'+tab, MONTH_LABELS, d.nps.com.m, d.nps.sem.m, '%',   40, 85);
+  mkO('mTMO_'+tab, MONTH_LABELS, d.tmo.com.m, d.tmo.sem.m, 'min', 22, 45);
+  mkO('mTDI_'+tab, MONTH_LABELS, d.tdi.com.m, d.tdi.sem.m, '%',   2,  18);
+  mkO('mREC_'+tab, MONTH_LABELS, d.rec.com.m, d.rec.sem.m, '%',   0,  30);
+  mkO('wNPS_'+tab, WEEK_LABELS,  d.nps.com.w, d.nps.sem.w, '%',   40, 85);
+  mkO('wTMO_'+tab, WEEK_LABELS,  d.tmo.com.w, d.tmo.sem.w, 'min', 22, 45);
+  mkO('wTDI_'+tab, WEEK_LABELS,  d.tdi.com.w, d.tdi.sem.w, '%',   2,  18);
+  mkO('wREC_'+tab, WEEK_LABELS,  d.rec.com.w, d.rec.sem.w, '%',   0,  10);
+}}
+
 function renderTabCharts(tab, office, channel) {{
+  if (tab === 'opcA' || tab === 'opcB') {{ renderOpcCharts(tab, office, channel); return; }}
   const d = DSET[office][channel][tab];
   const isGeral = (tab === 'geral');
   const arM = isGeral ? 2.6 : 1.55;
@@ -649,6 +845,7 @@ function renderTabCharts(tab, office, channel) {{
 }}
 
 function updateTabCharts(tab, office, channel) {{
+  if (tab === 'opcA' || tab === 'opcB') {{ renderOpcCharts(tab, office, channel); return; }}
   const d = DSET[office][channel][tab];
   updateChart('mNPS_'  + tab, d.nps.t.m,  d.nps.c.m);
   updateChart('mTMO_'  + tab, d.tmo.t.m,  d.tmo.c.m);
