@@ -348,12 +348,13 @@ def rep_rows():
         sen   = r.get('seniority','')
         conv  = int(r.get('conversas_cop',0) or 0)
         pct_u = float(r.get('pct_utilizacao',0) or 0)
+        office = r.get('office','—') or '—'
+        tl     = r.get('tl_ldap','—') or '—'
         p_abr = int(r.get('pesq_abr',0) or 0)
         n_abr = r.get('nps_abr')
         p_mai = int(r.get('pesq_mai',0) or 0)
         n_mai = r.get('nps_mai')
         sen_badge = '<span class="sen-e">E</span>' if sen=='EXPERT' else '<span class="sen-n">N</span>'
-        # % utilização bar
         bar_w = min(pct_u, 100)
         bar_col = '#10b981' if pct_u >= 30 else ('#f59e0b' if pct_u >= 10 else '#ef4444')
         util_cell = (f'<div class="util-bar"><div class="util-fill" style="width:{bar_w}%;background:{bar_col}"></div>'
@@ -363,6 +364,8 @@ def rep_rows():
         out.append(
             f'<tr data-sen="{sen}">'
             f'<td class="rep-name">{ldap} {sen_badge}</td>'
+            f'<td>{office}</td>'
+            f'<td class="n-small" style="color:#475569">{tl}</td>'
             f'<td>{conv}</td>'
             f'<td>{util_cell}</td>'
             f'<td>{abr_cell}</td>'
@@ -525,6 +528,8 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
       <thead>
         <tr>
           <th class="left">Representante</th>
+          <th>Oficina</th>
+          <th>Líder</th>
           <th>Conversas Copilot</th>
           <th style="min-width:110px">% Utilização</th>
           <th>NPS Abril</th>
