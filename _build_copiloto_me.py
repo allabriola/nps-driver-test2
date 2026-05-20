@@ -307,6 +307,43 @@ def build_proc_data_rep():
 
 PROC_DATA_REP = build_proc_data_rep()
 
+def build_rep_opc():
+    """NPS por rep split por FLAG_CASE_COPILOT, para Opção A (treatment) e B (time completo)."""
+    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_rep_opc_nps.json', encoding='utf-8') as f:
+        raw = json.load(f)
+    # Mapear info dos reps (office, seniority) do REPS_RAW
+    rep_info = {r['ldap']: {'office': r.get('office','—'), 'seniority': r.get('seniority','')} for r in REPS_RAW}
+
+    def build_for_scope(scopes):
+        data = {}
+        for r in raw:
+            if r['scope'] not in scopes:
+                continue
+            ldap  = r['ldap']
+            flag  = str(r['flag'])
+            n     = int(r['surveys'] or 0)
+            prom  = int(r['prom'] or 0)
+            det   = int(r['det'] or 0)
+            nps   = round((prom - det) / n * 100, 1) if n >= 3 else None  # mínimo 3 surveys
+            if ldap not in data:
+                info = rep_info.get(ldap, {})
+                data[ldap] = {
+                    'office':    info.get('office', '—'),
+                    'seniority': info.get('seniority', ''),
+                    'com': {'n': 0, 'nps': None},
+                    'sem': {'n': 0, 'nps': None},
+                }
+            key = 'com' if flag == '1' else 'sem'
+            data[ldap][key] = {'n': n, 'nps': nps}
+        return data
+
+    return {
+        'A': build_for_scope({'A'}),
+        'B': build_for_scope({'A', 'B_only'}),
+    }
+
+REP_OPC = build_rep_opc()
+
 def rep_rows():
     out = []
     sorted_reps = sorted(REPS_RAW, key=lambda r: (
@@ -463,6 +500,7 @@ dset_json         = json.dumps(DSET,          ensure_ascii=False)
 dset_opc_json     = json.dumps(DSET_OPC,      ensure_ascii=False)
 proc_data_json    = json.dumps(PROC_DATA,     ensure_ascii=False)
 proc_data_rep_json= json.dumps(PROC_DATA_REP, ensure_ascii=False)
+rep_opc_json      = json.dumps(REP_OPC,       ensure_ascii=False)
 proc_names_json   = json.dumps({str(k): v for k, v in PROC_NAMES.items()}, ensure_ascii=False)
 
 html = f'''<!DOCTYPE html>
@@ -711,7 +749,7 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
   <div class="proc-table-wrap">
     <table class="rt" id="rep-table">
       <thead>
-        <tr>
+        <tr id="rep-thead-row">
           <th class="left">Representante</th>
           <th>Oficina</th>
           <th>Líder</th>
@@ -721,7 +759,7 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
           <th>NPS Maio*</th>
         </tr>
       </thead>
-      <tbody>{rep_rows()}</tbody>
+      <tbody id="rep-tbody">{rep_rows()}</tbody>
     </table>
   </div>
   <div class="note" style="margin-top:8px">Reps sem NPS: sem pesquisas respondidas no período. Ordenado por Oficina A-Z e depois por % Utilização desc.</div>
@@ -738,6 +776,7 @@ const DSET          = {dset_json};
 const DSET_OPC      = {dset_opc_json};
 const PROC_DATA     = {proc_data_json};
 const PROC_DATA_REP = {proc_data_rep_json};
+const REP_OPC       = {rep_opc_json};
 const PROC_NAMES    = {proc_names_json};
 const MONTH_LABELS = {json.dumps(MONTH_LABELS)};
 const WEEK_LABELS  = {json.dumps(WEEK_LABELS)};
@@ -782,7 +821,7 @@ function setOpcao(opcao, btn) {{
   renderTabCharts(currentTab, currentOffice, currentChannel);
   TABS_CREATED[currentTab] = true;
   renderProcTable(currentOffice, currentChannel, opcao);
-  // Nota contextual na tabela de reps
+  renderRepTable(opcao);
   var repNote = document.getElementById('rep-mode-note');
   if (repNote) repNote.style.display = opcao === 'rep' ? 'none' : '';
 }}
@@ -1001,6 +1040,68 @@ function setTab(id, btn) {{
 }}
 
 // ── Seniority / office filter na tabela de reps ───────────────────────
+// ── renderRepTable — tabela de reps dinâmica por modo ────────────────
+var REP_ROWS_ORIGINAL = null;  // cache das linhas originais (modo "rep")
+
+function npsCell(n, nps) {{
+  if (!n || n < 3) return '<span class="sd">— <span class="n-small">(' + (n||0) + ')</span></span>';
+  var cls = nps >= 65 ? 'gc' : nps >= 50 ? 'yc' : 'rc';
+  return '<span class="' + cls + '">' + nps.toFixed(1) + '%</span> <span class="n-small">(' + n + ')</span>';
+}}
+
+function renderRepTable(opcao) {{
+  var thead = document.getElementById('rep-thead-row');
+  var tbody = document.getElementById('rep-tbody');
+  if (!thead || !tbody) return;
+
+  if (opcao === 'rep') {{
+    // Restaurar linhas originais
+    if (REP_ROWS_ORIGINAL) tbody.innerHTML = REP_ROWS_ORIGINAL;
+    thead.innerHTML = '<th class="left">Representante</th><th>Oficina</th><th>L&iacute;der</th>'
+                    + '<th>Conversas Copilot</th><th style="min-width:110px">% Utiliza&ccedil;&atilde;o</th>'
+                    + '<th>NPS Abril</th><th>NPS Maio*</th>';
+    return;
+  }}
+
+  // Salvar linhas originais na primeira vez
+  if (!REP_ROWS_ORIGINAL) REP_ROWS_ORIGINAL = tbody.innerHTML;
+
+  // Modo A ou B: mostrar NPS com vs sem Copiloto por rep
+  var data = REP_OPC[opcao] || {{}};
+  thead.innerHTML = '<th class="left">Representante</th><th>Oficina</th>'
+                  + '<th>NPS Usou Copiloto (FLAG=1)</th>'
+                  + '<th>NPS N&atilde;o usou (FLAG=0)</th>'
+                  + '<th>Delta</th>';
+
+  var reps = Object.keys(data).sort(function(a,b) {{
+    // Ordenar: quem tem dados FLAG=1 primeiro, depois por delta desc
+    var da = data[a], db = data[b];
+    var hasA = da.com.n >= 3, hasB = db.com.n >= 3;
+    if (hasA !== hasB) return hasA ? -1 : 1;
+    var dA = (da.com.nps != null && da.sem.nps != null) ? da.com.nps - da.sem.nps : -999;
+    var dB = (db.com.nps != null && db.sem.nps != null) ? db.com.nps - db.sem.nps : -999;
+    return dB - dA;
+  }});
+
+  var html = '';
+  reps.forEach(function(ldap) {{
+    var d   = data[ldap];
+    var sen = d.seniority === 'EXPERT' ? '<span class="sen-e">E</span>' : d.seniority === 'NEWBIE' ? '<span class="sen-n">N</span>' : '';
+    var com = d.com, sem = d.sem;
+    var delta = (com.nps != null && sem.nps != null) ? (com.nps - sem.nps) : null;
+    var dTxt  = delta != null ? (delta >= 0 ? '+' : '') + delta.toFixed(1) + 'pp' : '—';
+    var dCls  = delta != null ? (delta > 3 ? 'gc' : delta < -3 ? 'rc' : 'neu-cell') : 'sd';
+    html += '<tr data-sen="' + d.seniority + '" data-office="' + d.office + '">'
+          + '<td class="rep-name">' + ldap + ' ' + sen + '</td>'
+          + '<td>' + (d.office || '—') + '</td>'
+          + '<td>' + npsCell(com.n, com.nps) + '</td>'
+          + '<td>' + npsCell(sem.n, sem.nps) + '</td>'
+          + '<td><span class="' + dCls + '">' + dTxt + '</span></td>'
+          + '</tr>';
+  }});
+  tbody.innerHTML = html || '<tr><td colspan="5" class="sd" style="text-align:center;padding:12px">Sem dados suficientes</td></tr>';
+}}
+
 function applyFilter(btn) {{
   const group = btn.dataset.filter;
   document.querySelectorAll(`.sen-btn[data-filter="${{group}}"]`).forEach(b => b.classList.remove('active'));
