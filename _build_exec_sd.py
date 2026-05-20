@@ -612,3 +612,103 @@ with open('_exec_summary_wk_sd.html', 'w', encoding='utf-8') as f:
 
 print(f'\nSemanal Headline: {headline_wk}')
 print('Salvo em _exec_summary_wk_sd.html')
+
+# ── VIG exec summary (VIG vs S1) ─────────────────────────────────────
+dv      = ns.get('drivers_vigente', {})
+VIG_LBL = ns.get('VIG_LABEL', '')
+all_sd_vig_drvs = [d for drvs in SD.values() for d in drvs]
+sv_total = sum(dv.get(d,(0,0,0))[2] for d in all_sd_vig_drvs)
+
+if VIG_LBL and sv_total > 0:
+    # Constrói vig_drv_data: NPS VIG + contexto de breakdown do S1
+    vig_drv_data = {}
+    for grp, drvs in SD.items():
+        p   = sum(dv.get(d,(0,0,0))[0] for d in drvs)
+        det = sum(dv.get(d,(0,0,0))[1] for d in drvs)
+        s   = sum(dv.get(d,(0,0,0))[2] for d in drvs)
+        nc  = nps(p, det, s)
+        nc_s1, _ = grp_nps_wk(drvs, wk_s1)
+        tg = tgt_wk(drvs)
+        vig_drv_data[grp] = {
+            'nc': nc, 'np': nc_s1 or 0, 'sc': s, 'tgt': tg,
+            'gap':  round(nc - tg, 1)           if nc is not None else None,
+            'mom':  round(nc - (nc_s1 or 0), 1) if nc is not None else None,
+            'sr_mai':  seniority(drvs, 'S1'),   # breakdown S1 como referência
+            'sr_abr':  seniority(drvs, 'S2'),
+            'off_mai': office_summary(drvs, 'S1'),
+            'top_proc': pa.get(grp, {}).get('top_neg', {}).get('proc', ''),
+        }
+
+    # Consolida VIG
+    pv   = sum(dv.get(d,(0,0,0))[0] for d in all_sd_vig_drvs)
+    dv2  = sum(dv.get(d,(0,0,0))[1] for d in all_sd_vig_drvs)
+    nc_cons_vig = nps(pv, dv2, sv_total)
+    tgt_vig     = pt.get('weekly', {}).get(wk_s1, {}).get('consolidated', nt)
+    gap_vig     = round(nc_cons_vig - tgt_vig, 2) if nc_cons_vig else None
+    mom_vig     = round(nc_cons_vig - (nc_cons_wk or 0), 2) if nc_cons_vig and nc_cons_wk else None
+
+    headline_vig = (f"NPS de {fn(nc_cons_vig)}% — "
+                    f"{sign(gap_vig)}{fn(gap_vig)} pp vs. meta ({fn(tgt_vig)}%) "
+                    f"e {sign(mom_vig)}{fn(mom_vig)} pp WoW ({S1_LBL} → {VIG_LBL})")
+
+    # Gera bullets reaproveitando build_narrative_wk com vig_drv_data
+    _saved = dict(wk_drv_data)
+    wk_drv_data.clear(); wk_drv_data.update(vig_drv_data)
+
+    _vig_destaques = sorted(
+        [g for g in vig_drv_data if g not in _WK_FIXED],
+        key=lambda g: -((1 if (vig_drv_data[g]['gap'] or 0) >= 0 else 0)*100 + (vig_drv_data[g]['mom'] or 0))
+    )
+    _vig_pos = [g for g in _vig_destaques
+                if (vig_drv_data[g]['gap'] or 0) >= 0 or (vig_drv_data[g]['mom'] or 0) > 1][:3]
+
+    b_sell = ''.join(build_narrative_wk(g, '🟢') for g in _vig_pos)
+    b_par  = build_narrative_wk('Partners',        '🟡' if (vig_drv_data['Partners']['gap'] or 0) < 0 else '🟢')
+    b_pub  = build_narrative_wk('Publicaciones',   '🔴' if (vig_drv_data['Publicaciones']['mom'] or 0) < -2 else '🟡')
+    b_ei   = build_narrative_wk('Exp. Impositiva', '🔴')
+
+    wk_drv_data.clear(); wk_drv_data.update(_saved)
+
+    # Next steps VIG
+    ei_v = vig_drv_data['Exp. Impositiva']; pub_v = vig_drv_data['Publicaciones']
+    ei_gs_v = None
+    ei_sr_v = ei_v.get('sr_mai', {})
+    exp_kv = next((k for k in ei_sr_v if 'expert' in k.lower()), None)
+    new_kv = next((k for k in ei_sr_v if 'newbie' in k.lower()), None)
+    if exp_kv and new_kv and ei_sr_v.get(exp_kv,{}).get('nps') and ei_sr_v.get(new_kv,{}).get('nps'):
+        ei_gs_v = round(ei_sr_v[exp_kv]['nps'] - ei_sr_v[new_kv]['nps'], 1)
+    vig_next = []
+    if (ei_v['gap'] or 0) < -10:
+        vig_next.append(f"Capacitação Newbies em <strong>Exp. Impositiva</strong>"
+                        + (f" — gap de {fn(ei_gs_v)} pp vs. Veteranos indica necessidade de treino." if ei_gs_v else "."))
+    if (pub_v['mom'] or 0) < -2:
+        vig_next.append(f"Monitorar queda de <strong>Publicaciones</strong> "
+                        f"({fn(pub_v['mom'])} pp WoW) — processo {pub_v.get('top_proc','Afiliados ML')}.")
+    if not vig_next:
+        vig_next.append("Semana vigente em andamento — manter monitoramento diário.")
+
+    html_vig = f'''<div style="border-left:4px solid #F39C12;padding-left:14px;margin-bottom:20px">
+  <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Highlights &amp; Análise — Semana Vigente</div>
+
+  <p style="font-size:15px;font-weight:700;color:#222;margin-bottom:16px">
+    {headline_vig}
+  </p>
+
+  <p style="font-size:13px;font-weight:700;color:#333;margin-bottom:10px">Análise por driver:</p>
+
+  {b_sell}
+  {b_par}
+  {b_pub}
+  {b_ei}
+
+  <p style="font-size:13px;font-weight:700;color:#333;margin-bottom:10px">Next steps:</p>
+
+  <p style="font-size:13px;line-height:1.9;color:#444">
+    {"<br><br>".join(vig_next)}
+  </p>
+</div>'''
+
+    with open('_exec_summary_vig_sd.html', 'w', encoding='utf-8') as f:
+        f.write(html_vig)
+    print(f'VIG Headline: {headline_vig}')
+    print('Salvo em _exec_summary_vig_sd.html')
