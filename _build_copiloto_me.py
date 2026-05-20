@@ -216,22 +216,56 @@ def fmt_nps(v):
     cls = 'gc' if v >= 65 else ('yc' if v >= 50 else 'rc')
     return f'<span class="{cls}">{v:.1f}%</span>'
 
-def proc_table():
-    rows = []
-    for pid, nm in sorted(PROC_NAMES.items(), key=lambda x: -(PROC_TMO[x[0]]['com'][1]+PROC_TMO[x[0]]['sem'][1])):
-        d = PROC_TMO[pid]
-        tmo_com, n_com = d['com']
-        tmo_sem, n_sem = d['sem']
-        delta = round(tmo_com - tmo_sem, 1)
-        cls = 'rc' if delta > 2 else ('gc' if delta < -2 else 'neu-cell')
-        sign = '+' if delta > 0 else ''
-        rows.append(
-            f'<tr><td class="rep-name">{nm}</td>'
-            f'<td>{tmo_com:.1f}</td><td class="n-small">{n_com:,}</td>'
-            f'<td>{tmo_sem:.1f}</td><td class="n-small">{n_sem:,}</td>'
-            f'<td><span class="{cls}">{sign}{delta:.1f} min</span></td></tr>'
-        )
-    return '\n'.join(rows)
+def build_proc_data():
+    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_proc_tmo_by_office.json', encoding='utf-8') as f:
+        raw = json.load(f)
+
+    # Build PROC_DATA[office][channel][pid] = {'com': (tmo, casos), 'sem': (tmo, casos)}
+    from collections import defaultdict
+    # accumulators: [office][channel][pid][grupo] = {'tmo_num': sum, 'out': sum, 'casos': sum}
+    acc = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: {'tmo_num': 0.0, 'out': 0, 'casos': 0}))))
+
+    def accumulate(office, channel, row):
+        pid   = int(row['ASSIGN_PROCESS_ID'])
+        grupo = row['grupo']
+        tmo   = float(row['tmo_min'] or 0)
+        casos = int(row['casos'] or 0)
+        # We'll store weighted sum: tmo * casos (to allow re-aggregation)
+        acc[office][channel][pid][grupo]['tmo_num'] += tmo * casos
+        acc[office][channel][pid][grupo]['casos']   += casos
+
+    for row in raw:
+        o = row['office']
+        ch = row['channel']
+        accumulate(o, ch, row)
+        accumulate(o, 'ALL', row)   # office-specific ALL channel
+        accumulate('ALL', ch, row)  # ALL office, channel-specific
+        accumulate('ALL', 'ALL', row)
+
+    # Flatten to final structure
+    result = {}
+    for office in list(acc.keys()):
+        result[office] = {}
+        for channel in list(acc[office].keys()):
+            result[office][channel] = {}
+            for pid in list(acc[office][channel].keys()):
+                entry = {}
+                for grupo in ['com', 'sem']:
+                    d = acc[office][channel][pid].get(grupo, {})
+                    casos = d.get('casos', 0)
+                    tmo = round(d['tmo_num'] / casos, 1) if casos else None
+                    entry[grupo] = [tmo, casos]
+                result[office][channel][pid] = entry
+
+    # Ensure all OFFICES x CHANNELS exist (fill missing with None)
+    for o in OFFICES:
+        result.setdefault(o, {})
+        for ch in CHANNELS:
+            result[o].setdefault(ch, {})
+
+    return result
+
+PROC_DATA = build_proc_data()
 
 def rep_rows():
     out = []
@@ -274,7 +308,9 @@ def rep_rows():
 # HTML
 # ═══════════════════════════════════════════════════════════════════════
 
-dset_json = json.dumps(DSET, ensure_ascii=False)
+dset_json      = json.dumps(DSET,      ensure_ascii=False)
+proc_data_json = json.dumps(PROC_DATA, ensure_ascii=False)
+proc_names_json = json.dumps({str(k): v for k, v in PROC_NAMES.items()}, ensure_ascii=False)
 
 html = f'''<!DOCTYPE html>
 <html lang="pt-BR">
@@ -471,7 +507,7 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
           <th>Delta</th>
         </tr>
       </thead>
-      <tbody>{proc_table()}</tbody>
+      <tbody id="proc-tbody"></tbody>
     </table>
   </div>
 
@@ -518,7 +554,9 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
 
 <script>
 // ── Dados ──────────────────────────────────────────────────────────────
-const DSET = {dset_json};
+const DSET      = {dset_json};
+const PROC_DATA  = {proc_data_json};
+const PROC_NAMES = {proc_names_json};
 const MONTH_LABELS = {json.dumps(MONTH_LABELS)};
 const WEEK_LABELS  = {json.dumps(WEEK_LABELS)};
 
@@ -625,10 +663,43 @@ function updateTabCharts(tab, office, channel) {{
 }}
 
 // ── refreshAllCharts — chamado após mudança de office ou channel ──────
+// ── renderProcTable — tabela TMO por processo dinâmica ────────────────
+function renderProcTable(office, channel) {{
+  const data = PROC_DATA[office]?.[channel] || {{}};
+  const order = Object.keys(PROC_NAMES).map(Number)
+    .sort((a,b) => {{
+      const na = (data[a]?.com?.[1]||0)+(data[a]?.sem?.[1]||0);
+      const nb = (data[b]?.com?.[1]||0)+(data[b]?.sem?.[1]||0);
+      return nb - na;
+    }});
+  const rows = order.map(pid => {{
+    const nm  = PROC_NAMES[pid];
+    const d   = data[pid];
+    if (!d) return '';
+    const com = d.com || [null, 0];
+    const sem = d.sem || [null, 0];
+    const tco = com[0], nco = com[1];
+    const tse = sem[0], nse = sem[1];
+    if (!tco && !tse) return '';
+    const delta = (tco != null && tse != null) ? (tco - tse).toFixed(1) : '—';
+    const sign  = parseFloat(delta) > 0 ? '+' : '';
+    const cls   = parseFloat(delta) > 2 ? 'rc' : (parseFloat(delta) < -2 ? 'gc' : 'neu-cell');
+    const ncoFmt = nco ? nco.toLocaleString('pt-BR') : '—';
+    const nseFmt = nse ? nse.toLocaleString('pt-BR') : '—';
+    const tcoFmt = tco != null ? tco.toFixed(1) : '—';
+    const tseFmt = tse != null ? tse.toFixed(1) : '—';
+    const deltaCell = tco != null && tse != null
+      ? `<span class="${{cls}}">${{sign}}${{delta}} min</span>` : '<span class="sd">—</span>';
+    return `<tr><td class="rep-name">${{nm}}</td><td>${{tcoFmt}}</td><td class="n-small">${{ncoFmt}}</td><td>${{tseFmt}}</td><td class="n-small">${{nseFmt}}</td><td>${{deltaCell}}</td></tr>`;
+  }}).filter(Boolean);
+  document.getElementById('proc-tbody').innerHTML = rows.join('');
+}}
+
 function refreshAllCharts() {{
   ['geral','expert','newbie'].forEach(tab => {{
     if (TABS_CREATED[tab]) updateTabCharts(tab, currentOffice, currentChannel);
   }});
+  renderProcTable(currentOffice, currentChannel);
 }}
 
 // ── setOffice ─────────────────────────────────────────────────────────
@@ -688,6 +759,7 @@ document.getElementById('ts2').textContent = new Date().toLocaleDateString('pt-B
 
 // Criar charts da tab geral (visível inicialmente)
 renderTabCharts('geral', 'ALL', 'ALL');
+renderProcTable('ALL', 'ALL');
 TABS_CREATED['geral'] = true;
 </script>
 </body>
