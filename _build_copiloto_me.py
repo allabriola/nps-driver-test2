@@ -137,17 +137,17 @@ def build_dset():
         tmo_t_m,tmo_t_w,tmo_c_m,tmo_c_w = [],[],[],[]
         prod_t_m,prod_t_w,prod_c_m,prod_c_w = [],[],[],[]
         for m in MONTHS:
-            ag_t = _agg([r for r in t_tmo if r.get('mes')==m], ['casos','tmo_total_seg','outgoing'])
-            ag_c = _agg([r for r in c_tmo if r.get('mes')==m], ['casos','tmo_total_seg','outgoing'])
-            tmo_t_m.append(_safe(ag_t['tmo_total_seg'], ag_t['casos']*60) if ag_t['casos'] else None)
-            tmo_c_m.append(_safe(ag_c['tmo_total_seg'], ag_c['casos']*60) if ag_c['casos'] else None)
+            ag_t = _agg([r for r in t_tmo if r.get('mes')==m], ['casos','tmo_total_seg','tmo_outgoing_seg','outgoing'])
+            ag_c = _agg([r for r in c_tmo if r.get('mes')==m], ['casos','tmo_total_seg','tmo_outgoing_seg','outgoing'])
+            tmo_t_m.append(_safe(ag_t['tmo_outgoing_seg'], ag_t['outgoing']*60) if ag_t['outgoing'] else None)
+            tmo_c_m.append(_safe(ag_c['tmo_outgoing_seg'], ag_c['outgoing']*60) if ag_c['outgoing'] else None)
             prod_t_m.append(_safe(ag_t['outgoing']*3600, ag_t['tmo_total_seg']) if ag_t['tmo_total_seg'] else None)
             prod_c_m.append(_safe(ag_c['outgoing']*3600, ag_c['tmo_total_seg']) if ag_c['tmo_total_seg'] else None)
         for w in WEEKS:
-            ag_t = _agg([r for r in t_tmo if r.get('semana')==w], ['casos','tmo_total_seg','outgoing'])
-            ag_c = _agg([r for r in c_tmo if r.get('semana')==w], ['casos','tmo_total_seg','outgoing'])
-            tmo_t_w.append(_safe(ag_t['tmo_total_seg'], ag_t['casos']*60) if ag_t['casos'] else None)
-            tmo_c_w.append(_safe(ag_c['tmo_total_seg'], ag_c['casos']*60) if ag_c['casos'] else None)
+            ag_t = _agg([r for r in t_tmo if r.get('semana')==w], ['casos','tmo_total_seg','tmo_outgoing_seg','outgoing'])
+            ag_c = _agg([r for r in c_tmo if r.get('semana')==w], ['casos','tmo_total_seg','tmo_outgoing_seg','outgoing'])
+            tmo_t_w.append(_safe(ag_t['tmo_outgoing_seg'], ag_t['outgoing']*60) if ag_t['outgoing'] else None)
+            tmo_c_w.append(_safe(ag_c['tmo_outgoing_seg'], ag_c['outgoing']*60) if ag_c['outgoing'] else None)
             prod_t_w.append(_safe(ag_t['outgoing']*3600, ag_t['tmo_total_seg']) if ag_t['tmo_total_seg'] else None)
             prod_c_w.append(_safe(ag_c['outgoing']*3600, ag_c['tmo_total_seg']) if ag_c['tmo_total_seg'] else None)
         result['tmo']  = {'t':{'m':rnd(tmo_t_m,1),'w':rnd(tmo_t_w,1)}, 'c':{'m':rnd(tmo_c_m,1),'w':rnd(tmo_c_w,1)}}
