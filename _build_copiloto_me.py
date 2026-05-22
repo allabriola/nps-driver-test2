@@ -596,7 +596,7 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
 <body>
 <div class="header">
   <h1>Copiloto — Experimento Treatment vs Control · BR_ME_Sellers_Longtail</h1>
-  <div class="sub">209 reps com Copilot vs ~436 sem Copilot · Rollout iniciado ~22/04/2026 · Atualizado em <span id="ts"></span></div>
+  <div class="sub">BR_ME_Sellers_Longtail · Rollout Copilot ~22/04/2026 · Dados até 21/05/2026 · Atualizado em <span id="ts"></span></div>
 </div>
 
 <div class="page-wrap">
@@ -649,7 +649,6 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
     <div class="ch-grid-5 compact">
       <div class="cc"><h3>NPS ↑</h3><p>% · Mar–Mai</p><canvas id="mNPS_geral"></canvas></div>
       <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="mTMO_geral"></canvas></div>
-      <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="mPROD_geral"></canvas></div>
       <div class="cc"><h3>TDI ↓</h3><p>% · Abr–Mai</p><canvas id="mTDI_geral"></canvas></div>
       <div class="cc"><h3>Recontato ↓</h3><p>% · Mar–Mai</p><canvas id="mREC_geral"></canvas></div>
     </div>
@@ -657,7 +656,6 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
     <div class="ch-grid-5 compact">
       <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="wNPS_geral"></canvas></div>
       <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="wTMO_geral"></canvas></div>
-      <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="wPROD_geral"></canvas></div>
       <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_geral"></canvas></div>
       <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_geral"></canvas></div>
     </div>
@@ -670,7 +668,6 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
     <div class="ch-grid-5">
       <div class="cc"><h3>NPS ↑</h3><p>% · Mar–Mai</p><canvas id="mNPS_expert"></canvas></div>
       <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="mTMO_expert"></canvas></div>
-      <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="mPROD_expert"></canvas></div>
       <div class="cc"><h3>TDI ↓</h3><p>% · Abr–Mai</p><canvas id="mTDI_expert"></canvas></div>
       <div class="cc"><h3>Recontato ↓</h3><p>% · Mar–Mai</p><canvas id="mREC_expert"></canvas></div>
     </div>
@@ -678,7 +675,6 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
     <div class="ch-grid-5">
       <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="wNPS_expert"></canvas></div>
       <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="wTMO_expert"></canvas></div>
-      <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="wPROD_expert"></canvas></div>
       <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_expert"></canvas></div>
       <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_expert"></canvas></div>
     </div>
@@ -691,7 +687,6 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
     <div class="ch-grid-5">
       <div class="cc"><h3>NPS ↑</h3><p>% · Mar–Mai</p><canvas id="mNPS_newbie"></canvas></div>
       <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="mTMO_newbie"></canvas></div>
-      <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="mPROD_newbie"></canvas></div>
       <div class="cc"><h3>TDI ↓</h3><p>% · Abr–Mai</p><canvas id="mTDI_newbie"></canvas></div>
       <div class="cc"><h3>Recontato ↓</h3><p>% · Mar–Mai</p><canvas id="mREC_newbie"></canvas></div>
     </div>
@@ -699,7 +694,6 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
     <div class="ch-grid-5">
       <div class="cc"><h3>NPS ↑</h3><p>%</p><canvas id="wNPS_newbie"></canvas></div>
       <div class="cc"><h3>TMO ↓</h3><p>min</p><canvas id="wTMO_newbie"></canvas></div>
-      <div class="cc"><h3>Produtividade ↑</h3><p>at/h</p><canvas id="wPROD_newbie"></canvas></div>
       <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_newbie"></canvas></div>
       <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_newbie"></canvas></div>
     </div>
@@ -931,13 +925,11 @@ function renderTabCharts(tab, office, channel) {{
 
   mkChart('mNPS_'  + tab, MONTH_LABELS, d.nps.t.m,  d.nps.c.m,  '%',    40,  85,  arM);
   mkChart('mTMO_'  + tab, MONTH_LABELS, d.tmo.t.m,  d.tmo.c.m,  'min',  22,  45,  arM);
-  mkChart('mPROD_' + tab, MONTH_LABELS, d.prod.t.m, d.prod.c.m, 'at/h', 0.8, 1.8, arM);
   mkChart('mTDI_'  + tab, MONTH_LABELS, d.tdi.t.m,  d.tdi.c.m,  '%',    2,   18,  arM);
   mkChart('mREC_'  + tab, MONTH_LABELS, d.rec.t.m,  d.rec.c.m,  '%',    0,   30,  arM);
 
   mkChart('wNPS_'  + tab, WEEK_LABELS,  d.nps.t.w,  d.nps.c.w,  '%',    40,  85,  arW);
   mkChart('wTMO_'  + tab, WEEK_LABELS,  d.tmo.t.w,  d.tmo.c.w,  'min',  24,  44,  arW);
-  mkChart('wPROD_' + tab, WEEK_LABELS,  d.prod.t.w, d.prod.c.w, 'at/h', 0.75,1.5, arW);
   mkChart('wTDI_'  + tab, WEEK_LABELS,  d.tdi.t.w,  d.tdi.c.w,  '%',    2,   18,  arW);
   mkChart('wREC_'  + tab, WEEK_LABELS,  d.rec.t.w,  d.rec.c.w,  '%',    0,   10,  arW);
 }}
@@ -946,12 +938,10 @@ function updateTabCharts(tab, office, channel) {{
   const d = activeDataset(office, channel, tab);
   updateChart('mNPS_'  + tab, d.nps.t.m,  d.nps.c.m);
   updateChart('mTMO_'  + tab, d.tmo.t.m,  d.tmo.c.m);
-  updateChart('mPROD_' + tab, d.prod.t.m, d.prod.c.m);
   updateChart('mTDI_'  + tab, d.tdi.t.m,  d.tdi.c.m);
   updateChart('mREC_'  + tab, d.rec.t.m,  d.rec.c.m);
   updateChart('wNPS_'  + tab, d.nps.t.w,  d.nps.c.w);
   updateChart('wTMO_'  + tab, d.tmo.t.w,  d.tmo.c.w);
-  updateChart('wPROD_' + tab, d.prod.t.w, d.prod.c.w);
   updateChart('wTDI_'  + tab, d.tdi.t.w,  d.tdi.c.w);
   updateChart('wREC_'  + tab, d.rec.t.w,  d.rec.c.w);
 }}
