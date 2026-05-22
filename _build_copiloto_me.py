@@ -844,6 +844,7 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
 
   <!-- TAB GERAL -->
   <div class="tab-pane active" id="tab-geral">
+    {build_summary(DSET, 'rep', 'geral')}
     <div class="section-lbl">Evolução Mensal — Jan a Mai/2026</div>
     <div class="ch-grid-5 compact">
       <div class="cc"><h3>NPS ↑</h3><p>% · Mar–Mai</p><canvas id="mNPS_geral"></canvas></div>
@@ -858,12 +859,12 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
       <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_geral"></canvas></div>
       <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_geral"></canvas></div>
     </div>
-    {build_summary(DSET, 'rep', 'geral')}
   </div>
 
   <!-- TAB EXPERT -->
   <div class="tab-pane" id="tab-expert">
     <div class="note warn" style="margin-bottom:10px">Experts: NPS superiores desde a ativação. TDI Expert com Copiloto apresenta melhora contínua. Controle = todos os Experts sem Copiloto.</div>
+    {build_summary(DSET, 'rep', 'expert')}
     <div class="section-lbl">Evolução Mensal — Jan a Mai/2026</div>
     <div class="ch-grid-5">
       <div class="cc"><h3>NPS ↑</h3><p>% · Mar–Mai</p><canvas id="mNPS_expert"></canvas></div>
@@ -878,12 +879,12 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
       <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_expert"></canvas></div>
       <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_expert"></canvas></div>
     </div>
-    {build_summary(DSET, 'rep', 'expert')}
   </div>
 
   <!-- TAB NEWBIE -->
   <div class="tab-pane" id="tab-newbie">
     <div class="note warn" style="margin-bottom:10px">Newbies: NPS crescendo rapidamente. TDI era alto em Abr mas caiu em Mai. Controle = baseline Expert (sem split de senioridade disponível para o grupo controle).</div>
+    {build_summary(DSET, 'rep', 'newbie')}
     <div class="section-lbl">Evolução Mensal — Jan a Mai/2026</div>
     <div class="ch-grid-5">
       <div class="cc"><h3>NPS ↑</h3><p>% · Mar–Mai</p><canvas id="mNPS_newbie"></canvas></div>
@@ -898,7 +899,6 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
       <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_newbie"></canvas></div>
       <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_newbie"></canvas></div>
     </div>
-    {build_summary(DSET, 'rep', 'newbie')}
   </div>
 
   <hr class="div">
