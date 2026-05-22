@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chat Assíncrono — Longtail Sellers BR</title>
+<style>
+  :root {
+    --green: #1a8a3c; --yellow: #b8860b; --red: #c0392b;
+    --bg: #f4f6f8; --card: #fff; --border: #dde3ea;
+    --head: #2c3e50; --accent: #3498db;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #222; font-size: 13px; }
+  header { background: var(--head); color: #fff; padding: 16px 24px; }
+  header h1 { font-size: 18px; }
+  header .sub { font-size: 11px; opacity: .7; margin-top: 4px; }
+  .legend { display: flex; gap: 16px; padding: 8px 24px; background: #fff; border-bottom: 1px solid var(--border); font-size: 11px; }
+  .legend span { display: flex; align-items: center; gap: 4px; }
+  .tabs { display: flex; gap: 4px; padding: 12px 24px 0; background: #fff; border-bottom: 2px solid var(--accent); }
+  .tab-btn { padding: 8px 20px; border: none; background: #eef2f7; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 13px; font-weight: 600; color: #555; transition: all .15s; }
+  .tab-btn.active { background: var(--accent); color: #fff; }
+  .tab-btn:hover:not(.active) { background: #d5e8f7; }
+  .tab-content { display: none; padding: 20px 24px; }
+  .tab-content.show { display: block; }
+  .tab-content h2 { font-size: 15px; color: var(--head); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+  .card h3 { font-size: 13px; font-weight: 700; color: var(--head); margin-bottom: 12px; }
+  .card h3 small { font-weight: 400; color: #777; font-size: 11px; }
+  .scroll-x { overflow-x: auto; }
+  table.dt { border-collapse: collapse; width: 100%; font-size: 12px; }
+  table.dt th { background: #f0f4f8; padding: 6px 10px; text-align: left; font-size: 11px; border-bottom: 2px solid var(--border); white-space: nowrap; }
+  table.dt td { padding: 5px 10px; border-bottom: 1px solid #eef0f3; white-space: nowrap; }
+  table.dt tr:hover td { background: #f7fafd; }
+  td.num { text-align: center; font-weight: 600; }
+  td.num-s { text-align: center; color: #666; }
+  td.day { font-weight: 600; color: #444; }
+  .ok   { color: var(--green); }
+  .warn { color: var(--yellow); }
+  .crit { color: var(--red); font-weight: 700; }
+  .nd   { color: #bbb; }
+  .good { color: var(--green); }
+  .bad  { color: var(--red); }
+  .neutral { color: #888; }
+  ul.exec { padding-left: 18px; }
+  ul.exec li { margin-bottom: 6px; line-height: 1.5; }
+  .empty { color: #999; font-style: italic; padding: 8px 0; }
+  @media (max-width: 600px) {
+    .tabs { overflow-x: auto; flex-wrap: nowrap; }
+    .tab-content { padding: 12px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Chat Assíncrono — Longtail Sellers BR</h1>
+  <div class="sub">Atualizado: 22/05/2026 &nbsp;|&nbsp; Tabela: DM_CX_IXC_DETAIL &nbsp;|&nbsp; Métrica: async/caso = disparos assíncronos / DENOM_IXC</div>
+</header>
+
+<div class="legend">
+  <span><span class="ok">●</span> &lt; 1.0 Normal</span>
+  <span><span class="warn">●</span> 1.0–2.0 Atenção</span>
+  <span><span class="crit">●</span> &gt; 2.0 Crítico</span>
+  <span style="margin-left:auto; color:#888">↑ piora &nbsp; ↓ melhora &nbsp; → estável (&lt;0.05)</span>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('ME')">ME</button><button class="tab-btn " onclick="showTab('Publicaciones')">Publicaciones</button><button class="tab-btn " onclick="showTab('Ventas')">Ventas</button>
+</div>
+
+
+    <div id="tab-ME" class="tab-content">
+      <h2>BR_ME_Sellers_Longtail</h2>
+
+      <div class="card">
+        <h3>Resumo Executivo</h3>
+        
+    <ul class="exec">
+      <li>Office com maior async/caso (sem ant): <strong>KTA_BRASIL</strong> — <span class="ok">0.58</span></li>
+      <li>Delta WoW KTA_BRASIL: <span class="ok">0.58</span> → <span class="ok">0.63</span> (+0.05)</li>
+      <li>Reps com async/caso &gt; 2.0 (sem ant): <strong>7</strong> reps</li>
+    </ul>
+      </div>
+
+      <div class="card">
+        <h3>WoW por Office</h3>
+        
+    <table class="dt">
+      <thead><tr>
+        <th>Escritório</th>
+        <th>Sem Ant<br><small>11/05–17/05</small></th><th>CR</th>
+        <th>Sem Atual<br><small>18/05–21/05</small></th><th>CR</th>
+        <th>Delta</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td>AEC</td>
+          <td class="num"><span class="ok">0.00</span></td><td class="num-s">2767</td>
+          <td class="num"><span class="ok">0.00</span></td><td class="num-s">2241</td>
+          <td class="num"><span class="neutral">→ 0.00</span></td>
+        </tr>
+        <tr>
+          <td>ATE</td>
+          <td class="num"><span class="ok">0.42</span></td><td class="num-s">15961</td>
+          <td class="num"><span class="ok">0.42</span></td><td class="num-s">12292</td>
+          <td class="num"><span class="neutral">→ 0.00</span></td>
+        </tr>
+        <tr>
+          <td>KTA_BRASIL</td>
+          <td class="num"><span class="ok">0.58</span></td><td class="num-s">7083</td>
+          <td class="num"><span class="ok">0.63</span></td><td class="num-s">5371</td>
+          <td class="num"><span class="bad">→ 0.05</span></td>
+        </tr></tbody>
+    </table>
+      </div>
+
+      <div class="card">
+        <h3>Mês Acumulado por Office <small>(May/2026)</small></h3>
+        
+    <table class="dt">
+      <thead><tr>
+        <th>Escritório</th>
+        <th>Async/Caso<br><small>01/05–21/05</small></th>
+        <th>CR</th><th>Async Total</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td>KTA_BRASIL</td>
+          <td class="num"><span class="ok">0.57</span></td>
+          <td class="num-s">22085</td>
+          <td class="num-s">12616</td>
+        </tr>
+        <tr>
+          <td>ATE</td>
+          <td class="num"><span class="ok">0.40</span></td>
+          <td class="num-s">49208</td>
+          <td class="num-s">19549</td>
+        </tr>
+        <tr>
+          <td>AEC</td>
+          <td class="num"><span class="ok">0.00</span></td>
+          <td class="num-s">8952</td>
+          <td class="num-s">0</td>
+        </tr>
+        <tr>
+          <td>CTX</td>
+          <td class="num">—</td>
+          <td class="num-s">0</td>
+          <td class="num-s">0</td>
+        </tr></tbody>
+    </table>
+      </div>
+
+      <div class="card">
+        <h3>Heatmap Diário — últimos 15 dias</h3>
+        <div class="scroll-x"><table class='dt heat'><thead><tr><th>Dia</th><th>AEC</th><th>ATE</th><th>KTA_BRASIL</th></tr></thead><tbody><tr><td class='day'>05/21</td><td class='num'><span class="ok">0.00</span></td><td class='num'><span class="ok">0.43</span></td><td class='num'><span class="ok">0.63</span></td></tr><tr><td class='day'>05/20</td><td class='num'><span class="ok">0.00</span></td><td class='num'><span class="ok">0.41</span></td><td class='num'><span class="ok">0.57</span></td></tr><tr><td class='day'>05/19</td><td class='num'><span class="ok">0.00</span></td><td class='num'><span class="ok">0.46</span></td><td class='num'><span class="ok">0.71</span></td></tr><tr><td class='day'>05/18</td><td class='num'><span class="ok">0.00</span></td><td class='num'><span class="ok">0.39</span></td><td class='num'><span class="ok">0.62</span></td></tr><tr><td class='day'>05/17</td><td class='num'><span class="ok">0.00</span></td><td class='num'><span class="ok">0.35</span></td><td class='num'><span class="ok">0.43</span></td></tr><tr><td class='day'>05/16</td><td class='num'><span class="ok">0.00</span></td><td class='num'><span class="ok">0.28</span></td><td class='num'><span class="ok">0.46</span></td></tr><tr><td class='day'>05/15</td><td class='num'><span class="ok">0.00</span></td><td class='num'><span class="ok">0.38</span></td><td class='num'><span class="ok">0.59</span></td></tr><tr><td class='day'>05/14</td><td class='num'><span class="ok">0.00</span></td><td class='num'><span class="ok">0.44</span></td><td class='num'><span class="ok">0.64</span></td></tr><tr><td class='day'>05/13</td><td class='num'><span class="ok">0.00</span></td><td class='num'><span class="ok">0.42</span></td><td class='num'><span class="ok">0.53</span></td></tr><tr><td class='day'>05/12</td><td class='num'><span class="ok">0.00</span></td><td class='num'><span class="ok">0.48</span></td><td class='num'><span class="ok">0.64</span></td></tr><tr><td class='day'>05/11</td><td class='num'><span class="ok">0.00</span></td><td class='num'><span class="ok">0.44</span></td><td class='num'><span class="ok">0.61</span></td></tr><tr><td class='day'>05/10</td><td class='num'><span class="ok">0.00</span></td><td class='num'><span class="ok">0.22</span></td><td class='num'><span class="ok">0.38</span></td></tr><tr><td class='day'>05/09</td><td class='num'><span class="ok">0.00</span></td><td class='num'><span class="ok">0.35</span></td><td class='num'><span class="ok">0.58</span></td></tr><tr><td class='day'>05/08</td><td class='num'><span class="ok">0.00</span></td><td class='num'><span class="ok">0.39</span></td><td class='num'><span class="ok">0.52</span></td></tr><tr><td class='day'>05/07</td><td class='num'><span class="ok">0.00</span></td><td class='num'><span class="ok">0.39</span></td><td class='num'><span class="ok">0.57</span></td></tr></tbody></table></div>
+      </div>
+
+      <div class="card">
+        <h3>Por Team Leader <small>(sem 11/05–17/05)</small></h3>
+        
+    <table class="dt">
+      <thead><tr><th>Líder</th><th>Escritório</th><th>Async/Caso</th><th>CR</th><th>Async</th></tr></thead>
+      <tbody>
+    <tr>
+      <td>Filipe Emerik</td>
+      <td>KTA_BRASIL</td>
+      <td class='num'><span class="ok">0.58</span></td>
+      <td class='num-s'>7083</td>
+      <td class='num-s'>4117</td>
+    </tr>
+    <tr>
+      <td>Filipe Emerik</td>
+      <td>ATE</td>
+      <td class='num'><span class="ok">0.42</span></td>
+      <td class='num-s'>15961</td>
+      <td class='num-s'>6730</td>
+    </tr>
+    <tr>
+      <td>Filipe Emerik</td>
+      <td>AEC</td>
+      <td class='num'><span class="ok">0.00</span></td>
+      <td class='num-s'>2767</td>
+      <td class='num-s'>0</td>
+    </tr></tbody>
+    </table>
+      </div>
+
+      <div class="card">
+        <h3>Top 20 Reps — maior async/caso <small>(mín. 10 CR)</small></h3>
+        
+    <table class="dt">
+      <thead><tr><th>Rep</th><th>Escritório</th><th>Líder</th><th>Async/Caso</th><th>CR</th><th>Async</th></tr></thead>
+      <tbody>
+    <tr>
+      <td>ext_patnorbe</td>
+      <td>ATE</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="crit">3.00</span></td>
+      <td class='num-s'>21</td>
+      <td class='num-s'>63</td>
+    </tr>
+    <tr>
+      <td>ext_aluzeda</td>
+      <td>KTA_BRASIL</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="crit">2.80</span></td>
+      <td class='num-s'>10</td>
+      <td class='num-s'>28</td>
+    </tr>
+    <tr>
+      <td>ext_cacastor</td>
+      <td>KTA_BRASIL</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="crit">2.70</span></td>
+      <td class='num-s'>33</td>
+      <td class='num-s'>89</td>
+    </tr>
+    <tr>
+      <td>ext_marotond</td>
+      <td>KTA_BRASIL</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="crit">2.15</span></td>
+      <td class='num-s'>20</td>
+      <td class='num-s'>43</td>
+    </tr>
+    <tr>
+      <td>ext_lors</td>
+      <td>KTA_BRASIL</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="crit">2.09</span></td>
+      <td class='num-s'>53</td>
+      <td class='num-s'>111</td>
+    </tr>
+    <tr>
+      <td>ext_cacardma</td>
+      <td>KTA_BRASIL</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="crit">2.08</span></td>
+      <td class='num-s'>38</td>
+      <td class='num-s'>79</td>
+    </tr>
+    <tr>
+      <td>ext_sacamcam</td>
+      <td>ATE</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="crit">2.03</span></td>
+      <td class='num-s'>29</td>
+      <td class='num-s'>59</td>
+    </tr>
+    <tr>
+      <td>ext_revilela</td>
+      <td>ATE</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="warn">2.00</span></td>
+      <td class='num-s'>18</td>
+      <td class='num-s'>36</td>
+    </tr>
+    <tr>
+      <td>ext_anpalope</td>
+      <td>ATE</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="warn">1.94</span></td>
+      <td class='num-s'>33</td>
+      <td class='num-s'>64</td>
+    </tr>
+    <tr>
+      <td>ext_matdomic</td>
+      <td>ATE</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="warn">1.93</span></td>
+      <td class='num-s'>14</td>
+      <td class='num-s'>27</td>
+    </tr>
+    <tr>
+      <td>ext_julisani</td>
+      <td>KTA_BRASIL</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="warn">1.92</span></td>
+      <td class='num-s'>12</td>
+      <td class='num-s'>23</td>
+    </tr>
+    <tr>
+      <td>ext_dandarac</td>
+      <td>KTA_BRASIL</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="warn">1.92</span></td>
+      <td class='num-s'>52</td>
+      <td class='num-s'>100</td>
+    </tr>
+    <tr>
+      <td>ext_relana</td>
+      <td>KTA_BRASIL</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="warn">1.83</span></td>
+      <td class='num-s'>41</td>
+      <td class='num-s'>75</td>
+    </tr>
+    <tr>
+      <td>ext_davidsri</td>
+      <td>KTA_BRASIL</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="warn">1.78</span></td>
+      <td class='num-s'>63</td>
+      <td class='num-s'>112</td>
+    </tr>
+    <tr>
+      <td>ext_joseacar</td>
+      <td>ATE</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="warn">1.76</span></td>
+      <td class='num-s'>21</td>
+      <td class='num-s'>37</td>
+    </tr>
+    <tr>
+      <td>ext_riscassi</td>
+      <td>KTA_BRASIL</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="warn">1.75</span></td>
+      <td class='num-s'>20</td>
+      <td class='num-s'>35</td>
+    </tr>
+    <tr>
+      <td>ext_odborges</td>
+      <td>ATE</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="warn">1.74</span></td>
+      <td class='num-s'>31</td>
+      <td class='num-s'>54</td>
+    </tr>
+    <tr>
+      <td>ext_cauhora</td>
+      <td>KTA_BRASIL</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="warn">1.68</span></td>
+      <td class='num-s'>71</td>
+      <td class='num-s'>119</td>
+    </tr>
+    <tr>
+      <td>ext_siribere</td>
+      <td>KTA_BRASIL</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="warn">1.64</span></td>
+      <td class='num-s'>28</td>
+      <td class='num-s'>46</td>
+    </tr>
+    <tr>
+      <td>ext_lujjose</td>
+      <td>ATE</td>
+      <td>Filipe Emerik</td>
+      <td class='num'><span class="warn">1.62</span></td>
+      <td class='num-s'>73</td>
+      <td class='num-s'>118</td>
+    </tr></tbody>
+    </table>
+      </div>
+
+      <div class="card">
+        <h3>Tendência 8 Semanas por Office</h3>
+        <div class="scroll-x"><table class='dt heat'><thead><tr><th>Semana</th><th>AEC</th><th>ATE</th><th>CTX</th><th>KTA_BRASIL</th></tr></thead><tbody><tr><td class='day'>03/23</td><td class='num'>—</td><td class='num'>—</td><td class='num'>—</td><td class='num'><span class="ok">0.38</span></td></tr><tr><td class='day'>03/30</td><td class='num'><span class="ok">0.00</span> </td><td class='num'><span class="ok">0.28</span> </td><td class='num'><span class="ok">0.50</span> </td><td class='num'><span class="ok">0.33</span> <span class="good">→ 0.05</span></td></tr><tr><td class='day'>04/06</td><td class='num'><span class="ok">0.00</span> <span class="neutral">→ 0.00</span></td><td class='num'><span class="ok">0.41</span> <span class="bad">↑ 0.13</span></td><td class='num'><span class="ok">0.61</span> <span class="bad">↑ 0.11</span></td><td class='num'><span class="ok">0.47</span> <span class="bad">↑ 0.14</span></td></tr><tr><td class='day'>04/13</td><td class='num'><span class="ok">0.00</span> <span class="neutral">→ 0.00</span></td><td class='num'><span class="ok">0.39</span> <span class="good">→ 0.02</span></td><td class='num'><span class="ok">0.57</span> <span class="good">→ 0.04</span></td><td class='num'><span class="ok">0.46</span> <span class="good">→ 0.01</span></td></tr><tr><td class='day'>04/20</td><td class='num'><span class="ok">0.00</span> <span class="neutral">→ 0.00</span></td><td class='num'><span class="ok">0.34</span> <span class="good">→ 0.05</span></td><td class='num'><span class="ok">0.49</span> <span class="good">↓ 0.08</span></td><td class='num'><span class="ok">0.38</span> <span class="good">↓ 0.08</span></td></tr><tr><td class='day'>04/27</td><td class='num'><span class="ok">0.00</span> <span class="neutral">→ 0.00</span></td><td class='num'><span class="ok">0.35</span> <span class="bad">→ 0.01</span></td><td class='num'><span class="ok">0.56</span> <span class="bad">↑ 0.07</span></td><td class='num'><span class="ok">0.49</span> <span class="bad">↑ 0.11</span></td></tr><tr><td class='day'>05/04</td><td class='num'><span class="ok">0.00</span> <span class="neutral">→ 0.00</span></td><td class='num'><span class="ok">0.39</span> <span class="bad">→ 0.04</span></td><td class='num'>— </td><td class='num'><span class="ok">0.55</span> <span class="bad">↑ 0.06</span></td></tr><tr><td class='day'>05/11</td><td class='num'><span class="ok">0.00</span> <span class="neutral">→ 0.00</span></td><td class='num'><span class="ok">0.42</span> <span class="bad">→ 0.03</span></td><td class='num'>— </td><td class='num'><span class="ok">0.58</span> <span class="bad">→ 0.03</span></td></tr><tr><td class='day'>05/18</td><td class='num'><span class="ok">0.00</span> <span class="neutral">→ 0.00</span></td><td class='num'><span class="ok">0.42</span> <span class="neutral">→ 0.00</span></td><td class='num'>— </td><td class='num'><span class="ok">0.63</span> <span class="bad">→ 0.05</span></td></tr></tbody></table></div>
+      </div>
+    </div>
+    <div id="tab-Publicaciones" class="tab-content">
+      <h2>BR_Publicaciones_Sellers_Longtail</h2>
+
+      <div class="card">
+        <h3>Resumo Executivo</h3>
+        
+    <ul class="exec">
+      <li>Office com maior async/caso (sem ant): <strong>KTA_BRASIL</strong> — <span class="ok">0.37</span></li>
+      <li>Delta WoW KTA_BRASIL: <span class="ok">0.37</span> → <span class="ok">0.28</span> (-0.09)</li>
+      <li>Reps com async/caso &gt; 2.0 (sem ant): <strong>0</strong> reps</li>
+    </ul>
+      </div>
+
+      <div class="card">
+        <h3>WoW por Office</h3>
+        
+    <table class="dt">
+      <thead><tr>
+        <th>Escritório</th>
+        <th>Sem Ant<br><small>11/05–17/05</small></th><th>CR</th>
+        <th>Sem Atual<br><small>18/05–21/05</small></th><th>CR</th>
+        <th>Delta</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td>AEC</td>
+          <td class="num"><span class="ok">0.20</span></td><td class="num-s">8338</td>
+          <td class="num"><span class="ok">0.18</span></td><td class="num-s">5376</td>
+          <td class="num"><span class="good">→ 0.02</span></td>
+        </tr>
+        <tr>
+          <td>KTA_BRASIL</td>
+          <td class="num"><span class="ok">0.37</span></td><td class="num-s">6396</td>
+          <td class="num"><span class="ok">0.28</span></td><td class="num-s">4738</td>
+          <td class="num"><span class="good">↓ 0.09</span></td>
+        </tr></tbody>
+    </table>
+      </div>
+
+      <div class="card">
+        <h3>Mês Acumulado por Office <small>(May/2026)</small></h3>
+        
+    <table class="dt">
+      <thead><tr>
+        <th>Escritório</th>
+        <th>Async/Caso<br><small>01/05–21/05</small></th>
+        <th>CR</th><th>Async Total</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td>KTA_BRASIL</td>
+          <td class="num"><span class="ok">0.36</span></td>
+          <td class="num-s">19396</td>
+          <td class="num-s">7046</td>
+        </tr>
+        <tr>
+          <td>AEC</td>
+          <td class="num"><span class="ok">0.20</span></td>
+          <td class="num-s">23318</td>
+          <td class="num-s">4637</td>
+        </tr></tbody>
+    </table>
+      </div>
+
+      <div class="card">
+        <h3>Heatmap Diário — últimos 15 dias</h3>
+        <div class="scroll-x"><table class='dt heat'><thead><tr><th>Dia</th><th>AEC</th><th>KTA_BRASIL</th></tr></thead><tbody><tr><td class='day'>05/21</td><td class='num'><span class="ok">0.21</span></td><td class='num'><span class="ok">0.26</span></td></tr><tr><td class='day'>05/20</td><td class='num'><span class="ok">0.18</span></td><td class='num'><span class="ok">0.28</span></td></tr><tr><td class='day'>05/19</td><td class='num'><span class="ok">0.16</span></td><td class='num'><span class="ok">0.27</span></td></tr><tr><td class='day'>05/18</td><td class='num'><span class="ok">0.16</span></td><td class='num'><span class="ok">0.32</span></td></tr><tr><td class='day'>05/17</td><td class='num'><span class="ok">0.17</span></td><td class='num'><span class="ok">0.33</span></td></tr><tr><td class='day'>05/16</td><td class='num'><span class="ok">0.12</span></td><td class='num'><span class="ok">0.23</span></td></tr><tr><td class='day'>05/15</td><td class='num'><span class="ok">0.21</span></td><td class='num'><span class="ok">0.40</span></td></tr><tr><td class='day'>05/14</td><td class='num'><span class="ok">0.24</span></td><td class='num'><span class="ok">0.35</span></td></tr><tr><td class='day'>05/13</td><td class='num'><span class="ok">0.21</span></td><td class='num'><span class="ok">0.42</span></td></tr><tr><td class='day'>05/12</td><td class='num'><span class="ok">0.18</span></td><td class='num'><span class="ok">0.37</span></td></tr><tr><td class='day'>05/11</td><td class='num'><span class="ok">0.23</span></td><td class='num'><span class="ok">0.39</span></td></tr><tr><td class='day'>05/10</td><td class='num'><span class="ok">0.20</span></td><td class='num'><span class="ok">0.35</span></td></tr><tr><td class='day'>05/09</td><td class='num'><span class="ok">0.16</span></td><td class='num'><span class="ok">0.31</span></td></tr><tr><td class='day'>05/08</td><td class='num'><span class="ok">0.24</span></td><td class='num'><span class="ok">0.46</span></td></tr><tr><td class='day'>05/07</td><td class='num'><span class="ok">0.24</span></td><td class='num'><span class="ok">0.53</span></td></tr></tbody></table></div>
+      </div>
+
+      <div class="card">
+        <h3>Por Team Leader <small>(sem 11/05–17/05)</small></h3>
+        
+    <table class="dt">
+      <thead><tr><th>Líder</th><th>Escritório</th><th>Async/Caso</th><th>CR</th><th>Async</th></tr></thead>
+      <tbody>
+    <tr>
+      <td>Filipe Emerik</td>
+      <td>KTA_BRASIL</td>
+      <td class='num'><span class="ok">0.37</span></td>
+      <td class='num-s'>6396</td>
+      <td class='num-s'>2378</td>
+    </tr>
+    <tr>
+      <td>Filipe Emerik</td>
+      <td>AEC</td>
+      <td class='num'><span class="ok">0.20</span></td>
+      <td class='num-s'>8338</td>
+      <td class='num-s'>1702</td>
+    </tr></tbody>
+    </table>
+      </div>
+
+      <div class="card">
+        <h3>Top 20 Reps — maior async/caso <small>(mín. 10 CR)</small></h3>
+        <p class='empty'>Sem dados (mín. 10 CR)</p>
+      </div>
+
+      <div class="card">
+        <h3>Tendência 8 Semanas por Office</h3>
+        <div class="scroll-x"><table class='dt heat'><thead><tr><th>Semana</th><th>AEC</th><th>CTX</th><th>KTA</th><th>KTA_BRASIL</th></tr></thead><tbody><tr><td class='day'>03/23</td><td class='num'><span class="ok">0.46</span></td><td class='num'>—</td><td class='num'>—</td><td class='num'>—</td></tr><tr><td class='day'>03/30</td><td class='num'><span class="ok">0.29</span> <span class="good">↓ 0.17</span></td><td class='num'><span class="ok">0.08</span> </td><td class='num'>— </td><td class='num'><span class="ok">0.59</span> </td></tr><tr><td class='day'>04/06</td><td class='num'><span class="ok">0.31</span> <span class="bad">→ 0.02</span></td><td class='num'><span class="ok">0.00</span> <span class="good">↓ 0.08</span></td><td class='num'>— </td><td class='num'><span class="ok">0.60</span> <span class="bad">→ 0.01</span></td></tr><tr><td class='day'>04/13</td><td class='num'><span class="ok">0.30</span> <span class="good">→ 0.01</span></td><td class='num'><span class="ok">0.00</span> <span class="neutral">→ 0.00</span></td><td class='num'>— </td><td class='num'><span class="ok">0.58</span> <span class="good">→ 0.02</span></td></tr><tr><td class='day'>04/20</td><td class='num'><span class="ok">0.25</span> <span class="good">→ 0.05</span></td><td class='num'><span class="ok">0.00</span> <span class="neutral">→ 0.00</span></td><td class='num'>— </td><td class='num'><span class="ok">0.45</span> <span class="good">↓ 0.13</span></td></tr><tr><td class='day'>04/27</td><td class='num'><span class="ok">0.22</span> <span class="good">→ 0.03</span></td><td class='num'><span class="ok">0.00</span> <span class="neutral">→ 0.00</span></td><td class='num'>— </td><td class='num'><span class="ok">0.39</span> <span class="good">↓ 0.06</span></td></tr><tr><td class='day'>05/04</td><td class='num'><span class="ok">0.22</span> <span class="neutral">→ 0.00</span></td><td class='num'>— </td><td class='num'>— </td><td class='num'><span class="ok">0.43</span> <span class="bad">→ 0.04</span></td></tr><tr><td class='day'>05/11</td><td class='num'><span class="ok">0.20</span> <span class="good">→ 0.02</span></td><td class='num'>— </td><td class='num'>— </td><td class='num'><span class="ok">0.37</span> <span class="good">↓ 0.06</span></td></tr><tr><td class='day'>05/18</td><td class='num'><span class="ok">0.18</span> <span class="good">→ 0.02</span></td><td class='num'>— </td><td class='num'>— </td><td class='num'><span class="ok">0.28</span> <span class="good">↓ 0.09</span></td></tr></tbody></table></div>
+      </div>
+    </div>
+    <div id="tab-Ventas" class="tab-content">
+      <h2>BR_Ventas_Sellers Longtail</h2>
+
+      <div class="card">
+        <h3>Resumo Executivo</h3>
+        
+    <ul class="exec">
+      <li>Sem dados de office</li>
+      <li>Sem dados WoW</li>
+      <li>Reps com async/caso &gt; 2.0 (sem ant): <strong>0</strong> reps</li>
+    </ul>
+      </div>
+
+      <div class="card">
+        <h3>WoW por Office</h3>
+        <p class='empty'>Sem dados</p>
+      </div>
+
+      <div class="card">
+        <h3>Mês Acumulado por Office <small>(May/2026)</small></h3>
+        <p class='empty'>Sem dados</p>
+      </div>
+
+      <div class="card">
+        <h3>Heatmap Diário — últimos 15 dias</h3>
+        <div class="scroll-x"><p class='empty'>Sem dados</p></div>
+      </div>
+
+      <div class="card">
+        <h3>Por Team Leader <small>(sem 11/05–17/05)</small></h3>
+        <p class='empty'>Sem dados</p>
+      </div>
+
+      <div class="card">
+        <h3>Top 20 Reps — maior async/caso <small>(mín. 10 CR)</small></h3>
+        <p class='empty'>Sem dados (mín. 10 CR)</p>
+      </div>
+
+      <div class="card">
+        <h3>Tendência 8 Semanas por Office</h3>
+        <div class="scroll-x"><p class='empty'>Sem dados</p></div>
+      </div>
+    </div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('show'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('show');
+  event.target.classList.add('active');
+}
+document.querySelector('.tab-content').classList.add('show');
+</script>
+</body>
+</html>
