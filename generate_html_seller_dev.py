@@ -359,52 +359,66 @@ def _period_target_cons(period, freq="monthly"):
             return v2
     return NPS_TARGET
 
+def _grp_drv(grp):
+    """Retorna o primeiro driver do grupo (para lookup de targets por driver)."""
+    drvs = DRIVER_GROUPS.get(grp, [])
+    return drvs[0] if drvs else ''
+
 def _period_target_grp(grp, period, freq="monthly"):
     """Retorna target do grupo para um período específico."""
-    return (_PT.get(freq, {}).get(period, {}).get("groups", {}).get(grp) or NPS_TARGET)
+    d = _grp_drv(grp)
+    return (_PT.get(freq, {}).get(period, {}).get("drivers", {}).get(d) or
+            DRIVER_TARGETS.get(d, NPS_TARGET))
 
 # Sobrescreve NPS_TARGET com valor correto do BQ para o período atual
 NPS_TARGET = _period_target_cons(MONTH_LABELS[-1], "monthly")
 
-_TARGETS_GROUPS = (_PT.get("monthly", {}).get(MONTH_LABELS[-1], {}).get("groups", {})
-                   if _PT else {})
+_TARGETS_GROUPS = {grp: (_PT.get("monthly",{}).get(MONTH_LABELS[-1],{})
+                         .get("drivers",{}).get(_grp_drv(grp)) or
+                         DRIVER_TARGETS.get(_grp_drv(grp), NPS_TARGET))
+                   for grp in DRIVER_GROUPS} if _PT else {}
 
 # Séries de target por período (para uso nos gráficos históricos)
 mon_target_series = [_period_target_cons(lbl, "monthly") for lbl in MONTH_LABELS]
-wk_target_series  = [_period_target_cons(lbl, "weekly")  for lbl in WEEK_LABELS] + \
-                    [_period_target_cons("VIG", "weekly")]
+wk_target_series  = [_period_target_cons(lbl, "weekly") for lbl in WEEK_LABELS]
 
 grp_targets = {grp: _grp_target(drvs) for grp, drvs in DRIVER_GROUPS.items()}
 
 def _grp_tgt_series_monthly(grp):
     """Série de targets mensais por grupo (um valor por MONTH_LABELS)."""
-    return [_PT.get("monthly",{}).get(lbl,{}).get("groups",{}).get(grp, NPS_TARGET)
+    d = _grp_drv(grp)
+    return [_PT.get("monthly",{}).get(lbl,{}).get("drivers",{}).get(d) or
+            DRIVER_TARGETS.get(d, NPS_TARGET)
             for lbl in MONTH_LABELS]
 
 def _grp_tgt_series_weekly(grp):
-    """Série de targets semanais por grupo (um valor por WEEK_LABELS_VIG)."""
-    wk_labels = list(WEEK_LABELS) + ["VIG"]
-    return [_PT.get("weekly",{}).get(lbl,{}).get("groups",{}).get(grp, NPS_TARGET)
-            for lbl in wk_labels]
+    """Série de targets semanais por grupo (um valor por WEEK_LABELS — sem VIG)."""
+    d = _grp_drv(grp)
+    return [_PT.get("weekly",{}).get(lbl,{}).get("drivers",{}).get(d) or
+            DRIVER_TARGETS.get(d, NPS_TARGET)
+            for lbl in WEEK_LABELS]
 
 def _grp_tgt_latest(grp, mode="monthly"):
     """Target mais recente do grupo (para chips 'vs tgt')."""
+    d = _grp_drv(grp)
     if mode == "weekly":
-        return _PT.get("weekly",{}).get("VIG",{}).get("groups",{}).get(grp) or \
-               _PT.get("weekly",{}).get("27/abr",{}).get("groups",{}).get(grp) or NPS_TARGET
-    return _PT.get("monthly",{}).get(MONTH_LABELS[-1],{}).get("groups",{}).get(grp) or NPS_TARGET
+        return (_PT.get("weekly",{}).get(S1_LABEL,{}).get("drivers",{}).get(d) or
+                _PT.get("weekly",{}).get(WEEK_LABELS[-1],{}).get("drivers",{}).get(d) or
+                DRIVER_TARGETS.get(d, NPS_TARGET))
+    return (_PT.get("monthly",{}).get(MONTH_LABELS[-1],{}).get("drivers",{}).get(d) or
+            DRIVER_TARGETS.get(d, NPS_TARGET))
 
 drv_m = {d: _drv_s(monthly_history, MONTH_LABELS, d) for d in ALL_DRIVERS}
 drv_w = {d: _drv_s(weekly_history,  WEEK_LABELS,  d) for d in ALL_DRIVERS}
 
 curr_m  = {d: drv_m[d][-1] for d in ALL_DRIVERS}
-prev_m  = {d: drv_m[d][-2] for d in ALL_DRIVERS}
+prev_m  = {d: drv_m[d][-2] if len(drv_m[d]) >= 2 else None for d in ALL_DRIVERS}
 trend_m = {d: round(curr_m[d] - prev_m[d], 2)
            if curr_m[d] is not None and prev_m[d] is not None else None
            for d in ALL_DRIVERS}
 
 curr_w  = {d: drv_w[d][-1] for d in ALL_DRIVERS}
-prev_w  = {d: drv_w[d][-2] for d in ALL_DRIVERS}
+prev_w  = {d: drv_w[d][-2] if len(drv_w[d]) >= 2 else None for d in ALL_DRIVERS}
 trend_w = {d: round(curr_w[d] - prev_w[d], 2)
            if curr_w[d] is not None and prev_w[d] is not None else None
            for d in ALL_DRIVERS}
@@ -616,7 +630,7 @@ def waterfall_chart(cid, label_a, nps_a, label_b, nps_b, d_dict, height=370):
     cfg_json = _json.dumps(cfg).replace('"__WF_FMT__"', wf_fmt)
     return _chart_script(cid, cfg_json, height)
 
-def chart_small_multiples(base_cid, items, cons_data, labels, surv_map=None):
+def chart_small_multiples(base_cid, items, cons_data, labels, surv_map=None, cols=3, vig_last=False):
     """
     Grid de mini-gráficos: barras (resultado) + linha target + consolidado cinza.
     items: lista de (name, series, color, target_val) ou
@@ -643,9 +657,24 @@ def chart_small_multiples(base_cid, items, cons_data, labels, surv_map=None):
         vs_str  = (("+" if vs_tgt >= 0 else "") + fn(vs_tgt) + "pp vs tgt") if vs_tgt is not None else ""
         vs_cls  = "sm-pos" if vs_tgt is not None and vs_tgt >= 0 else "sm-neg"
 
+        bar_surv = surv_series if (surv_series and len(surv_series) == len(labels)) else []
+        _TTP_SURV = ('function(ctx){'
+                     'var d=ctx.dataset._survData;'
+                     'if(d&&d[ctx.dataIndex])return d[ctx.dataIndex].toLocaleString("pt-BR")+" pesquisas";'
+                     'return null;}')
+
+        # Se vig_last=True, a última barra usa cor laranja (VIG parcial)
+        if vig_last and len(series) > 1:
+            bg_list = [color + "bb"] * (len(series) - 1) + ["#F39C1266"]
+            bd_list = [color] * (len(series) - 1) + ["#F39C12"]
+        else:
+            bg_list = color + "bb"
+            bd_list = color
+
         datasets = [
             {"type": "bar", "label": name, "data": series,
-             "backgroundColor": color + "bb", "borderColor": color,
+             "_survData": bar_surv,
+             "backgroundColor": bg_list, "borderColor": bd_list,
              "borderWidth": 1, "borderRadius": 3,
              "datalabels": {"display": True, "anchor": "end", "align": "end",
                             "offset": 2, "color": "#444",
@@ -660,52 +689,131 @@ def chart_small_multiples(base_cid, items, cons_data, labels, surv_map=None):
              "borderWidth": 1.8, "pointRadius": 0, "fill": False,
              "datalabels": {"display": False}},
         ]
-        # Combina labels com surveys: ["30/mar\n706 enc", ...]
-        if surv_series and len(surv_series) == len(labels):
-            chart_labels = [[lbl, f"{s:,} enc"] if s else [lbl] for lbl, s in zip(labels, surv_series)]
-        else:
-            chart_labels = labels
 
         cfg = {"type": "bar",
-               "data": {"labels": chart_labels, "datasets": datasets},
+               "data": {"labels": list(labels), "datasets": datasets},
                "options": {
                    "responsive": True, "maintainAspectRatio": False,
                    "layout": {"padding": {"top": 14, "right": 46, "bottom": 2, "left": 4}},
                    "interaction": {"mode": "index", "intersect": False},
-                   "plugins": {"legend": {"display": False}, "datalabels": {}},
+                   "plugins": {
+                       "legend": {"display": False},
+                       "datalabels": {},
+                       "tooltip": {"callbacks": {"afterLabel": "__TTP_SURV__"}}},
                    "scales": {
                        "y": {"min": -20, "max": 100,
                              "ticks": {"stepSize": 20, "font": {"size": 9}},
                              "grid": {"color": "#f0f0f0"}},
-                       "x": {"ticks": {"font": {"size": 9}, "color": "#888"}, "grid": {"display": False}}}}}
+                       "x": {"ticks": {"font": {"size": 9}, "color": "#888",
+                                       "autoSkip": False, "maxRotation": 30, "minRotation": 0},
+                             "grid": {"display": False}}}}}
 
-        mini_chart = (f'<div style="position:relative;height:155px;">'
+        mini_chart = (f'<div style="position:relative;height:160px;">'
                       f'<canvas id="{cid}"></canvas></div>'
                       f'<script>new Chart(document.getElementById("{cid}"),'
-                      f'{_json.dumps(cfg).replace(chr(34)+"__FMT__"+chr(34), _FMT)});</script>')
-
-        # Caixinha de total do período atual
-        surv_box = ""
-        if surv_count is not None:
-            surv_box = (f'<div style="margin-top:4px;text-align:center;'
-                        f'background:#f4f6f9;border-radius:6px;padding:3px 8px;'
-                        f'font-size:10px;color:#666">'
-                        f'&#128202; <strong>{surv_count:,}</strong> pesquisas no período</div>')
+                      f'{_json.dumps(cfg).replace(chr(34)+"__FMT__"+chr(34), _FMT).replace(chr(34)+"__TTP_SURV__"+chr(34), _TTP_SURV)});</script>')
 
         blocks.append(
             f'<div class="sm-item" style="border-top:3px solid {color}">'
             f'<div class="sm-header"><span class="sm-cat">{esc(name)}</span>'
             f'<span class="sm-nps">{nps_str} <span class="{trend_cls}">{trend_str}</span></span></div>'
             f'<div class="sm-sub {vs_cls}">{vs_str}</div>'
-            f'{mini_chart}'
-            f'{surv_box}</div>'
+            f'{mini_chart}</div>'
         )
 
-    return f'<div class="sm-grid">{"".join(blocks)}</div>'
+    col_style = f'grid-template-columns:repeat({cols},1fr)' if cols != 3 else ''
+    style_attr = f' style="{col_style}"' if col_style else ''
+    return f'<div class="sm-grid"{style_attr}>{"".join(blocks)}</div>'
 
 # ══════════════════════════════════════════════════════════════════════
 # 6. CONTEUDO DAS ABAS
 # ══════════════════════════════════════════════════════════════════════
+
+def _vig_wf_data():
+    """S1 → VIG: contribuição de cada grupo para a variação da semana vigente."""
+    sA = sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2] for d in ALL_DRIVERS)
+    sB = sum(drivers_vigente.get(d,(0,0,0))[2] for d in ALL_DRIVERS)
+    nps_B = vig_cons_nps or 0.0
+
+    def grp_t(drvs, period_dict, key):
+        p  = sum(period_dict.get(d,(0,0,0))[0] if isinstance(period_dict.get(d,(0,0,0)), tuple)
+                 else period_dict.get(d,{}).get(key,(0,0,0))[0]
+                 for d in drvs if d not in EXCLUIDOS)
+        dt = sum(period_dict.get(d,(0,0,0))[1] if isinstance(period_dict.get(d,(0,0,0)), tuple)
+                 else period_dict.get(d,{}).get(key,(0,0,0))[1]
+                 for d in drvs if d not in EXCLUIDOS)
+        s  = sum(period_dict.get(d,(0,0,0))[2] if isinstance(period_dict.get(d,(0,0,0)), tuple)
+                 else period_dict.get(d,{}).get(key,(0,0,0))[2]
+                 for d in drvs if d not in EXCLUIDOS)
+        return round(100.0*(p-dt)/s, 2) if s > 0 else 0.0, s
+
+    d_dict = {}
+    for grp, drvs in DRIVER_GROUPS.items():
+        na, sA_g = grp_t(drvs, weekly_driver, "S1")
+        nb, sB_g = grp_t(drvs, drivers_vigente, None)
+        na = na or 0; nb = nb or 0
+        sha = sA_g/sA if sA else 0; shb = sB_g/sB if sB else 0
+        tgt_num = sum(drivers_vigente.get(d,(0,0,0))[2]*DRIVER_TARGETS.get(d,NPS_TARGET)
+                      for d in drvs if d not in EXCLUIDOS)
+        tgt = tgt_num/sB_g if sB_g else NPS_TARGET
+        d_dict[grp] = {"var": round(sha*(nb-na)+(shb-sha)*(nb-nps_B), 2),
+                       "nps_curr": nb, "nps_prev": na, "target": round(tgt,2),
+                       "delta_tgt": round(nb-tgt,2)}
+    return wk_cons[-1] or 0.0, vig_cons_nps or 0.0, d_dict
+
+
+def _vig_exec_html():
+    """Resumo executivo inline para a semana vigente (VIG vs S1)."""
+    if not vig_cons_nps:
+        return (f'<div class="section-block">'
+                f'<div style="border-left:4px solid #F39C12;padding-left:14px">'
+                f'<div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;'
+                f'letter-spacing:.5px;margin-bottom:8px">Highlights &amp; An&#225;lise &mdash; Semana Vigente</div>'
+                f'<p style="font-size:13px;color:#aaa">Sem dados suficientes para an&#225;lise neste per&#237;odo.</p>'
+                f'</div></div>')
+
+    tgt_v  = NPS_TARGET
+    vs_tgt = round(vig_cons_nps - tgt_v, 1)
+    vs_s1  = round(vig_cons_nps - (wk_cons[-1] or 0), 1)
+    g_sign = '+' if vs_tgt >= 0 else ''
+    w_sign = '+' if vs_s1  >= 0 else ''
+    lv = esc(VIG_LABEL or 'Vigente'); ls1 = esc(S1_LABEL or 'S1')
+
+    headline = (f'<p style="font-size:15px;font-weight:700;color:#222;margin-bottom:10px">'
+                f'NPS de {fn(vig_cons_nps)}% &mdash; '
+                f'{g_sign}{fn(vs_tgt)} pp vs. meta ({fn(tgt_v)}%) '
+                f'e {w_sign}{fn(vs_s1)} pp WoW ({ls1} &rarr; {lv})</p>')
+
+    rows = ''
+    for grp, drvs in DRIVER_GROUPS.items():
+        p  = sum(drivers_vigente.get(d,(0,0,0))[0] for d in drvs if d not in EXCLUIDOS)
+        dt = sum(drivers_vigente.get(d,(0,0,0))[1] for d in drvs if d not in EXCLUIDOS)
+        s  = sum(drivers_vigente.get(d,(0,0,0))[2] for d in drvs if d not in EXCLUIDOS)
+        if s == 0: continue
+        nv   = round(100*(p-dt)/s, 1)
+        tg   = _grp_tgt_latest(grp, 'weekly')
+        ns1v = grp_wk[grp][-1] if grp_wk.get(grp) else None
+        gvt  = round(nv - tg, 1)
+        gvs  = round(nv - ns1v, 1) if ns1v is not None else None
+        dot  = GROUP_COLORS.get(grp, '#3483FA')
+        icon = '🟢' if gvt >= 0 else ('🟡' if gvt >= -5 else '🔴')
+        rows += (f'<p style="font-size:13px;line-height:1.8;margin-bottom:6px;color:#333">'
+                 f'{icon} <strong>{esc(grp)}</strong>: NPS de <strong>{fn(nv)}%</strong>'
+                 f', <span style="color:{"#00A650" if gvt>=0 else "#E84142"}">'
+                 f'{"+" if gvt>=0 else ""}{fn(gvt)} pp {"acima" if gvt>=0 else "abaixo"} da meta</span>'
+                 f' ({fn(tg)}%)'
+                 f'{(f", {chr(43) if gvs>=0 else ""}{fn(gvs)} pp WoW") if gvs is not None else ""}.'
+                 f' <span style="color:#888;font-size:11px">{s:,} pesquisas</span></p>')
+
+    return (f'<div class="section-block">'
+            f'<div style="border-left:4px solid #F39C12;padding-left:14px">'
+            f'<div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;'
+            f'letter-spacing:.5px;margin-bottom:8px">Highlights &amp; An&#225;lise &mdash; Semana Vigente</div>'
+            f'{headline}'
+            f'<div style="font-size:13px;font-weight:700;color:#444;margin:10px 0 6px">An&#225;lise por driver:</div>'
+            f'{rows}'
+            f'</div></div>')
+
 
 def _weekly_wf_data():
     """S2 → S1: contribuição de cada grupo para a variação WoW."""
@@ -824,14 +932,12 @@ def _tab_exec():
     exec_html_mon = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary("_exec_summary_sd.html")}</div></div>'
     exec_html_wk  = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary("_exec_summary_wk_sd.html")}</div></div>'
 
-    # ── Visão Semanal (S1/S2 + VIG) ──────────────────────────────────
+    # ── Visão Semanal (S1/S2 — apenas semanas fechadas) ──────────────
     wk_nps_s2 = wk_cons[-2] if len(wk_cons) >= 2 else None
     wk_nps_s1 = wk_cons[-1] if wk_cons else None
     wk_delta  = round(wk_nps_s1 - wk_nps_s2, 2) if wk_nps_s1 and wk_nps_s2 else None
     wk_vtgt   = round(wk_nps_s1 - NPS_TARGET, 2) if wk_nps_s1 else None
     wk_d_cls  = "kpi-pos" if wk_delta and wk_delta >= 0 else "kpi-neg"
-    vig_d2    = round(vig_cons_nps - wk_nps_s1, 2) if vig_cons_nps and wk_nps_s1 else None
-    vig_d_cls2= "kpi-pos" if vig_d2 and vig_d2 >= 0 else "kpi-neg"
 
     # KPIs semanais — apenas semanas fechadas (sem VIG)
     g_sign = "+" if wk_vtgt is not None and wk_vtgt >= 0 else ""
@@ -866,7 +972,7 @@ def _tab_exec():
     # Gráfico semanal — apenas semanas fechadas (sem VIG)
     wk_lbl_js  = _json.dumps(WEEK_LABELS)
     wk_cons_js = _json.dumps(wk_cons)
-    tgt_vals_js= _json.dumps(wk_target_series[:-1] if len(wk_target_series) > len(WEEK_LABELS) else wk_target_series)
+    tgt_vals_js= _json.dumps(wk_target_series)
 
     wk_line_chart = (f'<div style="position:relative;height:270px;">'
                      f'<canvas id="c_wk_exec_line"></canvas></div>'
@@ -916,6 +1022,70 @@ def _tab_exec():
                      f'{wf_wk}'
                      f'</div></div>')
 
+    # Gráfico semanal com VIG como último ponto (para Semana Vigente ao vivo)
+    vig_lbl_js  = _json.dumps(WEEK_LABELS_VIG)
+    vig_cons_js = _json.dumps(wk_cons_vig)
+    _vig_tgt    = wk_target_series + [wk_target_series[-1] if wk_target_series else NPS_TARGET]
+    vig_tgt_js  = _json.dumps(_vig_tgt)
+    _pt_colors  = _json.dumps(['#3483FA'] * len(WEEK_LABELS) + ['#F39C12'])
+    _pt_radii   = _json.dumps([5] * len(WEEK_LABELS) + [8])
+
+    wk_line_chart_vig = (
+        f'<div style="position:relative;height:270px;">'
+        f'<canvas id="c_wk_exec_vig"></canvas></div>'
+        f'<script>'
+        f'new Chart(document.getElementById("c_wk_exec_vig"),{{'
+        f'"type":"line","data":{{"labels":{vig_lbl_js},'
+        f'"datasets":['
+        f'{{"label":"NPS","data":{vig_cons_js},"fill":true,'
+        f'"backgroundColor":"rgba(52,131,250,0.12)","borderColor":"#3483FA",'
+        f'"borderWidth":2.5,"pointRadius":{_pt_radii},"pointBackgroundColor":{_pt_colors},'
+        f'"tension":0.35,'
+        f'"datalabels":{{"display":true,"anchor":"top","align":"top","offset":4,'
+        f'"color":{_pt_colors},"font":{{"size":11,"weight":"700"}},'
+        f'"formatter":{_FMT}}}}},'
+        f'{{"label":"Objetivo ({tgt_str}%)","data":{vig_tgt_js},'
+        f'"borderColor":"#F39C12","borderDash":[6,4],"borderWidth":2,'
+        f'"pointRadius":3,"fill":false,"tension":0,'
+        f'"datalabels":{{"display":false}}}}]}},'
+        f'"options":{{"responsive":true,"maintainAspectRatio":false,'
+        f'"layout":{{"padding":{{"top":30,"right":10}}}},'
+        f'"plugins":{{"legend":{{"position":"bottom","labels":{{"boxWidth":12,'
+        f'"padding":12,"font":{{"size":11}}}}}},"datalabels":{{}}}},'
+        f'"scales":{{"y":{{"ticks":{{"stepSize":10,"callback":"__TICK__"}},'
+        f'"grid":{{"color":"#f0f2f5"}}}},"x":{{"grid":{{"display":false}}}}}}}}}})'
+        f'.config.options.scales.y.ticks.callback=function(v){{return v+"%"}};</script>'
+    )
+    # Waterfall S1 → VIG
+    nps_a_vig, nps_b_vig, dd_vig = _vig_wf_data()
+    lS1v = esc(S1_LABEL); lVIG = esc(VIG_LABEL or 'Vigente')
+    wf_vig = (f'<div style="padding:18px 20px">'
+              f'<div class="section-title">WTF WoW &mdash; {lS1v} &rarr; {lVIG}'
+              f'<span style="font-weight:400;font-size:11px;color:#888;margin-left:6px">'
+              f'{fn(nps_a_vig)}% &rarr; <span style="color:#F39C12;font-weight:600">{fn(nps_b_vig)}%</span>'
+              f' &nbsp;{chip(round(nps_b_vig-nps_a_vig,2))}'
+              f'</span></div>'
+              f'<div style="font-size:11px;color:#aaa;margin-bottom:10px">'
+              f'{" / ".join(list(DRIVER_GROUPS.keys())[:4])} + outros</div>'
+              f'{waterfall_chart("c_wf_vig_mm", lS1v, nps_a_vig, lVIG, nps_b_vig, dd_vig, height=280)}'
+              f'</div>')
+
+    wk_charts_row_vig = (
+        f'<div class="section-block" style="padding:0">'
+        f'<div style="display:grid;grid-template-columns:1fr 1fr;gap:0;'
+        f'border-radius:10px;overflow:hidden">'
+        f'<div style="padding:18px 20px;border-right:1px solid #f0f2f5">'
+        f'<div class="section-title">Hist&#243;rico NPS &mdash; Semanal</div>'
+        f'<div style="font-size:11px;color:#aaa;margin-bottom:10px">'
+        f'Semanas fechadas + <span style="color:#F39C12;font-weight:600">'
+        f'&#9889; vigente ({esc(VIG_LABEL)})</span></div>'
+        f'{wk_line_chart_vig}</div>'
+        f'{wf_vig}'
+        f'</div></div>'
+    )
+
+    exec_html_vig = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary("_exec_summary_vig_sd.html")}</div></div>'
+
     # ── Toggle Mensal / Semanal ───────────────────────────────────────
     toggle = (f'<div style="display:flex;gap:8px;margin-bottom:16px">'
               f'<button class="period-btn active" data-p="mon" onclick="switchPeriod(this,\'mon\')">'
@@ -925,8 +1095,94 @@ def _tab_exec():
 
     monthly_block = (f'<div class="period-view" data-p="mon">'
                      f'{kpis}{charts_row}{wf_tg_sec}{exec_html_mon}</div>')
-    weekly_block  = (f'<div class="period-view" data-p="wk" style="display:none">'
-                     f'{wk_kpis}{wk_charts_row}{exec_html_wk}</div>')
+
+    # ── Bloco Semanal: VIG (live) ou S1/S2 (snapshot) ──────────────
+    if VIG_LABEL:
+        # Dashboard ao vivo: mostra estado da semana vigente
+        lbl_vig = esc(VIG_LABEL)
+        if not vig_cons_nps:
+            # Sem dados ainda (início de semana / segunda-feira)
+            wk_live = (
+                f'<div class="section-block" style="text-align:center;padding:48px 20px">'
+                f'<div style="font-size:36px;margin-bottom:12px">&#9203;</div>'
+                f'<div style="font-size:15px;font-weight:700;color:#555">'
+                f'Semana {lbl_vig} — sem dados ainda</div>'
+                f'<div style="font-size:12px;color:#aaa;margin-top:8px">'
+                f'As pesquisas desta semana ainda n&#227;o foram registradas.</div>'
+                f'</div>'
+                f'<div class="section-block">'
+                f'<div style="font-size:12px;color:#666;padding:4px 0">'
+                f'&#10003; &#218;ltima semana fechada: <strong>{esc(S1_LABEL)}</strong>'
+                f' &mdash; NPS <strong>{fn(wk_nps_s1)}%</strong>'
+                f' &nbsp;&middot;&nbsp; {vig_cons_surv if vig_cons_surv else 0:,} pesquisas registradas</div>'
+                f'</div>'
+            )
+        else:
+            # Tem dados VIG: mostra KPIs + tabela por driver
+            vtgt  = round(vig_cons_nps - NPS_TARGET, 2)
+            ds1   = round(vig_cons_nps - wk_nps_s1, 2) if wk_nps_s1 is not None else None
+            vc    = '#00A650' if vtgt >= 0 else '#E84142'
+            dc    = '#00A650' if ds1 is not None and ds1 >= 0 else '#E84142'
+            wk_vig_kpis = (
+                f'<div class="kpi-strip" style="grid-template-columns:repeat(4,1fr);margin-bottom:0">'
+                f'<div class="kpi-card" style="border-top:4px solid #F39C12">'
+                f'<div class="kpi-label">&#9889; NPS Vigente</div>'
+                f'<div class="kpi-value">{fn(vig_cons_nps)}%</div>'
+                f'<div class="kpi-sub">{lbl_vig} &mdash; parcial</div></div>'
+                f'<div class="kpi-card" style="border-top:4px solid #888">'
+                f'<div class="kpi-label">Target</div>'
+                f'<div class="kpi-value">{tgt_str}%</div>'
+                f'<div class="kpi-sub">Meta do per&#237;odo</div></div>'
+                f'<div class="kpi-card" style="border-top:{vc} solid 4px">'
+                f'<div class="kpi-label">GAP vs Target</div>'
+                f'<div class="kpi-value" style="color:{vc}">{"+" if vtgt>=0 else ""}{fn(vtgt)}pp</div>'
+                f'<div class="kpi-sub">Target {tgt_str}%</div></div>'
+                f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
+                f'<div class="kpi-label">&#916; vs S1 Fechada</div>'
+                f'<div class="kpi-value" style="color:{dc}">{"+" if ds1 is not None and ds1>=0 else ""}{fn(ds1)}pp</div>'
+                f'<div class="kpi-sub">{fn(wk_nps_s1)}% ({esc(S1_LABEL)})</div></div>'
+                f'</div>'
+            )
+            drv_rows = ''
+            for grp, (nv, sv) in grp_vig.items():
+                if nv is None: continue
+                ns1v = grp_wk[grp][-1] if grp_wk.get(grp) else None
+                tg   = _grp_tgt_latest(grp, 'weekly')
+                gvt  = round(nv - tg, 2)
+                gvs  = round(nv - ns1v, 2) if ns1v is not None else None
+                dot  = GROUP_COLORS.get(grp, '#3483FA')
+                drv_rows += (
+                    f'<tr style="border-bottom:1px solid #f0f2f5">'
+                    f'<td style="padding:9px 10px"><span style="width:8px;height:8px;border-radius:50%;'
+                    f'display:inline-block;background:{dot};margin-right:6px"></span>'
+                    f'<strong>{esc(grp)}</strong></td>'
+                    f'<td style="text-align:right;padding:9px;font-weight:700">{fn(nv)}%</td>'
+                    f'<td style="text-align:right;padding:9px;color:#888">{sv:,}</td>'
+                    f'<td style="text-align:right;padding:9px;color:{"#00A650" if gvt>=0 else "#E84142"};font-weight:600">'
+                    f'{"+" if gvt>=0 else ""}{fn(gvt)}pp</td>'
+                    f'<td style="text-align:right;padding:9px;color:{"#00A650" if gvs is not None and gvs>=0 else "#E84142"};font-weight:600">'
+                    f'{"+" if gvs is not None and gvs>=0 else ""}{fn(gvs)}pp</td>'
+                    f'</tr>'
+                )
+            wk_live = (
+                f'<div class="section-block">{wk_vig_kpis}</div>'
+                f'<div class="section-block">'
+                f'<table style="width:100%;border-collapse:collapse;font-size:13px">'
+                f'<thead><tr style="border-bottom:2px solid #eef0f5">'
+                f'<th style="text-align:left;padding:8px 10px;color:#888">Driver</th>'
+                f'<th style="text-align:right;padding:8px 10px;color:#888">NPS Vig.</th>'
+                f'<th style="text-align:right;padding:8px 10px;color:#888">Pesq.</th>'
+                f'<th style="text-align:right;padding:8px 10px;color:#888">vs Target</th>'
+                f'<th style="text-align:right;padding:8px 10px;color:#888">vs S1</th>'
+                f'</tr></thead><tbody>{drv_rows}</tbody></table>'
+                f'</div>'
+            )
+        weekly_block = (f'<div class="period-view" data-p="wk" style="display:none">'
+                        f'{wk_charts_row_vig}{exec_html_vig}</div>')
+    else:
+        # Snapshot: comparação S1 vs S2 semana fechada
+        weekly_block = (f'<div class="period-view" data-p="wk" style="display:none">'
+                        f'{wk_kpis}{wk_charts_row}{exec_html_wk}</div>')
 
     return toggle + monthly_block + weekly_block
 
@@ -2614,8 +2870,17 @@ def _build_driver_breakdowns(mode="monthly"):
     """
     mode='monthly': usa grp_breakdown (Mai vs Abr), comparação M/M
     mode='weekly':  usa grp_wk_bd (S1 vs S2), comparação W/W
+    mode='vig':     usa grp_wk_bd como ref (NPS VIG vs S1)
     """
-    if mode == "weekly":
+    if mode == "vig":
+        bd_src  = grp_wk_bd   # breakdown S1 como referência (VIG não tem breakdown detalhado ainda)
+        lM1     = esc(VIG_LABEL or S1_LABEL)
+        lM2     = esc(S1_LABEL)
+        nps_curr_fn  = lambda g: grp_vig.get(g, (None, 0))[0]
+        nps_prev_fn  = lambda g: grp_wk[g][-1] if grp_wk.get(g) else None
+        section_title = f"An&#225;lise por Driver &mdash; &#9889; {esc(VIG_LABEL)} vs {esc(S1_LABEL)}"
+        cid_prefix = "vbd"
+    elif mode == "weekly":
         bd_src  = grp_wk_bd
         lM1     = esc(S1_LABEL)
         lM2     = esc(S2_LABEL)
@@ -2645,7 +2910,7 @@ def _build_driver_breakdowns(mode="monthly"):
 
     filter_bar = f'<div class="drv-fbar">{btns}</div>'
 
-    delta_lbl = "WoW" if mode == "weekly" else "MoM"
+    delta_lbl = "WoW" if mode in ("weekly", "vig") else "MoM"
 
     cards = ""
     for grp, drvs in DRIVER_GROUPS.items():
@@ -2670,9 +2935,9 @@ def _build_driver_breakdowns(mode="monthly"):
         is_wk = True   # sempre mostra comparação de 2 períodos (Mai vs Abr | S1 vs S2)
         # NPS e surveys oficiais por grupo para alinhar o Total das tabelas
         off1 = g_nps;  off2 = g_prev
-        if mode == "weekly":
-            surv1 = sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2] for d in DRIVER_GROUPS.get(grp,[]))
-            surv2 = sum(weekly_driver.get(d,{}).get("S2",(0,0,0))[2] for d in DRIVER_GROUPS.get(grp,[]))
+        if mode in ("weekly", "vig"):
+            surv1 = sum((drivers_vigente.get(d,(0,0,0))[2] if mode=="vig" else weekly_driver.get(d,{}).get("S1",(0,0,0))[2]) for d in DRIVER_GROUPS.get(grp,[]))
+            surv2 = sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2] if mode=="vig" else weekly_driver.get(d,{}).get("S2",(0,0,0))[2] for d in DRIVER_GROUPS.get(grp,[]))
         else:
             # Mensal: usa monthly_history para volumes oficiais
             lbl_curr = MONTH_LABELS[-1]; lbl_prev = MONTH_LABELS[-2]
@@ -2705,17 +2970,18 @@ def _build_driver_breakdowns(mode="monthly"):
             f'</div>'
         )
 
-        if mode == "weekly":
-            # Mostra apenas S1 fechada (sem VIG)
+        if mode in ("weekly", "vig"):
             nps_c = nps_curr_fn(grp); nps_p = nps_prev_fn(grp)
-            surv_s1 = sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2] for d in DRIVER_GROUPS.get(grp,[]))
-            tgt_g   = _grp_tgt_latest(grp, "weekly")
-            s1_exec = _analytical_exec(
-                grp, nps_c, nps_p, surv_s1, tgt_g,
+            surv_c = sum((drivers_vigente.get(d,(0,0,0))[2] if mode=="vig"
+                          else weekly_driver.get(d,{}).get("S1",(0,0,0))[2])
+                         for d in DRIVER_GROUPS.get(grp,[]))
+            tgt_g  = _grp_tgt_latest(grp, "weekly")
+            pt_str = "S1" if mode == "weekly" else "S1"
+            analysis = _analytical_exec(
+                grp, nps_c, nps_p, surv_c, tgt_g,
                 bd_src.get(grp), bd_src.get(grp),
-                lM1, lM2, color, period_type="S1", days=7
+                lM1, lM2, color, period_type=pt_str, days=None
             )
-            analysis = s1_exec
         else:
             analysis = _process_exec_html(grp, mode=mode) or _drv_analysis_html(grp)
         cards += (f'<div class="drv-card" data-grp="{slug}">'
@@ -2741,52 +3007,210 @@ def _tab_mensal():
 
 
 def _tab_semanal():
-    # ── Gráficos COM VIG como último ponto ───────────────────────────
-    chart_sec = f"""<div class="section-block">
-  <div class="section-title">Evolu&#231;&#227;o NPS &mdash; Semanal (incl. semana atual)</div>
-  <div style="font-size:11px;color:#aaa;margin-bottom:10px">
-    S1 Fechada: {esc(S1_LABEL)} &nbsp;|&nbsp; S2 Anterior: {esc(S2_LABEL)}
-  </div>
-  {chart_small_multiples("c_wk",
-      [(g, grp_wk[g], GROUP_COLORS[g], _grp_tgt_latest(g,"weekly"), _grp_tgt_series_weekly(g),
-        sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2] for d in DRIVER_GROUPS.get(g,[]) if d not in EXCLUIDOS))
-       for g in DRIVER_GROUPS],
-      wk_cons, WEEK_LABELS, surv_map=grp_wk_surv)}
-</div>"""
-
-    # ── KPIs consolidados — apenas semanas fechadas (S1 e S2, sem VIG) ─
-    s1_nps = wk_cons[-1] if wk_cons else None
-    s2_nps = wk_cons[-2] if len(wk_cons) >= 2 else None
-    s1_d   = round(s1_nps - s2_nps, 2) if s1_nps and s2_nps else None
+    s1_nps  = wk_cons[-1] if wk_cons else None
+    s2_nps  = wk_cons[-2] if len(wk_cons) >= 2 else None
+    s1_d    = round(s1_nps - s2_nps, 2) if s1_nps and s2_nps else None
     s1_vtgt = round(s1_nps - NPS_TARGET, 2) if s1_nps else None
-    d_s1_cls = "kpi-pos" if s1_d  and s1_d  >= 0 else "kpi-neg"
+    d_s1_cls = "kpi-pos" if s1_d   and s1_d   >= 0 else "kpi-neg"
     g_cls    = "kpi-pos" if s1_vtgt and s1_vtgt >= 0 else "kpi-neg"
     g_bc     = "#00A650" if s1_vtgt and s1_vtgt >= 0 else "#E84142"
 
-    kpis_wk = (f'<div class="kpi-strip" style="grid-template-columns:repeat(5,1fr);margin-bottom:0">'
-               f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
-               f'<div class="kpi-label">NPS S1 Fechada</div>'
-               f'<div class="kpi-value">{fn(s1_nps)}%</div>'
-               f'<div class="kpi-sub">{esc(S1_LABEL)}</div></div>'
-               f'<div class="kpi-card" style="border-top:4px solid #888">'
-               f'<div class="kpi-label">NPS S2 Anterior</div>'
-               f'<div class="kpi-value">{fn(s2_nps)}%</div>'
-               f'<div class="kpi-sub">{esc(S2_LABEL)}</div></div>'
-               f'<div class="kpi-card" style="border-top:4px solid #888">'
-               f'<div class="kpi-label">Target</div>'
-               f'<div class="kpi-value">{str(NPS_TARGET).replace(".",",")}%</div>'
-               f'<div class="kpi-sub">Base sem media&#231;&#227;o</div></div>'
-               f'<div class="kpi-card" style="border-top:4px solid {g_bc}">'
-               f'<div class="kpi-label">GAP vs Target</div>'
-               f'<div class="kpi-value {g_cls}">{"+" if s1_vtgt and s1_vtgt>=0 else ""}{fn(s1_vtgt)}pp</div>'
-               f'<div class="kpi-sub">Target {str(NPS_TARGET).replace(".",",")}%</div></div>'
-               f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
-               f'<div class="kpi-label">&#916; WoW (S2&#8594;S1)</div>'
-               f'<div class="kpi-value {d_s1_cls}">{"+" if s1_d and s1_d>=0 else ""}{fn(s1_d)}pp</div>'
-               f'<div class="kpi-sub">S2: {fn(s2_nps)}%</div></div>'
-               f'</div>')
+    # ── Decide se inclui VIG como último ponto ───────────────────────
+    _use_vig   = bool(VIG_LABEL and vig_cons_nps)
+    _labels    = WEEK_LABELS_VIG if _use_vig else WEEK_LABELS
+    _cons      = wk_cons_vig     if _use_vig else wk_cons
+    _grp_data  = grp_wk_vig      if _use_vig else grp_wk
+    _grp_surv_vig = {
+        grp: (grp_wk_surv.get(grp) or [0]*len(WEEK_LABELS)) + [grp_vig.get(grp,(None,0))[1]]
+        for grp in DRIVER_GROUPS
+    } if _use_vig else grp_wk_surv
+    _tgt_series = {
+        grp: _grp_tgt_series_weekly(grp) + [_grp_tgt_latest(grp,'weekly')]
+        for grp in DRIVER_GROUPS
+    } if _use_vig else {grp: _grp_tgt_series_weekly(grp) for grp in DRIVER_GROUPS}
 
-    return kpis_wk + chart_sec + _build_driver_breakdowns(mode="weekly")
+    vig_sub = (f' &nbsp;|&nbsp; <span style="color:#F39C12;font-weight:600">'
+               f'&#9889; Vigente: {esc(VIG_LABEL)} &mdash; parcial</span>') if _use_vig else ''
+
+    chart_sec = f"""<div class="section-block">
+  <div class="section-title">Evolu&#231;&#227;o NPS &mdash; Semanal</div>
+  <div style="font-size:11px;color:#aaa;margin-bottom:10px">
+    S1 Fechada: {esc(S1_LABEL)} &nbsp;|&nbsp; S2 Anterior: {esc(S2_LABEL)}{vig_sub}
+  </div>
+  {chart_small_multiples("c_wk",
+      [(g, _grp_data[g], GROUP_COLORS[g], _grp_tgt_latest(g,"weekly"), _tgt_series[g])
+       for g in DRIVER_GROUPS],
+      _cons, _labels, surv_map=_grp_surv_vig, vig_last=_use_vig)}
+</div>"""
+
+    # ── KPIs: ordem NPS Vig > Target > GAP > WoW > S1 > S2 ─────────
+    tgt_str_wk = str(NPS_TARGET).replace('.', ',')
+    if _use_vig:
+        # WoW = VIG vs S1 quando VIG disponível
+        wow_v   = round(vig_cons_nps - s1_nps, 2) if vig_cons_nps and s1_nps else None
+        wow_cls = "kpi-pos" if wow_v is not None and wow_v >= 0 else "kpi-neg"
+        vtg_v   = round(vig_cons_nps - NPS_TARGET, 2) if vig_cons_nps else None
+        vtg_c   = '#00A650' if vtg_v is not None and vtg_v >= 0 else '#E84142'
+        vtg_cls = "kpi-pos" if vtg_v is not None and vtg_v >= 0 else "kpi-neg"
+        kpis_wk = (
+            f'<div class="kpi-strip" style="grid-template-columns:repeat(6,1fr);margin-bottom:0">'
+            f'<div class="kpi-card" style="border-top:4px solid #F39C12">'
+            f'<div class="kpi-label">&#9889; NPS Vigente</div>'
+            f'<div class="kpi-value" style="color:#F39C12">{fn(vig_cons_nps)}%</div>'
+            f'<div class="kpi-sub">{esc(VIG_LABEL)} &mdash; parcial</div></div>'
+            f'<div class="kpi-card" style="border-top:4px solid #888">'
+            f'<div class="kpi-label">Target</div>'
+            f'<div class="kpi-value">{tgt_str_wk}%</div>'
+            f'<div class="kpi-sub">Base sem media&#231;&#227;o</div></div>'
+            f'<div class="kpi-card" style="border-top:{vtg_c} solid 4px">'
+            f'<div class="kpi-label">GAP vs Target</div>'
+            f'<div class="kpi-value {vtg_cls}">{"+" if vtg_v is not None and vtg_v>=0 else ""}{fn(vtg_v)}pp</div>'
+            f'<div class="kpi-sub">Target {tgt_str_wk}%</div></div>'
+            f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
+            f'<div class="kpi-label">&#916; WoW (S1&#8594;Vig)</div>'
+            f'<div class="kpi-value {wow_cls}">{"+" if wow_v is not None and wow_v>=0 else ""}{fn(wow_v)}pp</div>'
+            f'<div class="kpi-sub">S1: {fn(s1_nps)}%</div></div>'
+            f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
+            f'<div class="kpi-label">S1 Fechada</div>'
+            f'<div class="kpi-value">{fn(s1_nps)}%</div>'
+            f'<div class="kpi-sub">{esc(S1_LABEL)}</div></div>'
+            f'<div class="kpi-card" style="border-top:4px solid #888">'
+            f'<div class="kpi-label">S2 Anterior</div>'
+            f'<div class="kpi-value">{fn(s2_nps)}%</div>'
+            f'<div class="kpi-sub">{esc(S2_LABEL)}</div></div>'
+            f'</div>'
+        )
+    else:
+        kpis_wk = (
+            f'<div class="kpi-strip" style="grid-template-columns:repeat(5,1fr);margin-bottom:0">'
+            f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
+            f'<div class="kpi-label">NPS S1 Fechada</div>'
+            f'<div class="kpi-value">{fn(s1_nps)}%</div>'
+            f'<div class="kpi-sub">{esc(S1_LABEL)}</div></div>'
+            f'<div class="kpi-card" style="border-top:4px solid #888">'
+            f'<div class="kpi-label">NPS S2 Anterior</div>'
+            f'<div class="kpi-value">{fn(s2_nps)}%</div>'
+            f'<div class="kpi-sub">{esc(S2_LABEL)}</div></div>'
+            f'<div class="kpi-card" style="border-top:4px solid #888">'
+            f'<div class="kpi-label">Target</div>'
+            f'<div class="kpi-value">{tgt_str_wk}%</div>'
+            f'<div class="kpi-sub">Base sem media&#231;&#227;o</div></div>'
+            f'<div class="kpi-card" style="border-top:4px solid {g_bc}">'
+            f'<div class="kpi-label">GAP vs Target</div>'
+            f'<div class="kpi-value {g_cls}">{"+" if s1_vtgt and s1_vtgt>=0 else ""}{fn(s1_vtgt)}pp</div>'
+            f'<div class="kpi-sub">Target {tgt_str_wk}%</div></div>'
+            f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
+            f'<div class="kpi-label">&#916; WoW (S2&#8594;S1)</div>'
+            f'<div class="kpi-value {d_s1_cls}">{"+" if s1_d and s1_d>=0 else ""}{fn(s1_d)}pp</div>'
+            f'<div class="kpi-sub">S2: {fn(s2_nps)}%</div></div>'
+            f'</div>'
+        )
+
+    _bd_mode = "vig" if _use_vig else "weekly"
+    return kpis_wk + chart_sec + _build_driver_breakdowns(mode=_bd_mode)
+
+
+def _tab_vigente():
+    """Aba Semana Vigente — dados parciais da semana em curso."""
+    # Sem dados VIG (início de semana ou snapshot histórico)
+    if not vig_cons_nps:
+        lbl_vig = esc(VIG_LABEL or "Semana em andamento")
+        return (f'<div style="padding:60px 24px;text-align:center;color:#aaa">'
+                f'<div style="font-size:40px;margin-bottom:14px">&#9203;</div>'
+                f'<div style="font-size:17px;font-weight:700;color:#555">Ainda não há dados para a semana vigente</div>'
+                f'<div style="font-size:13px;margin-top:8px">{lbl_vig}</div>'
+                f'</div>')
+
+    # ── KPIs ─────────────────────────────────────────────────────────
+    tgt_str   = str(NPS_TARGET).replace('.', ',')
+    vtgt      = round(vig_cons_nps - NPS_TARGET, 2)
+    wk_s1_nps = wk_cons[-1] if wk_cons else None
+    delta_s1  = round(vig_cons_nps - wk_s1_nps, 2) if wk_s1_nps is not None else None
+    vtgt_cls  = 'kpi-pos' if vtgt >= 0 else 'kpi-neg'
+    vtgt_bc   = '#00A650' if vtgt >= 0 else '#E84142'
+    ds1_cls   = 'kpi-pos' if delta_s1 is not None and delta_s1 >= 0 else 'kpi-neg'
+    lbl_vig   = esc(VIG_LABEL or 'Semana vigente')
+    lbl_s1    = esc(S1_LABEL or 'S1')
+
+    kpis = (f'<div class="kpi-strip" style="grid-template-columns:repeat(4,1fr);margin-bottom:0">'
+            f'<div class="kpi-card" style="border-top:4px solid #F39C12">'
+            f'<div class="kpi-label">NPS Vigente &#9889;</div>'
+            f'<div class="kpi-value">{fn(vig_cons_nps)}%</div>'
+            f'<div class="kpi-sub">{lbl_vig} &mdash; parcial</div></div>'
+            f'<div class="kpi-card" style="border-top:4px solid #888">'
+            f'<div class="kpi-label">Target</div>'
+            f'<div class="kpi-value">{tgt_str}%</div>'
+            f'<div class="kpi-sub">Meta do per&#237;odo</div></div>'
+            f'<div class="kpi-card" style="border-top:{vtgt_bc} solid 4px">'
+            f'<div class="kpi-label">GAP vs Target</div>'
+            f'<div class="kpi-value {vtgt_cls}">{"+" if vtgt>=0 else ""}{fn(vtgt)}pp</div>'
+            f'<div class="kpi-sub">Target {tgt_str}%</div></div>'
+            f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
+            f'<div class="kpi-label">&#916; vs S1 Fechada</div>'
+            f'<div class="kpi-value {ds1_cls}">{"+" if delta_s1 is not None and delta_s1>=0 else ""}{fn(delta_s1)}pp</div>'
+            f'<div class="kpi-sub">S1: {fn(wk_s1_nps)}% ({lbl_s1})</div></div>'
+            f'</div>')
+
+    # ── Pesquisas totais ──────────────────────────────────────────────
+    surv_note = (f'<div style="font-size:11px;color:#aaa;margin:8px 0 20px;padding:8px 12px;'
+                 f'background:#f8f9fc;border-radius:6px;display:inline-block">'
+                 f'&#128203; <strong>{vig_cons_surv:,}</strong> pesquisas acumuladas &mdash; '
+                 f'dados parciais at&#233; {esc(REPORT_DATE)}</div>')
+
+    # ── Tabela por grupo ──────────────────────────────────────────────
+    header = (f'<div style="font-size:13px;font-weight:700;color:#444;margin-bottom:10px">'
+              f'NPS por Driver &mdash; Semana Vigente vs S1 Fechada</div>'
+              f'<table style="width:100%;border-collapse:collapse;font-size:13px">'
+              f'<thead><tr style="border-bottom:2px solid #eef0f5">'
+              f'<th style="text-align:left;padding:8px 10px;color:#888;font-weight:600">Driver</th>'
+              f'<th style="text-align:right;padding:8px 10px;color:#888;font-weight:600">NPS Vigente</th>'
+              f'<th style="text-align:right;padding:8px 10px;color:#888;font-weight:600">Pesquisas</th>'
+              f'<th style="text-align:right;padding:8px 10px;color:#888;font-weight:600">vs Target</th>'
+              f'<th style="text-align:right;padding:8px 10px;color:#888;font-weight:600">vs S1 Fechada</th>'
+              f'</tr></thead><tbody>')
+
+    rows = ''
+    for grp, drvs in DRIVER_GROUPS.items():
+        p   = sum(drivers_vigente.get(d,(0,0,0))[0] for d in drvs if d not in EXCLUIDOS)
+        dt  = sum(drivers_vigente.get(d,(0,0,0))[1] for d in drvs if d not in EXCLUIDOS)
+        s   = sum(drivers_vigente.get(d,(0,0,0))[2] for d in drvs if d not in EXCLUIDOS)
+        if s == 0:
+            continue
+        nv  = round(100*(p-dt)/s, 2)
+        tg  = round(sum(_PT.get('weekly',{}).get(S1_LABEL,{}).get('groups',{}).get(grp, NPS_TARGET)
+                        for _ in [1]), 2)
+        ns1 = grp_wk[grp][-1] if grp_wk.get(grp) else None
+        gvt = round(nv - tg, 2)
+        gvs = round(nv - ns1, 2) if ns1 is not None else None
+        dot = GROUP_COLORS.get(grp, '#3483FA')
+        gvt_c = '#00A650' if gvt >= 0 else '#E84142'
+        gvs_c = '#00A650' if gvs is not None and gvs >= 0 else '#E84142'
+        rows += (f'<tr style="border-bottom:1px solid #f0f2f5">'
+                 f'<td style="padding:10px 10px">'
+                 f'<span style="display:inline-block;width:8px;height:8px;border-radius:50%;'
+                 f'background:{dot};margin-right:6px"></span>'
+                 f'<strong>{esc(grp)}</strong></td>'
+                 f'<td style="text-align:right;padding:10px;font-weight:700">{fn(nv)}%</td>'
+                 f'<td style="text-align:right;padding:10px;color:#888">{s:,}</td>'
+                 f'<td style="text-align:right;padding:10px;color:{gvt_c};font-weight:600">'
+                 f'{"+" if gvt>=0 else ""}{fn(gvt)}pp</td>'
+                 f'<td style="text-align:right;padding:10px;color:{gvs_c};font-weight:600">'
+                 f'{"+" if gvs is not None and gvs>=0 else ""}{fn(gvs)}pp</td>'
+                 f'</tr>')
+
+    table = (header + rows + '</tbody></table>')
+
+    banner = (f'<div style="background:#FFF9EC;border:1px solid #F39C1233;border-radius:8px;'
+              f'padding:10px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px">'
+              f'<span style="font-size:16px">&#9889;</span>'
+              f'<span style="font-size:12px;color:#8a6200">'
+              f'<strong>Semana em andamento</strong> &mdash; {lbl_vig}. '
+              f'Os dados s&#227;o parciais e atualizam diariamente.</span></div>')
+
+    return (f'<div class="section-block">{banner}{kpis}'
+            f'<div style="margin-top:10px">{surv_note}</div>'
+            f'</div>'
+            f'<div class="section-block">{table}</div>')
 
 
 def _tab_ranking():
@@ -2870,6 +3294,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
 .wk-badge.vig { background:#F39C1233; color:#F39C12; border:1px solid #F39C1266; }
 .wk-badge.s1  { background:#3483FA22; color:#3483FA; border:1px solid #3483FA55; }
 .wk-badge.old { background:#2e3350; color:#7a8aaa; }
+.wk-sb-mon-toggle { cursor:pointer; user-select:none; justify-content:space-between !important; }
+.wk-sb-mon-toggle:hover { color:#a0b0cc; }
+.sb-mon-arrow { font-size:8px; opacity:.7; transition:transform .15s; }
+#wkVigEntry { border-left-color:#F39C12 !important; }
 
 /* ── Conteúdo principal deslocado ───────────────────────────────── */
 .main-content { margin-left:220px; min-height:100vh; }
@@ -3138,76 +3566,92 @@ var _HIST_INLINE   = {_hist_inline};
 var _MENSAL_INLINE = {_mensal_inline};
 var _GHPAGES_BASE  = "{_GHPAGES_BASE}";
 var _VIG_LABEL     = "{esc(VIG_LABEL or '')}";
+var _VIG_NPS       = {round(vig_cons_nps, 1) if vig_cons_nps else 'null'};
 var _S1_LABEL      = "{esc(S1_LABEL or '')}";
 var _M1_LABEL      = "{esc(M1_LABEL or '')}";
 
 // ── Sidebar de semanas ────────────────────────────────────────────
 (function buildSidebar(){{
-  // Só constrói se não estiver dentro de um snapshot (URL com history_sd)
   if (window.location.pathname.indexOf('history_sd') >= 0 ||
       window.location.pathname.indexOf('history/') >= 0) return;
-
   var nav = document.getElementById('wkNav');
   if (!nav) return;
 
-  // Itens: período atual + snapshots históricos
+  var html = '';
+
+  // ── Semana Vigente (topo) ────────────────────────────────────────
+  if (_VIG_LABEL) {{
+    var vigNpsHtml = (_VIG_NPS !== null)
+      ? '<div class="wk-nps">NPS ' + String(_VIG_NPS).replace('.',',') + '%</div>'
+      : '<div class="wk-nps" style="color:#F39C12">dados em andamento</div>';
+    html += '<div class="wk-sb-month" style="display:flex;justify-content:space-between;align-items:center">Semana Vigente</div>';
+    html += '<div class="wk-sb-week active" id="wkVigEntry" data-file="" data-lbl="Semana Vigente" onclick="wkClick(this)">'
+         +  '<div style="flex:1"><div class="wk-lbl">&#9889; ' + _VIG_LABEL + '</div>' + vigNpsHtml + '</div>'
+         +  '<span class="wk-badge vig">VIG</span>'
+         +  '</div>';
+    html += '<div style="height:6px;margin:4px 0;border-bottom:1px solid #2e3350"></div>';
+  }}
+
+  // ── Semanas Fechadas (por mês, colapsáveis) ──────────────────────
   var months = {{}};
-  function addItem(mon, lbl, badge, file, nps){{
-    if (!months[mon]) months[mon] = [];
-    months[mon].push({{lbl:lbl, badge:badge, file:file||'', nps:nps}});
-  }}
-
-  // Período atual (sem arquivo — mostra dashboard ao vivo)
-  addItem(_M1_LABEL||'Atual', _S1_LABEL||'S1 Fechada', 's1', '', null);
-
-  // Snapshots semanais
   (_HIST_INLINE||[]).forEach(function(e){{
-    addItem(e.month||'Anterior', e.label||e.s1_label, 'old', e.file, e.nps_s1);
+    var mon = e.month || 'Anterior';
+    if (!months[mon]) months[mon] = [];
+    months[mon].push({{lbl: e.label||e.s1_label, file: e.file||'', nps: e.nps_s1}});
   }});
 
-  // Fechamentos mensais (seção separada)
-  if (_MENSAL_INLINE && _MENSAL_INLINE.length) {{
-    months['__mensal__'] = [];
-    (_MENSAL_INLINE||[]).forEach(function(e){{
-      months['__mensal__'].push({{lbl:e.label, badge:'mes', file:e.file||'', nps:e.nps_mes, surv:e.surveys}});
-    }});
-  }}
-
-  var html = '', first = true;
-  // Renderiza semanas primeiro, depois fechamentos mensais
-  var monthKeys = Object.keys(months).filter(function(k){{ return k !== '__mensal__'; }});
-  var mensalItems = months['__mensal__'] || [];
-
-  monthKeys.forEach(function(mon){{
-    html += '<div class="wk-sb-month">' + mon + '</div>';
-    months[mon].forEach(function(it, idx){{
-      var isActive = (idx===0 && first) ? ' active' : '';
-      var badgeHtml = it.badge==='s1'
-        ? '<span class="wk-badge s1">S1 ✓</span>'
-        : '<span class="wk-badge old">S1</span>';
+  var monthKeys = Object.keys(months);
+  monthKeys.forEach(function(mon, idx){{
+    var isFirst = (idx === 0);
+    var monId   = 'sbmon_' + idx;
+    var arrow   = isFirst ? '&#9660;' : '&#9654;';
+    html += '<div class="wk-sb-month wk-sb-mon-toggle" data-mon="' + monId + '" onclick="toggleSbMonth(this)">'
+         +  '<span>' + mon + '</span>'
+         +  '<span class="sb-mon-arrow">' + arrow + '</span>'
+         +  '</div>';
+    html += '<div id="' + monId + '" class="sb-month-items"' + (isFirst ? '' : ' style="display:none"') + '>';
+    months[mon].forEach(function(it){{
       var npsHtml = it.nps ? '<div class="wk-nps">NPS ' + it.nps.toFixed(1).replace('.',',') + '%</div>' : '';
-      html += '<div class="wk-sb-week' + isActive + '" data-file="' + encodeURIComponent(it.file) + '" data-lbl="' + it.lbl + '" onclick="wkClick(this)">'
-           + '<div style="flex:1"><div class="wk-lbl">' + it.lbl + '</div>' + npsHtml + '</div>'
-           + badgeHtml + '</div>';
+      html += '<div class="wk-sb-week" data-file="' + encodeURIComponent(it.file) + '" data-lbl="' + it.lbl + '" onclick="wkClick(this)">'
+           +  '<div style="flex:1"><div class="wk-lbl">' + it.lbl + '</div>' + npsHtml + '</div>'
+           +  '<span class="wk-badge old">S1</span>'
+           +  '</div>';
     }});
-    first = false;
+    html += '</div>';
   }});
 
-  // Seção Fechamentos Mensais
-  if (mensalItems.length) {{
-    html += '<div class="wk-sb-month" style="margin-top:8px;border-top:1px solid #2e3350;padding-top:10px">Fechamentos Mensais</div>';
-    mensalItems.forEach(function(it){{
-      var npsHtml = it.nps ? '<div class="wk-nps">NPS ' + it.nps.toFixed(1).replace('.',',') + '%'
-        + (it.surv ? ' &middot; ' + it.surv.toLocaleString() + ' enc' : '') + '</div>' : '';
-      html += '<div class="wk-sb-week" data-file="' + encodeURIComponent(it.file) + '" data-lbl="' + it.lbl + '" onclick="wkClick(this)">'
-           + '<div style="flex:1"><div class="wk-lbl">' + it.lbl + '</div>' + npsHtml + '</div>'
-           + '<span class="wk-badge" style="background:#00A65022;color:#00A650;border:1px solid #00A65055">M&#202;S</span>'
-           + '</div>';
+  // ── Fechamentos Mensais (colapsável) ─────────────────────────────
+  if (_MENSAL_INLINE && _MENSAL_INLINE.length) {{
+    html += '<div style="height:6px;margin:4px 0;border-top:1px solid #2e3350"></div>';
+    html += '<div class="wk-sb-month wk-sb-mon-toggle" data-mon="sbmon_mensal" onclick="toggleSbMonth(this)">'
+         +  '<span>Fechamentos Mensais</span><span class="sb-mon-arrow">&#9654;</span></div>';
+    html += '<div id="sbmon_mensal" class="sb-month-items" style="display:none">';
+    (_MENSAL_INLINE||[]).forEach(function(it){{
+      var npsHtml = it.nps_mes ? '<div class="wk-nps">NPS ' + it.nps_mes.toFixed(1).replace('.',',') + '%</div>' : '';
+      html += '<div class="wk-sb-week" data-file="' + encodeURIComponent(it.file||'') + '" data-lbl="' + it.label + '" onclick="wkClick(this)">'
+           +  '<div style="flex:1"><div class="wk-lbl">' + it.label + '</div>' + npsHtml + '</div>'
+           +  '<span class="wk-badge" style="background:#00A65022;color:#00A650;border:1px solid #00A65055">M&#202;S</span>'
+           +  '</div>';
     }});
+    html += '</div>';
   }}
 
   nav.innerHTML = html;
 }})();
+
+function toggleSbMonth(header){{
+  var id    = header.getAttribute('data-mon');
+  var items = document.getElementById(id);
+  var arrow = header.querySelector('.sb-mon-arrow');
+  if (!items) return;
+  if (items.style.display === 'none') {{
+    items.style.display = '';
+    arrow.innerHTML = '&#9660;';
+  }} else {{
+    items.style.display = 'none';
+    arrow.innerHTML = '&#9654;';
+  }}
+}}
 
 function wkClick(el){{
   document.querySelectorAll('.wk-sb-week').forEach(function(w){{w.classList.remove('active');}});
@@ -3215,14 +3659,13 @@ function wkClick(el){{
   var file = decodeURIComponent(el.getAttribute('data-file')||'');
   var lbl  = el.getAttribute('data-lbl')||'';
   if (!file) {{ wkBack(); return; }}
-  // Abre snapshot no viewer
   var viewer = document.getElementById('wkViewer');
   var frame  = document.getElementById('wkFrame');
   var main   = document.getElementById('mainContent');
   document.getElementById('wkTitle').textContent = lbl;
   viewer.classList.add('open');
   main.style.display = 'none';
-  frame.src = _GHPAGES_BASE + 'history_sd/' + file;
+  frame.src = _GHPAGES_BASE + 'history_sd/' + file + '?t=' + Date.now();
 }}
 
 function wkBack(){{
@@ -3232,12 +3675,10 @@ function wkBack(){{
   viewer.classList.remove('open');
   main.style.display = '';
   frame.src = 'about:blank';
-  // Marca primeira semana como ativa
-  var first = document.querySelector('.wk-sb-week');
-  if (first){{
-    document.querySelectorAll('.wk-sb-week').forEach(function(w){{w.classList.remove('active');}});
-    first.classList.add('active');
-  }}
+  document.querySelectorAll('.wk-sb-week').forEach(function(w){{w.classList.remove('active');}});
+  var vigEntry = document.getElementById('wkVigEntry');
+  if (vigEntry) vigEntry.classList.add('active');
+  else {{ var first = document.querySelector('.wk-sb-week'); if (first) first.classList.add('active'); }}
 }}
 
 // Esconde sidebar se estiver dentro de snapshot
