@@ -207,82 +207,190 @@ def build_dset():
 DSET = build_dset()
 
 def build_summary(dset, opcao, tab):
-    """Gera resumo executivo HTML baseado nos dados mais recentes do DSET."""
-    # Para opcao='rep': usa DSET; para A/B: usa DSET_OPC (mas ainda não construído, chama depois)
-    # Aqui geramos o texto para o modo 'rep'
+    """Gera resumo executivo narrativo e completo."""
     d = dset['ALL']['ALL'][tab]
-    MONTH_NAMES = {'2026-01':'Janeiro','2026-02':'Fevereiro','2026-03':'Março',
-                   '2026-04':'Abril','2026-05':'Maio'}
-    lbl_t = 'Com Copiloto (Treatment)' if opcao=='rep' else 'Usou Copiloto (FLAG=1)'
-    lbl_c = 'Sem Copiloto (Controle)' if opcao=='rep' else 'Não usou Copiloto (FLAG=0)'
+    tab_label = {'geral': 'Geral', 'expert': 'Expert', 'newbie': 'Newbie'}.get(tab, tab)
+    is_rep = opcao == 'rep'
+    grp_t = 'reps com Copiloto habilitado' if is_rep else 'casos onde o Copiloto foi acionado'
+    grp_c = 'reps sem Copiloto' if is_rep else 'casos sem uso do Copiloto'
 
-    def last_val(series):
-        """Retorna o último valor não-nulo de uma série mensal."""
-        for v in reversed(series):
-            if v is not None:
-                return v
+    def last_val(s):
+        for v in reversed(s):
+            if v is not None: return v
         return None
 
-    def last_two(series):
-        vals = [v for v in series if v is not None]
-        return vals[-2] if len(vals) >= 2 else None, vals[-1] if vals else None
+    def two_last(s):
+        vals = [(i, v) for i, v in enumerate(s) if v is not None]
+        if len(vals) >= 2: return vals[-2][1], vals[-1][1]
+        if len(vals) == 1: return None, vals[-1][1]
+        return None, None
 
-    # NPS
-    nps_t = last_val(d['nps']['t']['m'])
-    nps_c = last_val(d['nps']['c']['m'])
+    def trend(prev, last):
+        if prev is None or last is None: return None
+        return round(last - prev, 1)
+
+    # Extrair valores mensais (Abr, Mai)
+    nps_t_abr = d['nps']['t']['m'][3]; nps_t_mai = d['nps']['t']['m'][4]
+    nps_c_abr = d['nps']['c']['m'][3]; nps_c_mai = d['nps']['c']['m'][4]
+    tmo_t_abr = d['tmo']['t']['m'][3]; tmo_t_mai = d['tmo']['t']['m'][4]
+    tmo_c_abr = d['tmo']['c']['m'][3]; tmo_c_mai = d['tmo']['c']['m'][4]
+    tdi_t_abr = d['tdi']['t']['m'][3]; tdi_t_mai = d['tdi']['t']['m'][4]
+    tdi_c_abr = d['tdi']['c']['m'][3]; tdi_c_mai = d['tdi']['c']['m'][4]
+    rec_t_abr = d['rec']['t']['m'][3]; rec_t_mai = d['rec']['t']['m'][4]
+    rec_c_abr = d['rec']['c']['m'][3]; rec_c_mai = d['rec']['c']['m'][4]
+
+    # Usar último mês disponível como referência principal
+    nps_t = nps_t_mai or nps_t_abr; nps_c = nps_c_mai or nps_c_abr
+    tmo_t = tmo_t_mai or tmo_t_abr; tmo_c = tmo_c_mai or tmo_c_abr
+    tdi_t = tdi_t_mai or tdi_t_abr; tdi_c = tdi_c_mai or tdi_c_abr
+    rec_t = rec_t_mai or rec_t_abr; rec_c = rec_c_mai or rec_c_abr
+
     nps_delta = round(nps_t - nps_c, 1) if nps_t and nps_c else None
-
-    # TMO
-    tmo_t = last_val(d['tmo']['t']['m'])
-    tmo_c = last_val(d['tmo']['c']['m'])
     tmo_delta = round(tmo_t - tmo_c, 1) if tmo_t and tmo_c else None
-
-    # TDI
-    tdi_t = last_val(d['tdi']['t']['m'])
-    tdi_c = last_val(d['tdi']['c']['m'])
     tdi_delta = round(tdi_t - tdi_c, 1) if tdi_t is not None and tdi_c is not None else None
-
-    # Recontato
-    rec_t = last_val(d['rec']['t']['m'])
-    rec_c = last_val(d['rec']['c']['m'])
     rec_delta = round(rec_t - rec_c, 1) if rec_t is not None and rec_c is not None else None
 
-    def arrow(delta, reverse=False):
-        if delta is None: return ''
-        better = delta < 0 if reverse else delta > 0
-        if better: return f'<span class="pos">▲ {abs(delta):.1f} melhor</span>'
-        if not better and delta != 0: return f'<span class="neg">▼ {abs(delta):.1f} pior</span>'
-        return '<span class="neu">≈ igual</span>'
+    # Tendência mensal (Abr→Mai)
+    nps_t_trend = trend(nps_t_abr, nps_t_mai)
+    tdi_t_trend = trend(tdi_t_abr, tdi_t_mai)
+    tmo_t_trend = trend(tmo_t_abr, tmo_t_mai)
 
-    items = []
+    def badge(val, suffix=''):
+        if val is None: return '—'
+        return f'<strong>{val:.1f}{suffix}</strong>'
+
+    def trend_txt(t, reverse=False):
+        if t is None: return ''
+        better = t < 0 if reverse else t > 0
+        sign = '+' if t > 0 else ''
+        cls = 'pos' if better else ('neg' if t != 0 else 'neu')
+        return f' <span class="{cls}">{sign}{t:.1f} vs mês anterior</span>'
+
+    # ── Blocos de análise ────────────────────────────────────────────────
+    blocks = []
+
+    # NPS
     if nps_t and nps_c:
-        items.append(f'<li><strong>NPS:</strong> {lbl_t} em <strong>{nps_t:.1f}%</strong> vs {nps_c:.1f}% do controle — delta de <strong>{nps_delta:+.1f}pp</strong> {arrow(nps_delta)}</li>')
+        nps_int = 'favorável' if nps_delta and nps_delta > 0 else 'neutro/desfavorável'
+        trend_nps = f' A tendência mensal dos {grp_t} é de {"alta" if nps_t_trend and nps_t_trend > 0 else "queda" if nps_t_trend and nps_t_trend < 0 else "estabilidade"} ({nps_t_trend:+.1f}pp Abr→Mai).' if nps_t_trend is not None else ''
+        blocks.append(
+            f'<div class="sum-block">'
+            f'<span class="sum-kpi">NPS</span> '
+            f'Os {grp_t} registraram {badge(nps_t, "%")} de NPS em Mai/2026 contra {badge(nps_c, "%")} dos {grp_c} — '
+            f'diferença de <strong>{nps_delta:+.1f}pp</strong>, resultado <strong>{nps_int}</strong> ao uso do Copiloto.{trend_nps}'
+            f'</div>'
+        )
+
+    # TMO
     if tmo_t and tmo_c:
-        items.append(f'<li><strong>TMO:</strong> {lbl_t} em <strong>{tmo_t:.1f} min</strong> vs {tmo_c:.1f} min — {arrow(tmo_delta, reverse=True)}</li>')
+        tmo_interp = (
+            f'O maior tempo de atendimento pode indicar que o assistente é usado em casos mais complexos, '
+            f'ou que os reps dedicam mais tempo para dar respostas mais completas e assertivas — '
+            f'o que estaria alinhado com o ganho de NPS observado.'
+            if tmo_delta and tmo_delta > 0 else
+            f'O Copiloto está contribuindo para reduzir o tempo médio de atendimento.'
+        )
+        trend_tmo = f' A evolução Abr→Mai indica {"aumento" if tmo_t_trend and tmo_t_trend > 0 else "redução"} de {abs(tmo_t_trend):.1f} min.' if tmo_t_trend is not None else ''
+        blocks.append(
+            f'<div class="sum-block">'
+            f'<span class="sum-kpi">TMO</span> '
+            f'O tempo médio foi de {badge(tmo_t, " min")} (Copiloto) vs {badge(tmo_c, " min")} (controle), '
+            f'diferença de <strong>{tmo_delta:+.1f} min</strong>.{trend_tmo} '
+            f'{tmo_interp}'
+            f'</div>'
+        )
+
+    # TDI
     if tdi_t is not None and tdi_c is not None:
-        items.append(f'<li><strong>TDI:</strong> {lbl_t} em <strong>{tdi_t:.1f}%</strong> vs {tdi_c:.1f}% — {arrow(tdi_delta, reverse=True)}</li>')
+        tdi_interp = 'Os reps com Copiloto apresentam menor taxa de derivação indevida, sugerindo maior assertividade no encaminhamento dos casos.' if tdi_delta and tdi_delta < 0 else 'A taxa de derivação indevida ainda está acima do grupo controle — há oportunidade de melhora na utilização do assistente para encaminhamento correto.'
+        trend_tdi = f' Tendência de {"melhora" if tdi_t_trend and tdi_t_trend < 0 else "piora"} de {abs(tdi_t_trend):.1f}pp (Abr→Mai).' if tdi_t_trend is not None else ''
+        blocks.append(
+            f'<div class="sum-block">'
+            f'<span class="sum-kpi">TDI</span> '
+            f'Taxa de derivação indevida: {badge(tdi_t, "%")} (Copiloto) vs {badge(tdi_c, "%")} (controle), '
+            f'delta de <strong>{tdi_delta:+.1f}pp</strong>.{trend_tdi} '
+            f'{tdi_interp}'
+            f'</div>'
+        )
+
+    # Recontato
     if rec_t is not None and rec_c is not None:
-        items.append(f'<li><strong>Recontato:</strong> {lbl_t} em <strong>{rec_t:.1f}%</strong> vs {rec_c:.1f}% — {arrow(rec_delta, reverse=True)}</li>')
+        rec_interp = 'O menor índice de recontato indica que os atendimentos com Copiloto resultam em resoluções mais definitivas, reduzindo a necessidade do cliente entrar em contato novamente.' if rec_delta and rec_delta < 0 else 'O índice de recontato está acima do controle — os clientes atendidos com Copiloto ainda retornam com mais frequência.'
+        blocks.append(
+            f'<div class="sum-block">'
+            f'<span class="sum-kpi">Recontato</span> '
+            f'Índice de recontato: {badge(rec_t, "%")} (Copiloto) vs {badge(rec_c, "%")} (controle), '
+            f'delta de <strong>{rec_delta:+.1f}pp</strong>. '
+            f'{rec_interp}'
+            f'</div>'
+        )
 
-    if not items:
-        return ''
+    if not blocks: return ''
 
-    # Conclusão geral
-    positives = sum(1 for x in [nps_delta, -tmo_delta if tmo_delta else None,
-                                  -tdi_delta if tdi_delta else None,
-                                  -rec_delta if rec_delta else None] if x and x > 0)
-    if positives >= 3:
-        conclusion = 'Os dados indicam <strong>impacto positivo consistente</strong> do Copiloto nos principais KPIs analisados.'
-    elif positives == 2:
-        conclusion = 'Os dados mostram <strong>impacto misto</strong> — melhora em alguns indicadores, com trade-off em outros.'
-    else:
-        conclusion = 'Os dados sugerem <strong>impacto limitado ou negativo</strong> no período analisado.'
+    # ── Conclusão ────────────────────────────────────────────────────────
+    positives = sum([
+        1 if nps_delta and nps_delta > 0 else 0,
+        1 if tmo_delta and tmo_delta < 0 else 0,
+        1 if tdi_delta and tdi_delta < 0 else 0,
+        1 if rec_delta and rec_delta < 0 else 0,
+    ])
+    negatives = sum([
+        1 if tmo_delta and tmo_delta > 2 else 0,
+        1 if tdi_delta and tdi_delta > 1 else 0,
+        1 if rec_delta and rec_delta > 1 else 0,
+    ])
 
-    tab_label = {'geral': 'Geral', 'expert': 'Experts', 'newbie': 'Newbies'}.get(tab, tab)
+    if tab == 'geral':
+        if positives >= 3:
+            conclusion = (
+                f'<strong>Avaliação geral: positiva.</strong> O uso do Copiloto está associado a uma melhora consistente na satisfação do cliente '
+                f'({nps_delta:+.1f}pp de NPS) com indicadores operacionais como TDI e Recontato também favoráveis. '
+                f'O aumento de TMO ({tmo_delta:+.1f} min) representa um trade-off esperado — maior qualidade de atendimento tende a demandar mais tempo. '
+                f'A recomendação é ampliar o uso e monitorar se o TMO adicional se sustenta frente aos ganhos de qualidade.'
+            ) if nps_delta and tmo_delta else 'Avaliação geral positiva com base nos indicadores disponíveis.'
+        elif positives == 2:
+            conclusion = (
+                f'<strong>Avaliação geral: mista.</strong> O Copiloto mostra ganhos claros em NPS mas ainda apresenta '
+                f'desafios operacionais. Recomenda-se analisar os processos com maior delta negativo e trabalhar '
+                f'com os líderes para aprimorar a forma de uso do assistente pelos reps.'
+            )
+        else:
+            conclusion = (
+                f'<strong>Avaliação geral: requer atenção.</strong> Os indicadores do período ainda não mostram '
+                f'vantagem clara do grupo com Copiloto. Pode refletir fase inicial de adoção — recomenda-se '
+                f'acompanhar a evolução nas próximas semanas e verificar se há reps com baixa utilização.'
+            )
+    elif tab == 'expert':
+        if positives >= 3:
+            conclusion = (
+                f'<strong>Experts com Copiloto: perfil de alto impacto.</strong> Os reps experientes que utilizam o Copiloto '
+                f'demonstram os melhores resultados do time. O NPS elevado ({nps_t:.1f}%) combinado com '
+                f'{"redução de TDI e Recontato" if tdi_delta and tdi_delta < 0 else "melhora em indicadores operacionais"} '
+                f'sugere que o assistente potencializa a expertise já existente, acelerando resoluções mais assertivas.'
+            ) if nps_t else 'Experts com Copiloto apresentam performance consistentemente superior.'
+        else:
+            conclusion = (
+                f'<strong>Experts com Copiloto:</strong> mesmo entre reps experientes, o impacto do Copiloto ainda é parcial. '
+                f'Pode indicar que experts com perfil mais independente utilizam menos o assistente ou o utilizam de forma diferente.'
+            )
+    else:  # newbie
+        if positives >= 2:
+            conclusion = (
+                f'<strong>Newbies com Copiloto: aceleração de curva de aprendizado.</strong> Os reps mais novos que utilizam o Copiloto '
+                f'mostram {"NPS crescente de " + str(nps_t_abr) + "% (Abr) → " + str(nps_t_mai) + "% (Mai)" if nps_t_abr and nps_t_mai else "evolução positiva de NPS"}, '
+                f'sugerindo que o assistente age como um acelerador de qualidade para quem ainda está em formação. '
+                f'O TMO mais alto é esperado nesse perfil e deve reduzir com a maturidade no uso da ferramenta.'
+            )
+        else:
+            conclusion = (
+                f'<strong>Newbies com Copiloto:</strong> a adoção ainda é recente para esse grupo e os resultados são '
+                f'mais voláteis. Recomenda-se acompanhar a evolução semanal e reforçar o treinamento de uso do assistente.'
+            )
+
     return f'''<div class="exec-summary">
-  <div class="exec-title">Resumo Executivo — {tab_label} (dados até 21/05/2026)</div>
-  <ul class="exec-list">{''.join(items)}</ul>
-  <div class="exec-conclusion">{conclusion}</div>
+  <div class="exec-title">&#128203; Resumo Executivo — {tab_label} · Dados até 21/05/2026</div>
+  {''.join(blocks)}
+  <div class="exec-conclusion">&#128270; <strong>Conclusão:</strong> {conclusion}</div>
 </div>'''
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -663,14 +771,15 @@ table.rt tr:hover td{{background:#f8fafc}}
 hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
 .footer{{font-size:10px;color:#94a3b8;text-align:center;margin-top:24px}}
 /* Resumo Executivo */
-.exec-summary{{background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #1d4ed8;border-radius:8px;padding:14px 18px;margin-top:16px}}
-.exec-title{{font-size:11px;font-weight:700;color:#1e293b;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}}
-.exec-list{{font-size:11.5px;color:#374151;line-height:1.8;padding-left:18px}}
-.exec-list li{{margin-bottom:2px}}
-.exec-conclusion{{font-size:11.5px;color:#1e293b;margin-top:10px;padding-top:8px;border-top:1px solid #e2e8f0}}
-.pos{{color:#15803d;font-size:10px;background:#dcfce7;padding:1px 5px;border-radius:3px;font-weight:600}}
-.neg{{color:#dc2626;font-size:10px;background:#fee2e2;padding:1px 5px;border-radius:3px;font-weight:600}}
-.neu{{color:#64748b;font-size:10px;background:#f1f5f9;padding:1px 5px;border-radius:3px;font-weight:600}}
+.exec-summary{{background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #1d4ed8;border-radius:8px;padding:16px 20px;margin-top:18px}}
+.exec-title{{font-size:11.5px;font-weight:700;color:#1e293b;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}}
+.sum-block{{font-size:11.5px;color:#374151;line-height:1.7;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #f1f5f9}}
+.sum-block:last-of-type{{border-bottom:none;margin-bottom:0;padding-bottom:0}}
+.sum-kpi{{display:inline-block;background:#1d4ed8;color:white;font-size:9.5px;font-weight:700;padding:1px 7px;border-radius:4px;letter-spacing:.4px;margin-right:6px;text-transform:uppercase}}
+.exec-conclusion{{font-size:11.5px;color:#1e293b;margin-top:12px;padding-top:10px;border-top:2px solid #e2e8f0;line-height:1.7}}
+.pos{{color:#15803d;font-size:10px;background:#dcfce7;padding:1px 6px;border-radius:3px;font-weight:600}}
+.neg{{color:#dc2626;font-size:10px;background:#fee2e2;padding:1px 6px;border-radius:3px;font-weight:600}}
+.neu{{color:#64748b;font-size:10px;background:#f1f5f9;padding:1px 6px;border-radius:3px;font-weight:600}}
 /* Sen filter buttons */
 .sen-filter{{display:flex;gap:6px;margin-bottom:10px;align-items:center}}
 .sen-btn{{padding:4px 14px;border-radius:6px;border:1px solid #e2e8f0;cursor:pointer;font-size:11px;font-weight:600;background:white;color:#64748b;transition:.1s}}

@@ -77,14 +77,15 @@ table.rt tr:hover td{background:#f8fafc}
 hr.div{border:none;border-top:2px solid #e2e8f0;margin:20px 0}
 .footer{font-size:10px;color:#94a3b8;text-align:center;margin-top:24px}
 /* Resumo Executivo */
-.exec-summary{background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #1d4ed8;border-radius:8px;padding:14px 18px;margin-top:16px}
-.exec-title{font-size:11px;font-weight:700;color:#1e293b;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
-.exec-list{font-size:11.5px;color:#374151;line-height:1.8;padding-left:18px}
-.exec-list li{margin-bottom:2px}
-.exec-conclusion{font-size:11.5px;color:#1e293b;margin-top:10px;padding-top:8px;border-top:1px solid #e2e8f0}
-.pos{color:#15803d;font-size:10px;background:#dcfce7;padding:1px 5px;border-radius:3px;font-weight:600}
-.neg{color:#dc2626;font-size:10px;background:#fee2e2;padding:1px 5px;border-radius:3px;font-weight:600}
-.neu{color:#64748b;font-size:10px;background:#f1f5f9;padding:1px 5px;border-radius:3px;font-weight:600}
+.exec-summary{background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #1d4ed8;border-radius:8px;padding:16px 20px;margin-top:18px}
+.exec-title{font-size:11.5px;font-weight:700;color:#1e293b;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.sum-block{font-size:11.5px;color:#374151;line-height:1.7;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #f1f5f9}
+.sum-block:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.sum-kpi{display:inline-block;background:#1d4ed8;color:white;font-size:9.5px;font-weight:700;padding:1px 7px;border-radius:4px;letter-spacing:.4px;margin-right:6px;text-transform:uppercase}
+.exec-conclusion{font-size:11.5px;color:#1e293b;margin-top:12px;padding-top:10px;border-top:2px solid #e2e8f0;line-height:1.7}
+.pos{color:#15803d;font-size:10px;background:#dcfce7;padding:1px 6px;border-radius:3px;font-weight:600}
+.neg{color:#dc2626;font-size:10px;background:#fee2e2;padding:1px 6px;border-radius:3px;font-weight:600}
+.neu{color:#64748b;font-size:10px;background:#f1f5f9;padding:1px 6px;border-radius:3px;font-weight:600}
 /* Sen filter buttons */
 .sen-filter{display:flex;gap:6px;margin-bottom:10px;align-items:center}
 .sen-btn{padding:4px 14px;border-radius:6px;border:1px solid #e2e8f0;cursor:pointer;font-size:11px;font-weight:600;background:white;color:#64748b;transition:.1s}
@@ -164,9 +165,9 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:20px 0}
       <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_geral"></canvas></div>
     </div>
     <div class="exec-summary">
-  <div class="exec-title">Resumo Executivo — Geral (dados até 21/05/2026)</div>
-  <ul class="exec-list"><li><strong>NPS:</strong> Com Copiloto (Treatment) em <strong>70.5%</strong> vs 56.1% do controle — delta de <strong>+14.4pp</strong> <span class="pos">▲ 14.4 melhor</span></li><li><strong>TMO:</strong> Com Copiloto (Treatment) em <strong>32.3 min</strong> vs 26.1 min — <span class="neg">▼ 6.2 pior</span></li><li><strong>TDI:</strong> Com Copiloto (Treatment) em <strong>5.8%</strong> vs 7.6% — <span class="pos">▲ 1.8 melhor</span></li><li><strong>Recontato:</strong> Com Copiloto (Treatment) em <strong>3.7%</strong> vs 2.6% — <span class="neg">▼ 1.1 pior</span></li></ul>
-  <div class="exec-conclusion">Os dados mostram <strong>impacto misto</strong> — melhora em alguns indicadores, com trade-off em outros.</div>
+  <div class="exec-title">&#128203; Resumo Executivo — Geral · Dados até 21/05/2026</div>
+  <div class="sum-block"><span class="sum-kpi">NPS</span> Os reps com Copiloto habilitado registraram <strong>70.5%</strong> de NPS em Mai/2026 contra <strong>56.1%</strong> dos reps sem Copiloto — diferença de <strong>+14.4pp</strong>, resultado <strong>favorável</strong> ao uso do Copiloto. A tendência mensal dos reps com Copiloto habilitado é de alta (+6.2pp Abr→Mai).</div><div class="sum-block"><span class="sum-kpi">TMO</span> O tempo médio foi de <strong>32.3 min</strong> (Copiloto) vs <strong>26.1 min</strong> (controle), diferença de <strong>+6.2 min</strong>. A evolução Abr→Mai indica aumento de 0.9 min. O maior tempo de atendimento pode indicar que o assistente é usado em casos mais complexos, ou que os reps dedicam mais tempo para dar respostas mais completas e assertivas — o que estaria alinhado com o ganho de NPS observado.</div><div class="sum-block"><span class="sum-kpi">TDI</span> Taxa de derivação indevida: <strong>5.8%</strong> (Copiloto) vs <strong>7.6%</strong> (controle), delta de <strong>-1.8pp</strong>. Tendência de melhora de 2.8pp (Abr→Mai). Os reps com Copiloto apresentam menor taxa de derivação indevida, sugerindo maior assertividade no encaminhamento dos casos.</div><div class="sum-block"><span class="sum-kpi">Recontato</span> Índice de recontato: <strong>3.7%</strong> (Copiloto) vs <strong>2.6%</strong> (controle), delta de <strong>+1.1pp</strong>. O índice de recontato está acima do controle — os clientes atendidos com Copiloto ainda retornam com mais frequência.</div>
+  <div class="exec-conclusion">&#128270; <strong>Conclusão:</strong> <strong>Avaliação geral: mista.</strong> O Copiloto mostra ganhos claros em NPS mas ainda apresenta desafios operacionais. Recomenda-se analisar os processos com maior delta negativo e trabalhar com os líderes para aprimorar a forma de uso do assistente pelos reps.</div>
 </div>
   </div>
 
@@ -188,9 +189,9 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:20px 0}
       <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_expert"></canvas></div>
     </div>
     <div class="exec-summary">
-  <div class="exec-title">Resumo Executivo — Experts (dados até 21/05/2026)</div>
-  <ul class="exec-list"><li><strong>NPS:</strong> Com Copiloto (Treatment) em <strong>73.4%</strong> vs 56.1% do controle — delta de <strong>+17.3pp</strong> <span class="pos">▲ 17.3 melhor</span></li><li><strong>TMO:</strong> Com Copiloto (Treatment) em <strong>30.9 min</strong> vs 26.1 min — <span class="neg">▼ 4.8 pior</span></li><li><strong>TDI:</strong> Com Copiloto (Treatment) em <strong>4.9%</strong> vs 7.6% — <span class="pos">▲ 2.7 melhor</span></li><li><strong>Recontato:</strong> Com Copiloto (Treatment) em <strong>3.1%</strong> vs 2.6% — <span class="neg">▼ 0.5 pior</span></li></ul>
-  <div class="exec-conclusion">Os dados mostram <strong>impacto misto</strong> — melhora em alguns indicadores, com trade-off em outros.</div>
+  <div class="exec-title">&#128203; Resumo Executivo — Expert · Dados até 21/05/2026</div>
+  <div class="sum-block"><span class="sum-kpi">NPS</span> Os reps com Copiloto habilitado registraram <strong>73.4%</strong> de NPS em Mai/2026 contra <strong>56.1%</strong> dos reps sem Copiloto — diferença de <strong>+17.3pp</strong>, resultado <strong>favorável</strong> ao uso do Copiloto. A tendência mensal dos reps com Copiloto habilitado é de alta (+2.4pp Abr→Mai).</div><div class="sum-block"><span class="sum-kpi">TMO</span> O tempo médio foi de <strong>30.9 min</strong> (Copiloto) vs <strong>26.1 min</strong> (controle), diferença de <strong>+4.8 min</strong>. A evolução Abr→Mai indica aumento de 2.6 min. O maior tempo de atendimento pode indicar que o assistente é usado em casos mais complexos, ou que os reps dedicam mais tempo para dar respostas mais completas e assertivas — o que estaria alinhado com o ganho de NPS observado.</div><div class="sum-block"><span class="sum-kpi">TDI</span> Taxa de derivação indevida: <strong>4.9%</strong> (Copiloto) vs <strong>7.6%</strong> (controle), delta de <strong>-2.7pp</strong>. Tendência de melhora de 2.0pp (Abr→Mai). Os reps com Copiloto apresentam menor taxa de derivação indevida, sugerindo maior assertividade no encaminhamento dos casos.</div><div class="sum-block"><span class="sum-kpi">Recontato</span> Índice de recontato: <strong>3.1%</strong> (Copiloto) vs <strong>2.6%</strong> (controle), delta de <strong>+0.5pp</strong>. O índice de recontato está acima do controle — os clientes atendidos com Copiloto ainda retornam com mais frequência.</div>
+  <div class="exec-conclusion">&#128270; <strong>Conclusão:</strong> <strong>Experts com Copiloto:</strong> mesmo entre reps experientes, o impacto do Copiloto ainda é parcial. Pode indicar que experts com perfil mais independente utilizam menos o assistente ou o utilizam de forma diferente.</div>
 </div>
   </div>
 
@@ -212,9 +213,9 @@ hr.div{border:none;border-top:2px solid #e2e8f0;margin:20px 0}
       <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_newbie"></canvas></div>
     </div>
     <div class="exec-summary">
-  <div class="exec-title">Resumo Executivo — Newbies (dados até 21/05/2026)</div>
-  <ul class="exec-list"><li><strong>NPS:</strong> Com Copiloto (Treatment) em <strong>67.6%</strong> vs 56.1% do controle — delta de <strong>+11.5pp</strong> <span class="pos">▲ 11.5 melhor</span></li><li><strong>TMO:</strong> Com Copiloto (Treatment) em <strong>33.5 min</strong> vs 26.1 min — <span class="neg">▼ 7.4 pior</span></li><li><strong>TDI:</strong> Com Copiloto (Treatment) em <strong>7.4%</strong> vs 7.6% — <span class="pos">▲ 0.2 melhor</span></li><li><strong>Recontato:</strong> Com Copiloto (Treatment) em <strong>4.3%</strong> vs 2.6% — <span class="neg">▼ 1.7 pior</span></li></ul>
-  <div class="exec-conclusion">Os dados mostram <strong>impacto misto</strong> — melhora em alguns indicadores, com trade-off em outros.</div>
+  <div class="exec-title">&#128203; Resumo Executivo — Newbie · Dados até 21/05/2026</div>
+  <div class="sum-block"><span class="sum-kpi">NPS</span> Os reps com Copiloto habilitado registraram <strong>67.6%</strong> de NPS em Mai/2026 contra <strong>56.1%</strong> dos reps sem Copiloto — diferença de <strong>+11.5pp</strong>, resultado <strong>favorável</strong> ao uso do Copiloto. A tendência mensal dos reps com Copiloto habilitado é de alta (+10.6pp Abr→Mai).</div><div class="sum-block"><span class="sum-kpi">TMO</span> O tempo médio foi de <strong>33.5 min</strong> (Copiloto) vs <strong>26.1 min</strong> (controle), diferença de <strong>+7.4 min</strong>. A evolução Abr→Mai indica redução de 1.8 min. O maior tempo de atendimento pode indicar que o assistente é usado em casos mais complexos, ou que os reps dedicam mais tempo para dar respostas mais completas e assertivas — o que estaria alinhado com o ganho de NPS observado.</div><div class="sum-block"><span class="sum-kpi">TDI</span> Taxa de derivação indevida: <strong>7.4%</strong> (Copiloto) vs <strong>7.6%</strong> (controle), delta de <strong>-0.2pp</strong>. Tendência de melhora de 4.3pp (Abr→Mai). Os reps com Copiloto apresentam menor taxa de derivação indevida, sugerindo maior assertividade no encaminhamento dos casos.</div><div class="sum-block"><span class="sum-kpi">Recontato</span> Índice de recontato: <strong>4.3%</strong> (Copiloto) vs <strong>2.6%</strong> (controle), delta de <strong>+1.7pp</strong>. O índice de recontato está acima do controle — os clientes atendidos com Copiloto ainda retornam com mais frequência.</div>
+  <div class="exec-conclusion">&#128270; <strong>Conclusão:</strong> <strong>Newbies com Copiloto: aceleração de curva de aprendizado.</strong> Os reps mais novos que utilizam o Copiloto mostram NPS crescente de 57.0% (Abr) → 67.6% (Mai), sugerindo que o assistente age como um acelerador de qualidade para quem ainda está em formação. O TMO mais alto é esperado nesse perfil e deve reduzir com a maturidade no uso da ferramenta.</div>
 </div>
   </div>
 
