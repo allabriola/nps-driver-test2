@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Dashboard Chat Assíncrono — Longtail Sellers BR
-Equipes: BR_ME_Sellers_Longtail, BR_Publicaciones_Sellers_Longtail, BR_Ventas_Sellers Longtail
+Equipes: BR_ME_Sellers_Longtail, BR_Publicaciones_Sellers_Longtail, BR_Ventas_Sellers_Longtail
 Gera: _async_longtail.html
 """
 import sys, json
@@ -15,12 +15,12 @@ BQ = bigquery.Client(project="meli-bi-data")
 TEAMS = [
     "BR_ME_Sellers_Longtail",
     "BR_Publicaciones_Sellers_Longtail",
-    "BR_Ventas_Sellers Longtail",
+    "BR_Ventas_Sellers_Longtail",
 ]
 TEAM_SHORT = {
     "BR_ME_Sellers_Longtail":            "ME",
     "BR_Publicaciones_Sellers_Longtail": "Publicaciones",
-    "BR_Ventas_Sellers Longtail":        "Ventas",
+    "BR_Ventas_Sellers_Longtail":        "Ventas",
 }
 TEAMS_IN = ", ".join(f'"{t}"' for t in TEAMS)
 COLORS   = ['#3498db','#e74c3c','#2ecc71','#f39c12','#9b59b6','#1abc9c','#e67e22','#34495e','#e91e63','#00bcd4']
@@ -307,118 +307,151 @@ def make_chart(cid, labels, datasets, y_label, bar=True, height=280, x_rotation=
   }});
 }})();</script>"""
 
-def bar_datasets(series_map, color_map, multiplier=1):
-    """series_map: dict {label: [values]}. Inclui linhas de ref 1.0 e 2.0."""
+def _to_float(v, multiplier=1):
+    return round(float(v) * multiplier, 2) if v is not None else None
+
+def bar_datasets(series_map, color_map, multiplier=1, total=None):
     n = max(len(v) for v in series_map.values()) if series_map else 0
     ds = []
     for label, values in series_map.items():
         c = color_map[label]
         ds.append({'type':'bar','label':label,
-                   'data': [round(v*multiplier, 2) if v is not None else None for v in values],
+                   'data':[_to_float(v,multiplier) for v in values],
                    'backgroundColor':c+'bb','borderColor':c,'borderWidth':1,'borderRadius':3,'skipNull':True})
-    ref1 = 1.0 * multiplier; ref2 = 2.0 * multiplier
+    if total:
+        ds.append({'type':'line','label':'Total',
+                   'data':[_to_float(v,multiplier) for v in total],
+                   'borderColor':'#1a1a2e','backgroundColor':'#1a1a2e22','borderWidth':2.5,
+                   'pointRadius':3,'tension':0.3,'fill':False,'spanGaps':True,'order':0})
+    ref1 = 1.0*multiplier; ref2 = 2.0*multiplier
     ds.append({'type':'line','label':'__ref1__','data':[ref1]*n,'borderColor':'#b8860b','borderDash':[6,4],'pointRadius':0,'borderWidth':1.5,'fill':False,'tension':0})
     ds.append({'type':'line','label':'__ref2__','data':[ref2]*n,'borderColor':'#c0392b','borderDash':[6,4],'pointRadius':0,'borderWidth':1.5,'fill':False,'tension':0})
     return ds
 
-def line_datasets(series_map, color_map, multiplier=1):
-    """Datasets de linha (sem ref lines — para % de uso sem referência fixa)."""
+def line_datasets(series_map, color_map, multiplier=1, total=None):
     ds = []
     for label, values in series_map.items():
         c = color_map[label]
         ds.append({'type':'line','label':label,
-                   'data': [round(v*multiplier, 2) if v is not None else None for v in values],
+                   'data':[_to_float(v,multiplier) for v in values],
                    'borderColor':c,'backgroundColor':c+'33','borderWidth':2,
                    'tension':0.35,'spanGaps':True,'pointRadius':4,'fill':False})
+    if total:
+        ds.insert(0, {'type':'line','label':'Total',
+                      'data':[_to_float(v,multiplier) for v in total],
+                      'borderColor':'#1a1a2e','backgroundColor':'#1a1a2e22','borderWidth':3,
+                      'pointRadius':4,'tension':0.3,'fill':False,'spanGaps':True})
     return ds
 
-def build_office_series(rows, team, date_key, value_key='async_por_caso'):
-    """Retorna (labels, series_map, color_map) agrupados por office."""
-    team_rows = [r for r in rows if r['equipe'] == team]
-    if not team_rows: return [], {}, {}
-    keys = sorted(set(str(r[date_key])[:10] if hasattr(r.get(date_key), 'isoformat') else str(r.get(date_key,''))[:10] for r in team_rows))
-    offices = sorted(set(r['escritorio'] for r in team_rows))
-    idx = {}
-    for r in team_rows:
-        dk = str(r[date_key])[:10] if hasattr(r.get(date_key), 'isoformat') else str(r.get(date_key,''))[:10]
-        idx[(dk, r['escritorio'])] = r.get(value_key)
-    series_map = {off: [idx.get((k, off)) for k in keys] for off in offices}
-    color_map  = {off: COLORS[i % len(COLORS)] for i, off in enumerate(offices)}
-    return keys, series_map, color_map
+def _dk(r, date_key):
+    v = r.get(date_key)
+    return str(v)[:10] if v is not None else ''
 
-def build_team_series(rows, date_key, value_key='async_por_caso'):
-    """Retorna (labels, series_map, color_map) agrupados por equipe (para aba Geral)."""
-    if not rows: return [], {}, {}
+def build_office_series(rows, team, date_key):
+    """Retorna (keys, series_map, color_map, total) agrupados por office."""
+    team_rows = [r for r in rows if r['equipe'] == team]
+    if not team_rows: return [], {}, {}, []
+    keys    = sorted(set(_dk(r, date_key) for r in team_rows))
+    offices = sorted(set(r['escritorio'] for r in team_rows))
+    idx     = {(_dk(r, date_key), r['escritorio']): r for r in team_rows}
+    series_map = {off: [idx.get((k, off), {}).get('async_por_caso') for k in keys] for off in offices}
+    color_map  = {off: COLORS[i % len(COLORS)] for i, off in enumerate(offices)}
+    # total por chave = sum(async_total) / sum(incoming_cr)
+    total = []
+    for k in keys:
+        rows_k = [r for r in team_rows if _dk(r, date_key) == k]
+        at = sum(int(r.get('async_total') or 0) for r in rows_k)
+        cr = sum(int(r.get('incoming_cr') or 0) for r in rows_k)
+        total.append(round(at/cr, 2) if cr else None)
+    return keys, series_map, color_map, total
+
+def build_team_series(rows, date_key):
+    """Retorna (keys, series_map, color_map, total) agrupados por equipe (aba Geral)."""
+    if not rows: return [], {}, {}, []
     keys   = sorted(set(str(r[date_key])[:10] for r in rows))
-    teams  = TEAMS
-    idx    = {(str(r[date_key])[:10], r['equipe']): r.get(value_key) for r in rows}
-    series = {TEAM_SHORT[t]: [idx.get((k, t)) for k in keys] for t in teams}
-    colors = {TEAM_SHORT[t]: COLORS[i] for i, t in enumerate(teams)}
-    return keys, series, colors
+    idx    = {}
+    for r in rows:
+        k = str(r[date_key])[:10]
+        idx.setdefault((k, r['equipe']), {'at': 0, 'cr': 0})
+        idx[(k, r['equipe'])]['at'] += int(r.get('async_total') or 0)
+        idx[(k, r['equipe'])]['cr'] += int(r.get('incoming_cr') or 0)
+    def val(k, t):
+        d = idx.get((k, t)); return round(d['at']/d['cr'], 2) if d and d['cr'] else None
+    series = {TEAM_SHORT[t]: [val(k, t) for k in keys] for t in TEAMS}
+    colors = {TEAM_SHORT[t]: COLORS[i] for i, t in enumerate(TEAMS)}
+    # total geral
+    total_buf = {}
+    for r in rows:
+        k = str(r[date_key])[:10]
+        total_buf.setdefault(k, {'at': 0, 'cr': 0})
+        total_buf[k]['at'] += int(r.get('async_total') or 0)
+        total_buf[k]['cr'] += int(r.get('incoming_cr') or 0)
+    total = [round(total_buf[k]['at']/total_buf[k]['cr'], 2) if total_buf.get(k,{}).get('cr') else None for k in keys]
+    return keys, series, colors, total
 
 # — gráficos por equipe —
 
 def chart_daily(team):
-    keys, series, cmap = build_office_series(q1, team, 'dia')
+    keys, series, cmap, total = build_office_series(q1, team, 'dia')
     if not keys: return "<p class='empty'>Sem dados</p>"
     labels = [k[5:].replace('-','/') for k in keys]
-    return make_chart(f'cd-{TEAM_SHORT[team]}', labels, bar_datasets(series, cmap), 'async/caso', bar=True, x_rotation=45)
+    return make_chart(f'cd-{TEAM_SHORT[team]}', labels, bar_datasets(series, cmap, total=total), 'async/caso', bar=True, x_rotation=45)
 
 def chart_weekly(team):
-    keys, series, cmap = build_office_series(q7, team, 'semana')
+    keys, series, cmap, total = build_office_series(q7, team, 'semana')
     if not keys: return "<p class='empty'>Sem dados</p>"
     labels = [k[5:].replace('-','/') for k in keys]
-    return make_chart(f'cw-{TEAM_SHORT[team]}', labels, bar_datasets(series, cmap), 'async/caso', bar=True)
+    return make_chart(f'cw-{TEAM_SHORT[team]}', labels, bar_datasets(series, cmap, total=total), 'async/caso', bar=True)
 
 def chart_monthly(team):
-    keys, series, cmap = build_office_series(q8, team, 'mes')
-    if not keys: return "<p class='empty'>Sem dados</p>"
-    labels = [k[2:].replace('-','/') for k in keys]  # YYYY-MM → YY/MM
-    return make_chart(f'cm-{TEAM_SHORT[team]}', labels, bar_datasets(series, cmap), 'async/caso', bar=True)
-
-def chart_pct_weekly(team):
-    keys, series, cmap = build_office_series(q7, team, 'semana')
-    if not keys: return "<p class='empty'>Sem dados</p>"
-    labels = [k[5:].replace('-','/') for k in keys]
-    return make_chart(f'cpw-{TEAM_SHORT[team]}', labels, line_datasets(series, cmap, multiplier=100), '% async/CR', bar=False)
-
-def chart_pct_monthly(team):
-    keys, series, cmap = build_office_series(q8, team, 'mes')
+    keys, series, cmap, total = build_office_series(q8, team, 'mes')
     if not keys: return "<p class='empty'>Sem dados</p>"
     labels = [k[2:].replace('-','/') for k in keys]
-    return make_chart(f'cpm-{TEAM_SHORT[team]}', labels, line_datasets(series, cmap, multiplier=100), '% async/CR', bar=False)
+    return make_chart(f'cm-{TEAM_SHORT[team]}', labels, bar_datasets(series, cmap, total=total), 'async/caso', bar=True)
+
+def chart_pct_weekly(team):
+    keys, series, cmap, total = build_office_series(q7, team, 'semana')
+    if not keys: return "<p class='empty'>Sem dados</p>"
+    labels = [k[5:].replace('-','/') for k in keys]
+    return make_chart(f'cpw-{TEAM_SHORT[team]}', labels, line_datasets(series, cmap, multiplier=100, total=total), '% async/CR', bar=False)
+
+def chart_pct_monthly(team):
+    keys, series, cmap, total = build_office_series(q8, team, 'mes')
+    if not keys: return "<p class='empty'>Sem dados</p>"
+    labels = [k[2:].replace('-','/') for k in keys]
+    return make_chart(f'cpm-{TEAM_SHORT[team]}', labels, line_datasets(series, cmap, multiplier=100, total=total), '% async/CR', bar=False)
 
 # — gráficos Geral (série = equipe) —
 
 def chart_geral_daily():
-    keys, series, cmap = build_team_series(q1_geral, 'dia')
+    keys, series, cmap, total = build_team_series(q1_geral, 'dia')
     if not keys: return "<p class='empty'>Sem dados</p>"
     labels = [k[5:].replace('-','/') for k in keys]
-    return make_chart('cg-daily', labels, bar_datasets(series, cmap), 'async/caso', bar=True, x_rotation=45)
+    return make_chart('cg-daily', labels, bar_datasets(series, cmap, total=total), 'async/caso', bar=True, x_rotation=45)
 
 def chart_geral_weekly():
-    keys, series, cmap = build_team_series(q7_geral, 'semana')
+    keys, series, cmap, total = build_team_series(q7_geral, 'semana')
     if not keys: return "<p class='empty'>Sem dados</p>"
     labels = [k[5:].replace('-','/') for k in keys]
-    return make_chart('cg-weekly', labels, bar_datasets(series, cmap), 'async/caso', bar=True)
+    return make_chart('cg-weekly', labels, bar_datasets(series, cmap, total=total), 'async/caso', bar=True)
 
 def chart_geral_monthly():
-    keys, series, cmap = build_team_series(q8_geral, 'mes')
+    keys, series, cmap, total = build_team_series(q8_geral, 'mes')
     if not keys: return "<p class='empty'>Sem dados</p>"
     labels = [k[2:].replace('-','/') for k in keys]
-    return make_chart('cg-monthly', labels, bar_datasets(series, cmap), 'async/caso', bar=True)
+    return make_chart('cg-monthly', labels, bar_datasets(series, cmap, total=total), 'async/caso', bar=True)
 
 def chart_geral_pct_weekly():
-    keys, series, cmap = build_team_series(q7_geral, 'semana')
+    keys, series, cmap, total = build_team_series(q7_geral, 'semana')
     if not keys: return "<p class='empty'>Sem dados</p>"
     labels = [k[5:].replace('-','/') for k in keys]
-    return make_chart('cg-cpw', labels, line_datasets(series, cmap, multiplier=100), '% async/CR', bar=False)
+    return make_chart('cg-cpw', labels, line_datasets(series, cmap, multiplier=100, total=total), '% async/CR', bar=False)
 
 def chart_geral_pct_monthly():
-    keys, series, cmap = build_team_series(q8_geral, 'mes')
+    keys, series, cmap, total = build_team_series(q8_geral, 'mes')
     if not keys: return "<p class='empty'>Sem dados</p>"
     labels = [k[2:].replace('-','/') for k in keys]
-    return make_chart('cg-cpm', labels, line_datasets(series, cmap, multiplier=100), '% async/CR', bar=False)
+    return make_chart('cg-cpm', labels, line_datasets(series, cmap, multiplier=100, total=total), '% async/CR', bar=False)
 
 # ── resumo executivo ──────────────────────────────────────────────────────────
 
