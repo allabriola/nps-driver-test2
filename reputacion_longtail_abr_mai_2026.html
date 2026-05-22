@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Reputación Sellers Longtail — Abr vs Mai 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --yellow:#FFE600;--dark:#1a1a2e;--gray:#f5f5f5;--border:#e0e0e0;
+  --green:#00a650;--red:#e84142;--blue:#3483fa;--orange:#ff7733;
+  --text:#333;
+  --light-green:#e6f7ee;--light-red:#fdecea;--light-orange:#fff3ec;--light-blue:#e8f0fe;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:var(--text);font-size:14px;}
+
+/* ── HEADER ── */
+.header{background:var(--dark);color:#fff;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.header h1{font-size:19px;font-weight:800;letter-spacing:-.3px;}
+.header p{font-size:11px;color:#aaa;margin-top:3px;}
+.header-badges{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.hbadge{background:var(--yellow);color:#000;font-weight:700;font-size:11px;padding:5px 12px;border-radius:20px;}
+.hbadge-red{background:var(--red);color:#fff;font-weight:700;font-size:11px;padding:5px 12px;border-radius:20px;}
+
+/* ── LAYOUT ── */
+.container{max-width:1280px;margin:0 auto;padding:24px 24px 60px;}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:4px;border-bottom:3px solid var(--border);margin-bottom:24px;flex-wrap:wrap;}
+.tab-btn{padding:10px 18px;border:1px solid var(--border);background:#fff;font-size:12px;font-weight:700;color:#999;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-3px;border-radius:8px 8px 0 0;transition:all .15s;}
+.tab-btn.active{color:var(--dark);border-bottom-color:var(--yellow);background:#fff;}
+.tab-btn:hover:not(.active){color:var(--dark);background:#f5f5f5;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* ── SECTION TITLE ── */
+.section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin:24px 0 10px;border-left:3px solid var(--yellow);padding-left:10px;}
+
+/* ── GRIDS ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+@media(max-width:900px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}}
+
+/* ── KPI CARDS ── */
+.kpi-card{background:#fff;border-radius:10px;padding:14px 16px;border:1px solid var(--border);}
+.kpi-card .label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#999;margin-bottom:4px;}
+.kpi-card .value{font-size:26px;font-weight:800;line-height:1;color:var(--dark);}
+.kpi-card .sub{font-size:11px;color:#888;margin-top:4px;}
+.kpi-card .delta{display:inline-flex;align-items:center;gap:3px;font-size:12px;font-weight:700;margin-top:5px;}
+.pos{color:var(--green);} .neg{color:var(--red);} .neu{color:#888;}
+
+/* ── CARDS ── */
+.card{background:#fff;border-radius:10px;border:1px solid var(--border);overflow:hidden;margin-bottom:14px;}
+.card-header{padding:12px 16px;border-bottom:1px solid var(--border);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.card-header .badge{background:var(--gray);color:#666;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.badge-red{background:var(--light-red)!important;color:var(--red)!important;}
+.badge-green{background:var(--light-green)!important;color:var(--green)!important;}
+.badge-orange{background:var(--light-orange)!important;color:var(--orange)!important;}
+.badge-blue{background:var(--light-blue)!important;color:var(--blue)!important;}
+
+/* ── TABLES ── */
+table{width:100%;border-collapse:collapse;}
+th{background:#fafafa;padding:8px 12px;text-align:right;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#888;border-bottom:1px solid var(--border);}
+th:first-child{text-align:left;}
+td{padding:8px 12px;text-align:right;border-bottom:1px solid #f5f5f5;font-size:12px;}
+td:first-child{text-align:left;font-weight:600;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#fafbff;}
+.row-total{background:#fafafa!important;font-weight:700;}
+.row-total td{font-weight:700;}
+.row-warn td{background:#fff8f0;}
+
+/* ── CHIPS ── */
+.chip{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;}
+.chip-pos{background:var(--light-green);color:var(--green);}
+.chip-neg{background:var(--light-red);color:var(--red);}
+.chip-neu{background:#f5f5f5;color:#888;}
+.chip-warn{background:var(--light-orange);color:var(--orange);}
+.chip-crit{background:#fdecea;color:#c0392b;border:1px solid var(--red);}
+
+/* ── HIGHLIGHTS ── */
+.hl-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+@media(max-width:700px){.hl-grid{grid-template-columns:1fr;}}
+.hl{padding:14px 16px;border-radius:8px;}
+.hl-pos{background:var(--light-green);border-left:4px solid var(--green);}
+.hl-neg{background:var(--light-red);border-left:4px solid var(--red);}
+.hl-warn{background:var(--light-orange);border-left:4px solid var(--orange);}
+.hl-info{background:var(--light-blue);border-left:4px solid var(--blue);}
+.hl-title{font-weight:700;font-size:12px;margin-bottom:6px;}
+.hl-pos .hl-title{color:var(--green);}.hl-neg .hl-title{color:var(--red);}
+.hl-warn .hl-title{color:var(--orange);}.hl-info .hl-title{color:var(--blue);}
+.hl-text{font-size:12px;color:#333;line-height:1.6;}
+
+/* ── CHARTS ── */
+.chart-wrap{background:#fff;border-radius:10px;border:1px solid var(--border);padding:18px 20px;margin-bottom:14px;}
+.chart-title{font-size:13px;font-weight:700;color:var(--dark);margin-bottom:3px;}
+.chart-sub{font-size:11px;color:#888;margin-bottom:14px;}
+.chart-container{position:relative;}
+
+/* ── INFO NOTE ── */
+.info-note{font-size:11px;color:#777;background:#fafafa;border-radius:6px;border-left:3px solid var(--yellow);padding:7px 11px;margin-bottom:12px;}
+
+/* ── TWO-COL ANALYSIS ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:800px){.two-col{grid-template-columns:1fr;}}
+
+/* ── DIVIDER ── */
+.divider{border:none;border-top:1px solid var(--border);margin:20px 0;}
+
+/* ── SOURCE BAR ── */
+.src-bar{display:flex;align-items:center;gap:6px;font-size:10px;color:#aaa;margin-bottom:14px;}
+.src-dot{width:8px;height:8px;border-radius:50%;background:#ccc;flex-shrink:0;}
+.src-dot.halo{background:var(--blue);}
+.src-dot.xm{background:var(--orange);}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<div class="header">
+  <div>
+    <h1>Reputación Sellers Longtail — Abr vs Mai 2026</h1>
+    <p>BR_ME · BR_Ventas · BR_Publicaciones Sellers Longtail &nbsp;|&nbsp; Processos: Reputación ME &amp; Reputación &nbsp;|&nbsp; Dados até 22/mai/2026</p>
+  </div>
+  <div class="header-badges">
+    <span class="hbadge-red">⚠ KTA/Ventas CRÍTICO</span>
+    <span class="hbadge">Mai/2026 parcial (22 dias)</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════ TABS ═══════════════ -->
+<div class="tabs">
+  <button class="tab-btn active"   onclick="showTab('exec',this)">Resumo Executivo</button>
+  <button class="tab-btn"          onclick="showTab('halo',this)">HALO — NPS Operacional</button>
+  <button class="tab-btn"          onclick="showTab('xm',this)">XM — CDUs &amp; Soluções</button>
+  <button class="tab-btn"          onclick="showTab('excl',this)">Taxa de Exclusão</button>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     ABA 1 — RESUMO EXECUTIVO
+══════════════════════════════════════════════ -->
+<div id="exec" class="tab-content active">
+
+  <div class="info-note">
+    Duas fontes combinadas: <strong>HALO</strong> (NPS operacional por agente/equipe, KPIs causais) e <strong>XM</strong> (NPS Lineal por processo/CDU/solução, taxa de exclusão). Maio parcial — 22 de 31 dias disponíveis; NPS como proporção é comparável.
+  </div>
+
+  <!-- KPI strip HALO -->
+  <div class="section-title">HALO — NPS por Equipe (Abr vs Mai)</div>
+  <div class="grid-3">
+    <div class="kpi-card">
+      <div class="label">BR_ME Sellers Longtail</div>
+      <div class="value">63,4%</div>
+      <div class="sub">Abr: 58,8%</div>
+      <div class="delta pos">▲ +4,6pp</div>
+    </div>
+    <div class="kpi-card" style="border-top:3px solid var(--red);">
+      <div class="label">BR_Ventas Sellers Longtail</div>
+      <div class="value" style="color:var(--red);">57,9%</div>
+      <div class="sub">Abr: 64,6%</div>
+      <div class="delta neg">▼ −6,7pp &nbsp;<span class="chip chip-crit">KTA CRÍTICO</span></div>
+    </div>
+    <div class="kpi-card" style="border-top:3px solid var(--green);">
+      <div class="label">BR_Publicaciones Sellers Longtail</div>
+      <div class="value" style="color:var(--green);">73,0%</div>
+      <div class="sub">Abr: 64,6%</div>
+      <div class="delta pos">▲ +8,4pp</div>
+    </div>
+  </div>
+
+  <!-- KPI strip XM -->
+  <div class="section-title">XM — NPS Lineal por Processo (Abr vs Mai)</div>
+  <div class="grid-4">
+    <div class="kpi-card">
+      <div class="label">Consolidado (ambos)</div>
+      <div class="value">82,1%</div>
+      <div class="sub">Abr: 76,6%</div>
+      <div class="delta pos">▲ +5,6pp</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Reputación ME</div>
+      <div class="value">86,8%</div>
+      <div class="sub">Abr: 82,6%</div>
+      <div class="delta pos">▲ +4,2pp</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Reputación</div>
+      <div class="value">76,7%</div>
+      <div class="sub">Abr: 69,7%</div>
+      <div class="delta pos">▲ +7,0pp</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Detratores</div>
+      <div class="value" style="color:var(--green);">94</div>
+      <div class="sub">Abr: 209</div>
+      <div class="delta pos">▼ −55% (ótimo)</div>
+    </div>
+  </div>
+
+  <!-- Highlights -->
+  <div class="section-title">Principais Achados</div>
+  <div class="hl-grid">
+    <div class="hl hl-neg">
+      <div class="hl-title">KTA/Ventas — Situação Crítica</div>
+      <div class="hl-text">NPS HALO caiu de 24,1% → 17,4% em Maio, com meta de 40,2%. <strong>100% NEWBIE</strong> — zero agentes experientes. TDI em 17,7% (3,5× acima da meta de 5%). O recontato também piorou +6pp em Maio. Intervenção estrutural necessária (composição de senioridade).</div>
+    </div>
+    <div class="hl hl-pos">
+      <div class="hl-title">KTA/Publicaciones — Maior Destaque</div>
+      <div class="hl-text">NPS HALO +11,6pp (65,2% → 76,8%), superando a meta de 74%. No XM, KTA_BRASIL foi a office de maior melhora em ambos os processos: +12,6pp em Reputación e +8,8pp em Reputación ME. TDI também caiu de 9,7% → 7,5%.</div>
+    </div>
+    <div class="hl hl-warn">
+      <div class="hl-title">Recontato Aumentando em Ventas</div>
+      <div class="hl-text">AEC/Ventas: 25,7% → 31,5% (+5,8pp). KTA/Ventas: 25,2% → 31,2% (+6,0pp). Tendência consistente com NPS caindo — cliente não resolve no primeiro contato, frustração acumula. Mesmo ATE/ME subiu +2,6pp.</div>
+    </div>
+    <div class="hl hl-pos">
+      <div class="hl-title">XM: Melhora é 97% NETO</div>
+      <div class="hl-text">O ganho de +5,6pp consolidado no XM é quase todo via melhora de experiência interna (NETO). Detratores caíram −55% no período. As soluções de exclusão (Logística Flex, Vendedor Newbie) sustentam NPS de 91–94%, e as de "mantemos impacto" reduziram volume em −40 a −50%.</div>
+    </div>
+  </div>
+
+  <!-- Charts - NPS comparison -->
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-title">NPS HALO por Equipe — Abr vs Mai</div>
+      <div class="chart-sub">Visão operacional (todas as interações) · Meta Maio indicada</div>
+      <div class="chart-container" style="height:220px;">
+        <canvas id="chartHaloOverview"></canvas>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">NPS Lineal XM por Processo — Abr vs Mai</div>
+      <div class="chart-sub">Processos Reputación ME e Reputación</div>
+      <div class="chart-container" style="height:220px;">
+        <canvas id="chartXMOverview"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTX note -->
+  <div class="info-note">
+    <strong>CTX:</strong> Presente nas 3 equipes em Abril (759 pesquisas em ME, 254 em Ventas, 112 em Publicaciones). Sem dados em Maio em nenhum processo — possível encerramento de operação nessas filas. Saída do CTX favorece levemente o NPS de Maio por efeito composição (CTX tinha NPS abaixo da média).
+  </div>
+
+  <!-- Discrepância HALO vs XM Ventas -->
+  <div class="card">
+    <div class="card-header">
+      Por que Ventas cai no HALO mas sobe no XM?
+      <span class="badge badge-blue">Explicação</span>
+    </div>
+    <div style="padding:14px 16px;">
+      <table>
+        <thead><tr>
+          <th>Equipe</th><th>HALO (todos os proc.)</th><th>XM Reputación</th><th>XM Rep ME</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>BR_ME Sellers LT</td><td class="pos">+4,6pp</td><td class="pos">+2,5pp</td><td class="pos">+6,0pp</td></tr>
+          <tr><td>BR_Ventas Sellers LT</td><td class="neg">−6,7pp</td><td class="pos">+6,3pp</td><td class="pos">+0,1pp</td></tr>
+          <tr><td>BR_Publicaciones Sellers LT</td><td class="pos">+8,4pp</td><td class="pos">+8,3pp</td><td class="pos">+12,2pp</td></tr>
+        </tbody>
+      </table>
+      <div style="padding:10px 0 2px;font-size:12px;color:#555;line-height:1.6;">
+        O HALO mede o NPS de <strong>todas</strong> as interações do agente — não apenas as de Reputación. A queda de Ventas no HALO reflete o problema estrutural de KTA (zero Experts) que impacta <strong>outros processos além de Reputación</strong>. No XM (filtrado apenas para Reputación/Rep ME), a experiência melhorou — onde existe processo adequado, a operação funciona. O ponto de atenção é a composição de senioridade que afeta toda a operação de KTA/Ventas.
+      </div>
+    </div>
+  </div>
+
+</div><!-- /exec -->
+
+
+<!-- ══════════════════════════════════════════════
+     ABA 2 — HALO NPS OPERACIONAL
+══════════════════════════════════════════════ -->
+<div id="halo" class="tab-content">
+
+  <div class="src-bar"><div class="src-dot halo"></div>Fonte: HALO Performance (dados operacionais CX — NPS por agente/equipe, KPIs causais) · Período: Abr/2026 e Mai/2026 (parcial)</div>
+
+  <!-- NPS por Office -->
+  <div class="section-title">NPS por Office e Equipe — Abr vs Mai</div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">NPS por Office — Todas as Equipes</div>
+    <div class="chart-sub">Barras agrupadas: Abril (claro) vs Maio (escuro) · Linha tracejada = meta Maio</div>
+    <div class="chart-container" style="height:340px;">
+      <canvas id="chartHaloOffice"></canvas>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">NPS por Office × Equipe (Abr vs Mai)<span class="badge">Maio parcial</span></div>
+    <table>
+      <thead><tr>
+        <th>Equipe</th><th>Office</th><th>NPS Abr</th><th>NPS Mai</th><th>Δ</th><th>Meta Mai</th><th>Status</th><th>Expert Abr</th><th>Expert Mai</th><th>Newbie Abr</th><th>Newbie Mai</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>ME Sellers LT</td><td>ATE</td><td>60,9%</td><td>64,9%</td><td class="pos">+4,0pp</td><td>61,3%</td><td><span class="chip chip-pos">OK ✓</span></td><td>64,2%</td><td>68,0%</td><td>54,1%</td><td>55,2%</td></tr>
+        <tr><td>ME Sellers LT</td><td>KTA</td><td>62,6%</td><td>66,2%</td><td class="pos">+3,6pp</td><td>69,0%</td><td><span class="chip chip-warn">Abaixo meta</span></td><td>—</td><td>67,1%</td><td>62,6%</td><td>65,9%</td></tr>
+        <tr><td>ME Sellers LT</td><td>AEC</td><td>42,3%</td><td>44,0%</td><td class="pos">+1,7pp</td><td>40,9%</td><td><span class="chip chip-pos">OK ✓</span></td><td>44,4%</td><td>44,5%</td><td>30,8%</td><td>39,1%</td></tr>
+        <tr><td>ME Sellers LT</td><td>CTX</td><td>58,6%</td><td>—</td><td class="neu">n/d</td><td>—</td><td><span class="chip chip-neu">Sem dados Mai</span></td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr class="row-warn"><td>Ventas Sellers LT</td><td>KTA</td><td style="color:var(--red);font-weight:700">24,1%</td><td style="color:var(--red);font-weight:700">17,4%</td><td class="neg">−6,7pp</td><td>40,2%</td><td><span class="chip chip-crit">CRÍTICO</span></td><td>—</td><td>—</td><td>24,1%</td><td>17,4%</td></tr>
+        <tr><td>Ventas Sellers LT</td><td>AEC</td><td>73,2%</td><td>70,6%</td><td class="neg">−2,6pp</td><td>66,4%</td><td><span class="chip chip-pos">OK ✓</span></td><td>77,0%</td><td>72,5%</td><td>68,5%</td><td>66,4%</td></tr>
+        <tr><td>Ventas Sellers LT</td><td>CTX</td><td>52,8%</td><td>—</td><td class="neu">n/d</td><td>—</td><td><span class="chip chip-neu">Sem dados Mai</span></td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>Publicaciones Sellers LT</td><td>KTA</td><td>65,2%</td><td>76,8%</td><td class="pos">+11,6pp</td><td>74,0%</td><td><span class="chip chip-pos">Acima meta ✓</span></td><td>—</td><td>—</td><td>65,2%</td><td>76,8%</td></tr>
+        <tr><td>Publicaciones Sellers LT</td><td>AEC</td><td>66,1%</td><td>68,2%</td><td class="pos">+2,1pp</td><td>66,4%</td><td><span class="chip chip-pos">OK ✓</span></td><td>—</td><td>—</td><td>66,1%</td><td>68,2%</td></tr>
+        <tr><td>Publicaciones Sellers LT</td><td>CTX</td><td>48,2%</td><td>—</td><td class="neu">n/d</td><td>—</td><td><span class="chip chip-neu">Sem dados Mai</span></td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TDI -->
+  <div class="section-title">TDI — Devolução Indevida (meta: 5%)</div>
+  <div class="card">
+    <div class="card-header">TDI por Office × Equipe<span class="badge badge-red">Todos acima da meta</span></div>
+    <table>
+      <thead><tr><th>Equipe</th><th>Office</th><th>TDI Abr</th><th>TDI Mai</th><th>Δ</th><th>Meta</th></tr></thead>
+      <tbody>
+        <tr class="row-warn"><td>Ventas Sellers LT</td><td>KTA</td><td style="color:var(--red)">21,9%</td><td style="color:var(--red)">17,7%</td><td class="pos">−4,2pp</td><td>5,0%</td></tr>
+        <tr><td>ME Sellers LT</td><td>KTA</td><td>14,8%</td><td>8,2%</td><td class="pos">−6,6pp ✓</td><td>5,2%</td></tr>
+        <tr><td>Ventas Sellers LT</td><td>AEC</td><td>9,9%</td><td>10,7%</td><td class="neg">+0,8pp</td><td>5,2%</td></tr>
+        <tr><td>ME Sellers LT</td><td>AEC</td><td>9,4%</td><td>8,9%</td><td class="pos">−0,5pp</td><td>5,0%</td></tr>
+        <tr><td>ME Sellers LT</td><td>ATE</td><td>9,0%</td><td>8,7%</td><td class="pos">−0,3pp</td><td>5,1%</td></tr>
+        <tr><td>Publicaciones Sellers LT</td><td>AEC</td><td>9,2%</td><td>8,3%</td><td class="pos">−0,9pp</td><td>5,1%</td></tr>
+        <tr><td>Publicaciones Sellers LT</td><td>KTA</td><td>9,7%</td><td>7,5%</td><td class="pos">−2,2pp</td><td>5,0%</td></tr>
+        <tr><td>ME Sellers LT</td><td>CTX</td><td>13,0%</td><td>—</td><td class="neu">n/d</td><td>5,0%</td></tr>
+        <tr><td>Ventas Sellers LT</td><td>CTX</td><td>12,3%</td><td>—</td><td class="neu">n/d</td><td>5,0%</td></tr>
+        <tr><td>Publicaciones Sellers LT</td><td>CTX</td><td>10,5%</td><td>—</td><td class="neu">n/d</td><td>5,0%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Recontato -->
+  <div class="section-title">Recontato (piora generalizada em Maio)</div>
+  <div class="card">
+    <div class="card-header">Taxa de Recontato por Office × Equipe<span class="badge badge-orange">Piorando em Maio</span></div>
+    <table>
+      <thead><tr><th>Equipe</th><th>Office</th><th>Recontato Abr</th><th>Recontato Mai</th><th>Δ</th></tr></thead>
+      <tbody>
+        <tr class="row-warn"><td>Ventas Sellers LT</td><td>KTA</td><td>25,2%</td><td>31,2%</td><td class="neg">+6,0pp ▲</td></tr>
+        <tr class="row-warn"><td>Ventas Sellers LT</td><td>AEC</td><td>25,7%</td><td>31,5%</td><td class="neg">+5,8pp ▲</td></tr>
+        <tr><td>ME Sellers LT</td><td>KTA</td><td>32,5%</td><td>36,1%</td><td class="neg">+3,6pp</td></tr>
+        <tr><td>ME Sellers LT</td><td>ATE</td><td>26,8%</td><td>29,4%</td><td class="neg">+2,6pp</td></tr>
+        <tr><td>Publicaciones Sellers LT</td><td>AEC</td><td>20,4%</td><td>22,6%</td><td class="neg">+2,2pp</td></tr>
+        <tr><td>ME Sellers LT</td><td>AEC</td><td>36,6%</td><td>37,5%</td><td class="neg">+0,9pp</td></tr>
+        <tr><td>Publicaciones Sellers LT</td><td>KTA</td><td>22,6%</td><td>23,0%</td><td class="neu">+0,4pp</td></tr>
+        <tr><td>ME Sellers LT</td><td>CTX</td><td>37,8%</td><td>—</td><td class="neu">n/d</td></tr>
+        <tr><td>Ventas Sellers LT</td><td>CTX</td><td>21,7%</td><td>—</td><td class="neu">n/d</td></tr>
+        <tr><td>Publicaciones Sellers LT</td><td>CTX</td><td>36,5%</td><td>—</td><td class="neu">n/d</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Senioridade destaque -->
+  <div class="section-title">Alerta Senioridade — KTA/Ventas</div>
+  <div class="hl-grid">
+    <div class="hl hl-neg">
+      <div class="hl-title">KTA / Ventas Sellers Longtail — 100% NEWBIE</div>
+      <div class="hl-text">Em Abril e Maio, <strong>nenhum agente Expert</strong> operou em KTA para Ventas. O NPS (17,4%) é estruturalmente baixo — não é falha de processo isolada. A melhora de TDI (21,9% → 17,7%) não foi suficiente para recuperar o NPS porque a senioridade pressiona toda a operação. Intervenção: alocação de Experts ou programa acelerado de onboarding.</div>
+    </div>
+    <div class="hl hl-pos">
+      <div class="hl-title">AEC / ME — Newbies Evoluindo</div>
+      <div class="hl-text">NPS Newbie em AEC/ME subiu de 30,8% → 39,1% (+8,3pp), enquanto Expert ficou estável (44,4% → 44,5%). Sinal positivo de onboarding funcionando — gap Expert/Newbie reduziu de 13,6pp para 5,4pp nesta office.</div>
+    </div>
+  </div>
+
+</div><!-- /halo -->
+
+
+<!-- ══════════════════════════════════════════════
+     ABA 3 — XM CDUs & SOLUÇÕES
+══════════════════════════════════════════════ -->
+<div id="xm" class="tab-content">
+
+  <div class="src-bar"><div class="src-dot xm"></div>Fonte: XM (NPS Lineal — pesquisas de satisfação por processo/CDU/solução) · Abr/2026 e Mai/2026 (parcial)</div>
+
+  <!-- MIX / NETO decomposition -->
+  <div class="section-title">Decomposição MIX × NETO por Processo</div>
+  <div class="card">
+    <div class="card-header">Variação NPS +5,6pp — 97% NETO, 3% MIX<span class="badge badge-green">Melhora genuína</span></div>
+    <table>
+      <thead><tr>
+        <th>Processo</th><th>NPS Abr</th><th>Share Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Share Mai</th><th>Pesq Mai</th><th>MIX</th><th>NETO</th><th>Variação</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Reputación</td><td>69,7%</td><td>46,7%</td><td>1.178</td><td>76,7%</td><td>46,3%</td><td>747</td><td class="neu">+0,02pp</td><td class="pos">+3,27pp</td><td class="pos"><strong>+3,29pp</strong></td></tr>
+        <tr><td>Reputación ME</td><td>82,6%</td><td>53,3%</td><td>1.346</td><td>86,8%</td><td>53,7%</td><td>865</td><td class="neu">+0,02pp</td><td class="pos">+2,24pp</td><td class="pos"><strong>+2,26pp</strong></td></tr>
+        <tr class="row-total"><td>Total</td><td>76,6%</td><td>100%</td><td>2.524</td><td>82,1%</td><td>100%</td><td>1.612</td><td class="neu">+0,04pp</td><td class="pos">+5,51pp</td><td class="pos"><strong>+5,55pp ✓</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CDU Reputación -->
+  <div class="section-title">CDU — Reputación (+7,0pp)</div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-title">NPS por CDU — Reputación</div>
+      <div class="chart-sub">Azul = Abril · Verde = Maio</div>
+      <div class="chart-container" style="height:200px;">
+        <canvas id="chartCDURep"></canvas>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Contribuição ao Delta +7,0pp — Reputación</div>
+      <div class="chart-sub">pp de impacto por CDU</div>
+      <div class="chart-container" style="height:200px;">
+        <canvas id="chartContribRep"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">MIX × NETO por CDU — Reputación<span class="badge">Delta total: +7,02pp</span></div>
+    <table>
+      <thead><tr>
+        <th>CDU</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>MIX</th><th>NETO</th><th>Contribuição</th><th>Status</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Reclamos</td><td>69,5%</td><td>678</td><td>74,1%</td><td>436</td><td class="neu">−0,02pp</td><td class="pos">+2,65pp</td><td class="pos"><strong>+2,63pp</strong></td><td><span class="chip chip-pos">Contribui</span></td></tr>
+        <tr><td>Cancelaciones</td><td>73,5%</td><td>373</td><td>78,7%</td><td>239</td><td class="neu">+0,01pp</td><td class="pos">+1,65pp</td><td class="pos"><strong>+1,66pp</strong></td><td><span class="chip chip-pos">Contribui</span></td></tr>
+        <tr><td>Consultas Informativas</td><td>48,7%</td><td>117</td><td>55,4%</td><td>65</td><td class="pos">+0,26pp</td><td class="pos">+0,66pp</td><td class="pos"><strong>+0,92pp</strong></td><td><span class="chip chip-pos">Contribui</span></td></tr>
+        <tr><td>HT-Ventas (residual)</td><td>50,0%</td><td>2</td><td>100,0%</td><td>2</td><td class="neu">—</td><td class="neu">—</td><td class="pos"><strong>+1,81pp</strong></td><td><span class="chip chip-neu">Outros</span></td></tr>
+        <tr class="row-total"><td>Total</td><td>69,7%</td><td>1.178</td><td>76,7%</td><td>747</td><td>—</td><td>—</td><td class="pos"><strong>+7,02pp ✓</strong></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CDU Reputación ME -->
+  <div class="section-title">CDU — Reputación ME (+4,2pp)</div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-title">NPS por CDU — Reputación ME</div>
+      <div class="chart-sub">Azul = Abril · Verde = Maio</div>
+      <div class="chart-container" style="height:220px;">
+        <canvas id="chartCDURepME"></canvas>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Contribuição ao Delta +4,2pp — Reputación ME</div>
+      <div class="chart-sub">pp de impacto por CDU</div>
+      <div class="chart-container" style="height:220px;">
+        <canvas id="chartContribRepME"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">MIX × NETO por CDU — Reputación ME<span class="badge">Delta total: +4,20pp</span></div>
+    <table>
+      <thead><tr>
+        <th>CDU</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>MIX</th><th>NETO</th><th>Contribuição</th><th>Status</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>HT-Ventas</td><td>83,9%</td><td>1.178</td><td>87,8%</td><td>778</td><td class="neu">+0,02pp</td><td class="pos">+3,43pp</td><td class="pos"><strong>+3,45pp</strong></td><td><span class="chip chip-pos">Contribui (82%)</span></td></tr>
+        <tr><td>HT-Coleta</td><td>73,8%</td><td>80</td><td>75,0%</td><td>32</td><td class="pos">+0,26pp</td><td class="pos">+0,07pp</td><td class="pos"><strong>+0,33pp</strong></td><td><span class="chip chip-pos">Contribui</span></td></tr>
+        <tr><td>Bugs</td><td>72,0%</td><td>25</td><td>77,4%</td><td>31</td><td class="pos">+0,10pp</td><td class="pos">+0,03pp</td><td class="pos"><strong>+0,13pp</strong></td><td><span class="chip chip-pos">Contribui</span></td></tr>
+        <tr class="row-warn"><td>HT-Informativas</td><td>64,1%</td><td>39</td><td>33,3%</td><td>3</td><td class="pos">+0,14pp</td><td class="neg">−0,89pp</td><td class="neg"><strong>−0,75pp</strong></td><td><span class="chip chip-warn">⚠ Monitorar</span></td></tr>
+        <tr><td>Outros (residual)</td><td>—</td><td>24</td><td>—</td><td>21</td><td>—</td><td>—</td><td class="pos"><strong>+1,04pp</strong></td><td><span class="chip chip-neu">Outros</span></td></tr>
+        <tr class="row-total"><td>Total</td><td>82,6%</td><td>1.346</td><td>86,8%</td><td>865</td><td>—</td><td>—</td><td class="pos"><strong>+4,20pp ✓</strong></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- HT-Informativas alert -->
+  <div class="info-note">
+    ⚠ <strong>HT-Informativas (Reputación ME):</strong> NPS caiu de 64,1% → 33,3%, mas com apenas 3 casos em Maio vs 39 em Abril. Volume insuficiente para conclusão — monitorar em Junho se o CDU retoma volume.
+  </div>
+
+  <!-- Office XM -->
+  <div class="section-title">Impacto por Office (XM)</div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-header">Reputación — por Office<span class="badge">+7,0pp total</span></div>
+      <table>
+        <thead><tr><th>Office</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>Δ</th></tr></thead>
+        <tbody>
+          <tr><td>KTA_BRASIL</td><td>70,0%</td><td>366</td><td style="color:var(--green);font-weight:700">82,6%</td><td>282</td><td class="pos"><strong>+12,6pp</strong></td></tr>
+          <tr><td>AEC</td><td>69,5%</td><td>463</td><td>73,7%</td><td>316</td><td class="pos">+4,2pp</td></tr>
+          <tr><td>ATE</td><td>72,3%</td><td>253</td><td>71,8%</td><td>149</td><td class="neg">−0,5pp</td></tr>
+          <tr><td>CTX</td><td>62,5%</td><td>96</td><td>—</td><td>—</td><td class="neu">Saiu em Mai</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-header">Reputación ME — por Office<span class="badge">+4,2pp total</span></div>
+      <table>
+        <thead><tr><th>Office</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>Δ</th></tr></thead>
+        <tbody>
+          <tr><td>KTA_BRASIL</td><td>77,2%</td><td>377</td><td style="color:var(--green);font-weight:700">86,0%</td><td>372</td><td class="pos"><strong>+8,8pp</strong></td></tr>
+          <tr><td>ATE</td><td>77,5%</td><td>276</td><td>83,2%</td><td>149</td><td class="pos">+5,7pp</td></tr>
+          <tr><td>AEC</td><td>89,4%</td><td>603</td><td>89,2%</td><td>344</td><td class="neg">−0,2pp</td></tr>
+          <tr><td>CTX</td><td>75,6%</td><td>90</td><td>—</td><td>—</td><td class="neu">Saiu em Mai</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Team XM -->
+  <div class="section-title">NPS por Equipe (XM)</div>
+  <div class="card">
+    <div class="card-header">NPS por Equipe × Processo</div>
+    <table>
+      <thead><tr><th>Equipe</th><th>Processo</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>Δ</th></tr></thead>
+      <tbody>
+        <tr><td>BR_Publicaciones Sellers LT</td><td>Reputación ME</td><td>74,2%</td><td>244</td><td style="color:var(--green);font-weight:700">86,4%</td><td>294</td><td class="pos"><strong>+12,2pp</strong></td></tr>
+        <tr><td>BR_Publicaciones Sellers LT</td><td>Reputación</td><td>73,4%</td><td>256</td><td>81,7%</td><td>312</td><td class="pos"><strong>+8,3pp</strong></td></tr>
+        <tr><td>BR_Ventas Sellers LT</td><td>Reputación</td><td>66,8%</td><td>473</td><td>73,1%</td><td>197</td><td class="pos">+6,3pp</td></tr>
+        <tr><td>BR_ME Sellers LT</td><td>Reputación ME</td><td>79,4%</td><td>509</td><td>85,4%</td><td>308</td><td class="pos">+6,0pp</td></tr>
+        <tr><td>BR_ME Sellers LT</td><td>Reputación</td><td>70,6%</td><td>449</td><td>73,1%</td><td>238</td><td class="pos">+2,5pp</td></tr>
+        <tr><td>BR_Ventas Sellers LT</td><td>Reputación ME</td><td>88,9%</td><td>593</td><td>89,0%</td><td>263</td><td class="neu">+0,1pp</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Qualitative insights -->
+  <div class="section-title">Principais Dores dos Detratores (síntese qualitativa)</div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-header">Reclamos (Reputación) — temas recorrentes</div>
+      <div style="padding:12px 16px;">
+        <ul style="list-style:none;font-size:12px;line-height:1.8;color:#444;">
+          <li>🔴 <strong>Impacto mantido sem exceção</strong> — produto diferente/incompleto com evidências, mas sistema não reverteu</li>
+          <li>🔴 <strong>Política rígida sem revisão</strong> — cancelamento por estoque = responsabilidade do vendedor, sem margem</li>
+          <li>🔴 <strong>Falhas sistêmicas atribuídas ao vendedor</strong> — NF/etiqueta bloqueada, cancelamento ocorreu mesmo assim</li>
+          <li>🔴 <strong>Mediação encerrada sem análise de evidências</strong> — sistema automatizou a favor do comprador</li>
+          <li>🟡 Melhora em Maio: casos de "mantemos impacto" caíram −57% (73 → 32 detratores)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">HT-Ventas (Reputación ME) — temas recorrentes</div>
+      <div style="padding:12px 16px;">
+        <ul style="list-style:none;font-size:12px;line-height:1.8;color:#444;">
+          <li>🔴 <strong>Hora de corte vs. horário real</strong> — etiqueta fora do prazo por corte (15h30/19h), mas entrega física ocorreu</li>
+          <li>🔴 <strong>Erro sistêmico</strong> — POS-054, app iOS sem notificação, atraso registrado como culpa do vendedor</li>
+          <li>🔴 <strong>Motorista de coleta com problema</strong> — não coletou, reportou falsamente "produto não pronto"</li>
+          <li>🔴 <strong>Detecção de fraude falso-positivo</strong> — venda cancelada por IP/dispositivo, produto já entregue</li>
+          <li>🟡 Melhora em Maio: detratores caíram de 60 → 27 (−55%)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /xm -->
+
+
+<!-- ══════════════════════════════════════════════
+     ABA 4 — TAXA DE EXCLUSÃO
+══════════════════════════════════════════════ -->
+<div id="excl" class="tab-content">
+
+  <div class="src-bar"><div class="src-dot xm"></div>Proxy via soluções XM — proporção de soluções de "exclusão de impacto" sobre total de pesquisas</div>
+
+  <!-- Taxa summary -->
+  <div class="section-title">Taxa de Exclusão de Impacto (proxy)</div>
+  <div class="grid-4">
+    <div class="kpi-card">
+      <div class="label">Rep ME — Abr</div>
+      <div class="value">~80%</div>
+      <div class="sub">Soluções de exclusão</div>
+    </div>
+    <div class="kpi-card" style="border-top:3px solid var(--green);">
+      <div class="label">Rep ME — Mai</div>
+      <div class="value" style="color:var(--green)">~84%</div>
+      <div class="sub">Soluções de exclusão</div>
+      <div class="delta pos">▲ +4pp</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Reputación — Abr</div>
+      <div class="value">~65%</div>
+      <div class="sub">Soluções de exclusão</div>
+    </div>
+    <div class="kpi-card" style="border-top:3px solid var(--green);">
+      <div class="label">Reputación — Mai</div>
+      <div class="value" style="color:var(--green)">~68%</div>
+      <div class="sub">Soluções de exclusão</div>
+      <div class="delta pos">▲ +3pp</div>
+    </div>
+  </div>
+
+  <div class="info-note">
+    A taxa de exclusão é calculada como proxy via soluções CX: proporção de casos resolvidos com "Excluímos" ou "Não afeta" sobre o total de pesquisas. Valores aproximados — parte das soluções não são capturadas no TOP.
+  </div>
+
+  <!-- Soluções de exclusão -->
+  <div class="section-title">Top Soluções de Exclusão (âncoras positivas — NPS 88–94%)</div>
+  <div class="card">
+    <div class="card-header">Soluções com maior volume — Exclusão de Impacto</div>
+    <table>
+      <thead><tr>
+        <th>Solução</th><th>Processo</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>Δ NPS</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Logística Flex — Excluímos</td><td>Rep ME</td><td>86,7%</td><td>98</td><td style="color:var(--green);font-weight:700">94,4%</td><td>72</td><td class="pos">+7,7pp</td></tr>
+        <tr><td>Cancelamento Revisado</td><td>Reputación</td><td>78,7%</td><td>61</td><td style="color:var(--green);font-weight:700">89,6%</td><td>48</td><td class="pos">+10,9pp</td></tr>
+        <tr><td>Vendedor Newbie — Excluímos</td><td>Rep ME</td><td>85,9%</td><td>375</td><td>91,9%</td><td>247</td><td class="pos">+6,0pp</td></tr>
+        <tr><td>Logística Places — Excluímos</td><td>Rep ME</td><td>87,4%</td><td>453</td><td>91,6%</td><td>275</td><td class="pos">+4,2pp</td></tr>
+        <tr><td>Reclamação afeta — Excluímos</td><td>Reputación</td><td>88,2%</td><td>449</td><td>87,7%</td><td>310</td><td class="neg">−0,5pp</td></tr>
+        <tr><td>Cancelamento afeta — Excluímos</td><td>Reputación</td><td>78,2%</td><td>238</td><td>77,9%</td><td>145</td><td class="neg">−0,3pp</td></tr>
+        <tr><td>Reclamação não afeta</td><td>Reputación</td><td>76,3%</td><td>76</td><td>81,8%</td><td>55</td><td class="pos">+5,5pp</td></tr>
+        <tr><td>Envio não afeta o HT</td><td>Rep ME</td><td>84,5%</td><td>155</td><td>81,3%</td><td>134</td><td class="neg">−3,2pp</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Soluções de mantemos -->
+  <div class="section-title">Soluções "Mantemos Impacto" — Baixo NPS, Volume Reduzindo</div>
+  <div class="card">
+    <div class="card-header">Soluções com NPS baixo — concentram detratores<span class="badge badge-orange">Volume caindo em Maio ✓</span></div>
+    <table>
+      <thead><tr>
+        <th>Solução</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>Δ NPS</th><th>Δ Volume</th>
+      </tr></thead>
+      <tbody>
+        <tr class="row-warn"><td>Produto diferente — Mantemos impacto</td><td style="color:var(--red)">12,9%</td><td>31</td><td>28,6%</td><td>21</td><td class="pos">+15,7pp</td><td class="pos">−32%</td></tr>
+        <tr class="row-warn"><td>Cancelamento — Mantemos impacto</td><td style="color:var(--red)">11,5%</td><td>26</td><td>60,0%</td><td>15</td><td class="pos">+48,5pp</td><td class="pos">−42%</td></tr>
+        <tr class="row-warn"><td>Reclamação Revisada</td><td style="color:var(--red)">24,1%</td><td>29</td><td>46,7%</td><td>15</td><td class="pos">+22,6pp</td><td class="pos">−48%</td></tr>
+        <tr class="row-warn"><td>Logística Places — Não Excluímos</td><td>32,4%</td><td>34</td><td>33,3%</td><td>15</td><td class="neu">+0,9pp</td><td class="pos">−56%</td></tr>
+      </tbody>
+    </table>
+    <div style="padding:10px 14px;font-size:11px;color:#777;">
+      As soluções de "mantemos impacto" têm NPS entre 12–32%, mas o volume caiu −32% a −56% em Maio. Essa redução de casos com decisão desfavorável ao vendedor é o principal motor da melhora de NPS dentro dos CDUs.
+    </div>
+  </div>
+
+  <!-- Chart exclusão -->
+  <div class="chart-wrap">
+    <div class="chart-title">Composição do NPS por Tipo de Solução — Reputación</div>
+    <div class="chart-sub">Exclusões = NPS ~88–94% · Mantemos impacto = NPS ~12–32%</div>
+    <div class="chart-container" style="height:280px;">
+      <canvas id="chartExclComp"></canvas>
+    </div>
+  </div>
+
+  <!-- Interpretation -->
+  <div class="hl-grid">
+    <div class="hl hl-pos">
+      <div class="hl-title">Por que a taxa de exclusão subiu?</div>
+      <div class="hl-text">Mais casos em Maio se enquadraram nos critérios de exclusão (Logística Flex, Vendedor Newbie, Reclamação Revisada). Isso pode refletir uma seleção mais criteriosa dos casos que chegam ao CX, melhor aplicação dos critérios pelos agentes, ou redução de casos "borderline" que tendem a ser mantidos.</div>
+    </div>
+    <div class="hl hl-info">
+      <div class="hl-title">Correlação taxa de exclusão → NPS</div>
+      <div class="hl-text">A correlação é direta: soluções de exclusão têm NPS de 88–94%, enquanto "mantemos impacto" têm 12–32%. Cada 1pp de aumento na taxa de exclusão corresponde aproximadamente a +0,5 a +0,8pp no NPS consolidado do processo. A melhora de +3-4pp na taxa de exclusão explica entre 1,5 e 3pp dos +5,6pp ganhos em Maio.</div>
+    </div>
+  </div>
+
+</div><!-- /excl -->
+
+</div><!-- /container -->
+
+
+<!-- ═══════════════ SCRIPTS ═══════════════ -->
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+const C_ABR  = 'rgba(52,131,250,0.75)';
+const C_MAI  = 'rgba(0,166,80,0.8)';
+const C_WARN = 'rgba(232,65,66,0.75)';
+const C_META = 'rgba(255,119,51,0.6)';
+const DEF_OPTS = { responsive:true, maintainAspectRatio:false,
+  plugins:{ legend:{ labels:{ font:{ size:11 }, boxWidth:12 } } },
+  scales:{ x:{ ticks:{ font:{size:10} } }, y:{ ticks:{ font:{size:10} } } }
+};
+
+// ── Chart 1: HALO Overview (exec) ──
+new Chart(document.getElementById('chartHaloOverview'), {
+  type:'bar',
+  data:{
+    labels:['ME Longtail','Ventas Longtail','Publicaciones LT'],
+    datasets:[
+      { label:'Abr/2026', data:[58.8,64.6,64.6], backgroundColor:C_ABR },
+      { label:'Mai/2026', data:[63.4,57.9,73.0], backgroundColor:[C_MAI,C_WARN,C_MAI] },
+      { label:'Meta Mai', data:[null,null,null], type:'line', borderColor:C_META, borderDash:[4,3], pointStyle:'dash', borderWidth:2, fill:false }
+    ]
+  },
+  options:{ ...DEF_OPTS, scales:{ y:{ min:0, max:100, ticks:{font:{size:10},callback:v=>v+'%'} }, x:{ticks:{font:{size:10}}} } }
+});
+
+// ── Chart 2: XM Overview (exec) ──
+new Chart(document.getElementById('chartXMOverview'), {
+  type:'bar',
+  data:{
+    labels:['Reputación','Reputación ME'],
+    datasets:[
+      { label:'Abr/2026', data:[69.7,82.6], backgroundColor:C_ABR },
+      { label:'Mai/2026', data:[76.7,86.8], backgroundColor:C_MAI }
+    ]
+  },
+  options:{ ...DEF_OPTS, scales:{ y:{ min:60, max:95, ticks:{font:{size:10},callback:v=>v+'%'} }, x:{ticks:{font:{size:10}}} } }
+});
+
+// ── Chart 3: HALO Office ──
+new Chart(document.getElementById('chartHaloOffice'), {
+  type:'bar',
+  data:{
+    labels:['ME/ATE','ME/KTA','ME/AEC','Ventas/KTA','Ventas/AEC','Pub/KTA','Pub/AEC'],
+    datasets:[
+      { label:'Abr/2026', data:[60.9,62.6,42.3,24.1,73.2,65.2,66.1], backgroundColor:C_ABR },
+      { label:'Mai/2026', data:[64.9,66.2,44.0,17.4,70.6,76.8,68.2], backgroundColor:[C_MAI,C_MAI,C_MAI,C_WARN,C_MAI,C_MAI,C_MAI] }
+    ]
+  },
+  options:{ ...DEF_OPTS,
+    scales:{
+      y:{ min:0, max:100, ticks:{font:{size:10},callback:v=>v+'%'} },
+      x:{ ticks:{font:{size:10}} }
+    },
+    plugins:{ legend:{ labels:{font:{size:11},boxWidth:12} },
+      annotation:{ annotations:{
+        metaLine:{ type:'line', yMin:40, yMax:40, borderColor:'rgba(255,119,51,0.5)', borderWidth:1, borderDash:[3,3] }
+      }}
+    }
+  }
+});
+
+// ── Chart 4: CDU Reputación NPS ──
+new Chart(document.getElementById('chartCDURep'), {
+  type:'bar',
+  data:{
+    labels:['Reclamos','Cancelaciones','Consultas Inf.'],
+    datasets:[
+      { label:'Abr/2026', data:[69.5,73.5,48.7], backgroundColor:C_ABR },
+      { label:'Mai/2026', data:[74.1,78.7,55.4], backgroundColor:C_MAI }
+    ]
+  },
+  options:{ ...DEF_OPTS, scales:{ y:{ min:40, max:90, ticks:{font:{size:10},callback:v=>v+'%'} }, x:{ticks:{font:{size:10}}} } }
+});
+
+// ── Chart 5: CDU Reputación Contribution ──
+new Chart(document.getElementById('chartContribRep'), {
+  type:'bar',
+  data:{
+    labels:['Reclamos','Cancelaciones','Consultas Inf.','Outros'],
+    datasets:[{ label:'Contribuição (pp)', data:[2.63,1.66,0.92,1.81],
+      backgroundColor:['rgba(0,166,80,0.7)','rgba(0,166,80,0.7)','rgba(0,166,80,0.7)','rgba(52,131,250,0.5)']
+    }]
+  },
+  options:{ ...DEF_OPTS, scales:{ y:{ min:0, max:3.5, ticks:{font:{size:10},callback:v=>'+'+v.toFixed(1)+'pp'} }, x:{ticks:{font:{size:10}}} },
+    plugins:{ legend:{display:false} }
+  }
+});
+
+// ── Chart 6: CDU Rep ME NPS ──
+new Chart(document.getElementById('chartCDURepME'), {
+  type:'bar',
+  data:{
+    labels:['HT-Ventas','HT-Coleta','Bugs','HT-Informativas'],
+    datasets:[
+      { label:'Abr/2026', data:[83.9,73.8,72.0,64.1], backgroundColor:C_ABR },
+      { label:'Mai/2026', data:[87.8,75.0,77.4,33.3], backgroundColor:[C_MAI,C_MAI,C_MAI,C_WARN] }
+    ]
+  },
+  options:{ ...DEF_OPTS, scales:{ y:{ min:20, max:100, ticks:{font:{size:10},callback:v=>v+'%'} }, x:{ticks:{font:{size:10}}} } }
+});
+
+// ── Chart 7: CDU Rep ME Contribution ──
+new Chart(document.getElementById('chartContribRepME'), {
+  type:'bar',
+  data:{
+    labels:['HT-Ventas','HT-Coleta','Bugs','HT-Informativas','Outros'],
+    datasets:[{ label:'Contribuição (pp)', data:[3.45,0.33,0.13,-0.75,1.04],
+      backgroundColor:[
+        'rgba(0,166,80,0.7)','rgba(0,166,80,0.7)','rgba(0,166,80,0.7)',
+        'rgba(232,65,66,0.7)','rgba(52,131,250,0.5)'
+      ]
+    }]
+  },
+  options:{ ...DEF_OPTS, scales:{ y:{ min:-1.5, max:4.0, ticks:{font:{size:10},callback:v=>(v>=0?'+':'')+v.toFixed(2)+'pp'} }, x:{ticks:{font:{size:10}}} },
+    plugins:{ legend:{display:false} }
+  }
+});
+
+// ── Chart 8: Exclusão Composição ──
+new Chart(document.getElementById('chartExclComp'), {
+  type:'bar',
+  data:{
+    labels:['Log.Flex Excl.','Cancel.Revis.','Vendedor Newbie Excl.','Log.Places Excl.','Recl.Excl.','Cancel.Excl.','Recl.Não afeta','Prod.dif.Mantemos','Cancel.Mantemos','Recl.Revis.','Lg.Pl.NãoExcl.'],
+    datasets:[
+      { label:'Pesq Abr', data:[98,61,375,453,449,238,76,31,26,29,34], backgroundColor:C_ABR, yAxisID:'y1' },
+      { label:'Pesq Mai', data:[72,48,247,275,310,145,55,21,15,15,15], backgroundColor:C_MAI, yAxisID:'y1' },
+      { label:'NPS Mai (%)', data:[94.4,89.6,91.9,91.6,87.7,77.9,81.8,28.6,60.0,46.7,33.3], type:'line', borderColor:'#ff7733', pointRadius:3, fill:false, yAxisID:'y' }
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false,
+    scales:{
+      y:{ position:'left', min:0, max:100, ticks:{callback:v=>v+'%', font:{size:9}} },
+      y1:{ position:'right', ticks:{font:{size:9}}, grid:{drawOnChartArea:false} },
+      x:{ ticks:{font:{size:9},maxRotation:35} }
+    },
+    plugins:{ legend:{ labels:{font:{size:10},boxWidth:10} } }
+  }
+});
+</script>
+
+</body>
+</html>
