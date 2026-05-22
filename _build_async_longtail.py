@@ -24,8 +24,10 @@ TEAM_SHORT = {
 }
 TEAMS_IN = ", ".join(f'"{t}"' for t in TEAMS)
 
+COLORS = ['#3498db','#e74c3c','#2ecc71','#f39c12','#9b59b6','#1abc9c','#e67e22','#34495e','#e91e63','#00bcd4']
+
 today = date.today()
-dow = today.weekday()  # Mon=0 Sun=6
+dow = today.weekday()
 monday = today - timedelta(days=dow)
 sem_ant_ini = monday - timedelta(days=7)
 sem_ant_fin = monday - timedelta(days=1)
@@ -169,6 +171,10 @@ print(f"  Q7 trend: {len(q7)} linhas")
 
 # ── helpers ──────────────────────────────────────────────────────────────────
 
+def jd(obj):
+    if hasattr(obj, 'isoformat'): return obj.isoformat()
+    raise TypeError
+
 def icon(v):
     if v is None: return "—"
     if v < 1.0:   return f'<span class="ok">{v:.2f}</span>'
@@ -178,10 +184,9 @@ def icon(v):
 def delta_arrow(prev, curr):
     if prev is None or curr is None: return "—"
     d = curr - prev
-    if abs(d) < 0.05: arrow = "→"
-    elif d > 0:       arrow = "↑"
-    else:             arrow = "↓"
-    cls = "bad" if d > 0 else ("good" if d < 0 else "neutral")
+    if abs(d) < 0.05: arrow, cls = "→", "neutral"
+    elif d > 0:       arrow, cls = "↑", "bad"
+    else:             arrow, cls = "↓", "good"
     return f'<span class="{cls}">{arrow} {abs(d):.2f}</span>'
 
 def fmt_date(d):
@@ -189,28 +194,41 @@ def fmt_date(d):
     if hasattr(d, 'strftime'): return d.strftime('%d/%m')
     return str(d)[:10][5:].replace('-','/')
 
-# ── build pivot tables ────────────────────────────────────────────────────────
-
 def pivot_offices(rows, team):
-    """rows: list of dicts with escritorio + async_por_caso. Returns sorted list."""
     return sorted([r for r in rows if r['equipe'] == team], key=lambda x: -(x.get('async_por_caso') or 0))
 
-# ── HTML sections per team ────────────────────────────────────────────────────
+def get_offices(team):
+    seen, result = set(), []
+    for rlist in [q1, q2, q3, q4]:
+        for r in rlist:
+            o = r.get('escritorio')
+            if r['equipe'] == team and o and o not in seen:
+                seen.add(o); result.append(o)
+    return sorted(result)
+
+# ── office filter ─────────────────────────────────────────────────────────────
+
+def section_office_filter(team):
+    offices = get_offices(team)
+    short = TEAM_SHORT[team]
+    btns = f'<button class="off-btn active" onclick="filterOffice(\'{short}\',\'ALL\',this)">Todos</button>'
+    for off in offices:
+        btns += f'<button class="off-btn" onclick="filterOffice(\'{short}\',\'{off}\',this)">{off}</button>'
+    return f'<div class="off-filter" id="filter-{short}">{btns}</div>'
+
+# ── tables ────────────────────────────────────────────────────────────────────
 
 def section_wow(team):
     ant = {r['escritorio']: r for r in q2 if r['equipe'] == team}
     act = {r['escritorio']: r for r in q3 if r['equipe'] == team}
     offices = sorted(set(list(ant.keys()) + list(act.keys())))
-    if not offices:
-        return "<p class='empty'>Sem dados</p>"
+    if not offices: return "<p class='empty'>Sem dados</p>"
     rows_html = ""
     for off in offices:
-        a = ant.get(off, {})
-        c = act.get(off, {})
-        vant = a.get('async_por_caso')
-        vact = c.get('async_por_caso')
+        a, c = ant.get(off, {}), act.get(off, {})
+        vant, vact = a.get('async_por_caso'), c.get('async_por_caso')
         rows_html += f"""
-        <tr>
+        <tr data-office="{off}">
           <td>{off}</td>
           <td class="num">{icon(vant)}</td><td class="num-s">{int(a.get('incoming_cr',0) or 0)}</td>
           <td class="num">{icon(vact)}</td><td class="num-s">{int(c.get('incoming_cr',0) or 0)}</td>
@@ -229,12 +247,11 @@ def section_wow(team):
 
 def section_mes(team):
     rows = pivot_offices(q4, team)
-    if not rows:
-        return "<p class='empty'>Sem dados</p>"
+    if not rows: return "<p class='empty'>Sem dados</p>"
     rows_html = ""
     for r in rows:
         rows_html += f"""
-        <tr>
+        <tr data-office="{r['escritorio']}">
           <td>{r['escritorio']}</td>
           <td class="num">{icon(r.get('async_por_caso'))}</td>
           <td class="num-s">{int(r.get('incoming_cr') or 0)}</td>
@@ -250,30 +267,11 @@ def section_mes(team):
       <tbody>{rows_html}</tbody>
     </table>"""
 
-def section_heatmap(team):
-    team_rows = [r for r in q1 if r['equipe'] == team]
-    if not team_rows:
-        return "<p class='empty'>Sem dados</p>"
-    dias = sorted(set(str(r['dia'])[:10] for r in team_rows), reverse=True)
-    offices = sorted(set(r['escritorio'] for r in team_rows))
-    idx = {(str(r['dia'])[:10], r['escritorio']): r for r in team_rows}
-    head = "<tr><th>Dia</th>" + "".join(f"<th>{o}</th>" for o in offices) + "</tr>"
-    body = ""
-    for d in dias:
-        body += f"<tr><td class='day'>{d[5:].replace('-','/')}</td>"
-        for o in offices:
-            r = idx.get((d, o))
-            v = r.get('async_por_caso') if r else None
-            body += f"<td class='num'>{icon(v) if v is not None else '<span class=nd>—</span>'}</td>"
-        body += "</tr>"
-    return f"<table class='dt heat'><thead>{head}</thead><tbody>{body}</tbody></table>"
-
 def section_lideres(team):
     rows = sorted([r for r in q5 if r['equipe'] == team], key=lambda x: -(x.get('async_por_caso') or 0))
-    if not rows:
-        return "<p class='empty'>Sem dados</p>"
+    if not rows: return "<p class='empty'>Sem dados</p>"
     rows_html = "".join(f"""
-    <tr>
+    <tr data-office="{r['escritorio']}">
       <td>{r['lider'] or '—'}</td>
       <td>{r['escritorio']}</td>
       <td class='num'>{icon(r.get('async_por_caso'))}</td>
@@ -288,10 +286,9 @@ def section_lideres(team):
 
 def section_reps(team):
     rows = sorted([r for r in q6 if r['equipe'] == team], key=lambda x: -(x.get('async_por_caso') or 0))[:20]
-    if not rows:
-        return "<p class='empty'>Sem dados (mín. 10 CR)</p>"
+    if not rows: return "<p class='empty'>Sem dados (mín. 10 CR)</p>"
     rows_html = "".join(f"""
-    <tr>
+    <tr data-office="{r['escritorio']}">
       <td>{r['rep']}</td>
       <td>{r['escritorio']}</td>
       <td>{r['lider'] or '—'}</td>
@@ -305,40 +302,123 @@ def section_reps(team):
       <tbody>{rows_html}</tbody>
     </table>"""
 
-def section_trend(team):
+# ── charts ────────────────────────────────────────────────────────────────────
+
+def build_line_datasets(offices, idx_fn, keys, color_map):
+    datasets = []
+    n = len(offices)
+    for i, off in enumerate(offices):
+        color = color_map[off]
+        data = [float(v) if (v := idx_fn(off, k)) is not None else None for k in keys]
+        datasets.append({
+            'label': off,
+            'data': data,
+            'borderColor': color,
+            'backgroundColor': color + '22',
+            'tension': 0.35,
+            'spanGaps': True,
+            'pointRadius': 4,
+            'pointHoverRadius': 6,
+            'borderWidth': 2,
+            'fill': False,
+        })
+    # reference lines
+    n_pts = len(keys)
+    datasets.append({'label': '__ref1__', 'data': [1.0]*n_pts, 'borderColor': '#b8860b',
+                     'borderDash': [6,4], 'pointRadius': 0, 'borderWidth': 1.5,
+                     'fill': False, 'tension': 0})
+    datasets.append({'label': '__ref2__', 'data': [2.0]*n_pts, 'borderColor': '#c0392b',
+                     'borderDash': [6,4], 'pointRadius': 0, 'borderWidth': 1.5,
+                     'fill': False, 'tension': 0})
+    return datasets
+
+def section_chart_daily(team):
+    team_rows = [r for r in q1 if r['equipe'] == team]
+    if not team_rows: return "<p class='empty'>Sem dados</p>"
+    dias = sorted(set(str(r['dia'])[:10] for r in team_rows))
+    offices = sorted(set(r['escritorio'] for r in team_rows))
+    idx = {(str(r['dia'])[:10], r['escritorio']): r.get('async_por_caso') for r in team_rows}
+    color_map = {off: COLORS[i % len(COLORS)] for i, off in enumerate(offices)}
+    labels = [d[5:].replace('-','/') for d in dias]
+    datasets = build_line_datasets(offices, lambda o, d: idx.get((d, o)), dias, color_map)
+    short = TEAM_SHORT[team]
+    cid = f"chart-daily-{short}"
+    data_json = json.dumps({'labels': labels, 'datasets': datasets}, default=jd)
+    return f"""<div style="position:relative;height:300px"><canvas id="{cid}"></canvas></div>
+<script>(function(){{
+  var ctx=document.getElementById('{cid}').getContext('2d');
+  window._charts=window._charts||{{}};
+  window._charts['{cid}']=new Chart(ctx,{{
+    type:'line',
+    data:{data_json},
+    options:{{
+      responsive:true,maintainAspectRatio:false,
+      interaction:{{mode:'index',intersect:false}},
+      plugins:{{
+        legend:{{
+          position:'top',
+          labels:{{filter:function(i){{return !i.text.startsWith('__');}},boxWidth:12,font:{{size:11}}}}
+        }},
+        tooltip:{{filter:function(i){{return !i.dataset.label.startsWith('__');}}}}
+      }},
+      scales:{{
+        y:{{title:{{display:true,text:'async/caso',font:{{size:11}}}},min:0,
+           ticks:{{font:{{size:11}}}}}},
+        x:{{ticks:{{maxRotation:45,font:{{size:10}}}}}}
+      }}
+    }}
+  }});
+}})();
+</script>"""
+
+def section_chart_trend(team):
     team_rows = [r for r in q7 if r['equipe'] == team]
-    if not team_rows:
-        return "<p class='empty'>Sem dados</p>"
+    if not team_rows: return "<p class='empty'>Sem dados</p>"
     semanas = sorted(set(str(r['semana'])[:10] for r in team_rows))
     offices = sorted(set(r['escritorio'] for r in team_rows))
-    idx = {(str(r['semana'])[:10], r['escritorio']): r for r in team_rows}
-    head = "<tr><th>Semana</th>" + "".join(f"<th>{o}</th>" for o in offices) + "</tr>"
-    body = ""
-    for i, s in enumerate(semanas):
-        body += f"<tr><td class='day'>{fmt_date(s)}</td>"
-        for o in offices:
-            r = idx.get((s, o))
-            v = r.get('async_por_caso') if r else None
-            if i > 0:
-                prev_r = idx.get((semanas[i-1], o))
-                vp = prev_r.get('async_por_caso') if prev_r else None
-                arr = delta_arrow(vp, v) if (v is not None and vp is not None) else ""
-                cell = f"{icon(v) if v is not None else '—'} {arr}"
-            else:
-                cell = icon(v) if v is not None else "—"
-            body += f"<td class='num'>{cell}</td>"
-        body += "</tr>"
-    return f"<table class='dt heat'><thead>{head}</thead><tbody>{body}</tbody></table>"
+    idx = {(str(r['semana'])[:10], r['escritorio']): r.get('async_por_caso') for r in team_rows}
+    color_map = {off: COLORS[i % len(COLORS)] for i, off in enumerate(offices)}
+    labels = [s[5:].replace('-','/') for s in semanas]
+    datasets = build_line_datasets(offices, lambda o, s: idx.get((s, o)), semanas, color_map)
+    short = TEAM_SHORT[team]
+    cid = f"chart-trend-{short}"
+    data_json = json.dumps({'labels': labels, 'datasets': datasets}, default=jd)
+    return f"""<div style="position:relative;height:300px"><canvas id="{cid}"></canvas></div>
+<script>(function(){{
+  var ctx=document.getElementById('{cid}').getContext('2d');
+  window._charts=window._charts||{{}};
+  window._charts['{cid}']=new Chart(ctx,{{
+    type:'line',
+    data:{data_json},
+    options:{{
+      responsive:true,maintainAspectRatio:false,
+      interaction:{{mode:'index',intersect:false}},
+      plugins:{{
+        legend:{{
+          position:'top',
+          labels:{{filter:function(i){{return !i.text.startsWith('__');}},boxWidth:12,font:{{size:11}}}}
+        }},
+        tooltip:{{filter:function(i){{return !i.dataset.label.startsWith('__');}}}}
+      }},
+      scales:{{
+        y:{{title:{{display:true,text:'async/caso',font:{{size:11}}}},min:0,
+           ticks:{{font:{{size:11}}}}}},
+        x:{{ticks:{{font:{{size:11}}}}}}
+      }}
+    }}
+  }});
+}})();
+</script>"""
+
+# ── exec summary ──────────────────────────────────────────────────────────────
 
 def exec_summary(team):
-    """3 bullets: pior office, delta WoW, reps críticos"""
     ant = {r['escritorio']: r for r in q2 if r['equipe'] == team}
     act = {r['escritorio']: r for r in q3 if r['equipe'] == team}
     all_offices = pivot_offices(q2, team)
     worst = all_offices[0] if all_offices else None
-
-    bullet1 = f"Office com maior async/caso (sem ant): <strong>{worst['escritorio']}</strong> — {icon(worst.get('async_por_caso'))}" if worst else "Sem dados de office"
-
+    bullet1 = (f"Office com maior async/caso (sem ant): <strong>{worst['escritorio']}</strong> — {icon(worst.get('async_por_caso'))}"
+               if worst else "Sem dados de office")
     if worst:
         off = worst['escritorio']
         vant = ant.get(off, {}).get('async_por_caso')
@@ -351,10 +431,8 @@ def exec_summary(team):
             bullet2 = f"Delta WoW {off}: sem dados da semana atual"
     else:
         bullet2 = "Sem dados WoW"
-
     criticos = [r for r in q6 if r['equipe'] == team and (r.get('async_por_caso') or 0) > 2.0]
     bullet3 = f"Reps com async/caso &gt; 2.0 (sem ant): <strong>{len(criticos)}</strong> rep{'s' if len(criticos)!=1 else ''}"
-
     return f"""
     <ul class="exec">
       <li>{bullet1}</li>
@@ -362,13 +440,14 @@ def exec_summary(team):
       <li>{bullet3}</li>
     </ul>"""
 
-# ── build tab content ─────────────────────────────────────────────────────────
+# ── tab content ───────────────────────────────────────────────────────────────
 
 def tab_content(team):
     short = TEAM_SHORT[team]
     return f"""
     <div id="tab-{short}" class="tab-content">
       <h2>{team}</h2>
+      {section_office_filter(team)}
 
       <div class="card">
         <h3>Resumo Executivo</h3>
@@ -386,8 +465,8 @@ def tab_content(team):
       </div>
 
       <div class="card">
-        <h3>Heatmap Diário — últimos 15 dias</h3>
-        <div class="scroll-x">{section_heatmap(team)}</div>
+        <h3>Diário — últimos 15 dias por Office <small>(linhas tracejadas: limites 1.0 e 2.0)</small></h3>
+        {section_chart_daily(team)}
       </div>
 
       <div class="card">
@@ -401,8 +480,8 @@ def tab_content(team):
       </div>
 
       <div class="card">
-        <h3>Tendência 8 Semanas por Office</h3>
-        <div class="scroll-x">{section_trend(team)}</div>
+        <h3>Tendência 8 Semanas por Office <small>(linhas tracejadas: limites 1.0 e 2.0)</small></h3>
+        {section_chart_trend(team)}
       </div>
     </div>"""
 
@@ -422,6 +501,7 @@ html = f"""<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Chat Assíncrono — Longtail Sellers BR</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 <style>
   :root {{
     --green: #1a8a3c; --yellow: #b8860b; --red: #c0392b;
@@ -441,11 +521,17 @@ html = f"""<!DOCTYPE html>
   .tab-btn:hover:not(.active) {{ background: #d5e8f7; }}
   .tab-content {{ display: none; padding: 20px 24px; }}
   .tab-content.show {{ display: block; }}
-  .tab-content h2 {{ font-size: 15px; color: var(--head); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }}
+  .tab-content h2 {{ font-size: 15px; color: var(--head); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }}
   .card {{ background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }}
   .card h3 {{ font-size: 13px; font-weight: 700; color: var(--head); margin-bottom: 12px; }}
   .card h3 small {{ font-weight: 400; color: #777; font-size: 11px; }}
-  .scroll-x {{ overflow-x: auto; }}
+  /* office filter */
+  .off-filter {{ display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }}
+  .off-btn {{ padding: 5px 14px; border: 1.5px solid var(--border); background: #fff; border-radius: 20px;
+              cursor: pointer; font-size: 11px; font-weight: 600; color: #555; transition: all .15s; }}
+  .off-btn.active {{ background: var(--head); color: #fff; border-color: var(--head); }}
+  .off-btn:hover:not(.active) {{ background: #eef2f7; border-color: #aaa; }}
+  /* tables */
   table.dt {{ border-collapse: collapse; width: 100%; font-size: 12px; }}
   table.dt th {{ background: #f0f4f8; padding: 6px 10px; text-align: center; font-size: 11px; border-bottom: 2px solid var(--border); white-space: nowrap; }}
   table.dt th:first-child {{ text-align: left; }}
@@ -498,11 +584,34 @@ function showTab(id) {{
   event.target.classList.add('active');
 }}
 document.querySelector('.tab-content').classList.add('show');
+
+function filterOffice(team, office, btn) {{
+  // botões
+  document.querySelectorAll('#filter-' + team + ' .off-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // linhas das tabelas
+  document.querySelectorAll('#tab-' + team + ' tr[data-office]').forEach(row => {{
+    row.style.display = (office === 'ALL' || row.dataset.office === office) ? '' : 'none';
+  }});
+  // gráficos
+  ['chart-daily-' + team, 'chart-trend-' + team].forEach(cid => {{
+    var chart = (window._charts || {{}})[cid];
+    if (!chart) return;
+    chart.data.datasets.forEach((ds, i) => {{
+      var isRef = ds.label.startsWith('__');
+      var visible = isRef || office === 'ALL' || ds.label === office;
+      chart.setDatasetVisibility(i, visible);
+    }});
+    chart.update();
+  }});
+}}
 </script>
 </body>
 </html>"""
 
-out = r"c:\Users\allabriola\PROJETO CLAUDINHO\_async_longtail.html"
-with open(out, 'w', encoding='utf-8') as f:
-    f.write(html)
-print(f"HTML salvo: {out}")
+out_raw = r"c:\Users\allabriola\PROJETO CLAUDINHO\_async_longtail.html"
+out_pub = r"c:\Users\allabriola\PROJETO CLAUDINHO\async_longtail.html"
+for path in [out_raw, out_pub]:
+    with open(path, 'w', encoding='utf-8') as f:
+        f.write(html)
+print(f"HTML salvo em {out_raw} e {out_pub}")
