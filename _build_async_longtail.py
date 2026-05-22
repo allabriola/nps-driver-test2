@@ -432,12 +432,14 @@ html = f"""<!DOCTYPE html>
   .card h3 small {{ font-weight: 400; color: #777; font-size: 11px; }}
   .scroll-x {{ overflow-x: auto; }}
   table.dt {{ border-collapse: collapse; width: 100%; font-size: 12px; }}
-  table.dt th {{ background: #f0f4f8; padding: 6px 10px; text-align: left; font-size: 11px; border-bottom: 2px solid var(--border); white-space: nowrap; }}
-  table.dt td {{ padding: 5px 10px; border-bottom: 1px solid #eef0f3; white-space: nowrap; }}
+  table.dt th {{ background: #f0f4f8; padding: 6px 10px; text-align: center; font-size: 11px; border-bottom: 2px solid var(--border); white-space: nowrap; }}
+  table.dt th:first-child {{ text-align: left; }}
+  table.dt td {{ padding: 5px 10px; border-bottom: 1px solid #eef0f3; white-space: nowrap; text-align: center; }}
+  table.dt td:first-child {{ text-align: left; }}
   table.dt tr:hover td {{ background: #f7fafd; }}
   td.num {{ text-align: center; font-weight: 600; }}
   td.num-s {{ text-align: center; color: #666; }}
-  td.day {{ font-weight: 600; color: #444; }}
+  td.day {{ font-weight: 600; color: #444; text-align: left; }}
   .ok   {{ color: var(--green); }}
   .warn {{ color: var(--yellow); }}
   .crit {{ color: var(--red); font-weight: 700; }}
