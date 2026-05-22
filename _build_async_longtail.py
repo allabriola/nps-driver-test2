@@ -37,8 +37,18 @@ ontem       = today - timedelta(days=1)
 
 print(f"Datas: sem_ant={sem_ant_ini}–{sem_ant_fin} | sem_act={sem_act_ini}–{ontem} | mes={mes_ini} | trend={trend_ini}")
 
-def run(sql):
-    return [dict(row) for row in BQ.query(sql).result()]
+def run(sql, retries=6, wait=15):
+    import time
+    from google.api_core.exceptions import Forbidden
+    for attempt in range(retries):
+        try:
+            return [dict(row) for row in BQ.query(sql).result()]
+        except Forbidden as e:
+            if 'quotaExceeded' in str(e) and attempt < retries - 1:
+                print(f"    quota exceeded, aguardando {wait}s (tentativa {attempt+1}/{retries})...")
+                time.sleep(wait)
+            else:
+                raise
 
 print("Rodando queries...")
 
@@ -192,6 +202,7 @@ q8_geral = agg_to_team(q8, 'mes')
 
 def jd(obj):
     if hasattr(obj, 'isoformat'): return obj.isoformat()
+    if hasattr(obj, '__float__'): return float(obj)
     raise TypeError
 
 def icon(v):
