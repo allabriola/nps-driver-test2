@@ -304,32 +304,28 @@ def section_reps(team):
 
 # ── charts ────────────────────────────────────────────────────────────────────
 
-def build_line_datasets(offices, idx_fn, keys, color_map):
+def build_chart_datasets(offices, idx_fn, keys, color_map):
     datasets = []
-    n = len(offices)
-    for i, off in enumerate(offices):
+    for off in offices:
         color = color_map[off]
         data = [float(v) if (v := idx_fn(off, k)) is not None else None for k in keys]
         datasets.append({
+            'type': 'bar',
             'label': off,
             'data': data,
+            'backgroundColor': color + 'bb',
             'borderColor': color,
-            'backgroundColor': color + '22',
-            'tension': 0.35,
-            'spanGaps': True,
-            'pointRadius': 4,
-            'pointHoverRadius': 6,
-            'borderWidth': 2,
-            'fill': False,
+            'borderWidth': 1,
+            'borderRadius': 3,
+            'skipNull': True,
         })
-    # reference lines
     n_pts = len(keys)
-    datasets.append({'label': '__ref1__', 'data': [1.0]*n_pts, 'borderColor': '#b8860b',
-                     'borderDash': [6,4], 'pointRadius': 0, 'borderWidth': 1.5,
-                     'fill': False, 'tension': 0})
-    datasets.append({'label': '__ref2__', 'data': [2.0]*n_pts, 'borderColor': '#c0392b',
-                     'borderDash': [6,4], 'pointRadius': 0, 'borderWidth': 1.5,
-                     'fill': False, 'tension': 0})
+    datasets.append({'type': 'line', 'label': '__ref1__', 'data': [1.0]*n_pts,
+                     'borderColor': '#b8860b', 'borderDash': [6,4], 'pointRadius': 0,
+                     'borderWidth': 1.5, 'fill': False, 'tension': 0})
+    datasets.append({'type': 'line', 'label': '__ref2__', 'data': [2.0]*n_pts,
+                     'borderColor': '#c0392b', 'borderDash': [6,4], 'pointRadius': 0,
+                     'borderWidth': 1.5, 'fill': False, 'tension': 0})
     return datasets
 
 def section_chart_daily(team):
@@ -340,7 +336,7 @@ def section_chart_daily(team):
     idx = {(str(r['dia'])[:10], r['escritorio']): r.get('async_por_caso') for r in team_rows}
     color_map = {off: COLORS[i % len(COLORS)] for i, off in enumerate(offices)}
     labels = [d[5:].replace('-','/') for d in dias]
-    datasets = build_line_datasets(offices, lambda o, d: idx.get((d, o)), dias, color_map)
+    datasets = build_chart_datasets(offices, lambda o, d: idx.get((d, o)), dias, color_map)
     short = TEAM_SHORT[team]
     cid = f"chart-daily-{short}"
     data_json = json.dumps({'labels': labels, 'datasets': datasets}, default=jd)
@@ -349,21 +345,17 @@ def section_chart_daily(team):
   var ctx=document.getElementById('{cid}').getContext('2d');
   window._charts=window._charts||{{}};
   window._charts['{cid}']=new Chart(ctx,{{
-    type:'line',
+    type:'bar',
     data:{data_json},
     options:{{
       responsive:true,maintainAspectRatio:false,
       interaction:{{mode:'index',intersect:false}},
       plugins:{{
-        legend:{{
-          position:'top',
-          labels:{{filter:function(i){{return !i.text.startsWith('__');}},boxWidth:12,font:{{size:11}}}}
-        }},
+        legend:{{position:'top',labels:{{filter:function(i){{return !i.text.startsWith('__');}},boxWidth:12,font:{{size:11}}}}}},
         tooltip:{{filter:function(i){{return !i.dataset.label.startsWith('__');}}}}
       }},
       scales:{{
-        y:{{title:{{display:true,text:'async/caso',font:{{size:11}}}},min:0,
-           ticks:{{font:{{size:11}}}}}},
+        y:{{title:{{display:true,text:'async/caso',font:{{size:11}}}},min:0,ticks:{{font:{{size:11}}}}}},
         x:{{ticks:{{maxRotation:45,font:{{size:10}}}}}}
       }}
     }}
@@ -379,7 +371,7 @@ def section_chart_trend(team):
     idx = {(str(r['semana'])[:10], r['escritorio']): r.get('async_por_caso') for r in team_rows}
     color_map = {off: COLORS[i % len(COLORS)] for i, off in enumerate(offices)}
     labels = [s[5:].replace('-','/') for s in semanas]
-    datasets = build_line_datasets(offices, lambda o, s: idx.get((s, o)), semanas, color_map)
+    datasets = build_chart_datasets(offices, lambda o, s: idx.get((s, o)), semanas, color_map)
     short = TEAM_SHORT[team]
     cid = f"chart-trend-{short}"
     data_json = json.dumps({'labels': labels, 'datasets': datasets}, default=jd)
@@ -388,21 +380,17 @@ def section_chart_trend(team):
   var ctx=document.getElementById('{cid}').getContext('2d');
   window._charts=window._charts||{{}};
   window._charts['{cid}']=new Chart(ctx,{{
-    type:'line',
+    type:'bar',
     data:{data_json},
     options:{{
       responsive:true,maintainAspectRatio:false,
       interaction:{{mode:'index',intersect:false}},
       plugins:{{
-        legend:{{
-          position:'top',
-          labels:{{filter:function(i){{return !i.text.startsWith('__');}},boxWidth:12,font:{{size:11}}}}
-        }},
+        legend:{{position:'top',labels:{{filter:function(i){{return !i.text.startsWith('__');}},boxWidth:12,font:{{size:11}}}}}},
         tooltip:{{filter:function(i){{return !i.dataset.label.startsWith('__');}}}}
       }},
       scales:{{
-        y:{{title:{{display:true,text:'async/caso',font:{{size:11}}}},min:0,
-           ticks:{{font:{{size:11}}}}}},
+        y:{{title:{{display:true,text:'async/caso',font:{{size:11}}}},min:0,ticks:{{font:{{size:11}}}}}},
         x:{{ticks:{{font:{{size:11}}}}}}
       }}
     }}
@@ -464,9 +452,15 @@ def tab_content(team):
         {section_mes(team)}
       </div>
 
-      <div class="card">
-        <h3>Diário — últimos 15 dias por Office <small>(linhas tracejadas: limites 1.0 e 2.0)</small></h3>
-        {section_chart_daily(team)}
+      <div style="display:flex;gap:16px;align-items:stretch">
+        <div class="card" style="flex:1;min-width:0">
+          <h3>Diário — últimos 15 dias <small>(ref: 1.0 / 2.0)</small></h3>
+          {section_chart_daily(team)}
+        </div>
+        <div class="card" style="flex:1;min-width:0">
+          <h3>Tendência 8 Semanas <small>(ref: 1.0 / 2.0)</small></h3>
+          {section_chart_trend(team)}
+        </div>
       </div>
 
       <div class="card">
@@ -477,11 +471,6 @@ def tab_content(team):
       <div class="card">
         <h3>Top 20 Reps — maior async/caso <small>(mín. 10 CR)</small></h3>
         {section_reps(team)}
-      </div>
-
-      <div class="card">
-        <h3>Tendência 8 Semanas por Office <small>(linhas tracejadas: limites 1.0 e 2.0)</small></h3>
-        {section_chart_trend(team)}
       </div>
     </div>"""
 
