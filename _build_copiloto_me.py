@@ -206,6 +206,85 @@ def build_dset():
 
 DSET = build_dset()
 
+def build_summary(dset, opcao, tab):
+    """Gera resumo executivo HTML baseado nos dados mais recentes do DSET."""
+    # Para opcao='rep': usa DSET; para A/B: usa DSET_OPC (mas ainda não construído, chama depois)
+    # Aqui geramos o texto para o modo 'rep'
+    d = dset['ALL']['ALL'][tab]
+    MONTH_NAMES = {'2026-01':'Janeiro','2026-02':'Fevereiro','2026-03':'Março',
+                   '2026-04':'Abril','2026-05':'Maio'}
+    lbl_t = 'Com Copiloto (Treatment)' if opcao=='rep' else 'Usou Copiloto (FLAG=1)'
+    lbl_c = 'Sem Copiloto (Controle)' if opcao=='rep' else 'Não usou Copiloto (FLAG=0)'
+
+    def last_val(series):
+        """Retorna o último valor não-nulo de uma série mensal."""
+        for v in reversed(series):
+            if v is not None:
+                return v
+        return None
+
+    def last_two(series):
+        vals = [v for v in series if v is not None]
+        return vals[-2] if len(vals) >= 2 else None, vals[-1] if vals else None
+
+    # NPS
+    nps_t = last_val(d['nps']['t']['m'])
+    nps_c = last_val(d['nps']['c']['m'])
+    nps_delta = round(nps_t - nps_c, 1) if nps_t and nps_c else None
+
+    # TMO
+    tmo_t = last_val(d['tmo']['t']['m'])
+    tmo_c = last_val(d['tmo']['c']['m'])
+    tmo_delta = round(tmo_t - tmo_c, 1) if tmo_t and tmo_c else None
+
+    # TDI
+    tdi_t = last_val(d['tdi']['t']['m'])
+    tdi_c = last_val(d['tdi']['c']['m'])
+    tdi_delta = round(tdi_t - tdi_c, 1) if tdi_t is not None and tdi_c is not None else None
+
+    # Recontato
+    rec_t = last_val(d['rec']['t']['m'])
+    rec_c = last_val(d['rec']['c']['m'])
+    rec_delta = round(rec_t - rec_c, 1) if rec_t is not None and rec_c is not None else None
+
+    def arrow(delta, reverse=False):
+        if delta is None: return ''
+        better = delta < 0 if reverse else delta > 0
+        if better: return f'<span class="pos">▲ {abs(delta):.1f} melhor</span>'
+        if not better and delta != 0: return f'<span class="neg">▼ {abs(delta):.1f} pior</span>'
+        return '<span class="neu">≈ igual</span>'
+
+    items = []
+    if nps_t and nps_c:
+        items.append(f'<li><strong>NPS:</strong> {lbl_t} em <strong>{nps_t:.1f}%</strong> vs {nps_c:.1f}% do controle — delta de <strong>{nps_delta:+.1f}pp</strong> {arrow(nps_delta)}</li>')
+    if tmo_t and tmo_c:
+        items.append(f'<li><strong>TMO:</strong> {lbl_t} em <strong>{tmo_t:.1f} min</strong> vs {tmo_c:.1f} min — {arrow(tmo_delta, reverse=True)}</li>')
+    if tdi_t is not None and tdi_c is not None:
+        items.append(f'<li><strong>TDI:</strong> {lbl_t} em <strong>{tdi_t:.1f}%</strong> vs {tdi_c:.1f}% — {arrow(tdi_delta, reverse=True)}</li>')
+    if rec_t is not None and rec_c is not None:
+        items.append(f'<li><strong>Recontato:</strong> {lbl_t} em <strong>{rec_t:.1f}%</strong> vs {rec_c:.1f}% — {arrow(rec_delta, reverse=True)}</li>')
+
+    if not items:
+        return ''
+
+    # Conclusão geral
+    positives = sum(1 for x in [nps_delta, -tmo_delta if tmo_delta else None,
+                                  -tdi_delta if tdi_delta else None,
+                                  -rec_delta if rec_delta else None] if x and x > 0)
+    if positives >= 3:
+        conclusion = 'Os dados indicam <strong>impacto positivo consistente</strong> do Copiloto nos principais KPIs analisados.'
+    elif positives == 2:
+        conclusion = 'Os dados mostram <strong>impacto misto</strong> — melhora em alguns indicadores, com trade-off em outros.'
+    else:
+        conclusion = 'Os dados sugerem <strong>impacto limitado ou negativo</strong> no período analisado.'
+
+    tab_label = {'geral': 'Geral', 'expert': 'Experts', 'newbie': 'Newbies'}.get(tab, tab)
+    return f'''<div class="exec-summary">
+  <div class="exec-title">Resumo Executivo — {tab_label} (dados até 21/05/2026)</div>
+  <ul class="exec-list">{''.join(items)}</ul>
+  <div class="exec-conclusion">{conclusion}</div>
+</div>'''
+
 # ═══════════════════════════════════════════════════════════════════════
 # HELPERS HTML
 # ═══════════════════════════════════════════════════════════════════════
@@ -311,8 +390,9 @@ def build_rep_opc():
     """NPS por rep split por FLAG_CASE_COPILOT, para Opção A (treatment) e B (time completo)."""
     with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_rep_opc_nps.json', encoding='utf-8') as f:
         raw = json.load(f)
-    # Mapear info dos reps (office, seniority) do REPS_RAW
-    rep_info = {r['ldap']: {'office': r.get('office','—'), 'seniority': r.get('seniority','')} for r in REPS_RAW}
+    # Mapear info dos reps (office, seniority, tl) do REPS_RAW (treatment)
+    rep_info = {r['ldap']: {'office': r.get('office','—'), 'seniority': r.get('seniority',''),
+                             'tl': r.get('tl_ldap','—')} for r in REPS_RAW}
 
     def build_for_scope(scopes):
         data = {}
@@ -324,11 +404,12 @@ def build_rep_opc():
             n     = int(r['surveys'] or 0)
             prom  = int(r['prom'] or 0)
             det   = int(r['det'] or 0)
-            nps   = round((prom - det) / n * 100, 1) if n >= 3 else None  # mínimo 3 surveys
+            nps   = round((prom - det) / n * 100, 1) if n >= 3 else None
             if ldap not in data:
                 info = rep_info.get(ldap, {})
                 data[ldap] = {
-                    'office':    info.get('office', '—'),
+                    'office':    r.get('office') or info.get('office', '—'),
+                    'tl':        r.get('tl_ldap') or info.get('tl', '—'),
                     'seniority': info.get('seniority', ''),
                     'com': {'n': 0, 'nps': None},
                     'sem': {'n': 0, 'nps': None},
@@ -581,6 +662,15 @@ table.rt tr:hover td{{background:#f8fafc}}
 .note.warn{{border-left-color:#f59e0b;background:#fffbeb}}.note.warn strong{{color:#92400e}}
 hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
 .footer{{font-size:10px;color:#94a3b8;text-align:center;margin-top:24px}}
+/* Resumo Executivo */
+.exec-summary{{background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #1d4ed8;border-radius:8px;padding:14px 18px;margin-top:16px}}
+.exec-title{{font-size:11px;font-weight:700;color:#1e293b;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}}
+.exec-list{{font-size:11.5px;color:#374151;line-height:1.8;padding-left:18px}}
+.exec-list li{{margin-bottom:2px}}
+.exec-conclusion{{font-size:11.5px;color:#1e293b;margin-top:10px;padding-top:8px;border-top:1px solid #e2e8f0}}
+.pos{{color:#15803d;font-size:10px;background:#dcfce7;padding:1px 5px;border-radius:3px;font-weight:600}}
+.neg{{color:#dc2626;font-size:10px;background:#fee2e2;padding:1px 5px;border-radius:3px;font-weight:600}}
+.neu{{color:#64748b;font-size:10px;background:#f1f5f9;padding:1px 5px;border-radius:3px;font-weight:600}}
 /* Sen filter buttons */
 .sen-filter{{display:flex;gap:6px;margin-bottom:10px;align-items:center}}
 .sen-btn{{padding:4px 14px;border-radius:6px;border:1px solid #e2e8f0;cursor:pointer;font-size:11px;font-weight:600;background:white;color:#64748b;transition:.1s}}
@@ -659,6 +749,7 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
       <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_geral"></canvas></div>
       <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_geral"></canvas></div>
     </div>
+    {build_summary(DSET, 'rep', 'geral')}
   </div>
 
   <!-- TAB EXPERT -->
@@ -678,6 +769,7 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
       <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_expert"></canvas></div>
       <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_expert"></canvas></div>
     </div>
+    {build_summary(DSET, 'rep', 'expert')}
   </div>
 
   <!-- TAB NEWBIE -->
@@ -697,6 +789,7 @@ hr.div{{border:none;border-top:2px solid #e2e8f0;margin:20px 0}}
       <div class="cc"><h3>TDI ↓</h3><p>%</p><canvas id="wTDI_newbie"></canvas></div>
       <div class="cc"><h3>Recontato ↓</h3><p>%</p><canvas id="wREC_newbie"></canvas></div>
     </div>
+    {build_summary(DSET, 'rep', 'newbie')}
   </div>
 
   <hr class="div">
@@ -1058,7 +1151,7 @@ function renderRepTable(opcao) {{
 
   // Modo A ou B: mostrar NPS com vs sem Copiloto por rep
   var data = REP_OPC[opcao] || {{}};
-  thead.innerHTML = '<th class="left">Representante</th><th>Oficina</th>'
+  thead.innerHTML = '<th class="left">Representante</th><th>Oficina</th><th>L&iacute;der</th>'
                   + '<th>NPS Usou Copiloto (FLAG=1)</th>'
                   + '<th>NPS N&atilde;o usou (FLAG=0)</th>'
                   + '<th>Delta</th>';
@@ -1084,6 +1177,7 @@ function renderRepTable(opcao) {{
     html += '<tr data-sen="' + d.seniority + '" data-office="' + d.office + '">'
           + '<td class="rep-name">' + ldap + ' ' + sen + '</td>'
           + '<td>' + (d.office || '—') + '</td>'
+          + '<td class="n-small" style="color:#475569">' + (d.tl || '—') + '</td>'
           + '<td>' + npsCell(com.n, com.nps) + '</td>'
           + '<td>' + npsCell(sem.n, sem.nps) + '</td>'
           + '<td><span class="' + dCls + '">' + dTxt + '</span></td>'
