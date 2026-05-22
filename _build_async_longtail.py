@@ -102,34 +102,49 @@ GROUP BY 1,2 ORDER BY 1, async_por_caso DESC
 """)
 print(f"  Q4 mes: {len(q4)} linhas")
 
-# Q5 — por team leader
+# Q5 — por team leader via JOIN com BT_CX_STAFF_HISTORY
 q5 = run(f"""
-SELECT USER_TEAM_NAME AS equipe, CS_MANAGER AS lider, USER_OFFICE AS escritorio,
-  COUNTIF(SUB_TASA LIKE "%Chat asincrónico%") AS async_total,
-  SUM(DENOM_IXC) AS incoming_cr,
-  ROUND(COUNTIF(SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(DENOM_IXC), 0), 2) AS async_por_caso
-FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL`
-WHERE VALID_IXC_FLAG = TRUE
-  AND DATE_ID BETWEEN "{sem_ant_ini}" AND "{sem_ant_fin}"
-  AND USER_TEAM_NAME IN ({TEAMS_IN})
-  AND CS_MANAGER IS NOT NULL
+SELECT ixc.USER_TEAM_NAME AS equipe, staff.USER_TEAM_LEADER_LDAP AS lider, ixc.USER_OFFICE AS escritorio,
+  COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") AS async_total,
+  SUM(ixc.DENOM_IXC) AS incoming_cr,
+  ROUND(COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(ixc.DENOM_IXC), 0), 2) AS async_por_caso
+FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL` ixc
+LEFT JOIN (
+  SELECT USER_LDAP, USER_TEAM_LEADER_LDAP
+  FROM `meli-bi-data.WHOWNER.BT_CX_STAFF_HISTORY`
+  WHERE DATE_ID = "{sem_ant_fin}"
+    AND USER_TEAM_NAME IN ({TEAMS_IN})
+) staff ON ixc.CI_OWNER_ID = staff.USER_LDAP
+WHERE ixc.VALID_IXC_FLAG = TRUE
+  AND ixc.DATE_ID BETWEEN "{sem_ant_ini}" AND "{sem_ant_fin}"
+  AND ixc.USER_TEAM_NAME IN ({TEAMS_IN})
+  AND ixc.CS_MANAGER IS NOT NULL
+  AND staff.USER_TEAM_LEADER_LDAP IS NOT NULL
 GROUP BY 1,2,3 ORDER BY 1, async_por_caso DESC
 """)
 print(f"  Q5 lideres: {len(q5)} linhas")
 
-# Q6 — top reps
+# Q6 — top reps com lider via JOIN com BT_CX_STAFF_HISTORY
 q6 = run(f"""
-SELECT USER_TEAM_NAME AS equipe, CI_OWNER_ID AS rep, USER_OFFICE AS escritorio, CS_MANAGER AS lider,
-  COUNTIF(SUB_TASA LIKE "%Chat asincrónico%") AS async_total,
-  SUM(DENOM_IXC) AS incoming_cr,
-  ROUND(COUNTIF(SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(DENOM_IXC), 0), 2) AS async_por_caso
-FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL`
-WHERE VALID_IXC_FLAG = TRUE
-  AND DATE_ID BETWEEN "{sem_ant_ini}" AND "{sem_ant_fin}"
-  AND USER_TEAM_NAME IN ({TEAMS_IN})
-  AND CI_OWNER_ID IS NOT NULL
+SELECT ixc.USER_TEAM_NAME AS equipe, ixc.CI_OWNER_ID AS rep, ixc.USER_OFFICE AS escritorio,
+  staff.USER_TEAM_LEADER_LDAP AS lider,
+  COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") AS async_total,
+  SUM(ixc.DENOM_IXC) AS incoming_cr,
+  ROUND(COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(ixc.DENOM_IXC), 0), 2) AS async_por_caso
+FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL` ixc
+LEFT JOIN (
+  SELECT USER_LDAP, USER_TEAM_LEADER_LDAP
+  FROM `meli-bi-data.WHOWNER.BT_CX_STAFF_HISTORY`
+  WHERE DATE_ID = "{sem_ant_fin}"
+    AND USER_TEAM_NAME IN ({TEAMS_IN})
+) staff ON ixc.CI_OWNER_ID = staff.USER_LDAP
+WHERE ixc.VALID_IXC_FLAG = TRUE
+  AND ixc.DATE_ID BETWEEN "{sem_ant_ini}" AND "{sem_ant_fin}"
+  AND ixc.USER_TEAM_NAME IN ({TEAMS_IN})
+  AND ixc.CI_OWNER_ID IS NOT NULL
+  AND ixc.CS_MANAGER IS NOT NULL
 GROUP BY 1,2,3,4
-HAVING SUM(DENOM_IXC) >= 10
+HAVING SUM(ixc.DENOM_IXC) >= 10
 ORDER BY 1, async_por_caso DESC
 LIMIT 60
 """)
