@@ -300,7 +300,172 @@ tr:hover td{background:#fafbff;}
 </div>
 
 <!-- ── SEÇÃO 1: RESUMO DETALHADO ── -->
-<div class="m-sec-divider"><span class="m-sec-num">1</span> Resumo por Equipe &amp; Processo</div>
+<div class="m-sec-divider"><span class="m-sec-num">1</span> Taxa de Exclusão &amp; Correlação</div>
+<div class="m-section">
+
+  <div class="src-bar"><div class="src-dot xm"></div>Proxy via soluções XM — proporção de soluções de "exclusão de impacto" sobre total de pesquisas</div>
+
+  <!-- Taxa summary -->
+  <div class="section-title">Taxa de Exclusão de Impacto (proxy)</div>
+  <div class="grid-4">
+    <div class="kpi-card">
+      <div class="label">Rep ME — Abr</div>
+      <div class="value">~80%</div>
+      <div class="sub">Soluções de exclusão</div>
+    </div>
+    <div class="kpi-card" style="border-top:3px solid var(--green);">
+      <div class="label">Rep ME — Mai</div>
+      <div class="value" style="color:var(--green)">~84%</div>
+      <div class="sub">Soluções de exclusão</div>
+      <div class="delta pos">▲ +4pp</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Reputación — Abr</div>
+      <div class="value">~65%</div>
+      <div class="sub">Soluções de exclusão</div>
+    </div>
+    <div class="kpi-card" style="border-top:3px solid var(--green);">
+      <div class="label">Reputación — Mai</div>
+      <div class="value" style="color:var(--green)">~68%</div>
+      <div class="sub">Soluções de exclusão</div>
+      <div class="delta pos">▲ +3pp</div>
+    </div>
+  </div>
+
+  <div class="info-note">
+    A taxa de exclusão é calculada como proxy via soluções CX: proporção de casos resolvidos com "Excluímos" ou "Não afeta" sobre o total de pesquisas. Valores aproximados — parte das soluções não são capturadas no TOP.
+  </div>
+
+  <!-- Soluções de exclusão -->
+  <div class="section-title">Top Soluções de Exclusão (âncoras positivas — NPS 88–94%)</div>
+  <div class="card">
+    <div class="card-header">Soluções com maior volume — Exclusão de Impacto</div>
+    <table>
+      <thead><tr>
+        <th>Solução</th><th>Processo</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>Δ NPS</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Logística Flex — Excluímos</td><td>Rep ME</td><td>86,7%</td><td>98</td><td style="color:var(--green);font-weight:700">94,4%</td><td>72</td><td class="pos">+7,7pp</td></tr>
+        <tr><td>Cancelamento Revisado</td><td>Reputación</td><td>78,7%</td><td>61</td><td style="color:var(--green);font-weight:700">89,6%</td><td>48</td><td class="pos">+10,9pp</td></tr>
+        <tr><td>Vendedor Newbie — Excluímos</td><td>Rep ME</td><td>85,9%</td><td>375</td><td>91,9%</td><td>247</td><td class="pos">+6,0pp</td></tr>
+        <tr><td>Logística Places — Excluímos</td><td>Rep ME</td><td>87,4%</td><td>453</td><td>91,6%</td><td>275</td><td class="pos">+4,2pp</td></tr>
+        <tr><td>Reclamação afeta — Excluímos</td><td>Reputación</td><td>88,2%</td><td>449</td><td>87,7%</td><td>310</td><td class="neg">−0,5pp</td></tr>
+        <tr><td>Cancelamento afeta — Excluímos</td><td>Reputación</td><td>78,2%</td><td>238</td><td>77,9%</td><td>145</td><td class="neg">−0,3pp</td></tr>
+        <tr><td>Reclamação não afeta</td><td>Reputación</td><td>76,3%</td><td>76</td><td>81,8%</td><td>55</td><td class="pos">+5,5pp</td></tr>
+        <tr><td>Envio não afeta o HT</td><td>Rep ME</td><td>84,5%</td><td>155</td><td>81,3%</td><td>134</td><td class="neg">−3,2pp</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Soluções de mantemos -->
+  <div class="section-title">Soluções "Mantemos Impacto" — Baixo NPS, Volume Reduzindo</div>
+  <div class="card">
+    <div class="card-header">Soluções com NPS baixo — concentram detratores<span class="badge badge-orange">Volume caindo em Maio ✓</span></div>
+    <table>
+      <thead><tr>
+        <th>Solução</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>Δ NPS</th><th>Δ Volume</th>
+      </tr></thead>
+      <tbody>
+        <tr class="row-warn"><td>Produto diferente — Mantemos impacto</td><td style="color:var(--red)">12,9%</td><td>31</td><td>28,6%</td><td>21</td><td class="pos">+15,7pp</td><td class="pos">−32%</td></tr>
+        <tr class="row-warn"><td>Cancelamento — Mantemos impacto</td><td style="color:var(--red)">11,5%</td><td>26</td><td>60,0%</td><td>15</td><td class="pos">+48,5pp</td><td class="pos">−42%</td></tr>
+        <tr class="row-warn"><td>Reclamação Revisada</td><td style="color:var(--red)">24,1%</td><td>29</td><td>46,7%</td><td>15</td><td class="pos">+22,6pp</td><td class="pos">−48%</td></tr>
+        <tr class="row-warn"><td>Logística Places — Não Excluímos</td><td>32,4%</td><td>34</td><td>33,3%</td><td>15</td><td class="neu">+0,9pp</td><td class="pos">−56%</td></tr>
+      </tbody>
+    </table>
+    <div style="padding:10px 14px;font-size:11px;color:#777;">
+      As soluções de "mantemos impacto" têm NPS entre 12–32%, mas o volume caiu −32% a −56% em Maio. Essa redução de casos com decisão desfavorável ao vendedor é o principal motor da melhora de NPS dentro dos CDUs.
+    </div>
+  </div>
+
+  <!-- Charts correlação NPS × Taxa Exclusão -->
+  <div class="section-title">Correlação: NPS vs Taxa de Exclusão</div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación</div>
+      <div class="chart-sub">Barras = NPS Lineal · Linha = Taxa de Exclusão · Eixo esq. = NPS · Eixo dir. = Excl %</div>
+      <div class="chart-container" style="height:300px;">
+        <canvas id="chartCorrRep"></canvas>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación ME</div>
+      <div class="chart-sub">Barras = NPS Lineal · Linha = Taxa de Exclusão · Eixo esq. = NPS · Eixo dir. = Excl %</div>
+      <div class="chart-container" style="height:300px;">
+        <canvas id="chartCorrRepME"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Correlação por equipe + filtro de oficina -->
+  <div class="section-title">Correlação por Equipe</div>
+  <div class="flt-bar">
+    <button class="flt-btn active" onclick="setOfficeFilter('todos',this)">Todos</button>
+    <button class="flt-btn"        onclick="setOfficeFilter('aec',this)">AEC</button>
+    <button class="flt-btn"        onclick="setOfficeFilter('ate',this)">ATE</button>
+    <button class="flt-btn"        onclick="setOfficeFilter('kta',this)">KTA</button>
+    <button class="flt-btn"        onclick="setOfficeFilter('ctx',this)">CTX</button>
+  </div>
+  <div id="ctx-note" class="ctx-note">CTX: dados disponíveis apenas em Abril — Maio sem operação nessas filas.</div>
+
+  <div class="section-title">BR_ME_Sellers_Longtail</div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_me_rep"></canvas></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación ME</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_me_repme"></canvas></div>
+    </div>
+  </div>
+
+  <div class="section-title">BR_Ventas_Sellers_Longtail</div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_ven_rep"></canvas></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación ME</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_ven_repme"></canvas></div>
+    </div>
+  </div>
+
+  <div class="section-title">BR_Publicaciones_Sellers_Longtail</div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_pub_rep"></canvas></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación ME</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_pub_repme"></canvas></div>
+    </div>
+  </div>
+
+  <div class="section-title">Composição por Tipo de Solução</div>
+  <div class="chart-wrap">
+    <div class="chart-title">Composição do NPS por Tipo de Solução — Reputación</div>
+    <div class="chart-sub">Exclusões = NPS ~88–94% · Mantemos impacto = NPS ~12–32%</div>
+    <div class="chart-container" style="height:280px;">
+      <canvas id="chartExclComp"></canvas>
+    </div>
+  </div>
+
+  <div class="hl-grid">
+    <div class="hl hl-pos">
+      <div class="hl-title">Por que a taxa de exclusão subiu?</div>
+      <div class="hl-text">Mais casos em Maio se enquadraram nos critérios de exclusão (Logística Flex, Vendedor Newbie, Reclamação Revisada). Isso pode refletir uma seleção mais criteriosa dos casos que chegam ao CX, melhor aplicação dos critérios pelos agentes, ou redução de casos "borderline" que tendem a ser mantidos.</div>
+    </div>
+    <div class="hl hl-info">
+      <div class="hl-title">Correlação taxa de exclusão → NPS</div>
+      <div class="hl-text">A correlação é direta: soluções de exclusão têm NPS de 88–94%, enquanto "mantemos impacto" têm 12–32%. Cada 1pp de aumento na taxa de exclusão corresponde aproximadamente a +0,5 a +0,8pp no NPS consolidado do processo. A melhora de +3-4pp na taxa de exclusão explica entre 1,5 e 3pp dos +5,6pp ganhos em Maio.</div>
+    </div>
+  </div>
+
+</div><!-- /excl-section-top -->
+
+<div class="m-sec-divider"><span class="m-sec-num">2</span> Resumo por Equipe &amp; Processo</div>
 <div class="m-section">
 
   <!-- KPI strip HALO -->
@@ -402,7 +567,7 @@ tr:hover td{background:#fafbff;}
 
 </div><!-- /exec-section -->
 
-<div class="m-sec-divider"><span class="m-sec-num">2</span> XM — CDUs &amp; Soluções</div>
+<div class="m-sec-divider"><span class="m-sec-num">3</span> XM — CDUs &amp; Soluções</div>
 <div class="m-section">
 
   <div class="src-bar"><div class="src-dot xm"></div>Fonte: XM (NPS Lineal — pesquisas de satisfação por processo/CDU/solução) · Abr/2026 e Mai/2026 (parcial)</div>
@@ -576,175 +741,6 @@ tr:hover td{background:#fafbff;}
 
 </div><!-- /xm-section -->
 
-<div class="m-sec-divider"><span class="m-sec-num">3</span> Taxa de Exclusão &amp; Correlação</div>
-<div class="m-section">
-
-  <div class="src-bar"><div class="src-dot xm"></div>Proxy via soluções XM — proporção de soluções de "exclusão de impacto" sobre total de pesquisas</div>
-
-  <!-- Taxa summary -->
-  <div class="section-title">Taxa de Exclusão de Impacto (proxy)</div>
-  <div class="grid-4">
-    <div class="kpi-card">
-      <div class="label">Rep ME — Abr</div>
-      <div class="value">~80%</div>
-      <div class="sub">Soluções de exclusão</div>
-    </div>
-    <div class="kpi-card" style="border-top:3px solid var(--green);">
-      <div class="label">Rep ME — Mai</div>
-      <div class="value" style="color:var(--green)">~84%</div>
-      <div class="sub">Soluções de exclusão</div>
-      <div class="delta pos">▲ +4pp</div>
-    </div>
-    <div class="kpi-card">
-      <div class="label">Reputación — Abr</div>
-      <div class="value">~65%</div>
-      <div class="sub">Soluções de exclusão</div>
-    </div>
-    <div class="kpi-card" style="border-top:3px solid var(--green);">
-      <div class="label">Reputación — Mai</div>
-      <div class="value" style="color:var(--green)">~68%</div>
-      <div class="sub">Soluções de exclusão</div>
-      <div class="delta pos">▲ +3pp</div>
-    </div>
-  </div>
-
-  <div class="info-note">
-    A taxa de exclusão é calculada como proxy via soluções CX: proporção de casos resolvidos com "Excluímos" ou "Não afeta" sobre o total de pesquisas. Valores aproximados — parte das soluções não são capturadas no TOP.
-  </div>
-
-  <!-- Soluções de exclusão -->
-  <div class="section-title">Top Soluções de Exclusão (âncoras positivas — NPS 88–94%)</div>
-  <div class="card">
-    <div class="card-header">Soluções com maior volume — Exclusão de Impacto</div>
-    <table>
-      <thead><tr>
-        <th>Solução</th><th>Processo</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>Δ NPS</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>Logística Flex — Excluímos</td><td>Rep ME</td><td>86,7%</td><td>98</td><td style="color:var(--green);font-weight:700">94,4%</td><td>72</td><td class="pos">+7,7pp</td></tr>
-        <tr><td>Cancelamento Revisado</td><td>Reputación</td><td>78,7%</td><td>61</td><td style="color:var(--green);font-weight:700">89,6%</td><td>48</td><td class="pos">+10,9pp</td></tr>
-        <tr><td>Vendedor Newbie — Excluímos</td><td>Rep ME</td><td>85,9%</td><td>375</td><td>91,9%</td><td>247</td><td class="pos">+6,0pp</td></tr>
-        <tr><td>Logística Places — Excluímos</td><td>Rep ME</td><td>87,4%</td><td>453</td><td>91,6%</td><td>275</td><td class="pos">+4,2pp</td></tr>
-        <tr><td>Reclamação afeta — Excluímos</td><td>Reputación</td><td>88,2%</td><td>449</td><td>87,7%</td><td>310</td><td class="neg">−0,5pp</td></tr>
-        <tr><td>Cancelamento afeta — Excluímos</td><td>Reputación</td><td>78,2%</td><td>238</td><td>77,9%</td><td>145</td><td class="neg">−0,3pp</td></tr>
-        <tr><td>Reclamação não afeta</td><td>Reputación</td><td>76,3%</td><td>76</td><td>81,8%</td><td>55</td><td class="pos">+5,5pp</td></tr>
-        <tr><td>Envio não afeta o HT</td><td>Rep ME</td><td>84,5%</td><td>155</td><td>81,3%</td><td>134</td><td class="neg">−3,2pp</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Soluções de mantemos -->
-  <div class="section-title">Soluções "Mantemos Impacto" — Baixo NPS, Volume Reduzindo</div>
-  <div class="card">
-    <div class="card-header">Soluções com NPS baixo — concentram detratores<span class="badge badge-orange">Volume caindo em Maio ✓</span></div>
-    <table>
-      <thead><tr>
-        <th>Solução</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>Δ NPS</th><th>Δ Volume</th>
-      </tr></thead>
-      <tbody>
-        <tr class="row-warn"><td>Produto diferente — Mantemos impacto</td><td style="color:var(--red)">12,9%</td><td>31</td><td>28,6%</td><td>21</td><td class="pos">+15,7pp</td><td class="pos">−32%</td></tr>
-        <tr class="row-warn"><td>Cancelamento — Mantemos impacto</td><td style="color:var(--red)">11,5%</td><td>26</td><td>60,0%</td><td>15</td><td class="pos">+48,5pp</td><td class="pos">−42%</td></tr>
-        <tr class="row-warn"><td>Reclamação Revisada</td><td style="color:var(--red)">24,1%</td><td>29</td><td>46,7%</td><td>15</td><td class="pos">+22,6pp</td><td class="pos">−48%</td></tr>
-        <tr class="row-warn"><td>Logística Places — Não Excluímos</td><td>32,4%</td><td>34</td><td>33,3%</td><td>15</td><td class="neu">+0,9pp</td><td class="pos">−56%</td></tr>
-      </tbody>
-    </table>
-    <div style="padding:10px 14px;font-size:11px;color:#777;">
-      As soluções de "mantemos impacto" têm NPS entre 12–32%, mas o volume caiu −32% a −56% em Maio. Essa redução de casos com decisão desfavorável ao vendedor é o principal motor da melhora de NPS dentro dos CDUs.
-    </div>
-  </div>
-
-  <!-- Charts correlação NPS × Taxa Exclusão -->
-  <div class="section-title">Correlação: NPS vs Taxa de Exclusão</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-sub">Barras = NPS Lineal · Linha = Taxa de Exclusão · Eixo esq. = NPS · Eixo dir. = Excl %</div>
-      <div class="chart-container" style="height:300px;">
-        <canvas id="chartCorrRep"></canvas>
-      </div>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-sub">Barras = NPS Lineal · Linha = Taxa de Exclusão · Eixo esq. = NPS · Eixo dir. = Excl %</div>
-      <div class="chart-container" style="height:300px;">
-        <canvas id="chartCorrRepME"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <!-- Correlação por equipe + filtro de oficina -->
-  <div class="section-title">Correlação por Equipe</div>
-  <div class="flt-bar">
-    <button class="flt-btn active" onclick="setOfficeFilter('todos',this)">Todos</button>
-    <button class="flt-btn"        onclick="setOfficeFilter('aec',this)">AEC</button>
-    <button class="flt-btn"        onclick="setOfficeFilter('ate',this)">ATE</button>
-    <button class="flt-btn"        onclick="setOfficeFilter('kta',this)">KTA</button>
-    <button class="flt-btn"        onclick="setOfficeFilter('ctx',this)">CTX</button>
-  </div>
-  <div id="ctx-note" class="ctx-note">CTX: dados disponíveis apenas em Abril — Maio sem operação nessas filas.</div>
-
-  <!-- ME -->
-  <div class="section-title">BR_ME_Sellers_Longtail</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_me_rep"></canvas></div>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_me_repme"></canvas></div>
-    </div>
-  </div>
-
-  <!-- Ventas -->
-  <div class="section-title">BR_Ventas_Sellers_Longtail</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_ven_rep"></canvas></div>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_ven_repme"></canvas></div>
-    </div>
-  </div>
-
-  <!-- Publicaciones -->
-  <div class="section-title">BR_Publicaciones_Sellers_Longtail</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_pub_rep"></canvas></div>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_pub_repme"></canvas></div>
-    </div>
-  </div>
-
-  <!-- Chart exclusão -->
-  <div class="section-title">Composição por Tipo de Solução</div>
-  <div class="chart-wrap">
-    <div class="chart-title">Composição do NPS por Tipo de Solução — Reputación</div>
-    <div class="chart-sub">Exclusões = NPS ~88–94% · Mantemos impacto = NPS ~12–32%</div>
-    <div class="chart-container" style="height:280px;">
-      <canvas id="chartExclComp"></canvas>
-    </div>
-  </div>
-
-  <!-- Interpretation -->
-  <div class="hl-grid">
-    <div class="hl hl-pos">
-      <div class="hl-title">Por que a taxa de exclusão subiu?</div>
-      <div class="hl-text">Mais casos em Maio se enquadraram nos critérios de exclusão (Logística Flex, Vendedor Newbie, Reclamação Revisada). Isso pode refletir uma seleção mais criteriosa dos casos que chegam ao CX, melhor aplicação dos critérios pelos agentes, ou redução de casos "borderline" que tendem a ser mantidos.</div>
-    </div>
-    <div class="hl hl-info">
-      <div class="hl-title">Correlação taxa de exclusão → NPS</div>
-      <div class="hl-text">A correlação é direta: soluções de exclusão têm NPS de 88–94%, enquanto "mantemos impacto" têm 12–32%. Cada 1pp de aumento na taxa de exclusão corresponde aproximadamente a +0,5 a +0,8pp no NPS consolidado do processo. A melhora de +3-4pp na taxa de exclusão explica entre 1,5 e 3pp dos +5,6pp ganhos em Maio.</div>
-    </div>
-  </div>
-
-</div><!-- /excl-section -->
 
 </div><!-- /mensal -->
 
