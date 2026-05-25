@@ -656,20 +656,51 @@ tr:hover td{background:#fafbff;}
 
   <div class="src-bar"><div class="src-dot xm"></div>Fonte: XM (DM_CX_NPS_Y20_DETAIL) · NPS Lineal e Taxa de Exclusão por Office × Mês · Abr e Mai/2026</div>
   <div class="info-note">
-    Barras azul = NPS Abril · Barras verde = NPS Maio · Linha laranja tracejada = Excl% Abril · Linha laranja sólida = Excl% Maio. <strong>Eixo esquerdo = NPS · Eixo direito = Taxa de Exclusão.</strong> Valores consolidados por equipe (média ponderada por volume de pesquisas).
+    Barras = NPS Lineal (azul Abril · verde Maio) · Linha laranja = Taxa de Exclusão. <strong>Eixo esquerdo = NPS · Eixo direito = Taxa de Exclusão.</strong> Valores consolidados (média ponderada por volume). CTX incluído em Abril.
   </div>
 
-  <div class="section-title">NPS Lineal × Taxa de Exclusão por Equipe — Abr vs Mai</div>
+  <!-- ── ME Sellers Longtail ── -->
+  <div class="section-title">BR_ME_Sellers_Longtail</div>
   <div class="two-col">
     <div class="chart-wrap">
       <div class="chart-title">Reputación</div>
-      <div class="chart-sub">NPS Lineal (barras) × Taxa de Exclusão (linhas) · 3 equipes · Abr vs Mai</div>
-      <div class="chart-container" style="height:300px;"><canvas id="chartTeam_Rep"></canvas></div>
+      <div class="chart-sub">NPS: 71,8% → 75,4% (+3,6pp) · Excl: 71,8% → 72,7% (+0,9pp)</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_me_rep"></canvas></div>
     </div>
     <div class="chart-wrap">
       <div class="chart-title">Reputación ME</div>
-      <div class="chart-sub">NPS Lineal (barras) × Taxa de Exclusão (linhas) · 3 equipes · Abr vs Mai</div>
-      <div class="chart-container" style="height:300px;"><canvas id="chartTeam_RepME"></canvas></div>
+      <div class="chart-sub">NPS: 79,4% → 85,7% (+6,3pp) · Excl: 88,5% → 92,5% (+4,0pp)</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_me_repme"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ── Ventas Sellers Longtail ── -->
+  <div class="section-title">BR_Ventas_Sellers_Longtail</div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación</div>
+      <div class="chart-sub">NPS: 68,5% → 71,2% (+2,7pp) · Excl: 67,7% → 69,7% (+2,0pp)</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_ven_rep"></canvas></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación ME</div>
+      <div class="chart-sub">NPS: 88,9% → 90,4% (+1,5pp) · Excl: 90,4% → 94,5% (+4,1pp)</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_ven_repme"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ── Publicaciones Sellers Longtail ── -->
+  <div class="section-title">BR_Publicaciones_Sellers_Longtail</div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación</div>
+      <div class="chart-sub">NPS: 76,3% → 80,8% (+4,5pp) · Excl: 68,6% → 74,9% (+6,3pp)</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_pub_rep"></canvas></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación ME</div>
+      <div class="chart-sub">NPS: 74,8% → 86,8% (+12,0pp) · Excl: 85,3% → 87,4% (+2,1pp)</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_pub_repme"></canvas></div>
     </div>
   </div>
 
@@ -995,25 +1026,58 @@ function makeDeltaChart(canvasId, labels, deltaNPS, deltaExcl) {
   });
 }
 
-const TEAM_LABELS = ['ME Sellers LT', 'Ventas Sellers LT', 'Pub Sellers LT'];
+// ── Função simples: NPS Abr/Mai (barras) + Excl Abr/Mai (linha) ──
+function makeTeamChart(id, npsAbr, npsMai, exclAbr, exclMai, npsMin, npsMax, exclMin, exclMax) {
+  new Chart(document.getElementById(id), {
+    type: 'bar',
+    data: {
+      labels: ['Abril', 'Maio'],
+      datasets: [
+        { type:'bar',  label:'NPS Lineal',
+          data:[npsAbr, npsMai],
+          backgroundColor:['rgba(52,131,250,0.75)','rgba(0,166,80,0.8)'],
+          borderRadius:8, barPercentage:0.5, yAxisID:'yNPS', order:2 },
+        { type:'line', label:'Taxa de Exclusão',
+          data:[exclAbr, exclMai],
+          borderColor:'#ff7733', backgroundColor:'rgba(255,119,51,0.08)',
+          pointBackgroundColor:'#ff7733', pointBorderColor:'#fff', pointBorderWidth:2,
+          pointRadius:8, borderWidth:2.5, fill:true, tension:0.3,
+          yAxisID:'yExcl', order:1 }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ mode:'index', intersect:false },
+      plugins:{
+        legend:{ labels:{ font:{size:11}, boxWidth:12 } },
+        tooltip:{ callbacks:{ label: ctx => ctx.dataset.label+': '+ctx.parsed.y.toFixed(1)+'%' } }
+      },
+      scales:{
+        x:{ ticks:{ font:{size:13, weight:'600'} }, grid:{ display:false } },
+        yNPS:{ type:'linear', position:'left', min:npsMin, max:npsMax,
+          title:{ display:true, text:'NPS (%)', font:{size:10}, color:'#3483fa' },
+          ticks:{ font:{size:10}, callback:v=>v+'%', color:'#3483fa' },
+          grid:{ color:'rgba(0,0,0,0.05)' } },
+        yExcl:{ type:'linear', position:'right', min:exclMin, max:exclMax,
+          title:{ display:true, text:'Excl (%)', font:{size:10}, color:'#ff7733' },
+          ticks:{ font:{size:10}, callback:v=>v+'%', color:'#ff7733' },
+          grid:{ drawOnChartArea:false } }
+      }
+    }
+  });
+}
 
-// ── Reputación — por equipe ──
-makeCorrFullChart('chartTeam_Rep', TEAM_LABELS,
-  [71.8, 68.5, 76.3],   // NPS Abr
-  [75.4, 71.2, 80.8],   // NPS Mai
-  [71.8, 67.7, 68.6],   // Excl Abr
-  [72.7, 69.7, 74.9],   // Excl Mai
-  60, 88, 60, 82
-);
+// ME Sellers LT
+makeTeamChart('ct_me_rep',    71.8, 75.4, 71.8, 72.7, 63, 82, 63, 80);
+makeTeamChart('ct_me_repme',  79.4, 85.7, 88.5, 92.5, 72, 94, 82, 100);
 
-// ── Reputación ME — por equipe ──
-makeCorrFullChart('chartTeam_RepME', TEAM_LABELS,
-  [79.4, 88.9, 74.8],   // NPS Abr
-  [85.7, 90.4, 86.8],   // NPS Mai
-  [88.5, 90.4, 85.3],   // Excl Abr
-  [92.5, 94.5, 87.4],   // Excl Mai
-  70, 98, 82, 100
-);
+// Ventas Sellers LT
+makeTeamChart('ct_ven_rep',   68.5, 71.2, 67.7, 69.7, 60, 80, 60, 78);
+makeTeamChart('ct_ven_repme', 88.9, 90.4, 90.4, 94.5, 82, 98, 85, 102);
+
+// Publicaciones Sellers LT
+makeTeamChart('ct_pub_rep',   76.3, 80.8, 68.6, 74.9, 60, 88, 60, 83);
+makeTeamChart('ct_pub_repme', 74.8, 86.8, 85.3, 87.4, 68, 94, 80, 95);
 
 </script>
 
