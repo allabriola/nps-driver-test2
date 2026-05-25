@@ -654,72 +654,84 @@ tr:hover td{background:#fafbff;}
 ══════════════════════════════════════════════ -->
 <div id="corr" class="tab-content">
 
-  <div class="src-bar"><div class="src-dot xm"></div>Fonte: XM (DM_CX_NPS_Y20_DETAIL) · NPS Lineal e Taxa de Exclusão por Equipe × Office × Mês · Abr e Mai/2026</div>
-
+  <div class="src-bar"><div class="src-dot xm"></div>Fonte: XM (DM_CX_NPS_Y20_DETAIL) · NPS Lineal e Taxa de Exclusão por Office × Mês · Abr e Mai/2026</div>
   <div class="info-note">
-    Cada grupo no eixo X = uma combinação Equipe/Office. Barras azul = NPS Abril, verde = NPS Maio. Linha laranja tracejada = Excl% Abril, linha laranja sólida = Excl% Maio. <strong>Eixo esquerdo = NPS · Eixo direito = Taxa de Exclusão.</strong> * = volume baixo (&lt;25 pesquisas).
+    Barras azul = NPS Abril · Barras verde = NPS Maio · Linha laranja tracejada = Excl% Abril · Linha laranja sólida = Excl% Maio. <strong>Eixo esquerdo = NPS · Eixo direito = Taxa de Exclusão.</strong> * = volume baixo (&lt;25 pesquisas). CTX: apenas Abril, não aparece nos gráficos.
   </div>
 
-  <div class="section-title">Reputación — NPS Lineal × Taxa de Exclusão por Equipe/Office</div>
-  <div class="chart-wrap">
-    <div class="chart-title">Reputación</div>
-    <div class="chart-sub">NPS Lineal (barras) · Taxa de Exclusão % (linhas) · por Equipe/Office · Abr vs Mai</div>
-    <div class="chart-container" style="height:360px;">
-      <canvas id="chartCorrFullRep"></canvas>
-    </div>
-  </div>
-
-  <div class="section-title">Reputación ME — NPS Lineal × Taxa de Exclusão por Equipe/Office</div>
-  <div class="chart-wrap">
-    <div class="chart-title">Reputación ME</div>
-    <div class="chart-sub">NPS Lineal (barras) · Taxa de Exclusão % (linhas) · por Equipe/Office · Abr vs Mai</div>
-    <div class="chart-container" style="height:360px;">
-      <canvas id="chartCorrFullRepME"></canvas>
-    </div>
-  </div>
-
-  <div class="section-title">Variação Abr→Mai — Δ NPS vs Δ Taxa de Exclusão</div>
+  <!-- ── BR_ME_Sellers_Longtail ── -->
+  <div class="section-title">BR_ME_Sellers_Longtail</div>
   <div class="two-col">
     <div class="chart-wrap">
-      <div class="chart-title">Reputación — Δ NPS (barras) vs Δ Excl% (linha)</div>
-      <div class="chart-sub">Positivo = melhora · Negativo = piora · Mostra se os dois indicadores se movem juntos</div>
-      <div class="chart-container" style="height:280px;">
-        <canvas id="chartDeltaRep"></canvas>
-      </div>
+      <div class="chart-title">Reputación</div>
+      <div class="chart-sub">NPS Lineal (barras) × Taxa de Exclusão (linhas) · offices ME LT</div>
+      <div class="chart-container" style="height:280px;"><canvas id="chartME_Rep"></canvas></div>
     </div>
     <div class="chart-wrap">
-      <div class="chart-title">Reputación ME — Δ NPS (barras) vs Δ Excl% (linha)</div>
-      <div class="chart-sub">Positivo = melhora · Negativo = piora</div>
-      <div class="chart-container" style="height:280px;">
-        <canvas id="chartDeltaRepME"></canvas>
-      </div>
+      <div class="chart-title">Reputación ME</div>
+      <div class="chart-sub">NPS Lineal (barras) × Taxa de Exclusão (linhas) · offices ME LT</div>
+      <div class="chart-container" style="height:280px;"><canvas id="chartME_RepME"></canvas></div>
     </div>
   </div>
 
-  <div class="card">
+  <!-- ── BR_Ventas_Sellers_Longtail ── -->
+  <div class="section-title">BR_Ventas_Sellers_Longtail</div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación</div>
+      <div class="chart-sub">NPS Lineal (barras) × Taxa de Exclusão (linhas) · offices Ventas LT</div>
+      <div class="chart-container" style="height:280px;"><canvas id="chartVentas_Rep"></canvas></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación ME</div>
+      <div class="chart-sub">NPS Lineal (barras) × Taxa de Exclusão (linhas) · offices Ventas LT</div>
+      <div class="chart-container" style="height:280px;"><canvas id="chartVentas_RepME"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ── BR_Publicaciones_Sellers_Longtail ── -->
+  <div class="section-title">BR_Publicaciones_Sellers_Longtail</div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación</div>
+      <div class="chart-sub">NPS Lineal (barras) × Taxa de Exclusão (linhas) · offices Pub LT</div>
+      <div class="chart-container" style="height:280px;"><canvas id="chartPub_Rep"></canvas></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación ME</div>
+      <div class="chart-sub">NPS Lineal (barras) × Taxa de Exclusão (linhas) · offices Pub LT</div>
+      <div class="chart-container" style="height:280px;"><canvas id="chartPub_RepME"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Tabela ──────────────────────────────────── -->
+  <div class="card" style="margin-top:8px;">
     <div class="card-header">Dados completos: NPS e Taxa de Exclusão por Equipe × Office × Mês</div>
     <table>
       <thead><tr>
-        <th>Processo</th><th>Equipe</th><th>Office</th><th>NPS Abr</th><th>NPS Mai</th><th>Δ NPS</th><th>Excl Abr</th><th>Excl Mai</th><th>Δ Excl</th><th>Pesq Abr</th><th>Pesq Mai</th>
+        <th>Processo</th><th>Equipe</th><th>Office</th>
+        <th>NPS Abr</th><th>NPS Mai</th><th>Δ NPS</th>
+        <th>Excl Abr</th><th>Excl Mai</th><th>Δ Excl</th>
+        <th>Pesq Abr</th><th>Pesq Mai</th>
       </tr></thead>
       <tbody>
-        <tr><td>Reputación</td><td>ME</td><td>AEC*</td><td>40,0%</td><td>53,8%</td><td class="pos">+13,8pp</td><td>73,3%</td><td>76,9%</td><td class="pos">+3,6pp</td><td>15</td><td>13</td></tr>
-        <tr><td>Reputación</td><td>ME</td><td>ATE</td><td>71,7%</td><td>74,2%</td><td class="pos">+2,5pp</td><td>75,3%</td><td>79,8%</td><td class="pos">+4,5pp</td><td>251</td><td>163</td></tr>
-        <tr class="row-warn"><td>Reputación</td><td>ME</td><td>KTA</td><td>77,7%</td><td>81,0%</td><td class="pos">+3,3pp</td><td>64,0%</td><td>58,3%</td><td class="neg">−5,7pp ⚠</td><td>139</td><td>84</td></tr>
-        <tr><td>Reputación</td><td>Publicaciones</td><td>AEC</td><td>74,2%</td><td>72,7%</td><td class="neg">−1,5pp</td><td>67,7%</td><td>72,7%</td><td class="pos">+5,0pp</td><td>124</td><td>172</td></tr>
-        <tr><td>Reputación</td><td>Publicaciones</td><td>KTA</td><td>78,4%</td><td>89,7%</td><td class="pos">+11,3pp</td><td>69,6%</td><td>77,4%</td><td class="pos">+7,8pp</td><td>125</td><td>155</td></tr>
-        <tr><td>Reputación</td><td>Ventas</td><td>AEC</td><td>70,3%</td><td>73,7%</td><td class="pos">+3,4pp</td><td>66,3%</td><td>70,4%</td><td class="pos">+4,1pp</td><td>320</td><td>152</td></tr>
-        <tr><td>Reputación</td><td>Ventas</td><td>KTA</td><td>63,3%</td><td>63,0%</td><td class="neu">−0,3pp</td><td>67,1%</td><td>67,4%</td><td class="neu">+0,3pp</td><td>79</td><td>46</td></tr>
-        <tr><td>Rep ME</td><td>ME</td><td>AEC*</td><td>87,5%</td><td>84,6%</td><td class="neg">−2,9pp</td><td>87,5%</td><td>92,3%</td><td class="pos">+4,8pp</td><td>24</td><td>13</td></tr>
-        <tr><td>Rep ME</td><td>ME</td><td>ATE</td><td>78,1%</td><td>83,2%</td><td class="pos">+5,1pp</td><td>88,1%</td><td>94,4%</td><td class="pos">+6,3pp</td><td>269</td><td>161</td></tr>
-        <tr><td>Rep ME</td><td>ME</td><td>KTA</td><td>82,6%</td><td>88,2%</td><td class="pos">+5,6pp</td><td>89,7%</td><td>90,7%</td><td class="pos">+1,0pp</td><td>155</td><td>161</td></tr>
-        <tr><td>Rep ME</td><td>Publicaciones</td><td>AEC</td><td>77,1%</td><td>83,3%</td><td class="pos">+6,2pp</td><td>85,7%</td><td>88,9%</td><td class="pos">+3,2pp</td><td>105</td><td>126</td></tr>
-        <tr><td>Rep ME</td><td>Publicaciones</td><td>KTA</td><td>72,9%</td><td>89,3%</td><td class="pos">+16,4pp</td><td>85,0%</td><td>86,4%</td><td class="pos">+1,4pp</td><td>133</td><td>177</td></tr>
-        <tr><td>Rep ME</td><td>Ventas</td><td>AEC</td><td>92,5%</td><td>94,6%</td><td class="pos">+2,1pp</td><td>91,4%</td><td>97,3%</td><td class="pos">+5,9pp</td><td>467</td><td>223</td></tr>
-        <tr><td>Rep ME</td><td>Ventas</td><td>KTA</td><td>71,2%</td><td>71,4%</td><td class="neu">+0,2pp</td><td>80,8%</td><td>81,6%</td><td class="neu">+0,8pp</td><td>73</td><td>49</td></tr>
+        <tr><td>Reputación</td><td>ME LT</td><td>ATE</td><td>71,7%</td><td>74,2%</td><td class="pos">+2,5pp</td><td>75,3%</td><td>79,8%</td><td class="pos">+4,5pp</td><td>251</td><td>163</td></tr>
+        <tr class="row-warn"><td>Reputación</td><td>ME LT</td><td>KTA</td><td>77,7%</td><td>81,0%</td><td class="pos">+3,3pp</td><td>64,0%</td><td>58,3%</td><td class="neg">−5,7pp ⚠</td><td>139</td><td>84</td></tr>
+        <tr><td>Reputación</td><td>ME LT</td><td>AEC*</td><td>40,0%</td><td>53,8%</td><td class="pos">+13,8pp</td><td>73,3%</td><td>76,9%</td><td class="pos">+3,6pp</td><td>15</td><td>13</td></tr>
+        <tr><td>Reputación</td><td>Ventas LT</td><td>AEC</td><td>70,3%</td><td>73,7%</td><td class="pos">+3,4pp</td><td>66,3%</td><td>70,4%</td><td class="pos">+4,1pp</td><td>320</td><td>152</td></tr>
+        <tr><td>Reputación</td><td>Ventas LT</td><td>KTA</td><td>63,3%</td><td>63,0%</td><td class="neu">−0,3pp</td><td>67,1%</td><td>67,4%</td><td class="neu">+0,3pp</td><td>79</td><td>46</td></tr>
+        <tr><td>Reputación</td><td>Pub LT</td><td>AEC</td><td>74,2%</td><td>72,7%</td><td class="neg">−1,5pp</td><td>67,7%</td><td>72,7%</td><td class="pos">+5,0pp</td><td>124</td><td>172</td></tr>
+        <tr><td>Reputación</td><td>Pub LT</td><td>KTA</td><td>78,4%</td><td>89,7%</td><td class="pos">+11,3pp</td><td>69,6%</td><td>77,4%</td><td class="pos">+7,8pp</td><td>125</td><td>155</td></tr>
+        <tr><td>Rep ME</td><td>ME LT</td><td>ATE</td><td>78,1%</td><td>83,2%</td><td class="pos">+5,1pp</td><td>88,1%</td><td>94,4%</td><td class="pos">+6,3pp</td><td>269</td><td>161</td></tr>
+        <tr><td>Rep ME</td><td>ME LT</td><td>KTA</td><td>82,6%</td><td>88,2%</td><td class="pos">+5,6pp</td><td>89,7%</td><td>90,7%</td><td class="pos">+1,0pp</td><td>155</td><td>161</td></tr>
+        <tr><td>Rep ME</td><td>ME LT</td><td>AEC*</td><td>87,5%</td><td>84,6%</td><td class="neg">−2,9pp</td><td>87,5%</td><td>92,3%</td><td class="pos">+4,8pp</td><td>24</td><td>13</td></tr>
+        <tr><td>Rep ME</td><td>Ventas LT</td><td>AEC</td><td>92,5%</td><td>94,6%</td><td class="pos">+2,1pp</td><td>91,4%</td><td>97,3%</td><td class="pos">+5,9pp</td><td>467</td><td>223</td></tr>
+        <tr><td>Rep ME</td><td>Ventas LT</td><td>KTA</td><td>71,2%</td><td>71,4%</td><td class="neu">+0,2pp</td><td>80,8%</td><td>81,6%</td><td class="neu">+0,8pp</td><td>73</td><td>49</td></tr>
+        <tr><td>Rep ME</td><td>Pub LT</td><td>AEC</td><td>77,1%</td><td>83,3%</td><td class="pos">+6,2pp</td><td>85,7%</td><td>88,9%</td><td class="pos">+3,2pp</td><td>105</td><td>126</td></tr>
+        <tr><td>Rep ME</td><td>Pub LT</td><td>KTA</td><td>72,9%</td><td>89,3%</td><td class="pos">+16,4pp</td><td>85,0%</td><td>86,4%</td><td class="pos">+1,4pp</td><td>133</td><td>177</td></tr>
       </tbody>
     </table>
-    <div style="padding:8px 14px;font-size:11px;color:#777;">* Volume baixo — interpretar com cautela. CTX: presente apenas em Abril (excluído dos gráficos de variação).</div>
+    <div style="padding:8px 14px;font-size:11px;color:#777;">* Volume baixo — interpretar com cautela. CTX: apenas Abril.</div>
   </div>
 
 </div><!-- /corr -->
@@ -1022,39 +1034,58 @@ function makeDeltaChart(canvasId, labels, deltaNPS, deltaExcl) {
   });
 }
 
-const LABELS_REP   = ['ME/AEC*','ME/ATE','ME/KTA','Pub/AEC','Pub/KTA','Ven/AEC','Ven/KTA'];
-const LABELS_REPME = ['ME/AEC*','ME/ATE','ME/KTA','Pub/AEC','Pub/KTA','Ven/AEC','Ven/KTA'];
-
-// Reputación — dados
-makeCorrFullChart('chartCorrFullRep', LABELS_REP,
-  [40.0, 71.7, 77.7, 74.2, 78.4, 70.3, 63.3],  // NPS Abr
-  [53.8, 74.2, 81.0, 72.7, 89.7, 73.7, 63.0],  // NPS Mai
-  [73.3, 75.3, 64.0, 67.7, 69.6, 66.3, 67.1],  // Excl Abr
-  [76.9, 79.8, 58.3, 72.7, 77.4, 70.4, 67.4],  // Excl Mai
-  35, 95, 50, 90
+// ── BR_ME_Sellers_Longtail ──
+makeCorrFullChart('chartME_Rep',
+  ['ATE', 'KTA', 'AEC*'],
+  [71.7, 77.7, 40.0],   // NPS Abr
+  [74.2, 81.0, 53.8],   // NPS Mai
+  [75.3, 64.0, 73.3],   // Excl Abr
+  [79.8, 58.3, 76.9],   // Excl Mai
+  30, 95, 50, 90
+);
+makeCorrFullChart('chartME_RepME',
+  ['ATE', 'KTA', 'AEC*'],
+  [78.1, 82.6, 87.5],   // NPS Abr
+  [83.2, 88.2, 84.6],   // NPS Mai
+  [88.1, 89.7, 87.5],   // Excl Abr
+  [94.4, 90.7, 92.3],   // Excl Mai
+  70, 100, 82, 100
 );
 
-// Reputación ME — dados
-makeCorrFullChart('chartCorrFullRepME', LABELS_REPME,
-  [87.5, 78.1, 82.6, 77.1, 72.9, 92.5, 71.2],  // NPS Abr
-  [84.6, 83.2, 88.2, 83.3, 89.3, 94.6, 71.4],  // NPS Mai
-  [87.5, 88.1, 89.7, 85.7, 85.0, 91.4, 80.8],  // Excl Abr
-  [92.3, 94.4, 90.7, 88.9, 86.4, 97.3, 81.6],  // Excl Mai
+// ── BR_Ventas_Sellers_Longtail ──
+makeCorrFullChart('chartVentas_Rep',
+  ['AEC', 'KTA'],
+  [70.3, 63.3],   // NPS Abr
+  [73.7, 63.0],   // NPS Mai
+  [66.3, 67.1],   // Excl Abr
+  [70.4, 67.4],   // Excl Mai
+  55, 85, 58, 78
+);
+makeCorrFullChart('chartVentas_RepME',
+  ['AEC', 'KTA'],
+  [92.5, 71.2],   // NPS Abr
+  [94.6, 71.4],   // NPS Mai
+  [91.4, 80.8],   // Excl Abr
+  [97.3, 81.6],   // Excl Mai
   65, 100, 75, 102
 );
 
-// Deltas — Reputación (excluindo ME/AEC por volume baixo)
-makeDeltaChart('chartDeltaRep',
-  ['ME/ATE','ME/KTA','Pub/AEC','Pub/KTA','Ven/AEC','Ven/KTA'],
-  [2.5,  3.3, -1.5, 11.3,  3.4, -0.3],  // Δ NPS
-  [4.5, -5.7,  5.0,  7.8,  4.1,  0.3]   // Δ Excl
+// ── BR_Publicaciones_Sellers_Longtail ──
+makeCorrFullChart('chartPub_Rep',
+  ['AEC', 'KTA'],
+  [74.2, 78.4],   // NPS Abr
+  [72.7, 89.7],   // NPS Mai
+  [67.7, 69.6],   // Excl Abr
+  [72.7, 77.4],   // Excl Mai
+  60, 95, 60, 85
 );
-
-// Deltas — Reputación ME (excluindo ME/AEC por volume baixo)
-makeDeltaChart('chartDeltaRepME',
-  ['ME/ATE','ME/KTA','Pub/AEC','Pub/KTA','Ven/AEC','Ven/KTA'],
-  [ 5.1,  5.6,  6.2, 16.4,  2.1,  0.2],  // Δ NPS
-  [ 6.3,  1.0,  3.2,  1.4,  5.9,  0.8]   // Δ Excl
+makeCorrFullChart('chartPub_RepME',
+  ['AEC', 'KTA'],
+  [77.1, 72.9],   // NPS Abr
+  [83.3, 89.3],   // NPS Mai
+  [85.7, 85.0],   // Excl Abr
+  [88.9, 86.4],   // Excl Mai
+  65, 95, 80, 100
 );
 
 </script>
