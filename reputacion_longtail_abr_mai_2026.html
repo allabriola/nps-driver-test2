@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Reputación Sellers Longtail — Abr vs Mai 2026</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
 :root{
   --yellow:#FFE600;--dark:#1a1a2e;--gray:#f5f5f5;--border:#e0e0e0;
@@ -820,10 +819,6 @@ new Chart(document.getElementById('chartHaloOffice'), {
 
 
 // ── Função auxiliar: gráfico correlação NPS × Excl ──
-const DL_BAR  = { anchor:'end', align:'start', offset:4, color:'#fff',    font:{size:11,weight:'800'}, formatter: v => v != null ? v.toFixed(1)+'%' : '' };
-const DL_LINE = { anchor:'center', align:'bottom', offset:6, color:'#ff7733', backgroundColor:'rgba(26,26,46,.82)', borderRadius:3, padding:{top:2,bottom:2,left:4,right:4}, font:{size:10,weight:'700'}, formatter: v => v != null ? v.toFixed(1)+'%' : '' };
-const DL_BAR_SM  = { anchor:'end', align:'start', offset:3, color:'#fff',    font:{size:9,weight:'800'},  formatter: v => v != null ? v.toFixed(1)+'%' : '' };
-const DL_LINE_SM = { anchor:'center', align:'bottom', offset:5, color:'#ff7733', backgroundColor:'rgba(26,26,46,.82)', borderRadius:3, padding:2, font:{size:9,weight:'700'}, formatter: v => v != null ? v.toFixed(1)+'%' : '' };
 
 function makeCorrelChart(canvasId, npsData, exclData, npsMin, npsMax, exclMin, exclMax) {
   new Chart(document.getElementById(canvasId), {
@@ -840,8 +835,7 @@ function makeCorrelChart(canvasId, npsData, exclData, npsMin, npsMax, exclMin, e
           borderRadius: 8,
           yAxisID: 'yNPS',
           order: 2,
-          barPercentage: 0.5,
-          datalabels: DL_BAR
+          barPercentage: 0.5
         },
         {
           type: 'line',
@@ -858,8 +852,7 @@ function makeCorrelChart(canvasId, npsData, exclData, npsMin, npsMax, exclMin, e
           fill: true,
           tension: 0.3,
           yAxisID: 'yExcl',
-          order: 1,
-          datalabels: DL_LINE
+          order: 1
         }
       ]
     },
@@ -1034,15 +1027,13 @@ function makeTeamChart(id, npsAbr, npsMai, exclAbr, exclMai, npsMin, npsMax, exc
         { type:'bar',  label:'NPS Lineal',
           data:[npsAbr, npsMai],
           backgroundColor:['rgba(52,131,250,0.75)','rgba(0,166,80,0.8)'],
-          borderRadius:8, barPercentage:0.5, yAxisID:'yNPS', order:2,
-          datalabels: DL_BAR },
+          borderRadius:8, barPercentage:0.5, yAxisID:'yNPS', order:2 },
         { type:'line', label:'Taxa de Exclusão',
           data:[exclAbr, exclMai],
           borderColor:'#ff7733', backgroundColor:'rgba(255,119,51,0.08)',
           pointBackgroundColor:'#ff7733', pointBorderColor:'#fff', pointBorderWidth:2,
           pointRadius:8, borderWidth:2.5, fill:true, tension:0.3,
-          yAxisID:'yExcl', order:1,
-          datalabels: DL_LINE }
+          yAxisID:'yExcl', order:1 }
       ]
     },
     
@@ -1165,14 +1156,12 @@ function makeWeekBarLine(id, nps, excl, npsMin, npsMax, exclMin, exclMax) {
       datasets: [
         { type:'bar',  label:'NPS Lineal', data:nps,
           backgroundColor:'rgba(52,131,250,0.72)', borderRadius:4,
-          yAxisID:'yNPS', order:2,
-          datalabels: DL_BAR_SM },
+          yAxisID:'yNPS', order:2 },
         { type:'line', label:'Taxa Excl %', data:excl,
           borderColor:'#ff7733', backgroundColor:'rgba(255,119,51,0.07)',
           pointBackgroundColor:'#ff7733', pointRadius:5,
           borderWidth:2.5, fill:true, tension:0.3,
-          yAxisID:'yExcl', order:1,
-          datalabels: DL_LINE_SM }
+          yAxisID:'yExcl', order:1 }
       ]
     },
     options:{
@@ -1268,9 +1257,9 @@ new Chart(document.getElementById('chartDecomp'), {
         labels: GRUPOS,
         datasets: [
           { label:'NPS Abr', data:npsAbr, backgroundColor: G_CORES.map(c=>c.replace('0.8','0.55').replace('0.75','0.55').replace('0.7','0.55')),
-            borderRadius:5, yAxisID:'y', order:2, datalabels: DL_GRP },
+            borderRadius:5, yAxisID:'y', order:2 },
           { label:'NPS Mai', data:npsMai, backgroundColor: G_CORES,
-            borderRadius:5, yAxisID:'y', order:2, datalabels: DL_GRP }
+            borderRadius:5, yAxisID:'y', order:2 }
         ]
       },
       options: {
@@ -1455,7 +1444,7 @@ function renderExclCharts() {
     _chartEM.data.datasets = mDS; _chartEM.update('none');
   } else {
     _chartEM = new Chart(document.getElementById('chartExclMensal'),{
-      type:'line', datalabels: {},
+      type:'line',
       data:{labels:MESES_L, datasets:mDS},
       options:{...baseOpts, scales:{
         x:{ticks:{font:{size:11}},grid:{display:false}},
@@ -1469,7 +1458,7 @@ function renderExclCharts() {
     _chartEW.data.datasets = wDS; _chartEW.update('none');
   } else {
     _chartEW = new Chart(document.getElementById('chartExclSemanal'),{
-      type:'line', datalabels: {},
+      type:'line',
       data:{labels:WKL7, datasets:wDS},
       options:{...baseOpts, scales:{
         x:{ticks:{font:{size:10}},grid:{display:false}},
