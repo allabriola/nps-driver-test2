@@ -91,7 +91,7 @@ CDU_EXPR      = "COALESCE(NULLIF(TRIM(CDU),''), 'Sem CDU')"
 SOL_EXPR      = "COALESCE(NULLIF(TRIM(SOLUTION_NAME),''), 'Sem Solução')"
 TEAMS_FILTER  = "USER_TEAM_NAME IN ('" + "','".join(TEAMS) + "')"
 TOP_SOLUTIONS = 10
-DAILY_DAYS    = 20
+DAILY_DAYS    = 30
 
 def q_monthly() -> str:
     return f"""
