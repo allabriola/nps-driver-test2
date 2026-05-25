@@ -113,6 +113,14 @@ tr:hover td{background:#fafbff;}
 
 /* ── SOURCE BAR ── */
 .src-bar{display:flex;align-items:center;gap:6px;font-size:10px;color:#aaa;margin-bottom:14px;}
+/* ── EXCL VOLUME ── */
+.excl-vol { display:flex; gap:14px; flex-wrap:wrap; padding:6px 4px 0; }
+.excl-vol .ev-item { font-size:10px; color:#888; display:flex; align-items:center; gap:4px; }
+.excl-vol .ev-item strong { font-size:12px; font-weight:800; }
+.excl-vol .ev-abr strong { color:#3483fa; }
+.excl-vol .ev-mai strong { color:#00a650; }
+.excl-vol .ev-wk { font-size:9px; color:#aaa; }
+.excl-vol .ev-week strong { color:#ff7733; }
 /* ── OFFICE FILTER ── */
 .flt-bar{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 14px;}
 .flt-btn{padding:6px 16px;border:1px solid var(--border);background:#fff;font-size:11px;font-weight:700;color:#888;cursor:pointer;border-radius:20px;transition:all .15s;}
@@ -1412,6 +1420,44 @@ makeWeekBarLine('wc_pub_repme',  wNPS.repme.pub,   wExcl.repme.pub,   60, 100, 7
 
 makeTrend('wt_cdu_rep',   [{label:'Reclamos',data:wCDU.rep.reclamos},{label:'Cancelaciones',data:wCDU.rep.cancelaciones},{label:'Consultas Inf.',data:wCDU.rep.consultas}],30,100,'NPS (%)');
 makeTrend('wt_cdu_repme', [{label:'HT-Ventas',data:wCDU.repme.ht_ventas},{label:'HT-Coleta',data:wCDU.repme.ht_coleta},{label:'Bugs',data:wCDU.repme.bugs}],50,105,'NPS (%)');
+
+// ── Volume de exclusões abaixo de cada gráfico ──
+function addExclVol(id, data) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  const div = document.createElement('div');
+  div.className = 'excl-vol';
+  if (data.weeks) {
+    div.innerHTML = data.weeks.map((v,i) =>
+      `<span class="ev-item ev-week"><span class="ev-wk">${WK[i]}</span><strong>${v}</strong></span>`
+    ).join('');
+  } else {
+    div.innerHTML =
+      `<span class="ev-item ev-abr">Excl Abril: <strong>${data.abr}</strong></span>` +
+      `<span class="ev-item ev-mai">Excl Maio: <strong>${data.mai}</strong></span>`;
+  }
+  canvas.closest('.chart-container').insertAdjacentElement('afterend', div);
+}
+
+// Processo (mensal)
+addExclVol('chartCorrRep',   {abr:766,  mai:508});
+addExclVol('chartCorrRepME', {abr:1077, mai:727});
+
+// Por equipe (mensal)
+addExclVol('ct_me_rep',    {abr:313, mai:189});
+addExclVol('ct_me_repme',  {abr:437, mai:310});
+addExclVol('ct_ven_rep',   {abr:314, mai:138});
+addExclVol('ct_ven_repme', {abr:528, mai:257});
+addExclVol('ct_pub_rep',   {abr:171, mai:245});
+addExclVol('ct_pub_repme', {abr:203, mai:265});
+
+// Por equipe (semanal) — exclusões por semana
+addExclVol('wc_me_rep',    {weeks:[70, 69, 58, 61, 55]});
+addExclVol('wc_me_repme',  {weeks:[97, 99, 91,100, 98]});
+addExclVol('wc_ven_rep',   {weeks:[57, 62, 52, 46, 37]});
+addExclVol('wc_ven_repme', {weeks:[104,79, 77, 90, 81]});
+addExclVol('wc_pub_rep',   {weeks:[40, 48, 80, 75, 80]});
+addExclVol('wc_pub_repme', {weeks:[49, 45, 88, 88, 79]});
 
 </script>
 
