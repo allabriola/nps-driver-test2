@@ -66,6 +66,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
            color:#4472C4;padding:2px 9px;border-radius:12px}
 .sol-table .sol-num{width:32px;text-align:center;color:#aaa;font-size:11px}
 .sol-table .sol-name{max-width:520px}
+.ex-block{}
+.ex-title{font-size:12px;font-weight:700;color:#444;text-transform:uppercase;
+           letter-spacing:.5px;margin-bottom:14px}
+.ex-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+@media(max-width:820px){.ex-cards{grid-template-columns:repeat(2,1fr)}}
+.ex-card{background:#f8f9fa;border-radius:8px;padding:12px 16px}
+.ex-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;
+         color:#888;margin-bottom:4px}
+.ex-val{font-size:16px;font-weight:900;color:#1a1a2e;line-height:1.2;margin-bottom:2px}
+.ex-sub{font-size:11px;color:#666}
+.ex-bullets{padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.ex-bullets li{font-size:13px;color:#333;line-height:1.55}
+.no-data-block{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;
+               background:#fff8e1;border-radius:8px;border-left:3px solid #FFC000}
+.no-data-block .no-data-icon{font-size:20px;line-height:1}
+.no-data-block strong{font-size:13px;color:#1a1a2e}
+.no-data-block code{font-size:11px;background:#f0f0f0;padding:1px 5px;border-radius:3px}
+.no-data-block div{font-size:12px;color:#555;line-height:1.55}
 </style>
 </head>
 <body>
@@ -79,6 +97,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 </header>
 
 <main class="main">
+
+  
+  <div class="card ex-block">
+    <div class="ex-title">Resumo Executivo</div>
+    <div class="ex-cards"><div class="ex-card"><div class="ex-lbl">Volume YTD</div><div class="ex-val">75,069</div><div class="ex-sub">atendimentos outgoing</div></div><div class="ex-card"><div class="ex-lbl">CDU Principal</div><div class="ex-val">Quiere saber porqué se inactivó su cuent…</div><div class="ex-sub">43.4% do volume total</div></div><div class="ex-card"><div class="ex-lbl">Conc. Top 3 CDUs</div><div class="ex-val">57%</div><div class="ex-sub">do volume concentrado</div></div><div class="ex-card"><div class="ex-lbl">Tendência Mai</div><div class="ex-val"><span style='color:#70AD47'>↓ 3.2%</span></div><div class="ex-sub">vs Abr</div></div></div>
+    <ul class="ex-bullets"><li>O processo <strong>Drivers</strong> gerou <strong>75,069</strong> contatos outgoing no acumulado do ano, com <strong>100%</strong> dos atendimentos com CDU identificado.</li><li>O CDU mais crítico é <strong>Quiere saber porqué se inactivó su cuenta</strong>, responsável por <strong>43.4%</strong> (32,585 contatos) do volume total.</li><li>Os <strong>3 principais CDUs</strong> concentram <strong>57%</strong> do volume total — indicando alta concentração de motivos de contato.</li><li>Tendência mensal em <strong>Mai</strong>: <strong style='color:#70AD47'>↓ 3.2%</strong> vs mês anterior (queda de 609 atendimentos).</li><li>A solução mais aplicada foi <strong>ME Extra: conductor bloqueado</strong> (20,149 atendimentos).</li><li><strong>148 atendimentos (0%)</strong> sem CDU identificado — oportunidade de melhoria na marcação.</li></ul>
+  </div>
 
   <div class="grid2">
     <div class="card">
@@ -124,19 +149,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
       <div class="th-title-row">
         <span class="th-label">Análise de Transcrições · CDU:</span>
         <select class="cdu-sel" id="cduSel" onchange="selectCDU(this.value)">
-          <option value="Quiere saber porqué se inactivó su cuenta" selected>Quiere saber porqué se inactivó su cuenta</option><option value="Quiere saber como funciona Envíos Extra">Quiere saber como funciona Envíos Extra</option><option value="Tiene problemas durante la creacion de la cuenta">Tiene problemas durante la creacion de la cuenta</option><option value="Bugs">Bugs</option><option value="Quiere saber porque no le pagaron una ruta">Quiere saber porque no le pagaron una ruta</option><option value="Generales">Generales</option><option value="Quiere reclamar por inconvenientes en el recorrido o en el service center">Quiere reclamar por inconvenientes en el recorrido o en el service center</option><option value="Quiere saber porque no recibe rutas">Quiere saber porque no recibe rutas</option>
+          
         </select>
       </div>
       <span class="th-sub">Motivos de contato identificados (últimos 90 dias)</span>
     </div>
-    <div id="themesBox"><p class="no-data">Análise não disponível para este CDU — execute o script para gerar os temas.</p></div>
+    <div id="themesBox"><div class="no-data-block"><span class="no-data-icon">🔒</span><div><strong>Análise de transcrições indisponível</strong><br>O usuário atual não tem acesso à tabela <code>BT_CX_TRANSCRIPT</code>. Para habilitar esta seção, solicite permissão de leitura à equipe de dados ou adicione temas curados manualmente no dicionário <code>CURATED_THEMES</code> do script.</div></div></div>
   </div>
 
 </main>
 
 <script>
 const ACCENT = ["#4472C4", "#ED7D31", "#70AD47", "#E05252", "#9B59B6"];
-const ALL_THEMES = {"Quiere saber porqué se inactivó su cuenta": [], "Quiere saber como funciona Envíos Extra": [], "Tiene problemas durante la creacion de la cuenta": [], "Bugs": [], "Quiere saber porque no le pagaron una ruta": [], "Generales": [], "Quiere reclamar por inconvenientes en el recorrido o en el service center": [], "Quiere saber porque no recibe rutas": []};
+const ALL_THEMES = {};
 
 const stackedTotalsPlugin = {
   id: 'stackedTotals',
@@ -233,7 +258,7 @@ function selectCDU(cdu) {
   const themes = ALL_THEMES[cdu] || [];
   const el = document.getElementById('themesBox');
   if (!themes.length) {
-    el.innerHTML = '<p class="no-data">Análise não disponível — execute o script para gerar os temas.</p>';
+    el.innerHTML = '<div class="no-data-block"><span class="no-data-icon">🔒</span><div><strong>Análise de transcrições indisponível</strong><br>Sem acesso à tabela BT_CX_TRANSCRIPT. Adicione temas curados manualmente no script para habilitar esta seção.</div></div>';
   } else {
     el.innerHTML = '<div class="themes-list">'+themes.map((t,i)=>buildCard(t,i)).join('')+'</div>';
   }

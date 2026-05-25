@@ -439,24 +439,25 @@ def build_all(html_only: bool = False):
         cached = _load_cache(charts=True)
         if cached is None:
             raise RuntimeError("Cache não encontrado. Rode sem --html-only primeiro.")
-        monthly   = cached["monthly"]
-        weekly    = cached["weekly"]
-        daily     = cached.get("daily", {"days": [], "top_cdus": [], "datasets": []})
-        solutions = cached.get("solutions", [])
-    else:
-        print("▸ Volume mensal…")
-        monthly_raw = run(q_monthly())
-        print("▸ Volume semanal (8 semanas)…")
-        weekly_raw  = run(q_weekly())
-        print(f"▸ Volume diário (últimos {DAILY_DAYS} dias)…")
-        daily_raw   = run(q_daily())
-        print("▸ Top soluções…")
-        solutions_raw = run(q_solutions())
-        monthly   = process_monthly(monthly_raw)
-        weekly    = process_weekly(weekly_raw)
-        daily     = process_daily(daily_raw)
-        solutions = [{"solution": r["solution"], "volume": r["volume"]} for r in solutions_raw]
-        _save_cache({"monthly": monthly, "weekly": weekly, "daily": daily, "solutions": solutions}, charts=True)
+        monthly       = cached["monthly"]
+        weekly        = cached["weekly"]
+        daily         = cached.get("daily", {"days": [], "top_cdus": [], "datasets": []})
+        solutions     = cached.get("solutions", [])
+        themes_by_cdu = cached.get("themes_by_cdu", {})
+        return monthly, weekly, daily, themes_by_cdu, solutions
+
+    print("▸ Volume mensal…")
+    monthly_raw = run(q_monthly())
+    print("▸ Volume semanal (8 semanas)…")
+    weekly_raw  = run(q_weekly())
+    print(f"▸ Volume diário (últimos {DAILY_DAYS} dias)…")
+    daily_raw   = run(q_daily())
+    print("▸ Top soluções…")
+    solutions_raw = run(q_solutions())
+    monthly   = process_monthly(monthly_raw)
+    weekly    = process_weekly(weekly_raw)
+    daily     = process_daily(daily_raw)
+    solutions = [{"solution": r["solution"], "volume": r["volume"]} for r in solutions_raw]
 
     themes_by_cdu: dict[str, list] = {}
     top_cdus = monthly["top_cdus"]
@@ -464,6 +465,8 @@ def build_all(html_only: bool = False):
     for cdu in top_cdus:
         themes_by_cdu[cdu] = fetch_themes(cdu)
 
+    _save_cache({"monthly": monthly, "weekly": weekly, "daily": daily,
+                 "solutions": solutions, "themes_by_cdu": themes_by_cdu}, charts=True)
     return monthly, weekly, daily, themes_by_cdu, solutions
 
 # ── HTML ──────────────────────────────────────────────────────────────────────
@@ -485,7 +488,15 @@ def palette_for(datasets: list[dict]) -> list[str]:
 
 def _render_theme_cards(themes: list[dict]) -> str:
     if not themes:
-        return '<p class="no-data">Análise não disponível para este CDU — execute o script para gerar os temas.</p>'
+        return (
+            '<div class="no-data-block">'
+            '<span class="no-data-icon">🔒</span>'
+            '<div><strong>Análise de transcrições indisponível</strong><br>'
+            'O usuário atual não tem acesso à tabela <code>BT_CX_TRANSCRIPT</code>. '
+            'Para habilitar esta seção, solicite permissão de leitura à equipe de dados '
+            'ou adicione temas curados manualmente no dicionário <code>CURATED_THEMES</code> do script.'
+            '</div></div>'
+        )
     cards = ""
     for i, t in enumerate(themes):
         color = ACCENT_COLORS[i % len(ACCENT_COLORS)]
@@ -502,6 +513,107 @@ def _render_theme_cards(themes: list[dict]) -> str:
             f'</div>'
         )
     return f'<div class="themes-list">{cards}</div>'
+
+def _period_totals(datasets: list[dict], n: int) -> list[int]:
+    """Soma todos os datasets para cada período (índice)."""
+    if not datasets or not datasets[0]["data"]:
+        return []
+    return [sum(ds["data"][i] for ds in datasets if i < len(ds["data"])) for i in range(n)]
+
+def generate_exec_summary(monthly: dict, weekly: dict, solutions: list) -> str:
+    total_v   = monthly["total_vol"]
+    named_v   = sum(monthly["cdu_totals"].values())
+    sem_cdu_v = monthly["sem_cdu_vol"]
+    top_cdu   = monthly["top_cdu"] or "—"
+    top_vol   = monthly["cdu_totals"].get(top_cdu, 0)
+    top_pct   = top_vol / total_v * 100 if total_v else 0
+    id_rate   = named_v / total_v * 100 if total_v else 0
+
+    # top 3 CDU concentration
+    top3_vol  = sum(v for _, v in list(monthly["cdu_totals"].items())[:3])
+    top3_pct  = top3_vol / total_v * 100 if total_v else 0
+
+    # monthly trend: last vs previous month
+    m_totals  = _period_totals(monthly["datasets"], len(monthly["months"]))
+    if len(m_totals) >= 2:
+        last_m, prev_m = m_totals[-1], m_totals[-2]
+        m_delta = (last_m - prev_m) / prev_m * 100 if prev_m else 0
+        m_arrow = "↑" if m_delta > 1 else ("↓" if m_delta < -1 else "→")
+        m_color = "#E05252" if m_delta > 1 else ("#70AD47" if m_delta < -1 else "#888")
+        m_lbl   = monthly["months"][-1]
+    else:
+        m_delta, m_arrow, m_color, m_lbl = 0, "→", "#888", "—"
+
+    # weekly trend: last vs previous week
+    w_totals = _period_totals(weekly["datasets"], len(weekly["weeks"]))
+    if len(w_totals) >= 2:
+        last_w, prev_w = w_totals[-1], w_totals[-2]
+        w_delta = (last_w - prev_w) / prev_w * 100 if prev_w else 0
+        w_arrow = "↑" if w_delta > 1 else ("↓" if w_delta < -1 else "→")
+        w_color = "#E05252" if w_delta > 1 else ("#70AD47" if w_delta < -1 else "#888")
+    else:
+        last_w, w_delta, w_arrow, w_color = 0, 0, "→", "#888"
+
+    top_sol = solutions[0]["solution"] if solutions else "—"
+
+    # build text bullets
+    bullets = []
+    bullets.append(
+        f"O processo <strong>Drivers</strong> gerou <strong>{total_v:,}</strong> contatos outgoing "
+        f"no acumulado do ano, com <strong>{id_rate:.0f}%</strong> dos atendimentos com CDU identificado."
+    )
+    bullets.append(
+        f"O CDU mais crítico é <strong>{top_cdu}</strong>, responsável por "
+        f"<strong>{top_pct:.1f}%</strong> ({top_vol:,} contatos) do volume total."
+    )
+    bullets.append(
+        f"Os <strong>3 principais CDUs</strong> concentram <strong>{top3_pct:.0f}%</strong> "
+        f"do volume total — indicando alta concentração de motivos de contato."
+    )
+    if len(m_totals) >= 2:
+        direction = "alta" if m_delta > 1 else ("queda" if m_delta < -1 else "estabilidade")
+        bullets.append(
+            f"Tendência mensal em <strong>{m_lbl}</strong>: "
+            f"<strong style='color:{m_color}'>{m_arrow} {abs(m_delta):.1f}%</strong> vs mês anterior "
+            f"({direction} de {abs(int(last_m - prev_m)):,} atendimentos)."
+        )
+    if solutions:
+        bullets.append(
+            f"A solução mais aplicada foi <strong>{top_sol}</strong> "
+            f"({solutions[0]['volume']:,} atendimentos)."
+        )
+    if sem_cdu_v > 0:
+        bullets.append(
+            f"<strong>{sem_cdu_v:,} atendimentos ({100-id_rate:.0f}%)</strong> sem CDU identificado "
+            f"— oportunidade de melhoria na marcação."
+        )
+
+    bullets_html = "".join(f'<li>{b}</li>' for b in bullets)
+
+    # metric cards
+    cards = [
+        ("Volume YTD",      f"{total_v:,}",            "atendimentos outgoing"),
+        ("CDU Principal",   top_cdu[:40] + ("…" if len(top_cdu) > 40 else ""),
+                            f"{top_pct:.1f}% do volume total"),
+        ("Conc. Top 3 CDUs", f"{top3_pct:.0f}%",       "do volume concentrado"),
+        (f"Tendência {m_lbl}", f"<span style='color:{m_color}'>{m_arrow} {abs(m_delta):.1f}%</span>",
+                            f"vs {monthly['months'][-2] if len(monthly['months'])>=2 else '—'}"),
+    ]
+    cards_html = "".join(
+        f'<div class="ex-card">'
+        f'<div class="ex-lbl">{lbl}</div>'
+        f'<div class="ex-val">{val}</div>'
+        f'<div class="ex-sub">{sub}</div>'
+        f'</div>'
+        for lbl, val, sub in cards
+    )
+
+    return f"""
+  <div class="card ex-block">
+    <div class="ex-title">Resumo Executivo</div>
+    <div class="ex-cards">{cards_html}</div>
+    <ul class="ex-bullets">{bullets_html}</ul>
+  </div>"""
 
 def _render_solutions(solutions: list, total_v: int) -> str:
     rows = ""
@@ -642,6 +754,24 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
            color:#4472C4;padding:2px 9px;border-radius:12px}}
 .sol-table .sol-num{{width:32px;text-align:center;color:#aaa;font-size:11px}}
 .sol-table .sol-name{{max-width:520px}}
+.ex-block{{}}
+.ex-title{{font-size:12px;font-weight:700;color:#444;text-transform:uppercase;
+           letter-spacing:.5px;margin-bottom:14px}}
+.ex-cards{{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}}
+@media(max-width:820px){{.ex-cards{{grid-template-columns:repeat(2,1fr)}}}}
+.ex-card{{background:#f8f9fa;border-radius:8px;padding:12px 16px}}
+.ex-lbl{{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;
+         color:#888;margin-bottom:4px}}
+.ex-val{{font-size:16px;font-weight:900;color:#1a1a2e;line-height:1.2;margin-bottom:2px}}
+.ex-sub{{font-size:11px;color:#666}}
+.ex-bullets{{padding-left:18px;display:flex;flex-direction:column;gap:6px}}
+.ex-bullets li{{font-size:13px;color:#333;line-height:1.55}}
+.no-data-block{{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;
+               background:#fff8e1;border-radius:8px;border-left:3px solid #FFC000}}
+.no-data-block .no-data-icon{{font-size:20px;line-height:1}}
+.no-data-block strong{{font-size:13px;color:#1a1a2e}}
+.no-data-block code{{font-size:11px;background:#f0f0f0;padding:1px 5px;border-radius:3px}}
+.no-data-block div{{font-size:12px;color:#555;line-height:1.55}}
 </style>
 </head>
 <body>
@@ -655,6 +785,8 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 </header>
 
 <main class="main">
+
+  {generate_exec_summary(monthly, weekly, solutions)}
 
   <div class="grid2">
     <div class="card">
@@ -809,7 +941,7 @@ function selectCDU(cdu) {{
   const themes = ALL_THEMES[cdu] || [];
   const el = document.getElementById('themesBox');
   if (!themes.length) {{
-    el.innerHTML = '<p class="no-data">Análise não disponível — execute o script para gerar os temas.</p>';
+    el.innerHTML = '<div class="no-data-block"><span class="no-data-icon">🔒</span><div><strong>Análise de transcrições indisponível</strong><br>Sem acesso à tabela BT_CX_TRANSCRIPT. Adicione temas curados manualmente no script para habilitar esta seção.</div></div>';
   }} else {{
     el.innerHTML = '<div class="themes-list">'+themes.map((t,i)=>buildCard(t,i)).join('')+'</div>';
   }}
