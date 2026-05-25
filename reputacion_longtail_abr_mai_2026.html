@@ -1439,25 +1439,25 @@ function addExclVol(id, data) {
   canvas.closest('.chart-container').insertAdjacentElement('afterend', div);
 }
 
-// Processo (mensal)
-addExclVol('chartCorrRep',   {abr:766,  mai:508});
-addExclVol('chartCorrRepME', {abr:1077, mai:727});
+// Processo (mensal) — soma das 3 equipes, fonte: DM_CX_FRAUD_EXCLUSIONS_REPUTATION
+addExclVol('chartCorrRep',   {abr:40453, mai:30917});
+addExclVol('chartCorrRepME', {abr:31774, mai:12560});
 
-// Por equipe (mensal)
-addExclVol('ct_me_rep',    {abr:313, mai:189});
-addExclVol('ct_me_repme',  {abr:437, mai:310});
-addExclVol('ct_ven_rep',   {abr:314, mai:138});
-addExclVol('ct_ven_repme', {abr:528, mai:257});
-addExclVol('ct_pub_rep',   {abr:171, mai:245});
-addExclVol('ct_pub_repme', {abr:203, mai:265});
+// Por equipe (mensal) — fonte: DM_CX_FRAUD_EXCLUSIONS_REPUTATION
+addExclVol('ct_me_rep',    {abr:9114,  mai:4714});
+addExclVol('ct_me_repme',  {abr:8910,  mai:4049});
+addExclVol('ct_ven_rep',   {abr:15773, mai:8349});
+addExclVol('ct_ven_repme', {abr:15743, mai:3745});
+addExclVol('ct_pub_rep',   {abr:15566, mai:17854});
+addExclVol('ct_pub_repme', {abr:7121,  mai:4766});
 
-// Por equipe (semanal) — exclusões por semana
-addExclVol('wc_me_rep',    {weeks:[70, 69, 58, 61, 55]});
-addExclVol('wc_me_repme',  {weeks:[97, 99, 91,100, 98]});
-addExclVol('wc_ven_rep',   {weeks:[57, 62, 52, 46, 37]});
-addExclVol('wc_ven_repme', {weeks:[104,79, 77, 90, 81]});
-addExclVol('wc_pub_rep',   {weeks:[40, 48, 80, 75, 80]});
-addExclVol('wc_pub_repme', {weeks:[49, 45, 88, 88, 79]});
+// Por equipe (semanal) — fonte: DM_CX_FRAUD_EXCLUSIONS_REPUTATION
+addExclVol('wc_me_rep',    {weeks:[2266, 1914, 1385, 1540, 1447]});
+addExclVol('wc_me_repme',  {weeks:[1435,  904, 1287, 1325, 1181]});
+addExclVol('wc_ven_rep',   {weeks:[3361, 3531, 2776, 2691, 2387]});
+addExclVol('wc_ven_repme', {weeks:[1141,  903,  909, 1392, 1323]});
+addExclVol('wc_pub_rep',   {weeks:[3850, 4196, 5730, 6012, 5018]});
+addExclVol('wc_pub_repme', {weeks:[1162,  751, 1102, 1751, 1720]});
 
 </script>
 
