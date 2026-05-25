@@ -218,6 +218,7 @@ tr:hover td{background:#fafbff;}
 <div class="tabs">
   <button class="tab-btn active"   onclick="showTab('mensal',this)">Mensal</button>
   <button class="tab-btn"          onclick="showTab('semanal',this)">Semanal</button>
+  <button class="tab-btn"          onclick="showTab('pct-excl',this)">% Exclusão</button>
 </div>
 
 
@@ -659,6 +660,88 @@ tr:hover td{background:#fafbff;}
 
 </div><!-- /semanal -->
 
+<!-- ══════════════════════════════════════════════
+     ABA — % EXCLUSÃO
+══════════════════════════════════════════════ -->
+<div id="pct-excl" class="tab-content">
+
+  <div class="src-bar"><div class="src-dot" style="background:#9b59b6"></div>Fonte: DM_CX_FRAUD_EXCLUSIONS_REPUTATION · CLA_CLAIM_ID (Reclamo) / ORD_ORDER_ID (HT + Vtas) · Abr/2026 e últimas 5 semanas</div>
+
+  <!-- KPI Cards -->
+  <div class="grid-4" style="margin-bottom:18px;">
+    <div class="kpi-card" style="border-top:3px solid var(--blue);">
+      <div class="label">Exclusões Abril</div>
+      <div class="value" id="excl-kpi-abr">—</div>
+      <div class="sub">total das 3 equipes</div>
+    </div>
+    <div class="kpi-card" style="border-top:3px solid var(--green);">
+      <div class="label">Exclusões Maio (parcial)</div>
+      <div class="value" id="excl-kpi-mai">—</div>
+      <div class="sub">22 dias dos 31</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Sem. 11/mai</div>
+      <div class="value" id="excl-kpi-s4">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Sem. 18/mai (última)</div>
+      <div class="value" id="excl-kpi-s5">—</div>
+      <div class="delta" id="excl-kpi-delta">—</div>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="card" style="margin-bottom:14px;">
+    <div class="card-header" style="border-bottom:none;">Filtros — selecione para detalhar os gráficos</div>
+    <div style="padding:4px 16px 14px;">
+      <div style="margin-bottom:12px;">
+        <div class="section-title" style="margin:12px 0 8px;">Equipe</div>
+        <div class="flt-bar" style="margin:0;">
+          <button class="flt-btn ef-eq active" onclick="setExclFilter('eq','Todos',this)">Todas</button>
+          <button class="flt-btn ef-eq" onclick="setExclFilter('eq','ME',this)">ME Sellers LT</button>
+          <button class="flt-btn ef-eq" onclick="setExclFilter('eq','Ventas',this)">Ventas Sellers LT</button>
+          <button class="flt-btn ef-eq" onclick="setExclFilter('eq','Pub',this)">Pub Sellers LT</button>
+        </div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div class="section-title" style="margin:0 0 8px;">Oficina</div>
+        <div class="flt-bar" style="margin:0;">
+          <button class="flt-btn ef-off active" onclick="setExclFilter('off','Todos',this)">Todas</button>
+          <button class="flt-btn ef-off" onclick="setExclFilter('off','AEC',this)">AEC</button>
+          <button class="flt-btn ef-off" onclick="setExclFilter('off','ATE',this)">ATE</button>
+          <button class="flt-btn ef-off" onclick="setExclFilter('off','CTX',this)">CTX</button>
+          <button class="flt-btn ef-off" onclick="setExclFilter('off','KTA',this)">KTA</button>
+          <button class="flt-btn ef-off" onclick="setExclFilter('off','MELICIDADE',this)">MELICIDADE</button>
+        </div>
+      </div>
+      <div>
+        <div class="section-title" style="margin:0 0 8px;">Canal</div>
+        <div class="flt-bar" style="margin:0;">
+          <button class="flt-btn ef-can active" onclick="setExclFilter('can','Todos',this)">Todos</button>
+          <button class="flt-btn ef-can" onclick="setExclFilter('can','Chat',this)">Chat</button>
+          <button class="flt-btn ef-can" onclick="setExclFilter('can','C2C',this)">C2C</button>
+          <button class="flt-btn ef-can" onclick="setExclFilter('can','Offline',this)">Offline</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gráficos -->
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-title" id="excl-chart-title-m">Evolução Mensal — Todas as equipes</div>
+      <div class="chart-sub">Abril vs Maio 2026 · Exclusões únicas (distinct)</div>
+      <div class="chart-container" style="height:340px;"><canvas id="chartExclMensal"></canvas></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title" id="excl-chart-title-w">Evolução Semanal — Todas as equipes</div>
+      <div class="chart-sub">Últimas 5 semanas completas (20/abr–24/mai)</div>
+      <div class="chart-container" style="height:340px;"><canvas id="chartExclSemanal"></canvas></div>
+    </div>
+  </div>
+
+</div><!-- /pct-excl -->
+
 </div><!-- /container -->
 
 
@@ -1095,6 +1178,13 @@ makeWeekBarLine('wc_pub_rep',    wNPS.rep.pub,     wExcl.rep.pub,     55, 100, 6
 makeWeekBarLine('wc_pub_repme',  wNPS.repme.pub,   wExcl.repme.pub,   60, 100, 78, 100);
 
 makeTrend('wt_cdu_rep',   [{label:'Reclamos',data:wCDU.rep.reclamos},{label:'Cancelaciones',data:wCDU.rep.cancelaciones},{label:'Consultas Inf.',data:wCDU.rep.consultas}],30,100,'NPS (%)');
+// ── showTab: aciona renderExclCharts na primeira abertura da aba ──
+const _origShowTab = showTab;
+showTab = function(id, btn) {
+  _origShowTab(id, btn);
+  if (id === 'pct-excl') renderExclCharts();
+};
+
 makeTrend('wt_cdu_repme', [{label:'HT-Ventas',data:wCDU.repme.ht_ventas},{label:'HT-Coleta',data:wCDU.repme.ht_coleta},{label:'Bugs',data:wCDU.repme.bugs}],50,105,'NPS (%)');
 
 // ── Gráfico: Decomposição MIX × NETO ──
@@ -1194,6 +1284,142 @@ new Chart(document.getElementById('chartDecomp'), {
     [696,  142,   47,   25]      // pesq Mai
   );
 })();
+
+
+// ════════════════════════════════════════════
+//  ABA % EXCLUSÃO
+// ════════════════════════════════════════════
+// [eq, office, canal, abr, mai, s1(20/abr), s2(27/abr), s3(04/mai), s4(11/mai), s5(18/mai)]
+const EXCL = [
+  ['ME',     'AEC',       'C2C',     1282,  451,   116,  147,  157,  111,  143],
+  ['ME',     'ATE',       'C2C',     2305,  1582,  661,  458,  762,  441,  242],
+  ['ME',     'ATE',       'Chat',    7208,  3115,  1258, 1021, 854,  1023, 1058],
+  ['ME',     'CTX',       'Chat',    1784,  0,     323,  134,  0,    0,    0  ],
+  ['ME',     'KTA',       'Chat',    5443,  3615,  1343, 1058, 899,  1290, 1185],
+  ['Pub',    'AEC',       'C2C',     11738, 11096, 2626, 2659, 3180, 3898, 3321],
+  ['Pub',    'AEC',       'Chat',    3107,  3190,  690,  725,  1124, 1270, 585 ],
+  ['Pub',    'KTA',       'Chat',    7840,  8277,  1695, 1563, 2472, 2594, 2832],
+  ['Pub',    'KTA',       'Offline', 2,     57,    1,    0,    56,   1,    0  ],
+  ['Ventas', 'AEC',       'C2C',     5,     1,     0,    5,    1,    0,    0  ],
+  ['Ventas', 'AEC',       'Chat',    15907, 5996,  2133, 1964, 1649, 2038, 2020],
+  ['Ventas', 'CTX',       'C2C',     6315,  0,     758,  537,  0,    0,    0  ],
+  ['Ventas', 'KTA',       'C2C',     9289,  6090,  1611, 1928, 2031, 2042, 1690],
+  ['Ventas', 'MELICIDADE','Chat',    0,     7,     0,    0,    4,    3,    0  ],
+];
+
+const ECOL = {
+  eq:  { 'ME':'#3483fa','Ventas':'#00a650','Pub':'#ff7733' },
+  off: { 'AEC':'#3483fa','ATE':'#00a650','CTX':'#ff7733','KTA':'#9b59b6','MELICIDADE':'#e84142' },
+  can: { 'Chat':'#3483fa','C2C':'#00a650','Offline':'#ff7733' }
+};
+
+let _exclEq='Todos', _exclOff='Todos', _exclCan='Todos';
+let _chartEM=null, _chartEW=null;
+
+function setExclFilter(type, val, btn) {
+  document.querySelectorAll('.ef-'+type).forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if (type==='eq')  _exclEq  = val;
+  if (type==='off') _exclOff = val;
+  if (type==='can') _exclCan = val;
+  renderExclCharts();
+}
+
+function renderExclCharts() {
+  const rows = EXCL.filter(r =>
+    (_exclEq  ==='Todos' || r[0]===_exclEq)  &&
+    (_exclOff ==='Todos' || r[1]===_exclOff) &&
+    (_exclCan ==='Todos' || r[2]===_exclCan)
+  );
+
+  // Determine which dimension to use as series
+  let dimIdx = 0; // equipe
+  let colorMap = ECOL.eq;
+  let dimLabel = 'equipe';
+  if (_exclEq !== 'Todos') {
+    if (_exclOff !== 'Todos') { dimIdx=2; colorMap=ECOL.can; dimLabel='canal'; }
+    else                      { dimIdx=1; colorMap=ECOL.off; dimLabel='oficina'; }
+  }
+
+  // Aggregate
+  const groups = {};
+  for (const r of rows) {
+    const key = r[dimIdx];
+    if (!groups[key]) groups[key] = [0,0,0,0,0,0,0];
+    for (let i=0;i<7;i++) groups[key][i] += (r[3+i]||0);
+  }
+  const keys = Object.keys(groups).sort();
+
+  // KPI cards
+  const totAbr = rows.reduce((s,r)=>s+r[3],0);
+  const totMai = rows.reduce((s,r)=>s+r[4],0);
+  const totS4  = rows.reduce((s,r)=>s+r[8],0);
+  const totS5  = rows.reduce((s,r)=>s+r[9],0);
+  document.getElementById('excl-kpi-abr').textContent = totAbr.toLocaleString('pt-BR');
+  document.getElementById('excl-kpi-mai').textContent = totMai.toLocaleString('pt-BR');
+  document.getElementById('excl-kpi-s4').textContent  = totS4.toLocaleString('pt-BR');
+  document.getElementById('excl-kpi-s5').textContent  = totS5.toLocaleString('pt-BR');
+  const delta = totS5 - totS4;
+  const dEl = document.getElementById('excl-kpi-delta');
+  dEl.textContent = (delta>=0?'+':'')+delta.toLocaleString('pt-BR');
+  dEl.className = 'delta '+(delta>=0?'pos':'neg');
+
+  // Chart titles
+  const sel = _exclEq!=='Todos'?_exclEq:_exclOff!=='Todos'?_exclOff:_exclCan!=='Todos'?_exclCan:'Todas as equipes';
+  document.getElementById('excl-chart-title-m').textContent = 'Mensal — '+sel+' · por '+dimLabel;
+  document.getElementById('excl-chart-title-w').textContent = 'Semanal — '+sel+' · por '+dimLabel;
+
+  // Colors
+  const cols = keys.map(k=>(colorMap[k]||'#aaa'));
+
+  // Monthly datasets
+  const mDS = keys.map((k,i)=>({
+    label:k, data:[groups[k][0],groups[k][1]],
+    backgroundColor: cols[i]+'cc', borderRadius:6
+  }));
+
+  // Weekly datasets
+  const WKL = ['20/abr','27/abr','04/mai','11/mai','18/mai'];
+  const wDS = keys.map((k,i)=>({
+    label:k, data:groups[k].slice(2),
+    borderColor:cols[i], backgroundColor:cols[i]+'22',
+    pointBackgroundColor:cols[i], pointRadius:4,
+    borderWidth:2.5, tension:0.3, fill:false
+  }));
+
+  const baseOpts = {
+    responsive:true, maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
+    plugins:{
+      legend:{labels:{font:{size:10},boxWidth:10}},
+      tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toLocaleString('pt-BR')}}
+    }
+  };
+
+  if (_chartEM) {
+    _chartEM.data.datasets = mDS; _chartEM.update('none');
+  } else {
+    _chartEM = new Chart(document.getElementById('chartExclMensal'),{
+      type:'bar', data:{labels:['Abril','Maio'],datasets:mDS},
+      options:{...baseOpts, scales:{
+        x:{ticks:{font:{size:11}},grid:{display:false}},
+        y:{ticks:{font:{size:10},callback:v=>v.toLocaleString('pt-BR')},grid:{color:'rgba(0,0,0,0.05)'}}
+      }}
+    });
+  }
+
+  if (_chartEW) {
+    _chartEW.data.datasets = wDS; _chartEW.update('none');
+  } else {
+    _chartEW = new Chart(document.getElementById('chartExclSemanal'),{
+      type:'line', data:{labels:WKL,datasets:wDS},
+      options:{...baseOpts, scales:{
+        x:{ticks:{font:{size:10}},grid:{display:false}},
+        y:{ticks:{font:{size:10},callback:v=>v.toLocaleString('pt-BR')},grid:{color:'rgba(0,0,0,0.05)'}}
+      }}
+    });
+  }
+}
 
 // ── Volume de exclusões abaixo de cada gráfico ──
 function addExclVol(id, data) {
