@@ -804,15 +804,7 @@ function showTab(id, btn) {
     }, 50);
   }
 }
-('Canvas nao encontrado:', id); return null; }
-    return new Chart(el, cfg);
-  } catch(e) {
-    console.error('Erro ao criar chart', id, ':', e);
-    const wrap = document.getElementById(id)?.closest('.chart-wrap') || document.getElementById(id)?.parentNode;
-    if (wrap) wrap.insertAdjacentHTML('beforeend', '<div style="color:red;font-size:11px;padding:4px;">Erro: '+e.message+'</div>');
-    return null;
-  }
-}
+
 
 
 const C_ABR  = 'rgba(52,131,250,0.75)';
