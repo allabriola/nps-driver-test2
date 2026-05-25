@@ -520,7 +520,7 @@ def _period_totals(datasets: list[dict], n: int) -> list[int]:
         return []
     return [sum(ds["data"][i] for ds in datasets if i < len(ds["data"])) for i in range(n)]
 
-def generate_exec_summary(monthly: dict, weekly: dict, solutions: list) -> str:
+def generate_exec_summary(monthly: dict, weekly: dict, daily: dict, solutions: list) -> str:
     total_v   = monthly["total_vol"]
     named_v   = sum(monthly["cdu_totals"].values())
     sem_cdu_v = monthly["sem_cdu_vol"]
@@ -528,76 +528,67 @@ def generate_exec_summary(monthly: dict, weekly: dict, solutions: list) -> str:
     top_vol   = monthly["cdu_totals"].get(top_cdu, 0)
     top_pct   = top_vol / total_v * 100 if total_v else 0
     id_rate   = named_v / total_v * 100 if total_v else 0
+    n_months  = len(monthly["months"])
 
-    # top 3 CDU concentration
-    top3_vol  = sum(v for _, v in list(monthly["cdu_totals"].items())[:3])
-    top3_pct  = top3_vol / total_v * 100 if total_v else 0
+    # monthly totals per period
+    m_totals = _period_totals(monthly["datasets"], n_months)
+    last_m   = m_totals[-1] if m_totals else 0
+    prev_m   = m_totals[-2] if len(m_totals) >= 2 else 0
+    m_delta  = (last_m - prev_m) / prev_m * 100 if prev_m else 0
+    m_arrow  = "↑" if m_delta > 1 else ("↓" if m_delta < -1 else "→")
+    m_color  = "#E05252" if m_delta > 1 else ("#70AD47" if m_delta < -1 else "#888")
+    m_lbl    = monthly["months"][-1] if monthly["months"] else "—"
+    m_prev   = monthly["months"][-2] if len(monthly["months"]) >= 2 else "—"
 
-    # monthly trend: last vs previous month
-    m_totals  = _period_totals(monthly["datasets"], len(monthly["months"]))
-    if len(m_totals) >= 2:
-        last_m, prev_m = m_totals[-1], m_totals[-2]
-        m_delta = (last_m - prev_m) / prev_m * 100 if prev_m else 0
-        m_arrow = "↑" if m_delta > 1 else ("↓" if m_delta < -1 else "→")
-        m_color = "#E05252" if m_delta > 1 else ("#70AD47" if m_delta < -1 else "#888")
-        m_lbl   = monthly["months"][-1]
-    else:
-        m_delta, m_arrow, m_color, m_lbl = 0, "→", "#888", "—"
+    # per-CDU growth Jan→latest (only CDUs present all months)
+    cdu_growth = {}
+    for ds in monthly["datasets"]:
+        if ds["label"] in ("Sem CDU", "Outros"):
+            continue
+        d = ds["data"]
+        if len(d) == n_months and d[0] > 0:
+            cdu_growth[ds["label"]] = (d[-1] - d[0]) / d[0] * 100
+    fastest_cdu = max(cdu_growth, key=cdu_growth.get) if cdu_growth else None
+    fastest_pct = cdu_growth.get(fastest_cdu, 0) if fastest_cdu else 0
+    # monthly values of fastest CDU
+    fastest_ds  = next((ds for ds in monthly["datasets"] if ds["label"] == fastest_cdu), None)
 
-    # weekly trend: last vs previous week
-    w_totals = _period_totals(weekly["datasets"], len(weekly["weeks"]))
-    if len(w_totals) >= 2:
-        last_w, prev_w = w_totals[-1], w_totals[-2]
-        w_delta = (last_w - prev_w) / prev_w * 100 if prev_w else 0
-        w_arrow = "↑" if w_delta > 1 else ("↓" if w_delta < -1 else "→")
-        w_color = "#E05252" if w_delta > 1 else ("#70AD47" if w_delta < -1 else "#888")
-    else:
-        last_w, w_delta, w_arrow, w_color = 0, 0, "→", "#888"
+    # top CDU monthly values for trend sentence
+    top_cdu_ds = next((ds for ds in monthly["datasets"] if ds["label"] == top_cdu), None)
+    top_first  = top_cdu_ds["data"][0]  if top_cdu_ds and top_cdu_ds["data"] else 0
+    top_peak_i = top_cdu_ds["data"].index(max(top_cdu_ds["data"])) if top_cdu_ds else 0
+    top_peak_m = monthly["months"][top_peak_i] if top_cdu_ds else "—"
+    top_peak_v = max(top_cdu_ds["data"]) if top_cdu_ds else 0
+    top_yoy    = (top_vol - top_first) / top_first * 100 if top_first else 0
 
-    top_sol = solutions[0]["solution"] if solutions else "—"
+    # top 2 solutions combined
+    sol_top2_vol = sum(s["volume"] for s in solutions[:2]) if len(solutions) >= 2 else 0
+    sol_top2_pct = sol_top2_vol / total_v * 100 if total_v else 0
+    sol1         = solutions[0]["solution"] if solutions else "—"
+    sol1_vol     = solutions[0]["volume"]   if solutions else 0
+    sol1_pct     = sol1_vol / total_v * 100 if total_v else 0
+    sol2         = solutions[1]["solution"] if len(solutions) > 1 else "—"
+    sol2_vol     = solutions[1]["volume"]   if len(solutions) > 1 else 0
 
-    # build text bullets
-    bullets = []
-    bullets.append(
-        f"O processo <strong>Drivers</strong> gerou <strong>{total_v:,}</strong> contatos outgoing "
-        f"no acumulado do ano, com <strong>{id_rate:.0f}%</strong> dos atendimentos com CDU identificado."
-    )
-    bullets.append(
-        f"O CDU mais crítico é <strong>{top_cdu}</strong>, responsável por "
-        f"<strong>{top_pct:.1f}%</strong> ({top_vol:,} contatos) do volume total."
-    )
-    bullets.append(
-        f"Os <strong>3 principais CDUs</strong> concentram <strong>{top3_pct:.0f}%</strong> "
-        f"do volume total — indicando alta concentração de motivos de contato."
-    )
-    if len(m_totals) >= 2:
-        direction = "alta" if m_delta > 1 else ("queda" if m_delta < -1 else "estabilidade")
-        bullets.append(
-            f"Tendência mensal em <strong>{m_lbl}</strong>: "
-            f"<strong style='color:{m_color}'>{m_arrow} {abs(m_delta):.1f}%</strong> vs mês anterior "
-            f"({direction} de {abs(int(last_m - prev_m)):,} atendimentos)."
-        )
-    if solutions:
-        bullets.append(
-            f"A solução mais aplicada foi <strong>{top_sol}</strong> "
-            f"({solutions[0]['volume']:,} atendimentos)."
-        )
-    if sem_cdu_v > 0:
-        bullets.append(
-            f"<strong>{sem_cdu_v:,} atendimentos ({100-id_rate:.0f}%)</strong> sem CDU identificado "
-            f"— oportunidade de melhoria na marcação."
-        )
+    # daily peak detection
+    daily_peak_vol, daily_peak_day = 0, "—"
+    if daily["days"] and daily["datasets"]:
+        daily_totals = _period_totals(daily["datasets"], len(daily["days"]))
+        daily_peak_vol = max(daily_totals)
+        daily_peak_day = daily["days"][daily_totals.index(daily_peak_vol)]
+    daily_avg = sum(_period_totals(daily["datasets"], len(daily["days"]))) / len(daily["days"]) if daily["days"] else 0
+    peak_ratio = daily_peak_vol / daily_avg if daily_avg else 0
 
-    bullets_html = "".join(f'<li>{b}</li>' for b in bullets)
-
-    # metric cards
+    # ── Metric cards ──────────────────────────────────────────────────────────
     cards = [
-        ("Volume YTD",      f"{total_v:,}",            "atendimentos outgoing"),
-        ("CDU Principal",   top_cdu[:40] + ("…" if len(top_cdu) > 40 else ""),
-                            f"{top_pct:.1f}% do volume total"),
-        ("Conc. Top 3 CDUs", f"{top3_pct:.0f}%",       "do volume concentrado"),
+        ("Volume YTD",         f"{total_v:,}",
+         "atendimentos outgoing"),
+        ("CDU Principal",      top_cdu[:38] + ("…" if len(top_cdu) > 38 else ""),
+         f"{top_pct:.1f}% do volume total"),
+        ("Solução Top 1",      sol1[:38] + ("…" if len(sol1) > 38 else ""),
+         f"{sol1_pct:.1f}% do volume total"),
         (f"Tendência {m_lbl}", f"<span style='color:{m_color}'>{m_arrow} {abs(m_delta):.1f}%</span>",
-                            f"vs {monthly['months'][-2] if len(monthly['months'])>=2 else '—'}"),
+         f"vs {m_prev}"),
     ]
     cards_html = "".join(
         f'<div class="ex-card">'
@@ -607,6 +598,60 @@ def generate_exec_summary(monthly: dict, weekly: dict, solutions: list) -> str:
         f'</div>'
         for lbl, val, sub in cards
     )
+
+    # ── Bullets ───────────────────────────────────────────────────────────────
+    bullets = []
+
+    # 1. Conta inativa — dominância e trajetória
+    bullets.append(
+        f"<strong>Conta inativa domina o volume e não está melhorando:</strong> "
+        f"<em>{top_cdu}</em> concentra <strong>{top_pct:.0f}%</strong> de todo o outgoing "
+        f"({top_vol:,} contatos). O pico foi em <strong>{top_peak_m}</strong> ({top_peak_v:,} contatos), "
+        f"e o volume acumulado no período é <strong>{top_yoy:+.0f}%</strong> acima de "
+        f"{monthly['months'][0] if monthly['months'] else '—'}. "
+        f"O padrão sistêmico é confirmado pela solução mais usada: <em>{sol1}</em> "
+        f"aplicada <strong>{sol1_vol:,} vezes</strong> ({sol1_pct:.0f}% do total)."
+    )
+
+    # 2. Top 2 solutions = 1/3 of all volume
+    if sol_top2_pct > 20:
+        bullets.append(
+            f"<strong>Concentração crítica nas soluções:</strong> apenas as 2 primeiras soluções "
+            f"(<em>{sol1}</em> e <em>{sol2}</em>) somam <strong>{sol_top2_vol:,} atendimentos "
+            f"({sol_top2_pct:.0f}% do total)</strong> — ou seja, 1 em cada "
+            f"{int(100/sol_top2_pct)} contatos resolve com a mesma resposta. "
+            f"Isso representa uma <strong>oportunidade clara de deflexão via autoatendimento.</strong>"
+        )
+
+    # 3. Fastest growing CDU
+    if fastest_cdu and fastest_pct > 50 and fastest_cdu != top_cdu:
+        f_first = fastest_ds["data"][0] if fastest_ds else 0
+        f_last  = fastest_ds["data"][-1] if fastest_ds else 0
+        bullets.append(
+            f"<strong>CDU em aceleração — sinal de alerta:</strong> "
+            f"<em>{fastest_cdu}</em> cresceu <strong>{fastest_pct:.0f}%</strong> de "
+            f"{monthly['months'][0]} ({f_first:,}) a {m_lbl} ({f_last:,}). "
+            f"Crescimento consistente mês a mês sem sinais de desaceleração."
+        )
+
+    # 4. Daily peak anomaly
+    if peak_ratio >= 2.0 and daily_peak_day != "—":
+        bullets.append(
+            f"<strong>Pico atípico em {daily_peak_day}:</strong> {daily_peak_vol:,} contatos "
+            f"em um único dia — <strong>{peak_ratio:.1f}x acima da média diária</strong> "
+            f"({daily_avg:.0f} contatos/dia). Provável evento de bloqueio em massa "
+            f"ou instabilidade de sistema nessa data."
+        )
+
+    # 5. CDU coverage / sem CDU
+    if sem_cdu_v > 0:
+        bullets.append(
+            f"<strong>{sem_cdu_v:,} atendimentos sem CDU identificado</strong> "
+            f"({100 - id_rate:.0f}% do total) — baixo impacto, mas indica oportunidade "
+            f"pontual de melhoria na marcação dos agentes."
+        )
+
+    bullets_html = "".join(f'<li class="ex-li">{b}</li>' for b in bullets)
 
     return f"""
   <div class="card ex-block">
@@ -766,6 +811,8 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .ex-sub{{font-size:11px;color:#666}}
 .ex-bullets{{padding-left:18px;display:flex;flex-direction:column;gap:6px}}
 .ex-bullets li{{font-size:13px;color:#333;line-height:1.55}}
+.ex-li{{padding:6px 0;border-bottom:1px solid #f0f2f5}}
+.ex-li:last-child{{border-bottom:none}}
 .no-data-block{{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;
                background:#fff8e1;border-radius:8px;border-left:3px solid #FFC000}}
 .no-data-block .no-data-icon{{font-size:20px;line-height:1}}
@@ -786,7 +833,7 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 
 <main class="main">
 
-  {generate_exec_summary(monthly, weekly, solutions)}
+  {generate_exec_summary(monthly, weekly, daily, solutions)}
 
   <div class="grid2">
     <div class="card">
