@@ -121,6 +121,16 @@ tr:hover td{background:#fafbff;}
 .src-dot{width:8px;height:8px;border-radius:50%;background:#ccc;flex-shrink:0;}
 .src-dot.halo{background:var(--blue);}
 .src-dot.xm{background:var(--orange);}
+
+/* ── MENSAL SECTIONS ── */
+.m-section { margin-bottom: 8px; }
+.m-sec-divider {
+  font-size: 13px; font-weight: 800; color: var(--dark);
+  padding: 14px 0 10px;
+  border-bottom: 3px solid var(--yellow);
+  margin: 28px 0 18px;
+  letter-spacing: -.2px;
+}
 </style>
 </head>
 <body>
@@ -141,10 +151,7 @@ tr:hover td{background:#fafbff;}
 
 <!-- ═══════════════ TABS ═══════════════ -->
 <div class="tabs">
-  <button class="tab-btn active"   onclick="showTab('exec',this)">Resumo Executivo</button>
-
-  <button class="tab-btn"          onclick="showTab('xm',this)">XM — CDUs &amp; Soluções</button>
-  <button class="tab-btn"          onclick="showTab('excl',this)">Taxa de Exclusão</button>
+  <button class="tab-btn active"   onclick="showTab('mensal',this)">Mensal</button>
   <button class="tab-btn"          onclick="showTab('semanal',this)">Semanal</button>
 </div>
 
@@ -152,7 +159,10 @@ tr:hover td{background:#fafbff;}
 <!-- ══════════════════════════════════════════════
      ABA 1 — RESUMO EXECUTIVO
 ══════════════════════════════════════════════ -->
-<div id="exec" class="tab-content active">
+<div id="mensal" class="tab-content active">
+
+<!-- ── SEÇÃO: RESUMO EXECUTIVO ── -->
+<div class="m-section">
 
   <div class="info-note">
     Duas fontes combinadas: <strong>HALO</strong> (NPS operacional por agente/equipe, KPIs causais) e <strong>XM</strong> (NPS Lineal por processo/CDU/solução, taxa de exclusão). Maio parcial — 22 de 31 dias disponíveis; NPS como proporção é comparável.
@@ -255,15 +265,10 @@ tr:hover td{background:#fafbff;}
   </div>
 
 
-</div><!-- /exec -->
+</div><!-- /exec-section -->
 
-
-
-
-<!-- ══════════════════════════════════════════════
-     ABA 3 — XM CDUs & SOLUÇÕES
-══════════════════════════════════════════════ -->
-<div id="xm" class="tab-content">
+<div class="m-sec-divider">XM — CDUs &amp; Soluções</div>
+<div class="m-section">
 
   <div class="src-bar"><div class="src-dot xm"></div>Fonte: XM (NPS Lineal — pesquisas de satisfação por processo/CDU/solução) · Abr/2026 e Mai/2026 (parcial)</div>
 
@@ -434,13 +439,10 @@ tr:hover td{background:#fafbff;}
     </div>
   </div>
 
-</div><!-- /xm -->
+</div><!-- /xm-section -->
 
-
-<!-- ══════════════════════════════════════════════
-     ABA 4 — TAXA DE EXCLUSÃO
-══════════════════════════════════════════════ -->
-<div id="excl" class="tab-content">
+<div class="m-sec-divider">Taxa de Exclusão &amp; Correlação</div>
+<div class="m-section">
 
   <div class="src-bar"><div class="src-dot xm"></div>Proxy via soluções XM — proporção de soluções de "exclusão de impacto" sobre total de pesquisas</div>
 
@@ -607,7 +609,9 @@ tr:hover td{background:#fafbff;}
     </div>
   </div>
 
-</div><!-- /excl -->
+</div><!-- /excl-section -->
+
+</div><!-- /mensal -->
 
 
 
@@ -617,92 +621,124 @@ tr:hover td{background:#fafbff;}
 <div id="semanal" class="tab-content">
 
   <div class="src-bar"><div class="src-dot xm"></div>Fonte: XM · Reputación + Reputación ME · Últimas 5 semanas completas (20/abr – 24/mai/2026)</div>
-  <div class="info-note">Eixo temporal = semana de início (segunda-feira). Semana de 18/mai inclui dados até 24/mai (semana completa). NPS Lineal = média × 10.</div>
 
-  <!-- ── NPS TENDÊNCIA ── -->
-  <div class="section-title">NPS Lineal — Tendência Semanal por Equipe</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-sub">3 equipes · 5 semanas</div>
-      <div class="chart-container" style="height:260px;"><canvas id="wt_nps_rep"></canvas></div>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-sub">3 equipes · 5 semanas</div>
-      <div class="chart-container" style="height:260px;"><canvas id="wt_nps_repme"></canvas></div>
-    </div>
-  </div>
+  <!-- ── SEÇÃO: RESUMO SEMANAL ── -->
+  <div class="m-section">
+    <div class="info-note">NPS Lineal consolidado (Reputación + Reputación ME) · última semana vs semana anterior · Valores ponderados por volume.</div>
 
-  <!-- ── EXCL TENDÊNCIA ── -->
-  <div class="section-title">Taxa de Exclusão — Tendência Semanal por Equipe</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-sub">3 equipes · 5 semanas</div>
-      <div class="chart-container" style="height:260px;"><canvas id="wt_excl_rep"></canvas></div>
+    <div class="section-title">NPS Lineal — Última Semana por Equipe (Rep + Rep ME)</div>
+    <div class="grid-3">
+      <div class="kpi-card" style="border-top:3px solid var(--blue);">
+        <div class="label">BR_ME Sellers Longtail</div>
+        <div class="value">82,2%</div>
+        <div class="sub">Sem. anterior: 75,8%</div>
+        <div class="delta pos">▲ +6,4pp</div>
+      </div>
+      <div class="kpi-card" style="border-top:3px solid var(--green);">
+        <div class="label">BR_Ventas Sellers Longtail</div>
+        <div class="value">80,5%</div>
+        <div class="sub">Sem. anterior: 84,4%</div>
+        <div class="delta neg">▼ −3,9pp</div>
+      </div>
+      <div class="kpi-card" style="border-top:3px solid var(--blue);">
+        <div class="label">BR_Publicaciones Sellers LT</div>
+        <div class="value">87,7%</div>
+        <div class="sub">Sem. anterior: 82,5%</div>
+        <div class="delta pos">▲ +5,2pp</div>
+      </div>
     </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-sub">3 equipes · 5 semanas</div>
-      <div class="chart-container" style="height:260px;"><canvas id="wt_excl_repme"></canvas></div>
-    </div>
-  </div>
 
-  <!-- ── CORRELAÇÃO POR EQUIPE ── -->
-  <div class="section-title">Correlação NPS × Taxa de Exclusão por Equipe — Semanal</div>
-  <div class="info-note">Barras azuis = NPS Lineal por semana · Linha laranja = Taxa de Exclusão · Eixo esq. = NPS · Eixo dir. = Excl %</div>
+    <div class="section-title">NPS Lineal por Processo — Últimas 5 Semanas</div>
+    <div class="two-col">
+      <div class="chart-wrap">
+        <div class="chart-title">Reputación — Tendência por Equipe</div>
+        <div class="chart-sub">ME LT · Ventas LT · Pub LT</div>
+        <div class="chart-container" style="height:260px;"><canvas id="wt_nps_rep"></canvas></div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">Reputación ME — Tendência por Equipe</div>
+        <div class="chart-sub">ME LT · Ventas LT · Pub LT</div>
+        <div class="chart-container" style="height:260px;"><canvas id="wt_nps_repme"></canvas></div>
+      </div>
+    </div>
+  </div><!-- /resumo-semanal -->
 
-  <div class="section-title">BR_ME_Sellers_Longtail</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-container" style="height:240px;"><canvas id="wc_me_rep"></canvas></div>
+  <!-- ── SEÇÃO: CDUs SEMANAIS ── -->
+  <div class="m-sec-divider">XM — CDUs Semanais</div>
+  <div class="m-section">
+    <div class="section-title">CDUs — Tendência Semanal</div>
+    <div class="two-col">
+      <div class="chart-wrap">
+        <div class="chart-title">Reputación</div>
+        <div class="chart-sub">Reclamos · Cancelaciones · Consultas Informativas</div>
+        <div class="chart-container" style="height:260px;"><canvas id="wt_cdu_rep"></canvas></div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">Reputación ME</div>
+        <div class="chart-sub">HT-Ventas · HT-Coleta · Bugs</div>
+        <div class="chart-container" style="height:260px;"><canvas id="wt_cdu_repme"></canvas></div>
+      </div>
     </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-container" style="height:240px;"><canvas id="wc_me_repme"></canvas></div>
-    </div>
-  </div>
+  </div><!-- /cdus-semanal -->
 
-  <div class="section-title">BR_Ventas_Sellers_Longtail</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-container" style="height:240px;"><canvas id="wc_ven_rep"></canvas></div>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-container" style="height:240px;"><canvas id="wc_ven_repme"></canvas></div>
-    </div>
-  </div>
+  <!-- ── SEÇÃO: TAXA DE EXCLUSÃO & CORRELAÇÃO SEMANAL ── -->
+  <div class="m-sec-divider">Taxa de Exclusão &amp; Correlação Semanal</div>
+  <div class="m-section">
 
-  <div class="section-title">BR_Publicaciones_Sellers_Longtail</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-container" style="height:240px;"><canvas id="wc_pub_rep"></canvas></div>
+    <div class="section-title">Taxa de Exclusão — Tendência Semanal por Equipe</div>
+    <div class="two-col">
+      <div class="chart-wrap">
+        <div class="chart-title">Reputación</div>
+        <div class="chart-sub">3 equipes · 5 semanas</div>
+        <div class="chart-container" style="height:260px;"><canvas id="wt_excl_rep"></canvas></div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">Reputación ME</div>
+        <div class="chart-sub">3 equipes · 5 semanas</div>
+        <div class="chart-container" style="height:260px;"><canvas id="wt_excl_repme"></canvas></div>
+      </div>
     </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-container" style="height:240px;"><canvas id="wc_pub_repme"></canvas></div>
-    </div>
-  </div>
 
-  <!-- ── CDUs ── -->
-  <div class="section-title">CDUs — Tendência Semanal</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-sub">Reclamos · Cancelaciones · Consultas Informativas</div>
-      <div class="chart-container" style="height:260px;"><canvas id="wt_cdu_rep"></canvas></div>
+    <div class="section-title">Correlação NPS × Taxa de Exclusão por Equipe — Semanal</div>
+    <div class="info-note">Barras azuis = NPS Lineal por semana · Linha laranja = Taxa de Exclusão · Eixo esq. = NPS · Eixo dir. = Excl %</div>
+
+    <div class="section-title">BR_ME_Sellers_Longtail</div>
+    <div class="two-col">
+      <div class="chart-wrap">
+        <div class="chart-title">Reputación</div>
+        <div class="chart-container" style="height:240px;"><canvas id="wc_me_rep"></canvas></div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">Reputación ME</div>
+        <div class="chart-container" style="height:240px;"><canvas id="wc_me_repme"></canvas></div>
+      </div>
     </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-sub">HT-Ventas · HT-Coleta · Bugs</div>
-      <div class="chart-container" style="height:260px;"><canvas id="wt_cdu_repme"></canvas></div>
+
+    <div class="section-title">BR_Ventas_Sellers_Longtail</div>
+    <div class="two-col">
+      <div class="chart-wrap">
+        <div class="chart-title">Reputación</div>
+        <div class="chart-container" style="height:240px;"><canvas id="wc_ven_rep"></canvas></div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">Reputación ME</div>
+        <div class="chart-container" style="height:240px;"><canvas id="wc_ven_repme"></canvas></div>
+      </div>
     </div>
-  </div>
+
+    <div class="section-title">BR_Publicaciones_Sellers_Longtail</div>
+    <div class="two-col">
+      <div class="chart-wrap">
+        <div class="chart-title">Reputación</div>
+        <div class="chart-container" style="height:240px;"><canvas id="wc_pub_rep"></canvas></div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">Reputación ME</div>
+        <div class="chart-container" style="height:240px;"><canvas id="wc_pub_repme"></canvas></div>
+      </div>
+    </div>
+
+  </div><!-- /excl-semanal -->
 
 </div><!-- /semanal -->
 
