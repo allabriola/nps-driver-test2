@@ -662,13 +662,33 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 const ACCENT = {jd(ACCENT_COLORS)};
 const ALL_THEMES = {jd(themes_by_cdu)};
 
-function bar(id, labels, datasets) {{
+const stackedTotalsPlugin = {{
+  id: 'stackedTotals',
+  afterDatasetsDraw(chart) {{
+    const {{ ctx, data }} = chart;
+    const lastMeta = chart.getDatasetMeta(data.datasets.length - 1);
+    ctx.save();
+    ctx.font = 'bold 11px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif';
+    ctx.fillStyle = '#444';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    lastMeta.data.forEach((bar, i) => {{
+      const total = data.datasets.reduce((sum, ds) => sum + (ds.data[i] || 0), 0);
+      ctx.fillText(total.toLocaleString('pt-BR'), bar.x, bar.y - 4);
+    }});
+    ctx.restore();
+  }}
+}};
+
+function bar(id, labels, datasets, showTotals = false) {{
   new Chart(document.getElementById(id), {{
     type: 'bar',
     data: {{ labels, datasets }},
+    plugins: showTotals ? [stackedTotalsPlugin] : [],
     options: {{
       responsive: true,
       maintainAspectRatio: false,
+      layout: {{ padding: {{ top: showTotals ? 20 : 0 }} }},
       plugins: {{
         legend: {{ position: 'bottom',
                   labels: {{ boxWidth: 12, padding: 10, font: {{ size: 11 }} }} }},
@@ -713,7 +733,7 @@ function selectCDU(cdu) {{
   }}
 }}
 
-bar('cM', {jd(monthly['months'])}, [{m_ds}]);
+bar('cM', {jd(monthly['months'])}, [{m_ds}], true);
 bar('cW', {jd(weekly['weeks'])},   [{w_ds}]);
 </script>
 </body>
