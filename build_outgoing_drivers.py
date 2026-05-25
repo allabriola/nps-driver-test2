@@ -815,9 +815,9 @@ function selectCDU(cdu) {{
   }}
 }}
 
-bar('cM', {jd(monthly['months'])}, [{m_ds}], true,  true);
-bar('cW', {jd(weekly['weeks'])},   [{w_ds}], false, true);
-bar('cD', {jd(daily['days'])},     [{d_ds}], false, true);
+bar('cM', {jd(monthly['months'])}, [{m_ds}], true, true);
+bar('cW', {jd(weekly['weeks'])},   [{w_ds}], true, true);
+bar('cD', {jd(daily['days'])},     [{d_ds}], true, true);
 </script>
 </body>
 </html>"""
