@@ -772,9 +772,6 @@ tr:hover td{background:#fafbff;}
 
 <!-- ═══════════════ SCRIPTS ═══════════════ -->
 <script>
-// Registro seguro do ChartDataLabels
-const _CDL = (typeof ChartDataLabels !== 'undefined') ? ChartDataLabels : null;
-if (_CDL) Chart.register(_CDL);
 function showTab(id, btn) {
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -831,7 +828,7 @@ const DL_LINE_SM = { anchor:'center', align:'bottom', offset:5, color:'#ff7733',
 function makeCorrelChart(canvasId, npsData, exclData, npsMin, npsMax, exclMin, exclMax) {
   new Chart(document.getElementById(canvasId), {
     type: 'bar',
-    plugins: _CDL ? [_CDL] : [],
+    
     data: {
       labels: ['Abril', 'Maio'],
       datasets: [
@@ -1048,7 +1045,7 @@ function makeTeamChart(id, npsAbr, npsMai, exclAbr, exclMai, npsMin, npsMax, exc
           datalabels: DL_LINE }
       ]
     },
-    plugins: _CDL ? [_CDL] : [],
+    
     options:{
       responsive:true, maintainAspectRatio:false,
       interaction:{ mode:'index', intersect:false },
@@ -1162,7 +1159,7 @@ function makeTrend(id, series, yMin, yMax, yLbl) {
 function makeWeekBarLine(id, nps, excl, npsMin, npsMax, exclMin, exclMax) {
   new Chart(document.getElementById(id), {
     type: 'bar',
-    plugins: _CDL ? [_CDL] : [],
+    
     data: {
       labels: WK,
       datasets: [
@@ -1218,7 +1215,7 @@ makeTrend('wt_cdu_repme', [{label:'HT-Ventas',data:wCDU.repme.ht_ventas},{label:
 // ── Gráfico: Decomposição MIX × NETO ──
 new Chart(document.getElementById('chartDecomp'), {
   type: 'bar',
-  plugins: _CDL ? [_CDL] : [],
+  
   data: {
     labels: ['Reputación', 'Reputación ME'],
     datasets: [
@@ -1266,7 +1263,7 @@ new Chart(document.getElementById('chartDecomp'), {
   function makeGrupoChart(id, npsAbr, npsMai, pesqAbr, pesqMai) {
     new Chart(document.getElementById(id), {
       type: 'bar',
-      plugins: _CDL ? [_CDL] : [],
+      
       data: {
         labels: GRUPOS,
         datasets: [
@@ -1458,7 +1455,7 @@ function renderExclCharts() {
     _chartEM.data.datasets = mDS; _chartEM.update('none');
   } else {
     _chartEM = new Chart(document.getElementById('chartExclMensal'),{
-      type:'line', plugins:_CDL?[_CDL]:[],
+      type:'line', datalabels: {},
       data:{labels:MESES_L, datasets:mDS},
       options:{...baseOpts, scales:{
         x:{ticks:{font:{size:11}},grid:{display:false}},
@@ -1472,7 +1469,7 @@ function renderExclCharts() {
     _chartEW.data.datasets = wDS; _chartEW.update('none');
   } else {
     _chartEW = new Chart(document.getElementById('chartExclSemanal'),{
-      type:'line', plugins:_CDL?[_CDL]:[],
+      type:'line', datalabels: {},
       data:{labels:WKL7, datasets:wDS},
       options:{...baseOpts, scales:{
         x:{ticks:{font:{size:10}},grid:{display:false}},
