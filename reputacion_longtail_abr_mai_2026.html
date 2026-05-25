@@ -1143,26 +1143,6 @@ makeCorrelChart('chartCorrRep',   [69.7, 76.7], [65, 68], 60, 85, 58, 76);
 // ── Chart 8b: Correlação — Reputación ME ──
 makeCorrelChart('chartCorrRepME', [82.6, 86.8], [80, 84], 75, 92, 73, 90);
 
-// ── Chart 9: Exclusão Composição ──
-new Chart(document.getElementById('chartExclComp'), {
-  type:'bar',
-  data:{
-    labels:['Log.Flex Excl.','Cancel.Revis.','Vendedor Newbie Excl.','Log.Places Excl.','Recl.Excl.','Cancel.Excl.','Recl.Não afeta','Prod.dif.Mantemos','Cancel.Mantemos','Recl.Revis.','Lg.Pl.NãoExcl.'],
-    datasets:[
-      { label:'Pesq Abr', data:[98,61,375,453,449,238,76,31,26,29,34], backgroundColor:C_ABR, yAxisID:'y1' },
-      { label:'Pesq Mai', data:[72,48,247,275,310,145,55,21,15,15,15], backgroundColor:C_MAI, yAxisID:'y1' },
-      { label:'NPS Mai (%)', data:[94.4,89.6,91.9,91.6,87.7,77.9,81.8,28.6,60.0,46.7,33.3], type:'line', borderColor:'#ff7733', pointRadius:3, fill:false, yAxisID:'y' }
-    ]
-  },
-  options:{ responsive:true, maintainAspectRatio:false,
-    scales:{
-      y:{ position:'left', min:0, max:100, ticks:{callback:v=>v+'%', font:{size:9}} },
-      y1:{ position:'right', ticks:{font:{size:9}}, grid:{drawOnChartArea:false} },
-      x:{ ticks:{font:{size:9},maxRotation:35} }
-    },
-    plugins:{ legend:{ labels:{font:{size:10},boxWidth:10} } }
-  }
-});
 
 // ── Função auxiliar: chart NPS+Excl (bar+line duplo) por team/office ──
 function makeCorrFullChart(canvasId, labels, npsAbr, npsMai, exclAbr, exclMai, npsMin, npsMax, exclMin, exclMax) {
