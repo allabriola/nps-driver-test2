@@ -3181,33 +3181,6 @@ function renderRepTable() {
 }
 
 
-let repRows=[], repSortCol=6, repSortAsc=false;
-
-function sortReps(col) {
-  if(repSortCol===col) repSortAsc=!repSortAsc; else {repSortCol=col; repSortAsc=col<4;}
-  repRows.sort((a,b)=>{
-    const cols=[a.ldap,a.lider,a.canal,a.office,a.me,a.rep,a.me+a.rep];
-    const bCols=[b.ldap,b.lider,b.canal,b.office,b.me,b.rep,b.me+b.rep];
-    const v = typeof cols[col]==='string' ? cols[col].localeCompare(bCols[col]) : cols[col]-bCols[col];
-    return repSortAsc ? v : -v;
-  });
-  renderRepTable();
-}
-
-function renderRepTable() {
-  const body = document.getElementById('tblRepsBody');
-  if(!body) return;
-  body.innerHTML = repRows.map(r=>`
-    <tr>
-      <td style="text-align:left;font-weight:600">${r.ldap}</td>
-      <td style="text-align:left">${r.lider}</td>
-      <td style="text-align:left">${r.canal}</td>
-      <td style="text-align:left">${r.office}</td>
-      <td>${r.me.toLocaleString('pt-BR')}</td>
-      <td>${r.rep.toLocaleString('pt-BR')}</td>
-      <td style="font-weight:700">${(r.me+r.rep).toLocaleString('pt-BR')}</td>
-    </tr>`).join('');
-}
 
 </script>
 
