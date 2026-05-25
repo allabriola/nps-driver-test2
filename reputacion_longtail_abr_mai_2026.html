@@ -112,6 +112,12 @@ tr:hover td{background:#fafbff;}
 
 /* ── SOURCE BAR ── */
 .src-bar{display:flex;align-items:center;gap:6px;font-size:10px;color:#aaa;margin-bottom:14px;}
+/* ── OFFICE FILTER ── */
+.flt-bar{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 14px;}
+.flt-btn{padding:6px 16px;border:1px solid var(--border);background:#fff;font-size:11px;font-weight:700;color:#888;cursor:pointer;border-radius:20px;transition:all .15s;}
+.flt-btn.active{background:var(--dark);color:var(--yellow);border-color:var(--dark);}
+.flt-btn:hover:not(.active){background:#f5f5f5;color:var(--dark);}
+.ctx-note{display:none;font-size:11px;color:#777;background:#fff8f0;border-left:3px solid var(--orange);padding:7px 11px;border-radius:6px;margin-bottom:12px;}
 .src-dot{width:8px;height:8px;border-radius:50%;background:#ccc;flex-shrink:0;}
 .src-dot.halo{background:var(--blue);}
 .src-dot.xm{background:var(--orange);}
@@ -139,7 +145,6 @@ tr:hover td{background:#fafbff;}
 
   <button class="tab-btn"          onclick="showTab('xm',this)">XM — CDUs &amp; Soluções</button>
   <button class="tab-btn"          onclick="showTab('excl',this)">Taxa de Exclusão</button>
-  <button class="tab-btn"          onclick="showTab('corr',this)">Correlação NPS × Excl</button>
 </div>
 
 
@@ -529,6 +534,56 @@ tr:hover td{background:#fafbff;}
     </div>
   </div>
 
+  <!-- Correlação por equipe + filtro de oficina -->
+  <div class="section-title">Correlação por Equipe</div>
+  <div class="flt-bar">
+    <button class="flt-btn active" onclick="setOfficeFilter('todos',this)">Todos</button>
+    <button class="flt-btn"        onclick="setOfficeFilter('aec',this)">AEC</button>
+    <button class="flt-btn"        onclick="setOfficeFilter('ate',this)">ATE</button>
+    <button class="flt-btn"        onclick="setOfficeFilter('kta',this)">KTA</button>
+    <button class="flt-btn"        onclick="setOfficeFilter('ctx',this)">CTX</button>
+  </div>
+  <div id="ctx-note" class="ctx-note">CTX: dados disponíveis apenas em Abril — Maio sem operação nessas filas.</div>
+
+  <!-- ME -->
+  <div class="section-title">BR_ME_Sellers_Longtail</div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_me_rep"></canvas></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación ME</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_me_repme"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Ventas -->
+  <div class="section-title">BR_Ventas_Sellers_Longtail</div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_ven_rep"></canvas></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación ME</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_ven_repme"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Publicaciones -->
+  <div class="section-title">BR_Publicaciones_Sellers_Longtail</div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_pub_rep"></canvas></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación ME</div>
+      <div class="chart-container" style="height:240px;"><canvas id="ct_pub_repme"></canvas></div>
+    </div>
+  </div>
+
   <!-- Chart exclusão -->
   <div class="section-title">Composição por Tipo de Solução</div>
   <div class="chart-wrap">
@@ -554,84 +609,6 @@ tr:hover td{background:#fafbff;}
 </div><!-- /excl -->
 
 
-<!-- ══════════════════════════════════════════════
-     ABA 5 — CORRELAÇÃO NPS × TAXA DE EXCLUSÃO
-══════════════════════════════════════════════ -->
-<div id="corr" class="tab-content">
-
-  <div class="src-bar"><div class="src-dot xm"></div>Fonte: XM (DM_CX_NPS_Y20_DETAIL) · NPS Lineal e Taxa de Exclusão por Office × Mês · Abr e Mai/2026</div>
-  <div class="info-note">
-    Barras = NPS Lineal (azul Abril · verde Maio) · Linha laranja = Taxa de Exclusão. <strong>Eixo esquerdo = NPS · Eixo direito = Taxa de Exclusão.</strong> Valores consolidados (média ponderada por volume). CTX incluído em Abril.
-  </div>
-
-  <!-- ── ME Sellers Longtail ── -->
-  <div class="section-title">BR_ME_Sellers_Longtail</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-sub">NPS: 71,8% → 75,4% (+3,6pp) · Excl: 71,8% → 72,7% (+0,9pp)</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_me_rep"></canvas></div>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-sub">NPS: 79,4% → 85,7% (+6,3pp) · Excl: 88,5% → 92,5% (+4,0pp)</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_me_repme"></canvas></div>
-    </div>
-  </div>
-
-  <!-- ── Ventas Sellers Longtail ── -->
-  <div class="section-title">BR_Ventas_Sellers_Longtail</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-sub">NPS: 68,5% → 71,2% (+2,7pp) · Excl: 67,7% → 69,7% (+2,0pp)</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_ven_rep"></canvas></div>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-sub">NPS: 88,9% → 90,4% (+1,5pp) · Excl: 90,4% → 94,5% (+4,1pp)</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_ven_repme"></canvas></div>
-    </div>
-  </div>
-
-  <!-- ── Publicaciones Sellers Longtail ── -->
-  <div class="section-title">BR_Publicaciones_Sellers_Longtail</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-sub">NPS: 76,3% → 80,8% (+4,5pp) · Excl: 68,6% → 74,9% (+6,3pp)</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_pub_rep"></canvas></div>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-sub">NPS: 74,8% → 86,8% (+12,0pp) · Excl: 85,3% → 87,4% (+2,1pp)</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_pub_repme"></canvas></div>
-    </div>
-  </div>
-
-  <!-- Tabela ──────────────────────────────────── -->
-  <div class="card" style="margin-top:8px;">
-    <div class="card-header">NPS e Taxa de Exclusão por Equipe × Mês (consolidado)</div>
-    <table>
-      <thead><tr>
-        <th>Processo</th><th>Equipe</th>
-        <th>NPS Abr</th><th>NPS Mai</th><th>Δ NPS</th>
-        <th>Excl Abr</th><th>Excl Mai</th><th>Δ Excl</th>
-        <th>Pesq Abr</th><th>Pesq Mai</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>Reputación</td><td>ME Sellers LT</td><td>71,8%</td><td>75,4%</td><td class="pos">+3,6pp</td><td>71,8%</td><td>72,7%</td><td class="pos">+0,9pp</td><td>436</td><td>260</td></tr>
-        <tr><td>Reputación</td><td>Ventas Sellers LT</td><td>68,5%</td><td>71,2%</td><td class="pos">+2,7pp</td><td>67,7%</td><td>69,7%</td><td class="pos">+2,0pp</td><td>464</td><td>198</td></tr>
-        <tr><td>Reputación</td><td>Pub Sellers LT</td><td>76,3%</td><td>80,8%</td><td class="pos">+4,5pp</td><td>68,6%</td><td>74,9%</td><td class="pos">+6,3pp</td><td>249</td><td>327</td></tr>
-        <tr><td>Rep ME</td><td>ME Sellers LT</td><td>79,4%</td><td>85,7%</td><td class="pos">+6,3pp</td><td>88,5%</td><td>92,5%</td><td class="pos">+4,0pp</td><td>494</td><td>335</td></tr>
-        <tr><td>Rep ME</td><td>Ventas Sellers LT</td><td>88,9%</td><td>90,4%</td><td class="pos">+1,5pp</td><td>90,4%</td><td>94,5%</td><td class="pos">+4,1pp</td><td>584</td><td>272</td></tr>
-        <tr><td>Rep ME</td><td>Pub Sellers LT</td><td>74,8%</td><td>86,8%</td><td class="pos">+12,0pp</td><td>85,3%</td><td>87,4%</td><td class="pos">+2,1pp</td><td>238</td><td>303</td></tr>
-      </tbody>
-    </table>
-    <div style="padding:8px 14px;font-size:11px;color:#777;">Valores ponderados por volume de pesquisas. CTX incluído em Abril.</div>
-  </div>
-
-</div><!-- /corr -->
 
 </div><!-- /container -->
 
@@ -931,9 +908,55 @@ function makeDeltaChart(canvasId, labels, deltaNPS, deltaExcl) {
   });
 }
 
+// ── Dados por office (índices: 0=ME, 1=Ventas, 2=Pub) ──
+const OFFICE_DATA = {
+  todos: {
+    rep:   { a:[71.8,68.5,76.3], m:[75.4,71.2,80.8], ea:[71.8,67.7,68.6], em:[72.7,69.7,74.9] },
+    repme: { a:[79.4,88.9,74.8], m:[85.7,90.4,86.8], ea:[88.5,90.4,85.3], em:[92.5,94.5,87.4] }
+  },
+  aec: {
+    rep:   { a:[40.0,70.3,74.2], m:[53.8,73.7,72.7], ea:[73.3,66.3,67.7], em:[76.9,70.4,72.7] },
+    repme: { a:[87.5,92.5,77.1], m:[84.6,94.6,83.3], ea:[87.5,91.4,85.7], em:[92.3,97.3,88.9] }
+  },
+  ate: {
+    rep:   { a:[71.7,null,null], m:[74.2,null,null], ea:[75.3,null,null], em:[79.8,null,null] },
+    repme: { a:[78.1,null,null], m:[83.2,null,null], ea:[88.1,null,null], em:[94.4,null,null] }
+  },
+  kta: {
+    rep:   { a:[77.7,63.3,78.4], m:[81.0,63.0,89.7], ea:[64.0,67.1,69.6], em:[58.3,67.4,77.4] },
+    repme: { a:[82.6,71.2,72.9], m:[88.2,71.4,89.3], ea:[89.7,80.8,85.0], em:[90.7,81.6,86.4] }
+  },
+  ctx: {
+    rep:   { a:[61.3,66.2,null], m:[null,null,null], ea:[77.4,75.4,null], em:[null,null,null] },
+    repme: { a:[71.7,79.5,null], m:[null,null,null], ea:[87.0,95.5,null], em:[null,null,null] }
+  }
+};
+
+const _chartRefs = {};
+
+function setOfficeFilter(office, btn) {
+  document.querySelectorAll('.flt-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const note = document.getElementById('ctx-note');
+  if (note) note.style.display = office === 'ctx' ? 'block' : 'none';
+  const d = OFFICE_DATA[office];
+  function upd(id, npsAbr, npsMai, exclAbr, exclMai) {
+    const c = _chartRefs[id]; if (!c) return;
+    c.data.datasets[0].data = [npsAbr, npsMai];
+    c.data.datasets[1].data = [exclAbr, exclMai];
+    c.update('none');
+  }
+  upd('ct_me_rep',    d.rep.a[0],   d.rep.m[0],   d.rep.ea[0],   d.rep.em[0]);
+  upd('ct_me_repme',  d.repme.a[0], d.repme.m[0], d.repme.ea[0], d.repme.em[0]);
+  upd('ct_ven_rep',   d.rep.a[1],   d.rep.m[1],   d.rep.ea[1],   d.rep.em[1]);
+  upd('ct_ven_repme', d.repme.a[1], d.repme.m[1], d.repme.ea[1], d.repme.em[1]);
+  upd('ct_pub_rep',   d.rep.a[2],   d.rep.m[2],   d.rep.ea[2],   d.rep.em[2]);
+  upd('ct_pub_repme', d.repme.a[2], d.repme.m[2], d.repme.ea[2], d.repme.em[2]);
+}
+
 // ── Função simples: NPS Abr/Mai (barras) + Excl Abr/Mai (linha) ──
 function makeTeamChart(id, npsAbr, npsMai, exclAbr, exclMai, npsMin, npsMax, exclMin, exclMax) {
-  new Chart(document.getElementById(id), {
+  _chartRefs[id] = new Chart(document.getElementById(id), {
     type: 'bar',
     data: {
       labels: ['Abril', 'Maio'],
