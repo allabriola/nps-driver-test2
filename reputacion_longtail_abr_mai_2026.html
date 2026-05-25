@@ -136,7 +136,7 @@ tr:hover td{background:#fafbff;}
 <!-- ═══════════════ TABS ═══════════════ -->
 <div class="tabs">
   <button class="tab-btn active"   onclick="showTab('exec',this)">Resumo Executivo</button>
-  <button class="tab-btn"          onclick="showTab('halo',this)">HALO — NPS Operacional</button>
+
   <button class="tab-btn"          onclick="showTab('xm',this)">XM — CDUs &amp; Soluções</button>
   <button class="tab-btn"          onclick="showTab('excl',this)">Taxa de Exclusão</button>
   <button class="tab-btn"          onclick="showTab('corr',this)">Correlação NPS × Excl</button>
@@ -252,101 +252,6 @@ tr:hover td{background:#fafbff;}
 </div><!-- /exec -->
 
 
-<!-- ══════════════════════════════════════════════
-     ABA 2 — HALO NPS OPERACIONAL
-══════════════════════════════════════════════ -->
-<div id="halo" class="tab-content">
-
-  <div class="src-bar"><div class="src-dot halo"></div>Fonte: HALO Performance (dados operacionais CX — NPS por agente/equipe, KPIs causais) · Período: Abr/2026 e Mai/2026 (parcial)</div>
-
-  <!-- NPS por Office -->
-  <div class="section-title">NPS por Office e Equipe — Abr vs Mai</div>
-
-  <div class="chart-wrap">
-    <div class="chart-title">NPS por Office — Todas as Equipes</div>
-    <div class="chart-sub">Barras agrupadas: Abril (claro) vs Maio (escuro) · Linha tracejada = meta Maio</div>
-    <div class="chart-container" style="height:340px;">
-      <canvas id="chartHaloOffice"></canvas>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">NPS por Office × Equipe (Abr vs Mai)<span class="badge">Maio parcial</span></div>
-    <table>
-      <thead><tr>
-        <th>Equipe</th><th>Office</th><th>NPS Abr</th><th>NPS Mai</th><th>Δ</th><th>Meta Mai</th><th>Status</th><th>Expert Abr</th><th>Expert Mai</th><th>Newbie Abr</th><th>Newbie Mai</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>ME Sellers LT</td><td>ATE</td><td>60,9%</td><td>64,9%</td><td class="pos">+4,0pp</td><td>61,3%</td><td><span class="chip chip-pos">OK ✓</span></td><td>64,2%</td><td>68,0%</td><td>54,1%</td><td>55,2%</td></tr>
-        <tr><td>ME Sellers LT</td><td>KTA</td><td>62,6%</td><td>66,2%</td><td class="pos">+3,6pp</td><td>69,0%</td><td><span class="chip chip-warn">Abaixo meta</span></td><td>—</td><td>67,1%</td><td>62,6%</td><td>65,9%</td></tr>
-        <tr><td>ME Sellers LT</td><td>AEC</td><td>42,3%</td><td>44,0%</td><td class="pos">+1,7pp</td><td>40,9%</td><td><span class="chip chip-pos">OK ✓</span></td><td>44,4%</td><td>44,5%</td><td>30,8%</td><td>39,1%</td></tr>
-        <tr><td>ME Sellers LT</td><td>CTX</td><td>58,6%</td><td>—</td><td class="neu">n/d</td><td>—</td><td><span class="chip chip-neu">Sem dados Mai</span></td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-        <tr class="row-warn"><td>Ventas Sellers LT</td><td>KTA</td><td style="color:var(--red);font-weight:700">24,1%</td><td style="color:var(--red);font-weight:700">17,4%</td><td class="neg">−6,7pp</td><td>40,2%</td><td><span class="chip chip-crit">CRÍTICO</span></td><td>—</td><td>—</td><td>24,1%</td><td>17,4%</td></tr>
-        <tr><td>Ventas Sellers LT</td><td>AEC</td><td>73,2%</td><td>70,6%</td><td class="neg">−2,6pp</td><td>66,4%</td><td><span class="chip chip-pos">OK ✓</span></td><td>77,0%</td><td>72,5%</td><td>68,5%</td><td>66,4%</td></tr>
-        <tr><td>Ventas Sellers LT</td><td>CTX</td><td>52,8%</td><td>—</td><td class="neu">n/d</td><td>—</td><td><span class="chip chip-neu">Sem dados Mai</span></td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-        <tr><td>Publicaciones Sellers LT</td><td>KTA</td><td>65,2%</td><td>76,8%</td><td class="pos">+11,6pp</td><td>74,0%</td><td><span class="chip chip-pos">Acima meta ✓</span></td><td>—</td><td>—</td><td>65,2%</td><td>76,8%</td></tr>
-        <tr><td>Publicaciones Sellers LT</td><td>AEC</td><td>66,1%</td><td>68,2%</td><td class="pos">+2,1pp</td><td>66,4%</td><td><span class="chip chip-pos">OK ✓</span></td><td>—</td><td>—</td><td>66,1%</td><td>68,2%</td></tr>
-        <tr><td>Publicaciones Sellers LT</td><td>CTX</td><td>48,2%</td><td>—</td><td class="neu">n/d</td><td>—</td><td><span class="chip chip-neu">Sem dados Mai</span></td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- TDI -->
-  <div class="section-title">TDI — Devolução Indevida (meta: 5%)</div>
-  <div class="card">
-    <div class="card-header">TDI por Office × Equipe<span class="badge badge-red">Todos acima da meta</span></div>
-    <table>
-      <thead><tr><th>Equipe</th><th>Office</th><th>TDI Abr</th><th>TDI Mai</th><th>Δ</th><th>Meta</th></tr></thead>
-      <tbody>
-        <tr class="row-warn"><td>Ventas Sellers LT</td><td>KTA</td><td style="color:var(--red)">21,9%</td><td style="color:var(--red)">17,7%</td><td class="pos">−4,2pp</td><td>5,0%</td></tr>
-        <tr><td>ME Sellers LT</td><td>KTA</td><td>14,8%</td><td>8,2%</td><td class="pos">−6,6pp ✓</td><td>5,2%</td></tr>
-        <tr><td>Ventas Sellers LT</td><td>AEC</td><td>9,9%</td><td>10,7%</td><td class="neg">+0,8pp</td><td>5,2%</td></tr>
-        <tr><td>ME Sellers LT</td><td>AEC</td><td>9,4%</td><td>8,9%</td><td class="pos">−0,5pp</td><td>5,0%</td></tr>
-        <tr><td>ME Sellers LT</td><td>ATE</td><td>9,0%</td><td>8,7%</td><td class="pos">−0,3pp</td><td>5,1%</td></tr>
-        <tr><td>Publicaciones Sellers LT</td><td>AEC</td><td>9,2%</td><td>8,3%</td><td class="pos">−0,9pp</td><td>5,1%</td></tr>
-        <tr><td>Publicaciones Sellers LT</td><td>KTA</td><td>9,7%</td><td>7,5%</td><td class="pos">−2,2pp</td><td>5,0%</td></tr>
-        <tr><td>ME Sellers LT</td><td>CTX</td><td>13,0%</td><td>—</td><td class="neu">n/d</td><td>5,0%</td></tr>
-        <tr><td>Ventas Sellers LT</td><td>CTX</td><td>12,3%</td><td>—</td><td class="neu">n/d</td><td>5,0%</td></tr>
-        <tr><td>Publicaciones Sellers LT</td><td>CTX</td><td>10,5%</td><td>—</td><td class="neu">n/d</td><td>5,0%</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Recontato -->
-  <div class="section-title">Recontato (piora generalizada em Maio)</div>
-  <div class="card">
-    <div class="card-header">Taxa de Recontato por Office × Equipe<span class="badge badge-orange">Piorando em Maio</span></div>
-    <table>
-      <thead><tr><th>Equipe</th><th>Office</th><th>Recontato Abr</th><th>Recontato Mai</th><th>Δ</th></tr></thead>
-      <tbody>
-        <tr class="row-warn"><td>Ventas Sellers LT</td><td>KTA</td><td>25,2%</td><td>31,2%</td><td class="neg">+6,0pp ▲</td></tr>
-        <tr class="row-warn"><td>Ventas Sellers LT</td><td>AEC</td><td>25,7%</td><td>31,5%</td><td class="neg">+5,8pp ▲</td></tr>
-        <tr><td>ME Sellers LT</td><td>KTA</td><td>32,5%</td><td>36,1%</td><td class="neg">+3,6pp</td></tr>
-        <tr><td>ME Sellers LT</td><td>ATE</td><td>26,8%</td><td>29,4%</td><td class="neg">+2,6pp</td></tr>
-        <tr><td>Publicaciones Sellers LT</td><td>AEC</td><td>20,4%</td><td>22,6%</td><td class="neg">+2,2pp</td></tr>
-        <tr><td>ME Sellers LT</td><td>AEC</td><td>36,6%</td><td>37,5%</td><td class="neg">+0,9pp</td></tr>
-        <tr><td>Publicaciones Sellers LT</td><td>KTA</td><td>22,6%</td><td>23,0%</td><td class="neu">+0,4pp</td></tr>
-        <tr><td>ME Sellers LT</td><td>CTX</td><td>37,8%</td><td>—</td><td class="neu">n/d</td></tr>
-        <tr><td>Ventas Sellers LT</td><td>CTX</td><td>21,7%</td><td>—</td><td class="neu">n/d</td></tr>
-        <tr><td>Publicaciones Sellers LT</td><td>CTX</td><td>36,5%</td><td>—</td><td class="neu">n/d</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Senioridade destaque -->
-  <div class="section-title">Alerta Senioridade — KTA/Ventas</div>
-  <div class="hl-grid">
-    <div class="hl hl-neg">
-      <div class="hl-title">KTA / Ventas Sellers Longtail — 100% NEWBIE</div>
-      <div class="hl-text">Em Abril e Maio, <strong>nenhum agente Expert</strong> operou em KTA para Ventas. O NPS (17,4%) é estruturalmente baixo — não é falha de processo isolada. A melhora de TDI (21,9% → 17,7%) não foi suficiente para recuperar o NPS porque a senioridade pressiona toda a operação. Intervenção: alocação de Experts ou programa acelerado de onboarding.</div>
-    </div>
-    <div class="hl hl-pos">
-      <div class="hl-title">AEC / ME — Newbies Evoluindo</div>
-      <div class="hl-text">NPS Newbie em AEC/ME subiu de 30,8% → 39,1% (+8,3pp), enquanto Expert ficou estável (44,4% → 44,5%). Sinal positivo de onboarding funcionando — gap Expert/Newbie reduziu de 13,6pp para 5,4pp nesta office.</div>
-    </div>
-  </div>
-
-</div><!-- /halo -->
 
 
 <!-- ══════════════════════════════════════════════
