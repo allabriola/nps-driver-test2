@@ -133,13 +133,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 const ACCENT = ["#4472C4", "#ED7D31", "#70AD47", "#E05252", "#9B59B6"];
 const ALL_THEMES = {"Quiere saber porqué se inactivó su cuenta": [], "Quiere saber como funciona Envíos Extra": [], "Tiene problemas durante la creacion de la cuenta": [], "Bugs": [], "Quiere saber porque no le pagaron una ruta": [], "Generales": [], "Quiere reclamar por inconvenientes en el recorrido o en el service center": [], "Quiere saber porque no recibe rutas": []};
 
-function bar(id, labels, datasets) {
+const stackedTotalsPlugin = {
+  id: 'stackedTotals',
+  afterDatasetsDraw(chart) {
+    const { ctx, data } = chart;
+    const lastMeta = chart.getDatasetMeta(data.datasets.length - 1);
+    ctx.save();
+    ctx.font = 'bold 11px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif';
+    ctx.fillStyle = '#444';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    lastMeta.data.forEach((bar, i) => {
+      const total = data.datasets.reduce((sum, ds) => sum + (ds.data[i] || 0), 0);
+      ctx.fillText(total.toLocaleString('pt-BR'), bar.x, bar.y - 4);
+    });
+    ctx.restore();
+  }
+};
+
+function bar(id, labels, datasets, showTotals = false) {
   new Chart(document.getElementById(id), {
     type: 'bar',
     data: { labels, datasets },
+    plugins: showTotals ? [stackedTotalsPlugin] : [],
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      layout: { padding: { top: showTotals ? 20 : 0 } },
       plugins: {
         legend: { position: 'bottom',
                   labels: { boxWidth: 12, padding: 10, font: { size: 11 } } },
@@ -184,7 +204,7 @@ function selectCDU(cdu) {
   }
 }
 
-bar('cM', ["Jan", "Fev", "Mar", "Abr", "Mai"], [{label:"Quiere saber porqué se inactivó su cuenta",data:[3237, 5404, 8449, 8308, 7187],backgroundColor:"#4472C4",borderRadius:4,stack:'s'},{label:"Quiere saber como funciona Envíos Extra",data:[1169, 1295, 1677, 1717, 1567],backgroundColor:"#ED7D31",borderRadius:4,stack:'s'},{label:"Tiene problemas durante la creacion de la cuenta",data:[440, 497, 748, 1152, 1182],backgroundColor:"#70AD47",borderRadius:4,stack:'s'},{label:"Bugs",data:[443, 526, 802, 1168, 924],backgroundColor:"#FFC000",borderRadius:4,stack:'s'},{label:"Quiere saber porque no le pagaron una ruta",data:[536, 660, 836, 891, 866],backgroundColor:"#E05252",borderRadius:4,stack:'s'},{label:"Generales",data:[371, 358, 349, 1079, 1525],backgroundColor:"#9B59B6",borderRadius:4,stack:'s'},{label:"Quiere reclamar por inconvenientes en el recorrido o en el service center",data:[487, 536, 791, 778, 896],backgroundColor:"#255E91",borderRadius:4,stack:'s'},{label:"Quiere saber porque no recibe rutas",data:[606, 528, 643, 746, 627],backgroundColor:"#c45f00",borderRadius:4,stack:'s'},{label:"Sem CDU",data:[42, 31, 22, 38, 15],backgroundColor:"#D0D0D0",borderRadius:4,stack:'s'},{label:"Outros",data:[1483, 1801, 2425, 3366, 3845],backgroundColor:"#BBBBBB",borderRadius:4,stack:'s'}]);
+bar('cM', ["Jan", "Fev", "Mar", "Abr", "Mai"], [{label:"Quiere saber porqué se inactivó su cuenta",data:[3237, 5404, 8449, 8308, 7187],backgroundColor:"#4472C4",borderRadius:4,stack:'s'},{label:"Quiere saber como funciona Envíos Extra",data:[1169, 1295, 1677, 1717, 1567],backgroundColor:"#ED7D31",borderRadius:4,stack:'s'},{label:"Tiene problemas durante la creacion de la cuenta",data:[440, 497, 748, 1152, 1182],backgroundColor:"#70AD47",borderRadius:4,stack:'s'},{label:"Bugs",data:[443, 526, 802, 1168, 924],backgroundColor:"#FFC000",borderRadius:4,stack:'s'},{label:"Quiere saber porque no le pagaron una ruta",data:[536, 660, 836, 891, 866],backgroundColor:"#E05252",borderRadius:4,stack:'s'},{label:"Generales",data:[371, 358, 349, 1079, 1525],backgroundColor:"#9B59B6",borderRadius:4,stack:'s'},{label:"Quiere reclamar por inconvenientes en el recorrido o en el service center",data:[487, 536, 791, 778, 896],backgroundColor:"#255E91",borderRadius:4,stack:'s'},{label:"Quiere saber porque no recibe rutas",data:[606, 528, 643, 746, 627],backgroundColor:"#c45f00",borderRadius:4,stack:'s'},{label:"Sem CDU",data:[42, 31, 22, 38, 15],backgroundColor:"#D0D0D0",borderRadius:4,stack:'s'},{label:"Outros",data:[1483, 1801, 2425, 3366, 3845],backgroundColor:"#BBBBBB",borderRadius:4,stack:'s'}], true);
 bar('cW', ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05"],   [{label:"Quiere saber porqué se inactivó su cuenta",data:[1633, 1597, 2095, 2266, 2059, 1906, 2172, 2556],backgroundColor:"#4472C4",borderRadius:4,stack:'s'},{label:"Quiere saber como funciona Envíos Extra",data:[295, 336, 436, 478, 478, 454, 551, 378],backgroundColor:"#ED7D31",borderRadius:4,stack:'s'},{label:"Generales",data:[155, 167, 233, 365, 330, 451, 569, 381],backgroundColor:"#70AD47",borderRadius:4,stack:'s'},{label:"Tiene problemas durante la creacion de la cuenta",data:[160, 168, 242, 418, 307, 346, 438, 313],backgroundColor:"#FFC000",borderRadius:4,stack:'s'},{label:"Bugs",data:[149, 154, 207, 520, 283, 297, 306, 247],backgroundColor:"#E05252",borderRadius:4,stack:'s'},{label:"Quiere saber porque no le pagaron una ruta",data:[181, 210, 190, 204, 239, 272, 314, 195],backgroundColor:"#9B59B6",borderRadius:4,stack:'s'},{label:"Quiere reclamar por inconvenientes en el recorrido o en el service center",data:[147, 189, 201, 181, 203, 253, 304, 256],backgroundColor:"#255E91",borderRadius:4,stack:'s'},{label:"Oferta de rutas",data:[184, 170, 194, 191, 217, 195, 250, 222],backgroundColor:"#c45f00",borderRadius:4,stack:'s'},{label:"Sem CDU",data:[3, 9, 7, 17, 8, 7, 2, 3],backgroundColor:"#D0D0D0",borderRadius:4,stack:'s'},{label:"Outros",data:[606, 541, 792, 888, 1109, 990, 1147, 1169],backgroundColor:"#BBBBBB",borderRadius:4,stack:'s'}]);
 </script>
 </body>
