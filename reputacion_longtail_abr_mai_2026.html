@@ -207,6 +207,15 @@ tr:hover td{background:#fafbff;}
 </style>
 </head>
 <body>
+<div id="__err__" style="display:none;position:fixed;top:0;left:0;right:0;background:red;color:#fff;font-size:13px;font-weight:700;padding:10px 16px;z-index:9999;"></div>
+<script>
+window.onerror = function(msg, src, line, col, err) {
+  var d = document.getElementById('__err__');
+  d.style.display = 'block';
+  d.textContent = 'JS ERRO (linha ' + line + '): ' + msg;
+  return true;
+};
+</script>
 
 <!-- ═══════════════ HEADER ═══════════════ -->
 <div class="header">
@@ -317,8 +326,8 @@ tr:hover td{background:#fafbff;}
       <strong>Reputación: melhora mais equilibrada — e um sinal revelador.</strong> 49% do ganho vem de mais exclusões (MIX), 61% de experiência. O dado mais relevante: "Não Excluímos" subiu de 12%→32% NPS — sellers aceitando melhor a decisão mesmo quando o impacto é mantido. Sinal de melhora na qualidade da explicação e processo de comunicação dos agentes.
     </div>
   </div>
-  <div style="width:120px;height:60px;position:relative;"><canvas id="diagChart"></canvas></div>
-  <div id="diagMsg" style="font-size:11px;color:#856404;">Carregando...</div>
+  
+  
 </div>
 </div>
 
