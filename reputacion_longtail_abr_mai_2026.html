@@ -754,36 +754,6 @@ window.onerror = function(msg, src, line, col, err) {
     </div>
   </div>
 
-  <!-- Gráficos -->
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title" id="excl-chart-title-m">Evolução Mensal — Todas as equipes</div>
-      <div class="chart-sub">Abril vs Maio 2026 · Exclusões únicas (distinct)</div>
-      <div class="chart-container" style="height:340px;"><canvas id="chartExclMensal"></canvas></div>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title" id="excl-chart-title-w">Evolução Semanal — Todas as equipes</div>
-      <div class="chart-sub">7 semanas: 06/abr–18/mai</div>
-      <div class="chart-container" style="height:340px;"><canvas id="chartExclSemanal"></canvas></div>
-    </div>
-  </div>
-
-  <div class="section-title" style="margin-top:24px;">Volume de Exclusões por Representante</div>
-  <div class="info-note">Período: Abril + Maio 2026 · Ordenado por Office → Líder → Rep. Clique em qualquer coluna para ordenar.</div>
-  <div class="card" style="overflow:auto;max-height:480px;">
-    <table id="tblReps" style="font-size:11px;">
-      <thead style="position:sticky;top:0;background:#fafafa;z-index:1;"><tr>
-        <th style="text-align:left;cursor:pointer;" onclick="sortReps(0)">Rep ▲</th>
-        <th style="text-align:left;cursor:pointer;" onclick="sortReps(1)">Líder</th>
-        <th style="text-align:left;cursor:pointer;" onclick="sortReps(2)">Canal</th>
-        <th style="text-align:left;cursor:pointer;" onclick="sortReps(3)">Office</th>
-        <th style="cursor:pointer;" onclick="sortReps(4)">Excl Rep ME</th>
-        <th style="cursor:pointer;" onclick="sortReps(5)">Excl Reputación</th>
-        <th style="cursor:pointer;" onclick="sortReps(6)">Total</th>
-      </tr></thead>
-      <tbody id="tblRepsBody"></tbody>
-    </table>
-  </div>
 
 </div><!-- /pct-excl -->
 
@@ -1467,7 +1437,7 @@ function renderExclCharts() {
   if (_chartEM) {
     _chartEM.data.labels = MESES_L;
     _chartEM.data.datasets = mDS; _chartEM.update('none');
-  } else {
+  } else if (document.getElementById('chartExclMensal')) {
     _chartEM = new Chart(document.getElementById('chartExclMensal'),{
       type:'line',
       data:{labels:MESES_L, datasets:mDS},
@@ -1481,7 +1451,7 @@ function renderExclCharts() {
   if (_chartEW) {
     _chartEW.data.labels = WKL7;
     _chartEW.data.datasets = wDS; _chartEW.update('none');
-  } else {
+  } else if (document.getElementById('chartExclSemanal')) {
     _chartEW = new Chart(document.getElementById('chartExclSemanal'),{
       type:'line',
       data:{labels:WKL7, datasets:wDS},
