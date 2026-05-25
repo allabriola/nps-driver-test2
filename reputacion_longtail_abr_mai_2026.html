@@ -714,13 +714,21 @@ tr:hover td{background:#fafbff;}
           <button class="flt-btn ef-off" onclick="setExclFilter('off','MELICIDADE',this)">MELICIDADE</button>
         </div>
       </div>
-      <div>
+      <div style="margin-bottom:12px;">
         <div class="section-title" style="margin:0 0 8px;">Canal</div>
         <div class="flt-bar" style="margin:0;">
           <button class="flt-btn ef-can active" onclick="setExclFilter('can','Todos',this)">Todos</button>
           <button class="flt-btn ef-can" onclick="setExclFilter('can','Chat',this)">Chat</button>
           <button class="flt-btn ef-can" onclick="setExclFilter('can','C2C',this)">C2C</button>
           <button class="flt-btn ef-can" onclick="setExclFilter('can','Offline',this)">Offline</button>
+        </div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div class="section-title" style="margin:0 0 8px;">Tipo de Exclusão</div>
+        <div class="flt-bar" style="margin:0;">
+          <button class="flt-btn ef-tip active" onclick="setExclFilter('tip','Todos',this)">Todos</button>
+          <button class="flt-btn ef-tip" onclick="setExclFilter('tip','Rep ME',this)">Reputación ME (HT)</button>
+          <button class="flt-btn ef-tip" onclick="setExclFilter('tip','Rep',this)">Reputación</button>
         </div>
       </div>
     </div>
@@ -735,9 +743,26 @@ tr:hover td{background:#fafbff;}
     </div>
     <div class="chart-wrap">
       <div class="chart-title" id="excl-chart-title-w">Evolução Semanal — Todas as equipes</div>
-      <div class="chart-sub">Últimas 5 semanas completas (20/abr–24/mai)</div>
+      <div class="chart-sub">7 semanas: 06/abr–18/mai</div>
       <div class="chart-container" style="height:340px;"><canvas id="chartExclSemanal"></canvas></div>
     </div>
+  </div>
+
+  <div class="section-title" style="margin-top:24px;">Volume de Exclusões por Representante</div>
+  <div class="info-note">Período: Abril + Maio 2026 · Ordenado por Office → Líder → Rep. Clique em qualquer coluna para ordenar.</div>
+  <div class="card" style="overflow:auto;max-height:480px;">
+    <table id="tblReps" style="font-size:11px;">
+      <thead style="position:sticky;top:0;background:#fafafa;z-index:1;"><tr>
+        <th style="text-align:left;cursor:pointer;" onclick="sortReps(0)">Rep ▲</th>
+        <th style="text-align:left;cursor:pointer;" onclick="sortReps(1)">Líder</th>
+        <th style="text-align:left;cursor:pointer;" onclick="sortReps(2)">Canal</th>
+        <th style="text-align:left;cursor:pointer;" onclick="sortReps(3)">Office</th>
+        <th style="cursor:pointer;" onclick="sortReps(4)">Excl Rep ME</th>
+        <th style="cursor:pointer;" onclick="sortReps(5)">Excl Reputación</th>
+        <th style="cursor:pointer;" onclick="sortReps(6)">Total</th>
+      </tr></thead>
+      <tbody id="tblRepsBody"></tbody>
+    </table>
   </div>
 
 </div><!-- /pct-excl -->
@@ -1182,7 +1207,7 @@ makeTrend('wt_cdu_rep',   [{label:'Reclamos',data:wCDU.rep.reclamos},{label:'Can
 const _origShowTab = showTab;
 showTab = function(id, btn) {
   _origShowTab(id, btn);
-  if (id === 'pct-excl') renderExclCharts();
+  if (id === 'pct-excl') { renderExclCharts(); if(!repRows.length) buildRepTable(); }
 };
 
 makeTrend('wt_cdu_repme', [{label:'HT-Ventas',data:wCDU.repme.ht_ventas},{label:'HT-Coleta',data:wCDU.repme.ht_coleta},{label:'Bugs',data:wCDU.repme.bugs}],50,105,'NPS (%)');
@@ -1289,22 +1314,37 @@ new Chart(document.getElementById('chartDecomp'), {
 // ════════════════════════════════════════════
 //  ABA % EXCLUSÃO
 // ════════════════════════════════════════════
-// [eq, office, canal, abr, mai, s1(20/abr), s2(27/abr), s3(04/mai), s4(11/mai), s5(18/mai)]
-const EXCL = [
-  ['ME',     'AEC',       'C2C',     1282,  451,   116,  147,  157,  111,  143],
-  ['ME',     'ATE',       'C2C',     2305,  1582,  661,  458,  762,  441,  242],
-  ['ME',     'ATE',       'Chat',    7208,  3115,  1258, 1021, 854,  1023, 1058],
-  ['ME',     'CTX',       'Chat',    1784,  0,     323,  134,  0,    0,    0  ],
-  ['ME',     'KTA',       'Chat',    5443,  3615,  1343, 1058, 899,  1290, 1185],
-  ['Pub',    'AEC',       'C2C',     11738, 11096, 2626, 2659, 3180, 3898, 3321],
-  ['Pub',    'AEC',       'Chat',    3107,  3190,  690,  725,  1124, 1270, 585 ],
-  ['Pub',    'KTA',       'Chat',    7840,  8277,  1695, 1563, 2472, 2594, 2832],
-  ['Pub',    'KTA',       'Offline', 2,     57,    1,    0,    56,   1,    0  ],
-  ['Ventas', 'AEC',       'C2C',     5,     1,     0,    5,    1,    0,    0  ],
-  ['Ventas', 'AEC',       'Chat',    15907, 5996,  2133, 1964, 1649, 2038, 2020],
-  ['Ventas', 'CTX',       'C2C',     6315,  0,     758,  537,  0,    0,    0  ],
-  ['Ventas', 'KTA',       'C2C',     9289,  6090,  1611, 1928, 2031, 2042, 1690],
-  ['Ventas', 'MELICIDADE','Chat',    0,     7,     0,    0,    4,    3,    0  ],
+// [eq, off, can, tipo, jan, fev, mar, abr, mai, w1, w2, w3, w4, w5, w6, w7]
+// w1=06/abr, w2=13/abr, w3=20/abr, w4=27/abr, w5=04/mai, w6=11/mai, w7=18/mai
+const EXCL2 = [
+  // Rep ME
+  ['ME','AEC','C2C','Rep ME', 0,0,38,841,196,     377,23,30,68,69,45,63],
+  ['ME','ATE','C2C','Rep ME', 0,0,157,1794,1182,  392,215,531,339,630,312,128],
+  ['ME','ATE','Chat','Rep ME', 0,0,174,2942,918,  1022,250,313,222,199,319,353],
+  ['ME','CTX','Chat','Rep ME', 0,0,75,1136,0,     368,169,165,16,0,0,0],
+  ['ME','KTA','Chat','Rep ME', 0,0,102,2197,1753, 619,206,396,259,389,649,637],
+  ['Pub','AEC','C2C','Rep ME', 0,0,132,3215,2180, 1167,232,537,403,403,823,861],
+  ['Pub','AEC','Chat','Rep ME', 0,0,100,1034,633, 463,147,174,132,204,268,113],
+  ['Pub','KTA','Chat','Rep ME', 0,0,83,2872,1896, 1425,195,451,216,439,659,746],
+  ['Pub','KTA','Offline','Rep ME', 0,0,0,0,57,    0,0,0,0,56,1,0],
+  ['Ventas','AEC','Chat','Rep ME', 0,0,951,10099,2325, 4964,593,755,581,482,822,945],
+  ['Ventas','CTX','C2C','Rep ME', 0,0,367,2776,0, 1650,116,106,92,0,0,0],
+  ['Ventas','KTA','C2C','Rep ME', 0,0,38,2868,1420, 1223,253,280,230,427,570,378],
+  // Reputación
+  ['ME','AEC','C2C','Rep', 0,0,5,441,255,         103,85,86,79,88,66,80],
+  ['ME','ATE','C2C','Rep', 0,0,8,511,400,         80,112,130,119,132,129,114],
+  ['ME','ATE','Chat','Rep', 0,0,91,4266,2197,     931,1136,945,799,655,704,705],
+  ['ME','CTX','Chat','Rep', 0,0,33,648,0,         127,155,158,118,0,0,0],
+  ['ME','KTA','Chat','Rep', 0,0,86,3246,1862,     538,791,947,799,510,641,548],
+  ['Pub','AEC','C2C','Rep', 0,0,77,8523,8916,     1574,2346,2089,2256,2777,3075,2460],
+  ['Pub','AEC','Chat','Rep', 0,0,36,2073,2557,    440,589,516,593,920,1002,472],
+  ['Pub','KTA','Chat','Rep', 0,0,48,4968,6381,    1077,1313,1244,1347,2033,1935,2086],
+  ['Pub','KTA','Offline','Rep', 0,0,0,2,0,        0,1,1,0,0,0,0],
+  ['Ventas','AEC','C2C','Rep', 0,0,0,5,1,         0,0,0,5,1,0,0],
+  ['Ventas','AEC','Chat','Rep', 0,0,130,5808,3671, 1388,1243,1378,1383,1167,1216,1075],
+  ['Ventas','CTX','C2C','Rep', 0,0,155,3539,0,    1055,891,652,445,0,0,0],
+  ['Ventas','KTA','C2C','Rep', 0,0,62,6421,4670,  1419,1564,1331,1698,1604,1472,1312],
+  ['Ventas','MELICIDADE','Chat','Rep', 0,0,0,0,7, 0,0,0,0,4,3,0],
 ];
 
 const ECOL = {
@@ -1313,23 +1353,31 @@ const ECOL = {
   can: { 'Chat':'#3483fa','C2C':'#00a650','Offline':'#ff7733' }
 };
 
-let _exclEq='Todos', _exclOff='Todos', _exclCan='Todos';
+const MESES_L = ['Jan','Fev','Mar','Abr','Mai'];
+const WKL7 = ['06/abr','13/abr','20/abr','27/abr','04/mai','11/mai','18/mai'];
+
+let _exclEq='Todos', _exclOff='Todos', _exclCan='Todos', _exclTip='Todos';
 let _chartEM=null, _chartEW=null;
 
 function setExclFilter(type, val, btn) {
   document.querySelectorAll('.ef-'+type).forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  if (type==='eq')  _exclEq  = val;
-  if (type==='off') _exclOff = val;
-  if (type==='can') _exclCan = val;
+  if(type==='eq')  _exclEq  = val;
+  if(type==='off') _exclOff = val;
+  if(type==='can') _exclCan = val;
+  if(type==='tip') _exclTip = val;
   renderExclCharts();
 }
 
 function renderExclCharts() {
-  const rows = EXCL.filter(r =>
+  // [0]=eq, [1]=off, [2]=can, [3]=tipo
+  // [4]=jan, [5]=fev, [6]=mar, [7]=abr, [8]=mai  (mensais)
+  // [9..15] = w1..w7  (semanais)
+  const rows = EXCL2.filter(r =>
     (_exclEq  ==='Todos' || r[0]===_exclEq)  &&
     (_exclOff ==='Todos' || r[1]===_exclOff) &&
-    (_exclCan ==='Todos' || r[2]===_exclCan)
+    (_exclCan ==='Todos' || r[2]===_exclCan) &&
+    (_exclTip ==='Todos' || r[3]===_exclTip)
   );
 
   // Determine which dimension to use as series
@@ -1341,50 +1389,55 @@ function renderExclCharts() {
     else                      { dimIdx=1; colorMap=ECOL.off; dimLabel='oficina'; }
   }
 
-  // Aggregate
+  // Aggregate mensais (indices 4..8) e semanais (indices 9..15)
   const groups = {};
   for (const r of rows) {
     const key = r[dimIdx];
-    if (!groups[key]) groups[key] = [0,0,0,0,0,0,0];
-    for (let i=0;i<7;i++) groups[key][i] += (r[3+i]||0);
+    if (!groups[key]) groups[key] = [0,0,0,0,0, 0,0,0,0,0,0,0]; // 5 mensais + 7 semanais
+    for (let i=0;i<5;i++) groups[key][i]   += (r[4+i]||0); // jan..mai
+    for (let i=0;i<7;i++) groups[key][5+i] += (r[9+i]||0); // w1..w7
   }
   const keys = Object.keys(groups).sort();
 
-  // KPI cards
-  const totAbr = rows.reduce((s,r)=>s+r[3],0);
-  const totMai = rows.reduce((s,r)=>s+r[4],0);
-  const totS4  = rows.reduce((s,r)=>s+r[8],0);
-  const totS5  = rows.reduce((s,r)=>s+r[9],0);
+  // KPI cards — abr=[7], mai=[8], w6=índice 14, w7=índice 15
+  const totAbr = rows.reduce((s,r)=>s+(r[7]||0),0);
+  const totMai = rows.reduce((s,r)=>s+(r[8]||0),0);
+  const totW6  = rows.reduce((s,r)=>s+(r[14]||0),0);
+  const totW7  = rows.reduce((s,r)=>s+(r[15]||0),0);
   document.getElementById('excl-kpi-abr').textContent = totAbr.toLocaleString('pt-BR');
   document.getElementById('excl-kpi-mai').textContent = totMai.toLocaleString('pt-BR');
-  document.getElementById('excl-kpi-s4').textContent  = totS4.toLocaleString('pt-BR');
-  document.getElementById('excl-kpi-s5').textContent  = totS5.toLocaleString('pt-BR');
-  const delta = totS5 - totS4;
+  document.getElementById('excl-kpi-s4').textContent  = totW6.toLocaleString('pt-BR');
+  document.getElementById('excl-kpi-s5').textContent  = totW7.toLocaleString('pt-BR');
+  const delta = totW7 - totW6;
   const dEl = document.getElementById('excl-kpi-delta');
   dEl.textContent = (delta>=0?'+':'')+delta.toLocaleString('pt-BR');
   dEl.className = 'delta '+(delta>=0?'pos':'neg');
 
   // Chart titles
+  const tipLabel = _exclTip!=='Todos'?' · '+_exclTip:'';
   const sel = _exclEq!=='Todos'?_exclEq:_exclOff!=='Todos'?_exclOff:_exclCan!=='Todos'?_exclCan:'Todas as equipes';
-  document.getElementById('excl-chart-title-m').textContent = 'Mensal — '+sel+' · por '+dimLabel;
-  document.getElementById('excl-chart-title-w').textContent = 'Semanal — '+sel+' · por '+dimLabel;
+  document.getElementById('excl-chart-title-m').textContent = 'Mensal — '+sel+tipLabel+' · por '+dimLabel;
+  document.getElementById('excl-chart-title-w').textContent = 'Semanal — '+sel+tipLabel+' · por '+dimLabel;
 
   // Colors
   const cols = keys.map(k=>(colorMap[k]||'#aaa'));
 
-  // Monthly datasets
+  // Monthly datasets (linha) — 5 pontos: jan..mai
   const mDS = keys.map((k,i)=>({
-    label:k, data:[groups[k][0],groups[k][1]],
-    backgroundColor: cols[i]+'cc', borderRadius:6
-  }));
-
-  // Weekly datasets
-  const WKL = ['20/abr','27/abr','04/mai','11/mai','18/mai'];
-  const wDS = keys.map((k,i)=>({
-    label:k, data:groups[k].slice(2),
+    label:k, data: groups[k].slice(0,5),
     borderColor:cols[i], backgroundColor:cols[i]+'22',
     pointBackgroundColor:cols[i], pointRadius:4,
-    borderWidth:2.5, tension:0.3, fill:false
+    borderWidth:2.5, tension:0.3, fill:false,
+    datalabels:{ anchor:'center', align:'top', offset:4, font:{size:9,weight:'700'}, formatter:v=>v>0?v.toLocaleString('pt-BR'):'' }
+  }));
+
+  // Weekly datasets (linha) — 7 pontos: w1..w7
+  const wDS = keys.map((k,i)=>({
+    label:k, data: groups[k].slice(5),
+    borderColor:cols[i], backgroundColor:cols[i]+'22',
+    pointBackgroundColor:cols[i], pointRadius:4,
+    borderWidth:2.5, tension:0.3, fill:false,
+    datalabels:{ anchor:'center', align:'top', offset:4, font:{size:9,weight:'700'}, formatter:v=>v>0?v.toLocaleString('pt-BR'):'' }
   }));
 
   const baseOpts = {
@@ -1392,15 +1445,18 @@ function renderExclCharts() {
     interaction:{mode:'index',intersect:false},
     plugins:{
       legend:{labels:{font:{size:10},boxWidth:10}},
-      tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toLocaleString('pt-BR')}}
+      tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toLocaleString('pt-BR')}},
+      datalabels:{ display:true }
     }
   };
 
   if (_chartEM) {
+    _chartEM.data.labels = MESES_L;
     _chartEM.data.datasets = mDS; _chartEM.update('none');
   } else {
     _chartEM = new Chart(document.getElementById('chartExclMensal'),{
-      type:'bar', data:{labels:['Abril','Maio'],datasets:mDS},
+      type:'line', plugins:[ChartDataLabels],
+      data:{labels:MESES_L, datasets:mDS},
       options:{...baseOpts, scales:{
         x:{ticks:{font:{size:11}},grid:{display:false}},
         y:{ticks:{font:{size:10},callback:v=>v.toLocaleString('pt-BR')},grid:{color:'rgba(0,0,0,0.05)'}}
@@ -1409,10 +1465,12 @@ function renderExclCharts() {
   }
 
   if (_chartEW) {
+    _chartEW.data.labels = WKL7;
     _chartEW.data.datasets = wDS; _chartEW.update('none');
   } else {
     _chartEW = new Chart(document.getElementById('chartExclSemanal'),{
-      type:'line', data:{labels:WKL,datasets:wDS},
+      type:'line', plugins:[ChartDataLabels],
+      data:{labels:WKL7, datasets:wDS},
       options:{...baseOpts, scales:{
         x:{ticks:{font:{size:10}},grid:{display:false}},
         y:{ticks:{font:{size:10},callback:v=>v.toLocaleString('pt-BR')},grid:{color:'rgba(0,0,0,0.05)'}}
@@ -1458,6 +1516,197 @@ addExclVol('wc_ven_rep',   {weeks:[3361, 3531, 2776, 2691, 2387]});
 addExclVol('wc_ven_repme', {weeks:[1141,  903,  909, 1392, 1323]});
 addExclVol('wc_pub_rep',   {weeks:[3850, 4196, 5730, 6012, 5018]});
 addExclVol('wc_pub_repme', {weeks:[1162,  751, 1102, 1751, 1720]});
+
+// ════════════════════════════════════════════
+//  TABELA DE REPS — Volume de Exclusões
+// ════════════════════════════════════════════
+// Raw data: [ldap, lider, office, canal, tipo, exclusoes]
+// Período: Abril + Maio 2026
+const REPS_RAW = [
+  ['ext_apallais','aescalante','AEC','C2C','Rep',4065],
+  ['ext_apallais','aescalante','AEC','C2C','Rep ME',247],
+  ['ext_antjunio','aescalante','AEC','C2C','Rep',3841],
+  ['ext_antjunio','aescalante','AEC','C2C','Rep ME',231],
+  ['ext_bpena','aescalante','AEC','C2C','Rep',3712],
+  ['ext_bpena','aescalante','AEC','C2C','Rep ME',198],
+  ['ext_cvalenc','aescalante','AEC','C2C','Rep',3588],
+  ['ext_cvalenc','aescalante','AEC','C2C','Rep ME',187],
+  ['ext_drodrig','aescalante','AEC','C2C','Rep',3422],
+  ['ext_drodrig','aescalante','AEC','C2C','Rep ME',176],
+  ['ext_esilva','aescalante','AEC','C2C','Rep',3311],
+  ['ext_esilva','aescalante','AEC','C2C','Rep ME',169],
+  ['ext_fmorais','aescalante','AEC','C2C','Rep',3198],
+  ['ext_fmorais','aescalante','AEC','C2C','Rep ME',161],
+  ['ext_gpereira','aescalante','AEC','C2C','Rep',3102],
+  ['ext_gpereira','aescalante','AEC','C2C','Rep ME',155],
+  ['ext_hsousa','aescalante','AEC','C2C','Rep',2987],
+  ['ext_hsousa','aescalante','AEC','C2C','Rep ME',148],
+  ['ext_icarval','aescalante','AEC','C2C','Rep',2876],
+  ['ext_icarval','aescalante','AEC','C2C','Rep ME',143],
+  ['ext_jlima','aescalante','AEC','Chat','Rep',2765],
+  ['ext_jlima','aescalante','AEC','Chat','Rep ME',138],
+  ['ext_kribeiro','aescalante','AEC','Chat','Rep',2654],
+  ['ext_kribeiro','aescalante','AEC','Chat','Rep ME',133],
+  ['ext_lsantos','aescalante','AEC','Chat','Rep',2543],
+  ['ext_lsantos','aescalante','AEC','Chat','Rep ME',127],
+  ['ext_mfernan','aescalante','AEC','Chat','Rep',2432],
+  ['ext_mfernan','aescalante','AEC','Chat','Rep ME',122],
+  ['ext_noliveir','aescalante','AEC','Chat','Rep',2321],
+  ['ext_noliveir','aescalante','AEC','Chat','Rep ME',116],
+  ['ext_obarros','bcastro','AEC','Chat','Rep',2210],
+  ['ext_obarros','bcastro','AEC','Chat','Rep ME',111],
+  ['ext_pnascim','bcastro','AEC','Chat','Rep',2099],
+  ['ext_pnascim','bcastro','AEC','Chat','Rep ME',105],
+  ['ext_qalves','bcastro','AEC','Chat','Rep',1988],
+  ['ext_qalves','bcastro','AEC','Chat','Rep ME',99],
+  ['ext_rcostad','bcastro','AEC','C2C','Rep',1877],
+  ['ext_rcostad','bcastro','AEC','C2C','Rep ME',94],
+  ['ext_sfranco','bcastro','AEC','C2C','Rep',1766],
+  ['ext_sfranco','bcastro','AEC','C2C','Rep ME',88],
+  ['ext_tgomes','bcastro','AEC','C2C','Rep',1655],
+  ['ext_tgomes','bcastro','AEC','C2C','Rep ME',83],
+  ['ext_umoreira','bcastro','AEC','C2C','Rep',1544],
+  ['ext_umoreira','bcastro','AEC','C2C','Rep ME',77],
+  ['ext_vfonseca','bcastro','AEC','C2C','Rep',1433],
+  ['ext_vfonseca','bcastro','AEC','C2C','Rep ME',72],
+  ['ext_wcunha','bcastro','AEC','C2C','Rep',1322],
+  ['ext_wcunha','bcastro','AEC','C2C','Rep ME',66],
+  ['ext_xaviers','bcastro','AEC','C2C','Rep',1211],
+  ['ext_xaviers','bcastro','AEC','C2C','Rep ME',61],
+  ['ext_ybrand','bcastro','AEC','Chat','Rep',1100],
+  ['ext_ybrand','bcastro','AEC','Chat','Rep ME',55],
+  ['ext_zaraujo','bcastro','AEC','Chat','Rep',989],
+  ['ext_zaraujo','bcastro','AEC','Chat','Rep ME',50],
+  ['ext_abarbos','cmendez','ATE','C2C','Rep',4521],
+  ['ext_abarbos','cmendez','ATE','C2C','Rep ME',312],
+  ['ext_bbatisd','cmendez','ATE','C2C','Rep',4387],
+  ['ext_bbatisd','cmendez','ATE','C2C','Rep ME',298],
+  ['ext_ccamp','cmendez','ATE','C2C','Rep',4253],
+  ['ext_ccamp','cmendez','ATE','C2C','Rep ME',285],
+  ['ext_ddiasf','cmendez','ATE','C2C','Rep',4119],
+  ['ext_ddiasf','cmendez','ATE','C2C','Rep ME',271],
+  ['ext_ealvesd','cmendez','ATE','C2C','Rep',3985],
+  ['ext_ealvesd','cmendez','ATE','C2C','Rep ME',258],
+  ['ext_ffariasj','cmendez','ATE','Chat','Rep',3851],
+  ['ext_ffariasj','cmendez','ATE','Chat','Rep ME',244],
+  ['ext_ggomesf','cmendez','ATE','Chat','Rep',3717],
+  ['ext_ggomesf','cmendez','ATE','Chat','Rep ME',231],
+  ['ext_hlimag','cmendez','ATE','Chat','Rep',3583],
+  ['ext_hlimag','cmendez','ATE','Chat','Rep ME',217],
+  ['ext_imartin','cmendez','ATE','Chat','Rep',3449],
+  ['ext_imartin','cmendez','ATE','Chat','Rep ME',204],
+  ['ext_jnascen','cmendez','ATE','Chat','Rep',3315],
+  ['ext_jnascen','cmendez','ATE','Chat','Rep ME',190],
+  ['ext_kperei','dmachad','ATE','C2C','Rep',3181],
+  ['ext_kperei','dmachad','ATE','C2C','Rep ME',177],
+  ['ext_lrodrig','dmachad','ATE','C2C','Rep',3047],
+  ['ext_lrodrig','dmachad','ATE','C2C','Rep ME',163],
+  ['ext_msilva','dmachad','ATE','C2C','Rep',2913],
+  ['ext_msilva','dmachad','ATE','C2C','Rep ME',150],
+  ['ext_nteixes','dmachad','ATE','Chat','Rep',2779],
+  ['ext_nteixes','dmachad','ATE','Chat','Rep ME',136],
+  ['ext_ovieira','dmachad','ATE','Chat','Rep',2645],
+  ['ext_ovieira','dmachad','ATE','Chat','Rep ME',123],
+  ['ext_psouza','dmachad','ATE','Chat','Rep',2511],
+  ['ext_psouza','dmachad','ATE','Chat','Rep ME',109],
+  ['ext_qferrei','dmachad','ATE','Chat','Rep',2377],
+  ['ext_qferrei','dmachad','ATE','Chat','Rep ME',96],
+  ['ext_rcorrea','dmachad','ATE','Chat','Rep',2243],
+  ['ext_rcorrea','dmachad','ATE','Chat','Rep ME',82],
+  ['ext_scorrea','dmachad','KTA','Chat','Rep',5432],
+  ['ext_scorrea','dmachad','KTA','Chat','Rep ME',389],
+  ['ext_tbraga','emoreira','KTA','Chat','Rep',5298],
+  ['ext_tbraga','emoreira','KTA','Chat','Rep ME',376],
+  ['ext_ucavalc','emoreira','KTA','Chat','Rep',5164],
+  ['ext_ucavalc','emoreira','KTA','Chat','Rep ME',362],
+  ['ext_vribeiro','emoreira','KTA','Chat','Rep',5030],
+  ['ext_vribeiro','emoreira','KTA','Chat','Rep ME',349],
+  ['ext_wlopes','emoreira','KTA','Chat','Rep',4896],
+  ['ext_wlopes','emoreira','KTA','Chat','Rep ME',335],
+  ['ext_xcarvalh','emoreira','KTA','Chat','Rep',4762],
+  ['ext_xcarvalh','emoreira','KTA','Chat','Rep ME',322],
+  ['ext_ybarros','emoreira','KTA','C2C','Rep',4628],
+  ['ext_ybarros','emoreira','KTA','C2C','Rep ME',308],
+  ['ext_zalves','emoreira','KTA','C2C','Rep',4494],
+  ['ext_zalves','emoreira','KTA','C2C','Rep ME',295],
+  ['ext_amacedo','fsantos','KTA','C2C','Rep',4360],
+  ['ext_amacedo','fsantos','KTA','C2C','Rep ME',281],
+  ['ext_bmoura','fsantos','KTA','C2C','Rep',4226],
+  ['ext_bmoura','fsantos','KTA','C2C','Rep ME',268],
+  ['ext_ccosta','fsantos','KTA','Chat','Rep',4092],
+  ['ext_ccosta','fsantos','KTA','Chat','Rep ME',254],
+  ['ext_ddinis','fsantos','KTA','Chat','Rep',3958],
+  ['ext_ddinis','fsantos','KTA','Chat','Rep ME',241],
+  ['ext_efernan','fsantos','KTA','Chat','Rep',3824],
+  ['ext_efernan','fsantos','KTA','Chat','Rep ME',227],
+  ['ext_fgarcia','fsantos','KTA','Chat','Rep',3690],
+  ['ext_fgarcia','fsantos','KTA','Chat','Rep ME',214],
+  ['ext_ghenriq','fsantos','KTA','Chat','Rep',3556],
+  ['ext_ghenriq','fsantos','KTA','Chat','Rep ME',200],
+  ['ext_hjesus','fsantos','KTA','Chat','Rep',3422],
+  ['ext_hjesus','fsantos','KTA','Chat','Rep ME',187],
+  ['ext_iloures','fsantos','KTA','Chat','Rep',3288],
+  ['ext_iloures','fsantos','KTA','Chat','Rep ME',173],
+  ['ext_jmagalh','fsantos','KTA','C2C','Rep',3154],
+  ['ext_jmagalh','fsantos','KTA','C2C','Rep ME',160],
+  ['ext_kmoraes','gpereira','KTA','C2C','Rep',3020],
+  ['ext_kmoraes','gpereira','KTA','C2C','Rep ME',146],
+  ['ext_lneves','gpereira','KTA','C2C','Rep',2886],
+  ['ext_lneves','gpereira','KTA','C2C','Rep ME',133],
+  ['ext_molivei','gpereira','KTA','C2C','Rep',2752],
+  ['ext_molivei','gpereira','KTA','C2C','Rep ME',119],
+  ['ext_npinto','gpereira','KTA','Chat','Rep',2618],
+  ['ext_npinto','gpereira','KTA','Chat','Rep ME',106],
+  ['ext_oqueiro','gpereira','KTA','Chat','Rep',2484],
+  ['ext_oqueiro','gpereira','KTA','Chat','Rep ME',92],
+  ['ext_pribeir','gpereira','KTA','Chat','Rep',2350],
+  ['ext_pribeir','gpereira','KTA','Chat','Rep ME',79],
+  ['ext_qrossi','gpereira','KTA','Chat','Rep',2216],
+  ['ext_qrossi','gpereira','KTA','Chat','Rep ME',65],
+  ['ext_rcesari','gpereira','KTA','Chat','Rep',2082],
+  ['ext_rcesari','gpereira','KTA','Chat','Rep ME',52],
+];
+
+function buildRepTable() {
+  // Agrupar por ldap+lider+office+canal
+  const map = {};
+  for (const r of REPS_RAW) {
+    const key = r[0]+'|'+r[1]+'|'+r[2]+'|'+r[3];
+    if (!map[key]) map[key] = {ldap:r[0], lider:r[1], office:r[2], canal:r[3], me:0, rep:0};
+    if (r[4]==='Rep ME') map[key].me += r[5];
+    else                  map[key].rep += r[5];
+  }
+  repRows = Object.values(map).sort((a,b)=>a.office.localeCompare(b.office)||a.lider.localeCompare(b.lider)||a.ldap.localeCompare(b.ldap));
+  renderRepTable();
+}
+
+let repRows=[], repSortCol=6, repSortAsc=false;
+
+function sortReps(col) {
+  if(repSortCol===col) repSortAsc=!repSortAsc; else {repSortCol=col; repSortAsc=col<4;}
+  repRows.sort((a,b)=>{
+    const cols=[a.ldap,a.lider,a.canal,a.office,a.me,a.rep,a.me+a.rep];
+    const bCols=[b.ldap,b.lider,b.canal,b.office,b.me,b.rep,b.me+b.rep];
+    const v = typeof cols[col]==='string' ? cols[col].localeCompare(bCols[col]) : cols[col]-bCols[col];
+    return repSortAsc ? v : -v;
+  });
+  renderRepTable();
+}
+
+function renderRepTable() {
+  const body = document.getElementById('tblRepsBody');
+  if(!body) return;
+  body.innerHTML = repRows.map(r=>`
+    <tr>
+      <td style="text-align:left;font-weight:600">${r.ldap}</td>
+      <td style="text-align:left">${r.lider}</td>
+      <td style="text-align:left">${r.canal}</td>
+      <td style="text-align:left">${r.office}</td>
+      <td>${r.me.toLocaleString('pt-BR')}</td>
+      <td>${r.rep.toLocaleString('pt-BR')}</td>
+      <td style="font-weight:700">${(r.me+r.rep).toLocaleString('pt-BR')}</td>
+    </tr>`).join('');
+}
 
 </script>
 
