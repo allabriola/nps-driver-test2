@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Reputación Sellers Longtail — Abr vs Mai 2026</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
 :root{
   --yellow:#FFE600;--dark:#1a1a2e;--gray:#f5f5f5;--border:#e0e0e0;
@@ -336,47 +337,6 @@ tr:hover td{background:#fafbff;}
     A taxa de exclusão é calculada como proxy via soluções CX: proporção de casos resolvidos com "Excluímos" ou "Não afeta" sobre o total de pesquisas. Valores aproximados — parte das soluções não são capturadas no TOP.
   </div>
 
-  <!-- Soluções de exclusão -->
-  <div class="section-title">Top Soluções de Exclusão (âncoras positivas — NPS 88–94%)</div>
-  <div class="card">
-    <div class="card-header">Soluções com maior volume — Exclusão de Impacto</div>
-    <table>
-      <thead><tr>
-        <th>Solução</th><th>Processo</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>Δ NPS</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>Logística Flex — Excluímos</td><td>Rep ME</td><td>86,7%</td><td>98</td><td style="color:var(--green);font-weight:700">94,4%</td><td>72</td><td class="pos">+7,7pp</td></tr>
-        <tr><td>Cancelamento Revisado</td><td>Reputación</td><td>78,7%</td><td>61</td><td style="color:var(--green);font-weight:700">89,6%</td><td>48</td><td class="pos">+10,9pp</td></tr>
-        <tr><td>Vendedor Newbie — Excluímos</td><td>Rep ME</td><td>85,9%</td><td>375</td><td>91,9%</td><td>247</td><td class="pos">+6,0pp</td></tr>
-        <tr><td>Logística Places — Excluímos</td><td>Rep ME</td><td>87,4%</td><td>453</td><td>91,6%</td><td>275</td><td class="pos">+4,2pp</td></tr>
-        <tr><td>Reclamação afeta — Excluímos</td><td>Reputación</td><td>88,2%</td><td>449</td><td>87,7%</td><td>310</td><td class="neg">−0,5pp</td></tr>
-        <tr><td>Cancelamento afeta — Excluímos</td><td>Reputación</td><td>78,2%</td><td>238</td><td>77,9%</td><td>145</td><td class="neg">−0,3pp</td></tr>
-        <tr><td>Reclamação não afeta</td><td>Reputación</td><td>76,3%</td><td>76</td><td>81,8%</td><td>55</td><td class="pos">+5,5pp</td></tr>
-        <tr><td>Envio não afeta o HT</td><td>Rep ME</td><td>84,5%</td><td>155</td><td>81,3%</td><td>134</td><td class="neg">−3,2pp</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Soluções de mantemos -->
-  <div class="section-title">Soluções "Mantemos Impacto" — Baixo NPS, Volume Reduzindo</div>
-  <div class="card">
-    <div class="card-header">Soluções com NPS baixo — concentram detratores<span class="badge badge-orange">Volume caindo em Maio ✓</span></div>
-    <table>
-      <thead><tr>
-        <th>Solução</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>Δ NPS</th><th>Δ Volume</th>
-      </tr></thead>
-      <tbody>
-        <tr class="row-warn"><td>Produto diferente — Mantemos impacto</td><td style="color:var(--red)">12,9%</td><td>31</td><td>28,6%</td><td>21</td><td class="pos">+15,7pp</td><td class="pos">−32%</td></tr>
-        <tr class="row-warn"><td>Cancelamento — Mantemos impacto</td><td style="color:var(--red)">11,5%</td><td>26</td><td>60,0%</td><td>15</td><td class="pos">+48,5pp</td><td class="pos">−42%</td></tr>
-        <tr class="row-warn"><td>Reclamação Revisada</td><td style="color:var(--red)">24,1%</td><td>29</td><td>46,7%</td><td>15</td><td class="pos">+22,6pp</td><td class="pos">−48%</td></tr>
-        <tr class="row-warn"><td>Logística Places — Não Excluímos</td><td>32,4%</td><td>34</td><td>33,3%</td><td>15</td><td class="neu">+0,9pp</td><td class="pos">−56%</td></tr>
-      </tbody>
-    </table>
-    <div style="padding:10px 14px;font-size:11px;color:#777;">
-      As soluções de "mantemos impacto" têm NPS entre 12–32%, mas o volume caiu −32% a −56% em Maio. Essa redução de casos com decisão desfavorável ao vendedor é o principal motor da melhora de NPS dentro dos CDUs.
-    </div>
-  </div>
-
   <!-- Charts correlação NPS × Taxa Exclusão -->
   <div class="section-title">Correlação: NPS vs Taxa de Exclusão</div>
   <div class="two-col">
@@ -440,6 +400,47 @@ tr:hover td{background:#fafbff;}
     <div class="chart-wrap">
       <div class="chart-title">Reputación ME</div>
       <div class="chart-container" style="height:240px;"><canvas id="ct_pub_repme"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Soluções de exclusão -->
+  <div class="section-title">Top Soluções de Exclusão (âncoras positivas — NPS 88–94%)</div>
+  <div class="card">
+    <div class="card-header">Soluções com maior volume — Exclusão de Impacto</div>
+    <table>
+      <thead><tr>
+        <th>Solução</th><th>Processo</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>Δ NPS</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Logística Flex — Excluímos</td><td>Rep ME</td><td>86,7%</td><td>98</td><td style="color:var(--green);font-weight:700">94,4%</td><td>72</td><td class="pos">+7,7pp</td></tr>
+        <tr><td>Cancelamento Revisado</td><td>Reputación</td><td>78,7%</td><td>61</td><td style="color:var(--green);font-weight:700">89,6%</td><td>48</td><td class="pos">+10,9pp</td></tr>
+        <tr><td>Vendedor Newbie — Excluímos</td><td>Rep ME</td><td>85,9%</td><td>375</td><td>91,9%</td><td>247</td><td class="pos">+6,0pp</td></tr>
+        <tr><td>Logística Places — Excluímos</td><td>Rep ME</td><td>87,4%</td><td>453</td><td>91,6%</td><td>275</td><td class="pos">+4,2pp</td></tr>
+        <tr><td>Reclamação afeta — Excluímos</td><td>Reputación</td><td>88,2%</td><td>449</td><td>87,7%</td><td>310</td><td class="neg">−0,5pp</td></tr>
+        <tr><td>Cancelamento afeta — Excluímos</td><td>Reputación</td><td>78,2%</td><td>238</td><td>77,9%</td><td>145</td><td class="neg">−0,3pp</td></tr>
+        <tr><td>Reclamação não afeta</td><td>Reputación</td><td>76,3%</td><td>76</td><td>81,8%</td><td>55</td><td class="pos">+5,5pp</td></tr>
+        <tr><td>Envio não afeta o HT</td><td>Rep ME</td><td>84,5%</td><td>155</td><td>81,3%</td><td>134</td><td class="neg">−3,2pp</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Soluções de mantemos -->
+  <div class="section-title">Soluções "Mantemos Impacto" — Baixo NPS, Volume Reduzindo</div>
+  <div class="card">
+    <div class="card-header">Soluções com NPS baixo — concentram detratores<span class="badge badge-orange">Volume caindo em Maio ✓</span></div>
+    <table>
+      <thead><tr>
+        <th>Solução</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>Δ NPS</th><th>Δ Volume</th>
+      </tr></thead>
+      <tbody>
+        <tr class="row-warn"><td>Produto diferente — Mantemos impacto</td><td style="color:var(--red)">12,9%</td><td>31</td><td>28,6%</td><td>21</td><td class="pos">+15,7pp</td><td class="pos">−32%</td></tr>
+        <tr class="row-warn"><td>Cancelamento — Mantemos impacto</td><td style="color:var(--red)">11,5%</td><td>26</td><td>60,0%</td><td>15</td><td class="pos">+48,5pp</td><td class="pos">−42%</td></tr>
+        <tr class="row-warn"><td>Reclamação Revisada</td><td style="color:var(--red)">24,1%</td><td>29</td><td>46,7%</td><td>15</td><td class="pos">+22,6pp</td><td class="pos">−48%</td></tr>
+        <tr class="row-warn"><td>Logística Places — Não Excluímos</td><td>32,4%</td><td>34</td><td>33,3%</td><td>15</td><td class="neu">+0,9pp</td><td class="pos">−56%</td></tr>
+      </tbody>
+    </table>
+    <div style="padding:10px 14px;font-size:11px;color:#777;">
+      As soluções de "mantemos impacto" têm NPS entre 12–32%, mas o volume caiu −32% a −56% em Maio. Essa redução de casos com decisão desfavorável ao vendedor é o principal motor da melhora de NPS dentro dos CDUs.
     </div>
   </div>
 
@@ -1001,9 +1002,15 @@ new Chart(document.getElementById('chartContribRepME'), {
 });
 
 // ── Função auxiliar: gráfico correlação NPS × Excl ──
+const DL_BAR  = { anchor:'end', align:'top',   color:'#fff',    font:{size:11,weight:'700'}, formatter: v => v != null ? v.toFixed(1)+'%' : '' };
+const DL_LINE = { anchor:'center', align:'bottom', offset:6, color:'#ff7733', backgroundColor:'rgba(26,26,46,.75)', borderRadius:3, padding:{top:1,bottom:1,left:3,right:3}, font:{size:10,weight:'700'}, formatter: v => v != null ? v.toFixed(1)+'%' : '' };
+const DL_BAR_SM  = { anchor:'end', align:'top',   color:'#fff',    font:{size:9,weight:'700'},  formatter: v => v != null ? v.toFixed(1)+'%' : '' };
+const DL_LINE_SM = { anchor:'center', align:'bottom', offset:5, color:'#ff7733', backgroundColor:'rgba(26,26,46,.75)', borderRadius:3, padding:1, font:{size:9,weight:'700'}, formatter: v => v != null ? v.toFixed(1)+'%' : '' };
+
 function makeCorrelChart(canvasId, npsData, exclData, npsMin, npsMax, exclMin, exclMax) {
   new Chart(document.getElementById(canvasId), {
     type: 'bar',
+    plugins: [ChartDataLabels],
     data: {
       labels: ['Abril', 'Maio'],
       datasets: [
@@ -1015,7 +1022,8 @@ function makeCorrelChart(canvasId, npsData, exclData, npsMin, npsMax, exclMin, e
           borderRadius: 8,
           yAxisID: 'yNPS',
           order: 2,
-          barPercentage: 0.5
+          barPercentage: 0.5,
+          datalabels: DL_BAR
         },
         {
           type: 'line',
@@ -1032,7 +1040,8 @@ function makeCorrelChart(canvasId, npsData, exclData, npsMin, npsMax, exclMin, e
           fill: true,
           tension: 0.3,
           yAxisID: 'yExcl',
-          order: 1
+          order: 1,
+          datalabels: DL_LINE
         }
       ]
     },
@@ -1227,15 +1236,18 @@ function makeTeamChart(id, npsAbr, npsMai, exclAbr, exclMai, npsMin, npsMax, exc
         { type:'bar',  label:'NPS Lineal',
           data:[npsAbr, npsMai],
           backgroundColor:['rgba(52,131,250,0.75)','rgba(0,166,80,0.8)'],
-          borderRadius:8, barPercentage:0.5, yAxisID:'yNPS', order:2 },
+          borderRadius:8, barPercentage:0.5, yAxisID:'yNPS', order:2,
+          datalabels: DL_BAR },
         { type:'line', label:'Taxa de Exclusão',
           data:[exclAbr, exclMai],
           borderColor:'#ff7733', backgroundColor:'rgba(255,119,51,0.08)',
           pointBackgroundColor:'#ff7733', pointBorderColor:'#fff', pointBorderWidth:2,
           pointRadius:8, borderWidth:2.5, fill:true, tension:0.3,
-          yAxisID:'yExcl', order:1 }
+          yAxisID:'yExcl', order:1,
+          datalabels: DL_LINE }
       ]
     },
+    plugins: [ChartDataLabels],
     options:{
       responsive:true, maintainAspectRatio:false,
       interaction:{ mode:'index', intersect:false },
@@ -1349,17 +1361,20 @@ function makeTrend(id, series, yMin, yMax, yLbl) {
 function makeWeekBarLine(id, nps, excl, npsMin, npsMax, exclMin, exclMax) {
   new Chart(document.getElementById(id), {
     type: 'bar',
+    plugins: [ChartDataLabels],
     data: {
       labels: WK,
       datasets: [
         { type:'bar',  label:'NPS Lineal', data:nps,
           backgroundColor:'rgba(52,131,250,0.72)', borderRadius:4,
-          yAxisID:'yNPS', order:2 },
+          yAxisID:'yNPS', order:2,
+          datalabels: DL_BAR_SM },
         { type:'line', label:'Taxa Excl %', data:excl,
           borderColor:'#ff7733', backgroundColor:'rgba(255,119,51,0.07)',
           pointBackgroundColor:'#ff7733', pointRadius:5,
           borderWidth:2.5, fill:true, tension:0.3,
-          yAxisID:'yExcl', order:1 }
+          yAxisID:'yExcl', order:1,
+          datalabels: DL_LINE_SM }
       ]
     },
     options:{
