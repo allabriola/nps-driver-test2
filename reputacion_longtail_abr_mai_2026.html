@@ -125,12 +125,40 @@ tr:hover td{background:#fafbff;}
 /* ── MENSAL SECTIONS ── */
 .m-section { margin-bottom: 8px; }
 .m-sec-divider {
-  font-size: 13px; font-weight: 800; color: var(--dark);
-  padding: 14px 0 10px;
-  border-bottom: 3px solid var(--yellow);
-  margin: 28px 0 18px;
-  letter-spacing: -.2px;
+  background: var(--dark);
+  color: #fff;
+  padding: 13px 20px;
+  border-radius: 8px;
+  margin: 36px 0 22px;
+  font-size: 14px; font-weight: 800; letter-spacing: -.2px;
+  display: flex; align-items: center; gap: 12px;
 }
+.m-sec-num {
+  background: var(--yellow); color: var(--dark);
+  width: 26px; height: 26px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; flex-shrink: 0;
+}
+/* ── EXEC SUMMARY CARD ── */
+.exec-sum {
+  background: var(--dark); color: #fff;
+  border-radius: 12px; padding: 22px 26px; margin-bottom: 10px;
+}
+.exec-sum-title { font-size: 18px; font-weight: 800; color: var(--yellow); margin-bottom: 3px; }
+.exec-sum-sub   { font-size: 11px; color: #aaa; margin-bottom: 18px; }
+.exec-kpi-row   { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:16px; }
+@media(max-width:700px){ .exec-kpi-row{ grid-template-columns:1fr 1fr; } }
+.exec-kpi-val   { font-size: 28px; font-weight: 800; line-height: 1; color:#fff; }
+.exec-kpi-val.pos { color: var(--yellow); }
+.exec-kpi-val.neg { color: #ff7b7b; }
+.exec-kpi-lbl   { font-size: 10px; color: #aaa; margin-top: 5px; line-height: 1.4; }
+.exec-ins-row   { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media(max-width:700px){ .exec-ins-row{ grid-template-columns:1fr; } }
+.exec-ins { padding: 10px 14px; border-radius: 6px; font-size: 12px; line-height: 1.6; color:#ccc; }
+.exec-ins.pos { background:rgba(0,166,80,.15); border-left:3px solid var(--green); }
+.exec-ins.pos strong { color: #4de89b; }
+.exec-ins.warn{ background:rgba(255,119,51,.13); border-left:3px solid #ff7733; }
+.exec-ins.warn strong { color: #ffb38a; }
 </style>
 </head>
 <body>
@@ -161,12 +189,41 @@ tr:hover td{background:#fafbff;}
 ══════════════════════════════════════════════ -->
 <div id="mensal" class="tab-content active">
 
-<!-- ── SEÇÃO: RESUMO EXECUTIVO ── -->
-<div class="m-section">
-
-  <div class="info-note">
-    Duas fontes combinadas: <strong>HALO</strong> (NPS operacional por agente/equipe, KPIs causais) e <strong>XM</strong> (NPS Lineal por processo/CDU/solução, taxa de exclusão). Maio parcial — 22 de 31 dias disponíveis; NPS como proporção é comparável.
+<!-- ══ RESUMO EXECUTIVO ══ -->
+<div class="exec-sum">
+  <div class="exec-sum-title">Resumo Executivo</div>
+  <div class="exec-sum-sub">Reputación + Reputación ME &nbsp;·&nbsp; Abr vs Mai 2026 &nbsp;·&nbsp; BR Sellers Longtail &nbsp;·&nbsp; Maio parcial (22 dias)</div>
+  <div class="exec-kpi-row">
+    <div>
+      <div class="exec-kpi-val pos">+5,6pp</div>
+      <div class="exec-kpi-lbl">NPS Lineal consolidado<br>Abr → Mai</div>
+    </div>
+    <div>
+      <div class="exec-kpi-val">82,1%</div>
+      <div class="exec-kpi-lbl">NPS Lineal Maio<br>vs 76,6% em Abril</div>
+    </div>
+    <div>
+      <div class="exec-kpi-val pos">−55%</div>
+      <div class="exec-kpi-lbl">Detratores em Maio<br>209 → 94 casos</div>
+    </div>
+    <div>
+      <div class="exec-kpi-val pos">+3pp</div>
+      <div class="exec-kpi-lbl">Taxa de exclusão média<br>em ambos os processos</div>
+    </div>
   </div>
+  <div class="exec-ins-row">
+    <div class="exec-ins pos">
+      <strong>Destaque:</strong> Pub/KTA foi a office de maior crescimento — +11,3pp em Reputación e +16,4pp em Rep ME. Detratores caíram 55% com melhora real de experiência (97% NETO, 3% MIX).
+    </div>
+    <div class="exec-ins warn">
+      <strong>Atenção:</strong> ME/KTA em Reputación: NPS subiu (+3,3pp) mesmo com taxa de exclusão caindo (−5,7pp) — agentes resolvendo mais casos difíceis. Ventas/KTA ainda crítico na visão HALO (sem Experts).
+    </div>
+  </div>
+</div>
+
+<!-- ── SEÇÃO 1: RESUMO DETALHADO ── -->
+<div class="m-sec-divider"><span class="m-sec-num">1</span> Resumo por Equipe &amp; Processo</div>
+<div class="m-section">
 
   <!-- KPI strip HALO -->
   <div class="section-title">NPS Lineal por Equipe — Reputación + Rep ME (Abr vs Mai)</div>
@@ -267,7 +324,7 @@ tr:hover td{background:#fafbff;}
 
 </div><!-- /exec-section -->
 
-<div class="m-sec-divider">XM — CDUs &amp; Soluções</div>
+<div class="m-sec-divider"><span class="m-sec-num">2</span> XM — CDUs &amp; Soluções</div>
 <div class="m-section">
 
   <div class="src-bar"><div class="src-dot xm"></div>Fonte: XM (NPS Lineal — pesquisas de satisfação por processo/CDU/solução) · Abr/2026 e Mai/2026 (parcial)</div>
@@ -441,7 +498,7 @@ tr:hover td{background:#fafbff;}
 
 </div><!-- /xm-section -->
 
-<div class="m-sec-divider">Taxa de Exclusão &amp; Correlação</div>
+<div class="m-sec-divider"><span class="m-sec-num">3</span> Taxa de Exclusão &amp; Correlação</div>
 <div class="m-section">
 
   <div class="src-bar"><div class="src-dot xm"></div>Proxy via soluções XM — proporção de soluções de "exclusão de impacto" sobre total de pesquisas</div>
@@ -664,7 +721,7 @@ tr:hover td{background:#fafbff;}
   </div><!-- /resumo-semanal -->
 
   <!-- ── SEÇÃO: CDUs SEMANAIS ── -->
-  <div class="m-sec-divider">XM — CDUs Semanais</div>
+  <div class="m-sec-divider"><span class="m-sec-num">2</span> XM — CDUs Semanais</div>
   <div class="m-section">
     <div class="section-title">CDUs — Tendência Semanal</div>
     <div class="two-col">
@@ -682,7 +739,7 @@ tr:hover td{background:#fafbff;}
   </div><!-- /cdus-semanal -->
 
   <!-- ── SEÇÃO: TAXA DE EXCLUSÃO & CORRELAÇÃO SEMANAL ── -->
-  <div class="m-sec-divider">Taxa de Exclusão &amp; Correlação Semanal</div>
+  <div class="m-sec-divider"><span class="m-sec-num">3</span> Taxa de Exclusão &amp; Correlação Semanal</div>
   <div class="m-section">
 
     <div class="section-title">Taxa de Exclusão — Tendência Semanal por Equipe</div>
