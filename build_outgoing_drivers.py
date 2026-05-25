@@ -91,6 +91,7 @@ CDU_EXPR      = "COALESCE(NULLIF(TRIM(CDU),''), 'Sem CDU')"
 SOL_EXPR      = "COALESCE(NULLIF(TRIM(SOLUTION_NAME),''), 'Sem Solução')"
 TEAMS_FILTER  = "USER_TEAM_NAME IN ('" + "','".join(TEAMS) + "')"
 TOP_SOLUTIONS = 10
+DAILY_DAYS    = 20
 
 def q_monthly() -> str:
     return f"""
@@ -120,6 +121,23 @@ def q_weekly() -> str:
       AND PRO_PROCESS_NAME = '{PROCESS_KEY}'
       AND {TEAMS_FILTER}
       AND OUTGOING_DATE >= '{EIGHT_WEEKS_AGO}'
+    GROUP BY 1, 2
+    ORDER BY 1, 3 DESC
+    """
+
+def q_daily() -> str:
+    daily_start = TODAY - timedelta(days=DAILY_DAYS)
+    return f"""
+    SELECT
+      OUTGOING_DATE              AS day,
+      {CDU_EXPR}                 AS cdu,
+      SUM(CANT_OUTGOING)         AS volume
+    FROM {TABLE_OG}
+    WHERE SIT_SITE_ID      = '{SITE}'
+      AND {EVENT_FILTER}
+      AND PRO_PROCESS_NAME = '{PROCESS_KEY}'
+      AND {TEAMS_FILTER}
+      AND OUTGOING_DATE >= '{daily_start}'
     GROUP BY 1, 2
     ORDER BY 1, 3 DESC
     """
@@ -339,6 +357,25 @@ def process_monthly(raw: list[dict]) -> dict:
         "total_vol":   sum(cdu_totals.values()),
     }
 
+def process_daily(raw: list[dict]) -> dict:
+    days_sorted = sorted(set(r["day"] for r in raw))
+    days_labels = [
+        d.strftime("%d/%m") if hasattr(d, "strftime") else str(d)[5:].replace("-", "/")
+        for d in days_sorted
+    ]
+    cdu_totals: Counter = Counter()
+    by_cdu: dict = {}
+    for r in raw:
+        cdu = r["cdu"]
+        cdu_totals[cdu] += r["volume"]
+        by_cdu.setdefault(cdu, {})[r["day"]] = r["volume"]
+
+    top_cdus     = [c for c, _ in cdu_totals.most_common() if c != SEM_CDU][:TOP_CDUS]
+    sem_cdu_data = [by_cdu.get(SEM_CDU, {}).get(d, 0) for d in days_sorted]
+    datasets     = _build_datasets(top_cdus, by_cdu, days_sorted, sem_cdu_data, raw, "day")
+
+    return {"days": days_labels, "top_cdus": top_cdus, "datasets": datasets}
+
 def process_weekly(raw: list[dict]) -> dict:
     weeks_sorted = sorted(set(r["week_start"] for r in raw))
     weeks_labels = [w.strftime("%d/%m") if hasattr(w, "strftime") else str(w)[:10][5:].replace("-", "/") for w in weeks_sorted]
@@ -404,18 +441,22 @@ def build_all(html_only: bool = False):
             raise RuntimeError("Cache não encontrado. Rode sem --html-only primeiro.")
         monthly   = cached["monthly"]
         weekly    = cached["weekly"]
+        daily     = cached.get("daily", {"days": [], "top_cdus": [], "datasets": []})
         solutions = cached.get("solutions", [])
     else:
         print("▸ Volume mensal…")
         monthly_raw = run(q_monthly())
         print("▸ Volume semanal (8 semanas)…")
         weekly_raw  = run(q_weekly())
+        print(f"▸ Volume diário (últimos {DAILY_DAYS} dias)…")
+        daily_raw   = run(q_daily())
         print("▸ Top soluções…")
         solutions_raw = run(q_solutions())
         monthly   = process_monthly(monthly_raw)
         weekly    = process_weekly(weekly_raw)
+        daily     = process_daily(daily_raw)
         solutions = [{"solution": r["solution"], "volume": r["volume"]} for r in solutions_raw]
-        _save_cache({"monthly": monthly, "weekly": weekly, "solutions": solutions}, charts=True)
+        _save_cache({"monthly": monthly, "weekly": weekly, "daily": daily, "solutions": solutions}, charts=True)
 
     themes_by_cdu: dict[str, list] = {}
     top_cdus = monthly["top_cdus"]
@@ -423,7 +464,7 @@ def build_all(html_only: bool = False):
     for cdu in top_cdus:
         themes_by_cdu[cdu] = fetch_themes(cdu)
 
-    return monthly, weekly, themes_by_cdu, solutions
+    return monthly, weekly, daily, themes_by_cdu, solutions
 
 # ── HTML ──────────────────────────────────────────────────────────────────────
 def jd(obj) -> str:
@@ -476,7 +517,7 @@ def _render_solutions(solutions: list, total_v: int) -> str:
         )
     return rows
 
-def generate_html(monthly: dict, weekly: dict, themes_by_cdu: dict, solutions: list) -> str:
+def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict, solutions: list) -> str:
     now_str = TODAY.strftime("%d/%m/%Y")
 
     top_cdu   = monthly["top_cdu"] or "—"
@@ -523,6 +564,12 @@ def generate_html(monthly: dict, weekly: dict, themes_by_cdu: dict, solutions: l
         f"{{label:{jd(ds['label'])},data:{jd(ds['data'])},"
         f"backgroundColor:{jd(w_colors[i])},borderRadius:4,stack:'s'}}"
         for i, ds in enumerate(weekly["datasets"])
+    )
+    d_colors = palette_for(daily["datasets"])
+    d_ds = ",".join(
+        f"{{label:{jd(ds['label'])},data:{jd(ds['data'])},"
+        f"backgroundColor:{jd(d_colors[i])},borderRadius:4,stack:'s'}}"
+        for i, ds in enumerate(daily["datasets"])
     )
 
     teams_label = " · ".join(TEAMS)
@@ -620,6 +667,11 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     </div>
   </div>
 
+  <div class="card">
+    <p class="chart-title">Volume diário por CDU · últimos {DAILY_DAYS} dias</p>
+    <div class="cw" style="height:300px"><canvas id="cD"></canvas></div>
+  </div>
+
   <div class="card hl-card">
     <div class="hl-box">
       <div class="hl-lbl">CDU com Maior Volume</div>
@@ -680,11 +732,41 @@ const stackedTotalsPlugin = {{
   }}
 }};
 
-function bar(id, labels, datasets, showTotals = false) {{
+const innerPctPlugin = {{
+  id: 'innerPct',
+  afterDatasetsDraw(chart) {{
+    const {{ ctx, data }} = chart;
+    data.datasets.forEach((ds, dsIdx) => {{
+      const meta = chart.getDatasetMeta(dsIdx);
+      if (meta.hidden) return;
+      meta.data.forEach((bar, i) => {{
+        const value = ds.data[i] || 0;
+        if (!value) return;
+        const total = data.datasets.reduce((sum, d) => sum + (d.data[i] || 0), 0);
+        const pct = Math.round(value / total * 100);
+        if (pct < 6) return;
+        const h = Math.abs(bar.base - bar.y);
+        if (h < 14) return;
+        ctx.save();
+        ctx.font = 'bold 10px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif';
+        ctx.fillStyle = 'rgba(255,255,255,0.88)';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(pct + '%', bar.x, bar.y + h / 2);
+        ctx.restore();
+      }});
+    }});
+  }}
+}};
+
+function bar(id, labels, datasets, showTotals = false, showPct = false) {{
+  const plugins = [];
+  if (showTotals) plugins.push(stackedTotalsPlugin);
+  if (showPct)    plugins.push(innerPctPlugin);
   new Chart(document.getElementById(id), {{
     type: 'bar',
     data: {{ labels, datasets }},
-    plugins: showTotals ? [stackedTotalsPlugin] : [],
+    plugins,
     options: {{
       responsive: true,
       maintainAspectRatio: false,
@@ -733,8 +815,9 @@ function selectCDU(cdu) {{
   }}
 }}
 
-bar('cM', {jd(monthly['months'])}, [{m_ds}], true);
-bar('cW', {jd(weekly['weeks'])},   [{w_ds}]);
+bar('cM', {jd(monthly['months'])}, [{m_ds}], true,  true);
+bar('cW', {jd(weekly['weeks'])},   [{w_ds}], false, true);
+bar('cD', {jd(daily['days'])},     [{d_ds}], false, true);
 </script>
 </body>
 </html>"""
@@ -743,8 +826,8 @@ bar('cW', {jd(weekly['weeks'])},   [{w_ds}]);
 if __name__ == "__main__":
     html_only = "--html-only" in sys.argv
     try:
-        monthly, weekly, themes_by_cdu, solutions = build_all(html_only=html_only)
-        html = generate_html(monthly, weekly, themes_by_cdu, solutions)
+        monthly, weekly, daily, themes_by_cdu, solutions = build_all(html_only=html_only)
+        html = generate_html(monthly, weekly, daily, themes_by_cdu, solutions)
         out  = "outgoing_drivers_analysis.html"
         with open(out, "w", encoding="utf-8") as f:
             f.write(html)
