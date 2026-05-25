@@ -144,21 +144,49 @@ tr:hover td{background:#fafbff;}
   background: var(--dark); color: #fff;
   border-radius: 12px; padding: 22px 26px; margin-bottom: 10px;
 }
-.exec-sum-title { font-size: 18px; font-weight: 800; color: var(--yellow); margin-bottom: 3px; }
-.exec-sum-sub   { font-size: 11px; color: #aaa; margin-bottom: 18px; }
-.exec-kpi-row   { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:16px; }
-@media(max-width:700px){ .exec-kpi-row{ grid-template-columns:1fr 1fr; } }
-.exec-kpi-val   { font-size: 28px; font-weight: 800; line-height: 1; color:#fff; }
-.exec-kpi-val.pos { color: var(--yellow); }
-.exec-kpi-val.neg { color: #ff7b7b; }
-.exec-kpi-lbl   { font-size: 10px; color: #aaa; margin-top: 5px; line-height: 1.4; }
-.exec-ins-row   { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.exec-sum-title { font-size: 17px; font-weight: 800; color: var(--yellow); margin-bottom: 3px; }
+.exec-sum-sub   { font-size: 11px; color: #aaa; margin-bottom: 14px; }
+/* mecanismo */
+.exec-mech {
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  background:rgba(255,255,255,.07); padding:9px 14px; border-radius:6px;
+  margin-bottom:16px; font-size:11px; color:#bbb;
+}
+.exec-mech strong { color:var(--yellow); }
+.exec-mech-sep { color:#555; font-size:14px; font-weight:700; }
+/* grid correlação */
+.exec-corr-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:14px;
+}
+@media(max-width:700px){ .exec-corr-grid{ grid-template-columns:1fr 1fr; } }
+.exec-corr-cell {
+  background:rgba(255,255,255,.06); border-radius:8px;
+  padding:11px 13px; border-left:3px solid;
+}
+.exec-corr-cell.pos    { border-color: var(--green); }
+.exec-corr-cell.strong { border-color: var(--yellow); }
+.exec-corr-cell.weak   { border-color: #ff7733; }
+.exec-corr-proc { font-size:9px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.5px; color:#888; margin-bottom:2px; }
+.exec-corr-team { font-size:10px; font-weight:700; color:#ccc; margin-bottom:8px; }
+.exec-corr-nps  { font-size:22px; font-weight:800; line-height:1; }
+.exec-corr-nps.pos { color:var(--yellow); }
+.exec-corr-excl { font-size:11px; color:#aaa; margin-top:4px; }
+.exec-corr-tag  {
+  display:inline-block; font-size:9px; font-weight:700; text-transform:uppercase;
+  padding:2px 7px; border-radius:10px; margin-top:6px;
+}
+.exec-corr-tag.pos    { background:rgba(0,166,80,.25);  color:#4de89b; }
+.exec-corr-tag.strong { background:rgba(255,230,0,.2);  color:var(--yellow); }
+.exec-corr-tag.weak   { background:rgba(255,119,51,.2); color:#ffb38a; }
+/* insights */
+.exec-ins-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 @media(max-width:700px){ .exec-ins-row{ grid-template-columns:1fr; } }
-.exec-ins { padding: 10px 14px; border-radius: 6px; font-size: 12px; line-height: 1.6; color:#ccc; }
-.exec-ins.pos { background:rgba(0,166,80,.15); border-left:3px solid var(--green); }
-.exec-ins.pos strong { color: #4de89b; }
-.exec-ins.warn{ background:rgba(255,119,51,.13); border-left:3px solid #ff7733; }
-.exec-ins.warn strong { color: #ffb38a; }
+.exec-ins { padding:10px 14px; border-radius:6px; font-size:12px; line-height:1.6; color:#ccc; }
+.exec-ins.pos  { background:rgba(0,166,80,.15);   border-left:3px solid var(--green); }
+.exec-ins.pos strong  { color:#4de89b; }
+.exec-ins.warn { background:rgba(255,119,51,.13); border-left:3px solid #ff7733; }
+.exec-ins.warn strong { color:#ffb38a; }
 </style>
 </head>
 <body>
@@ -191,32 +219,82 @@ tr:hover td{background:#fafbff;}
 
 <!-- ══ RESUMO EXECUTIVO ══ -->
 <div class="exec-sum">
-  <div class="exec-sum-title">Resumo Executivo</div>
-  <div class="exec-sum-sub">Reputación + Reputación ME &nbsp;·&nbsp; Abr vs Mai 2026 &nbsp;·&nbsp; BR Sellers Longtail &nbsp;·&nbsp; Maio parcial (22 dias)</div>
-  <div class="exec-kpi-row">
-    <div>
-      <div class="exec-kpi-val pos">+5,6pp</div>
-      <div class="exec-kpi-lbl">NPS Lineal consolidado<br>Abr → Mai</div>
-    </div>
-    <div>
-      <div class="exec-kpi-val">82,1%</div>
-      <div class="exec-kpi-lbl">NPS Lineal Maio<br>vs 76,6% em Abril</div>
-    </div>
-    <div>
-      <div class="exec-kpi-val pos">−55%</div>
-      <div class="exec-kpi-lbl">Detratores em Maio<br>209 → 94 casos</div>
-    </div>
-    <div>
-      <div class="exec-kpi-val pos">+3pp</div>
-      <div class="exec-kpi-lbl">Taxa de exclusão média<br>em ambos os processos</div>
-    </div>
+  <div class="exec-sum-title">Correlação NPS × Taxa de Exclusão — Resumo Executivo</div>
+  <div class="exec-sum-sub">Reputación + Reputación ME &nbsp;·&nbsp; Abr vs Mai 2026 &nbsp;·&nbsp; BR_ME · BR_Ventas · BR_Publicaciones Sellers Longtail</div>
+
+  <!-- Mecanismo -->
+  <div class="exec-mech">
+    <span>Por que excl impacta NPS?</span>
+    <span class="exec-mech-sep">|</span>
+    <span>Soluções excluídas: NPS <strong>91–94%</strong></span>
+    <span class="exec-mech-sep">vs</span>
+    <span>Mantemos impacto: NPS <strong>12–32%</strong></span>
+    <span class="exec-mech-sep">→</span>
+    <span>Estimativa: <strong>+1pp excl ≈ +0,5–0,8pp NPS</strong></span>
+    <span class="exec-mech-sep">|</span>
+    <span>Consolidado: NPS <strong>+5,6pp</strong> · Excl <strong>+3pp</strong> · Detratores <strong>−55%</strong></span>
   </div>
+
+  <!-- Grid Δ NPS vs Δ Excl por equipe × processo -->
+  <div class="exec-corr-grid">
+
+    <div class="exec-corr-cell pos">
+      <div class="exec-corr-proc">Reputación</div>
+      <div class="exec-corr-team">ME Sellers LT</div>
+      <div class="exec-corr-nps pos">Δ NPS +3,6pp</div>
+      <div class="exec-corr-excl">Δ Excl +0,9pp</div>
+      <span class="exec-corr-tag pos">Ambos ↑</span>
+    </div>
+
+    <div class="exec-corr-cell pos">
+      <div class="exec-corr-proc">Reputación</div>
+      <div class="exec-corr-team">Ventas Sellers LT</div>
+      <div class="exec-corr-nps pos">Δ NPS +2,7pp</div>
+      <div class="exec-corr-excl">Δ Excl +2,0pp</div>
+      <span class="exec-corr-tag pos">Ambos ↑</span>
+    </div>
+
+    <div class="exec-corr-cell strong">
+      <div class="exec-corr-proc">Reputación</div>
+      <div class="exec-corr-team">Pub Sellers LT</div>
+      <div class="exec-corr-nps pos">Δ NPS +4,5pp</div>
+      <div class="exec-corr-excl">Δ Excl +6,3pp</div>
+      <span class="exec-corr-tag strong">Excl lidera ↑↑</span>
+    </div>
+
+    <div class="exec-corr-cell strong">
+      <div class="exec-corr-proc">Reputación ME</div>
+      <div class="exec-corr-team">ME Sellers LT</div>
+      <div class="exec-corr-nps pos">Δ NPS +6,3pp</div>
+      <div class="exec-corr-excl">Δ Excl +4,0pp</div>
+      <span class="exec-corr-tag strong">Correlação forte</span>
+    </div>
+
+    <div class="exec-corr-cell weak">
+      <div class="exec-corr-proc">Reputación ME</div>
+      <div class="exec-corr-team">Ventas Sellers LT</div>
+      <div class="exec-corr-nps pos">Δ NPS +1,5pp</div>
+      <div class="exec-corr-excl">Δ Excl +4,1pp</div>
+      <span class="exec-corr-tag weak">Excl ↑ · NPS pouco sensível</span>
+    </div>
+
+    <div class="exec-corr-cell strong">
+      <div class="exec-corr-proc">Reputación ME</div>
+      <div class="exec-corr-team">Pub Sellers LT</div>
+      <div class="exec-corr-nps pos">Δ NPS +12,0pp</div>
+      <div class="exec-corr-excl">Δ Excl +2,1pp</div>
+      <span class="exec-corr-tag strong">NPS lidera — qualidade</span>
+    </div>
+
+  </div>
+
+  <!-- Insights -->
   <div class="exec-ins-row">
     <div class="exec-ins pos">
-      <strong>Destaque:</strong> Pub/KTA foi a office de maior crescimento — +11,3pp em Reputación e +16,4pp em Rep ME. Detratores caíram 55% com melhora real de experiência (97% NETO, 3% MIX).
+      <strong>Padrão dominante:</strong> Em 5 das 6 combinações equipe × processo, NPS e taxa de exclusão subiram juntos. Pub LT em Reputación apresentou a correlação mais clara: excl +6,3pp acompanhado por NPS +4,5pp. Pub LT em Rep ME vai além: NPS +12pp com excl +2pp, indicando melhora de resolução além das exclusões.
     </div>
     <div class="exec-ins warn">
-      <strong>Atenção:</strong> ME/KTA em Reputación: NPS subiu (+3,3pp) mesmo com taxa de exclusão caindo (−5,7pp) — agentes resolvendo mais casos difíceis. Ventas/KTA ainda crítico na visão HALO (sem Experts).
+      <strong>Exceção relevante — Ventas LT / Rep ME:</strong> Excl subiu +4,1pp mas NPS avançou apenas +1,5pp — baixa conversão de exclusões em satisfação. Monitorar: pode indicar que os casos excluídos não são os que mais pesam para os vendedores desta equipe, ou que outros fatores de insatisfação estão presentes.
     </div>
   </div>
 </div>
