@@ -777,6 +777,12 @@ function showTab(id, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
+  if (id === 'pct-excl') {
+    setTimeout(function() {
+      renderExclCharts();
+      if (typeof repRows !== 'undefined' && !repRows.length) buildRepTable();
+    }, 50);
+  }
 }
 
 const C_ABR  = 'rgba(52,131,250,0.75)';
@@ -1203,12 +1209,6 @@ makeWeekBarLine('wc_pub_rep',    wNPS.rep.pub,     wExcl.rep.pub,     55, 100, 6
 makeWeekBarLine('wc_pub_repme',  wNPS.repme.pub,   wExcl.repme.pub,   60, 100, 78, 100);
 
 makeTrend('wt_cdu_rep',   [{label:'Reclamos',data:wCDU.rep.reclamos},{label:'Cancelaciones',data:wCDU.rep.cancelaciones},{label:'Consultas Inf.',data:wCDU.rep.consultas}],30,100,'NPS (%)');
-// ── showTab: aciona renderExclCharts na primeira abertura da aba ──
-const _origShowTab = showTab;
-showTab = function(id, btn) {
-  _origShowTab(id, btn);
-  if (id === 'pct-excl') { renderExclCharts(); if(!repRows.length) buildRepTable(); }
-};
 
 makeTrend('wt_cdu_repme', [{label:'HT-Ventas',data:wCDU.repme.ht_ventas},{label:'HT-Coleta',data:wCDU.repme.ht_coleta},{label:'Bugs',data:wCDU.repme.bugs}],50,105,'NPS (%)');
 
