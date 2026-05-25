@@ -4,7 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Reputación Sellers Longtail — Abr vs Mai 2026</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+// === CHART DIAGNÓSTICO ===
+try {
+  const dc = document.getElementById('diagChart');
+  if (dc) {
+    new Chart(dc, {
+      type: 'bar',
+      data: { labels: ['A','B'], datasets:[{ data:[3,7], backgroundColor:['#3483fa','#00a650'] }] },
+      options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}} }
+    });
+    document.getElementById('diagMsg').textContent = 'Chart.js OK ✓ (v' + Chart.version + ')';
+    document.getElementById('diagMsg').style.color = '#155724';
+  }
+} catch(e) {
+  document.getElementById('diagMsg').textContent = 'ERRO: ' + e.message;
+  document.getElementById('diagMsg').style.color = 'red';
+}
+
+</script>
 <style>
 :root{
   --yellow:#FFE600;--dark:#1a1a2e;--gray:#f5f5f5;--border:#e0e0e0;
@@ -308,6 +326,13 @@ tr:hover td{background:#fafbff;}
       <strong>Reputación: melhora mais equilibrada — e um sinal revelador.</strong> 49% do ganho vem de mais exclusões (MIX), 61% de experiência. O dado mais relevante: "Não Excluímos" subiu de 12%→32% NPS — sellers aceitando melhor a decisão mesmo quando o impacto é mantido. Sinal de melhora na qualidade da explicação e processo de comunicação dos agentes.
     </div>
   </div>
+
+<!-- === DIAGNÓSTICO Chart.js === -->
+<div style="background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:12px;margin-bottom:14px;display:flex;align-items:center;gap:16px;">
+  <div style="font-size:12px;color:#856404;"><strong>Diagnóstico Chart.js:</strong></div>
+  <div style="width:120px;height:60px;position:relative;"><canvas id="diagChart"></canvas></div>
+  <div id="diagMsg" style="font-size:11px;color:#856404;">Carregando...</div>
+</div>
 </div>
 
 <!-- ── SEÇÃO 1: RESUMO DETALHADO ── -->
@@ -784,6 +809,21 @@ function showTab(id, btn) {
   }
 }
 
+// === DIAGNÓSTICO: wrapper seguro para Chart.js ===
+function safeChart(id, cfg) {
+  try {
+    const el = document.getElementById(id);
+    if (!el) { console.warn('Canvas nao encontrado:', id); return null; }
+    return new Chart(el, cfg);
+  } catch(e) {
+    console.error('Erro ao criar chart', id, ':', e);
+    const wrap = document.getElementById(id)?.closest('.chart-wrap') || document.getElementById(id)?.parentNode;
+    if (wrap) wrap.insertAdjacentHTML('beforeend', '<div style="color:red;font-size:11px;padding:4px;">Erro: '+e.message+'</div>');
+    return null;
+  }
+}
+
+
 const C_ABR  = 'rgba(52,131,250,0.75)';
 const C_MAI  = 'rgba(0,166,80,0.8)';
 const C_WARN = 'rgba(232,65,66,0.75)';
@@ -821,7 +861,7 @@ new Chart(document.getElementById('chartHaloOffice'), {
 // ── Função auxiliar: gráfico correlação NPS × Excl ──
 
 function makeCorrelChart(canvasId, npsData, exclData, npsMin, npsMax, exclMin, exclMax) {
-  new Chart(document.getElementById(canvasId), {
+  safeChart(canvasId, {
     type: 'bar',
     
     data: {
@@ -1019,7 +1059,7 @@ function setOfficeFilter(office, btn) {
 
 // ── Função simples: NPS Abr/Mai (barras) + Excl Abr/Mai (linha) ──
 function makeTeamChart(id, npsAbr, npsMai, exclAbr, exclMai, npsMin, npsMax, exclMin, exclMax) {
-  _chartRefs[id] = new Chart(document.getElementById(id), {
+  _chartRefs[id] = safeChart(id, {
     type: 'bar',
     data: {
       labels: ['Abril', 'Maio'],
