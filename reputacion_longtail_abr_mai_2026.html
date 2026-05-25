@@ -411,45 +411,41 @@ tr:hover td{background:#fafbff;}
     </div>
   </div>
 
-  <!-- Soluções de exclusão -->
-  <div class="section-title">Top Soluções de Exclusão (âncoras positivas — NPS 88–94%)</div>
-  <div class="card">
-    <div class="card-header">Soluções com maior volume — Exclusão de Impacto</div>
-    <table>
-      <thead><tr>
-        <th>Solução</th><th>Processo</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>Δ NPS</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>Logística Flex — Excluímos</td><td>Rep ME</td><td>86,7%</td><td>98</td><td style="color:var(--green);font-weight:700">94,4%</td><td>72</td><td class="pos">+7,7pp</td></tr>
-        <tr><td>Cancelamento Revisado</td><td>Reputación</td><td>78,7%</td><td>61</td><td style="color:var(--green);font-weight:700">89,6%</td><td>48</td><td class="pos">+10,9pp</td></tr>
-        <tr><td>Vendedor Newbie — Excluímos</td><td>Rep ME</td><td>85,9%</td><td>375</td><td>91,9%</td><td>247</td><td class="pos">+6,0pp</td></tr>
-        <tr><td>Logística Places — Excluímos</td><td>Rep ME</td><td>87,4%</td><td>453</td><td>91,6%</td><td>275</td><td class="pos">+4,2pp</td></tr>
-        <tr><td>Reclamação afeta — Excluímos</td><td>Reputación</td><td>88,2%</td><td>449</td><td>87,7%</td><td>310</td><td class="neg">−0,5pp</td></tr>
-        <tr><td>Cancelamento afeta — Excluímos</td><td>Reputación</td><td>78,2%</td><td>238</td><td>77,9%</td><td>145</td><td class="neg">−0,3pp</td></tr>
-        <tr><td>Reclamação não afeta</td><td>Reputación</td><td>76,3%</td><td>76</td><td>81,8%</td><td>55</td><td class="pos">+5,5pp</td></tr>
-        <tr><td>Envio não afeta o HT</td><td>Rep ME</td><td>84,5%</td><td>155</td><td>81,3%</td><td>134</td><td class="neg">−3,2pp</td></tr>
-      </tbody>
-    </table>
+  <!-- Agrupamento de soluções -->
+  <div class="section-title">NPS por Grupo de Solução — Abr vs Mai</div>
+  <div class="info-note">Classificação: <strong>Excluímos</strong> = impacto retirado da reputação · <strong>Não Afeta</strong> = caso não impacta por critério (data, arrependimento, etc.) · <strong>Não Excluímos</strong> = impacto mantido · <strong>Outros</strong> = consultas informativas e demais</div>
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación</div>
+      <div class="chart-sub">NPS Lineal por grupo de solução · Abr vs Mai</div>
+      <div class="chart-container" style="height:280px;"><canvas id="chartGrupoRep"></canvas></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Reputación ME</div>
+      <div class="chart-sub">NPS Lineal por grupo de solução · Abr vs Mai</div>
+      <div class="chart-container" style="height:280px;"><canvas id="chartGrupoRepME"></canvas></div>
+    </div>
   </div>
 
-  <!-- Soluções de mantemos -->
-  <div class="section-title">Soluções "Mantemos Impacto" — Baixo NPS, Volume Reduzindo</div>
   <div class="card">
-    <div class="card-header">Soluções com NPS baixo — concentram detratores<span class="badge badge-orange">Volume caindo em Maio ✓</span></div>
+    <div class="card-header">Resumo por Grupo de Solução × Processo × Mês</div>
     <table>
       <thead><tr>
-        <th>Solução</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>Δ NPS</th><th>Δ Volume</th>
+        <th>Processo</th><th>Grupo</th>
+        <th>NPS Abr</th><th>Pesq Abr</th>
+        <th>NPS Mai</th><th>Pesq Mai</th><th>Δ NPS</th>
       </tr></thead>
       <tbody>
-        <tr class="row-warn"><td>Produto diferente — Mantemos impacto</td><td style="color:var(--red)">12,9%</td><td>31</td><td>28,6%</td><td>21</td><td class="pos">+15,7pp</td><td class="pos">−32%</td></tr>
-        <tr class="row-warn"><td>Cancelamento — Mantemos impacto</td><td style="color:var(--red)">11,5%</td><td>26</td><td>60,0%</td><td>15</td><td class="pos">+48,5pp</td><td class="pos">−42%</td></tr>
-        <tr class="row-warn"><td>Reclamação Revisada</td><td style="color:var(--red)">24,1%</td><td>29</td><td>46,7%</td><td>15</td><td class="pos">+22,6pp</td><td class="pos">−48%</td></tr>
-        <tr class="row-warn"><td>Logística Places — Não Excluímos</td><td>32,4%</td><td>34</td><td>33,3%</td><td>15</td><td class="neu">+0,9pp</td><td class="pos">−56%</td></tr>
+        <tr><td>Reputación</td><td><span class="chip chip-pos">Excluímos</span></td><td>85,0%</td><td>732</td><td>85,0%</td><td>526</td><td class="neu">0pp</td></tr>
+        <tr><td>Reputación</td><td><span class="chip chip-pos">Não Afeta</span></td><td>76,0%</td><td>147</td><td>79,0%</td><td>107</td><td class="pos">+3pp</td></tr>
+        <tr><td>Reputación</td><td><span class="chip chip-neu">Outros</span></td><td>58,0%</td><td>117</td><td>58,0%</td><td>71</td><td class="neu">0pp</td></tr>
+        <tr class="row-warn"><td>Reputación</td><td><span class="chip chip-neg">Não Excluímos</span></td><td>12,0%</td><td>153</td><td>32,0%</td><td>81</td><td class="pos">+20pp</td></tr>
+        <tr><td>Rep ME</td><td><span class="chip chip-pos">Excluímos</span></td><td>86,0%</td><td>996</td><td>91,0%</td><td>696</td><td class="pos">+5pp</td></tr>
+        <tr><td>Rep ME</td><td><span class="chip chip-pos">Não Afeta</span></td><td>85,0%</td><td>151</td><td>82,0%</td><td>142</td><td class="neg">−3pp</td></tr>
+        <tr><td>Rep ME</td><td><span class="chip chip-neu">Outros</span></td><td>69,0%</td><td>124</td><td>77,0%</td><td>47</td><td class="pos">+8pp</td></tr>
+        <tr class="row-warn"><td>Rep ME</td><td><span class="chip chip-neg">Não Excluímos</span></td><td>31,0%</td><td>45</td><td>44,0%</td><td>25</td><td class="pos">+13pp</td></tr>
       </tbody>
     </table>
-    <div style="padding:10px 14px;font-size:11px;color:#777;">
-      As soluções de "mantemos impacto" têm NPS entre 12–32%, mas o volume caiu −32% a −56% em Maio. Essa redução de casos com decisão desfavorável ao vendedor é o principal motor da melhora de NPS dentro dos CDUs.
-    </div>
   </div>
 
   <div class="section-title">Composição por Tipo de Solução</div>
@@ -1420,6 +1416,62 @@ makeWeekBarLine('wc_pub_repme',  wNPS.repme.pub,   wExcl.repme.pub,   60, 100, 7
 
 makeTrend('wt_cdu_rep',   [{label:'Reclamos',data:wCDU.rep.reclamos},{label:'Cancelaciones',data:wCDU.rep.cancelaciones},{label:'Consultas Inf.',data:wCDU.rep.consultas}],30,100,'NPS (%)');
 makeTrend('wt_cdu_repme', [{label:'HT-Ventas',data:wCDU.repme.ht_ventas},{label:'HT-Coleta',data:wCDU.repme.ht_coleta},{label:'Bugs',data:wCDU.repme.bugs}],50,105,'NPS (%)');
+
+// ── Gráficos: NPS por Grupo de Solução ──
+(function() {
+  const GRUPOS  = ['Excluímos', 'Não Afeta', 'Outros', 'Não Excluímos'];
+  const G_CORES = ['rgba(0,166,80,0.8)','rgba(52,131,250,0.75)','rgba(255,119,51,0.7)','rgba(232,65,66,0.75)'];
+  const DL_GRP  = { anchor:'end', align:'start', offset:4, color:'#fff', font:{size:10,weight:'800'}, formatter: v => v != null ? v.toFixed(0)+'%' : '' };
+
+  function makeGrupoChart(id, npsAbr, npsMai, pesqAbr, pesqMai) {
+    new Chart(document.getElementById(id), {
+      type: 'bar',
+      plugins: [ChartDataLabels],
+      data: {
+        labels: GRUPOS,
+        datasets: [
+          { label:'NPS Abr', data:npsAbr, backgroundColor: G_CORES.map(c=>c.replace('0.8','0.55').replace('0.75','0.55').replace('0.7','0.55')),
+            borderRadius:5, yAxisID:'y', order:2, datalabels: DL_GRP },
+          { label:'NPS Mai', data:npsMai, backgroundColor: G_CORES,
+            borderRadius:5, yAxisID:'y', order:2, datalabels: DL_GRP }
+        ]
+      },
+      options: {
+        responsive:true, maintainAspectRatio:false,
+        interaction:{ mode:'index', intersect:false },
+        plugins:{
+          legend:{ labels:{ font:{size:10}, boxWidth:10 } },
+          tooltip:{ callbacks:{
+            label: ctx => {
+              const pesq = ctx.datasetIndex===0 ? pesqAbr[ctx.dataIndex] : pesqMai[ctx.dataIndex];
+              return `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%  (${pesq} pesq)`;
+            }
+          }}
+        },
+        scales:{
+          x:{ ticks:{ font:{size:10} }, grid:{ display:false } },
+          y:{ min:0, max:100, ticks:{ font:{size:10}, callback:v=>v+'%' }, grid:{ color:'rgba(0,0,0,0.05)' } }
+        }
+      }
+    });
+  }
+
+  // Reputación — ordem: Excluímos | Não Afeta | Outros | Não Excluímos
+  makeGrupoChart('chartGrupoRep',
+    [85.0, 76.0, 58.0, 12.0],   // NPS Abr
+    [85.0, 79.0, 58.0, 32.0],   // NPS Mai
+    [732,  147,  117,  153],     // pesq Abr
+    [526,  107,   71,   81]      // pesq Mai
+  );
+
+  // Reputación ME
+  makeGrupoChart('chartGrupoRepME',
+    [86.0, 85.0, 69.0, 31.0],   // NPS Abr
+    [91.0, 82.0, 77.0, 44.0],   // NPS Mai
+    [996,  151,  124,   45],     // pesq Abr
+    [696,  142,   47,   25]      // pesq Mai
+  );
+})();
 
 // ── Volume de exclusões abaixo de cada gráfico ──
 function addExclVol(id, data) {
