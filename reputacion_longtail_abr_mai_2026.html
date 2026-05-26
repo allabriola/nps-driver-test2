@@ -685,7 +685,7 @@ window.onerror = function(msg, src, line, col, err) {
 ══════════════════════════════════════════════ -->
 <div id="pct-excl" class="tab-content">
 
-  <div class="src-bar"><div class="src-dot" style="background:#9b59b6"></div>Fonte: DM_CX_FRAUD_EXCLUSIONS_REPUTATION · CLA_CLAIM_ID (Reclamo) / ORD_ORDER_ID (HT + Vtas) · Abr/2026 e últimas 5 semanas</div>
+  <div class="src-bar"><div class="src-dot" style="background:#9b59b6"></div>Fonte: DM_CX_FRAUD_EXCLUSIONS_REPUTATION · CLA_CLAIM_ID (Reclamo) / ORD_ORDER_ID (HT + Vtas) · Mar–Mai/2026 e últimas 8 semanas</div>
 
   <!-- KPI Cards -->
   <div class="grid-4" style="margin-bottom:18px;">
@@ -700,11 +700,11 @@ window.onerror = function(msg, src, line, col, err) {
       <div class="sub">22 dias dos 31</div>
     </div>
     <div class="kpi-card">
-      <div class="label">Sem. 11/mai</div>
+      <div class="label">Sem. 18/mai</div>
       <div class="value" id="excl-kpi-s4">—</div>
     </div>
     <div class="kpi-card">
-      <div class="label">Sem. 18/mai (última)</div>
+      <div class="label">Sem. 25/mai (última)</div>
       <div class="value" id="excl-kpi-s5">—</div>
       <div class="delta" id="excl-kpi-delta">—</div>
     </div>
@@ -754,6 +754,40 @@ window.onerror = function(msg, src, line, col, err) {
     </div>
   </div>
 
+  <!-- Evolução Mensal e Semanal -->
+  <div class="two-col">
+    <div class="chart-wrap">
+      <div class="chart-title" id="excl-chart-title-m">Evolução Mensal — Todas as equipes</div>
+      <div class="chart-sub">Mar–Mai 2026 · Exclusões únicas (distinct)</div>
+      <div class="chart-container" style="height:320px;"><canvas id="chartExclMensal"></canvas></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title" id="excl-chart-title-w">Evolução Semanal — Todas as equipes</div>
+      <div class="chart-sub">Últimas 8 semanas · * = semana parcial</div>
+      <div class="chart-container" style="height:320px;"><canvas id="chartExclSemanal"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Tabela de Representantes -->
+  <div class="section-title" style="margin-top:20px;">Volume de Exclusões por Representante — Maio 2026</div>
+  <div class="info-note">Ordenado por Total desc · Clique em coluna para reordenar · Média = média da equipe+canal</div>
+  <div class="card" style="overflow:auto;max-height:480px;">
+    <table id="tblReps" style="font-size:11px;">
+      <thead style="position:sticky;top:0;background:#fafafa;z-index:1;"><tr>
+        <th style="text-align:left;cursor:pointer;" onclick="sortReps(0)">Rep</th>
+        <th style="text-align:left;cursor:pointer;" onclick="sortReps(1)">Líder</th>
+        <th style="text-align:left;cursor:pointer;" onclick="sortReps(2)">Equipe</th>
+        <th style="text-align:left;cursor:pointer;" onclick="sortReps(3)">Canal</th>
+        <th style="text-align:left;cursor:pointer;" onclick="sortReps(4)">Office</th>
+        <th style="cursor:pointer;" onclick="sortReps(5)">Excl Rep ME</th>
+        <th style="cursor:pointer;" onclick="sortReps(6)">Excl Reputación</th>
+        <th style="cursor:pointer;" onclick="sortReps(7)">Total ▼</th>
+        <th style="cursor:pointer;" onclick="sortReps(8)">Média</th>
+        <th style="cursor:pointer;" onclick="sortReps(9)">vs Média</th>
+      </tr></thead>
+      <tbody id="tblRepsBody"></tbody>
+    </table>
+  </div>
 
 </div><!-- /pct-excl -->
 
@@ -787,28 +821,7 @@ const DEF_OPTS = { responsive:true, maintainAspectRatio:false,
 };
 
 
-// ── Chart 3: HALO Office ──
-new Chart(document.getElementById('chartHaloOffice'), {
-  type:'bar',
-  data:{
-    labels:['ME/ATE','ME/KTA','ME/AEC','Ventas/KTA','Ventas/AEC','Pub/KTA','Pub/AEC'],
-    datasets:[
-      { label:'Abr/2026', data:[60.9,62.6,42.3,24.1,73.2,65.2,66.1], backgroundColor:C_ABR },
-      { label:'Mai/2026', data:[64.9,66.2,44.0,17.4,70.6,76.8,68.2], backgroundColor:[C_MAI,C_MAI,C_MAI,C_WARN,C_MAI,C_MAI,C_MAI] }
-    ]
-  },
-  options:{ ...DEF_OPTS,
-    scales:{
-      y:{ min:0, max:100, ticks:{font:{size:10},callback:v=>v+'%'} },
-      x:{ ticks:{font:{size:10}} }
-    },
-    plugins:{ legend:{ labels:{font:{size:11},boxWidth:12} },
-      annotation:{ annotations:{
-        metaLine:{ type:'line', yMin:40, yMax:40, borderColor:'rgba(255,119,51,0.5)', borderWidth:1, borderDash:[3,3] }
-      }}
-    }
-  }
-});
+// chartHaloOffice removido — canvas não existe mais no HTML
 
 
 // ── Função auxiliar: gráfico correlação NPS × Excl ──
@@ -1296,37 +1309,37 @@ new Chart(document.getElementById('chartDecomp'), {
 // ════════════════════════════════════════════
 //  ABA % EXCLUSÃO
 // ════════════════════════════════════════════
-// [eq, off, can, tipo, jan, fev, mar, abr, mai, w1, w2, w3, w4, w5, w6, w7]
-// w1=06/abr, w2=13/abr, w3=20/abr, w4=27/abr, w5=04/mai, w6=11/mai, w7=18/mai
+// [eq, off, can, tipo, jan, fev, mar, abr, mai, w1, w2, w3, w4, w5, w6, w7, w8]
+// w1=06/abr, w2=13/abr, w3=20/abr, w4=27/abr, w5=04/mai, w6=11/mai, w7=18/mai, w8=25/mai
 const EXCL2 = [
   // Rep ME
-  ['ME','AEC','C2C','Rep ME', 0,0,38,841,196,     377,23,30,68,69,45,63],
-  ['ME','ATE','C2C','Rep ME', 0,0,157,1794,1182,  392,215,531,339,630,312,128],
-  ['ME','ATE','Chat','Rep ME', 0,0,174,2942,918,  1022,250,313,222,199,319,353],
-  ['ME','CTX','Chat','Rep ME', 0,0,75,1136,0,     368,169,165,16,0,0,0],
-  ['ME','KTA','Chat','Rep ME', 0,0,102,2197,1753, 619,206,396,259,389,649,637],
-  ['Pub','AEC','C2C','Rep ME', 0,0,132,3215,2180, 1167,232,537,403,403,823,861],
-  ['Pub','AEC','Chat','Rep ME', 0,0,100,1034,633, 463,147,174,132,204,268,113],
-  ['Pub','KTA','Chat','Rep ME', 0,0,83,2872,1896, 1425,195,451,216,439,659,746],
-  ['Pub','KTA','Offline','Rep ME', 0,0,0,0,57,    0,0,0,0,56,1,0],
-  ['Ventas','AEC','Chat','Rep ME', 0,0,951,10099,2325, 4964,593,755,581,482,822,945],
-  ['Ventas','CTX','C2C','Rep ME', 0,0,367,2776,0, 1650,116,106,92,0,0,0],
-  ['Ventas','KTA','C2C','Rep ME', 0,0,38,2868,1420, 1223,253,280,230,427,570,378],
+  ['ME','AEC','C2C','Rep ME', 0,0,38,841,196,     377,23,30,68,69,45,63,7],
+  ['ME','ATE','C2C','Rep ME', 0,0,157,1794,1182,  392,215,531,339,630,312,128,13],
+  ['ME','ATE','Chat','Rep ME', 0,0,174,2942,918,  1022,250,313,222,199,319,353,36],
+  ['ME','CTX','Chat','Rep ME', 0,0,75,1136,0,     368,169,165,16,0,0,0,0],
+  ['ME','KTA','Chat','Rep ME', 0,0,102,2197,1753, 619,206,396,259,389,649,637,65],
+  ['Pub','AEC','C2C','Rep ME', 0,0,132,3215,2180, 1167,232,537,403,403,823,861,163],
+  ['Pub','AEC','Chat','Rep ME', 0,0,100,1034,633, 463,147,174,132,204,268,113,21],
+  ['Pub','KTA','Chat','Rep ME', 0,0,83,2872,1896, 1425,195,451,216,439,659,746,141],
+  ['Pub','KTA','Offline','Rep ME', 0,0,0,0,57,    0,0,0,0,56,1,0,1],
+  ['Ventas','AEC','Chat','Rep ME', 0,0,951,10099,2325, 4964,593,755,581,482,822,945,230],
+  ['Ventas','CTX','C2C','Rep ME', 0,0,367,2776,0, 1650,116,106,92,0,0,0,0],
+  ['Ventas','KTA','C2C','Rep ME', 0,0,38,2868,1420, 1223,253,280,230,427,570,378,92],
   // Reputación
-  ['ME','AEC','C2C','Rep', 0,0,5,441,255,         103,85,86,79,88,66,80],
-  ['ME','ATE','C2C','Rep', 0,0,8,511,400,         80,112,130,119,132,129,114],
-  ['ME','ATE','Chat','Rep', 0,0,91,4266,2197,     931,1136,945,799,655,704,705],
-  ['ME','CTX','Chat','Rep', 0,0,33,648,0,         127,155,158,118,0,0,0],
-  ['ME','KTA','Chat','Rep', 0,0,86,3246,1862,     538,791,947,799,510,641,548],
-  ['Pub','AEC','C2C','Rep', 0,0,77,8523,8916,     1574,2346,2089,2256,2777,3075,2460],
-  ['Pub','AEC','Chat','Rep', 0,0,36,2073,2557,    440,589,516,593,920,1002,472],
-  ['Pub','KTA','Chat','Rep', 0,0,48,4968,6381,    1077,1313,1244,1347,2033,1935,2086],
-  ['Pub','KTA','Offline','Rep', 0,0,0,2,0,        0,1,1,0,0,0,0],
-  ['Ventas','AEC','C2C','Rep', 0,0,0,5,1,         0,0,0,5,1,0,0],
-  ['Ventas','AEC','Chat','Rep', 0,0,130,5808,3671, 1388,1243,1378,1383,1167,1216,1075],
-  ['Ventas','CTX','C2C','Rep', 0,0,155,3539,0,    1055,891,652,445,0,0,0],
-  ['Ventas','KTA','C2C','Rep', 0,0,62,6421,4670,  1419,1564,1331,1698,1604,1472,1312],
-  ['Ventas','MELICIDADE','Chat','Rep', 0,0,0,0,7, 0,0,0,0,4,3,0],
+  ['ME','AEC','C2C','Rep', 0,0,5,441,255,         103,85,86,79,88,66,80,14],
+  ['ME','ATE','C2C','Rep', 0,0,8,511,400,         80,112,130,119,132,129,114,19],
+  ['ME','ATE','Chat','Rep', 0,0,91,4266,2197,     931,1136,945,799,655,704,705,120],
+  ['ME','CTX','Chat','Rep', 0,0,33,648,0,         127,155,158,118,0,0,0,0],
+  ['ME','KTA','Chat','Rep', 0,0,86,3246,1862,     538,791,947,799,510,641,548,94],
+  ['Pub','AEC','C2C','Rep', 0,0,77,8523,8916,     1574,2346,2089,2256,2777,3075,2460,420],
+  ['Pub','AEC','Chat','Rep', 0,0,36,2073,2557,    440,589,516,593,920,1002,472,81],
+  ['Pub','KTA','Chat','Rep', 0,0,48,4968,6381,    1077,1313,1244,1347,2033,1935,2086,357],
+  ['Pub','KTA','Offline','Rep', 0,0,0,2,0,        0,1,1,0,0,0,0,0],
+  ['Ventas','AEC','C2C','Rep', 0,0,0,5,1,         0,0,0,5,1,0,0,0],
+  ['Ventas','AEC','Chat','Rep', 0,0,130,5808,3671, 1388,1243,1378,1383,1167,1216,1075,206],
+  ['Ventas','CTX','C2C','Rep', 0,0,155,3539,0,    1055,891,652,445,0,0,0,0],
+  ['Ventas','KTA','C2C','Rep', 0,0,62,6421,4670,  1419,1564,1331,1698,1604,1472,1312,252],
+  ['Ventas','MELICIDADE','Chat','Rep', 0,0,0,0,7, 0,0,0,0,4,3,0,0],
 ];
 
 const ECOL = {
@@ -1335,8 +1348,8 @@ const ECOL = {
   can: { 'Chat':'#3483fa','C2C':'#00a650','Offline':'#ff7733' }
 };
 
-const MESES_L = ['Jan','Fev','Mar','Abr','Mai'];
-const WKL7 = ['06/abr','13/abr','20/abr','27/abr','04/mai','11/mai','18/mai'];
+const MESES_L = ['Mar','Abr','Mai'];
+const WKL8 = ['06/abr','13/abr','20/abr','27/abr','04/mai','11/mai','18/mai','25/mai*'];
 
 let _exclEq='Todos', _exclOff='Todos', _exclCan='Todos', _exclTip='Todos';
 let _chartEM=null, _chartEW=null;
@@ -1371,26 +1384,26 @@ function renderExclCharts() {
     else                      { dimIdx=1; colorMap=ECOL.off; dimLabel='oficina'; }
   }
 
-  // Aggregate mensais (indices 4..8) e semanais (indices 9..15)
+  // Aggregate mensais (indices 6..8) e semanais (indices 9..16)
   const groups = {};
   for (const r of rows) {
     const key = r[dimIdx];
-    if (!groups[key]) groups[key] = [0,0,0,0,0, 0,0,0,0,0,0,0]; // 5 mensais + 7 semanais
-    for (let i=0;i<5;i++) groups[key][i]   += (r[4+i]||0); // jan..mai
-    for (let i=0;i<7;i++) groups[key][5+i] += (r[9+i]||0); // w1..w7
+    if (!groups[key]) groups[key] = [0,0,0, 0,0,0,0,0,0,0,0]; // 3 mensais (mar-mai) + 8 semanais
+    for (let i=0;i<3;i++) groups[key][i]   += (r[6+i]||0); // mar..mai
+    for (let i=0;i<8;i++) groups[key][3+i] += (r[9+i]||0); // w1..w8
   }
   const keys = Object.keys(groups).sort();
 
-  // KPI cards — abr=[7], mai=[8], w6=índice 14, w7=índice 15
+  // KPI cards — abr=[7], mai=[8], w7=índice 15, w8=índice 16
   const totAbr = rows.reduce((s,r)=>s+(r[7]||0),0);
   const totMai = rows.reduce((s,r)=>s+(r[8]||0),0);
-  const totW6  = rows.reduce((s,r)=>s+(r[14]||0),0);
   const totW7  = rows.reduce((s,r)=>s+(r[15]||0),0);
+  const totW8  = rows.reduce((s,r)=>s+(r[16]||0),0);
   document.getElementById('excl-kpi-abr').textContent = totAbr.toLocaleString('pt-BR');
   document.getElementById('excl-kpi-mai').textContent = totMai.toLocaleString('pt-BR');
-  document.getElementById('excl-kpi-s4').textContent  = totW6.toLocaleString('pt-BR');
-  document.getElementById('excl-kpi-s5').textContent  = totW7.toLocaleString('pt-BR');
-  const delta = totW7 - totW6;
+  document.getElementById('excl-kpi-s4').textContent  = totW7.toLocaleString('pt-BR');
+  document.getElementById('excl-kpi-s5').textContent  = totW8.toLocaleString('pt-BR');
+  const delta = totW8 - totW7;
   const dEl = document.getElementById('excl-kpi-delta');
   dEl.textContent = (delta>=0?'+':'')+delta.toLocaleString('pt-BR');
   dEl.className = 'delta '+(delta>=0?'pos':'neg');
@@ -1406,18 +1419,18 @@ function renderExclCharts() {
   // Colors
   const cols = keys.map(k=>(colorMap[k]||'#aaa'));
 
-  // Monthly datasets (linha) — 5 pontos: jan..mai
+  // Monthly datasets (linha) — 3 pontos: mar..mai
   const mDS = keys.map((k,i)=>({
-    label:k, data: groups[k].slice(0,5),
+    label:k, data: groups[k].slice(0,3),
     borderColor:cols[i], backgroundColor:cols[i]+'22',
     pointBackgroundColor:cols[i], pointRadius:4,
     borderWidth:2.5, tension:0.3, fill:false,
     datalabels:{ anchor:'center', align:'top', offset:4, font:{size:9,weight:'700'}, formatter:v=>v>0?v.toLocaleString('pt-BR'):'' }
   }));
 
-  // Weekly datasets (linha) — 7 pontos: w1..w7
+  // Weekly datasets (linha) — 8 pontos: w1..w8
   const wDS = keys.map((k,i)=>({
-    label:k, data: groups[k].slice(5),
+    label:k, data: groups[k].slice(3),
     borderColor:cols[i], backgroundColor:cols[i]+'22',
     pointBackgroundColor:cols[i], pointRadius:4,
     borderWidth:2.5, tension:0.3, fill:false,
@@ -1449,12 +1462,12 @@ function renderExclCharts() {
   }
 
   if (_chartEW) {
-    _chartEW.data.labels = WKL7;
+    _chartEW.data.labels = WKL8;
     _chartEW.data.datasets = wDS; _chartEW.update('none');
   } else if (document.getElementById('chartExclSemanal')) {
     _chartEW = new Chart(document.getElementById('chartExclSemanal'),{
       type:'line',
-      data:{labels:WKL7, datasets:wDS},
+      data:{labels:WKL8, datasets:wDS},
       options:{...baseOpts, scales:{
         x:{ticks:{font:{size:10}},grid:{display:false}},
         y:{ticks:{font:{size:10},callback:v=>v.toLocaleString('pt-BR')},grid:{color:'rgba(0,0,0,0.05)'}}
