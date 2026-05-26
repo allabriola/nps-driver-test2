@@ -333,219 +333,7 @@ window.onerror = function(msg, src, line, col, err) {
 </div>
 
 <!-- ── SEÇÃO 1: RESUMO DETALHADO ── -->
-<div class="m-sec-divider"><span class="m-sec-num">1</span> Taxa de Exclusão &amp; Correlação</div>
-<div class="m-section">
 
-  <div class="src-bar"><div class="src-dot xm"></div>Proxy via soluções XM — proporção de soluções de "exclusão de impacto" sobre total de pesquisas</div>
-
-  <!-- Taxa summary -->
-  <div class="section-title">Taxa de Exclusão de Impacto (proxy)</div>
-  <div class="grid-4">
-    <div class="kpi-card">
-      <div class="label">Rep ME — Abr</div>
-      <div class="value">~80%</div>
-      <div class="sub">Soluções de exclusão</div>
-    </div>
-    <div class="kpi-card" style="border-top:3px solid var(--green);">
-      <div class="label">Rep ME — Mai</div>
-      <div class="value" style="color:var(--green)">~84%</div>
-      <div class="sub">Soluções de exclusão</div>
-      <div class="delta pos">▲ +4pp</div>
-    </div>
-    <div class="kpi-card">
-      <div class="label">Reputación — Abr</div>
-      <div class="value">~65%</div>
-      <div class="sub">Soluções de exclusão</div>
-    </div>
-    <div class="kpi-card" style="border-top:3px solid var(--green);">
-      <div class="label">Reputación — Mai</div>
-      <div class="value" style="color:var(--green)">~68%</div>
-      <div class="sub">Soluções de exclusão</div>
-      <div class="delta pos">▲ +3pp</div>
-    </div>
-  </div>
-
-  <div class="info-note">
-    A taxa de exclusão é calculada como proxy via soluções CX: proporção de casos resolvidos com "Excluímos" ou "Não afeta" sobre o total de pesquisas. Valores aproximados — parte das soluções não são capturadas no TOP.
-  </div>
-
-  <!-- Charts correlação NPS × Taxa Exclusão -->
-  <div class="section-title">Correlação: NPS vs Taxa de Exclusão</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-sub">Barras = NPS Lineal · Linha = Taxa de Exclusão · Eixo esq. = NPS · Eixo dir. = Excl %</div>
-      <div class="chart-container" style="height:300px;">
-        <canvas id="chartCorrRep"></canvas>
-      </div>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-sub">Barras = NPS Lineal · Linha = Taxa de Exclusão · Eixo esq. = NPS · Eixo dir. = Excl %</div>
-      <div class="chart-container" style="height:300px;">
-        <canvas id="chartCorrRepME"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <!-- Correlação por equipe + filtro de oficina -->
-  <div class="section-title">Correlação por Equipe</div>
-  <div class="flt-bar">
-    <button class="flt-btn active" onclick="setOfficeFilter('todos',this)">Todos</button>
-    <button class="flt-btn"        onclick="setOfficeFilter('aec',this)">AEC</button>
-    <button class="flt-btn"        onclick="setOfficeFilter('ate',this)">ATE</button>
-    <button class="flt-btn"        onclick="setOfficeFilter('kta',this)">KTA</button>
-    <button class="flt-btn"        onclick="setOfficeFilter('ctx',this)">CTX</button>
-  </div>
-  <div id="ctx-note" class="ctx-note">CTX: dados disponíveis apenas em Abril — Maio sem operação nessas filas.</div>
-
-  <div class="section-title">BR_ME_Sellers_Longtail</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_me_rep"></canvas></div>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_me_repme"></canvas></div>
-    </div>
-  </div>
-
-  <div class="section-title">BR_Ventas_Sellers_Longtail</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_ven_rep"></canvas></div>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_ven_repme"></canvas></div>
-    </div>
-  </div>
-
-  <div class="section-title">BR_Publicaciones_Sellers_Longtail</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_pub_rep"></canvas></div>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-container" style="height:240px;"><canvas id="ct_pub_repme"></canvas></div>
-    </div>
-  </div>
-
-  <!-- Agrupamento de soluções -->
-  <div class="section-title">NPS por Grupo de Solução — Abr vs Mai</div>
-  <div class="info-note">Classificação: <strong>Excluímos</strong> = impacto retirado da reputação · <strong>Não Afeta</strong> = caso não impacta por critério (data, arrependimento, etc.) · <strong>Não Excluímos</strong> = impacto mantido · <strong>Outros</strong> = consultas informativas e demais</div>
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación</div>
-      <div class="chart-sub">NPS Lineal por grupo de solução · Abr vs Mai</div>
-      <div class="chart-container" style="height:280px;"><canvas id="chartGrupoRep"></canvas></div>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Reputación ME</div>
-      <div class="chart-sub">NPS Lineal por grupo de solução · Abr vs Mai</div>
-      <div class="chart-container" style="height:280px;"><canvas id="chartGrupoRepME"></canvas></div>
-    </div>
-  </div>
-
-  <div class="two-col">
-    <div class="card">
-      <div class="card-header">Reputación — por Grupo de Solução</div>
-      <table>
-        <thead><tr>
-          <th>Grupo</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>Δ NPS</th>
-        </tr></thead>
-        <tbody>
-          <tr><td><span class="chip chip-pos">Excluímos</span></td><td>85,0%</td><td>732</td><td>85,0%</td><td>526</td><td class="neu">0pp</td></tr>
-          <tr><td><span class="chip chip-pos">Não Afeta</span></td><td>76,0%</td><td>147</td><td>79,0%</td><td>107</td><td class="pos">+3pp</td></tr>
-          <tr><td><span class="chip chip-neu">Outros</span></td><td>58,0%</td><td>117</td><td>58,0%</td><td>71</td><td class="neu">0pp</td></tr>
-          <tr class="row-warn"><td><span class="chip chip-neg">Não Excluímos</span></td><td>12,0%</td><td>153</td><td>32,0%</td><td>81</td><td class="pos">+20pp</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="card">
-      <div class="card-header">Reputación ME — por Grupo de Solução</div>
-      <table>
-        <thead><tr>
-          <th>Grupo</th><th>NPS Abr</th><th>Pesq Abr</th><th>NPS Mai</th><th>Pesq Mai</th><th>Δ NPS</th>
-        </tr></thead>
-        <tbody>
-          <tr><td><span class="chip chip-pos">Excluímos</span></td><td>86,0%</td><td>996</td><td>91,0%</td><td>696</td><td class="pos">+5pp</td></tr>
-          <tr><td><span class="chip chip-pos">Não Afeta</span></td><td>85,0%</td><td>151</td><td>82,0%</td><td>142</td><td class="neg">−3pp</td></tr>
-          <tr><td><span class="chip chip-neu">Outros</span></td><td>69,0%</td><td>124</td><td>77,0%</td><td>47</td><td class="pos">+8pp</td></tr>
-          <tr class="row-warn"><td><span class="chip chip-neg">Não Excluímos</span></td><td>31,0%</td><td>45</td><td>44,0%</td><td>25</td><td class="pos">+13pp</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Decomposição MIX × NETO -->
-  <div class="section-title">Decomposição: Efeito Exclusão × Efeito Experiência (Abr → Mai)</div>
-  <div class="info-note">
-    <strong>Efeito Exclusão (MIX)</strong> = ganho por mudança de composição — mais casos foram para "Excluímos" e menos para "Não Excluímos" em Maio. &nbsp;|&nbsp;
-    <strong>Efeito Experiência (NETO)</strong> = ganho real de qualidade — o NPS dentro de cada grupo melhorou independentemente da composição.
-  </div>
-
-  <div class="grid-2" style="margin-bottom:14px;">
-    <div class="kpi-card" style="border-top:3px solid var(--orange);">
-      <div class="label">Reputación — Δ NPS total +4,9pp</div>
-      <div style="display:flex;gap:20px;margin-top:8px;">
-        <div>
-          <div style="font-size:22px;font-weight:800;color:#ff7733;">+2,4pp</div>
-          <div style="font-size:10px;color:#888;margin-top:2px;">Efeito Exclusão (MIX) · 49%</div>
-        </div>
-        <div style="font-size:20px;color:#ccc;line-height:2.2;">+</div>
-        <div>
-          <div style="font-size:22px;font-weight:800;color:var(--green);">+3,0pp</div>
-          <div style="font-size:10px;color:#888;margin-top:2px;">Efeito Experiência (NETO) · 61%</div>
-        </div>
-      </div>
-      <div style="font-size:10px;color:#bbb;margin-top:6px;">Reputación: mix de grupos mudou (+3,3pp em Excluímos, −3,0pp em Não Excluímos)</div>
-    </div>
-    <div class="kpi-card" style="border-top:3px solid var(--green);">
-      <div class="label">Reputación ME — Δ NPS total +5,2pp</div>
-      <div style="display:flex;gap:20px;margin-top:8px;">
-        <div>
-          <div style="font-size:22px;font-weight:800;color:#ff7733;">+1,0pp</div>
-          <div style="font-size:10px;color:#888;margin-top:2px;">Efeito Exclusão (MIX) · 19%</div>
-        </div>
-        <div style="font-size:20px;color:#ccc;line-height:2.2;">+</div>
-        <div>
-          <div style="font-size:22px;font-weight:800;color:var(--green);">+4,6pp</div>
-          <div style="font-size:10px;color:#888;margin-top:2px;">Efeito Experiência (NETO) · 89%</div>
-        </div>
-      </div>
-      <div style="font-size:10px;color:#bbb;margin-top:6px;">Rep ME: Excluímos subiu 86%→91% — NPS melhorou mesmo dentro dos casos já excluídos</div>
-    </div>
-  </div>
-
-  <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Decomposição por Processo</div>
-      <div class="chart-sub">Barras empilhadas: Efeito Exclusão (laranja) + Efeito Experiência (verde) = Ganho total em pp</div>
-      <div class="chart-container" style="height:200px;"><canvas id="chartDecomp"></canvas></div>
-    </div>
-    <div class="card" style="overflow:auto;">
-      <div class="card-header">Contribuição por Grupo — Efeito Experiência (NETO)</div>
-      <table>
-        <thead><tr><th>Grupo</th><th>Rep NETO</th><th>Rep ME NETO</th></tr></thead>
-        <tbody>
-          <tr><td><span class="chip chip-pos">Excluímos</span></td><td class="neu">0,0pp</td><td class="pos">+3,8pp</td></tr>
-          <tr><td><span class="chip chip-pos">Não Afeta</span></td><td class="pos">+0,4pp</td><td class="neg">−0,3pp</td></tr>
-          <tr><td><span class="chip chip-neu">Outros</span></td><td class="neu">0,0pp</td><td class="pos">+0,8pp</td></tr>
-          <tr class="row-warn"><td><span class="chip chip-neg">Não Excluímos</span></td><td class="pos">+2,7pp ★</td><td class="pos">+0,4pp</td></tr>
-          <tr class="row-total"><td><strong>Total NETO</strong></td><td class="pos"><strong>+3,0pp</strong></td><td class="pos"><strong>+4,6pp</strong></td></tr>
-        </tbody>
-      </table>
-      <div style="padding:8px 14px;font-size:11px;color:#777;">★ Principal driver em Reputación: NPS de "Não Excluímos" subiu de 12%→32% — sellers mais satisfeitos mesmo quando o impacto é mantido.</div>
-    </div>
-  </div>
-
-
-</div><!-- /excl-section-top -->
 
 
 
@@ -828,6 +616,7 @@ const DEF_OPTS = { responsive:true, maintainAspectRatio:false,
 // ── Função auxiliar: gráfico correlação NPS × Excl ──
 
 function makeCorrelChart(canvasId, npsData, exclData, npsMin, npsMax, exclMin, exclMax) {
+  if (!document.getElementById(canvasId)) return;
   new Chart(document.getElementById(canvasId), {
     type: 'bar',
     
@@ -905,6 +694,7 @@ makeCorrelChart('chartCorrRepME', [82.6, 86.8], [80, 84], 75, 92, 73, 90);
 
 // ── Função auxiliar: chart NPS+Excl (bar+line duplo) por team/office ──
 function makeCorrFullChart(canvasId, labels, npsAbr, npsMai, exclAbr, exclMai, npsMin, npsMax, exclMin, exclMax) {
+  if (!document.getElementById(canvasId)) return;
   new Chart(document.getElementById(canvasId), {
     type: 'bar',
     data: {
@@ -1026,6 +816,7 @@ function setOfficeFilter(office, btn) {
 
 // ── Função simples: NPS Abr/Mai (barras) + Excl Abr/Mai (linha) ──
 function makeTeamChart(id, npsAbr, npsMai, exclAbr, exclMai, npsMin, npsMax, exclMin, exclMax) {
+  if (!document.getElementById(id)) return;
   _chartRefs[id] = new Chart(document.getElementById(id), {
     type: 'bar',
     data: {
@@ -1209,7 +1000,7 @@ makeTrend('wt_cdu_rep',   [{label:'Reclamos',data:wCDU.rep.reclamos},{label:'Can
 makeTrend('wt_cdu_repme', [{label:'HT-Ventas',data:wCDU.repme.ht_ventas},{label:'HT-Coleta',data:wCDU.repme.ht_coleta},{label:'Bugs',data:wCDU.repme.bugs}],50,105,'NPS (%)');
 
 // ── Gráfico: Decomposição MIX × NETO ──
-new Chart(document.getElementById('chartDecomp'), {
+if (document.getElementById('chartDecomp')) new Chart(document.getElementById('chartDecomp'), {
   type: 'bar',
   
   data: {
@@ -1257,6 +1048,7 @@ new Chart(document.getElementById('chartDecomp'), {
   const DL_GRP  = { anchor:'end', align:'start', offset:4, color:'#fff', font:{size:10,weight:'800'}, formatter: v => v != null ? v.toFixed(0)+'%' : '' };
 
   function makeGrupoChart(id, npsAbr, npsMai, pesqAbr, pesqMai) {
+    if (!document.getElementById(id)) return;
     new Chart(document.getElementById(id), {
       type: 'bar',
       
