@@ -262,7 +262,7 @@ window.onerror = function(msg, src, line, col, err) {
     <span class="exec-mech-sep">·</span>
     <span>Não Excluímos <strong>12–44%</strong></span>
     <span class="exec-mech-sep">|</span>
-    <span>Decomposição Abr→Mai: <strong>Reputación</strong> = 49% exclusão + 61% experiência &nbsp;·&nbsp; <strong>Rep ME</strong> = 19% exclusão + 89% experiência</span>
+    <span>Decomposição Abr→Mai: <strong>Reputación</strong> = 49% exclusão + 51% experiência &nbsp;·&nbsp; <strong>Rep ME</strong> = 19% exclusão + 79% experiência</span>
   </div>
 
   <!-- Grid Δ NPS vs Δ Excl por equipe × processo -->
@@ -321,10 +321,10 @@ window.onerror = function(msg, src, line, col, err) {
   <!-- Insights -->
   <div class="exec-ins-row">
     <div class="exec-ins pos">
-      <strong>Rep ME: melhora é de experiência real (+4,6pp de +5,2pp).</strong> 89% do ganho vem do NPS melhorando dentro de cada grupo — Excluímos subiu de 86%→91% e Outros de 69%→77%. Apenas 1,0pp vem de mudança de composição. Sellers mais satisfeitos independentemente do resultado da análise.
+      <strong>Rep ME: melhora é de experiência real (+4,1pp de +5,2pp).</strong> 79% do ganho vem do NPS melhorando dentro de cada grupo — Excluímos subiu de 86%→91% e Outros de 69%→77%. Apenas 1,0pp vem de mudança de composição. Sellers mais satisfeitos independentemente do resultado da análise.
     </div>
     <div class="exec-ins warn">
-      <strong>Reputación: melhora mais equilibrada — e um sinal revelador.</strong> 49% do ganho vem de mais exclusões (MIX), 61% de experiência. O dado mais relevante: "Não Excluímos" subiu de 12%→32% NPS — sellers aceitando melhor a decisão mesmo quando o impacto é mantido. Sinal de melhora na qualidade da explicação e processo de comunicação dos agentes.
+      <strong>Reputación: melhora mais equilibrada — e um sinal revelador.</strong> 49% do ganho vem de mais exclusões (MIX), 51% de experiência. O dado mais relevante: "Não Excluímos" subiu de 12%→32% NPS — sellers aceitando melhor a decisão mesmo quando o impacto é mantido. Sinal de melhora na qualidade da explicação e processo de comunicação dos agentes.
     </div>
   </div>
   
@@ -482,7 +482,7 @@ window.onerror = function(msg, src, line, col, err) {
   </div>
 
   <!-- Decomposição MIX × NETO -->
-  <div class="section-title">Decomposição: Efeito Exclusão × Efeito Experiência (Abr → Mai)</div>
+  <div class="section-title">Decomposição: Efeito Exclusão (MIX) × Efeito Experiência (NETO*) — fórmula exata: MIX + NETO* = Δ Total</div>
   <div class="info-note">
     <strong>Efeito Exclusão (MIX)</strong> = ganho por mudança de composição — mais casos foram para "Excluímos" e menos para "Não Excluímos" em Maio. &nbsp;|&nbsp;
     <strong>Efeito Experiência (NETO)</strong> = ganho real de qualidade — o NPS dentro de cada grupo melhorou independentemente da composição.
@@ -498,11 +498,11 @@ window.onerror = function(msg, src, line, col, err) {
         </div>
         <div style="font-size:20px;color:#ccc;line-height:2.2;">+</div>
         <div>
-          <div style="font-size:22px;font-weight:800;color:var(--green);">+3,0pp</div>
-          <div style="font-size:10px;color:#888;margin-top:2px;">Efeito Experiência (NETO) · 61%</div>
+          <div style="font-size:22px;font-weight:800;color:var(--green);">+2,5pp</div>
+          <div style="font-size:10px;color:#888;margin-top:2px;">Efeito Experiência (NETO*) · 51%</div>
         </div>
       </div>
-      <div style="font-size:10px;color:#bbb;margin-top:6px;">Reputación: mix de grupos mudou (+3,3pp em Excluímos, −3,0pp em Não Excluímos)</div>
+      <div style="font-size:10px;color:#bbb;margin-top:6px;">MIX + NETO* = +4,9pp exato ✓ (NETO* usa share de Maio)</div>
     </div>
     <div class="kpi-card" style="border-top:3px solid var(--green);">
       <div class="label">Reputación ME — Δ NPS total +5,2pp</div>
@@ -513,8 +513,8 @@ window.onerror = function(msg, src, line, col, err) {
         </div>
         <div style="font-size:20px;color:#ccc;line-height:2.2;">+</div>
         <div>
-          <div style="font-size:22px;font-weight:800;color:var(--green);">+4,6pp</div>
-          <div style="font-size:10px;color:#888;margin-top:2px;">Efeito Experiência (NETO) · 89%</div>
+          <div style="font-size:22px;font-weight:800;color:var(--green);">+4,1pp</div>
+          <div style="font-size:10px;color:#888;margin-top:2px;">Efeito Experiência (NETO*) · 79%</div>
         </div>
       </div>
       <div style="font-size:10px;color:#bbb;margin-top:6px;">Rep ME: Excluímos subiu 86%→91% — NPS melhorou mesmo dentro dos casos já excluídos</div>
@@ -530,13 +530,13 @@ window.onerror = function(msg, src, line, col, err) {
     <div class="card" style="overflow:auto;">
       <div class="card-header">Contribuição por Grupo — Efeito Experiência (NETO)</div>
       <table>
-        <thead><tr><th>Grupo</th><th>Rep NETO</th><th>Rep ME NETO</th></tr></thead>
+        <thead><tr><th>Grupo</th><th>Rep NETO*</th><th>Rep ME NETO*</th></tr></thead>
         <tbody>
           <tr><td><span class="chip chip-pos">Excluímos</span></td><td class="neu">0,0pp</td><td class="pos">+3,8pp</td></tr>
           <tr><td><span class="chip chip-pos">Não Afeta</span></td><td class="pos">+0,4pp</td><td class="neg">−0,3pp</td></tr>
           <tr><td><span class="chip chip-neu">Outros</span></td><td class="neu">0,0pp</td><td class="pos">+0,8pp</td></tr>
-          <tr class="row-warn"><td><span class="chip chip-neg">Não Excluímos</span></td><td class="pos">+2,7pp ★</td><td class="pos">+0,4pp</td></tr>
-          <tr class="row-total"><td><strong>Total NETO</strong></td><td class="pos"><strong>+3,0pp</strong></td><td class="pos"><strong>+4,6pp</strong></td></tr>
+          <tr class="row-warn"><td><span class="chip chip-neg">Não Excluímos</span></td><td class="pos">+2,1pp ★</td><td class="pos">+0,4pp</td></tr>
+          <tr class="row-total"><td><strong>Total NETO</strong></td><td class="pos"><strong>+2,5pp</strong></td><td class="pos"><strong>+4,1pp</strong></td></tr>
         </tbody>
       </table>
       <div style="padding:8px 14px;font-size:11px;color:#777;">★ Principal driver em Reputación: NPS de "Não Excluímos" subiu de 12%→32% — sellers mais satisfeitos mesmo quando o impacto é mantido.</div>
@@ -1223,7 +1223,7 @@ new Chart(document.getElementById('chartDecomp'), {
           formatter: v => '+'+v.toFixed(1)+'pp' }
       },
       { label: 'Efeito Experiência (NETO)',
-        data: [3.0, 4.6],
+        data: [2.5, 4.1],
         backgroundColor: 'rgba(0,166,80,0.82)',
         borderRadius: { topLeft:6, topRight:6, bottomLeft:0, bottomRight:0 },
         stack: 's',
