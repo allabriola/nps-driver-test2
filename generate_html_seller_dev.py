@@ -3843,68 +3843,118 @@ if __name__ == '__main__':
         f.write(html)
     print(f"Dashboard gerado: {OUTPUT_FILE}")
 
-    if _os_mod.path.exists(GRID_COOKIES_F):
-        try:
-            from playwright.sync_api import sync_playwright as _sync_pw
+    try:
+        from playwright.sync_api import sync_playwright as _sync_pw
 
-            with open(OUTPUT_FILE, "rb") as _f:
-                _html_b64 = _b64_mod.b64encode(_f.read()).decode()
-            with open(GRID_COOKIES_F, encoding="utf-8") as _fc:
-                _raw_ck = _json_mod.load(_fc)
+        _PROFILE_DIR = _os_mod.path.join(
+            _os_mod.path.dirname(_os_mod.path.abspath(__file__)), "playwright_profile"
+        )
+        _os_mod.makedirs(_PROFILE_DIR, exist_ok=True)
 
-            _VALID_SS = {"Strict", "Lax", "None"}
-            _pw_cookies = []
-            for _c in _raw_ck:
-                _d = _c.get("domain", "grid.adminml.com")
-                if not _d.startswith(".") and not _c.get("hostOnly", False):
-                    _d = "." + _d
-                _ss = _c.get("sameSite", "None")
-                if _ss not in _VALID_SS: _ss = "None"
-                _pw_cookies.append({
-                    "name": _c["name"], "value": _c["value"], "domain": _d,
-                    "path": _c.get("path", "/"), "secure": bool(_c.get("secure", True)),
-                    "httpOnly": bool(_c.get("httpOnly", False)), "sameSite": _ss,
-                })
+        with open(OUTPUT_FILE, "rb") as _f:
+            _html_b64 = _b64_mod.b64encode(_f.read()).decode()
 
+        _UPLOAD_JS = """async ({b64html, docId, csrfToken}) => {
+            const bin = atob(b64html);
+            const bytes = new Uint8Array(bin.length);
+            for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+            const fd = new FormData();
+            fd.append("file", new Blob([bytes], {type:"text/html;charset=utf-8"}),
+                      "nps_tendencias_seller_dev.html");
+            fd.append("title", "NPS Tendencias Seller Dev BR");
+            const r = await fetch("/api/v1/documents/" + docId + "/versions",
+                                  {method:"POST", body:fd, credentials:"include",
+                                   headers: csrfToken ? {"X-CSRF-Token": csrfToken} : {}});
+            const txt = await r.text();
+            return {status: r.status, body: txt.substring(0, 200)};
+        }"""
+
+        def _run_upload(headless=True):
             with _sync_pw() as _pw:
-                _browser = _pw.chromium.launch(headless=True)
-                _ctx = _browser.new_context()
-                _ctx.add_cookies(_pw_cookies)
-                _page = _ctx.new_page()
-                _page.goto("https://grid.adminml.com", wait_until="networkidle", timeout=30000)
-
-                _csrf_val = next((_c["value"] for _c in _raw_ck if _c.get("name") == "_csrf"), "")
-                _result = _page.evaluate(
-                    """async ({b64html, docId, csrfToken}) => {
-                        const bin = atob(b64html);
-                        const bytes = new Uint8Array(bin.length);
-                        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-                        const fd = new FormData();
-                        fd.append("file", new Blob([bytes], {type:"text/html;charset=utf-8"}),
-                                  "nps_tendencias_seller_dev.html");
-                        fd.append("title", "NPS Tendencias Seller Dev BR");
-                        const r = await fetch("/api/v1/documents/" + docId + "/versions",
-                                              {method:"POST", body:fd, credentials:"include",
-                                               headers: csrfToken ? {"X-CSRF-Token": csrfToken} : {}});
-                        const txt = await r.text();
-                        return {status: r.status, body: txt.substring(0, 200)};
-                    }""",
-                    {"b64html": _html_b64, "docId": GRID_DOC_ID, "csrfToken": _csrf_val},
+                _ctx = _pw.chromium.launch_persistent_context(
+                    _PROFILE_DIR, headless=headless,
+                    args=["--no-sandbox", "--disable-dev-shm-usage"],
                 )
-                _browser.close()
+                try:
+                    _page = _ctx.new_page()
 
-            _s = _result.get("status", 0)
-            if _s in (200, 201):
-                import re as _rr
-                _vm = _rr.search(r'"version"\s*:\s*(\d+)', _result.get("body", ""))
-                _v = _vm.group(1) if _vm else "?"
-                print(f"Grid: OK (v{_v}) -> https://grid.adminml.com/d/{GRID_DOC_ID}/view")
-            elif _s == 401:
-                print("Grid: sessao expirada — rode: python save_grid_cookies.py")
-            else:
-                print(f"Grid: erro HTTP {_s} -> {_result.get('body','')[:120]}")
+                    # Se cookies iniciais existem, carregá-los no perfil (primeira execução)
+                    if _os_mod.path.exists(GRID_COOKIES_F):
+                        with open(GRID_COOKIES_F, encoding="utf-8") as _fc:
+                            _raw_ck = _json_mod.load(_fc)
+                        _VALID_SS = {"Strict", "Lax", "None"}
+                        _pw_cookies = []
+                        for _c in _raw_ck:
+                            _d = _c.get("domain", "grid.adminml.com")
+                            if not _d.startswith(".") and not _c.get("hostOnly", False):
+                                _d = "." + _d
+                            _ss = _c.get("sameSite", "None")
+                            if _ss not in _VALID_SS: _ss = "None"
+                            _pw_cookies.append({
+                                "name": _c["name"], "value": _c["value"], "domain": _d,
+                                "path": _c.get("path", "/"), "secure": bool(_c.get("secure", True)),
+                                "httpOnly": bool(_c.get("httpOnly", False)), "sameSite": _ss,
+                            })
+                        try:
+                            _ctx.add_cookies(_pw_cookies)
+                        except Exception:
+                            pass
 
-        except Exception as _e:
-            print(f"Grid: erro -> {_e}")
-    else:
-        print("Grid: grid_cookies.json nao encontrado — rode: python save_grid_cookies.py")
+                    _page.goto("https://grid.adminml.com",
+                               wait_until="networkidle", timeout=60000)
+
+                    # Se não está no Grid (redirecionado para login), esperar login manual
+                    if not headless and "grid.adminml.com" not in _page.url:
+                        print("Grid: abrindo browser para login — faça login e aguarde...")
+                        _page.wait_for_url("*grid.adminml.com*", timeout=180000)
+                        _page.wait_for_load_state("networkidle", timeout=30000)
+
+                    # Obter CSRF das cookies atuais da sessão
+                    _all_ck = _ctx.cookies("https://grid.adminml.com")
+                    _csrf_val = next((_c["value"] for _c in _all_ck
+                                      if _c.get("name") == "_csrf"), "")
+
+                    _result = _page.evaluate(
+                        _UPLOAD_JS,
+                        {"b64html": _html_b64, "docId": GRID_DOC_ID,
+                         "csrfToken": _csrf_val},
+                    )
+
+                    # Salvar cookies atualizados (renova IAP token para próxima vez)
+                    _updated_ck = _ctx.cookies()
+                    with open(GRID_COOKIES_F, "w", encoding="utf-8") as _fw:
+                        _json_mod.dump([{
+                            "domain": _c["domain"], "name": _c["name"],
+                            "value": _c["value"], "path": _c.get("path", "/"),
+                            "secure": _c.get("secure", False),
+                            "httpOnly": _c.get("httpOnly", False),
+                            "sameSite": _c.get("sameSite", "None"),
+                            "hostOnly": not _c["domain"].startswith("."),
+                            "session": _c.get("expires", -1) == -1,
+                            "expirationDate": _c.get("expires"),
+                            "storeId": None,
+                        } for _c in _updated_ck], _fw, indent=2)
+
+                    return _result
+                finally:
+                    _ctx.close()
+
+        _result = _run_upload(headless=True)
+        _s = _result.get("status", 0) if _result else 0
+
+        # Se falhou por autenticação, tenta com browser visível
+        if _s not in (200, 201) and _s in (0, 400, 401, 403, 405):
+            print(f"Grid: sessao expirada (HTTP {_s}) — abrindo browser para relogin...")
+            _result = _run_upload(headless=False)
+            _s = _result.get("status", 0) if _result else 0
+
+        if _s in (200, 201):
+            import re as _rr
+            _vm = _rr.search(r'"version"\s*:\s*(\d+)', _result.get("body", ""))
+            _v = _vm.group(1) if _vm else "?"
+            print(f"Grid: OK (v{_v}) -> https://grid.adminml.com/d/{GRID_DOC_ID}/view")
+        else:
+            print(f"Grid: erro HTTP {_s} -> {_result.get('body','')[:120] if _result else ''}")
+
+    except Exception as _e:
+        print(f"Grid: erro -> {_e}")
