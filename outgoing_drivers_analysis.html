@@ -183,30 +183,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   <!-- ── ABA NPS ───────────────────────────────────────────────── -->
   <div class="tab-pane" id="tp1">
 
-    <div class="grid2">
-      <div class="card">
-        <p class="chart-title">NPS Lineal por CDU · Jan–Mai</p>
-        <div class="cw" style="height:420px"><canvas id="cNpsCdu"></canvas></div>
-      </div>
-      <div class="card">
-        <p class="chart-title">Evolução Mensal NPS Lineal</p>
-        <div class="cw" style="height:420px"><canvas id="cNpsMon"></canvas></div>
-      </div>
+    <div class="card">
+      <p class="chart-title">NPS Lineal por CDU · Jan–Mai</p>
+      <div class="cw" style="height:420px"><canvas id="cNpsCdu"></canvas></div>
     </div>
 
     <div class="card">
-      <p class="chart-title">MoM NPS vs Gap Target · Abr → Mai
-        <span style="font-size:10px;font-weight:400;color:#888;margin-left:8px">
-          tamanho = volume outgoing · cor = quadrante
-        </span>
-      </p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-size:11px">
-        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:#70AD47;display:inline-block"></span>Acima target + melhorando</span>
-        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:#FFC000;display:inline-block"></span>Acima target + piorando</span>
-        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:#ED7D31;display:inline-block"></span>Abaixo target + melhorando</span>
-        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:#E05252;display:inline-block"></span>Abaixo target + piorando</span>
+      <p class="chart-title">Cascata NPS vs Target por CDU · YTD</p>
+      <div class="cw" style="height:420px"><canvas id="cCascade"></canvas></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <p class="chart-title">Evolução Mensal NPS + Target</p>
+        <div class="cw" style="height:360px"><canvas id="cNpsMon"></canvas></div>
       </div>
-      <div class="cw" style="height:400px"><canvas id="cScatter"></canvas></div>
+      <div class="card">
+        <p class="chart-title">Evolução Semanal NPS + Target</p>
+        <div class="cw" style="height:360px"><canvas id="cNpsWk"></canvas></div>
+      </div>
     </div>
 
     <div class="card">
@@ -388,107 +383,40 @@ function initNpsCharts() {
     }
   });
 
-  // Scatter MoM NPS vs Gap Target
-  const scatterPts = [{"x": 1.4, "y": 72.5, "r": 30, "label": "Quiere saber porqué se inactivó su cuenta", "nps": 73.2, "tgt": 0.73, "vol": 8289, "color": "#70AD47"}, {"x": 7.6, "y": 73.9, "r": 6, "label": "Quiere saber como funciona Envíos Extra", "nps": 74.6, "tgt": 0.72, "vol": 1753, "color": "#70AD47"}, {"x": 10.0, "y": 65.4, "r": 6, "label": "Tiene problemas durante la creacion de la cuenta", "nps": 66.1, "tgt": 0.72, "vol": 1313, "color": "#70AD47"}, {"x": -38.1, "y": 27.9, "r": 6, "label": "Bugs", "nps": 28.6, "tgt": 0.75, "vol": 1044, "color": "#FFC000"}, {"x": -6.1, "y": 52.8, "r": 6, "label": "Quiere saber porque no le pagaron una ruta", "nps": 53.5, "tgt": 0.71, "vol": 956, "color": "#FFC000"}, {"x": 14.4, "y": 61.8, "r": 6, "label": "Generales", "nps": 62.5, "tgt": 0.68, "vol": 1657, "color": "#70AD47"}, {"x": 2.3, "y": 66.0, "r": 6, "label": "Quiere reclamar por inconvenientes en el recorrido o en el service center", "nps": 66.7, "tgt": 0.71, "vol": 1012, "color": "#70AD47"}, {"x": 2.1, "y": 79.3, "r": 6, "label": "Quiere saber porque no recibe rutas", "nps": 80.0, "tgt": 0.72, "vol": 732, "color": "#70AD47"}, {"x": 15.5, "y": 63.0, "r": 6, "label": "Tiene un inconviente con sus metricas de Nivel de Lealtad", "nps": 63.7, "tgt": 0.72, "vol": 894, "color": "#70AD47"}, {"x": 1.3, "y": 64.3, "r": 6, "label": "Oferta de rutas", "nps": 65.0, "tgt": 0.7, "vol": 816, "color": "#70AD47"}, {"x": -2.7, "y": 64.6, "r": 6, "label": "Quiere gestionar una cuenta ya creada", "nps": 65.3, "tgt": 0.72, "vol": 345, "color": "#FFC000"}];
-  if (document.getElementById('cScatter') && scatterPts.length) {
-    new Chart(document.getElementById('cScatter'), {
-      type: 'bubble',
-      data: { datasets: scatterPts.map(p => ({
-        label: p.label,
-        data: [{ x: p.x, y: p.y, r: p.r }],
-        backgroundColor: p.color + 'bb',
-        borderColor:     p.color,
+  // Cascata NPS vs Target por CDU
+  const cascadeLabels = ["Quiere saber porque no recibe rutas", "Quiere saber porqué se inactivó su cuenta", "Quiere saber como funciona Envíos Extra", "Gestión de cuenta", "Quiere gestionar una cuenta ya creada", "Flotillero - Extra", "Temporal", "Soporte MeLi", "Oferta de rutas", "Quiere saber porque no le pagaron una ruta", "Tiene problemas durante la creacion de la cuenta", "Quiere reclamar por inconvenientes en el recorrido o en el service center", "Pago de ruta", "Tiene un inconviente con sus metricas de Nivel de Lealtad", "Generales", "Onboarding Extra", "Bugs", "Cuenta pausada o bloqueada"];
+  const cascadeGaps   = [76.7, 73.9, 72.6, 68.3, 65.5, 64.9, 62.9, 62.8, 60.8, 60.5, 60.1, 57.6, 54.1, 51.3, 39.7, 39.4, 31.2, 21.6];
+  const cascadeColors = ["#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47"];
+  const cascadeNps    = [77.4, 74.6, 73.3, 69.0, 66.2, 65.6, 63.6, 63.5, 61.5, 61.2, 60.8, 58.3, 54.8, 52.0, 40.4, 40.0, 31.8, 22.2];
+  const cascadeTgt    = [0.72, 0.72, 0.71, 0.7, 0.7, 0.71, 0.73, 0.74, 0.71, 0.7, 0.7, 0.71, 0.67, 0.69, 0.68, 0.62, 0.64, 0.61];
+  const cascadeSurv   = [881, 3139, 1934, 29, 228, 305, 11, 115, 574, 791, 899, 630, 104, 490, 104, 10, 22, 9];
+  new Chart(document.getElementById('cCascade'), {
+    type: 'bar',
+    data: {
+      labels: cascadeLabels,
+      datasets: [{
+        label: 'Gap vs Target',
+        data: cascadeGaps,
+        backgroundColor: cascadeColors.map(c => c + 'cc'),
+        borderColor: cascadeColors,
         borderWidth: 1.5,
-      })) },
-      plugins: [{
-        id: 'scatterLabels',
-        afterDatasetsDraw(chart) {
-          const { ctx } = chart;
-          ctx.save();
-          ctx.font = '10px -apple-system, sans-serif';
-          ctx.fillStyle = '#333';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'top';
-          chart.data.datasets.forEach((ds, i) => {
-            const meta = chart.getDatasetMeta(i);
-            if (!meta.data[0]) return;
-            const pt = meta.data[0];
-            const lbl = ds.label.length > 28 ? ds.label.slice(0,26)+'…' : ds.label;
-            ctx.fillText(lbl, pt.x, pt.y + pt.options.radius + 4);
-          });
-          ctx.restore();
-        }
-      }],
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        layout: { padding: { bottom: 30 } },
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: ctx => {
-                const p = scatterPts[ctx.datasetIndex];
-                return [
-                  ` ${p.label}`,
-                  ` NPS: ${(p.nps>0?'+':'') + p.nps}  Target: ${p.tgt?.toFixed(1) ?? '—'}`,
-                  ` MoM NPS: ${(p.x>0?'+':'') + p.x}pt  Gap: ${(p.y>0?'+':'') + p.y}pt`,
-                  ` Vol.: ${p.vol.toLocaleString('pt-BR')}`,
-                ];
-              }
-            }
-          }
-        },
-        scales: {
-          x: {
-            title: { display: true, text: 'Variação MoM NPS (pontos)', font: { size: 11 } },
-            grid: { color: ctx => ctx.tick.value === 0 ? '#999' : '#f0f2f5' },
-            ticks: { callback: v => (v>0?'+':'') + v }
-          },
-          y: {
-            title: { display: true, text: 'Gap NPS vs Target (pontos)', font: { size: 11 } },
-            grid: { color: ctx => ctx.tick.value === 0 ? '#999' : '#f0f2f5' },
-            ticks: { callback: v => (v>0?'+':'') + v }
-          }
-        }
-      }
-    });
-  }
-
-  // NPS mensal — linha
-  const mNps    = [69.2, 72.8, 66.9, 65.2, 68.8];
-  const mLabels = ["Jan", "Fev", "Mar", "Abr", "Mai"];
-  const ptColors = mNps.map(v => npsColor(v));
-  new Chart(document.getElementById('cNpsMon'), {
-    type: 'line',
-    data: { labels: mLabels, datasets: [{
-      label: 'NPS Lineal',
-      data: mNps,
-      borderColor: '#4472C4',
-      backgroundColor: 'rgba(68,114,196,0.08)',
-      pointBackgroundColor: ptColors,
-      pointBorderColor: ptColors,
-      pointRadius: 7,
-      pointHoverRadius: 9,
-      borderWidth: 2.5,
-      tension: 0.3,
-      fill: true,
-      spanGaps: true,
-    }] },
+        borderRadius: 4,
+      }]
+    },
     plugins: [{
-      id: 'npsMonLabels',
+      id: 'cascadeLabels',
       afterDatasetsDraw(chart) {
         const { ctx, data } = chart;
         const meta = chart.getDatasetMeta(0);
         ctx.save();
-        ctx.font = 'bold 12px -apple-system, sans-serif';
+        ctx.font = 'bold 11px -apple-system, sans-serif';
         ctx.textAlign = 'center';
-        ctx.textBaseline = 'bottom';
-        meta.data.forEach((pt, i) => {
+        meta.data.forEach((bar, i) => {
           const v = data.datasets[0].data[i];
-          if (v === null || v === undefined) return;
-          ctx.fillStyle = ptColors[i];
-          ctx.fillText((v > 0 ? '+' : '') + v, pt.x, pt.y - 8);
+          const lbl = (v >= 0 ? '+' : '') + v.toFixed(1);
+          ctx.fillStyle = cascadeColors[i];
+          ctx.textBaseline = v >= 0 ? 'bottom' : 'top';
+          ctx.fillText(lbl, bar.x, v >= 0 ? bar.y - 4 : bar.y + 4);
         });
         ctx.restore();
       }
@@ -496,18 +424,107 @@ function initNpsCharts() {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      layout: { padding: { top: 28 } },
+      layout: { padding: { top: 24, bottom: 8 } },
       plugins: {
         legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ` NPS: ${(ctx.parsed.y > 0 ? '+' : '') + ctx.parsed.y}` } }
+        tooltip: {
+          callbacks: {
+            label: ctx => [
+              ` NPS: ${(cascadeNps[ctx.dataIndex]>0?'+':'')}${cascadeNps[ctx.dataIndex]}`,
+              ` Target: ${cascadeTgt[ctx.dataIndex]?.toFixed(1)}`,
+              ` Gap: ${(cascadeGaps[ctx.dataIndex]>=0?'+':'')}${cascadeGaps[ctx.dataIndex]}pt`,
+              ` Pesquisas: ${cascadeSurv[ctx.dataIndex].toLocaleString('pt-BR')}`,
+            ]
+          }
+        }
       },
       scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 12 } } },
-        y: { grid: { color: ctx => ctx.tick.value === 0 ? '#aaa' : '#f0f2f5' },
-              ticks: { font: { size: 11 }, callback: v => (v > 0 ? '+' : '') + v } }
+        x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 35 } },
+        y: {
+          grid: { color: ctx => ctx.tick.value === 0 ? '#888' : '#f0f2f5' },
+          ticks: { callback: v => (v>0?'+':'') + v, font: { size: 11 } },
+          title: { display: true, text: 'Gap vs Target (pt)', font: { size: 10 }, color: '#888' }
+        }
       }
     }
   });
+
+  // helper: linha de evolução + target tracejado
+  function npsEvoChart(id, labels, npsVals, targetVal) {
+    const tgtData = labels.map(() => targetVal);
+    const ptColors = npsVals.map(v => npsColor(v));
+    new Chart(document.getElementById(id), {
+      type: 'line',
+      data: { labels, datasets: [
+        {
+          label: 'NPS Lineal',
+          data: npsVals,
+          borderColor: '#4472C4',
+          backgroundColor: 'rgba(68,114,196,0.07)',
+          pointBackgroundColor: ptColors,
+          pointBorderColor: ptColors,
+          pointRadius: 6,
+          pointHoverRadius: 8,
+          borderWidth: 2.5,
+          tension: 0.3,
+          fill: true,
+          spanGaps: true,
+          order: 1,
+        },
+        {
+          label: 'Target',
+          data: tgtData,
+          borderColor: '#E05252',
+          borderDash: [6, 4],
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false,
+          spanGaps: true,
+          order: 2,
+        },
+      ] },
+      plugins: [{
+        id: 'npsEvoLabels',
+        afterDatasetsDraw(chart) {
+          const { ctx, data } = chart;
+          const meta = chart.getDatasetMeta(0);
+          ctx.save();
+          ctx.font = 'bold 11px -apple-system, sans-serif';
+          ctx.textAlign = 'center';
+          meta.data.forEach((pt, i) => {
+            const v = data.datasets[0].data[i];
+            if (v === null || v === undefined) return;
+            ctx.fillStyle = ptColors[i];
+            ctx.textBaseline = 'bottom';
+            ctx.fillText((v>0?'+':'') + v, pt.x, pt.y - 8);
+          });
+          ctx.restore();
+        }
+      }],
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: { padding: { top: 28 } },
+        plugins: {
+          legend: { position: 'bottom', labels: { boxWidth: 14, padding: 10, font: { size: 11 } } },
+          tooltip: { callbacks: { label: ctx => ctx.dataset.label === 'Target'
+            ? ` Target: ${ctx.parsed.y}`
+            : ` NPS: ${(ctx.parsed.y>0?'+':'')}${ctx.parsed.y}` } }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+          y: {
+            grid: { color: ctx => ctx.tick.value === 0 ? '#aaa' : '#f0f2f5' },
+            ticks: { callback: v => (v>0?'+':'') + v, font: { size: 11 } }
+          }
+        }
+      }
+    });
+  }
+
+  npsEvoChart('cNpsMon', ["Jan", "Fev", "Mar", "Abr", "Mai"], [69.2, 72.8, 66.9, 65.2, 68.8], 0.7);
+  npsEvoChart('cNpsWk',  ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"],   [null, null, null, null, null, null, null, null, null], 0.7);
+
 }
 
 // ── Transcriptions ────────────────────────────────────────────────────────────

@@ -1119,22 +1119,28 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
     # MoM scorecard table
     scorecard_html = _render_mom_scorecard(mom_scorecard)
 
-    # Scatter data: x=nps_mom, y=gap vs target, r=volume (normalized), label=cdu
-    scatter_pts = []
-    for r in mom_scorecard:
-        if r["nps_mom"] is not None and r["gap"] is not None:
-            max_vol = max((s["vol_last"] for s in mom_scorecard if s["vol_last"]), default=1)
-            radius  = max(6, int(r["vol_last"] / max_vol * 30))
-            qcolor  = ("#70AD47" if r["gap"] >= 0 and r["nps_mom"] >= 0 else
-                       "#FFC000" if r["gap"] >= 0 and r["nps_mom"] < 0 else
-                       "#ED7D31" if r["gap"] < 0  and r["nps_mom"] >= 0 else
-                       "#E05252")
-            scatter_pts.append({"x": r["nps_mom"], "y": r["gap"],
-                                 "r": radius, "label": r["cdu"],
-                                 "nps": r["nps_last"], "tgt": r["target"],
-                                 "vol": r["vol_last"], "color": qcolor})
     last_mlbl = mom_scorecard[0]["last_mlbl"] if mom_scorecard else "—"
     prev_mlbl = mom_scorecard[0]["prev_mlbl"] if mom_scorecard else "—"
+
+    # Cascade (gap vs target) — sorted best → worst
+    gap_data = sorted(
+        [r for r in nps_by_cdu
+         if r["nps"] is not None and r["target"] is not None and r["cdu"] != "Sem CDU"],
+        key=lambda x: (x["nps"] or 0) - (x["target"] or 0), reverse=True
+    )
+    cascade_labels = [r["cdu"]    for r in gap_data]
+    cascade_gaps   = [round((r["nps"] or 0) - (r["target"] or 0), 1) for r in gap_data]
+    cascade_colors = ["#70AD47" if g >= 0 else "#E05252" for g in cascade_gaps]
+    cascade_nps    = [r["nps"]    for r in gap_data]
+    cascade_tgt    = [r["target"] for r in gap_data]
+    cascade_surv   = [r["surveys"] for r in gap_data]
+
+    # Weighted average target for the target line on evolution charts
+    total_s = sum(r["surveys"] for r in nps_by_cdu if r["target"] is not None)
+    avg_target = round(
+        sum((r["target"] or 0) * r["surveys"] for r in nps_by_cdu if r["target"] is not None)
+        / total_s, 1
+    ) if total_s else None
 
     return f"""<!DOCTYPE html>
 <html lang="pt-BR">
@@ -1316,30 +1322,25 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   <!-- ── ABA NPS ───────────────────────────────────────────────── -->
   <div class="tab-pane" id="tp1">
 
-    <div class="grid2">
-      <div class="card">
-        <p class="chart-title">NPS Lineal por CDU · {monthly["months"][0]}–{monthly["months"][-1]}</p>
-        <div class="cw" style="height:420px"><canvas id="cNpsCdu"></canvas></div>
-      </div>
-      <div class="card">
-        <p class="chart-title">Evolução Mensal NPS Lineal</p>
-        <div class="cw" style="height:420px"><canvas id="cNpsMon"></canvas></div>
-      </div>
+    <div class="card">
+      <p class="chart-title">NPS Lineal por CDU · {monthly["months"][0]}–{monthly["months"][-1]}</p>
+      <div class="cw" style="height:420px"><canvas id="cNpsCdu"></canvas></div>
     </div>
 
     <div class="card">
-      <p class="chart-title">MoM NPS vs Gap Target · {prev_mlbl} → {last_mlbl}
-        <span style="font-size:10px;font-weight:400;color:#888;margin-left:8px">
-          tamanho = volume outgoing · cor = quadrante
-        </span>
-      </p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-size:11px">
-        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:#70AD47;display:inline-block"></span>Acima target + melhorando</span>
-        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:#FFC000;display:inline-block"></span>Acima target + piorando</span>
-        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:#ED7D31;display:inline-block"></span>Abaixo target + melhorando</span>
-        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:#E05252;display:inline-block"></span>Abaixo target + piorando</span>
+      <p class="chart-title">Cascata NPS vs Target por CDU · YTD</p>
+      <div class="cw" style="height:420px"><canvas id="cCascade"></canvas></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <p class="chart-title">Evolução Mensal NPS + Target</p>
+        <div class="cw" style="height:360px"><canvas id="cNpsMon"></canvas></div>
       </div>
-      <div class="cw" style="height:400px"><canvas id="cScatter"></canvas></div>
+      <div class="card">
+        <p class="chart-title">Evolução Semanal NPS + Target</p>
+        <div class="cw" style="height:360px"><canvas id="cNpsWk"></canvas></div>
+      </div>
     </div>
 
     <div class="card">
@@ -1513,107 +1514,40 @@ function initNpsCharts() {{
     }}
   }});
 
-  // Scatter MoM NPS vs Gap Target
-  const scatterPts = {jd(scatter_pts)};
-  if (document.getElementById('cScatter') && scatterPts.length) {{
-    new Chart(document.getElementById('cScatter'), {{
-      type: 'bubble',
-      data: {{ datasets: scatterPts.map(p => ({{
-        label: p.label,
-        data: [{{ x: p.x, y: p.y, r: p.r }}],
-        backgroundColor: p.color + 'bb',
-        borderColor:     p.color,
+  // Cascata NPS vs Target por CDU
+  const cascadeLabels = {jd(cascade_labels)};
+  const cascadeGaps   = {jd(cascade_gaps)};
+  const cascadeColors = {jd(cascade_colors)};
+  const cascadeNps    = {jd(cascade_nps)};
+  const cascadeTgt    = {jd(cascade_tgt)};
+  const cascadeSurv   = {jd(cascade_surv)};
+  new Chart(document.getElementById('cCascade'), {{
+    type: 'bar',
+    data: {{
+      labels: cascadeLabels,
+      datasets: [{{
+        label: 'Gap vs Target',
+        data: cascadeGaps,
+        backgroundColor: cascadeColors.map(c => c + 'cc'),
+        borderColor: cascadeColors,
         borderWidth: 1.5,
-      }})) }},
-      plugins: [{{
-        id: 'scatterLabels',
-        afterDatasetsDraw(chart) {{
-          const {{ ctx }} = chart;
-          ctx.save();
-          ctx.font = '10px -apple-system, sans-serif';
-          ctx.fillStyle = '#333';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'top';
-          chart.data.datasets.forEach((ds, i) => {{
-            const meta = chart.getDatasetMeta(i);
-            if (!meta.data[0]) return;
-            const pt = meta.data[0];
-            const lbl = ds.label.length > 28 ? ds.label.slice(0,26)+'…' : ds.label;
-            ctx.fillText(lbl, pt.x, pt.y + pt.options.radius + 4);
-          }});
-          ctx.restore();
-        }}
-      }}],
-      options: {{
-        responsive: true,
-        maintainAspectRatio: false,
-        layout: {{ padding: {{ bottom: 30 }} }},
-        plugins: {{
-          legend: {{ display: false }},
-          tooltip: {{
-            callbacks: {{
-              label: ctx => {{
-                const p = scatterPts[ctx.datasetIndex];
-                return [
-                  ` ${{p.label}}`,
-                  ` NPS: ${{(p.nps>0?'+':'') + p.nps}}  Target: ${{p.tgt?.toFixed(1) ?? '—'}}`,
-                  ` MoM NPS: ${{(p.x>0?'+':'') + p.x}}pt  Gap: ${{(p.y>0?'+':'') + p.y}}pt`,
-                  ` Vol.: ${{p.vol.toLocaleString('pt-BR')}}`,
-                ];
-              }}
-            }}
-          }}
-        }},
-        scales: {{
-          x: {{
-            title: {{ display: true, text: 'Variação MoM NPS (pontos)', font: {{ size: 11 }} }},
-            grid: {{ color: ctx => ctx.tick.value === 0 ? '#999' : '#f0f2f5' }},
-            ticks: {{ callback: v => (v>0?'+':'') + v }}
-          }},
-          y: {{
-            title: {{ display: true, text: 'Gap NPS vs Target (pontos)', font: {{ size: 11 }} }},
-            grid: {{ color: ctx => ctx.tick.value === 0 ? '#999' : '#f0f2f5' }},
-            ticks: {{ callback: v => (v>0?'+':'') + v }}
-          }}
-        }}
-      }}
-    }});
-  }}
-
-  // NPS mensal — linha
-  const mNps    = {jd(nps_monthly['monthly_nps'])};
-  const mLabels = {jd(monthly['months'])};
-  const ptColors = mNps.map(v => npsColor(v));
-  new Chart(document.getElementById('cNpsMon'), {{
-    type: 'line',
-    data: {{ labels: mLabels, datasets: [{{
-      label: 'NPS Lineal',
-      data: mNps,
-      borderColor: '#4472C4',
-      backgroundColor: 'rgba(68,114,196,0.08)',
-      pointBackgroundColor: ptColors,
-      pointBorderColor: ptColors,
-      pointRadius: 7,
-      pointHoverRadius: 9,
-      borderWidth: 2.5,
-      tension: 0.3,
-      fill: true,
-      spanGaps: true,
-    }}] }},
+        borderRadius: 4,
+      }}]
+    }},
     plugins: [{{
-      id: 'npsMonLabels',
+      id: 'cascadeLabels',
       afterDatasetsDraw(chart) {{
         const {{ ctx, data }} = chart;
         const meta = chart.getDatasetMeta(0);
         ctx.save();
-        ctx.font = 'bold 12px -apple-system, sans-serif';
+        ctx.font = 'bold 11px -apple-system, sans-serif';
         ctx.textAlign = 'center';
-        ctx.textBaseline = 'bottom';
-        meta.data.forEach((pt, i) => {{
+        meta.data.forEach((bar, i) => {{
           const v = data.datasets[0].data[i];
-          if (v === null || v === undefined) return;
-          ctx.fillStyle = ptColors[i];
-          ctx.fillText((v > 0 ? '+' : '') + v, pt.x, pt.y - 8);
+          const lbl = (v >= 0 ? '+' : '') + v.toFixed(1);
+          ctx.fillStyle = cascadeColors[i];
+          ctx.textBaseline = v >= 0 ? 'bottom' : 'top';
+          ctx.fillText(lbl, bar.x, v >= 0 ? bar.y - 4 : bar.y + 4);
         }});
         ctx.restore();
       }}
@@ -1621,18 +1555,107 @@ function initNpsCharts() {{
     options: {{
       responsive: true,
       maintainAspectRatio: false,
-      layout: {{ padding: {{ top: 28 }} }},
+      layout: {{ padding: {{ top: 24, bottom: 8 }} }},
       plugins: {{
         legend: {{ display: false }},
-        tooltip: {{ callbacks: {{ label: ctx => ` NPS: ${{(ctx.parsed.y > 0 ? '+' : '') + ctx.parsed.y}}` }} }}
+        tooltip: {{
+          callbacks: {{
+            label: ctx => [
+              ` NPS: ${{(cascadeNps[ctx.dataIndex]>0?'+':'')}}${{cascadeNps[ctx.dataIndex]}}`,
+              ` Target: ${{cascadeTgt[ctx.dataIndex]?.toFixed(1)}}`,
+              ` Gap: ${{(cascadeGaps[ctx.dataIndex]>=0?'+':'')}}${{cascadeGaps[ctx.dataIndex]}}pt`,
+              ` Pesquisas: ${{cascadeSurv[ctx.dataIndex].toLocaleString('pt-BR')}}`,
+            ]
+          }}
+        }}
       }},
       scales: {{
-        x: {{ grid: {{ display: false }}, ticks: {{ font: {{ size: 12 }} }} }},
-        y: {{ grid: {{ color: ctx => ctx.tick.value === 0 ? '#aaa' : '#f0f2f5' }},
-              ticks: {{ font: {{ size: 11 }}, callback: v => (v > 0 ? '+' : '') + v }} }}
+        x: {{ grid: {{ display: false }}, ticks: {{ font: {{ size: 10 }}, maxRotation: 35 }} }},
+        y: {{
+          grid: {{ color: ctx => ctx.tick.value === 0 ? '#888' : '#f0f2f5' }},
+          ticks: {{ callback: v => (v>0?'+':'') + v, font: {{ size: 11 }} }},
+          title: {{ display: true, text: 'Gap vs Target (pt)', font: {{ size: 10 }}, color: '#888' }}
+        }}
       }}
     }}
   }});
+
+  // helper: linha de evolução + target tracejado
+  function npsEvoChart(id, labels, npsVals, targetVal) {{
+    const tgtData = labels.map(() => targetVal);
+    const ptColors = npsVals.map(v => npsColor(v));
+    new Chart(document.getElementById(id), {{
+      type: 'line',
+      data: {{ labels, datasets: [
+        {{
+          label: 'NPS Lineal',
+          data: npsVals,
+          borderColor: '#4472C4',
+          backgroundColor: 'rgba(68,114,196,0.07)',
+          pointBackgroundColor: ptColors,
+          pointBorderColor: ptColors,
+          pointRadius: 6,
+          pointHoverRadius: 8,
+          borderWidth: 2.5,
+          tension: 0.3,
+          fill: true,
+          spanGaps: true,
+          order: 1,
+        }},
+        {{
+          label: 'Target',
+          data: tgtData,
+          borderColor: '#E05252',
+          borderDash: [6, 4],
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false,
+          spanGaps: true,
+          order: 2,
+        }},
+      ] }},
+      plugins: [{{
+        id: 'npsEvoLabels',
+        afterDatasetsDraw(chart) {{
+          const {{ ctx, data }} = chart;
+          const meta = chart.getDatasetMeta(0);
+          ctx.save();
+          ctx.font = 'bold 11px -apple-system, sans-serif';
+          ctx.textAlign = 'center';
+          meta.data.forEach((pt, i) => {{
+            const v = data.datasets[0].data[i];
+            if (v === null || v === undefined) return;
+            ctx.fillStyle = ptColors[i];
+            ctx.textBaseline = 'bottom';
+            ctx.fillText((v>0?'+':'') + v, pt.x, pt.y - 8);
+          }});
+          ctx.restore();
+        }}
+      }}],
+      options: {{
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {{ padding: {{ top: 28 }} }},
+        plugins: {{
+          legend: {{ position: 'bottom', labels: {{ boxWidth: 14, padding: 10, font: {{ size: 11 }} }} }},
+          tooltip: {{ callbacks: {{ label: ctx => ctx.dataset.label === 'Target'
+            ? ` Target: ${{ctx.parsed.y}}`
+            : ` NPS: ${{(ctx.parsed.y>0?'+':'')}}${{ctx.parsed.y}}` }} }}
+        }},
+        scales: {{
+          x: {{ grid: {{ display: false }}, ticks: {{ font: {{ size: 11 }} }} }},
+          y: {{
+            grid: {{ color: ctx => ctx.tick.value === 0 ? '#aaa' : '#f0f2f5' }},
+            ticks: {{ callback: v => (v>0?'+':'') + v, font: {{ size: 11 }} }}
+          }}
+        }}
+      }}
+    }});
+  }}
+
+  npsEvoChart('cNpsMon', {jd(monthly['months'])}, {jd(nps_monthly['monthly_nps'])}, {jd(avg_target)});
+  npsEvoChart('cNpsWk',  {jd(weekly['weeks'])},   {jd(nps_weekly)}, {jd(avg_target)});
+
 }}
 
 // ── Transcriptions ────────────────────────────────────────────────────────────
