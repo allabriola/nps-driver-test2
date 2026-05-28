@@ -164,15 +164,16 @@ NPS_FILTER = "FLAG_NOT_EXCLUDED_SURVEY IS TRUE AND FLAG_ACTIVE_TEAM IS TRUE"
 def q_nps_by_cdu() -> str:
     return f"""
     SELECT
-      COALESCE(NULLIF(TRIM(CDU),''), 'Sem CDU')   AS cdu,
-      COUNT(*)                                     AS surveys,
-      SUM(PROMOTER)                                AS promoters,
-      SUM(DETRACTOR)                               AS detractors,
-      ROUND(100.0*(SUM(PROMOTER)-SUM(DETRACTOR))/COUNT(*), 1) AS nps
+      COALESCE(NULLIF(TRIM(CDU),''), 'Sem CDU')              AS cdu,
+      COUNT(*)                                               AS surveys,
+      SUM(PROMOTER)                                          AS promoters,
+      SUM(DETRACTOR)                                         AS detractors,
+      ROUND(100.0*(SUM(PROMOTER)-SUM(DETRACTOR))/COUNT(*), 1) AS nps,
+      ROUND(AVG(SURVEY_TARGET_VALUE), 2)                     AS target
     FROM {TABLE_NPS}
-    WHERE SIT_SITE_ID           = '{SITE}'
-      AND SURVEY_CENTER         = 'BR'
-      AND PRO_PROCESS_NAME      = '{PROCESS_KEY}'
+    WHERE SIT_SITE_ID      = '{SITE}'
+      AND SURVEY_CENTER    = 'BR'
+      AND PRO_PROCESS_NAME = '{PROCESS_KEY}'
       AND {TEAMS_FILTER}
       AND SURVEY_DATE_SURVEY BETWEEN '{START_YEAR}' AND '{TODAY}'
       AND {NPS_FILTER}
@@ -188,7 +189,8 @@ def q_nps_monthly() -> str:
       COALESCE(NULLIF(TRIM(CDU),''), 'Sem CDU')              AS cdu,
       COUNT(*)                                               AS surveys,
       SUM(PROMOTER)                                          AS promoters,
-      SUM(DETRACTOR)                                         AS detractors
+      SUM(DETRACTOR)                                         AS detractors,
+      ROUND(AVG(SURVEY_TARGET_VALUE), 2)                     AS target
     FROM {TABLE_NPS}
     WHERE SIT_SITE_ID      = '{SITE}'
       AND SURVEY_CENTER    = 'BR'
@@ -491,8 +493,10 @@ def _calc_nps(p, d, s) -> float | None:
 
 def process_nps_by_cdu(raw: list[dict]) -> list[dict]:
     return [
-        {"cdu": r["cdu"], "surveys": int(r["surveys"] or 0),
-         "nps": _calc_nps(int(r["promoters"] or 0), int(r["detractors"] or 0), int(r["surveys"] or 0))}
+        {"cdu":     r["cdu"],
+         "surveys": int(r["surveys"] or 0),
+         "nps":     _calc_nps(int(r["promoters"] or 0), int(r["detractors"] or 0), int(r["surveys"] or 0)),
+         "target":  float(r["target"]) if r.get("target") is not None else None}
         for r in raw
     ]
 
@@ -502,15 +506,71 @@ def process_nps_monthly(raw: list[dict], months: list[str]) -> dict:
     for r in raw:
         m = r["month"]
         p, d, s = int(r["promoters"] or 0), int(r["detractors"] or 0), int(r["surveys"] or 0)
+        tgt = float(r["target"]) if r.get("target") is not None else None
         agg.setdefault(m, {"p": 0, "d": 0, "s": 0})
         agg[m]["p"] += p; agg[m]["d"] += d; agg[m]["s"] += s
-        by_cdu_month.setdefault(r["cdu"], {})[m] = _calc_nps(p, d, s)
+        by_cdu_month.setdefault(r["cdu"], {})[m] = {"nps": _calc_nps(p, d, s), "target": tgt}
 
     monthly_nps = []
     for m in months:
         ym = next((k for k in agg if month_label(k) == m), None)
         monthly_nps.append(_calc_nps(agg[ym]["p"], agg[ym]["d"], agg[ym]["s"]) if ym else None)
     return {"monthly_nps": monthly_nps, "by_cdu_month": by_cdu_month}
+
+def compute_mom_scorecard(monthly: dict, nps_monthly: dict, nps_by_cdu: list) -> list[dict]:
+    """Por CDU: NPS e volume do último mês, variação MoM, target e gap."""
+    by_cdu_month = nps_monthly.get("by_cdu_month", {})
+    nps_ytd_map  = {r["cdu"]: r for r in nps_by_cdu}
+    months_keys  = sorted({k for v in by_cdu_month.values() for k in v})
+
+    last_mk  = months_keys[-1]  if len(months_keys) >= 1 else None
+    prev_mk  = months_keys[-2]  if len(months_keys) >= 2 else None
+    last_mlbl = month_label(last_mk) if last_mk else "—"
+    prev_mlbl = month_label(prev_mk) if prev_mk else "—"
+
+    # outgoing volume by CDU per month (from monthly datasets)
+    vol_by_cdu: dict[str, list] = {}
+    for ds in monthly["datasets"]:
+        if ds["label"] not in ("Sem CDU", "Outros"):
+            vol_by_cdu[ds["label"]] = ds["data"]
+    n_months = len(monthly["months"])
+
+    rows = []
+    for cdu in monthly["top_cdus"]:
+        cdu_nps_month = by_cdu_month.get(cdu, {})
+        last_entry = cdu_nps_month.get(last_mk, {}) if last_mk else {}
+        prev_entry = cdu_nps_month.get(prev_mk, {}) if prev_mk else {}
+
+        nps_last = last_entry.get("nps")  if isinstance(last_entry, dict) else last_entry
+        nps_prev = prev_entry.get("nps")  if isinstance(prev_entry, dict) else prev_entry
+        tgt_last = last_entry.get("target") if isinstance(last_entry, dict) else None
+
+        # fallback target from YTD
+        if tgt_last is None:
+            tgt_last = nps_ytd_map.get(cdu, {}).get("target")
+
+        nps_mom   = round(nps_last - nps_prev, 1) if (nps_last is not None and nps_prev is not None) else None
+        gap       = round(nps_last - tgt_last, 1) if (nps_last is not None and tgt_last is not None) else None
+
+        vols = vol_by_cdu.get(cdu, [])
+        vol_last = vols[-1] if vols else 0
+        vol_prev = vols[-2] if len(vols) >= 2 else 0
+        vol_mom_pct = round((vol_last - vol_prev) / vol_prev * 100, 1) if vol_prev else None
+
+        rows.append({
+            "cdu":         cdu,
+            "nps_last":    nps_last,
+            "nps_prev":    nps_prev,
+            "nps_mom":     nps_mom,
+            "target":      tgt_last,
+            "gap":         gap,
+            "vol_last":    vol_last,
+            "vol_prev":    vol_prev,
+            "vol_mom_pct": vol_mom_pct,
+            "last_mlbl":   last_mlbl,
+            "prev_mlbl":   prev_mlbl,
+        })
+    return rows
 
 def process_nps_agg(raw: list[dict], labels: list[str], key_field: str) -> list:
     """Agrega NPS por período (weekly ou daily), alinhado com labels."""
@@ -582,7 +642,8 @@ def build_all(html_only: bool = False):
         nps_monthly   = cached.get("nps_monthly", {"monthly_nps": [], "by_cdu_month": {}})
         nps_weekly    = cached.get("nps_weekly", [])
         nps_daily     = cached.get("nps_daily", [])
-        return monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily
+        mom_scorecard = cached.get("mom_scorecard") or compute_mom_scorecard(monthly, nps_monthly, nps_by_cdu)
+        return monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, mom_scorecard
 
     print("▸ Volume mensal…")
     monthly_raw = run(q_monthly())
@@ -609,6 +670,7 @@ def build_all(html_only: bool = False):
     nps_monthly = process_nps_monthly(nps_month_raw, monthly["months"])
     nps_weekly  = process_nps_agg(nps_week_raw, weekly["weeks"], "week_start")
     nps_daily   = process_nps_agg(nps_day_raw,  daily["days"],  "day")
+    mom_scorecard = compute_mom_scorecard(monthly, nps_monthly, nps_by_cdu)
 
     themes_by_cdu: dict[str, list] = {}
     top_cdus = monthly["top_cdus"]
@@ -619,8 +681,9 @@ def build_all(html_only: bool = False):
     _save_cache({"monthly": monthly, "weekly": weekly, "daily": daily,
                  "solutions": solutions, "themes_by_cdu": themes_by_cdu,
                  "nps_by_cdu": nps_by_cdu, "nps_monthly": nps_monthly,
-                 "nps_weekly": nps_weekly, "nps_daily": nps_daily}, charts=True)
-    return monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily
+                 "nps_weekly": nps_weekly, "nps_daily": nps_daily,
+                 "mom_scorecard": mom_scorecard}, charts=True)
+    return monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, mom_scorecard
 
 # ── HTML ──────────────────────────────────────────────────────────────────────
 def jd(obj) -> str:
@@ -867,6 +930,66 @@ def _render_cdu_nps_table(monthly: dict, weekly: dict,
         )
     return rows
 
+def _render_mom_scorecard(rows: list) -> str:
+    if not rows:
+        return '<tr><td colspan="8" style="text-align:center;color:#aaa">Sem dados</td></tr>'
+
+    last_mlbl = rows[0]["last_mlbl"] if rows else "—"
+    prev_mlbl = rows[0]["prev_mlbl"] if rows else "—"
+
+    def arrow(val, invert=False):
+        if val is None: return ""
+        up = val > 0
+        if invert: up = not up
+        color = "#70AD47" if up else "#E05252"
+        sym   = "▲" if val > 0 else "▼"
+        return f'<span style="color:{color}">{sym}</span>'
+
+    def fmt_delta(val, pct=False):
+        if val is None: return '<span style="color:#ccc">—</span>'
+        sign  = "+" if val > 0 else ""
+        color = "#70AD47" if val > 0 else "#E05252"
+        suf   = "%" if pct else "pt"
+        return f'<span style="color:{color};font-weight:700">{sign}{val:.1f}{suf}</span>'
+
+    def gap_cell(gap):
+        if gap is None: return '<td style="text-align:center;color:#ccc">—</td>'
+        c    = nps_color(gap + 50 if gap >= 0 else gap + 50)   # reuse color scale
+        c    = "#70AD47" if gap >= 0 else ("#ED7D31" if gap >= -10 else "#E05252")
+        sign = "+" if gap >= 0 else ""
+        return f'<td style="text-align:center;font-weight:700;color:{c}">{sign}{gap:.1f}pt</td>'
+
+    html  = f"""<thead><tr>
+      <th>CDU</th>
+      <th style="text-align:center">NPS {last_mlbl}</th>
+      <th style="text-align:center">Target</th>
+      <th style="text-align:center">Gap vs Target</th>
+      <th style="text-align:center">MoM NPS<br><small style="font-weight:400">{prev_mlbl}→{last_mlbl}</small></th>
+      <th style="text-align:center">Vol. {last_mlbl}</th>
+      <th style="text-align:center">MoM Vol.</th>
+    </tr></thead><tbody>"""
+
+    for i, r in enumerate(rows):
+        rc  = ' class="tr0"' if i == 0 else ""
+        nps = r["nps_last"]
+        tgt = r["target"]
+        gap = r["gap"]
+        nps_str = f'<span class="nps-pill" style="background:{nps_color(nps)}22;color:{nps_color(nps)}">{("+" if nps>0 else "")}{nps:.1f}</span>' if nps is not None else "—"
+        tgt_str = f'{tgt:.1f}' if tgt is not None else "—"
+        html += (
+            f'<tr{rc}>'
+            f'<td>{r["cdu"]}</td>'
+            f'<td style="text-align:center">{nps_str}</td>'
+            f'<td style="text-align:center;color:#888">{tgt_str}</td>'
+            f'{gap_cell(gap)}'
+            f'<td style="text-align:center">{arrow(r["nps_mom"])} {fmt_delta(r["nps_mom"])}</td>'
+            f'<td style="text-align:right;font-variant-numeric:tabular-nums">{r["vol_last"]:,}</td>'
+            f'<td style="text-align:center">{arrow(r["vol_mom_pct"], invert=True)} {fmt_delta(r["vol_mom_pct"], pct=True)}</td>'
+            f'</tr>'
+        )
+    html += "</tbody>"
+    return html
+
 def _render_nps_monthly_table(top_cdus: list, nps_monthly: dict, nps_by_cdu: list) -> str:
     by_cdu_month = nps_monthly.get("by_cdu_month", {})
     ytd_map      = {r["cdu"]: (r["nps"], r["surveys"]) for r in nps_by_cdu}
@@ -887,7 +1010,8 @@ def _render_nps_monthly_table(top_cdus: list, nps_monthly: dict, nps_by_cdu: lis
         rc = ' class="tr0"' if i == 0 else ""
         rows += f'<tr{rc}><td>{cdu}</td>'
         for k in month_keys:
-            v = by_cdu_month.get(cdu, {}).get(k)
+            entry = by_cdu_month.get(cdu, {}).get(k)
+            v = entry.get("nps") if isinstance(entry, dict) else entry
             if v is not None:
                 c    = nps_color(v)
                 sign = "+" if v > 0 else ""
@@ -922,7 +1046,7 @@ def _render_solutions(solutions: list, total_v: int) -> str:
 
 def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
                   solutions: list, nps_by_cdu: list, nps_monthly: dict,
-                  nps_weekly: list, nps_daily: list) -> str:
+                  nps_weekly: list, nps_daily: list, mom_scorecard: list) -> str:
     now_str = TODAY.strftime("%d/%m/%Y")
 
     top_cdu   = monthly["top_cdu"] or "—"
@@ -991,6 +1115,26 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
 
     # CDU × NPS monthly table
     nps_table_html = _render_nps_monthly_table(monthly["top_cdus"], nps_monthly, nps_by_cdu)
+
+    # MoM scorecard table
+    scorecard_html = _render_mom_scorecard(mom_scorecard)
+
+    # Scatter data: x=nps_mom, y=gap vs target, r=volume (normalized), label=cdu
+    scatter_pts = []
+    for r in mom_scorecard:
+        if r["nps_mom"] is not None and r["gap"] is not None:
+            max_vol = max((s["vol_last"] for s in mom_scorecard if s["vol_last"]), default=1)
+            radius  = max(6, int(r["vol_last"] / max_vol * 30))
+            qcolor  = ("#70AD47" if r["gap"] >= 0 and r["nps_mom"] >= 0 else
+                       "#FFC000" if r["gap"] >= 0 and r["nps_mom"] < 0 else
+                       "#ED7D31" if r["gap"] < 0  and r["nps_mom"] >= 0 else
+                       "#E05252")
+            scatter_pts.append({"x": r["nps_mom"], "y": r["gap"],
+                                 "r": radius, "label": r["cdu"],
+                                 "nps": r["nps_last"], "tgt": r["target"],
+                                 "vol": r["vol_last"], "color": qcolor})
+    last_mlbl = mom_scorecard[0]["last_mlbl"] if mom_scorecard else "—"
+    prev_mlbl = mom_scorecard[0]["prev_mlbl"] if mom_scorecard else "—"
 
     return f"""<!DOCTYPE html>
 <html lang="pt-BR">
@@ -1184,6 +1328,26 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     </div>
 
     <div class="card">
+      <p class="chart-title">MoM NPS vs Gap Target · {prev_mlbl} → {last_mlbl}
+        <span style="font-size:10px;font-weight:400;color:#888;margin-left:8px">
+          tamanho = volume outgoing · cor = quadrante
+        </span>
+      </p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-size:11px">
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:#70AD47;display:inline-block"></span>Acima target + melhorando</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:#FFC000;display:inline-block"></span>Acima target + piorando</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:#ED7D31;display:inline-block"></span>Abaixo target + melhorando</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:50%;background:#E05252;display:inline-block"></span>Abaixo target + piorando</span>
+      </div>
+      <div class="cw" style="height:400px"><canvas id="cScatter"></canvas></div>
+    </div>
+
+    <div class="card">
+      <p class="chart-title">Scorecard MoM por CDU · {prev_mlbl} → {last_mlbl}</p>
+      <table class="rtable">{scorecard_html}</table>
+    </div>
+
+    <div class="card">
       <p class="chart-title">CDU × NPS Lineal por mês</p>
       <table class="rtable">{nps_table_html}</table>
     </div>
@@ -1349,6 +1513,73 @@ function initNpsCharts() {{
     }}
   }});
 
+  // Scatter MoM NPS vs Gap Target
+  const scatterPts = {jd(scatter_pts)};
+  if (document.getElementById('cScatter') && scatterPts.length) {{
+    new Chart(document.getElementById('cScatter'), {{
+      type: 'bubble',
+      data: {{ datasets: scatterPts.map(p => ({{
+        label: p.label,
+        data: [{{ x: p.x, y: p.y, r: p.r }}],
+        backgroundColor: p.color + 'bb',
+        borderColor:     p.color,
+        borderWidth: 1.5,
+      }})) }},
+      plugins: [{{
+        id: 'scatterLabels',
+        afterDatasetsDraw(chart) {{
+          const {{ ctx }} = chart;
+          ctx.save();
+          ctx.font = '10px -apple-system, sans-serif';
+          ctx.fillStyle = '#333';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'top';
+          chart.data.datasets.forEach((ds, i) => {{
+            const meta = chart.getDatasetMeta(i);
+            if (!meta.data[0]) return;
+            const pt = meta.data[0];
+            const lbl = ds.label.length > 28 ? ds.label.slice(0,26)+'…' : ds.label;
+            ctx.fillText(lbl, pt.x, pt.y + pt.options.radius + 4);
+          }});
+          ctx.restore();
+        }}
+      }}],
+      options: {{
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {{ padding: {{ bottom: 30 }} }},
+        plugins: {{
+          legend: {{ display: false }},
+          tooltip: {{
+            callbacks: {{
+              label: ctx => {{
+                const p = scatterPts[ctx.datasetIndex];
+                return [
+                  ` ${{p.label}}`,
+                  ` NPS: ${{(p.nps>0?'+':'') + p.nps}}  Target: ${{p.tgt?.toFixed(1) ?? '—'}}`,
+                  ` MoM NPS: ${{(p.x>0?'+':'') + p.x}}pt  Gap: ${{(p.y>0?'+':'') + p.y}}pt`,
+                  ` Vol.: ${{p.vol.toLocaleString('pt-BR')}}`,
+                ];
+              }}
+            }}
+          }}
+        }},
+        scales: {{
+          x: {{
+            title: {{ display: true, text: 'Variação MoM NPS (pontos)', font: {{ size: 11 }} }},
+            grid: {{ color: ctx => ctx.tick.value === 0 ? '#999' : '#f0f2f5' }},
+            ticks: {{ callback: v => (v>0?'+':'') + v }}
+          }},
+          y: {{
+            title: {{ display: true, text: 'Gap NPS vs Target (pontos)', font: {{ size: 11 }} }},
+            grid: {{ color: ctx => ctx.tick.value === 0 ? '#999' : '#f0f2f5' }},
+            ticks: {{ callback: v => (v>0?'+':'') + v }}
+          }}
+        }}
+      }}
+    }});
+  }}
+
   // NPS mensal — linha
   const mNps    = {jd(nps_monthly['monthly_nps'])};
   const mLabels = {jd(monthly['months'])};
@@ -1435,8 +1666,8 @@ function selectCDU(cdu) {{
 if __name__ == "__main__":
     html_only = "--html-only" in sys.argv
     try:
-        monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily = build_all(html_only=html_only)
-        html = generate_html(monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily)
+        monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, mom_scorecard = build_all(html_only=html_only)
+        html = generate_html(monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, mom_scorecard)
         out  = "outgoing_drivers_analysis.html"
         with open(out, "w", encoding="utf-8") as f:
             f.write(html)
