@@ -4,16 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Reputación Sellers Longtail — Abr vs Mai 2026</title>
-<script src="chartjs.min.js">    });
-    document.getElementById('diagMsg').textContent = 'Chart.js OK ✓ (v' + Chart.version + ')';
-    document.getElementById('diagMsg').style.color = '#155724';
-  }
-} catch(e) {
-  document.getElementById('diagMsg').textContent = 'ERRO: ' + e.message;
-  document.getElementById('diagMsg').style.color = 'red';
-}
-
-</script>
+<script src="chartjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
 :root{
   --yellow:#FFE600;--dark:#1a1a2e;--gray:#f5f5f5;--border:#e0e0e0;
@@ -121,6 +113,13 @@ tr:hover td{background:#fafbff;}
 
 /* ── SOURCE BAR ── */
 .src-bar{display:flex;align-items:center;gap:6px;font-size:10px;color:#aaa;margin-bottom:14px;}
+/* ── CHART DELTA ── */
+.chart-delta { display:flex; gap:12px; padding:5px 4px 0; font-size:11px; font-weight:700; flex-wrap:wrap; }
+.chart-delta .cd-sep { color:#ccc; }
+.cd-nps { color:var(--green); }
+.cd-nps.neg { color:var(--red); }
+.cd-excl { color:#ff7733; }
+.cd-excl.neg { color:var(--red); }
 /* ── EXCL VOLUME ── */
 .excl-vol { display:flex; gap:14px; flex-wrap:wrap; padding:6px 4px 0; }
 .excl-vol .ev-item { font-size:10px; color:#888; display:flex; align-items:center; gap:4px; }
@@ -796,6 +795,28 @@ window.onerror = function(msg, src, line, col, err) {
 
 <!-- ═══════════════ SCRIPTS ═══════════════ -->
 <script>
+// ChartDataLabels: registro global, default off
+if (typeof ChartDataLabels !== 'undefined') {
+  Chart.register(ChartDataLabels);
+  Chart.defaults.plugins.datalabels.display = false;
+}
+
+// Helper: adicionar variação abaixo do chart
+function addChartDelta(canvasId, deltaNPS, deltaExcl) {
+  const el = document.getElementById(canvasId);
+  if (!el) return;
+  const fmt = (v) => (v >= 0 ? '+' : '') + v.toFixed(1) + 'pp';
+  const cls = (v) => v >= 0 ? 'pos' : 'neg';
+  const div = document.createElement('div');
+  div.className = 'chart-delta';
+  div.innerHTML =
+    '<span class="cd-nps ' + cls(deltaNPS) + '">&#916; NPS: ' + fmt(deltaNPS) + '</span>' +
+    '<span class="cd-sep">|</span>' +
+    '<span class="cd-excl ' + cls(deltaExcl) + '">&#916; Excl: ' + fmt(deltaExcl) + '</span>';
+  const wrap = el.closest('.chart-container');
+  if (wrap) wrap.insertAdjacentElement('afterend', div);
+}
+
 function showTab(id, btn) {
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -897,9 +918,11 @@ function makeCorrelChart(canvasId, npsData, exclData, npsMin, npsMax, exclMin, e
 
 // ── Chart 8a: Correlação — Reputación ──
 makeCorrelChart('chartCorrRep',   [69.7, 76.7], [65, 68], 60, 85, 58, 76);
+addChartDelta('chartCorrRep', 76.7-69.7, 68-65);
 
 // ── Chart 8b: Correlação — Reputación ME ──
 makeCorrelChart('chartCorrRepME', [82.6, 86.8], [80, 84], 75, 92, 73, 90);
+addChartDelta('chartCorrRepME', 86.8-82.6, 84-80);
 
 
 // ── Função auxiliar: chart NPS+Excl (bar+line duplo) por team/office ──
@@ -1033,13 +1056,15 @@ function makeTeamChart(id, npsAbr, npsMai, exclAbr, exclMai, npsMin, npsMax, exc
         { type:'bar',  label:'NPS Lineal',
           data:[npsAbr, npsMai],
           backgroundColor:['rgba(52,131,250,0.75)','rgba(0,166,80,0.8)'],
-          borderRadius:8, barPercentage:0.5, yAxisID:'yNPS', order:2 },
+          borderRadius:8, barPercentage:0.5, yAxisID:'yNPS', order:2,
+          datalabels:{ display:true, anchor:'center', align:'center', color:'#fff', font:{size:10,weight:'800'}, formatter:v=>v!=null?v.toFixed(1)+'%':'' } },
         { type:'line', label:'Taxa de Exclusão',
           data:[exclAbr, exclMai],
           borderColor:'#ff7733', backgroundColor:'rgba(255,119,51,0.08)',
           pointBackgroundColor:'#ff7733', pointBorderColor:'#fff', pointBorderWidth:2,
           pointRadius:8, borderWidth:2.5, fill:true, tension:0.3,
-          yAxisID:'yExcl', order:1 }
+          yAxisID:'yExcl', order:1,
+          datalabels:{ display:true, anchor:'center', align:'right', offset:8, color:'#ff7733', backgroundColor:'rgba(26,26,46,.82)', borderRadius:3, padding:2, font:{size:9,weight:'700'}, formatter:v=>v!=null?v.toFixed(1)+'%':'' } }
       ]
     },
     
@@ -1067,15 +1092,21 @@ function makeTeamChart(id, npsAbr, npsMai, exclAbr, exclMai, npsMin, npsMax, exc
 
 // ME Sellers LT
 makeTeamChart('ct_me_rep',    71.8, 75.4, 71.8, 72.7, 63, 82, 63, 80);
+addChartDelta('ct_me_rep', 3.6, 0.9);
 makeTeamChart('ct_me_repme',  79.4, 85.7, 88.5, 92.5, 72, 94, 82, 100);
+addChartDelta('ct_me_repme', 6.3, 4.0);
 
 // Ventas Sellers LT
 makeTeamChart('ct_ven_rep',   68.5, 71.2, 67.7, 69.7, 60, 80, 60, 78);
+addChartDelta('ct_ven_rep', 2.7, 2.0);
 makeTeamChart('ct_ven_repme', 88.9, 90.4, 90.4, 94.5, 82, 98, 85, 102);
+addChartDelta('ct_ven_repme', 1.5, 4.1);
 
 // Publicaciones Sellers LT
 makeTeamChart('ct_pub_rep',   76.3, 80.8, 68.6, 74.9, 60, 88, 60, 83);
+addChartDelta('ct_pub_rep', 4.5, 6.3);
 makeTeamChart('ct_pub_repme', 74.8, 86.8, 85.3, 87.4, 68, 94, 80, 95);
+addChartDelta('ct_pub_repme', 12.0, 2.1);
 
 // ════════════════════════════════════════════
 //  ABA SEMANAL
@@ -1228,7 +1259,8 @@ new Chart(document.getElementById('chartDecomp'), {
         borderRadius: { topLeft:6, topRight:6, bottomLeft:0, bottomRight:0 },
         stack: 's',
         datalabels: { anchor:'center', align:'center', color:'#fff', font:{size:11,weight:'800'},
-          formatter: v => '+'+v.toFixed(1)+'pp' }
+          formatter: v => '+'+v.toFixed(1)+'pp',
+          display: true }
       }
     ]
   },
