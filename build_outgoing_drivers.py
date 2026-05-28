@@ -82,9 +82,10 @@ def run(sql: str, retries: int = 5) -> list[dict]:
                 raise
 
 # ── Queries ──────────────────────────────────────────────────────────────────
-TABLE_OG = f"`{PROJECT}.WHOWNER.DM_CX_OUTGOING_GESTION_DETAIL`"
-TABLE_CI = f"`{PROJECT}.WHOWNER.BT_CX_CASE_INTERACTION`"
-TABLE_TR = f"`{PROJECT}.WHOWNER.BT_CX_TRANSCRIPT`"
+TABLE_OG  = f"`{PROJECT}.WHOWNER.DM_CX_OUTGOING_GESTION_DETAIL`"
+TABLE_CI  = f"`{PROJECT}.WHOWNER.BT_CX_CASE_INTERACTION`"
+TABLE_TR  = f"`{PROJECT}.WHOWNER.BT_CX_TRANSCRIPT`"
+TABLE_NPS = f"`{PROJECT}.WHOWNER.DM_CX_NPS_Y20_DETAIL`"
 
 EVENT_FILTER  = "CI_EVENT_NAME IN ('OUTGOING_CONTACT','OUTGOING_FIRST_CONTACT')"
 CDU_EXPR      = "COALESCE(NULLIF(TRIM(CDU),''), 'Sem CDU')"
@@ -156,6 +157,49 @@ def q_solutions() -> str:
     GROUP BY 1
     ORDER BY 2 DESC
     LIMIT {TOP_SOLUTIONS}
+    """
+
+NPS_FILTER = "FLAG_NOT_EXCLUDED_SURVEY IS TRUE AND FLAG_ACTIVE_TEAM IS TRUE"
+
+def q_nps_by_cdu() -> str:
+    return f"""
+    SELECT
+      COALESCE(NULLIF(TRIM(CDU),''), 'Sem CDU')   AS cdu,
+      COUNT(*)                                     AS surveys,
+      SUM(PROMOTER)                                AS promoters,
+      SUM(DETRACTOR)                               AS detractors,
+      ROUND(100.0*(SUM(PROMOTER)-SUM(DETRACTOR))/COUNT(*), 1) AS nps
+    FROM {TABLE_NPS}
+    WHERE SIT_SITE_ID           = '{SITE}'
+      AND SURVEY_CENTER         = 'BR'
+      AND PRO_PROCESS_NAME      = '{PROCESS_KEY}'
+      AND {TEAMS_FILTER}
+      AND SURVEY_DATE_SURVEY BETWEEN '{START_YEAR}' AND '{TODAY}'
+      AND {NPS_FILTER}
+    GROUP BY 1
+    HAVING COUNT(*) >= 5
+    ORDER BY surveys DESC
+    """
+
+def q_nps_monthly() -> str:
+    return f"""
+    SELECT
+      FORMAT_DATE('%Y-%m', CAST(SURVEY_DATE_SURVEY AS DATE)) AS month,
+      COALESCE(NULLIF(TRIM(CDU),''), 'Sem CDU')    AS cdu,
+      COUNT(*)                                     AS surveys,
+      SUM(PROMOTER)                                AS promoters,
+      SUM(DETRACTOR)                               AS detractors,
+      ROUND(100.0*(SUM(PROMOTER)-SUM(DETRACTOR))/COUNT(*), 1) AS nps
+    FROM {TABLE_NPS}
+    WHERE SIT_SITE_ID           = '{SITE}'
+      AND SURVEY_CENTER         = 'BR'
+      AND PRO_PROCESS_NAME      = '{PROCESS_KEY}'
+      AND {TEAMS_FILTER}
+      AND SURVEY_DATE_SURVEY BETWEEN '{START_YEAR}' AND '{TODAY}'
+      AND {NPS_FILTER}
+    GROUP BY 1, 2
+    HAVING COUNT(*) >= 5
+    ORDER BY 1, surveys DESC
     """
 
 def q_case_ids(cdu: str) -> str:
@@ -397,6 +441,45 @@ def process_weekly(raw: list[dict]) -> dict:
         "datasets": datasets,
     }
 
+def nps_color(nps) -> str:
+    if nps is None: return "#ccc"
+    if nps >= 50:   return "#70AD47"
+    if nps >= 0:    return "#FFC000"
+    if nps >= -20:  return "#ED7D31"
+    return "#E05252"
+
+def process_nps_by_cdu(raw: list[dict]) -> list[dict]:
+    return [
+        {"cdu": r["cdu"], "surveys": r["surveys"],
+         "nps": float(r["nps"]) if r["nps"] is not None else None}
+        for r in raw
+    ]
+
+def process_nps_monthly(raw: list[dict], months: list[str]) -> dict:
+    """Retorna NPS agregado por mês (todos CDUs) + por CDU top."""
+    # aggregated per month
+    agg: dict[str, dict] = {}
+    by_cdu_month: dict[str, dict] = {}
+    for r in raw:
+        m = r["month"]
+        agg.setdefault(m, {"p": 0, "d": 0, "s": 0})
+        agg[m]["p"] += int(r["promoters"] or 0)
+        agg[m]["d"] += int(r["detractors"] or 0)
+        agg[m]["s"] += int(r["surveys"] or 0)
+        cdu = r["cdu"]
+        by_cdu_month.setdefault(cdu, {})[m] = float(r["nps"]) if r["nps"] is not None else None
+
+    monthly_nps = []
+    for m in months:
+        ym = next((k for k in agg if month_label(k) == m), None)
+        if ym and agg[ym]["s"] >= 5:
+            val = round(100.0 * (agg[ym]["p"] - agg[ym]["d"]) / agg[ym]["s"], 1)
+        else:
+            val = None
+        monthly_nps.append(val)
+
+    return {"monthly_nps": monthly_nps, "by_cdu_month": by_cdu_month}
+
 def fetch_themes(cdu: str) -> list[dict]:
     if not cdu or cdu == SEM_CDU:
         return []
@@ -444,7 +527,9 @@ def build_all(html_only: bool = False):
         daily         = cached.get("daily", {"days": [], "top_cdus": [], "datasets": []})
         solutions     = cached.get("solutions", [])
         themes_by_cdu = cached.get("themes_by_cdu", {})
-        return monthly, weekly, daily, themes_by_cdu, solutions
+        nps_by_cdu    = cached.get("nps_by_cdu", [])
+        nps_monthly   = cached.get("nps_monthly", {"monthly_nps": [], "by_cdu_month": {}})
+        return monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly
 
     print("▸ Volume mensal…")
     monthly_raw = run(q_monthly())
@@ -454,10 +539,17 @@ def build_all(html_only: bool = False):
     daily_raw   = run(q_daily())
     print("▸ Top soluções…")
     solutions_raw = run(q_solutions())
+    print("▸ NPS por CDU…")
+    nps_cdu_raw = run(q_nps_by_cdu())
+    print("▸ NPS mensal…")
+    nps_month_raw = run(q_nps_monthly())
+
     monthly   = process_monthly(monthly_raw)
     weekly    = process_weekly(weekly_raw)
     daily     = process_daily(daily_raw)
     solutions = [{"solution": r["solution"], "volume": r["volume"]} for r in solutions_raw]
+    nps_by_cdu  = process_nps_by_cdu(nps_cdu_raw)
+    nps_monthly = process_nps_monthly(nps_month_raw, monthly["months"])
 
     themes_by_cdu: dict[str, list] = {}
     top_cdus = monthly["top_cdus"]
@@ -466,8 +558,9 @@ def build_all(html_only: bool = False):
         themes_by_cdu[cdu] = fetch_themes(cdu)
 
     _save_cache({"monthly": monthly, "weekly": weekly, "daily": daily,
-                 "solutions": solutions, "themes_by_cdu": themes_by_cdu}, charts=True)
-    return monthly, weekly, daily, themes_by_cdu, solutions
+                 "solutions": solutions, "themes_by_cdu": themes_by_cdu,
+                 "nps_by_cdu": nps_by_cdu, "nps_monthly": nps_monthly}, charts=True)
+    return monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly
 
 # ── HTML ──────────────────────────────────────────────────────────────────────
 def jd(obj) -> str:
@@ -674,7 +767,8 @@ def _render_solutions(solutions: list, total_v: int) -> str:
         )
     return rows
 
-def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict, solutions: list) -> str:
+def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
+                  solutions: list, nps_by_cdu: list, nps_monthly: dict) -> str:
     now_str = TODAY.strftime("%d/%m/%Y")
 
     top_cdu   = monthly["top_cdu"] or "—"
@@ -684,22 +778,29 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
     top_vol   = monthly["cdu_totals"].get(top_cdu, 0)
     top_pct   = f"{top_vol / total_v * 100:.1f}%" if total_v else "—"
 
+    nps_cdu_map = {r["cdu"]: r["nps"] for r in nps_by_cdu}
+
     rows_html = ""
-    for i, cdu in enumerate(monthly["top_cdus"][:8]):
-        vol = monthly["cdu_totals"].get(cdu, 0)
-        pct = f"{vol / total_v * 100:.1f}%" if total_v else "—"
+    for i, cdu in enumerate(monthly["top_cdus"][:12]):
+        vol  = monthly["cdu_totals"].get(cdu, 0)
+        pct  = f"{vol / total_v * 100:.1f}%" if total_v else "—"
         star = "⭐ " if i == 0 else f"{i+1}. "
         rc   = ' class="tr0"' if i == 0 else ""
+        nps_val = nps_cdu_map.get(cdu)
+        nps_str = f"{nps_val:+.1f}" if nps_val is not None else "—"
+        nc  = nps_color(nps_val)
         rows_html += (
             f'<tr{rc}><td>{star}{cdu}</td>'
             f'<td class="vn">{vol:,}</td>'
-            f'<td class="vp">{pct}</td></tr>'
+            f'<td class="vp">{pct}</td>'
+            f'<td class="vn" style="color:{nc};font-weight:700">{nps_str}</td></tr>'
         )
     sem_pct = f"{sem_cdu_v / total_v * 100:.1f}%" if total_v else "—"
     rows_html += (
         f'<tr class="sem-cdu-row"><td>— Sem CDU</td>'
         f'<td class="vn">{sem_cdu_v:,}</td>'
-        f'<td class="vp">{sem_pct}</td></tr>'
+        f'<td class="vp">{sem_pct}</td>'
+        f'<td>—</td></tr>'
     )
 
     # Selector de CDU para análise de transcrições
@@ -728,6 +829,20 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
         f"backgroundColor:{jd(d_colors[i])},borderRadius:4,stack:'s'}}"
         for i, ds in enumerate(daily["datasets"])
     )
+
+    # NPS horizontal bar chart — sorted by NPS descending, only CDUs with data
+    nps_chart_data = sorted(
+        [r for r in nps_by_cdu if r["nps"] is not None and r["cdu"] != "Sem CDU"],
+        key=lambda x: x["nps"], reverse=True
+    )
+    nps_labels  = [r["cdu"] for r in nps_chart_data]
+    nps_values  = [r["nps"] for r in nps_chart_data]
+    nps_colors  = [nps_color(v) for v in nps_values]
+    nps_surveys = [r["surveys"] for r in nps_chart_data]
+
+    # Monthly NPS line (aggregate)
+    m_nps_vals = nps_monthly["monthly_nps"]
+    m_nps_colors = [nps_color(v) for v in m_nps_vals]
 
     teams_label = " · ".join(TEAMS)
 
@@ -860,7 +975,7 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     </div>
     <div class="hl-right">
       <table class="rtable">
-        <thead><tr><th>CDU</th><th>Volume</th><th>%</th></tr></thead>
+        <thead><tr><th>CDU</th><th>Volume</th><th>%</th><th>NPS</th></tr></thead>
         <tbody>{rows_html}</tbody>
       </table>
     </div>
@@ -872,6 +987,17 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
       <thead><tr><th>#</th><th>Solução</th><th>Volume</th><th>%</th></tr></thead>
       <tbody>{_render_solutions(solutions, total_v)}</tbody>
     </table>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <p class="chart-title">NPS Lineal por CDU · {monthly["months"][0]}–{monthly["months"][-1]}</p>
+      <div class="cw" style="height:420px"><canvas id="cNpsCdu"></canvas></div>
+    </div>
+    <div class="card">
+      <p class="chart-title">Evolução Mensal NPS Lineal · Processo Drivers</p>
+      <div class="cw" style="height:420px"><canvas id="cNpsMon"></canvas></div>
+    </div>
   </div>
 
   <div class="card">
@@ -997,6 +1123,112 @@ function selectCDU(cdu) {{
 bar('cM', {jd(monthly['months'])}, [{m_ds}], true, true);
 bar('cW', {jd(weekly['weeks'])},   [{w_ds}], true, true);
 bar('cD', {jd(daily['days'])},     [{d_ds}], true, true);
+
+// NPS horizontal bar por CDU
+(function() {{
+  const labels   = {jd(nps_labels)};
+  const values   = {jd(nps_values)};
+  const colors   = {jd(nps_colors)};
+  const surveys  = {jd(nps_surveys)};
+  new Chart(document.getElementById('cNpsCdu'), {{
+    type: 'bar',
+    data: {{
+      labels,
+      datasets: [{{
+        label: 'NPS Lineal',
+        data: values,
+        backgroundColor: colors,
+        borderRadius: 4,
+      }}]
+    }},
+    options: {{
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {{
+        legend: {{ display: false }},
+        tooltip: {{
+          callbacks: {{
+            label: ctx => ` NPS: ${{ctx.parsed.x > 0 ? '+' : ''}}${{ctx.parsed.x}} (${{surveys[ctx.dataIndex]}} pesquisas)`
+          }}
+        }}
+      }},
+      scales: {{
+        x: {{
+          min: -100, max: 100,
+          grid: {{ color: ctx => ctx.tick.value === 0 ? '#999' : '#f0f2f5' }},
+          ticks: {{ font: {{ size: 11 }}, callback: v => (v > 0 ? '+' : '') + v }}
+        }},
+        y: {{ grid: {{ display: false }}, ticks: {{ font: {{ size: 11 }} }} }}
+      }}
+    }}
+  }});
+}})();
+
+// NPS mensal — linha + pontos coloridos
+(function() {{
+  const months = {jd(monthly['months'])};
+  const vals   = {jd(m_nps_vals)};
+  const ptColors = {jd(m_nps_colors)};
+  new Chart(document.getElementById('cNpsMon'), {{
+    type: 'line',
+    data: {{
+      labels: months,
+      datasets: [{{
+        label: 'NPS Lineal',
+        data: vals,
+        borderColor: '#4472C4',
+        backgroundColor: 'rgba(68,114,196,0.08)',
+        pointBackgroundColor: ptColors,
+        pointBorderColor: ptColors,
+        pointRadius: 7,
+        pointHoverRadius: 9,
+        borderWidth: 2.5,
+        tension: 0.3,
+        fill: true,
+        spanGaps: true,
+      }}]
+    }},
+    options: {{
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: {{ padding: {{ top: 20 }} }},
+      plugins: {{
+        legend: {{ display: false }},
+        tooltip: {{
+          callbacks: {{
+            label: ctx => ` NPS: ${{ctx.parsed.y !== null ? (ctx.parsed.y > 0 ? '+' : '') + ctx.parsed.y : 'sem dados'}}`
+          }}
+        }}
+      }},
+      scales: {{
+        x: {{ grid: {{ display: false }}, ticks: {{ font: {{ size: 11 }} }} }},
+        y: {{
+          grid: {{ color: ctx => ctx.tick.value === 0 ? '#999' : '#f0f2f5' }},
+          ticks: {{ font: {{ size: 11 }}, callback: v => (v > 0 ? '+' : '') + v }}
+        }}
+      }}
+    }},
+    plugins: [{{
+      id: 'npsLabels',
+      afterDatasetsDraw(chart) {{
+        const {{ ctx, data }} = chart;
+        const meta = chart.getDatasetMeta(0);
+        ctx.save();
+        ctx.font = 'bold 11px -apple-system, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        meta.data.forEach((pt, i) => {{
+          const v = data.datasets[0].data[i];
+          if (v === null || v === undefined) return;
+          ctx.fillStyle = ptColors[i];
+          ctx.fillText((v > 0 ? '+' : '') + v, pt.x, pt.y - 8);
+        }});
+        ctx.restore();
+      }}
+    }}]
+  }});
+}})();
 </script>
 </body>
 </html>"""
@@ -1005,8 +1237,8 @@ bar('cD', {jd(daily['days'])},     [{d_ds}], true, true);
 if __name__ == "__main__":
     html_only = "--html-only" in sys.argv
     try:
-        monthly, weekly, daily, themes_by_cdu, solutions = build_all(html_only=html_only)
-        html = generate_html(monthly, weekly, daily, themes_by_cdu, solutions)
+        monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly = build_all(html_only=html_only)
+        html = generate_html(monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly)
         out  = "outgoing_drivers_analysis.html"
         with open(out, "w", encoding="utf-8") as f:
             f.write(html)
