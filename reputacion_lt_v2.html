@@ -1296,9 +1296,11 @@ new Chart(document.getElementById('chartDecomp'), {
         labels: GRUPOS,
         datasets: [
           { label:'NPS Abr', data:npsAbr, backgroundColor: G_CORES.map(c=>c.replace('0.8','0.55').replace('0.75','0.55').replace('0.7','0.55')),
-            borderRadius:5, yAxisID:'y', order:2 },
+            borderRadius:5, yAxisID:'y', order:2,
+            datalabels:{ display:true, anchor:'center', align:'center', clamp:true, color:'#fff', font:{size:9,weight:'800'}, formatter:v=>v!=null?v.toFixed(0)+'%':'' } },
           { label:'NPS Mai', data:npsMai, backgroundColor: G_CORES,
-            borderRadius:5, yAxisID:'y', order:2 }
+            borderRadius:5, yAxisID:'y', order:2,
+            datalabels:{ display:true, anchor:'center', align:'center', clamp:true, color:'#fff', font:{size:9,weight:'800'}, formatter:v=>v!=null?v.toFixed(0)+'%':'' } }
         ]
       },
       options: {
