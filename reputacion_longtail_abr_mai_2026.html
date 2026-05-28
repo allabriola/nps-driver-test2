@@ -862,7 +862,8 @@ function makeCorrelChart(canvasId, npsData, exclData, npsMin, npsMax, exclMin, e
           borderRadius: 8,
           yAxisID: 'yNPS',
           order: 2,
-          barPercentage: 0.5
+          barPercentage: 0.5,
+          datalabels: { display:true, anchor:'center', align:'center', clamp:true, color:'#fff', font:{size:11,weight:'800'}, formatter: v => v!=null ? v.toFixed(1)+'%' : '' }
         },
         {
           type: 'line',
@@ -879,7 +880,8 @@ function makeCorrelChart(canvasId, npsData, exclData, npsMin, npsMax, exclMin, e
           fill: true,
           tension: 0.3,
           yAxisID: 'yExcl',
-          order: 1
+          order: 1,
+          datalabels: { display:true, anchor:'center', align:'right', offset:8, color:'#ff7733', backgroundColor:'rgba(26,26,46,.85)', borderRadius:3, padding:{top:2,bottom:2,left:4,right:4}, font:{size:10,weight:'700'}, formatter: v => v!=null ? v.toFixed(1)+'%' : '' }
         }
       ]
     },
@@ -1057,7 +1059,7 @@ function makeTeamChart(id, npsAbr, npsMai, exclAbr, exclMai, npsMin, npsMax, exc
           data:[npsAbr, npsMai],
           backgroundColor:['rgba(52,131,250,0.75)','rgba(0,166,80,0.8)'],
           borderRadius:8, barPercentage:0.5, yAxisID:'yNPS', order:2,
-          datalabels:{ display:true, anchor:'center', align:'center', color:'#fff', font:{size:10,weight:'800'}, formatter:v=>v!=null?v.toFixed(1)+'%':'' } },
+          datalabels:{ display:true, anchor:'center', align:'center', clamp:true, color:'#fff', font:{size:10,weight:'800'}, formatter:v=>v!=null?v.toFixed(1)+'%':'' } },
         { type:'line', label:'Taxa de Exclusão',
           data:[exclAbr, exclMai],
           borderColor:'#ff7733', backgroundColor:'rgba(255,119,51,0.08)',
@@ -1259,8 +1261,7 @@ new Chart(document.getElementById('chartDecomp'), {
         borderRadius: { topLeft:6, topRight:6, bottomLeft:0, bottomRight:0 },
         stack: 's',
         datalabels: { anchor:'center', align:'center', color:'#fff', font:{size:11,weight:'800'},
-          formatter: v => '+'+v.toFixed(1)+'pp',
-          display: true }
+          display: true, anchor:'center', align:'center', clamp:true, color:'#fff', font:{size:11,weight:'800'}, formatter: v => '+'+v.toFixed(1)+'pp' }
       }
     ]
   },
