@@ -97,6 +97,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .no-data-block div{font-size:12px;color:#555;line-height:1.55}
 .nps-pill{display:inline-block;font-size:11px;font-weight:800;padding:2px 10px;
           border-radius:20px;white-space:nowrap}
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.mini-card{background:#fff;border-radius:10px;padding:14px 14px 10px;
+           box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.mc-title{font-size:11px;font-weight:700;color:#444;margin-bottom:6px;
+          white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mc-row{display:flex;align-items:baseline;gap:8px;margin-bottom:2px}
+.mc-nps{font-size:20px;font-weight:900;line-height:1}
+.mc-mom{font-size:12px;font-weight:700}
+.mc-gap{font-size:11px;color:#666;margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -183,24 +192,34 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   <!-- ── ABA NPS ───────────────────────────────────────────────── -->
   <div class="tab-pane" id="tp1">
 
-    <div class="card">
-      <p class="chart-title">NPS Lineal por CDU · Jan–Mai</p>
-      <div class="cw" style="height:420px"><canvas id="cNpsCdu"></canvas></div>
+    <!-- Mini cards por CDU -->
+    <div class="mini-grid">
+      <div class="mini-card" style="border-top:3px solid #70AD47"><div class="mc-title">Quiere saber porqué se inactivó su c…</div><div class="mc-row"><span class="mc-nps" style="color:#70AD47">+74.6</span><span class="mc-mom"><span style="color:#70AD47">+1.4pp</span></span></div><div class="mc-gap"><span style="color:#70AD47">+72.5pp vs tgt</span></div><div class="cw" style="height:110px"><canvas id="cMini0"></canvas></div></div><div class="mini-card" style="border-top:3px solid #70AD47"><div class="mc-title">Quiere saber como funciona Envíos Ex…</div><div class="mc-row"><span class="mc-nps" style="color:#70AD47">+73.3</span><span class="mc-mom"><span style="color:#70AD47">+7.6pp</span></span></div><div class="mc-gap"><span style="color:#70AD47">+73.9pp vs tgt</span></div><div class="cw" style="height:110px"><canvas id="cMini1"></canvas></div></div><div class="mini-card" style="border-top:3px solid #70AD47"><div class="mc-title">Tiene problemas durante la creacion …</div><div class="mc-row"><span class="mc-nps" style="color:#70AD47">+60.8</span><span class="mc-mom"><span style="color:#70AD47">+10.0pp</span></span></div><div class="mc-gap"><span style="color:#70AD47">+65.4pp vs tgt</span></div><div class="cw" style="height:110px"><canvas id="cMini2"></canvas></div></div><div class="mini-card" style="border-top:3px solid #FFC000"><div class="mc-title">Bugs</div><div class="mc-row"><span class="mc-nps" style="color:#FFC000">+31.8</span><span class="mc-mom"><span style="color:#E05252">-38.1pp</span></span></div><div class="mc-gap"><span style="color:#70AD47">+27.9pp vs tgt</span></div><div class="cw" style="height:110px"><canvas id="cMini3"></canvas></div></div><div class="mini-card" style="border-top:3px solid #70AD47"><div class="mc-title">Quiere saber porque no le pagaron un…</div><div class="mc-row"><span class="mc-nps" style="color:#70AD47">+61.2</span><span class="mc-mom"><span style="color:#E05252">-6.1pp</span></span></div><div class="mc-gap"><span style="color:#70AD47">+52.8pp vs tgt</span></div><div class="cw" style="height:110px"><canvas id="cMini4"></canvas></div></div><div class="mini-card" style="border-top:3px solid #FFC000"><div class="mc-title">Generales</div><div class="mc-row"><span class="mc-nps" style="color:#FFC000">+40.4</span><span class="mc-mom"><span style="color:#70AD47">+14.4pp</span></span></div><div class="mc-gap"><span style="color:#70AD47">+61.8pp vs tgt</span></div><div class="cw" style="height:110px"><canvas id="cMini5"></canvas></div></div><div class="mini-card" style="border-top:3px solid #70AD47"><div class="mc-title">Quiere reclamar por inconvenientes e…</div><div class="mc-row"><span class="mc-nps" style="color:#70AD47">+58.3</span><span class="mc-mom"><span style="color:#70AD47">+2.3pp</span></span></div><div class="mc-gap"><span style="color:#70AD47">+66.0pp vs tgt</span></div><div class="cw" style="height:110px"><canvas id="cMini6"></canvas></div></div><div class="mini-card" style="border-top:3px solid #70AD47"><div class="mc-title">Quiere saber porque no recibe rutas</div><div class="mc-row"><span class="mc-nps" style="color:#70AD47">+77.4</span><span class="mc-mom"><span style="color:#70AD47">+2.1pp</span></span></div><div class="mc-gap"><span style="color:#70AD47">+79.3pp vs tgt</span></div><div class="cw" style="height:110px"><canvas id="cMini7"></canvas></div></div><div class="mini-card" style="border-top:3px solid #70AD47"><div class="mc-title">Tiene un inconviente con sus metrica…</div><div class="mc-row"><span class="mc-nps" style="color:#70AD47">+52.0</span><span class="mc-mom"><span style="color:#70AD47">+15.5pp</span></span></div><div class="mc-gap"><span style="color:#70AD47">+63.0pp vs tgt</span></div><div class="cw" style="height:110px"><canvas id="cMini8"></canvas></div></div><div class="mini-card" style="border-top:3px solid #70AD47"><div class="mc-title">Oferta de rutas</div><div class="mc-row"><span class="mc-nps" style="color:#70AD47">+61.5</span><span class="mc-mom"><span style="color:#70AD47">+1.3pp</span></span></div><div class="mc-gap"><span style="color:#70AD47">+64.3pp vs tgt</span></div><div class="cw" style="height:110px"><canvas id="cMini9"></canvas></div></div><div class="mini-card" style="border-top:3px solid #FFC000"><div class="mc-title">Onboarding Extra</div><div class="mc-row"><span class="mc-nps" style="color:#FFC000">+40.0</span><span class="mc-mom">—</span></div><div class="mc-gap"></div><div class="cw" style="height:110px"><canvas id="cMini10"></canvas></div></div><div class="mini-card" style="border-top:3px solid #70AD47"><div class="mc-title">Quiere gestionar una cuenta ya cread…</div><div class="mc-row"><span class="mc-nps" style="color:#70AD47">+66.2</span><span class="mc-mom"><span style="color:#E05252">-2.7pp</span></span></div><div class="mc-gap"><span style="color:#70AD47">+64.6pp vs tgt</span></div><div class="cw" style="height:110px"><canvas id="cMini11"></canvas></div></div>
     </div>
 
-    <div class="card">
-      <p class="chart-title">Cascata NPS vs Target por CDU · YTD</p>
-      <div class="cw" style="height:420px"><canvas id="cCascade"></canvas></div>
+    <!-- Cascatas -->
+    <div class="grid2">
+      <div class="card">
+        <p class="chart-title">WTF MoM · Abr → Mai</p>
+        <div class="cw" style="height:360px"><canvas id="cWtf"></canvas></div>
+      </div>
+      <div class="card">
+        <p class="chart-title">Cascata vs Target · YTD
+          <span style="font-size:11px;font-weight:400;color:#888;margin-left:6px">Target 0.71 → Real 68.26</span>
+        </p>
+        <div class="cw" style="height:360px"><canvas id="cCascade"></canvas></div>
+      </div>
     </div>
 
+    <!-- Evolução com target -->
     <div class="grid2">
       <div class="card">
         <p class="chart-title">Evolução Mensal NPS + Target</p>
-        <div class="cw" style="height:360px"><canvas id="cNpsMon"></canvas></div>
+        <div class="cw" style="height:320px"><canvas id="cNpsMon"></canvas></div>
       </div>
       <div class="card">
         <p class="chart-title">Evolução Semanal NPS + Target</p>
-        <div class="cw" style="height:360px"><canvas id="cNpsWk"></canvas></div>
+        <div class="cw" style="height:320px"><canvas id="cNpsWk"></canvas></div>
       </div>
     </div>
 
@@ -383,71 +402,110 @@ function initNpsCharts() {
     }
   });
 
-  // Cascata NPS vs Target por CDU
-  const cascadeLabels = ["Quiere saber porque no recibe rutas", "Quiere saber porqué se inactivó su cuenta", "Quiere saber como funciona Envíos Extra", "Gestión de cuenta", "Quiere gestionar una cuenta ya creada", "Flotillero - Extra", "Temporal", "Soporte MeLi", "Oferta de rutas", "Quiere saber porque no le pagaron una ruta", "Tiene problemas durante la creacion de la cuenta", "Quiere reclamar por inconvenientes en el recorrido o en el service center", "Pago de ruta", "Tiene un inconviente con sus metricas de Nivel de Lealtad", "Generales", "Onboarding Extra", "Bugs", "Cuenta pausada o bloqueada"];
-  const cascadeGaps   = [76.7, 73.9, 72.6, 68.3, 65.5, 64.9, 62.9, 62.8, 60.8, 60.5, 60.1, 57.6, 54.1, 51.3, 39.7, 39.4, 31.2, 21.6];
-  const cascadeColors = ["#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47"];
-  const cascadeNps    = [77.4, 74.6, 73.3, 69.0, 66.2, 65.6, 63.6, 63.5, 61.5, 61.2, 60.8, 58.3, 54.8, 52.0, 40.4, 40.0, 31.8, 22.2];
-  const cascadeTgt    = [0.72, 0.72, 0.71, 0.7, 0.7, 0.71, 0.73, 0.74, 0.71, 0.7, 0.7, 0.71, 0.67, 0.69, 0.68, 0.62, 0.64, 0.61];
-  const cascadeSurv   = [881, 3139, 1934, 29, 228, 305, 11, 115, 574, 791, 899, 630, 104, 490, 104, 10, 22, 9];
-  new Chart(document.getElementById('cCascade'), {
-    type: 'bar',
-    data: {
-      labels: cascadeLabels,
-      datasets: [{
-        label: 'Gap vs Target',
-        data: cascadeGaps,
-        backgroundColor: cascadeColors.map(c => c + 'cc'),
-        borderColor: cascadeColors,
-        borderWidth: 1.5,
-        borderRadius: 4,
-      }]
-    },
-    plugins: [{
-      id: 'cascadeLabels',
-      afterDatasetsDraw(chart) {
-        const { ctx, data } = chart;
-        const meta = chart.getDatasetMeta(0);
-        ctx.save();
-        ctx.font = 'bold 11px -apple-system, sans-serif';
-        ctx.textAlign = 'center';
-        meta.data.forEach((bar, i) => {
-          const v = data.datasets[0].data[i];
-          const lbl = (v >= 0 ? '+' : '') + v.toFixed(1);
-          ctx.fillStyle = cascadeColors[i];
-          ctx.textBaseline = v >= 0 ? 'bottom' : 'top';
-          ctx.fillText(lbl, bar.x, v >= 0 ? bar.y - 4 : bar.y + 4);
-        });
-        ctx.restore();
-      }
-    }],
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      layout: { padding: { top: 24, bottom: 8 } },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: ctx => [
-              ` NPS: ${(cascadeNps[ctx.dataIndex]>0?'+':'')}${cascadeNps[ctx.dataIndex]}`,
-              ` Target: ${cascadeTgt[ctx.dataIndex]?.toFixed(1)}`,
-              ` Gap: ${(cascadeGaps[ctx.dataIndex]>=0?'+':'')}${cascadeGaps[ctx.dataIndex]}pt`,
-              ` Pesquisas: ${cascadeSurv[ctx.dataIndex].toLocaleString('pt-BR')}`,
-            ]
-          }
-        }
-      },
-      scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 35 } },
-        y: {
-          grid: { color: ctx => ctx.tick.value === 0 ? '#888' : '#f0f2f5' },
-          ticks: { callback: v => (v>0?'+':'') + v, font: { size: 11 } },
-          title: { display: true, text: 'Gap vs Target (pt)', font: { size: 10 }, color: '#888' }
+  // ── Mini cards: weekly NPS por CDU ────────────────────────────────────────
+  const miniCards = [{"id": "cMini0", "cdu": "Quiere saber porqué se inactivó su cuenta", "nps": 74.6, "target": 0.73, "gap": 72.5, "mom": 1.4, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [75.8, 73.6, 72.7, 68.5, 74.6, 76.9, 66.5, 75.3, 71.8]}, {"id": "cMini1", "cdu": "Quiere saber como funciona Envíos Extra", "nps": 73.3, "target": 0.7, "gap": 73.9, "mom": 7.6, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [63.3, 69.6, 64.5, 66.4, 68.1, 71.7, 78.8, 76.3, 80.0]}, {"id": "cMini2", "cdu": "Tiene problemas durante la creacion de la cuenta", "nps": 60.8, "target": 0.68, "gap": 65.4, "mom": 10.0, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [81.2, 31.0, 61.0, 60.2, 57.5, 72.1, 56.2, 73.1, 61.1]}, {"id": "cMini3", "cdu": "Bugs", "nps": 31.8, "target": 0.75, "gap": 27.9, "mom": -38.1, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [null, null, null, null, null, null, null, null, null]}, {"id": "cMini4", "cdu": "Quiere saber porque no le pagaron una ruta", "nps": 61.2, "target": 0.74, "gap": 52.8, "mom": -6.1, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [72.7, 55.8, 61.9, 68.6, 50.9, 73.5, 52.4, 37.8, 60.0]}, {"id": "cMini5", "cdu": "Generales", "nps": 40.4, "target": 0.68, "gap": 61.8, "mom": 14.4, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [null, 50.0, 71.4, 25.0, null, 66.7, 33.3, 66.7, null]}, {"id": "cMini6", "cdu": "Quiere reclamar por inconvenientes en el recorrido o en el service center", "nps": 58.3, "target": 0.73, "gap": 66.0, "mom": 2.3, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [81.8, 60.0, 69.0, 72.7, 57.1, 71.0, 59.2, 73.2, 70.6]}, {"id": "cMini7", "cdu": "Quiere saber porque no recibe rutas", "nps": 77.4, "target": 0.69, "gap": 79.3, "mom": 2.1, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [84.2, 90.9, 71.4, 83.0, 74.5, 81.6, 79.5, 86.8, 63.6]}, {"id": "cMini8", "cdu": "Tiene un inconviente con sus metricas de Nivel de Lealtad", "nps": 52.0, "target": 0.75, "gap": 63.0, "mom": 15.5, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [66.7, 53.8, 55.6, 34.8, 41.6, 69.6, 78.9, 66.7, 100.0]}, {"id": "cMini9", "cdu": "Oferta de rutas", "nps": 61.5, "target": 0.67, "gap": 64.3, "mom": 1.3, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [85.2, 55.3, 62.5, 68.6, 58.1, 51.3, 75.9, 59.4, 82.4]}, {"id": "cMini10", "cdu": "Onboarding Extra", "nps": 40.0, "target": 0.62, "gap": null, "mom": null, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [null, null, null, null, null, null, null, null, null]}, {"id": "cMini11", "cdu": "Quiere gestionar una cuenta ya creada", "nps": 66.2, "target": 0.74, "gap": 64.6, "mom": -2.7, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [75.0, 88.9, 55.6, 66.7, 62.5, 75.0, 50.0, 53.8, 100.0]}];
+  miniCards.forEach(c => {
+    const el = document.getElementById(c.id);
+    if (!el) return;
+    const vals    = c.wk_nps;
+    const tgt     = c.target;
+    const colors  = vals.map(v => v === null ? '#ddd' : npsColor(v));
+    const tgtLine = vals.map(() => tgt);
+    new Chart(el, {
+      type: 'bar',
+      data: { labels: c.weeks, datasets: [
+        { data: vals, backgroundColor: colors, borderRadius: 3, barPercentage: 0.7 },
+        { type: 'line', data: tgtLine, borderColor: '#E05252', borderDash: [4,3],
+           borderWidth: 1.5, pointRadius: 0, fill: false, spanGaps: true },
+      ] },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx =>
+            ctx.datasetIndex === 0
+              ? ` NPS: ${ctx.parsed.y !== null ? (ctx.parsed.y>0?'+':'')+ctx.parsed.y : '—'}`
+              : ` Target: ${ctx.parsed.y}`
+          } }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 9 }, maxRotation: 0 } },
+          y: { grid: { color: '#f5f5f5' },
+                ticks: { font: { size: 9 }, callback: v => v },
+                suggestedMin: tgt ? tgt - 20 : undefined }
         }
       }
-    }
+    });
   });
+
+  // ── Helper: waterfall chart ────────────────────────────────────────────────
+  function waterfallChart(id, bars) {
+    if (!bars.length || !document.getElementById(id)) return;
+    const labels  = bars.map(b => b.label);
+    const spacers = bars.map(b => b.spacer);
+    const values  = bars.map(b => b.bar);
+    const colors  = bars.map(b => b.color);
+    new Chart(document.getElementById(id), {
+      type: 'bar',
+      data: { labels, datasets: [
+        { label: '_spacer', data: spacers,
+           backgroundColor: 'transparent', borderColor: 'transparent', stack: 's' },
+        { label: 'value',   data: values,
+           backgroundColor: colors, borderRadius: 3, stack: 's',
+           borderColor: colors.map(c => c.replace('cc','')),
+           borderWidth: 1 },
+      ] },
+      plugins: [{
+        id: 'wfLabels',
+        afterDatasetsDraw(chart) {
+          const { ctx, data } = chart;
+          const metaV = chart.getDatasetMeta(1);
+          ctx.save();
+          ctx.font = 'bold 10px -apple-system, sans-serif';
+          ctx.textAlign = 'center';
+          metaV.data.forEach((bar, i) => {
+            const contrib = bars[i].contrib;
+            if (contrib === null || contrib === undefined) return;
+            const lbl = (contrib > 0 ? '+' : '') + contrib.toFixed(1) + 'pp';
+            ctx.fillStyle = bars[i].isAnchor ? '#555' : (contrib >= 0 ? '#2d7d2d' : '#b71c1c');
+            ctx.textBaseline = 'bottom';
+            ctx.fillText(lbl, bar.x, bar.y - 3);
+          });
+          ctx.restore();
+        }
+      }],
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        layout: { padding: { top: 22 } },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => {
+                if (ctx.datasetIndex === 0) return null;
+                const b = bars[ctx.dataIndex];
+                if (b.isAnchor) return ` NPS: ${b.bar.toFixed(1)}`;
+                const lines = [` Contribuição: ${(b.contrib>=0?'+':'')}${b.contrib.toFixed(2)}pp`];
+                if (b.nps !== undefined) lines.push(` NPS: ${b.nps}  Target: ${b.target}`);
+                if (b.nps_m1 !== undefined) lines.push(` ${b.nps_m1} (atual) vs ${b.nps_m0} (ant.)`);
+                return lines;
+              }
+            }
+          }
+        },
+        scales: {
+          x: { stacked: true, grid: { display: false },
+                ticks: { font: { size: 10 }, maxRotation: 30 } },
+          y: { stacked: true,
+                grid: { color: '#f0f2f5' },
+                ticks: { font: { size: 11 }, callback: v => v.toFixed(0) } }
+        }
+      }
+    });
+  }
+
+  waterfallChart('cWtf',     [{"label": "Abr (65.2)", "spacer": 0, "bar": 65.2, "isAnchor": true, "color": "#4472C4", "contrib": null}, {"label": "Flotillero - Extra", "spacer": 65.2, "bar": 3.72, "isAnchor": false, "contrib": 3.72, "color": "#70AD47cc", "nps_m1": 61.9, "nps_m0": 71.4}, {"label": "Tiene problemas durante la creac", "spacer": 68.92, "bar": 1.47, "isAnchor": false, "contrib": 1.47, "color": "#70AD47cc", "nps_m1": 66.1, "nps_m0": 56.1}, {"label": "Tiene un inconviente con sus met", "spacer": 70.39, "bar": 1.05, "isAnchor": false, "contrib": 1.05, "color": "#70AD47cc", "nps_m1": 63.7, "nps_m0": 48.2}, {"label": "Quiere reclamar por inconvenient", "spacer": 71.44, "bar": 0.94, "isAnchor": false, "contrib": 0.94, "color": "#70AD47cc", "nps_m1": 66.7, "nps_m0": 64.4}, {"label": "Gestión de cuenta", "spacer": 72.38, "bar": 0.33, "isAnchor": false, "contrib": 0.33, "color": "#70AD47cc", "nps_m1": 100.0, "nps_m0": 14.3}, {"label": "Quiere saber como funciona Envío", "spacer": 72.71, "bar": 0.17, "isAnchor": false, "contrib": 0.17, "color": "#70AD47cc", "nps_m1": 74.6, "nps_m0": 67.0}, {"label": "Pago de ruta", "spacer": 72.88, "bar": 0.17, "isAnchor": false, "contrib": 0.17, "color": "#70AD47cc", "nps_m1": 41.7, "nps_m0": 33.3}, {"label": "Generales", "spacer": 73.05, "bar": 0.15, "isAnchor": false, "contrib": 0.15, "color": "#70AD47cc", "nps_m1": 62.5, "nps_m0": 48.1}, {"label": "Bugs", "spacer": 73.12, "bar": 0.08, "isAnchor": false, "contrib": -0.08, "color": "#E05252cc", "nps_m1": 28.6, "nps_m0": 66.7}, {"label": "Quiere saber porque no recibe ru", "spacer": 72.81, "bar": 0.31, "isAnchor": false, "contrib": -0.31, "color": "#E05252cc", "nps_m1": 80.0, "nps_m0": 77.9}, {"label": "Soporte MeLi", "spacer": 72.27, "bar": 0.54, "isAnchor": false, "contrib": -0.54, "color": "#E05252cc", "nps_m1": 86.7, "nps_m0": 52.9}, {"label": "Oferta de rutas", "spacer": 71.44, "bar": 0.83, "isAnchor": false, "contrib": -0.83, "color": "#E05252cc", "nps_m1": 65.0, "nps_m0": 63.7}, {"label": "Quiere saber porqué se inactivó ", "spacer": 70.38, "bar": 1.06, "isAnchor": false, "contrib": -1.06, "color": "#E05252cc", "nps_m1": 73.2, "nps_m0": 71.8}, {"label": "Quiere saber porque no le pagaro", "spacer": 68.78, "bar": 1.6, "isAnchor": false, "contrib": -1.6, "color": "#E05252cc", "nps_m1": 53.5, "nps_m0": 59.6}, {"label": "Mai (68.8)", "spacer": 0, "bar": 68.8, "isAnchor": true, "color": "#4472C4", "contrib": null}]);
+  waterfallChart('cCascade', [{"label": "Target (0.7)", "spacer": 0, "bar": 0.71, "isAnchor": true, "color": "#4472C4", "contrib": null}, {"label": "Quiere saber porqué se inactivó ", "spacer": 0.71, "bar": 22.59, "isAnchor": false, "contrib": 22.59, "color": "#70AD47cc", "nps": 74.6, "target": 0.72, "surveys": 3139}, {"label": "Quiere saber como funciona Envío", "spacer": 23.3, "bar": 13.68, "isAnchor": false, "contrib": 13.68, "color": "#70AD47cc", "nps": 73.3, "target": 0.71, "surveys": 1934}, {"label": "Quiere saber porque no recibe ru", "spacer": 36.98, "bar": 6.58, "isAnchor": false, "contrib": 6.58, "color": "#70AD47cc", "nps": 77.4, "target": 0.72, "surveys": 881}, {"label": "Tiene problemas durante la creac", "spacer": 43.56, "bar": 5.26, "isAnchor": false, "contrib": 5.26, "color": "#70AD47cc", "nps": 60.8, "target": 0.7, "surveys": 899}, {"label": "Quiere saber porque no le pagaro", "spacer": 48.82, "bar": 4.66, "isAnchor": false, "contrib": 4.66, "color": "#70AD47cc", "nps": 61.2, "target": 0.7, "surveys": 791}, {"label": "Quiere reclamar por inconvenient", "spacer": 53.48, "bar": 3.53, "isAnchor": false, "contrib": 3.53, "color": "#70AD47cc", "nps": 58.3, "target": 0.71, "surveys": 630}, {"label": "Oferta de rutas", "spacer": 57.01, "bar": 3.4, "isAnchor": false, "contrib": 3.4, "color": "#70AD47cc", "nps": 61.5, "target": 0.71, "surveys": 574}, {"label": "Tiene un inconviente con sus met", "spacer": 60.41, "bar": 2.45, "isAnchor": false, "contrib": 2.45, "color": "#70AD47cc", "nps": 52.0, "target": 0.69, "surveys": 490}, {"label": "Flotillero - Extra", "spacer": 62.86, "bar": 1.93, "isAnchor": false, "contrib": 1.93, "color": "#70AD47cc", "nps": 65.6, "target": 0.71, "surveys": 305}, {"label": "Quiere gestionar una cuenta ya c", "spacer": 64.79, "bar": 1.45, "isAnchor": false, "contrib": 1.45, "color": "#70AD47cc", "nps": 66.2, "target": 0.7, "surveys": 228}, {"label": "Soporte MeLi", "spacer": 66.24, "bar": 0.7, "isAnchor": false, "contrib": 0.7, "color": "#70AD47cc", "nps": 63.5, "target": 0.74, "surveys": 115}, {"label": "Pago de ruta", "spacer": 66.94, "bar": 0.55, "isAnchor": false, "contrib": 0.55, "color": "#70AD47cc", "nps": 54.8, "target": 0.67, "surveys": 104}, {"label": "Generales", "spacer": 67.49, "bar": 0.4, "isAnchor": false, "contrib": 0.4, "color": "#70AD47cc", "nps": 40.4, "target": 0.68, "surveys": 104}, {"label": "Gestión de cuenta", "spacer": 67.89, "bar": 0.19, "isAnchor": false, "contrib": 0.19, "color": "#70AD47cc", "nps": 69.0, "target": 0.7, "surveys": 29}, {"label": "Bugs", "spacer": 68.08, "bar": 0.07, "isAnchor": false, "contrib": 0.07, "color": "#70AD47cc", "nps": 31.8, "target": 0.64, "surveys": 22}, {"label": "Temporal", "spacer": 68.15, "bar": 0.07, "isAnchor": false, "contrib": 0.07, "color": "#70AD47cc", "nps": 63.6, "target": 0.73, "surveys": 11}, {"label": "Onboarding Extra", "spacer": 68.22, "bar": 0.04, "isAnchor": false, "contrib": 0.04, "color": "#70AD47cc", "nps": 40.0, "target": 0.62, "surveys": 10}, {"label": "NPS Real (68.3)", "spacer": 0, "bar": 68.26, "isAnchor": true, "color": "#4472C4", "contrib": null}]);
 
   // helper: linha de evolução + target tracejado
   function npsEvoChart(id, labels, npsVals, targetVal) {

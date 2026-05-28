@@ -203,6 +203,27 @@ def q_nps_monthly() -> str:
     ORDER BY 1, surveys DESC
     """
 
+def q_nps_weekly_by_cdu() -> str:
+    return f"""
+    SELECT
+      DATE_TRUNC(CAST(SURVEY_DATE_SURVEY AS DATE), ISOWEEK) AS week_start,
+      COALESCE(NULLIF(TRIM(CDU),''), 'Sem CDU')             AS cdu,
+      COUNT(*)                                              AS surveys,
+      SUM(PROMOTER)                                         AS promoters,
+      SUM(DETRACTOR)                                        AS detractors,
+      ROUND(AVG(SURVEY_TARGET_VALUE), 2)                    AS target
+    FROM {TABLE_NPS}
+    WHERE SIT_SITE_ID      = '{SITE}'
+      AND SURVEY_CENTER    = 'BR'
+      AND PRO_PROCESS_NAME = '{PROCESS_KEY}'
+      AND {TEAMS_FILTER}
+      AND CAST(SURVEY_DATE_SURVEY AS DATE) >= '{EIGHT_WEEKS_AGO}'
+      AND {NPS_FILTER}
+    GROUP BY 1, 2
+    HAVING COUNT(*) >= 3
+    ORDER BY 1, surveys DESC
+    """
+
 def q_nps_weekly() -> str:
     return f"""
     SELECT
@@ -509,13 +530,116 @@ def process_nps_monthly(raw: list[dict], months: list[str]) -> dict:
         tgt = float(r["target"]) if r.get("target") is not None else None
         agg.setdefault(m, {"p": 0, "d": 0, "s": 0})
         agg[m]["p"] += p; agg[m]["d"] += d; agg[m]["s"] += s
-        by_cdu_month.setdefault(r["cdu"], {})[m] = {"nps": _calc_nps(p, d, s), "target": tgt}
+        by_cdu_month.setdefault(r["cdu"], {})[m] = {"nps": _calc_nps(p, d, s), "target": tgt, "s": s, "p": p, "d": d}
 
     monthly_nps = []
     for m in months:
         ym = next((k for k in agg if month_label(k) == m), None)
         monthly_nps.append(_calc_nps(agg[ym]["p"], agg[ym]["d"], agg[ym]["s"]) if ym else None)
     return {"monthly_nps": monthly_nps, "by_cdu_month": by_cdu_month}
+
+def process_nps_weekly_by_cdu(raw: list[dict], weekly_weeks: list[str]) -> dict:
+    """Retorna {cdu: [nps_w1, ..., nps_wN]} alinhado com weekly_weeks (dd/mm)."""
+    by_cdu: dict[str, dict] = {}
+    for r in raw:
+        ws = r["week_start"]
+        lbl = ws.strftime("%d/%m") if hasattr(ws, "strftime") else str(ws)[5:].replace("-", "/")
+        p, d, s = int(r["promoters"] or 0), int(r["detractors"] or 0), int(r["surveys"] or 0)
+        tgt = float(r["target"]) if r.get("target") is not None else None
+        by_cdu.setdefault(r["cdu"], {})[lbl] = {
+            "nps": _calc_nps(p, d, s), "target": tgt, "s": s
+        }
+    result = {}
+    for cdu, weeks in by_cdu.items():
+        result[cdu] = [weeks.get(w) for w in weekly_weeks]
+    return result
+
+def _wf_bars(anchor_start_lbl, anchor_start_val,
+             contribs,  # list of (label, value, extra_dict)
+             anchor_end_lbl, anchor_end_val, anchor_color="#4472C4"):
+    """Builds waterfall bar data: [{label, spacer, bar, color, isAnchor, ...}]."""
+    bars = [{"label": anchor_start_lbl, "spacer": 0, "bar": round(anchor_start_val, 2),
+             "isAnchor": True, "color": anchor_color, "contrib": None}]
+    running = anchor_start_val
+    for lbl, v, extra in contribs:
+        v = round(v, 2)
+        spacer = round(running + v, 2) if v < 0 else round(running, 2)
+        bars.append({"label": lbl[:32], "spacer": spacer, "bar": abs(v),
+                     "isAnchor": False, "contrib": v,
+                     "color": "#70AD47cc" if v >= 0 else "#E05252cc", **extra})
+        running = round(running + v, 2)
+    bars.append({"label": anchor_end_lbl, "spacer": 0, "bar": round(anchor_end_val, 2),
+                 "isAnchor": True, "color": anchor_color, "contrib": None})
+    return bars
+
+def compute_waterfalls(nps_by_cdu: list, nps_monthly: dict) -> dict:
+    by_cdu_month = nps_monthly.get("by_cdu_month", {})
+    month_keys   = sorted({k for v in by_cdu_month.values() for k in v})
+
+    # ── Cascata vs Target (YTD) ───────────────────────────────────────────────
+    valid = [r for r in nps_by_cdu
+             if r["nps"] is not None and r["target"] is not None
+             and r["cdu"] != "Sem CDU" and r["surveys"] >= 10]
+    total_s = sum(r["surveys"] for r in valid)
+    if total_s and valid:
+        tgt_wt    = round(sum(r["target"] * r["surveys"] for r in valid) / total_s, 2)
+        actual_wt = round(sum(r["nps"]    * r["surveys"] for r in valid) / total_s, 2)
+        contribs  = [(r["cdu"], round((r["nps"] - r["target"]) * r["surveys"] / total_s, 2),
+                      {"nps": r["nps"], "target": r["target"], "surveys": r["surveys"]})
+                     for r in valid]
+        pos = sorted([c for c in contribs if c[1] >= 0], key=lambda x: -x[1])
+        neg = sorted([c for c in contribs if c[1] <  0], key=lambda x: -x[1])
+        cascata = _wf_bars(f"Target ({tgt_wt:.1f})", tgt_wt,
+                           pos + neg,
+                           f"NPS Real ({actual_wt:.1f})", actual_wt)
+    else:
+        cascata, tgt_wt, actual_wt = [], None, None
+
+    # ── WTF MoM ──────────────────────────────────────────────────────────────
+    if len(month_keys) >= 2:
+        mk1, mk0 = month_keys[-1], month_keys[-2]
+        # aggregate per month
+        def _agg(mk):
+            tot = {"p": 0, "d": 0, "s": 0}
+            per_cdu = {}
+            for cdu, mdata in by_cdu_month.items():
+                e = mdata.get(mk, {})
+                if not isinstance(e, dict): continue
+                p, d, s = e.get("p", 0), e.get("d", 0), e.get("s", 0)
+                tot["p"] += p; tot["d"] += d; tot["s"] += s
+                if s > 0:
+                    per_cdu[cdu] = {"nps": _calc_nps(p, d, s), "s": s, "p": p, "d": d}
+            nps_agg = _calc_nps(tot["p"], tot["d"], tot["s"])
+            return nps_agg, per_cdu, tot["s"]
+
+        nps_m1, cdus_m1, total_m1 = _agg(mk1)
+        nps_m0, cdus_m0, total_m0 = _agg(mk0)
+
+        if nps_m1 is not None and nps_m0 is not None and total_m1 and total_m0:
+            all_cdus = set(cdus_m1) | set(cdus_m0)
+            contribs_wtf = []
+            for cdu in all_cdus:
+                if cdu == "Sem CDU": continue
+                e1 = cdus_m1.get(cdu, {"nps": 0, "s": 0})
+                e0 = cdus_m0.get(cdu, {"nps": 0, "s": 0})
+                contrib = round((e1["nps"] or 0) * e1["s"] / total_m1
+                               - (e0["nps"] or 0) * e0["s"] / total_m0, 2)
+                if abs(contrib) >= 0.05:
+                    contribs_wtf.append((cdu, contrib,
+                                        {"nps_m1": e1["nps"], "nps_m0": e0["nps"]}))
+            pos_w = sorted([c for c in contribs_wtf if c[1] >= 0], key=lambda x: -x[1])
+            neg_w = sorted([c for c in contribs_wtf if c[1] <  0], key=lambda x: -x[1])
+            wtf = _wf_bars(f"{month_label(mk0)} ({nps_m0:.1f})", nps_m0,
+                           pos_w + neg_w,
+                           f"{month_label(mk1)} ({nps_m1:.1f})", nps_m1)
+            wtf_labels = (month_label(mk0), month_label(mk1))
+        else:
+            wtf, wtf_labels = [], ("—", "—")
+    else:
+        wtf, wtf_labels = [], ("—", "—")
+
+    return {"cascata": cascata, "wtf": wtf, "wtf_labels": wtf_labels,
+            "tgt_wt": tgt_wt, "actual_wt": actual_wt}
 
 def compute_mom_scorecard(monthly: dict, nps_monthly: dict, nps_by_cdu: list) -> list[dict]:
     """Por CDU: NPS e volume do último mês, variação MoM, target e gap."""
@@ -640,10 +764,12 @@ def build_all(html_only: bool = False):
         themes_by_cdu = cached.get("themes_by_cdu", {})
         nps_by_cdu    = cached.get("nps_by_cdu", [])
         nps_monthly   = cached.get("nps_monthly", {"monthly_nps": [], "by_cdu_month": {}})
-        nps_weekly    = cached.get("nps_weekly", [])
-        nps_daily     = cached.get("nps_daily", [])
-        mom_scorecard = cached.get("mom_scorecard") or compute_mom_scorecard(monthly, nps_monthly, nps_by_cdu)
-        return monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, mom_scorecard
+        nps_weekly         = cached.get("nps_weekly", [])
+        nps_daily          = cached.get("nps_daily", [])
+        nps_weekly_by_cdu  = cached.get("nps_weekly_by_cdu", {})
+        waterfalls         = cached.get("waterfalls") or compute_waterfalls(nps_by_cdu, nps_monthly)
+        mom_scorecard      = cached.get("mom_scorecard") or compute_mom_scorecard(monthly, nps_monthly, nps_by_cdu)
+        return monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard
 
     print("▸ Volume mensal…")
     monthly_raw = run(q_monthly())
@@ -659,6 +785,8 @@ def build_all(html_only: bool = False):
     nps_month_raw = run(q_nps_monthly())
     print("▸ NPS semanal…")
     nps_week_raw = run(q_nps_weekly())
+    print("▸ NPS semanal por CDU…")
+    nps_week_cdu_raw = run(q_nps_weekly_by_cdu())
     print("▸ NPS diário…")
     nps_day_raw = run(q_nps_daily())
 
@@ -668,9 +796,11 @@ def build_all(html_only: bool = False):
     solutions = [{"solution": r["solution"], "volume": r["volume"]} for r in solutions_raw]
     nps_by_cdu  = process_nps_by_cdu(nps_cdu_raw)
     nps_monthly = process_nps_monthly(nps_month_raw, monthly["months"])
-    nps_weekly  = process_nps_agg(nps_week_raw, weekly["weeks"], "week_start")
-    nps_daily   = process_nps_agg(nps_day_raw,  daily["days"],  "day")
-    mom_scorecard = compute_mom_scorecard(monthly, nps_monthly, nps_by_cdu)
+    nps_weekly       = process_nps_agg(nps_week_raw, weekly["weeks"], "week_start")
+    nps_daily        = process_nps_agg(nps_day_raw,  daily["days"],  "day")
+    nps_weekly_by_cdu = process_nps_weekly_by_cdu(nps_week_cdu_raw, weekly["weeks"])
+    waterfalls       = compute_waterfalls(nps_by_cdu, nps_monthly)
+    mom_scorecard    = compute_mom_scorecard(monthly, nps_monthly, nps_by_cdu)
 
     themes_by_cdu: dict[str, list] = {}
     top_cdus = monthly["top_cdus"]
@@ -682,8 +812,10 @@ def build_all(html_only: bool = False):
                  "solutions": solutions, "themes_by_cdu": themes_by_cdu,
                  "nps_by_cdu": nps_by_cdu, "nps_monthly": nps_monthly,
                  "nps_weekly": nps_weekly, "nps_daily": nps_daily,
+                 "nps_weekly_by_cdu": nps_weekly_by_cdu,
+                 "waterfalls": waterfalls,
                  "mom_scorecard": mom_scorecard}, charts=True)
-    return monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, mom_scorecard
+    return monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard
 
 # ── HTML ──────────────────────────────────────────────────────────────────────
 def jd(obj) -> str:
@@ -990,6 +1122,30 @@ def _render_mom_scorecard(rows: list) -> str:
     html += "</tbody>"
     return html
 
+def _render_mini_card(c: dict) -> str:
+    nps  = c["nps"]
+    gap  = c["gap"]
+    mom  = c["mom"]
+    tgt  = c["target"]
+    border = nps_color(nps) if nps is not None else "#ccc"
+    nps_str = f"{nps:+.1f}" if nps is not None else "—"
+    mom_str = (f'<span style="color:{"#70AD47" if mom>=0 else "#E05252"}">'
+               f'{"+" if mom>=0 else ""}{mom:.1f}pp</span>') if mom is not None else "—"
+    gap_str = (f'<span style="color:{"#70AD47" if gap>=0 else "#E05252"}">'
+               f'{"+" if gap>=0 else ""}{gap:.1f}pp vs tgt</span>') if gap is not None else ""
+    short_cdu = c["cdu"][:36] + ("…" if len(c["cdu"]) > 36 else "")
+    return (
+        f'<div class="mini-card" style="border-top:3px solid {border}">'
+        f'<div class="mc-title">{short_cdu}</div>'
+        f'<div class="mc-row">'
+        f'<span class="mc-nps" style="color:{border}">{nps_str}</span>'
+        f'<span class="mc-mom">{mom_str}</span>'
+        f'</div>'
+        f'<div class="mc-gap">{gap_str}</div>'
+        f'<div class="cw" style="height:110px"><canvas id="{c["id"]}"></canvas></div>'
+        f'</div>'
+    )
+
 def _render_nps_monthly_table(top_cdus: list, nps_monthly: dict, nps_by_cdu: list) -> str:
     by_cdu_month = nps_monthly.get("by_cdu_month", {})
     ytd_map      = {r["cdu"]: (r["nps"], r["surveys"]) for r in nps_by_cdu}
@@ -1046,7 +1202,9 @@ def _render_solutions(solutions: list, total_v: int) -> str:
 
 def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
                   solutions: list, nps_by_cdu: list, nps_monthly: dict,
-                  nps_weekly: list, nps_daily: list, mom_scorecard: list) -> str:
+                  nps_weekly: list, nps_daily: list,
+                  nps_weekly_by_cdu: dict, waterfalls: dict,
+                  mom_scorecard: list) -> str:
     now_str = TODAY.strftime("%d/%m/%Y")
 
     top_cdu   = monthly["top_cdu"] or "—"
@@ -1122,25 +1280,40 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
     last_mlbl = mom_scorecard[0]["last_mlbl"] if mom_scorecard else "—"
     prev_mlbl = mom_scorecard[0]["prev_mlbl"] if mom_scorecard else "—"
 
-    # Cascade (gap vs target) — sorted best → worst
-    gap_data = sorted(
-        [r for r in nps_by_cdu
-         if r["nps"] is not None and r["target"] is not None and r["cdu"] != "Sem CDU"],
-        key=lambda x: (x["nps"] or 0) - (x["target"] or 0), reverse=True
-    )
-    cascade_labels = [r["cdu"]    for r in gap_data]
-    cascade_gaps   = [round((r["nps"] or 0) - (r["target"] or 0), 1) for r in gap_data]
-    cascade_colors = ["#70AD47" if g >= 0 else "#E05252" for g in cascade_gaps]
-    cascade_nps    = [r["nps"]    for r in gap_data]
-    cascade_tgt    = [r["target"] for r in gap_data]
-    cascade_surv   = [r["surveys"] for r in gap_data]
-
-    # Weighted average target for the target line on evolution charts
+    # Weighted average target for evolution charts
     total_s = sum(r["surveys"] for r in nps_by_cdu if r["target"] is not None)
     avg_target = round(
         sum((r["target"] or 0) * r["surveys"] for r in nps_by_cdu if r["target"] is not None)
         / total_s, 1
     ) if total_s else None
+
+    # Waterfall data
+    casc  = waterfalls.get("cascata", [])
+    wtf   = waterfalls.get("wtf", [])
+    wtf_labels = waterfalls.get("wtf_labels", ("—", "—"))
+    tgt_wt     = waterfalls.get("tgt_wt")
+    actual_wt  = waterfalls.get("actual_wt")
+
+    # Mini cards per CDU
+    nps_ytd_map = {r["cdu"]: r for r in nps_by_cdu}
+    mini_cards  = []
+    for i, cdu in enumerate(monthly["top_cdus"]):
+        ytd = nps_ytd_map.get(cdu, {})
+        sc  = next((r for r in mom_scorecard if r["cdu"] == cdu), {})
+        wk_data = nps_weekly_by_cdu.get(cdu, [None] * len(weekly["weeks"]))
+        wk_nps     = [e.get("nps")    if isinstance(e, dict) else None for e in wk_data]
+        wk_targets = [e.get("target") if isinstance(e, dict) else None for e in wk_data]
+        cdu_tgt = next((t for t in reversed(wk_targets) if t is not None), ytd.get("target"))
+        mini_cards.append({
+            "id":      f"cMini{i}",
+            "cdu":     cdu,
+            "nps":     ytd.get("nps"),
+            "target":  cdu_tgt,
+            "gap":     sc.get("gap"),
+            "mom":     sc.get("nps_mom"),
+            "weeks":   weekly["weeks"],
+            "wk_nps":  wk_nps,
+        })
 
     return f"""<!DOCTYPE html>
 <html lang="pt-BR">
@@ -1241,6 +1414,15 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .no-data-block div{{font-size:12px;color:#555;line-height:1.55}}
 .nps-pill{{display:inline-block;font-size:11px;font-weight:800;padding:2px 10px;
           border-radius:20px;white-space:nowrap}}
+.mini-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}}
+.mini-card{{background:#fff;border-radius:10px;padding:14px 14px 10px;
+           box-shadow:0 1px 4px rgba(0,0,0,.07)}}
+.mc-title{{font-size:11px;font-weight:700;color:#444;margin-bottom:6px;
+          white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+.mc-row{{display:flex;align-items:baseline;gap:8px;margin-bottom:2px}}
+.mc-nps{{font-size:20px;font-weight:900;line-height:1}}
+.mc-mom{{font-size:12px;font-weight:700}}
+.mc-gap{{font-size:11px;color:#666;margin-bottom:6px}}
 </style>
 </head>
 <body>
@@ -1322,24 +1504,34 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   <!-- ── ABA NPS ───────────────────────────────────────────────── -->
   <div class="tab-pane" id="tp1">
 
-    <div class="card">
-      <p class="chart-title">NPS Lineal por CDU · {monthly["months"][0]}–{monthly["months"][-1]}</p>
-      <div class="cw" style="height:420px"><canvas id="cNpsCdu"></canvas></div>
+    <!-- Mini cards por CDU -->
+    <div class="mini-grid">
+      {''.join(_render_mini_card(c) for c in mini_cards)}
     </div>
 
-    <div class="card">
-      <p class="chart-title">Cascata NPS vs Target por CDU · YTD</p>
-      <div class="cw" style="height:420px"><canvas id="cCascade"></canvas></div>
+    <!-- Cascatas -->
+    <div class="grid2">
+      <div class="card">
+        <p class="chart-title">WTF MoM · {wtf_labels[0]} → {wtf_labels[1]}</p>
+        <div class="cw" style="height:360px"><canvas id="cWtf"></canvas></div>
+      </div>
+      <div class="card">
+        <p class="chart-title">Cascata vs Target · YTD
+          {'<span style="font-size:11px;font-weight:400;color:#888;margin-left:6px">Target ' + str(tgt_wt) + ' → Real ' + str(actual_wt) + '</span>' if tgt_wt else ''}
+        </p>
+        <div class="cw" style="height:360px"><canvas id="cCascade"></canvas></div>
+      </div>
     </div>
 
+    <!-- Evolução com target -->
     <div class="grid2">
       <div class="card">
         <p class="chart-title">Evolução Mensal NPS + Target</p>
-        <div class="cw" style="height:360px"><canvas id="cNpsMon"></canvas></div>
+        <div class="cw" style="height:320px"><canvas id="cNpsMon"></canvas></div>
       </div>
       <div class="card">
         <p class="chart-title">Evolução Semanal NPS + Target</p>
-        <div class="cw" style="height:360px"><canvas id="cNpsWk"></canvas></div>
+        <div class="cw" style="height:320px"><canvas id="cNpsWk"></canvas></div>
       </div>
     </div>
 
@@ -1514,71 +1706,110 @@ function initNpsCharts() {{
     }}
   }});
 
-  // Cascata NPS vs Target por CDU
-  const cascadeLabels = {jd(cascade_labels)};
-  const cascadeGaps   = {jd(cascade_gaps)};
-  const cascadeColors = {jd(cascade_colors)};
-  const cascadeNps    = {jd(cascade_nps)};
-  const cascadeTgt    = {jd(cascade_tgt)};
-  const cascadeSurv   = {jd(cascade_surv)};
-  new Chart(document.getElementById('cCascade'), {{
-    type: 'bar',
-    data: {{
-      labels: cascadeLabels,
-      datasets: [{{
-        label: 'Gap vs Target',
-        data: cascadeGaps,
-        backgroundColor: cascadeColors.map(c => c + 'cc'),
-        borderColor: cascadeColors,
-        borderWidth: 1.5,
-        borderRadius: 4,
-      }}]
-    }},
-    plugins: [{{
-      id: 'cascadeLabels',
-      afterDatasetsDraw(chart) {{
-        const {{ ctx, data }} = chart;
-        const meta = chart.getDatasetMeta(0);
-        ctx.save();
-        ctx.font = 'bold 11px -apple-system, sans-serif';
-        ctx.textAlign = 'center';
-        meta.data.forEach((bar, i) => {{
-          const v = data.datasets[0].data[i];
-          const lbl = (v >= 0 ? '+' : '') + v.toFixed(1);
-          ctx.fillStyle = cascadeColors[i];
-          ctx.textBaseline = v >= 0 ? 'bottom' : 'top';
-          ctx.fillText(lbl, bar.x, v >= 0 ? bar.y - 4 : bar.y + 4);
-        }});
-        ctx.restore();
-      }}
-    }}],
-    options: {{
-      responsive: true,
-      maintainAspectRatio: false,
-      layout: {{ padding: {{ top: 24, bottom: 8 }} }},
-      plugins: {{
-        legend: {{ display: false }},
-        tooltip: {{
-          callbacks: {{
-            label: ctx => [
-              ` NPS: ${{(cascadeNps[ctx.dataIndex]>0?'+':'')}}${{cascadeNps[ctx.dataIndex]}}`,
-              ` Target: ${{cascadeTgt[ctx.dataIndex]?.toFixed(1)}}`,
-              ` Gap: ${{(cascadeGaps[ctx.dataIndex]>=0?'+':'')}}${{cascadeGaps[ctx.dataIndex]}}pt`,
-              ` Pesquisas: ${{cascadeSurv[ctx.dataIndex].toLocaleString('pt-BR')}}`,
-            ]
-          }}
-        }}
-      }},
-      scales: {{
-        x: {{ grid: {{ display: false }}, ticks: {{ font: {{ size: 10 }}, maxRotation: 35 }} }},
-        y: {{
-          grid: {{ color: ctx => ctx.tick.value === 0 ? '#888' : '#f0f2f5' }},
-          ticks: {{ callback: v => (v>0?'+':'') + v, font: {{ size: 11 }} }},
-          title: {{ display: true, text: 'Gap vs Target (pt)', font: {{ size: 10 }}, color: '#888' }}
+  // ── Mini cards: weekly NPS por CDU ────────────────────────────────────────
+  const miniCards = {jd(mini_cards)};
+  miniCards.forEach(c => {{
+    const el = document.getElementById(c.id);
+    if (!el) return;
+    const vals    = c.wk_nps;
+    const tgt     = c.target;
+    const colors  = vals.map(v => v === null ? '#ddd' : npsColor(v));
+    const tgtLine = vals.map(() => tgt);
+    new Chart(el, {{
+      type: 'bar',
+      data: {{ labels: c.weeks, datasets: [
+        {{ data: vals, backgroundColor: colors, borderRadius: 3, barPercentage: 0.7 }},
+        {{ type: 'line', data: tgtLine, borderColor: '#E05252', borderDash: [4,3],
+           borderWidth: 1.5, pointRadius: 0, fill: false, spanGaps: true }},
+      ] }},
+      options: {{
+        responsive: true, maintainAspectRatio: false,
+        plugins: {{
+          legend: {{ display: false }},
+          tooltip: {{ callbacks: {{ label: ctx =>
+            ctx.datasetIndex === 0
+              ? ` NPS: ${{ctx.parsed.y !== null ? (ctx.parsed.y>0?'+':'')+ctx.parsed.y : '—'}}`
+              : ` Target: ${{ctx.parsed.y}}`
+          }} }}
+        }},
+        scales: {{
+          x: {{ grid: {{ display: false }}, ticks: {{ font: {{ size: 9 }}, maxRotation: 0 }} }},
+          y: {{ grid: {{ color: '#f5f5f5' }},
+                ticks: {{ font: {{ size: 9 }}, callback: v => v }},
+                suggestedMin: tgt ? tgt - 20 : undefined }}
         }}
       }}
-    }}
+    }});
   }});
+
+  // ── Helper: waterfall chart ────────────────────────────────────────────────
+  function waterfallChart(id, bars) {{
+    if (!bars.length || !document.getElementById(id)) return;
+    const labels  = bars.map(b => b.label);
+    const spacers = bars.map(b => b.spacer);
+    const values  = bars.map(b => b.bar);
+    const colors  = bars.map(b => b.color);
+    new Chart(document.getElementById(id), {{
+      type: 'bar',
+      data: {{ labels, datasets: [
+        {{ label: '_spacer', data: spacers,
+           backgroundColor: 'transparent', borderColor: 'transparent', stack: 's' }},
+        {{ label: 'value',   data: values,
+           backgroundColor: colors, borderRadius: 3, stack: 's',
+           borderColor: colors.map(c => c.replace('cc','')),
+           borderWidth: 1 }},
+      ] }},
+      plugins: [{{
+        id: 'wfLabels',
+        afterDatasetsDraw(chart) {{
+          const {{ ctx, data }} = chart;
+          const metaV = chart.getDatasetMeta(1);
+          ctx.save();
+          ctx.font = 'bold 10px -apple-system, sans-serif';
+          ctx.textAlign = 'center';
+          metaV.data.forEach((bar, i) => {{
+            const contrib = bars[i].contrib;
+            if (contrib === null || contrib === undefined) return;
+            const lbl = (contrib > 0 ? '+' : '') + contrib.toFixed(1) + 'pp';
+            ctx.fillStyle = bars[i].isAnchor ? '#555' : (contrib >= 0 ? '#2d7d2d' : '#b71c1c');
+            ctx.textBaseline = 'bottom';
+            ctx.fillText(lbl, bar.x, bar.y - 3);
+          }});
+          ctx.restore();
+        }}
+      }}],
+      options: {{
+        responsive: true, maintainAspectRatio: false,
+        layout: {{ padding: {{ top: 22 }} }},
+        plugins: {{
+          legend: {{ display: false }},
+          tooltip: {{
+            callbacks: {{
+              label: ctx => {{
+                if (ctx.datasetIndex === 0) return null;
+                const b = bars[ctx.dataIndex];
+                if (b.isAnchor) return ` NPS: ${{b.bar.toFixed(1)}}`;
+                const lines = [` Contribuição: ${{(b.contrib>=0?'+':'')}}${{b.contrib.toFixed(2)}}pp`];
+                if (b.nps !== undefined) lines.push(` NPS: ${{b.nps}}  Target: ${{b.target}}`);
+                if (b.nps_m1 !== undefined) lines.push(` ${{b.nps_m1}} (atual) vs ${{b.nps_m0}} (ant.)`);
+                return lines;
+              }}
+            }}
+          }}
+        }},
+        scales: {{
+          x: {{ stacked: true, grid: {{ display: false }},
+                ticks: {{ font: {{ size: 10 }}, maxRotation: 30 }} }},
+          y: {{ stacked: true,
+                grid: {{ color: '#f0f2f5' }},
+                ticks: {{ font: {{ size: 11 }}, callback: v => v.toFixed(0) }} }}
+        }}
+      }}
+    }});
+  }}
+
+  waterfallChart('cWtf',     {jd(wtf)});
+  waterfallChart('cCascade', {jd(casc)});
 
   // helper: linha de evolução + target tracejado
   function npsEvoChart(id, labels, npsVals, targetVal) {{
@@ -1689,8 +1920,8 @@ function selectCDU(cdu) {{
 if __name__ == "__main__":
     html_only = "--html-only" in sys.argv
     try:
-        monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, mom_scorecard = build_all(html_only=html_only)
-        html = generate_html(monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, mom_scorecard)
+        monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard = build_all(html_only=html_only)
+        html = generate_html(monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard)
         out  = "outgoing_drivers_analysis.html"
         with open(out, "w", encoding="utf-8") as f:
             f.write(html)
