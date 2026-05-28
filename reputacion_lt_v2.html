@@ -521,24 +521,33 @@ window.onerror = function(msg, src, line, col, err) {
   </div>
 
   <div class="two-col">
-    <div class="chart-wrap">
-      <div class="chart-title">Decomposição por Processo</div>
-      <div class="chart-sub">Barras empilhadas: Efeito Exclusão (laranja) + Efeito Experiência (verde) = Ganho total em pp</div>
-      <div class="chart-container" style="height:200px;"><canvas id="chartDecomp"></canvas></div>
-    </div>
-    <div class="card" style="overflow:auto;">
-      <div class="card-header">Contribuição por Grupo — Efeito Experiência (NETO)</div>
+    <div class="card">
+      <div class="card-header">Reputación — Contribuição NETO* por Grupo</div>
       <table>
-        <thead><tr><th>Grupo</th><th>Rep NETO*</th><th>Rep ME NETO*</th></tr></thead>
+        <thead><tr><th>Grupo</th><th>NETO*</th><th>Share_Mai</th><th>Δ NPS interno</th></tr></thead>
         <tbody>
-          <tr><td><span class="chip chip-pos">Excluímos</span></td><td class="neu">0,0pp</td><td class="pos">+3,8pp</td></tr>
-          <tr><td><span class="chip chip-pos">Não Afeta</span></td><td class="pos">+0,4pp</td><td class="neg">−0,3pp</td></tr>
-          <tr><td><span class="chip chip-neu">Outros</span></td><td class="neu">0,0pp</td><td class="pos">+0,8pp</td></tr>
-          <tr class="row-warn"><td><span class="chip chip-neg">Não Excluímos</span></td><td class="pos">+2,1pp ★</td><td class="pos">+0,4pp</td></tr>
-          <tr class="row-total"><td><strong>Total NETO</strong></td><td class="pos"><strong>+2,5pp</strong></td><td class="pos"><strong>+4,1pp</strong></td></tr>
+          <tr><td><span class="chip chip-pos">Excluímos</span></td><td class="neu">0,0pp</td><td class="neu">67,0%</td><td class="neu">0pp</td></tr>
+          <tr><td><span class="chip chip-pos">Não Afeta</span></td><td class="pos">+0,4pp</td><td class="neu">13,6%</td><td class="pos">+3pp</td></tr>
+          <tr><td><span class="chip chip-neu">Outros</span></td><td class="neu">0,0pp</td><td class="neu">9,0%</td><td class="neu">0pp</td></tr>
+          <tr class="row-warn"><td><span class="chip chip-neg">Não Excluímos</span></td><td class="pos">+2,1pp ★</td><td class="neu">10,3%</td><td class="pos">+20pp</td></tr>
+          <tr class="row-total"><td><strong>Total NETO*</strong></td><td class="pos"><strong>+2,5pp</strong></td><td></td><td></td></tr>
         </tbody>
       </table>
-      <div style="padding:8px 14px;font-size:11px;color:#777;">★ Principal driver em Reputación: NPS de "Não Excluímos" subiu de 12%→32% — sellers mais satisfeitos mesmo quando o impacto é mantido.</div>
+      <div style="padding:8px 14px;font-size:11px;color:#777;">★ NPS de "Não Excluímos" subiu 12%→32% — sellers mais satisfeitos mesmo quando o impacto é mantido.</div>
+    </div>
+    <div class="card">
+      <div class="card-header">Reputación ME — Contribuição NETO* por Grupo</div>
+      <table>
+        <thead><tr><th>Grupo</th><th>NETO*</th><th>Share_Mai</th><th>Δ NPS interno</th></tr></thead>
+        <tbody>
+          <tr><td><span class="chip chip-pos">Excluímos</span></td><td class="pos">+3,8pp</td><td class="neu">76,5%</td><td class="pos">+5pp</td></tr>
+          <tr><td><span class="chip chip-pos">Não Afeta</span></td><td class="neg">−0,5pp</td><td class="neu">15,6%</td><td class="neg">−3pp</td></tr>
+          <tr><td><span class="chip chip-neu">Outros</span></td><td class="pos">+0,4pp</td><td class="neu">5,2%</td><td class="pos">+8pp</td></tr>
+          <tr class="row-warn"><td><span class="chip chip-neg">Não Excluímos</span></td><td class="pos">+0,4pp</td><td class="neu">2,7%</td><td class="pos">+13pp</td></tr>
+          <tr class="row-total"><td><strong>Total NETO*</strong></td><td class="pos"><strong>+4,1pp</strong></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <div style="padding:8px 14px;font-size:11px;color:#777;">Principal driver: Excluímos subiu 86%→91% — NPS melhorou mesmo dentro dos casos já excluídos.</div>
     </div>
   </div>
 
@@ -1240,47 +1249,6 @@ makeTrend('wt_cdu_rep',   [{label:'Reclamos',data:wCDU.rep.reclamos},{label:'Can
 
 makeTrend('wt_cdu_repme', [{label:'HT-Ventas',data:wCDU.repme.ht_ventas},{label:'HT-Coleta',data:wCDU.repme.ht_coleta},{label:'Bugs',data:wCDU.repme.bugs}],50,105,'NPS (%)');
 
-// ── Gráfico: Decomposição MIX × NETO ──
-new Chart(document.getElementById('chartDecomp'), {
-  type: 'bar',
-  
-  data: {
-    labels: ['Reputación', 'Reputación ME'],
-    datasets: [
-      { label: 'Efeito Exclusão (MIX)',
-        data: [2.4, 1.0],
-        backgroundColor: 'rgba(255,119,51,0.8)',
-        borderRadius: { topLeft:0, topRight:0, bottomLeft:6, bottomRight:6 },
-        stack: 's',
-        datalabels: { anchor:'center', align:'center', color:'#fff', font:{size:11,weight:'800'},
-          formatter: v => '+'+v.toFixed(1)+'pp' }
-      },
-      { label: 'Efeito Experiência (NETO)',
-        data: [2.5, 4.1],
-        backgroundColor: 'rgba(0,166,80,0.82)',
-        borderRadius: { topLeft:6, topRight:6, bottomLeft:0, bottomRight:0 },
-        stack: 's',
-        datalabels: { anchor:'center', align:'center', color:'#fff', font:{size:11,weight:'800'},
-          display: true, anchor:'center', align:'center', clamp:true, color:'#fff', font:{size:11,weight:'800'}, formatter: v => '+'+v.toFixed(1)+'pp' }
-      }
-    ]
-  },
-  options: {
-    responsive:true, maintainAspectRatio:false,
-    interaction:{ mode:'index', intersect:false },
-    plugins:{
-      legend:{ labels:{ font:{size:10}, boxWidth:12 } },
-      tooltip:{ callbacks:{ label: ctx => ctx.dataset.label+': +'+ctx.parsed.y.toFixed(1)+'pp' } }
-    },
-    scales:{
-      x:{ ticks:{ font:{size:11, weight:'600'} }, grid:{ display:false }, stacked:true },
-      y:{ min:0, max:7, stacked:true,
-        ticks:{ font:{size:10}, callback:v=>'+'+v+'pp' },
-        grid:{ color:'rgba(0,0,0,0.05)' }
-      }
-    }
-  }
-});
 
 // ── Gráficos: NPS por Grupo de Solução ──
 (function() {
