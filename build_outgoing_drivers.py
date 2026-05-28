@@ -263,6 +263,28 @@ def q_nps_daily() -> str:
     ORDER BY 1
     """
 
+def q_detractor_comments(cdu: str, days: int = 90) -> str:
+    cutoff   = TODAY - timedelta(days=days)
+    cdu_safe = cdu.replace("'", "''")
+    return f"""
+    SELECT
+      SUBSTR(COALESCE(COMMENTS,''), 1, 400)                     AS comment,
+      COALESCE(RES_DETRACTION_REASON, 'Não informado')          AS reason,
+      CAST(SURVEY_DATE_SURVEY AS DATE)                          AS dt
+    FROM {TABLE_NPS}
+    WHERE SIT_SITE_ID      = '{SITE}'
+      AND SURVEY_CENTER    = 'BR'
+      AND PRO_PROCESS_NAME = '{PROCESS_KEY}'
+      AND {TEAMS_FILTER}
+      AND COALESCE(NULLIF(TRIM(CDU),''), 'Sem CDU') = '{cdu_safe}'
+      AND DETRACTOR        = 1
+      AND COMMENTS         IS NOT NULL
+      AND LENGTH(TRIM(COMMENTS)) > 10
+      AND CAST(SURVEY_DATE_SURVEY AS DATE) >= '{cutoff}'
+    ORDER BY dt DESC
+    LIMIT 300
+    """
+
 def q_case_ids(cdu: str) -> str:
     cutoff   = TODAY - timedelta(days=TRANSCRIPT_DAYS)
     cdu_safe = cdu.replace("'", "''")
@@ -655,6 +677,76 @@ def compute_waterfalls(nps_by_cdu: list, nps_monthly: dict) -> dict:
             "process_target": process_target,
             "total_gap": total_gap}
 
+def analyze_detractor_comments(raw: list[dict]) -> dict:
+    """Analisa comentários de detratores: razões + temas TF-IDF + amostras."""
+    from collections import Counter
+
+    if not raw:
+        return {"reasons": [], "themes": [], "samples": [], "total": 0}
+
+    # Razões estruturadas
+    reason_counts = Counter(r["reason"] for r in raw if r.get("reason"))
+    reasons = [{"reason": k, "count": v}
+               for k, v in reason_counts.most_common(8)]
+
+    # Amostras (10 mais recentes com comentário substancial)
+    samples = [r["comment"] for r in raw
+               if r.get("comment") and len(r["comment"].strip()) > 30][:12]
+
+    # Temas via TF-IDF + KMeans (reusa STOPWORDS do script)
+    texts = [r["comment"] for r in raw if r.get("comment") and len(r["comment"].strip()) > 20]
+    themes = []
+    if len(texts) >= 10:
+        try:
+            from sklearn.feature_extraction.text import TfidfVectorizer
+            from sklearn.cluster import KMeans
+            import numpy as np, re
+
+            _NOISE = [
+                re.compile(r"%\w+"),
+                re.compile(r"\bsilence\b.*?\bseconds?\b", re.I),
+                re.compile(r"\bhttp\S+|\bwww\S+"),
+            ]
+            def clean(t):
+                for p in _NOISE: t = p.sub(" ", t)
+                t = re.sub(r"[^a-záéíóúàâêôãõç\s]", " ", t.lower())
+                return re.sub(r"\s+", " ", t).strip()
+
+            cleaned = [clean(t) for t in texts]
+            n = min(5, len(cleaned))
+            vect = TfidfVectorizer(max_features=800, ngram_range=(1, 2),
+                                   min_df=2, max_df=0.9,
+                                   stop_words=list(STOPWORDS), sublinear_tf=True)
+            X = vect.fit_transform(cleaned)
+            km = KMeans(n_clusters=n, random_state=42, n_init=10, max_iter=200)
+            labels = km.fit_predict(X)
+            feat   = vect.get_feature_names_out()
+
+            for cid in range(n):
+                mask  = np.array(labels) == cid
+                count = int(mask.sum())
+                if count == 0: continue
+                pct   = int(round(count / len(cleaned) * 100))
+                center = km.cluster_centers_[cid]
+                top_idx= center.argsort()[-12:][::-1]
+                top_terms = [feat[i] for i in top_idx
+                             if feat[i] not in STOPWORDS and len(feat[i]) >= 4]
+                bigrams  = [t for t in top_terms if " " in t][:2]
+                unigrams = [t for t in top_terms if " " not in t][:3]
+                name_parts = (bigrams[:1] + unigrams[:2]) if bigrams else unigrams[:3]
+                name = " · ".join(name_parts).title()
+                # sample comment from this cluster
+                c_samples = [texts[i] for i, m in enumerate(mask) if m][:2]
+                themes.append({"name": name, "pct": pct, "count": count,
+                               "samples": c_samples})
+
+            themes.sort(key=lambda x: x["pct"], reverse=True)
+        except Exception:
+            pass
+
+    return {"reasons": reasons, "themes": themes,
+            "samples": samples, "total": len(raw)}
+
 def compute_mom_scorecard(monthly: dict, nps_monthly: dict, nps_by_cdu: list,
                           process_target: float | None = None) -> list[dict]:
     """Por CDU: NPS e volume do último mês, variação MoM, target e gap."""
@@ -786,7 +878,8 @@ def build_all(html_only: bool = False):
         waterfalls         = cached.get("waterfalls") or compute_waterfalls(nps_by_cdu, nps_monthly)
         mom_scorecard      = cached.get("mom_scorecard") or compute_mom_scorecard(
             monthly, nps_monthly, nps_by_cdu, waterfalls.get("process_target"))
-        return monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard
+        detractor_analysis = cached.get("detractor_analysis", {})
+        return monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard, detractor_analysis
 
     print("▸ Volume mensal…")
     monthly_raw = run(q_monthly())
@@ -820,6 +913,30 @@ def build_all(html_only: bool = False):
     mom_scorecard    = compute_mom_scorecard(monthly, nps_monthly, nps_by_cdu,
                                              waterfalls.get("process_target"))
 
+    # CDU mais ofensor = pior impacto negativo na cascata
+    casc_bars = waterfalls.get("cascata", [])
+    worst_cdu = min(
+        (b for b in casc_bars if not b.get("isAnchor") and b.get("contrib") is not None),
+        key=lambda b: b["contrib"], default={}
+    ).get("label", "").rstrip("…")
+    # CDU mais representativo = maior volume outgoing
+    top_og_cdu = monthly["top_cdu"] or ""
+    # busca CDU completo pelo prefixo truncado na cascata
+    worst_cdu_full = next(
+        (r["cdu"] for r in nps_by_cdu if r["cdu"].startswith(worst_cdu[:20])), worst_cdu
+    )
+
+    print(f"▸ Comentários detratores: '{worst_cdu_full[:40]}' e '{top_og_cdu[:40]}'…")
+    det_worst_raw  = run(q_detractor_comments(worst_cdu_full))
+    det_top_og_raw = run(q_detractor_comments(top_og_cdu)) if top_og_cdu != worst_cdu_full else det_worst_raw
+
+    det_worst  = analyze_detractor_comments(det_worst_raw)
+    det_top_og = analyze_detractor_comments(det_top_og_raw)
+    detractor_analysis = {
+        "worst_cdu":  {"cdu": worst_cdu_full,  **det_worst},
+        "top_og_cdu": {"cdu": top_og_cdu,       **det_top_og},
+    }
+
     themes_by_cdu: dict[str, list] = {}
     top_cdus = monthly["top_cdus"]
     print(f"\n▸ Análise temática Drivers ({len(top_cdus)} CDUs)…")
@@ -832,8 +949,9 @@ def build_all(html_only: bool = False):
                  "nps_weekly": nps_weekly, "nps_daily": nps_daily,
                  "nps_weekly_by_cdu": nps_weekly_by_cdu,
                  "waterfalls": waterfalls,
-                 "mom_scorecard": mom_scorecard}, charts=True)
-    return monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard
+                 "mom_scorecard": mom_scorecard,
+                 "detractor_analysis": detractor_analysis}, charts=True)
+    return monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard, detractor_analysis
 
 # ── HTML ──────────────────────────────────────────────────────────────────────
 def jd(obj) -> str:
@@ -1140,6 +1258,85 @@ def _render_mom_scorecard(rows: list) -> str:
     html += "</tbody>"
     return html
 
+def _render_detractor_card(data: dict, label: str, nps_val, impact_val=None) -> str:
+    cdu      = data.get("cdu", "—")
+    total    = data.get("total", 0)
+    reasons  = data.get("reasons", [])
+    themes   = data.get("themes", [])
+    samples  = data.get("samples", [])
+
+    if not total:
+        return (f'<div class="card det-card">'
+                f'<div class="det-header"><span class="det-badge">{label}</span>'
+                f'<span class="det-cdu">{cdu}</span></div>'
+                f'<p style="color:#999;font-size:12px">Sem comentários de detratores no período.</p>'
+                f'</div>')
+
+    nps_c   = nps_color(nps_val) if nps_val is not None else "#888"
+    nps_str = f"{nps_val:.1f}" if nps_val is not None else "—"
+    imp_str = ""
+    if impact_val is not None:
+        ic = "#70AD47" if impact_val >= 0 else "#E05252"
+        imp_str = f'<span style="color:{ic};font-size:11px;font-weight:700">{"+" if impact_val>=0 else ""}{impact_val:.2f}pp impacto</span>'
+
+    # Razões de detração (pills)
+    max_r = reasons[0]["count"] if reasons else 1
+    reasons_html = "".join(
+        f'<div class="det-reason-row">'
+        f'<span class="det-reason-lbl">{r["reason"]}</span>'
+        f'<div class="det-bar-wrap"><div class="det-bar" style="width:{r["count"]/max_r*100:.0f}%"></div></div>'
+        f'<span class="det-reason-n">{r["count"]}</span>'
+        f'</div>'
+        for r in reasons
+    )
+
+    # Temas TF-IDF
+    themes_html = ""
+    if themes:
+        themes_html = '<div class="det-themes">' + "".join(
+            f'<div class="det-theme-chip" style="background:{ACCENT_COLORS[i%len(ACCENT_COLORS)]}18;'
+            f'border-left:3px solid {ACCENT_COLORS[i%len(ACCENT_COLORS)]}">'
+            f'<span class="det-theme-name">{t["name"]}</span>'
+            f'<span class="det-theme-pct" style="color:{ACCENT_COLORS[i%len(ACCENT_COLORS)]}">{t["pct"]}%</span>'
+            f'<p class="det-theme-sample">{t["samples"][0][:180] if t["samples"] else ""}…</p>'
+            f'</div>'
+            for i, t in enumerate(themes)
+        ) + '</div>'
+
+    # Amostras
+    samples_html = ""
+    if samples:
+        samples_html = '<div class="det-samples-label">Amostras de comentários</div><div class="det-samples">' + "".join(
+            f'<div class="det-sample">" {s[:200]} "</div>'
+            for s in samples[:6]
+        ) + '</div>'
+
+    return f"""
+<div class="card det-card">
+  <div class="det-header">
+    <span class="det-badge">{label}</span>
+    <div>
+      <div class="det-cdu">{cdu}</div>
+      <div style="display:flex;gap:10px;align-items:center;margin-top:2px">
+        <span style="font-size:18px;font-weight:900;color:{nps_c}">NPS {nps_str}</span>
+        {imp_str}
+        <span style="font-size:11px;color:#888">{total} detratores analisados (últimos 90 dias)</span>
+      </div>
+    </div>
+  </div>
+  <div class="det-grid">
+    <div>
+      <p class="det-section-title">Razões de Detração</p>
+      {reasons_html}
+    </div>
+    <div>
+      <p class="det-section-title">Principais Temas nos Comentários</p>
+      {themes_html or '<p style="font-size:12px;color:#999">Sem temas identificados (poucos comentários).</p>'}
+    </div>
+  </div>
+  {samples_html}
+</div>"""
+
 def _cascata_title(tgt, actual, gap) -> str:
     if not tgt:
         return "Impacto CDU vs Target Drivers · YTD"
@@ -1241,7 +1438,7 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
                   solutions: list, nps_by_cdu: list, nps_monthly: dict,
                   nps_weekly: list, nps_daily: list,
                   nps_weekly_by_cdu: dict, waterfalls: dict,
-                  mom_scorecard: list) -> str:
+                  mom_scorecard: list, detractor_analysis: dict) -> str:
     now_str = TODAY.strftime("%d/%m/%Y")
 
     top_cdu   = monthly["top_cdu"] or "—"
@@ -1323,6 +1520,21 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
         sum((r["target"] or 0) * r["surveys"] for r in nps_by_cdu if r["target"] is not None)
         / total_s, 1
     ) if total_s else None
+
+    # Detractor analysis cards
+    nps_map_det = {r["cdu"]: r for r in nps_by_cdu}
+    casc_bars_det = waterfalls.get("cascata", [])
+    det_worst_data  = detractor_analysis.get("worst_cdu",  {})
+    det_top_og_data = detractor_analysis.get("top_og_cdu", {})
+    worst_nps    = nps_map_det.get(det_worst_data.get("cdu", ""),  {}).get("nps")
+    top_og_nps   = nps_map_det.get(det_top_og_data.get("cdu", ""), {}).get("nps")
+    worst_impact = next(
+        (b["contrib"] for b in casc_bars_det
+         if not b.get("isAnchor") and det_worst_data.get("cdu","")[:20] in b.get("label","") + b.get("label","")[:20]),
+        None
+    )
+    det_worst_card  = _render_detractor_card(det_worst_data,  "CDU Mais Ofensor",          worst_nps,  worst_impact)
+    det_top_og_card = _render_detractor_card(det_top_og_data, "CDU Maior Volume Outgoing", top_og_nps)
 
     # Waterfall data
     casc  = waterfalls.get("cascata", [])
@@ -1459,6 +1671,32 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .nps-pill{{display:inline-block;font-size:11px;font-weight:800;padding:2px 10px;
           border-radius:20px;white-space:nowrap}}
 .mini-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}}
+.det-card{{}}
+.det-header{{display:flex;gap:14px;align-items:flex-start;margin-bottom:16px;flex-wrap:wrap}}
+.det-badge{{background:#1a1a2e;color:#ffe600;font-size:10px;font-weight:800;
+           padding:4px 10px;border-radius:20px;white-space:nowrap;height:fit-content;margin-top:2px}}
+.det-cdu{{font-size:14px;font-weight:800;color:#1a1a2e;line-height:1.3}}
+.det-grid{{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:16px}}
+@media(max-width:820px){{.det-grid{{grid-template-columns:1fr}}}}
+.det-section-title{{font-size:11px;font-weight:700;text-transform:uppercase;
+                   letter-spacing:.5px;color:#888;margin-bottom:10px}}
+.det-reason-row{{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px}}
+.det-reason-lbl{{min-width:200px;max-width:200px;color:#333;overflow:hidden;
+                text-overflow:ellipsis;white-space:nowrap}}
+.det-bar-wrap{{flex:1;background:#f0f2f5;border-radius:4px;height:8px}}
+.det-bar{{height:8px;background:#E05252;border-radius:4px;transition:width .3s}}
+.det-reason-n{{font-weight:700;color:#666;min-width:28px;text-align:right}}
+.det-themes{{display:flex;flex-direction:column;gap:8px}}
+.det-theme-chip{{padding:10px 12px;border-radius:0 8px 8px 0}}
+.det-theme-name{{font-size:12px;font-weight:700;color:#1a1a2e}}
+.det-theme-pct{{font-size:11px;font-weight:700;margin-left:8px}}
+.det-theme-sample{{font-size:11px;color:#666;margin-top:4px;line-height:1.4;
+                  font-style:italic;border-left:2px solid #ddd;padding-left:8px}}
+.det-samples-label{{font-size:11px;font-weight:700;text-transform:uppercase;
+                   letter-spacing:.5px;color:#888;margin-bottom:8px}}
+.det-samples{{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:8px}}
+.det-sample{{font-size:12px;color:#444;background:#fafafa;border-radius:8px;
+            padding:10px 14px;border-left:3px solid #e0e0e0;line-height:1.5;font-style:italic}}
 .mini-card{{background:#fff;border-radius:10px;padding:14px 14px 10px;
            box-shadow:0 1px 4px rgba(0,0,0,.07)}}
 .mc-title{{font-size:11px;font-weight:700;color:#444;margin-bottom:6px;
@@ -1562,6 +1800,19 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     <div class="card">
       <p class="chart-title">{_cascata_title(tgt_wt, actual_wt, total_gap)}</p>
       <div class="cw" style="height:480px"><canvas id="cCascade"></canvas></div>
+    </div>
+
+    <!-- Análise de Detratores -->
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="background:#1a1a2e;padding:14px 20px">
+        <span style="color:#ffe600;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px">
+          Voz dos Detratores · Últimos 90 dias
+        </span>
+      </div>
+      <div style="padding:20px;display:flex;flex-direction:column;gap:20px">
+        {det_worst_card}
+        {det_top_og_card}
+      </div>
     </div>
 
     <!-- Evolução com target -->
@@ -1961,8 +2212,8 @@ function selectCDU(cdu) {{
 if __name__ == "__main__":
     html_only = "--html-only" in sys.argv
     try:
-        monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard = build_all(html_only=html_only)
-        html = generate_html(monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard)
+        monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard, detractor_analysis = build_all(html_only=html_only)
+        html = generate_html(monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard, detractor_analysis)
         out  = "outgoing_drivers_analysis.html"
         with open(out, "w", encoding="utf-8") as f:
             f.write(html)
