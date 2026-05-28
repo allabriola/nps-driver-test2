@@ -19,7 +19,7 @@ from datetime import date, timedelta
 # ── Configuração ────────────────────────────────────────────────────────────
 PROJECT   = "meli-bi-data"
 SITE      = "MLB"
-TOP_CDUS  = 8
+TOP_CDUS  = 12
 
 PROCESS_KEY   = "Drivers"
 PROCESS_LABEL = "Drivers"
