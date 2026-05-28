@@ -576,24 +576,36 @@ def compute_waterfalls(nps_by_cdu: list, nps_monthly: dict) -> dict:
     by_cdu_month = nps_monthly.get("by_cdu_month", {})
     month_keys   = sorted({k for v in by_cdu_month.values() for k in v})
 
-    # ── Cascata vs Target (YTD) ───────────────────────────────────────────────
-    valid = [r for r in nps_by_cdu
-             if r["nps"] is not None and r["target"] is not None
-             and r["cdu"] != "Sem CDU" and r["surveys"] >= 10]
-    total_s = sum(r["surveys"] for r in valid)
-    if total_s and valid:
-        tgt_wt    = round(sum(r["target"] * r["surveys"] for r in valid) / total_s, 2)
-        actual_wt = round(sum(r["nps"]    * r["surveys"] for r in valid) / total_s, 2)
-        contribs  = [(r["cdu"], round((r["nps"] - r["target"]) * r["surveys"] / total_s, 2),
-                      {"nps": r["nps"], "target": r["target"], "surveys": r["surveys"]})
-                     for r in valid]
+    # ── Target único do processo (média ponderada por pesquisas) ──────────────
+    valid_tgt = [r for r in nps_by_cdu
+                 if r["nps"] is not None and r["target"] is not None
+                 and r["cdu"] != "Sem CDU" and r["surveys"] >= 10]
+    total_s = sum(r["surveys"] for r in valid_tgt)
+    if total_s and valid_tgt:
+        # Target do processo = média ponderada dos targets por CDU
+        process_target = round(sum(r["target"] * r["surveys"] for r in valid_tgt) / total_s, 1)
+        actual_wt      = round(sum(r["nps"]    * r["surveys"] for r in valid_tgt) / total_s, 1)
+        total_gap      = round(actual_wt - process_target, 1)
+
+        # Impacto por CDU = (NPS_cdu - target_processo) × peso_cdu
+        # soma de todos os impactos = gap total (NPS real - target)
+        contribs = [
+            (r["cdu"],
+             round((r["nps"] - process_target) * r["surveys"] / total_s, 2),
+             {"nps": r["nps"], "target_proc": process_target,
+              "weight": round(r["surveys"] / total_s * 100, 1),
+              "surveys": r["surveys"]})
+            for r in valid_tgt
+        ]
         pos = sorted([c for c in contribs if c[1] >= 0], key=lambda x: -x[1])
         neg = sorted([c for c in contribs if c[1] <  0], key=lambda x: -x[1])
-        cascata = _wf_bars(f"Target ({tgt_wt:.1f})", tgt_wt,
-                           pos + neg,
-                           f"NPS Real ({actual_wt:.1f})", actual_wt)
+        cascata = _wf_bars(
+            f"Target Drivers ({process_target:.1f})", process_target,
+            pos + neg,
+            f"NPS Real ({actual_wt:.1f})", actual_wt)
+        tgt_wt = process_target
     else:
-        cascata, tgt_wt, actual_wt = [], None, None
+        cascata, tgt_wt, actual_wt, total_gap, process_target = [], None, None, None, None
 
     # ── WTF MoM ──────────────────────────────────────────────────────────────
     if len(month_keys) >= 2:
@@ -639,9 +651,12 @@ def compute_waterfalls(nps_by_cdu: list, nps_monthly: dict) -> dict:
         wtf, wtf_labels = [], ("—", "—")
 
     return {"cascata": cascata, "wtf": wtf, "wtf_labels": wtf_labels,
-            "tgt_wt": tgt_wt, "actual_wt": actual_wt}
+            "tgt_wt": tgt_wt, "actual_wt": actual_wt,
+            "process_target": process_target,
+            "total_gap": total_gap}
 
-def compute_mom_scorecard(monthly: dict, nps_monthly: dict, nps_by_cdu: list) -> list[dict]:
+def compute_mom_scorecard(monthly: dict, nps_monthly: dict, nps_by_cdu: list,
+                          process_target: float | None = None) -> list[dict]:
     """Por CDU: NPS e volume do último mês, variação MoM, target e gap."""
     by_cdu_month = nps_monthly.get("by_cdu_month", {})
     nps_ytd_map  = {r["cdu"]: r for r in nps_by_cdu}
@@ -674,7 +689,8 @@ def compute_mom_scorecard(monthly: dict, nps_monthly: dict, nps_by_cdu: list) ->
             tgt_last = nps_ytd_map.get(cdu, {}).get("target")
 
         nps_mom   = round(nps_last - nps_prev, 1) if (nps_last is not None and nps_prev is not None) else None
-        gap       = round(nps_last - tgt_last, 1) if (nps_last is not None and tgt_last is not None) else None
+        ref_tgt   = process_target if process_target is not None else tgt_last
+        gap       = round(nps_last - ref_tgt, 1) if (nps_last is not None and ref_tgt is not None) else None
 
         vols = vol_by_cdu.get(cdu, [])
         vol_last = vols[-1] if vols else 0
@@ -768,7 +784,8 @@ def build_all(html_only: bool = False):
         nps_daily          = cached.get("nps_daily", [])
         nps_weekly_by_cdu  = cached.get("nps_weekly_by_cdu", {})
         waterfalls         = cached.get("waterfalls") or compute_waterfalls(nps_by_cdu, nps_monthly)
-        mom_scorecard      = cached.get("mom_scorecard") or compute_mom_scorecard(monthly, nps_monthly, nps_by_cdu)
+        mom_scorecard      = cached.get("mom_scorecard") or compute_mom_scorecard(
+            monthly, nps_monthly, nps_by_cdu, waterfalls.get("process_target"))
         return monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard
 
     print("▸ Volume mensal…")
@@ -800,7 +817,8 @@ def build_all(html_only: bool = False):
     nps_daily        = process_nps_agg(nps_day_raw,  daily["days"],  "day")
     nps_weekly_by_cdu = process_nps_weekly_by_cdu(nps_week_cdu_raw, weekly["weeks"])
     waterfalls       = compute_waterfalls(nps_by_cdu, nps_monthly)
-    mom_scorecard    = compute_mom_scorecard(monthly, nps_monthly, nps_by_cdu)
+    mom_scorecard    = compute_mom_scorecard(monthly, nps_monthly, nps_by_cdu,
+                                             waterfalls.get("process_target"))
 
     themes_by_cdu: dict[str, list] = {}
     top_cdus = monthly["top_cdus"]
@@ -1122,27 +1140,46 @@ def _render_mom_scorecard(rows: list) -> str:
     html += "</tbody>"
     return html
 
+def _cascata_title(tgt, actual, gap) -> str:
+    if not tgt:
+        return "Impacto CDU vs Target Drivers · YTD"
+    gap_html = ""
+    if gap is not None:
+        c = "#70AD47" if gap >= 0 else "#E05252"
+        gap_html = f' <span style="color:{c};font-weight:700">{"+" if gap>=0 else ""}{gap}pp</span>'
+    return (f'Impacto CDU vs Target Drivers · YTD'
+            f'<span style="font-size:11px;font-weight:400;color:#888;margin-left:6px">'
+            f'Target {tgt} → Real {actual}{gap_html}</span>')
+
 def _render_mini_card(c: dict) -> str:
-    nps  = c["nps"]
-    gap  = c["gap"]
-    mom  = c["mom"]
-    tgt  = c["target"]
+    nps    = c["nps"]
+    gap    = c["gap"]
+    impact = c["impact"]
+    mom    = c["mom"]
+    weight = c["weight"]
     border = nps_color(nps) if nps is not None else "#ccc"
-    nps_str = f"{nps:+.1f}" if nps is not None else "—"
-    mom_str = (f'<span style="color:{"#70AD47" if mom>=0 else "#E05252"}">'
-               f'{"+" if mom>=0 else ""}{mom:.1f}pp</span>') if mom is not None else "—"
-    gap_str = (f'<span style="color:{"#70AD47" if gap>=0 else "#E05252"}">'
-               f'{"+" if gap>=0 else ""}{gap:.1f}pp vs tgt</span>') if gap is not None else ""
-    short_cdu = c["cdu"][:36] + ("…" if len(c["cdu"]) > 36 else "")
+    nps_str    = f"{nps:.1f}" if nps is not None else "—"
+    mom_str    = (f'<span style="color:{"#70AD47" if mom>=0 else "#E05252"};font-size:12px;font-weight:700">'
+                  f'{"+" if mom>=0 else ""}{mom:.1f}pp MoM</span>') if mom is not None else ""
+    gap_color  = "#70AD47" if (gap or 0) >= 0 else "#E05252"
+    gap_str    = (f'<span style="color:{gap_color};font-weight:700">'
+                  f'{"+" if gap>=0 else ""}{gap:.1f}pp vs tgt</span>') if gap is not None else "—"
+    imp_color  = "#70AD47" if (impact or 0) >= 0 else "#E05252"
+    imp_str    = (f'<span style="color:{imp_color};font-weight:700">'
+                  f'{"+" if impact>=0 else ""}{impact:.2f}pp impacto</span>') if impact is not None else ""
+    short_cdu  = c["cdu"][:36] + ("…" if len(c["cdu"]) > 36 else "")
     return (
         f'<div class="mini-card" style="border-top:3px solid {border}">'
         f'<div class="mc-title">{short_cdu}</div>'
         f'<div class="mc-row">'
         f'<span class="mc-nps" style="color:{border}">{nps_str}</span>'
-        f'<span class="mc-mom">{mom_str}</span>'
+        f'<span style="font-size:10px;color:#888;margin-left:4px">tgt {c["target"]:.1f} · {weight:.0f}%</span>'
         f'</div>'
-        f'<div class="mc-gap">{gap_str}</div>'
-        f'<div class="cw" style="height:110px"><canvas id="{c["id"]}"></canvas></div>'
+        f'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px">'
+        f'{gap_str}&nbsp;·&nbsp;{imp_str}'
+        f'</div>'
+        f'<div style="margin-bottom:4px">{mom_str}</div>'
+        f'<div class="cw" style="height:100px"><canvas id="{c["id"]}"></canvas></div>'
         f'</div>'
     )
 
@@ -1291,8 +1328,10 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
     casc  = waterfalls.get("cascata", [])
     wtf   = waterfalls.get("wtf", [])
     wtf_labels = waterfalls.get("wtf_labels", ("—", "—"))
-    tgt_wt     = waterfalls.get("tgt_wt")
-    actual_wt  = waterfalls.get("actual_wt")
+    tgt_wt         = waterfalls.get("tgt_wt")
+    actual_wt      = waterfalls.get("actual_wt")
+    process_target = waterfalls.get("process_target") or tgt_wt
+    total_gap      = waterfalls.get("total_gap")
 
     # Mini cards per CDU
     nps_ytd_map = {r["cdu"]: r for r in nps_by_cdu}
@@ -1301,15 +1340,20 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
         ytd = nps_ytd_map.get(cdu, {})
         sc  = next((r for r in mom_scorecard if r["cdu"] == cdu), {})
         wk_data = nps_weekly_by_cdu.get(cdu, [None] * len(weekly["weeks"]))
-        wk_nps     = [e.get("nps")    if isinstance(e, dict) else None for e in wk_data]
-        wk_targets = [e.get("target") if isinstance(e, dict) else None for e in wk_data]
-        cdu_tgt = next((t for t in reversed(wk_targets) if t is not None), ytd.get("target"))
+        wk_nps = [e.get("nps") if isinstance(e, dict) else None for e in wk_data]
+        nps_val = ytd.get("nps")
+        gap_proc = round(nps_val - process_target, 1) if (nps_val is not None and process_target is not None) else None
+        # impact = gap × weight (quanto este CDU contribui para o gap total)
+        weight   = round(ytd.get("surveys", 0) / total_s * 100, 1) if total_s else 0
+        impact   = round(gap_proc * weight / 100, 2) if gap_proc is not None else None
         mini_cards.append({
             "id":      f"cMini{i}",
             "cdu":     cdu,
-            "nps":     ytd.get("nps"),
-            "target":  cdu_tgt,
-            "gap":     sc.get("gap"),
+            "nps":     nps_val,
+            "target":  process_target,
+            "gap":     gap_proc,
+            "impact":  impact,
+            "weight":  weight,
             "mom":     sc.get("nps_mom"),
             "weeks":   weekly["weeks"],
             "wk_nps":  wk_nps,
@@ -1516,9 +1560,7 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
         <div class="cw" style="height:360px"><canvas id="cWtf"></canvas></div>
       </div>
       <div class="card">
-        <p class="chart-title">Cascata vs Target · YTD
-          {'<span style="font-size:11px;font-weight:400;color:#888;margin-left:6px">Target ' + str(tgt_wt) + ' → Real ' + str(actual_wt) + '</span>' if tgt_wt else ''}
-        </p>
+        <p class="chart-title">{_cascata_title(tgt_wt, actual_wt, total_gap)}</p>
         <div class="cw" style="height:360px"><canvas id="cCascade"></canvas></div>
       </div>
     </div>
@@ -1789,8 +1831,9 @@ function initNpsCharts() {{
                 if (ctx.datasetIndex === 0) return null;
                 const b = bars[ctx.dataIndex];
                 if (b.isAnchor) return ` NPS: ${{b.bar.toFixed(1)}}`;
-                const lines = [` Contribuição: ${{(b.contrib>=0?'+':'')}}${{b.contrib.toFixed(2)}}pp`];
-                if (b.nps !== undefined) lines.push(` NPS: ${{b.nps}}  Target: ${{b.target}}`);
+                const lines = [` Impacto: ${{(b.contrib>=0?'+':'')}}${{b.contrib.toFixed(2)}}pp`];
+                if (b.nps !== undefined) lines.push(` NPS CDU: ${{b.nps}}  Target processo: ${{b.target_proc ?? b.target}}`);
+                if (b.weight !== undefined) lines.push(` Peso no processo: ${{b.weight}}%`);
                 if (b.nps_m1 !== undefined) lines.push(` ${{b.nps_m1}} (atual) vs ${{b.nps_m0}} (ant.)`);
                 return lines;
               }}
