@@ -1258,10 +1258,10 @@ def _render_mom_scorecard(rows: list) -> str:
     html += "</tbody>"
     return html
 
-def _render_detractor_card(data: dict, label: str, nps_val, impact_val=None) -> str:
+def _render_detractor_card(data: dict, label: str, nps_val, impact_val=None,
+                            combo_data: dict = None, combo_id: str = "") -> str:
     cdu      = data.get("cdu", "—")
     total    = data.get("total", 0)
-    reasons  = data.get("reasons", [])
     themes   = data.get("themes", [])
     samples  = data.get("samples", [])
 
@@ -1279,16 +1279,10 @@ def _render_detractor_card(data: dict, label: str, nps_val, impact_val=None) -> 
         ic = "#70AD47" if impact_val >= 0 else "#E05252"
         imp_str = f'<span style="color:{ic};font-size:11px;font-weight:700">{"+" if impact_val>=0 else ""}{impact_val:.2f}pp impacto</span>'
 
-    # Razões de detração (pills)
-    max_r = reasons[0]["count"] if reasons else 1
-    reasons_html = "".join(
-        f'<div class="det-reason-row">'
-        f'<span class="det-reason-lbl">{r["reason"]}</span>'
-        f'<div class="det-bar-wrap"><div class="det-bar" style="width:{r["count"]/max_r*100:.0f}%"></div></div>'
-        f'<span class="det-reason-n">{r["count"]}</span>'
-        f'</div>'
-        for r in reasons
-    )
+    # Gráfico combo Outgoing + NPS (substitui razões de detração)
+    combo_html = ""
+    if combo_data and combo_id:
+        combo_html = f'<div class="cw" style="height:200px"><canvas id="{combo_id}"></canvas></div>'
 
     # Temas TF-IDF
     themes_html = ""
@@ -1326,8 +1320,8 @@ def _render_detractor_card(data: dict, label: str, nps_val, impact_val=None) -> 
   </div>
   <div class="det-grid">
     <div>
-      <p class="det-section-title">Razões de Detração</p>
-      {reasons_html}
+      <p class="det-section-title">Outgoing × NPS Mensal</p>
+      {combo_html}
     </div>
     <div>
       <p class="det-section-title">Principais Temas nos Comentários</p>
@@ -1533,8 +1527,24 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
          if not b.get("isAnchor") and det_worst_data.get("cdu","")[:20] in b.get("label","") + b.get("label","")[:20]),
         None
     )
-    det_worst_card  = _render_detractor_card(det_worst_data,  "CDU Mais Ofensor",          worst_nps,  worst_impact)
-    det_top_og_card = _render_detractor_card(det_top_og_data, "CDU Maior Volume Outgoing", top_og_nps)
+    def _cdu_combo_data(cdu):
+        og_ds  = next((ds for ds in monthly["datasets"] if ds["label"] == cdu), None)
+        og_vals = og_ds["data"] if og_ds else []
+        nps_vals = []
+        by_m = nps_monthly.get("by_cdu_month", {}).get(cdu, {})
+        mk_sorted = sorted(by_m.keys())
+        for m in monthly["months"]:
+            ym = next((k for k in mk_sorted if month_label(k) == m), None)
+            entry = by_m.get(ym, {}) if ym else {}
+            nps_vals.append(entry.get("nps") if isinstance(entry, dict) else entry)
+        tgt = nps_map_det.get(cdu, {}).get("target") or process_target
+        return {"labels": monthly["months"], "og": og_vals, "nps": nps_vals, "target": tgt}
+
+    combo_worst  = _cdu_combo_data(det_worst_data.get("cdu", ""))
+    combo_top_og = _cdu_combo_data(det_top_og_data.get("cdu", ""))
+
+    det_worst_card  = _render_detractor_card(det_worst_data,  "CDU Mais Ofensor",          worst_nps,  worst_impact, combo_worst,  "cDetWorst")
+    det_top_og_card = _render_detractor_card(det_top_og_data, "CDU Maior Volume Outgoing", top_og_nps, None,         combo_top_og, "cDetTopOg")
 
     # Waterfall data
     casc  = waterfalls.get("cascata", [])
@@ -2178,6 +2188,95 @@ function initNpsCharts() {{
 
   npsEvoChart('cNpsMon', {jd(monthly['months'])}, {jd(nps_monthly['monthly_nps'])}, {jd(avg_target)});
   npsEvoChart('cNpsWk',  {jd(weekly['weeks'])},   {jd(nps_weekly)}, {jd(avg_target)});
+
+  // Combo Outgoing + NPS por CDU (cards de detratores)
+  function detCombo(id, combo) {{
+    if (!document.getElementById(id) || !combo) return;
+    const ptC = combo.nps.map(v => npsColor(v));
+    new Chart(document.getElementById(id), {{
+      type: 'bar',
+      data: {{ labels: combo.labels, datasets: [
+        {{
+          type: 'bar',
+          label: 'Outgoing',
+          data: combo.og,
+          backgroundColor: 'rgba(68,114,196,0.25)',
+          borderColor: '#4472C4',
+          borderWidth: 1.5,
+          borderRadius: 4,
+          yAxisID: 'yOg',
+          order: 2,
+        }},
+        {{
+          type: 'line',
+          label: 'NPS',
+          data: combo.nps,
+          borderColor: '#1a1a2e',
+          pointBackgroundColor: ptC,
+          pointBorderColor: ptC,
+          pointRadius: 5,
+          borderWidth: 2,
+          tension: 0.3,
+          yAxisID: 'yNps',
+          spanGaps: true,
+          order: 1,
+        }},
+        {{
+          type: 'line',
+          label: 'Target',
+          data: combo.labels.map(() => combo.target),
+          borderColor: '#E05252',
+          borderDash: [5,3],
+          borderWidth: 1.5,
+          pointRadius: 0,
+          yAxisID: 'yNps',
+          spanGaps: true,
+          order: 3,
+        }},
+      ] }},
+      plugins: [{{
+        id: 'detNpsLabels',
+        afterDatasetsDraw(chart) {{
+          const {{ ctx, data }} = chart;
+          const meta = chart.getDatasetMeta(1);
+          ctx.save();
+          ctx.font = 'bold 10px -apple-system, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          meta.data.forEach((pt, i) => {{
+            const v = data.datasets[1].data[i];
+            if (v === null || v === undefined) return;
+            ctx.fillStyle = ptC[i];
+            ctx.fillText((v>0?'+':'')+v, pt.x, pt.y - 4);
+          }});
+          ctx.restore();
+        }}
+      }}],
+      options: {{
+        responsive: true, maintainAspectRatio: false,
+        layout: {{ padding: {{ top: 18 }} }},
+        plugins: {{
+          legend: {{ position: 'bottom', labels: {{ boxWidth: 12, padding: 8, font: {{ size: 10 }} }} }},
+          tooltip: {{ callbacks: {{ label: ctx =>
+            ctx.dataset.label === 'Outgoing'
+              ? ` Outgoing: ${{ctx.parsed.y.toLocaleString('pt-BR')}}`
+              : ` ${{ctx.dataset.label}}: ${{(ctx.parsed.y>0?'+':'')+ctx.parsed.y}}`
+          }} }}
+        }},
+        scales: {{
+          x: {{ grid: {{ display: false }}, ticks: {{ font: {{ size: 10 }} }} }},
+          yOg: {{ position: 'left', grid: {{ color: '#f0f2f5' }},
+                  ticks: {{ font: {{ size: 9 }}, callback: v => v.toLocaleString('pt-BR') }} }},
+          yNps: {{ position: 'right', grid: {{ display: false }},
+                   ticks: {{ font: {{ size: 9 }}, callback: v => (v>0?'+':'')+v }},
+                   suggestedMin: combo.target ? combo.target - 30 : undefined }}
+        }}
+      }}
+    }});
+  }}
+
+  detCombo('cDetWorst',  {jd(combo_worst)});
+  detCombo('cDetTopOg',  {jd(combo_top_og)});
 
 }}
 
