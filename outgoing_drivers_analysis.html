@@ -16,7 +16,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
       border-radius:7px;padding:5px 10px;letter-spacing:-.5px;line-height:1.2}
 .hd h1{font-size:15px;font-weight:800;color:#1a1a2e}
 .hd p{font-size:11px;color:#555;margin-top:2px}
-.main{max-width:1200px;margin:0 auto;padding:22px 18px;
+.main{max-width:1500px;margin:0 auto;padding:22px 24px;
        display:flex;flex-direction:column;gap:18px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 @media(max-width:820px){.grid2{grid-template-columns:1fr}}
@@ -198,27 +198,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     </div>
 
     <!-- Cascatas -->
-    <div class="grid2">
-      <div class="card">
-        <p class="chart-title">WTF MoM · Abr → Mai</p>
-        <div class="cw" style="height:360px"><canvas id="cWtf"></canvas></div>
-      </div>
-      <div class="card">
-        <p class="chart-title">Impacto CDU vs Target Drivers · YTD<span style="font-size:11px;font-weight:400;color:#888;margin-left:6px">Target 71.05 → Real 68.26</span></p>
-        <div class="cw" style="height:360px"><canvas id="cCascade"></canvas></div>
-      </div>
+    <div class="card">
+      <p class="chart-title">WTF MoM · Abr → Mai</p>
+      <div class="cw" style="height:480px"><canvas id="cWtf"></canvas></div>
+    </div>
+
+    <div class="card">
+      <p class="chart-title">Impacto CDU vs Target Drivers · YTD<span style="font-size:11px;font-weight:400;color:#888;margin-left:6px">Target 71.05 → Real 68.26</span></p>
+      <div class="cw" style="height:480px"><canvas id="cCascade"></canvas></div>
     </div>
 
     <!-- Evolução com target -->
-    <div class="grid2">
-      <div class="card">
-        <p class="chart-title">Evolução Mensal NPS + Target</p>
-        <div class="cw" style="height:320px"><canvas id="cNpsMon"></canvas></div>
-      </div>
-      <div class="card">
-        <p class="chart-title">Evolução Semanal NPS + Target</p>
-        <div class="cw" style="height:320px"><canvas id="cNpsWk"></canvas></div>
-      </div>
+    <div class="card">
+      <p class="chart-title">Evolução Mensal NPS + Target</p>
+      <div class="cw" style="height:400px"><canvas id="cNpsMon"></canvas></div>
+    </div>
+
+    <div class="card">
+      <p class="chart-title">Evolução Semanal NPS + Target</p>
+      <div class="cw" style="height:400px"><canvas id="cNpsWk"></canvas></div>
     </div>
 
     <div class="card">
@@ -346,12 +344,12 @@ function npsColor(v) {
 }
 
 function initNpsCharts() {
-  // NPS por CDU — horizontal bar
+  // NPS por CDU — horizontal bar (mantido para referência nos tooltips)
   const npsLabels  = ["Quiere saber porque no recibe rutas", "Quiere saber porqué se inactivó su cuenta", "Quiere saber como funciona Envíos Extra", "Gestión de cuenta", "Quiere gestionar una cuenta ya creada", "Flotillero - Extra", "Temporal", "Soporte MeLi", "Oferta de rutas", "Quiere saber porque no le pagaron una ruta", "Tiene problemas durante la creacion de la cuenta", "Quiere reclamar por inconvenientes en el recorrido o en el service center", "Pago de ruta", "Tiene un inconviente con sus metricas de Nivel de Lealtad", "Generales", "Onboarding Extra", "Bugs", "Cuenta pausada o bloqueada"];
   const npsValues  = [77.4, 74.6, 73.3, 69.0, 66.2, 65.6, 63.6, 63.5, 61.5, 61.2, 60.8, 58.3, 54.8, 52.0, 40.4, 40.0, 31.8, 22.2];
   const npsColors  = ["#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#70AD47", "#FFC000", "#FFC000", "#FFC000", "#FFC000"];
   const npsSurveys = [881, 3139, 1934, 29, 228, 305, 11, 115, 574, 791, 899, 630, 104, 490, 104, 10, 22, 9];
-  new Chart(document.getElementById('cNpsCdu'), {
+  if (document.getElementById('cNpsCdu')) new Chart(document.getElementById('cNpsCdu'), {
     type: 'bar',
     data: { labels: npsLabels, datasets: [{
       label: 'NPS Lineal',
@@ -398,7 +396,7 @@ function initNpsCharts() {
         y: { grid: { display: false }, ticks: { font: { size: 11 } } }
       }
     }
-  });
+  }); // end cNpsCdu
 
   // ── Mini cards: weekly NPS por CDU ────────────────────────────────────────
   const miniCards = [{"id": "cMini0", "cdu": "Quiere saber porqué se inactivó su cuenta", "nps": 74.6, "target": 71.05, "gap": 3.5, "impact": 1.07, "weight": 30.5, "mom": 1.4, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [75.8, 73.6, 72.7, 68.5, 74.6, 76.9, 66.5, 75.3, 71.8]}, {"id": "cMini1", "cdu": "Quiere saber como funciona Envíos Extra", "nps": 73.3, "target": 71.05, "gap": 2.2, "impact": 0.41, "weight": 18.8, "mom": 7.6, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [63.3, 69.6, 64.5, 66.4, 68.1, 71.7, 78.8, 76.3, 80.0]}, {"id": "cMini2", "cdu": "Tiene problemas durante la creacion de la cuenta", "nps": 60.8, "target": 71.05, "gap": -10.2, "impact": -0.89, "weight": 8.7, "mom": 10.0, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [81.2, 31.0, 61.0, 60.2, 57.5, 72.1, 56.2, 73.1, 61.1]}, {"id": "cMini3", "cdu": "Bugs", "nps": 31.8, "target": 71.05, "gap": -39.2, "impact": -0.08, "weight": 0.2, "mom": -38.1, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [null, null, null, null, null, null, null, null, null]}, {"id": "cMini4", "cdu": "Quiere saber porque no le pagaron una ruta", "nps": 61.2, "target": 71.05, "gap": -9.8, "impact": -0.75, "weight": 7.7, "mom": -6.1, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [72.7, 55.8, 61.9, 68.6, 50.9, 73.5, 52.4, 37.8, 60.0]}, {"id": "cMini5", "cdu": "Generales", "nps": 40.4, "target": 71.05, "gap": -30.6, "impact": -0.31, "weight": 1.0, "mom": 14.4, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [null, 50.0, 71.4, 25.0, null, 66.7, 33.3, 66.7, null]}, {"id": "cMini6", "cdu": "Quiere reclamar por inconvenientes en el recorrido o en el service center", "nps": 58.3, "target": 71.05, "gap": -12.8, "impact": -0.78, "weight": 6.1, "mom": 2.3, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [81.8, 60.0, 69.0, 72.7, 57.1, 71.0, 59.2, 73.2, 70.6]}, {"id": "cMini7", "cdu": "Quiere saber porque no recibe rutas", "nps": 77.4, "target": 71.05, "gap": 6.4, "impact": 0.55, "weight": 8.6, "mom": 2.1, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [84.2, 90.9, 71.4, 83.0, 74.5, 81.6, 79.5, 86.8, 63.6]}, {"id": "cMini8", "cdu": "Tiene un inconviente con sus metricas de Nivel de Lealtad", "nps": 52.0, "target": 71.05, "gap": -19.0, "impact": -0.91, "weight": 4.8, "mom": 15.5, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [66.7, 53.8, 55.6, 34.8, 41.6, 69.6, 78.9, 66.7, 100.0]}, {"id": "cMini9", "cdu": "Oferta de rutas", "nps": 61.5, "target": 71.05, "gap": -9.5, "impact": -0.53, "weight": 5.6, "mom": 1.3, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [85.2, 55.3, 62.5, 68.6, 58.1, 51.3, 75.9, 59.4, 82.4]}, {"id": "cMini10", "cdu": "Onboarding Extra", "nps": 40.0, "target": 71.05, "gap": -31.0, "impact": -0.03, "weight": 0.1, "mom": null, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [null, null, null, null, null, null, null, null, null]}, {"id": "cMini11", "cdu": "Quiere gestionar una cuenta ya creada", "nps": 66.2, "target": 71.05, "gap": -4.8, "impact": -0.11, "weight": 2.2, "mom": -2.7, "weeks": ["30/03", "06/04", "13/04", "20/04", "27/04", "04/05", "11/05", "18/05", "25/05"], "wk_nps": [75.0, 88.9, 55.6, 66.7, 62.5, 75.0, 50.0, 53.8, 100.0]}];

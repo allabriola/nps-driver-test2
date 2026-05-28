@@ -1377,7 +1377,7 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
       border-radius:7px;padding:5px 10px;letter-spacing:-.5px;line-height:1.2}}
 .hd h1{{font-size:15px;font-weight:800;color:#1a1a2e}}
 .hd p{{font-size:11px;color:#555;margin-top:2px}}
-.main{{max-width:1200px;margin:0 auto;padding:22px 18px;
+.main{{max-width:1500px;margin:0 auto;padding:22px 24px;
        display:flex;flex-direction:column;gap:18px}}
 .grid2{{display:grid;grid-template-columns:1fr 1fr;gap:18px}}
 @media(max-width:820px){{.grid2{{grid-template-columns:1fr}}}}
@@ -1554,27 +1554,25 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     </div>
 
     <!-- Cascatas -->
-    <div class="grid2">
-      <div class="card">
-        <p class="chart-title">WTF MoM · {wtf_labels[0]} → {wtf_labels[1]}</p>
-        <div class="cw" style="height:360px"><canvas id="cWtf"></canvas></div>
-      </div>
-      <div class="card">
-        <p class="chart-title">{_cascata_title(tgt_wt, actual_wt, total_gap)}</p>
-        <div class="cw" style="height:360px"><canvas id="cCascade"></canvas></div>
-      </div>
+    <div class="card">
+      <p class="chart-title">WTF MoM · {wtf_labels[0]} → {wtf_labels[1]}</p>
+      <div class="cw" style="height:480px"><canvas id="cWtf"></canvas></div>
+    </div>
+
+    <div class="card">
+      <p class="chart-title">{_cascata_title(tgt_wt, actual_wt, total_gap)}</p>
+      <div class="cw" style="height:480px"><canvas id="cCascade"></canvas></div>
     </div>
 
     <!-- Evolução com target -->
-    <div class="grid2">
-      <div class="card">
-        <p class="chart-title">Evolução Mensal NPS + Target</p>
-        <div class="cw" style="height:320px"><canvas id="cNpsMon"></canvas></div>
-      </div>
-      <div class="card">
-        <p class="chart-title">Evolução Semanal NPS + Target</p>
-        <div class="cw" style="height:320px"><canvas id="cNpsWk"></canvas></div>
-      </div>
+    <div class="card">
+      <p class="chart-title">Evolução Mensal NPS + Target</p>
+      <div class="cw" style="height:400px"><canvas id="cNpsMon"></canvas></div>
+    </div>
+
+    <div class="card">
+      <p class="chart-title">Evolução Semanal NPS + Target</p>
+      <div class="cw" style="height:400px"><canvas id="cNpsWk"></canvas></div>
     </div>
 
     <div class="card">
@@ -1694,12 +1692,12 @@ function npsColor(v) {{
 }}
 
 function initNpsCharts() {{
-  // NPS por CDU — horizontal bar
+  // NPS por CDU — horizontal bar (mantido para referência nos tooltips)
   const npsLabels  = {jd(nps_bar_labels)};
   const npsValues  = {jd(nps_bar_values)};
   const npsColors  = {jd(nps_bar_colors)};
   const npsSurveys = {jd(nps_bar_surveys)};
-  new Chart(document.getElementById('cNpsCdu'), {{
+  if (document.getElementById('cNpsCdu')) new Chart(document.getElementById('cNpsCdu'), {{
     type: 'bar',
     data: {{ labels: npsLabels, datasets: [{{
       label: 'NPS Lineal',
@@ -1746,7 +1744,7 @@ function initNpsCharts() {{
         y: {{ grid: {{ display: false }}, ticks: {{ font: {{ size: 11 }} }} }}
       }}
     }}
-  }});
+  }}); // end cNpsCdu
 
   // ── Mini cards: weekly NPS por CDU ────────────────────────────────────────
   const miniCards = {jd(mini_cards)};
