@@ -565,7 +565,7 @@ def process_nps_weekly_by_cdu(raw: list[dict], weekly_weeks: list[str]) -> dict:
     by_cdu: dict[str, dict] = {}
     for r in raw:
         ws = r["week_start"]
-        lbl = ws.strftime("%d/%m") if hasattr(ws, "strftime") else str(ws)[5:].replace("-", "/")
+        lbl = ws.strftime("%d/%m") if hasattr(ws, "strftime") else str(ws)[8:10] + "/" + str(ws)[5:7]
         p, d, s = int(r["promoters"] or 0), int(r["detractors"] or 0), int(r["surveys"] or 0)
         tgt = round(float(r["target"]) * 100, 1) if r.get("target") is not None else None
         by_cdu.setdefault(r["cdu"], {})[lbl] = {
@@ -815,8 +815,10 @@ def process_nps_agg(raw: list[dict], labels: list[str], key_field: str) -> list:
 
     result = []
     for lbl in labels:
-        # labels são dd/mm — tenta encontrar a chave ISO correspondente
-        match = next((k for k in agg if k[5:].replace("-", "/") == lbl or k == lbl), None)
+        # labels são dd/mm — chave ISO é yyyy-mm-dd, converter para dd/mm
+        match = next((k for k in agg
+                      if (len(k) == 10 and k[8:10] + "/" + k[5:7] == lbl)
+                      or k == lbl), None)
         if match:
             result.append(_calc_nps(agg[match]["p"], agg[match]["d"], agg[match]["s"]))
         else:
