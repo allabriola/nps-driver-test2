@@ -517,7 +517,7 @@ def process_nps_by_cdu(raw: list[dict]) -> list[dict]:
         {"cdu":     r["cdu"],
          "surveys": int(r["surveys"] or 0),
          "nps":     _calc_nps(int(r["promoters"] or 0), int(r["detractors"] or 0), int(r["surveys"] or 0)),
-         "target":  float(r["target"]) if r.get("target") is not None else None}
+         "target":  round(float(r["target"]) * 100, 1) if r.get("target") is not None else None}
         for r in raw
     ]
 
@@ -527,7 +527,7 @@ def process_nps_monthly(raw: list[dict], months: list[str]) -> dict:
     for r in raw:
         m = r["month"]
         p, d, s = int(r["promoters"] or 0), int(r["detractors"] or 0), int(r["surveys"] or 0)
-        tgt = float(r["target"]) if r.get("target") is not None else None
+        tgt = round(float(r["target"]) * 100, 1) if r.get("target") is not None else None
         agg.setdefault(m, {"p": 0, "d": 0, "s": 0})
         agg[m]["p"] += p; agg[m]["d"] += d; agg[m]["s"] += s
         by_cdu_month.setdefault(r["cdu"], {})[m] = {"nps": _calc_nps(p, d, s), "target": tgt, "s": s, "p": p, "d": d}
@@ -545,7 +545,7 @@ def process_nps_weekly_by_cdu(raw: list[dict], weekly_weeks: list[str]) -> dict:
         ws = r["week_start"]
         lbl = ws.strftime("%d/%m") if hasattr(ws, "strftime") else str(ws)[5:].replace("-", "/")
         p, d, s = int(r["promoters"] or 0), int(r["detractors"] or 0), int(r["surveys"] or 0)
-        tgt = float(r["target"]) if r.get("target") is not None else None
+        tgt = round(float(r["target"]) * 100, 1) if r.get("target") is not None else None
         by_cdu.setdefault(r["cdu"], {})[lbl] = {
             "nps": _calc_nps(p, d, s), "target": tgt, "s": s
         }
