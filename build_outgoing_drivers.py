@@ -867,6 +867,45 @@ def _render_cdu_nps_table(monthly: dict, weekly: dict,
         )
     return rows
 
+def _render_nps_monthly_table(top_cdus: list, nps_monthly: dict, nps_by_cdu: list) -> str:
+    by_cdu_month = nps_monthly.get("by_cdu_month", {})
+    ytd_map      = {r["cdu"]: (r["nps"], r["surveys"]) for r in nps_by_cdu}
+
+    # collect all month keys present, sorted
+    all_keys: set = set()
+    for v in by_cdu_month.values():
+        all_keys.update(v.keys())
+    month_keys = sorted(all_keys)
+
+    header = "<thead><tr><th>CDU</th>"
+    for k in month_keys:
+        header += f"<th style='text-align:center'>{month_label(k)}</th>"
+    header += "<th style='text-align:center'>YTD</th><th style='text-align:center'>Pesquisas YTD</th></tr></thead>"
+
+    rows = "<tbody>"
+    for i, cdu in enumerate(top_cdus):
+        rc = ' class="tr0"' if i == 0 else ""
+        rows += f'<tr{rc}><td>{cdu}</td>'
+        for k in month_keys:
+            v = by_cdu_month.get(cdu, {}).get(k)
+            if v is not None:
+                c    = nps_color(v)
+                sign = "+" if v > 0 else ""
+                rows += f'<td style="text-align:center"><span class="nps-pill" style="background:{c}22;color:{c}">{sign}{v:.1f}</span></td>'
+            else:
+                rows += '<td style="text-align:center;color:#ccc">—</td>'
+        ytd_nps, ytd_s = ytd_map.get(cdu, (None, 0))
+        if ytd_nps is not None:
+            c    = nps_color(ytd_nps)
+            sign = "+" if ytd_nps > 0 else ""
+            rows += f'<td style="text-align:center"><span class="nps-pill" style="background:{c}22;color:{c};font-size:12px">{sign}{ytd_nps:.1f}</span></td>'
+            rows += f'<td style="text-align:center;color:#888">{ytd_s:,}</td>'
+        else:
+            rows += '<td style="text-align:center;color:#ccc">—</td><td style="text-align:center;color:#ccc">—</td>'
+        rows += "</tr>"
+    rows += "</tbody>"
+    return header + rows
+
 def _render_solutions(solutions: list, total_v: int) -> str:
     rows = ""
     for i, s in enumerate(solutions):
@@ -893,29 +932,22 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
     top_vol   = monthly["cdu_totals"].get(top_cdu, 0)
     top_pct   = f"{top_vol / total_v * 100:.1f}%" if total_v else "—"
 
-    nps_cdu_map = {r["cdu"]: r["nps"] for r in nps_by_cdu}
-
     rows_html = ""
     for i, cdu in enumerate(monthly["top_cdus"][:12]):
         vol  = monthly["cdu_totals"].get(cdu, 0)
         pct  = f"{vol / total_v * 100:.1f}%" if total_v else "—"
         star = "⭐ " if i == 0 else f"{i+1}. "
         rc   = ' class="tr0"' if i == 0 else ""
-        nps_val = nps_cdu_map.get(cdu)
-        nps_str = f"{nps_val:+.1f}" if nps_val is not None else "—"
-        nc  = nps_color(nps_val)
         rows_html += (
             f'<tr{rc}><td>{star}{cdu}</td>'
             f'<td class="vn">{vol:,}</td>'
-            f'<td class="vp">{pct}</td>'
-            f'<td class="vn" style="color:{nc};font-weight:700">{nps_str}</td></tr>'
+            f'<td class="vp">{pct}</td></tr>'
         )
     sem_pct = f"{sem_cdu_v / total_v * 100:.1f}%" if total_v else "—"
     rows_html += (
         f'<tr class="sem-cdu-row"><td>— Sem CDU</td>'
         f'<td class="vn">{sem_cdu_v:,}</td>'
-        f'<td class="vp">{sem_pct}</td>'
-        f'<td>—</td></tr>'
+        f'<td class="vp">{sem_pct}</td></tr>'
     )
 
     # Selector de CDU para análise de transcrições
@@ -947,12 +979,25 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
 
     teams_label = " · ".join(TEAMS)
 
+    # ── NPS tab data ──────────────────────────────────────────────────────────
+    nps_sorted   = sorted(
+        [r for r in nps_by_cdu if r["nps"] is not None and r["cdu"] != "Sem CDU"],
+        key=lambda x: x["nps"], reverse=True
+    )
+    nps_bar_labels  = [r["cdu"]     for r in nps_sorted]
+    nps_bar_values  = [r["nps"]     for r in nps_sorted]
+    nps_bar_colors  = [nps_color(v) for v in nps_bar_values]
+    nps_bar_surveys = [r["surveys"] for r in nps_sorted]
+
+    # CDU × NPS monthly table
+    nps_table_html = _render_nps_monthly_table(monthly["top_cdus"], nps_monthly, nps_by_cdu)
+
     return f"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Volume Outgoing por CDU | Drivers | MLB</title>
+<title>Outgoing Drivers | NPS | MLB</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0}}
@@ -974,6 +1019,15 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .chart-title{{font-size:12px;font-weight:700;color:#444;
              text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}}
 .cw{{position:relative}}
+.tab-nav{{display:flex;gap:3px;background:#fff;border-radius:10px;
+         padding:4px;width:fit-content;
+         box-shadow:0 1px 4px rgba(0,0,0,.08)}}
+.tab-btn{{border:none;background:transparent;border-radius:7px;
+         padding:8px 28px;font-size:13px;font-weight:700;color:#666;
+         cursor:pointer;transition:all .15s}}
+.tab-btn.active{{background:#ffe600;color:#1a1a2e;box-shadow:0 1px 4px rgba(0,0,0,.1)}}
+.tab-pane{{display:none;flex-direction:column;gap:18px}}
+.tab-pane.active{{display:flex}}
 .hl-card{{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start}}
 @media(max-width:680px){{.hl-card{{grid-template-columns:1fr}}}}
 .hl-box{{background:linear-gradient(135deg,#ffe600,#f5c800);border-radius:10px;
@@ -1015,8 +1069,6 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
            color:#4472C4;padding:2px 9px;border-radius:12px}}
 .sol-table .sol-num{{width:32px;text-align:center;color:#aaa;font-size:11px}}
 .sol-table .sol-name{{max-width:520px}}
-.cdu-nps-table th.th-group{{text-align:center;background:#f0f2f5;border-bottom:1px solid #eee}}
-.cdu-nps-table td{{white-space:nowrap}}
 .ex-block{{}}
 .ex-title{{font-size:12px;font-weight:700;color:#444;text-transform:uppercase;
            letter-spacing:.5px;margin-bottom:14px}}
@@ -1037,6 +1089,8 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .no-data-block strong{{font-size:13px;color:#1a1a2e}}
 .no-data-block code{{font-size:11px;background:#f0f0f0;padding:1px 5px;border-radius:3px}}
 .no-data-block div{{font-size:12px;color:#555;line-height:1.55}}
+.nps-pill{{display:inline-block;font-size:11px;font-weight:800;padding:2px 10px;
+          border-radius:20px;white-space:nowrap}}
 </style>
 </head>
 <body>
@@ -1044,8 +1098,8 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 <header class="hd">
   <div class="logo">ML</div>
   <div>
-    <h1>Volume Outgoing por CDU — Processo Drivers</h1>
-    <p>MLB · {teams_label} · Jan–Mai 2026 · Fonte: DM_CX_OUTGOING_GESTION_DETAIL · Atualizado em {now_str}</p>
+    <h1>Processo Drivers — Outgoing &amp; NPS</h1>
+    <p>MLB · {teams_label} · Jan–Mai 2026 · Atualizado em {now_str}</p>
   </div>
 </header>
 
@@ -1053,77 +1107,88 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 
   {generate_exec_summary(monthly, weekly, daily, solutions)}
 
-  <div class="grid2">
-    <div class="card">
-      <p class="chart-title">Volume mensal por CDU</p>
-      <div class="cw" style="height:420px"><canvas id="cM"></canvas></div>
-    </div>
-    <div class="card">
-      <p class="chart-title">Volume semanal por CDU · últimas 8 semanas</p>
-      <div class="cw" style="height:420px"><canvas id="cW"></canvas></div>
-    </div>
-  </div>
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="goTab(0)">Outgoing</button>
+    <button class="tab-btn"        onclick="goTab(1)">NPS</button>
+  </nav>
 
-  <div class="card">
-    <p class="chart-title">Volume diário por CDU · últimos {DAILY_DAYS} dias</p>
-    <div class="cw" style="height:420px"><canvas id="cD"></canvas></div>
-  </div>
+  <!-- ── ABA OUTGOING ─────────────────────────────────────────── -->
+  <div class="tab-pane active" id="tp0">
 
-  <div class="card hl-card">
-    <div class="hl-box">
-      <div class="hl-lbl">CDU com Maior Volume</div>
-      <div class="hl-val">{top_cdu}</div>
-      <div class="hl-sub">{top_vol:,} atendimentos · {top_pct} do total identificado</div>
-      <div class="hl-sub2">Total outgoing: {total_v:,} · Com CDU: {named_v:,} ({named_v/total_v*100:.0f}%)</div>
+    <div class="grid2">
+      <div class="card">
+        <p class="chart-title">Volume mensal por CDU</p>
+        <div class="cw" style="height:420px"><canvas id="cM"></canvas></div>
+      </div>
+      <div class="card">
+        <p class="chart-title">Volume semanal por CDU · últimas 8 semanas</p>
+        <div class="cw" style="height:420px"><canvas id="cW"></canvas></div>
+      </div>
     </div>
-    <div class="hl-right">
-      <table class="rtable">
-        <thead><tr><th>CDU</th><th>Volume</th><th>%</th><th>NPS</th></tr></thead>
-        <tbody>{rows_html}</tbody>
+
+    <div class="card">
+      <p class="chart-title">Volume diário por CDU · últimos {DAILY_DAYS} dias</p>
+      <div class="cw" style="height:420px"><canvas id="cD"></canvas></div>
+    </div>
+
+    <div class="card hl-card">
+      <div class="hl-box">
+        <div class="hl-lbl">CDU com Maior Volume</div>
+        <div class="hl-val">{top_cdu}</div>
+        <div class="hl-sub">{top_vol:,} atendimentos · {top_pct} do total identificado</div>
+        <div class="hl-sub2">Total outgoing: {total_v:,} · Com CDU: {named_v:,} ({named_v/total_v*100:.0f}%)</div>
+      </div>
+      <div class="hl-right">
+        <table class="rtable">
+          <thead><tr><th>CDU</th><th>Volume</th><th>%</th></tr></thead>
+          <tbody>{rows_html}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="chart-title">Top {TOP_SOLUTIONS} Soluções</p>
+      <table class="rtable sol-table">
+        <thead><tr><th>#</th><th>Solução</th><th>Volume</th><th>%</th></tr></thead>
+        <tbody>{_render_solutions(solutions, total_v)}</tbody>
       </table>
     </div>
-  </div>
 
-  <div class="card">
-    <p class="chart-title">Top {TOP_SOLUTIONS} Soluções</p>
-    <table class="rtable sol-table">
-      <thead><tr><th>#</th><th>Solução</th><th>Volume</th><th>%</th></tr></thead>
-      <tbody>{_render_solutions(solutions, total_v)}</tbody>
-    </table>
-  </div>
-
-  <div class="card">
-    <p class="chart-title">CDU · Outgoing × NPS Lineal</p>
-    <table class="rtable cdu-nps-table">
-      <thead>
-        <tr>
-          <th rowspan="2">CDU</th>
-          <th colspan="2" class="th-group">Mensal (último mês)</th>
-          <th colspan="2" class="th-group">Semanal (última semana)</th>
-          <th colspan="2" class="th-group">YTD</th>
-        </tr>
-        <tr>
-          <th>Outgoing</th><th>NPS</th>
-          <th>Outgoing</th><th>NPS</th>
-          <th>Outgoing</th><th>NPS</th>
-        </tr>
-      </thead>
-      <tbody>{_render_cdu_nps_table(monthly, weekly, nps_by_cdu, nps_monthly)}</tbody>
-    </table>
-  </div>
-
-  <div class="card">
-    <div class="th-hdr">
-      <div class="th-title-row">
-        <span class="th-label">Análise de Transcrições · CDU:</span>
-        <select class="cdu-sel" id="cduSel" onchange="selectCDU(this.value)">
-          {options}
-        </select>
+    <div class="card">
+      <div class="th-hdr">
+        <div class="th-title-row">
+          <span class="th-label">Análise de Transcrições · CDU:</span>
+          <select class="cdu-sel" id="cduSel" onchange="selectCDU(this.value)">
+            {options}
+          </select>
+        </div>
+        <span class="th-sub">Motivos de contato identificados (últimos {TRANSCRIPT_DAYS} dias)</span>
       </div>
-      <span class="th-sub">Motivos de contato identificados (últimos {TRANSCRIPT_DAYS} dias)</span>
+      <div id="themesBox">{initial_themes_html}</div>
     </div>
-    <div id="themesBox">{initial_themes_html}</div>
-  </div>
+
+  </div><!-- /tp0 -->
+
+  <!-- ── ABA NPS ───────────────────────────────────────────────── -->
+  <div class="tab-pane" id="tp1">
+
+    <div class="grid2">
+      <div class="card">
+        <p class="chart-title">NPS Lineal por CDU · {monthly["months"][0]}–{monthly["months"][-1]}</p>
+        <div class="cw" style="height:420px"><canvas id="cNpsCdu"></canvas></div>
+      </div>
+      <div class="card">
+        <p class="chart-title">Evolução Mensal NPS Lineal</p>
+        <div class="cw" style="height:420px"><canvas id="cNpsMon"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="chart-title">CDU × NPS Lineal por mês</p>
+      <table class="rtable">{nps_table_html}</table>
+    </div>
+
+  </div><!-- /tp1 -->
 
 </main>
 
@@ -1131,6 +1196,15 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 const ACCENT = {jd(ACCENT_COLORS)};
 const ALL_THEMES = {jd(themes_by_cdu)};
 
+// ── Tab ──────────────────────────────────────────────────────────────────────
+let npsInited = false;
+function goTab(n) {{
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===n));
+  document.querySelectorAll('.tab-pane').forEach((p,i) => p.classList.toggle('active', i===n));
+  if (n === 1 && !npsInited) {{ initNpsCharts(); npsInited = true; }}
+}}
+
+// ── Plugins ──────────────────────────────────────────────────────────────────
 const stackedTotalsPlugin = {{
   id: 'stackedTotals',
   afterDatasetsDraw(chart) {{
@@ -1176,6 +1250,42 @@ const innerPctPlugin = {{
   }}
 }};
 
+// ── Outgoing charts ───────────────────────────────────────────────────────────
+function bar(id, labels, datasets, showTotals=false, showPct=false) {{
+  const plugins = [];
+  if (showTotals) plugins.push(stackedTotalsPlugin);
+  if (showPct)    plugins.push(innerPctPlugin);
+  new Chart(document.getElementById(id), {{
+    type: 'bar',
+    data: {{ labels, datasets }},
+    plugins,
+    options: {{
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: {{ padding: {{ top: showTotals ? 20 : 0 }} }},
+      plugins: {{
+        legend: {{ position: 'bottom',
+                  labels: {{ boxWidth: 12, padding: 10, font: {{ size: 11 }} }} }},
+        tooltip: {{
+          callbacks: {{
+            label: ctx => ` ${{ctx.dataset.label}}: ${{ctx.parsed.y.toLocaleString('pt-BR')}} atendimentos`
+          }}
+        }}
+      }},
+      scales: {{
+        x: {{ stacked: true, grid: {{ display: false }}, ticks: {{ font: {{ size: 11 }} }} }},
+        y: {{ stacked: true, grid: {{ color: '#f0f2f5' }},
+              ticks: {{ font: {{ size: 11 }}, callback: v => v.toLocaleString('pt-BR') }} }}
+      }}
+    }}
+  }});
+}}
+
+bar('cM', {jd(monthly['months'])}, [{m_ds}], true, true);
+bar('cW', {jd(weekly['weeks'])},   [{w_ds}], true, true);
+bar('cD', {jd(daily['days'])},     [{d_ds}], true, true);
+
+// ── NPS charts (lazy — init on tab switch) ────────────────────────────────────
 function npsColor(v) {{
   if (v === null || v === undefined) return '#ccc';
   if (v >= 50)  return '#70AD47';
@@ -1184,52 +1294,95 @@ function npsColor(v) {{
   return '#E05252';
 }}
 
-function barCombo(id, labels, datasets, npsData, showTotals = false, showPct = false) {{
-  const plugins = [];
-  if (showTotals) plugins.push(stackedTotalsPlugin);
-  if (showPct)    plugins.push(innerPctPlugin);
-
-  const allDatasets = [...datasets];
-  const hasNps = npsData && npsData.some(v => v !== null && v !== undefined);
-  if (hasNps) {{
-    allDatasets.push({{
-      type: 'line',
-      label: 'NPS Lineal',
-      data: npsData,
-      borderColor: '#1a1a2e',
-      backgroundColor: 'transparent',
-      pointBackgroundColor: npsData.map(v => npsColor(v)),
-      pointBorderColor:     npsData.map(v => npsColor(v)),
-      pointRadius: 6,
-      pointHoverRadius: 8,
-      borderWidth: 2,
-      tension: 0.3,
-      yAxisID: 'yNps',
-      spanGaps: true,
-      order: 0,
-    }});
-  }}
-
-  new Chart(document.getElementById(id), {{
+function initNpsCharts() {{
+  // NPS por CDU — horizontal bar
+  const npsLabels  = {jd(nps_bar_labels)};
+  const npsValues  = {jd(nps_bar_values)};
+  const npsColors  = {jd(nps_bar_colors)};
+  const npsSurveys = {jd(nps_bar_surveys)};
+  new Chart(document.getElementById('cNpsCdu'), {{
     type: 'bar',
-    data: {{ labels, datasets: allDatasets }},
-    plugins: [...plugins, {{
-      id: 'npsValueLabels',
+    data: {{ labels: npsLabels, datasets: [{{
+      label: 'NPS Lineal',
+      data: npsValues,
+      backgroundColor: npsColors,
+      borderRadius: 4,
+    }}] }},
+    plugins: [{{
+      id: 'npsBarLabels',
       afterDatasetsDraw(chart) {{
-        if (!hasNps) return;
         const {{ ctx, data }} = chart;
-        const npsIdx = data.datasets.findIndex(d => d.label === 'NPS Lineal');
-        if (npsIdx < 0) return;
-        const meta = chart.getDatasetMeta(npsIdx);
+        const meta = chart.getDatasetMeta(0);
         ctx.save();
-        ctx.font = 'bold 10px -apple-system, sans-serif';
+        ctx.font = 'bold 11px -apple-system, sans-serif';
+        ctx.textBaseline = 'middle';
+        meta.data.forEach((bar, i) => {{
+          const v = data.datasets[0].data[i];
+          const lbl = (v > 0 ? '+' : '') + v;
+          const x   = v >= 0 ? bar.x + 6 : bar.x - 6;
+          ctx.textAlign  = v >= 0 ? 'left' : 'right';
+          ctx.fillStyle  = npsColors[i];
+          ctx.fillText(lbl, x, bar.y);
+        }});
+        ctx.restore();
+      }}
+    }}],
+    options: {{
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: {{ padding: {{ right: 40 }} }},
+      plugins: {{
+        legend: {{ display: false }},
+        tooltip: {{
+          callbacks: {{
+            label: ctx => ` NPS: ${{ctx.parsed.x > 0 ? '+' : ''}}${{ctx.parsed.x}}  (${{npsSurveys[ctx.dataIndex].toLocaleString('pt-BR')}} pesquisas)`
+          }}
+        }}
+      }},
+      scales: {{
+        x: {{ min: -100, max: 100,
+              grid: {{ color: ctx => ctx.tick.value === 0 ? '#aaa' : '#f0f2f5' }},
+              ticks: {{ font: {{ size: 11 }}, callback: v => (v > 0 ? '+' : '') + v }} }},
+        y: {{ grid: {{ display: false }}, ticks: {{ font: {{ size: 11 }} }} }}
+      }}
+    }}
+  }});
+
+  // NPS mensal — linha
+  const mNps    = {jd(nps_monthly['monthly_nps'])};
+  const mLabels = {jd(monthly['months'])};
+  const ptColors = mNps.map(v => npsColor(v));
+  new Chart(document.getElementById('cNpsMon'), {{
+    type: 'line',
+    data: {{ labels: mLabels, datasets: [{{
+      label: 'NPS Lineal',
+      data: mNps,
+      borderColor: '#4472C4',
+      backgroundColor: 'rgba(68,114,196,0.08)',
+      pointBackgroundColor: ptColors,
+      pointBorderColor: ptColors,
+      pointRadius: 7,
+      pointHoverRadius: 9,
+      borderWidth: 2.5,
+      tension: 0.3,
+      fill: true,
+      spanGaps: true,
+    }}] }},
+    plugins: [{{
+      id: 'npsMonLabels',
+      afterDatasetsDraw(chart) {{
+        const {{ ctx, data }} = chart;
+        const meta = chart.getDatasetMeta(0);
+        ctx.save();
+        ctx.font = 'bold 12px -apple-system, sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
         meta.data.forEach((pt, i) => {{
-          const v = data.datasets[npsIdx].data[i];
+          const v = data.datasets[0].data[i];
           if (v === null || v === undefined) return;
-          ctx.fillStyle = npsColor(v);
-          ctx.fillText((v > 0 ? '+' : '') + v, pt.x, pt.y - 5);
+          ctx.fillStyle = ptColors[i];
+          ctx.fillText((v > 0 ? '+' : '') + v, pt.x, pt.y - 8);
         }});
         ctx.restore();
       }}
@@ -1237,36 +1390,21 @@ function barCombo(id, labels, datasets, npsData, showTotals = false, showPct = f
     options: {{
       responsive: true,
       maintainAspectRatio: false,
-      layout: {{ padding: {{ top: showTotals ? 24 : 0 }} }},
+      layout: {{ padding: {{ top: 28 }} }},
       plugins: {{
-        legend: {{ position: 'bottom',
-                  labels: {{ boxWidth: 12, padding: 10, font: {{ size: 11 }},
-                    filter: item => item.text !== 'NPS Lineal' }} }},
-        tooltip: {{
-          callbacks: {{
-            label: ctx => ctx.dataset.label === 'NPS Lineal'
-              ? ` NPS: ${{ctx.parsed.y > 0 ? '+' : ''}}${{ctx.parsed.y}}`
-              : ` ${{ctx.dataset.label}}: ${{ctx.parsed.y.toLocaleString('pt-BR')}} atendimentos`
-          }}
-        }}
+        legend: {{ display: false }},
+        tooltip: {{ callbacks: {{ label: ctx => ` NPS: ${{(ctx.parsed.y > 0 ? '+' : '') + ctx.parsed.y}}` }} }}
       }},
       scales: {{
-        x: {{ stacked: true, grid: {{ display: false }}, ticks: {{ font: {{ size: 11 }} }} }},
-        y: {{ stacked: true, grid: {{ color: '#f0f2f5' }},
-              ticks: {{ font: {{ size: 11 }}, callback: v => v.toLocaleString('pt-BR') }} }},
-        yNps: {{
-          type: 'linear', position: 'right', min: -100, max: 100,
-          display: hasNps,
-          grid: {{ display: false }},
-          ticks: {{ font: {{ size: 10 }}, color: '#888',
-                    callback: v => (v > 0 ? '+' : '') + v }},
-          title: {{ display: true, text: 'NPS', font: {{ size: 10 }}, color: '#888' }}
-        }}
+        x: {{ grid: {{ display: false }}, ticks: {{ font: {{ size: 12 }} }} }},
+        y: {{ grid: {{ color: ctx => ctx.tick.value === 0 ? '#aaa' : '#f0f2f5' }},
+              ticks: {{ font: {{ size: 11 }}, callback: v => (v > 0 ? '+' : '') + v }} }}
       }}
     }}
   }});
 }}
 
+// ── Transcriptions ────────────────────────────────────────────────────────────
 function buildCard(t, i) {{
   const c = ACCENT[i % ACCENT.length];
   const chips = (t.case_ids||[]).map(id=>`<span class="case-chip">#${{id}}</span>`).join('');
@@ -1289,10 +1427,6 @@ function selectCDU(cdu) {{
     el.innerHTML = '<div class="themes-list">'+themes.map((t,i)=>buildCard(t,i)).join('')+'</div>';
   }}
 }}
-
-barCombo('cM', {jd(monthly['months'])}, [{m_ds}], {jd(nps_monthly['monthly_nps'])}, true, true);
-barCombo('cW', {jd(weekly['weeks'])},   [{w_ds}], {jd(nps_weekly)}, true, true);
-barCombo('cD', {jd(daily['days'])},     [{d_ds}], {jd(nps_daily)},  true, true);
 </script>
 </body>
 </html>"""
