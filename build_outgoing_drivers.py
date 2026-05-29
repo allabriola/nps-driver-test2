@@ -2016,15 +2016,27 @@ function initNpsCharts() {{
     if (!el) return;
     const vals    = c.wk_nps;
     const tgt     = c.target;
-    const colors  = vals.map(v => v === null ? '#ddd' : npsColor(v));
+    const hasData = vals.some(v => v !== null && v !== undefined);
+
+    // Fallback: sem dados semanais → linha horizontal no NPS YTD
+    const displayVals = hasData ? vals : vals.map(() => null);
+    const ytdLine = !hasData && c.nps != null ? vals.map(() => c.nps) : null;
+
+    const colors  = displayVals.map(v => v === null ? '#ddd' : npsColor(v));
     const tgtLine = vals.map(() => tgt);
+    const datasets = [
+      {{ data: displayVals, backgroundColor: colors, borderRadius: 3, barPercentage: 0.7 }},
+      {{ type: 'line', data: tgtLine, borderColor: '#E05252', borderDash: [4,3],
+         borderWidth: 1.5, pointRadius: 0, fill: false, spanGaps: true }},
+    ];
+    if (ytdLine) datasets.push({{
+      type: 'line', data: ytdLine, borderColor: npsColor(c.nps),
+      borderWidth: 1.5, pointRadius: 0, fill: false, spanGaps: true,
+      borderDash: [3,2], label: `NPS YTD (${{c.nps}})`,
+    }});
     new Chart(el, {{
       type: 'bar',
-      data: {{ labels: c.weeks, datasets: [
-        {{ data: vals, backgroundColor: colors, borderRadius: 3, barPercentage: 0.7 }},
-        {{ type: 'line', data: tgtLine, borderColor: '#E05252', borderDash: [4,3],
-           borderWidth: 1.5, pointRadius: 0, fill: false, spanGaps: true }},
-      ] }},
+      data: {{ labels: c.weeks, datasets }},
       options: {{
         responsive: true, maintainAspectRatio: false,
         plugins: {{
