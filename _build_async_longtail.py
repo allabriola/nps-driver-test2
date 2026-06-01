@@ -531,22 +531,22 @@ def chart_geral_pct_mth():  return _geral_chart(q8_geral, 'mes',    'cg-cpm',   
 def chart_sen_semanal(team, pfx='s'):
     keys, series, _, total = build_category_series(q9,  team, 'semana', 'senioridade', SENIORITY_ORDER)
     if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'csen-{pfx}-{TEAM_SHORT[team]}', [k[5:].replace('-','/') for k in keys], bar_datasets(series, SENIORITY_COLORS, total=total), 'async/caso')
+    return make_chart(f'csen-{pfx}-{TEAM_SHORT[team]}', [k[5:].replace('-','/') for k in keys], line_datasets(series, SENIORITY_COLORS, total=total), 'async/caso', bar=False)
 
 def chart_faixa_semanal(team, pfx='s'):
     keys, series, _, total = build_category_series(q10, team, 'semana', 'faixa',       FAIXA_ORDER)
     if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'cfx-{pfx}-{TEAM_SHORT[team]}',  [k[5:].replace('-','/') for k in keys], bar_datasets(series, FAIXA_COLORS,     total=total), 'async/caso')
+    return make_chart(f'cfx-{pfx}-{TEAM_SHORT[team]}',  [k[5:].replace('-','/') for k in keys], line_datasets(series, FAIXA_COLORS,     total=total), 'async/caso', bar=False)
 
 def chart_sen_mensal(team, pfx='m'):
     keys, series, _, total = build_category_series(q11, team, 'mes', 'senioridade', SENIORITY_ORDER)
     if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'csen-{pfx}-{TEAM_SHORT[team]}', [fmt_mes(k) for k in keys], bar_datasets(series, SENIORITY_COLORS, total=total), 'async/caso')
+    return make_chart(f'csen-{pfx}-{TEAM_SHORT[team]}', [fmt_mes(k) for k in keys], line_datasets(series, SENIORITY_COLORS, total=total), 'async/caso', bar=False)
 
 def chart_faixa_mensal(team, pfx='m'):
     keys, series, _, total = build_category_series(q12, team, 'mes', 'faixa',       FAIXA_ORDER)
     if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'cfx-{pfx}-{TEAM_SHORT[team]}',  [fmt_mes(k) for k in keys], bar_datasets(series, FAIXA_COLORS,     total=total), 'async/caso')
+    return make_chart(f'cfx-{pfx}-{TEAM_SHORT[team]}',  [fmt_mes(k) for k in keys], line_datasets(series, FAIXA_COLORS,     total=total), 'async/caso', bar=False)
 
 # ── seniority block reutilizável ──────────────────────────────────────────────
 
