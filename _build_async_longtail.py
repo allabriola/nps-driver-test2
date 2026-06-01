@@ -505,6 +505,7 @@ def make_chart(cid, labels, datasets, y_label, bar=True, height=280, x_rotation=
     data_json  = json.dumps({'labels': labels, 'datasets': datasets}, default=jd)
     chart_type = 'bar' if bar else 'line'
     rotation   = f'maxRotation:{x_rotation},' if x_rotation else ''
+    anchor     = 'end' if bar else 'top'
     return f"""<div style="position:relative;height:{height}px"><canvas id="{cid}"></canvas></div>
 <script>(function(){{
   var ctx=document.getElementById('{cid}').getContext('2d');
@@ -514,7 +515,16 @@ def make_chart(cid, labels, datasets, y_label, bar=True, height=280, x_rotation=
     options:{{responsive:true,maintainAspectRatio:false,interaction:{{mode:'index',intersect:false}},
       plugins:{{
         legend:{{position:'top',labels:{{filter:function(i){{return !i.text.startsWith('__');}},boxWidth:12,font:{{size:11}}}}}},
-        tooltip:{{filter:function(i){{return !i.dataset.label.startsWith('__');}}}}
+        tooltip:{{filter:function(i){{return !i.dataset.label.startsWith('__');}}}},
+        datalabels:{{
+          display:function(ctx){{
+            var lbl=ctx.dataset.label;
+            return !lbl.startsWith('__') && ctx.parsed.y!==null && ctx.parsed.y!==undefined && ctx.parsed.y>0;
+          }},
+          color:'#333',font:{{size:9,weight:'bold'}},
+          formatter:function(v){{return v!==null&&v!==undefined?v.toFixed(2):'';}},
+          anchor:'{anchor}',align:'top',offset:2,clamp:true
+        }}
       }},
       scales:{{
         y:{{title:{{display:true,text:'{y_label}',font:{{size:11}}}},min:0,ticks:{{font:{{size:11}}}}}},
@@ -831,6 +841,7 @@ html = f"""<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Chat Assíncrono — Longtail Sellers BR</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
   :root{{--green:#1a8a3c;--yellow:#b8860b;--red:#c0392b;--bg:#f4f6f8;--card:#fff;--border:#dde3ea;--head:#2c3e50;--accent:#3498db}}
   *{{box-sizing:border-box;margin:0;padding:0}}
@@ -892,6 +903,7 @@ html = f"""<!DOCTYPE html>
 <div class="tabs">{tabs_nav}</div>
 {tabs_body}
 <script>
+Chart.register(ChartDataLabels);
 function showTab(id){{
   document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('show'));
   document.querySelectorAll('.tab-btn').forEach(el=>el.classList.remove('active'));
