@@ -502,27 +502,31 @@ def chart_daily(team):
     if not keys: return "<p class='empty'>Sem dados</p>"
     return make_chart(f'cd-{TEAM_SHORT[team]}', [k[5:].replace('-','/') for k in keys], bar_datasets(series, cmap, total=total), 'async/caso', bar=True, x_rotation=45)
 
-def chart_weekly(team):
+def chart_weekly(team, pfx=''):
     keys, series, cmap, total = build_office_series(q7, team, 'semana')
     if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'cw-{TEAM_SHORT[team]}', [k[5:].replace('-','/') for k in keys], bar_datasets(series, cmap, total=total), 'async/caso', bar=True)
+    cid = f'cw-{pfx}-{TEAM_SHORT[team]}' if pfx else f'cw-{TEAM_SHORT[team]}'
+    return make_chart(cid, [k[5:].replace('-','/') for k in keys], bar_datasets(series, cmap, total=total), 'async/caso', bar=True)
 
-def chart_monthly(team):
+def chart_monthly(team, pfx=''):
     fk = monthly_keys_jan26()
     keys, series, cmap, total = build_office_series(q8, team, 'mes', forced_keys=fk)
     if not series: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'cm-{TEAM_SHORT[team]}', [fmt_mes(k) for k in keys], bar_datasets(series, cmap, total=total), 'async/caso', bar=True)
+    cid = f'cm-{pfx}-{TEAM_SHORT[team]}' if pfx else f'cm-{TEAM_SHORT[team]}'
+    return make_chart(cid, [fmt_mes(k) for k in keys], bar_datasets(series, cmap, total=total), 'async/caso', bar=True)
 
-def chart_pct_weekly(team):
+def chart_pct_weekly(team, pfx=''):
     keys, series, cmap, total = build_office_series(q7, team, 'semana')
     if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'cpw-{TEAM_SHORT[team]}', [k[5:].replace('-','/') for k in keys], line_datasets(series, cmap, multiplier=100, total=total), '% async/CR', bar=False)
+    cid = f'cpw-{pfx}-{TEAM_SHORT[team]}' if pfx else f'cpw-{TEAM_SHORT[team]}'
+    return make_chart(cid, [k[5:].replace('-','/') for k in keys], line_datasets(series, cmap, multiplier=100, total=total), '% async/CR', bar=False)
 
-def chart_pct_monthly(team):
+def chart_pct_monthly(team, pfx=''):
     fk = monthly_keys_jan26()
     keys, series, cmap, total = build_office_series(q8, team, 'mes', forced_keys=fk)
     if not series: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'cpm-{TEAM_SHORT[team]}', [fmt_mes(k) for k in keys], line_datasets(series, cmap, multiplier=100, total=total), '% async/CR', bar=False)
+    cid = f'cpm-{pfx}-{TEAM_SHORT[team]}' if pfx else f'cpm-{TEAM_SHORT[team]}'
+    return make_chart(cid, [fmt_mes(k) for k in keys], line_datasets(series, cmap, multiplier=100, total=total), '% async/CR', bar=False)
 
 # ── gráficos Geral (série = equipe) ──────────────────────────────────────────
 
@@ -617,8 +621,29 @@ def tab_content(team):
         <div class="card" style="flex:1;min-width:0"><h3>WoW por Office</h3>{section_wow(team)}</div>
         <div class="card" style="flex:1;min-width:0"><h3>Mês Acumulado <small>({mes_ini.strftime('%b/%Y')})</small></h3>{section_mes(team)}</div>
       </div>
-      <div class="section-title">Diário por Office <small style="font-weight:400">— use as abas Semanal e Mensal para análises por período</small></div>
-      <div class="card"><h3>Diário <small>últimos 15 dias</small></h3>{chart_daily(team)}</div>
+      <div class="section-title">Diário</div>
+      <div class="card"><h3>Diário por Office <small>últimos 15 dias</small></h3>{chart_daily(team)}</div>
+
+      <div class="section-title">Visão Semanal <small style="font-weight:400;font-size:11px">(últimas 8 semanas)</small></div>
+      <div style="display:flex;gap:16px">
+        <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office</h3>{chart_weekly(team,'t')}</div>
+        <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office</h3>{chart_pct_weekly(team,'t')}</div>
+      </div>
+      <div style="display:flex;gap:16px">
+        <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_semanal(team,'ts')}</div>
+        <div class="card" style="flex:1;min-width:0"><h3>Tempo de Operação — M1/M2/M3/M4+</h3>{chart_faixa_semanal(team,'ts')}</div>
+      </div>
+
+      <div class="section-title">Visão Mensal <small style="font-weight:400;font-size:11px">(fev/26 → hoje)</small></div>
+      <div style="display:flex;gap:16px">
+        <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office</h3>{chart_monthly(team,'t')}</div>
+        <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office</h3>{chart_pct_monthly(team,'t')}</div>
+      </div>
+      <div style="display:flex;gap:16px">
+        <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_mensal(team,'tm')}</div>
+        <div class="card" style="flex:1;min-width:0"><h3>Tempo de Operação — M1/M2/M3/M4+</h3>{chart_faixa_mensal(team,'tm')}</div>
+      </div>
+
       <div class="card"><h3>Por Team Leader <small>(sem {fmt_date(sem_ant_ini)}–{fmt_date(sem_ant_fin)})</small></h3>{section_lideres(team)}</div>
       <div class="card"><h3>Top 20 Reps — maior async/caso <small>(mín. 10 CR)</small></h3>{section_reps(team)}</div>
     </div>"""
@@ -789,7 +814,7 @@ function filterOffice(team,office,btn){{
   document.querySelectorAll('#tab-'+team+' tr[data-office]').forEach(row=>{{
     row.style.display=(office==='ALL'||row.dataset.office===office)?'':'none';
   }});
-  ['cd-','cw-','cm-','cpw-','cpm-'].forEach(p=>{{
+  ['cd-','cw-','cw-t-','cm-','cm-t-','cpw-','cpw-t-','cpm-','cpm-t-'].forEach(p=>{{
     var c=(window._charts||{{}})[p+team];
     if(!c)return;
     c.data.datasets.forEach((ds,i)=>{{
