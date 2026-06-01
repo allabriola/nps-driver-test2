@@ -40,11 +40,9 @@ sem_act_ini = monday
 mes_ini     = today.replace(day=1)
 trend_ini   = monday - timedelta(days=56)
 ontem       = today - timedelta(days=1)
-mes_6m      = today.replace(day=1)
-for _ in range(5):
-    mes_6m = (mes_6m - timedelta(days=1)).replace(day=1)
+mes_jan26   = date(2026, 1, 1)   # período mensal: Jan/2026 → atual
 
-print(f"Datas: sem_ant={sem_ant_ini}–{sem_ant_fin} | mes_ini={mes_ini} | trend={trend_ini} | mes_6m={mes_6m}")
+print(f"Datas: sem_ant={sem_ant_ini}–{sem_ant_fin} | mes_ini={mes_ini} | trend={trend_ini} | mensal desde {mes_jan26}")
 
 def run(sql, retries=6, wait=15):
     for attempt in range(retries):
@@ -152,7 +150,7 @@ SELECT USER_TEAM_NAME AS equipe, FORMAT_DATE('%Y-%m', DATE_ID) AS mes, USER_OFFI
   SUM(DENOM_IXC) AS incoming_cr,
   ROUND(COUNTIF(SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(DENOM_IXC), 0), 2) AS async_por_caso
 FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL`
-WHERE VALID_IXC_FLAG = TRUE AND DATE_ID >= "{mes_6m}" AND DATE_ID < CURRENT_DATE()
+WHERE VALID_IXC_FLAG = TRUE AND DATE_ID >= "{mes_jan26}" AND DATE_ID < CURRENT_DATE()
   AND USER_TEAM_NAME IN ({TEAMS_IN}) AND USER_OFFICE IS NOT NULL
 GROUP BY 1,2,3 ORDER BY 1, 2 ASC, async_por_caso DESC
 """); print(f"  Q8 mensal: {len(q8)}")
@@ -173,29 +171,32 @@ WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID >= "{trend_ini}" AND ixc.DATE_ID
 GROUP BY 1,2,3 ORDER BY 1,2,3
 """); print(f"  Q9 sen semanal: {len(q9)}")
 
-# Q10 — faixa M1/M2/M3/M4+ × semana
+# Q10 — faixa M1/M2/M3/M4+ × semana (DATE_DIFF entre mês da interação e mês de entrada)
 q10 = run(f"""
 SELECT ixc.USER_TEAM_NAME AS equipe, DATE_TRUNC(ixc.DATE_ID, WEEK(MONDAY)) AS semana,
   CASE
-    WHEN staff.MONTHS_SINCE_FST_DAY_QUEUE <= 1 THEN 'M1'
-    WHEN staff.MONTHS_SINCE_FST_DAY_QUEUE = 2  THEN 'M2'
-    WHEN staff.MONTHS_SINCE_FST_DAY_QUEUE = 3  THEN 'M3'
+    WHEN staff.fst_day IS NULL THEN 'M4+'
+    WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) <= 1 THEN 'M1'
+    WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) = 2  THEN 'M2'
+    WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) = 3  THEN 'M3'
     ELSE 'M4+'
   END AS faixa,
   COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") AS async_total,
   SUM(ixc.DENOM_IXC) AS incoming_cr,
   ROUND(COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(ixc.DENOM_IXC), 0), 2) AS async_por_caso
 FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL` ixc
-JOIN `meli-bi-data.WHOWNER.BT_CX_STAFF_HISTORY` staff
-  ON ixc.CI_OWNER_ID = staff.USER_LDAP AND ixc.DATE_ID = staff.DATE_ID
-  AND staff.USER_TEAM_NAME IN ({TEAMS_IN})
+LEFT JOIN (
+  SELECT USER_LDAP, MIN(FST_DAY_QUEUE_DATE) AS fst_day
+  FROM `meli-bi-data.WHOWNER.BT_CX_STAFF_HISTORY`
+  WHERE USER_TEAM_NAME IN ({TEAMS_IN}) AND FST_DAY_QUEUE_DATE IS NOT NULL
+  GROUP BY 1
+) staff ON ixc.CI_OWNER_ID = staff.USER_LDAP
 WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID >= "{trend_ini}" AND ixc.DATE_ID < CURRENT_DATE()
   AND ixc.USER_TEAM_NAME IN ({TEAMS_IN}) AND ixc.CI_OWNER_ID IS NOT NULL
-  AND staff.MONTHS_SINCE_FST_DAY_QUEUE IS NOT NULL
 GROUP BY 1,2,3 ORDER BY 1,2,3
 """); print(f"  Q10 faixa semanal: {len(q10)}")
 
-# Q11 — senioridade × mês
+# Q11 — senioridade × mês (Jan/2026 em diante)
 q11 = run(f"""
 SELECT ixc.USER_TEAM_NAME AS equipe, FORMAT_DATE('%Y-%m', ixc.DATE_ID) AS mes,
   CASE WHEN km.FLAG_EXPERT_STATUS THEN 'Expert' ELSE 'Newbie' END AS senioridade,
@@ -206,30 +207,33 @@ FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL` ixc
 JOIN `meli-bi-data.WHOWNER.BT_CX_KM_TRAINING_STATUS` km
   ON ixc.CI_OWNER_ID = km.USER_LDAP AND ixc.DATE_ID = km.DATE_ID
   AND km.USER_TEAM_NAME IN ({TEAMS_IN})
-WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID >= "{mes_6m}" AND ixc.DATE_ID < CURRENT_DATE()
+WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID >= "{mes_jan26}" AND ixc.DATE_ID < CURRENT_DATE()
   AND ixc.USER_TEAM_NAME IN ({TEAMS_IN}) AND ixc.CI_OWNER_ID IS NOT NULL
 GROUP BY 1,2,3 ORDER BY 1,2,3
 """); print(f"  Q11 sen mensal: {len(q11)}")
 
-# Q12 — faixa × mês
+# Q12 — faixa × mês (Jan/2026, DATE_DIFF mês interação vs mês de entrada)
 q12 = run(f"""
 SELECT ixc.USER_TEAM_NAME AS equipe, FORMAT_DATE('%Y-%m', ixc.DATE_ID) AS mes,
   CASE
-    WHEN staff.MONTHS_SINCE_FST_DAY_QUEUE <= 1 THEN 'M1'
-    WHEN staff.MONTHS_SINCE_FST_DAY_QUEUE = 2  THEN 'M2'
-    WHEN staff.MONTHS_SINCE_FST_DAY_QUEUE = 3  THEN 'M3'
+    WHEN staff.fst_day IS NULL THEN 'M4+'
+    WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) <= 1 THEN 'M1'
+    WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) = 2  THEN 'M2'
+    WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) = 3  THEN 'M3'
     ELSE 'M4+'
   END AS faixa,
   COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") AS async_total,
   SUM(ixc.DENOM_IXC) AS incoming_cr,
   ROUND(COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(ixc.DENOM_IXC), 0), 2) AS async_por_caso
 FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL` ixc
-JOIN `meli-bi-data.WHOWNER.BT_CX_STAFF_HISTORY` staff
-  ON ixc.CI_OWNER_ID = staff.USER_LDAP AND ixc.DATE_ID = staff.DATE_ID
-  AND staff.USER_TEAM_NAME IN ({TEAMS_IN})
-WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID >= "{mes_6m}" AND ixc.DATE_ID < CURRENT_DATE()
+LEFT JOIN (
+  SELECT USER_LDAP, MIN(FST_DAY_QUEUE_DATE) AS fst_day
+  FROM `meli-bi-data.WHOWNER.BT_CX_STAFF_HISTORY`
+  WHERE USER_TEAM_NAME IN ({TEAMS_IN}) AND FST_DAY_QUEUE_DATE IS NOT NULL
+  GROUP BY 1
+) staff ON ixc.CI_OWNER_ID = staff.USER_LDAP
+WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID >= "{mes_jan26}" AND ixc.DATE_ID < CURRENT_DATE()
   AND ixc.USER_TEAM_NAME IN ({TEAMS_IN}) AND ixc.CI_OWNER_ID IS NOT NULL
-  AND staff.MONTHS_SINCE_FST_DAY_QUEUE IS NOT NULL
 GROUP BY 1,2,3 ORDER BY 1,2,3
 """); print(f"  Q12 faixa mensal: {len(q12)}")
 
@@ -592,17 +596,8 @@ def tab_content(team):
         <div class="card" style="flex:1;min-width:0"><h3>WoW por Office</h3>{section_wow(team)}</div>
         <div class="card" style="flex:1;min-width:0"><h3>Mês Acumulado <small>({mes_ini.strftime('%b/%Y')})</small></h3>{section_mes(team)}</div>
       </div>
-      <div class="section-title">Async/Caso por Office</div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Diário <small>15 dias</small></h3>{chart_daily(team)}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>Semanal <small>8 semanas</small></h3>{chart_weekly(team)}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>Mensal <small>6 meses</small></h3>{chart_monthly(team)}</div>
-      </div>
-      <div class="section-title">% de Uso Assíncrono por Office</div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Tendência Semanal</h3>{chart_pct_weekly(team)}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>Tendência Mensal</h3>{chart_pct_monthly(team)}</div>
-      </div>
+      <div class="section-title">Diário por Office <small style="font-weight:400">— use as abas Semanal e Mensal para análises por período</small></div>
+      <div class="card"><h3>Diário <small>últimos 15 dias</small></h3>{chart_daily(team)}</div>
       <div class="card"><h3>Por Team Leader <small>(sem {fmt_date(sem_ant_ini)}–{fmt_date(sem_ant_fin)})</small></h3>{section_lideres(team)}</div>
       <div class="card"><h3>Top 20 Reps — maior async/caso <small>(mín. 10 CR)</small></h3>{section_reps(team)}</div>
     </div>"""
@@ -625,35 +620,65 @@ def tab_geral():
       </div>
     </div>"""
 
+def _team_block_semanal(team):
+    s = TEAM_SHORT[team]
+    return f"""
+    <div class="team-section" data-team="{s}">
+      <div class="section-title">{s}</div>
+      <div style="display:flex;gap:16px">
+        <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office</h3>{chart_weekly(team)}</div>
+        <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office</h3>{chart_pct_weekly(team)}</div>
+      </div>
+      <div style="display:flex;gap:16px">
+        <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_semanal(team,'sw')}</div>
+        <div class="card" style="flex:1;min-width:0"><h3>Tempo de Operação — M1/M2/M3/M4+</h3>{chart_faixa_semanal(team,'sw')}</div>
+      </div>
+    </div>"""
+
+def _team_block_mensal(team):
+    s = TEAM_SHORT[team]
+    return f"""
+    <div class="team-section" data-team="{s}">
+      <div class="section-title">{s}</div>
+      <div style="display:flex;gap:16px">
+        <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office</h3>{chart_monthly(team)}</div>
+        <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office</h3>{chart_pct_monthly(team)}</div>
+      </div>
+      <div style="display:flex;gap:16px">
+        <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_mensal(team,'mw')}</div>
+        <div class="card" style="flex:1;min-width:0"><h3>Tempo de Operação — M1/M2/M3/M4+</h3>{chart_faixa_mensal(team,'mw')}</div>
+      </div>
+    </div>"""
+
 def tab_semanal():
-    blocks = "".join(seniority_block(t, 'semanal', 'sw') for t in TEAMS)
+    team_blocks = "".join(_team_block_semanal(t) for t in TEAMS)
     return f"""
     <div id="tab-Semanal" class="tab-content">
-      <h2>Visão Semanal — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(últimas 8 semanas)</small></h2>
+      <h2>Visão Semanal — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(últimas 8 semanas — {fmt_date(trend_ini)} a {fmt_date(ontem)})</small></h2>
       {section_team_filter('Semanal')}
-      <div class="card" id="semanal-wow"><h3>WoW por Equipe</h3>{wow_table_all()}</div>
-      <div class="section-title">Async/Caso & % Uso — por Equipe</div>
+      <div class="card"><h3>WoW por Equipe</h3>{wow_table_all()}</div>
+      <div class="section-title">Async/Caso & % Uso por Equipe</div>
       <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Semanal</h3>{_geral_chart(q7_geral,'semana','cg2-weekly',lambda k:k[5:].replace('-','/'),'async/caso')}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>% Uso Semanal</h3>{_geral_chart(q7_geral,'semana','cg2-cpw',lambda k:k[5:].replace('-','/'),'% async/CR',pct=True,bar=False)}</div>
+        <div class="card" style="flex:1;min-width:0"><h3>Semanal — todas as equipes</h3>{_geral_chart(q7_geral,'semana','cg2-weekly',lambda k:k[5:].replace('-','/'),'async/caso')}</div>
+        <div class="card" style="flex:1;min-width:0"><h3>% Uso Semanal — todas as equipes</h3>{_geral_chart(q7_geral,'semana','cg2-cpw',lambda k:k[5:].replace('-','/'),'% async/CR',pct=True,bar=False)}</div>
       </div>
-      <div class="section-title">Senioridade por Equipe <small style="font-weight:400;font-size:11px">— selecione uma equipe no filtro acima para isolar</small></div>
-      {blocks}
+      <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro acima para isolar uma equipe</small></div>
+      {team_blocks}
     </div>"""
 
 def tab_mensal():
-    blocks = "".join(seniority_block(t, 'mensal', 'mw') for t in TEAMS)
+    team_blocks = "".join(_team_block_mensal(t) for t in TEAMS)
     return f"""
     <div id="tab-Mensal" class="tab-content">
-      <h2>Visão Mensal — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(últimos 6 meses)</small></h2>
+      <h2>Visão Mensal — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(Jan/2026 → {today.strftime('%b/%Y')})</small></h2>
       {section_team_filter('Mensal')}
-      <div class="section-title">Async/Caso & % Uso — por Equipe</div>
+      <div class="section-title">Async/Caso & % Uso por Equipe</div>
       <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Mensal</h3>{_geral_chart(q8_geral,'mes','cg2-monthly',lambda k:k[2:].replace('-','/'),'async/caso')}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>% Uso Mensal</h3>{_geral_chart(q8_geral,'mes','cg2-cpm',lambda k:k[2:].replace('-','/'),'% async/CR',pct=True,bar=False)}</div>
+        <div class="card" style="flex:1;min-width:0"><h3>Mensal — todas as equipes</h3>{_geral_chart(q8_geral,'mes','cg2-monthly',lambda k:k[2:].replace('-','/'),'async/caso')}</div>
+        <div class="card" style="flex:1;min-width:0"><h3>% Uso Mensal — todas as equipes</h3>{_geral_chart(q8_geral,'mes','cg2-cpm',lambda k:k[2:].replace('-','/'),'% async/CR',pct=True,bar=False)}</div>
       </div>
-      <div class="section-title">Senioridade por Equipe <small style="font-weight:400;font-size:11px">— selecione uma equipe no filtro acima para isolar</small></div>
-      {blocks}
+      <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro acima para isolar uma equipe</small></div>
+      {team_blocks}
     </div>"""
 
 # ── HTML ───────────────────────────────────────────────────────────────────────
