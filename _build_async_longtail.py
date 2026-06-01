@@ -616,36 +616,45 @@ def tab_content(team):
     <div id="tab-{s}" class="tab-content">
       <h2>{team}</h2>
       {section_office_filter(team)}
-      <div class="card"><h3>Resumo Executivo</h3>{exec_summary(team)}</div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>WoW por Office</h3>{section_wow(team)}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>Mês Acumulado <small>({mes_ini.strftime('%b/%Y')})</small></h3>{section_mes(team)}</div>
-      </div>
-      <div class="section-title">Diário</div>
-      <div class="card"><h3>Diário por Office <small>últimos 15 dias</small></h3>{chart_daily(team)}</div>
 
-      <div class="section-title">Visão Semanal <small style="font-weight:400;font-size:11px">(últimas 8 semanas)</small></div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office</h3>{chart_weekly(team,'t')}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office</h3>{chart_pct_weekly(team,'t')}</div>
-      </div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_semanal(team,'ts')}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>Tempo de Operação — M1/M2/M3/M4+</h3>{chart_faixa_semanal(team,'ts')}</div>
+      <div class="subtabs">
+        <button class="stab-btn active" onclick="showSubTab('{s}','Geral',this)">Geral</button>
+        <button class="stab-btn" onclick="showSubTab('{s}','Semanal',this)">Semanal</button>
+        <button class="stab-btn" onclick="showSubTab('{s}','Mensal',this)">Mensal</button>
       </div>
 
-      <div class="section-title">Visão Mensal <small style="font-weight:400;font-size:11px">(fev/26 → hoje)</small></div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office</h3>{chart_monthly(team,'t')}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office</h3>{chart_pct_monthly(team,'t')}</div>
-      </div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_mensal(team,'tm')}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>Tempo de Operação — M1/M2/M3/M4+</h3>{chart_faixa_mensal(team,'tm')}</div>
+      <div id="stab-{s}-Geral" class="stab-content show">
+        <div class="card"><h3>Resumo Executivo</h3>{exec_summary(team)}</div>
+        <div style="display:flex;gap:16px">
+          <div class="card" style="flex:1;min-width:0"><h3>WoW por Office</h3>{section_wow(team)}</div>
+          <div class="card" style="flex:1;min-width:0"><h3>Mês Acumulado <small>({mes_ini.strftime('%b/%Y')})</small></h3>{section_mes(team)}</div>
+        </div>
+        <div class="card"><h3>Diário por Office <small>últimos 15 dias</small></h3>{chart_daily(team)}</div>
+        <div class="card"><h3>Por Team Leader <small>(sem {fmt_date(sem_ant_ini)}–{fmt_date(sem_ant_fin)})</small></h3>{section_lideres(team)}</div>
+        <div class="card"><h3>Top 20 Reps — maior async/caso <small>(mín. 10 CR)</small></h3>{section_reps(team)}</div>
       </div>
 
-      <div class="card"><h3>Por Team Leader <small>(sem {fmt_date(sem_ant_ini)}–{fmt_date(sem_ant_fin)})</small></h3>{section_lideres(team)}</div>
-      <div class="card"><h3>Top 20 Reps — maior async/caso <small>(mín. 10 CR)</small></h3>{section_reps(team)}</div>
+      <div id="stab-{s}-Semanal" class="stab-content">
+        <div style="display:flex;gap:16px">
+          <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office <small>8 semanas</small></h3>{chart_weekly(team,'t')}</div>
+          <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office <small>8 semanas</small></h3>{chart_pct_weekly(team,'t')}</div>
+        </div>
+        <div style="display:flex;gap:16px">
+          <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_semanal(team,'ts')}</div>
+          <div class="card" style="flex:1;min-width:0"><h3>Tempo de Operação — M1/M2/M3/M4+</h3>{chart_faixa_semanal(team,'ts')}</div>
+        </div>
+      </div>
+
+      <div id="stab-{s}-Mensal" class="stab-content">
+        <div style="display:flex;gap:16px">
+          <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office <small>fev/26–hoje</small></h3>{chart_monthly(team,'t')}</div>
+          <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office <small>fev/26–hoje</small></h3>{chart_pct_monthly(team,'t')}</div>
+        </div>
+        <div style="display:flex;gap:16px">
+          <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_mensal(team,'tm')}</div>
+          <div class="card" style="flex:1;min-width:0"><h3>Tempo de Operação — M1/M2/M3/M4+</h3>{chart_faixa_mensal(team,'tm')}</div>
+        </div>
+      </div>
     </div>"""
 
 def tab_geral():
@@ -780,6 +789,12 @@ html = f"""<!DOCTYPE html>
   ul.exec{{padding-left:18px}} ul.exec li{{margin-bottom:6px;line-height:1.5}}
   .empty{{color:#999;font-style:italic;padding:8px 0}}
   .team-section{{margin-bottom:8px}}
+  .subtabs{{display:flex;gap:6px;margin-bottom:16px;border-bottom:2px solid var(--border);padding-bottom:0}}
+  .stab-btn{{padding:6px 18px;border:none;background:transparent;border-radius:6px 6px 0 0;cursor:pointer;font-size:12px;font-weight:600;color:#666;transition:all .15s;border-bottom:2px solid transparent;margin-bottom:-2px}}
+  .stab-btn.active{{color:var(--accent);border-bottom-color:var(--accent)}}
+  .stab-btn:hover:not(.active){{color:var(--head);background:#f0f4f8}}
+  .stab-content{{display:none}}
+  .stab-content.show{{display:block}}
   @media(max-width:900px){{div[style*="display:flex"]{{flex-direction:column!important}}}}
 </style>
 </head>
@@ -825,6 +840,12 @@ function filterOffice(team,office,btn){{
   }});
 }}
 
+function showSubTab(team,subtab,btn){{
+  document.querySelectorAll('#tab-'+team+' .stab-content').forEach(el=>el.classList.remove('show'));
+  document.querySelectorAll('#tab-'+team+' .stab-btn').forEach(el=>el.classList.remove('active'));
+  document.getElementById('stab-'+team+'-'+subtab).classList.add('show');
+  btn.classList.add('active');
+}}
 function filterTeamSection(tab,team,btn){{
   document.querySelectorAll('#team-filter-'+tab+' .off-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
