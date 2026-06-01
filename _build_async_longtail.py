@@ -581,8 +581,8 @@ def _chart_total(q_geral, date_key, cid, label_fn, forced_keys=None):
     return make_chart(cid, [label_fn(k) for k in keys], ds, 'async/caso', bar=True)
 
 def _chart_equipes(q_geral, date_key, cid, label_fn, forced_keys=None):
-    """Barras: uma barra por equipe."""
-    return _geral_chart(q_geral, date_key, cid, label_fn, 'async/caso', bar=True, forced_keys=forced_keys)
+    """Linhas: uma linha por equipe."""
+    return _geral_chart(q_geral, date_key, cid, label_fn, 'async/caso', bar=False, forced_keys=forced_keys)
 
 def _chart_sen_geral(q_sen, date_key, cid, label_fn, forced_keys=None):
     """Linhas: Expert vs Newbie — todas as equipes combinadas."""
