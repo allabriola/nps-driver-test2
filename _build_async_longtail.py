@@ -38,8 +38,8 @@ def fmt_mes(k):
     return f"{_MESES_PT[int(m)-1]}/{y[2:]}"
 
 def monthly_keys_jan26():
-    """Todos os meses de Jan/2026 até o mês atual, como 'YYYY-MM'."""
-    keys, y, m = [], 2026, 1
+    """Todos os meses de Fev/2026 até o mês atual, como 'YYYY-MM'."""
+    keys, y, m = [], 2026, 2
     while date(y, m, 1) <= today.replace(day=1):
         keys.append(f"{y:04d}-{m:02d}")
         m += 1
@@ -55,7 +55,7 @@ sem_act_ini = monday
 mes_ini     = today.replace(day=1)
 trend_ini   = monday - timedelta(days=56)
 ontem       = today - timedelta(days=1)
-mes_jan26   = date(2026, 1, 1)   # período mensal: Jan/2026 → atual
+mes_jan26   = date(2026, 2, 1)   # período mensal: Fev/2026 → atual
 
 print(f"Datas: sem_ant={sem_ant_ini}–{sem_ant_fin} | mes_ini={mes_ini} | trend={trend_ini} | mensal desde {mes_jan26}")
 
