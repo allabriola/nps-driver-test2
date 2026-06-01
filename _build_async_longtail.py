@@ -563,7 +563,12 @@ def _geral_chart(q, date_key, cid, label_fn, y_label, pct=False, bar=True, x_rot
     keys, series, cmap, total = build_team_series(q, date_key, forced_keys=forced_keys)
     if not keys: return "<p class='empty'>Sem dados</p>"
     labels = [label_fn(k) for k in keys]
-    ds = bar_datasets(series, cmap, total=total) if not pct else line_datasets(series, cmap, multiplier=100, total=total)
+    if pct:
+        ds = line_datasets(series, cmap, multiplier=100, total=total)
+    elif bar:
+        ds = bar_datasets(series, cmap, total=total)
+    else:
+        ds = line_datasets(series, cmap, total=total)
     return make_chart(cid, labels, ds, y_label, bar=bar, x_rotation=x_rot)
 
 def chart_geral_daily():    return _geral_chart(q1_geral, 'dia',    'cg-daily',   lambda k: k[5:].replace('-','/'), 'async/caso', bar=True, x_rot=45)
