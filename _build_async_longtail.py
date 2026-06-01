@@ -181,7 +181,7 @@ GROUP BY 1,2,3 ORDER BY 1,2,3
 q10 = run(f"""
 SELECT ixc.USER_TEAM_NAME AS equipe, DATE_TRUNC(ixc.DATE_ID, WEEK(MONDAY)) AS semana,
   CASE
-    WHEN staff.fst_day IS NULL THEN 'M4+'
+    WHEN staff.fst_day IS NULL OR staff.fst_day < DATE '2026-01-01' THEN 'M4+'
     WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) <= 1 THEN 'M1'
     WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) = 2  THEN 'M2'
     WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) = 3  THEN 'M3'
@@ -222,7 +222,7 @@ GROUP BY 1,2,3 ORDER BY 1,2,3
 q12 = run(f"""
 SELECT ixc.USER_TEAM_NAME AS equipe, FORMAT_DATE('%Y-%m', ixc.DATE_ID) AS mes,
   CASE
-    WHEN staff.fst_day IS NULL THEN 'M4+'
+    WHEN staff.fst_day IS NULL OR staff.fst_day < DATE '2026-01-01' THEN 'M4+'
     WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) <= 1 THEN 'M1'
     WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) = 2  THEN 'M2'
     WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) = 3  THEN 'M3'
