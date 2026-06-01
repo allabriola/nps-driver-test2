@@ -177,7 +177,7 @@ WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID >= "{trend_ini}" AND ixc.DATE_ID
 GROUP BY 1,2,3 ORDER BY 1,2,3
 """); print(f"  Q9 sen semanal: {len(q9)}")
 
-# Q10 — faixa M1/M2/M3/M4+ × semana (DATE_DIFF entre mês da interação e mês de entrada)
+# Q10 — faixa M1/M2/M3/M4+ × semana (MIN(DATE_ID) na equipe = data de entrada no time)
 q10 = run(f"""
 SELECT ixc.USER_TEAM_NAME AS equipe, DATE_TRUNC(ixc.DATE_ID, WEEK(MONDAY)) AS semana,
   CASE
@@ -192,9 +192,9 @@ SELECT ixc.USER_TEAM_NAME AS equipe, DATE_TRUNC(ixc.DATE_ID, WEEK(MONDAY)) AS se
   ROUND(COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(ixc.DENOM_IXC), 0), 2) AS async_por_caso
 FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL` ixc
 LEFT JOIN (
-  SELECT USER_LDAP, MIN(FST_DAY_QUEUE_DATE) AS fst_day
+  SELECT USER_LDAP, MIN(DATE_ID) AS fst_day
   FROM `meli-bi-data.WHOWNER.BT_CX_STAFF_HISTORY`
-  WHERE USER_TEAM_NAME IN ({TEAMS_IN}) AND FST_DAY_QUEUE_DATE IS NOT NULL
+  WHERE USER_TEAM_NAME IN ({TEAMS_IN})
   GROUP BY 1
 ) staff ON ixc.CI_OWNER_ID = staff.USER_LDAP
 WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID >= "{trend_ini}" AND ixc.DATE_ID < CURRENT_DATE()
@@ -218,7 +218,7 @@ WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID >= "{mes_jan26}" AND ixc.DATE_ID
 GROUP BY 1,2,3 ORDER BY 1,2,3
 """); print(f"  Q11 sen mensal: {len(q11)}")
 
-# Q12 — faixa × mês (Jan/2026, DATE_DIFF mês interação vs mês de entrada)
+# Q12 — faixa × mês (Jan/2026, MIN(DATE_ID) na equipe = data de entrada no time)
 q12 = run(f"""
 SELECT ixc.USER_TEAM_NAME AS equipe, FORMAT_DATE('%Y-%m', ixc.DATE_ID) AS mes,
   CASE
@@ -233,9 +233,9 @@ SELECT ixc.USER_TEAM_NAME AS equipe, FORMAT_DATE('%Y-%m', ixc.DATE_ID) AS mes,
   ROUND(COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(ixc.DENOM_IXC), 0), 2) AS async_por_caso
 FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL` ixc
 LEFT JOIN (
-  SELECT USER_LDAP, MIN(FST_DAY_QUEUE_DATE) AS fst_day
+  SELECT USER_LDAP, MIN(DATE_ID) AS fst_day
   FROM `meli-bi-data.WHOWNER.BT_CX_STAFF_HISTORY`
-  WHERE USER_TEAM_NAME IN ({TEAMS_IN}) AND FST_DAY_QUEUE_DATE IS NOT NULL
+  WHERE USER_TEAM_NAME IN ({TEAMS_IN})
   GROUP BY 1
 ) staff ON ixc.CI_OWNER_ID = staff.USER_LDAP
 WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID >= "{mes_jan26}" AND ixc.DATE_ID < CURRENT_DATE()
