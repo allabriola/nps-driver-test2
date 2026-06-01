@@ -166,16 +166,33 @@
       </div>
     </div>
     <div id="tab-Semanal" class="tab-content">
-      <h2>Visão Semanal — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(últimas 8 semanas — 06/04 a 31/05)</small></h2>
-      <div class="off-filter" id="team-filter-Semanal"><button class="off-btn active" onclick="filterTeamSection('Semanal','ALL',this)">Todas</button><button class="off-btn" onclick="filterTeamSection('Semanal','ME',this)">ME</button><button class="off-btn" onclick="filterTeamSection('Semanal','Publicaciones',this)">Publicaciones</button><button class="off-btn" onclick="filterTeamSection('Semanal','Ventas',this)">Ventas</button></div>
-      <div class="card"><h3>WoW por Equipe</h3><table class="dt"><thead><tr><th>Equipe</th><th>Sem Ant<br><small>25/05–31/05</small></th><th>CR</th><th>Sem Atual<br><small>01/06–31/05</small></th><th>CR</th><th>Delta</th></tr></thead><tbody><tr data-team="ME"><td><strong>ME</strong></td><td class="num"><span class="ok">0.41</span></td><td class="num-s">26,817</td><td class="num">—</td><td class="num-s">0</td><td class="num">—</td></tr><tr data-team="Publicaciones"><td><strong>Publicaciones</strong></td><td class="num"><span class="ok">0.21</span></td><td class="num-s">14,195</td><td class="num">—</td><td class="num-s">0</td><td class="num">—</td></tr><tr data-team="Ventas"><td><strong>Ventas</strong></td><td class="num"><span class="ok">0.37</span></td><td class="num-s">14,353</td><td class="num">—</td><td class="num-s">0</td><td class="num">—</td></tr></tbody></table></div>
-      <div class="section-title">Async/Caso & % Uso por Equipe</div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Semanal — todas as equipes</h3><div style="position:relative;height:280px"><canvas id="cg2-weekly"></canvas></div>
+      <h2>Visão Semanal — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(últimas 8 semanas)</small></h2>
+      
+    <div class="section-title">Visão Geral <small style="font-weight:400;font-size:11px">(últimas 8 semanas — todas as equipes)</small></div>
+    <div style="display:flex;gap:16px">
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução Geral</h3><div style="position:relative;height:280px"><canvas id="vs-total"></canvas></div>
 <script>(function(){
-  var ctx=document.getElementById('cg2-weekly').getContext('2d');
+  var ctx=document.getElementById('vs-total').getContext('2d');
   window._charts=window._charts||{};
-  window._charts['cg2-weekly']=new Chart(ctx,{
+  window._charts['vs-total']=new Chart(ctx,{
+    type:'bar',data:{"labels": ["04/06", "04/13", "04/20", "04/27", "05/04", "05/11", "05/18", "05/25"], "datasets": [{"type": "bar", "label": "Total", "data": [0.4, 0.39, 0.33, 0.33, 0.37, 0.37, 0.37, 0.35], "backgroundColor": "#3498dbbb", "borderColor": "#3498db", "borderWidth": 1, "borderRadius": 3, "skipNull": true}, {"type": "line", "label": "__ref1__", "data": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0], "borderColor": "#b8860b", "borderDash": [6, 4], "pointRadius": 0, "borderWidth": 1.5, "fill": false, "tension": 0}, {"type": "line", "label": "__ref2__", "data": [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0], "borderColor": "#c0392b", "borderDash": [6, 4], "pointRadius": 0, "borderWidth": 1.5, "fill": false, "tension": 0}]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
+        tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
+      },
+      scales:{
+        y:{title:{display:true,text:'async/caso',font:{size:11}},min:0,ticks:{font:{size:11}}},
+        x:{ticks:{font:{size:10}}}
+      }
+    }
+  });
+})();</script></div>
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução por Equipe</h3><div style="position:relative;height:280px"><canvas id="vs-equipe"></canvas></div>
+<script>(function(){
+  var ctx=document.getElementById('vs-equipe').getContext('2d');
+  window._charts=window._charts||{};
+  window._charts['vs-equipe']=new Chart(ctx,{
     type:'bar',data:{"labels": ["04/06", "04/13", "04/20", "04/27", "05/04", "05/11", "05/18", "05/25"], "datasets": [{"type": "bar", "label": "ME", "data": [0.39, 0.37, 0.32, 0.35, 0.4, 0.42, 0.42, 0.41], "backgroundColor": "#3498dbbb", "borderColor": "#3498db", "borderWidth": 1, "borderRadius": 3, "skipNull": true}, {"type": "bar", "label": "Publicaciones", "data": [0.41, 0.4, 0.33, 0.29, 0.32, 0.28, 0.22, 0.21], "backgroundColor": "#e74c3cbb", "borderColor": "#e74c3c", "borderWidth": 1, "borderRadius": 3, "skipNull": true}, {"type": "bar", "label": "Ventas", "data": [0.42, 0.41, 0.36, 0.33, 0.37, 0.38, 0.41, 0.37], "backgroundColor": "#2ecc71bb", "borderColor": "#2ecc71", "borderWidth": 1, "borderRadius": 3, "skipNull": true}, {"type": "line", "label": "Total", "data": [0.4, 0.39, 0.33, 0.33, 0.37, 0.37, 0.37, 0.35], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 2.5, "pointRadius": 3, "tension": 0.3, "fill": false, "spanGaps": true, "order": 0}, {"type": "line", "label": "__ref1__", "data": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0], "borderColor": "#b8860b", "borderDash": [6, 4], "pointRadius": 0, "borderWidth": 1.5, "fill": false, "tension": 0}, {"type": "line", "label": "__ref2__", "data": [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0], "borderColor": "#c0392b", "borderDash": [6, 4], "pointRadius": 0, "borderWidth": 1.5, "fill": false, "tension": 0}]},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{
@@ -189,26 +206,47 @@
     }
   });
 })();</script></div>
-        <div class="card" style="flex:1;min-width:0"><h3>% Uso Semanal — todas as equipes</h3><div style="position:relative;height:280px"><canvas id="cg2-cpw"></canvas></div>
+    </div>
+    <div style="display:flex;gap:16px">
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução por Senioridade</h3><div style="position:relative;height:280px"><canvas id="vs-sen"></canvas></div>
 <script>(function(){
-  var ctx=document.getElementById('cg2-cpw').getContext('2d');
+  var ctx=document.getElementById('vs-sen').getContext('2d');
   window._charts=window._charts||{};
-  window._charts['cg2-cpw']=new Chart(ctx,{
-    type:'line',data:{"labels": ["04/06", "04/13", "04/20", "04/27", "05/04", "05/11", "05/18", "05/25"], "datasets": [{"type": "line", "label": "Total", "data": [40.0, 39.0, 33.0, 33.0, 37.0, 37.0, 37.0, 35.0], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "ME", "data": [39.0, 37.0, 32.0, 35.0, 40.0, 42.0, 42.0, 41.0], "borderColor": "#3498db", "backgroundColor": "#3498db33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "Publicaciones", "data": [41.0, 40.0, 33.0, 29.0, 32.0, 28.0, 22.0, 21.0], "borderColor": "#e74c3c", "backgroundColor": "#e74c3c33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "Ventas", "data": [42.0, 41.0, 36.0, 33.0, 37.0, 38.0, 41.0, 37.0], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
+  window._charts['vs-sen']=new Chart(ctx,{
+    type:'line',data:{"labels": ["04/06", "04/13", "04/20", "04/27", "05/04", "05/11", "05/18", "05/25"], "datasets": [{"type": "line", "label": "Total", "data": [0.4, 0.39, 0.33, 0.33, 0.37, 0.37, 0.37, 0.35], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "Expert", "data": [0.53, 0.56, 0.5, 0.51, 0.63, 0.66, 0.7, 0.69], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "Newbie", "data": [0.31, 0.27, 0.22, 0.18, 0.15, 0.15, 0.17, 0.17], "borderColor": "#e74c3c", "backgroundColor": "#e74c3c33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{
         legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
         tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
       },
       scales:{
-        y:{title:{display:true,text:'% async/CR',font:{size:11}},min:0,ticks:{font:{size:11}}},
+        y:{title:{display:true,text:'async/caso',font:{size:11}},min:0,ticks:{font:{size:11}}},
         x:{ticks:{font:{size:10}}}
       }
     }
   });
 })();</script></div>
-      </div>
-      <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro acima para isolar uma equipe</small></div>
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução por Período (M1–M4+)</h3><div style="position:relative;height:280px"><canvas id="vs-faixa"></canvas></div>
+<script>(function(){
+  var ctx=document.getElementById('vs-faixa').getContext('2d');
+  window._charts=window._charts||{};
+  window._charts['vs-faixa']=new Chart(ctx,{
+    type:'line',data:{"labels": ["04/06", "04/13", "04/20", "04/27", "05/04", "05/11", "05/18", "05/25"], "datasets": [{"type": "line", "label": "Total", "data": [0.4, 0.39, 0.33, 0.33, 0.37, 0.37, 0.37, 0.35], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "M1", "data": [0.42, 0.4, 0.34, 0.27, 0.18, 0.17, 0.2, 0.19], "borderColor": "#3498db", "backgroundColor": "#3498db33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "M2", "data": [0.0, 0.0, 0.0, 0.08, 0.39, 0.43, 0.46, 0.45], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "M3", "data": [null, null, null, 0.0, 0.0, 0.0, 0.0, 0.0], "borderColor": "#f39c12", "backgroundColor": "#f39c1233", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "M4+", "data": [0.51, 0.54, 0.48, 0.49, 0.68, 0.71, 0.78, 0.75], "borderColor": "#9b59b6", "backgroundColor": "#9b59b633", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
+        tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
+      },
+      scales:{
+        y:{title:{display:true,text:'async/caso',font:{size:11}},min:0,ticks:{font:{size:11}}},
+        x:{ticks:{font:{size:10}}}
+      }
+    }
+  });
+})();</script></div>
+    </div>
+      <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro abaixo para isolar uma equipe</small></div>
+      <div class="off-filter" id="team-filter-Semanal"><button class="off-btn active" onclick="filterTeamSection('Semanal','ALL',this)">Todas</button><button class="off-btn" onclick="filterTeamSection('Semanal','ME',this)">ME</button><button class="off-btn" onclick="filterTeamSection('Semanal','Publicaciones',this)">Publicaciones</button><button class="off-btn" onclick="filterTeamSection('Semanal','Ventas',this)">Ventas</button></div>
       
     <div class="team-section" data-team="ME">
       <div class="section-title">ME</div>
@@ -449,15 +487,33 @@
     </div>
     </div>
     <div id="tab-Mensal" class="tab-content">
-      <h2>Visão Mensal — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(Jan/2026 → Jun/2026)</small></h2>
-      <div class="off-filter" id="team-filter-Mensal"><button class="off-btn active" onclick="filterTeamSection('Mensal','ALL',this)">Todas</button><button class="off-btn" onclick="filterTeamSection('Mensal','ME',this)">ME</button><button class="off-btn" onclick="filterTeamSection('Mensal','Publicaciones',this)">Publicaciones</button><button class="off-btn" onclick="filterTeamSection('Mensal','Ventas',this)">Ventas</button></div>
-      <div class="section-title">Async/Caso & % Uso por Equipe</div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Mensal — todas as equipes</h3><div style="position:relative;height:280px"><canvas id="cg2-monthly"></canvas></div>
+      <h2>Visão Mensal — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(fev/26 → Jun/2026)</small></h2>
+      
+    <div class="section-title">Visão Geral <small style="font-weight:400;font-size:11px">(fev/26 → hoje — todas as equipes)</small></div>
+    <div style="display:flex;gap:16px">
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução Geral</h3><div style="position:relative;height:280px"><canvas id="vm-total"></canvas></div>
 <script>(function(){
-  var ctx=document.getElementById('cg2-monthly').getContext('2d');
+  var ctx=document.getElementById('vm-total').getContext('2d');
   window._charts=window._charts||{};
-  window._charts['cg2-monthly']=new Chart(ctx,{
+  window._charts['vm-total']=new Chart(ctx,{
+    type:'bar',data:{"labels": ["fev/26", "mar/26", "abr/26", "mai/26", "jun/26"], "datasets": [{"type": "bar", "label": "Total", "data": [0.0, 0.39, 0.36, 0.36, null], "backgroundColor": "#3498dbbb", "borderColor": "#3498db", "borderWidth": 1, "borderRadius": 3, "skipNull": true}, {"type": "line", "label": "__ref1__", "data": [1.0, 1.0, 1.0, 1.0, 1.0], "borderColor": "#b8860b", "borderDash": [6, 4], "pointRadius": 0, "borderWidth": 1.5, "fill": false, "tension": 0}, {"type": "line", "label": "__ref2__", "data": [2.0, 2.0, 2.0, 2.0, 2.0], "borderColor": "#c0392b", "borderDash": [6, 4], "pointRadius": 0, "borderWidth": 1.5, "fill": false, "tension": 0}]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
+        tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
+      },
+      scales:{
+        y:{title:{display:true,text:'async/caso',font:{size:11}},min:0,ticks:{font:{size:11}}},
+        x:{ticks:{font:{size:10}}}
+      }
+    }
+  });
+})();</script></div>
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução por Equipe</h3><div style="position:relative;height:280px"><canvas id="vm-equipe"></canvas></div>
+<script>(function(){
+  var ctx=document.getElementById('vm-equipe').getContext('2d');
+  window._charts=window._charts||{};
+  window._charts['vm-equipe']=new Chart(ctx,{
     type:'bar',data:{"labels": ["fev/26", "mar/26", "abr/26", "mai/26", "jun/26"], "datasets": [{"type": "bar", "label": "ME", "data": [null, 0.33, 0.36, 0.4, null], "backgroundColor": "#3498dbbb", "borderColor": "#3498db", "borderWidth": 1, "borderRadius": 3, "skipNull": true}, {"type": "bar", "label": "Publicaciones", "data": [0.0, 0.46, 0.37, 0.25, null], "backgroundColor": "#e74c3cbb", "borderColor": "#e74c3c", "borderWidth": 1, "borderRadius": 3, "skipNull": true}, {"type": "bar", "label": "Ventas", "data": [null, 0.42, 0.37, 0.38, null], "backgroundColor": "#2ecc71bb", "borderColor": "#2ecc71", "borderWidth": 1, "borderRadius": 3, "skipNull": true}, {"type": "line", "label": "Total", "data": [0.0, 0.39, 0.36, 0.36, null], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 2.5, "pointRadius": 3, "tension": 0.3, "fill": false, "spanGaps": true, "order": 0}, {"type": "line", "label": "__ref1__", "data": [1.0, 1.0, 1.0, 1.0, 1.0], "borderColor": "#b8860b", "borderDash": [6, 4], "pointRadius": 0, "borderWidth": 1.5, "fill": false, "tension": 0}, {"type": "line", "label": "__ref2__", "data": [2.0, 2.0, 2.0, 2.0, 2.0], "borderColor": "#c0392b", "borderDash": [6, 4], "pointRadius": 0, "borderWidth": 1.5, "fill": false, "tension": 0}]},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{
@@ -471,26 +527,47 @@
     }
   });
 })();</script></div>
-        <div class="card" style="flex:1;min-width:0"><h3>% Uso Mensal — todas as equipes</h3><div style="position:relative;height:280px"><canvas id="cg2-cpm"></canvas></div>
+    </div>
+    <div style="display:flex;gap:16px">
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução por Senioridade</h3><div style="position:relative;height:280px"><canvas id="vm-sen"></canvas></div>
 <script>(function(){
-  var ctx=document.getElementById('cg2-cpm').getContext('2d');
+  var ctx=document.getElementById('vm-sen').getContext('2d');
   window._charts=window._charts||{};
-  window._charts['cg2-cpm']=new Chart(ctx,{
-    type:'line',data:{"labels": ["fev/26", "mar/26", "abr/26", "mai/26", "jun/26"], "datasets": [{"type": "line", "label": "Total", "data": [0.0, 39.0, 36.0, 36.0, null], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "ME", "data": [null, 33.0, 36.0, 40.0, null], "borderColor": "#3498db", "backgroundColor": "#3498db33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "Publicaciones", "data": [0.0, 46.0, 37.0, 25.0, null], "borderColor": "#e74c3c", "backgroundColor": "#e74c3c33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "Ventas", "data": [null, 42.0, 37.0, 38.0, null], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
+  window._charts['vm-sen']=new Chart(ctx,{
+    type:'line',data:{"labels": ["fev/26", "mar/26", "abr/26", "mai/26", "jun/26"], "datasets": [{"type": "line", "label": "Total", "data": [0.0, 0.39, 0.36, 0.36, null], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "Expert", "data": [0.0, 0.5, 0.51, 0.66, null], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "Newbie", "data": [null, 0.27, 0.24, 0.16, null], "borderColor": "#e74c3c", "backgroundColor": "#e74c3c33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{
         legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
         tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
       },
       scales:{
-        y:{title:{display:true,text:'% async/CR',font:{size:11}},min:0,ticks:{font:{size:11}}},
+        y:{title:{display:true,text:'async/caso',font:{size:11}},min:0,ticks:{font:{size:11}}},
         x:{ticks:{font:{size:10}}}
       }
     }
   });
 })();</script></div>
-      </div>
-      <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro acima para isolar uma equipe</small></div>
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução por Período (M1–M4+)</h3><div style="position:relative;height:280px"><canvas id="vm-faixa"></canvas></div>
+<script>(function(){
+  var ctx=document.getElementById('vm-faixa').getContext('2d');
+  window._charts=window._charts||{};
+  window._charts['vm-faixa']=new Chart(ctx,{
+    type:'line',data:{"labels": ["fev/26", "mar/26", "abr/26", "mai/26", "jun/26"], "datasets": [{"type": "line", "label": "Total", "data": [0.0, 0.39, 0.36, 0.36, null], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "M1", "data": [null, 0.33, 0.35, 0.18, null], "borderColor": "#3498db", "backgroundColor": "#3498db33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "M2", "data": [null, null, 0.0, 0.41, null], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "M3", "data": [null, null, null, 0.0, null], "borderColor": "#f39c12", "backgroundColor": "#f39c1233", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "M4+", "data": [0.0, 0.48, 0.49, 0.72, null], "borderColor": "#9b59b6", "backgroundColor": "#9b59b633", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
+        tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
+      },
+      scales:{
+        y:{title:{display:true,text:'async/caso',font:{size:11}},min:0,ticks:{font:{size:11}}},
+        x:{ticks:{font:{size:10}}}
+      }
+    }
+  });
+})();</script></div>
+    </div>
+      <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro abaixo para isolar uma equipe</small></div>
+      <div class="off-filter" id="team-filter-Mensal"><button class="off-btn active" onclick="filterTeamSection('Mensal','ALL',this)">Todas</button><button class="off-btn" onclick="filterTeamSection('Mensal','ME',this)">ME</button><button class="off-btn" onclick="filterTeamSection('Mensal','Publicaciones',this)">Publicaciones</button><button class="off-btn" onclick="filterTeamSection('Mensal','Ventas',this)">Ventas</button></div>
       
     <div class="team-section" data-team="ME">
       <div class="section-title">ME</div>

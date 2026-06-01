@@ -570,6 +570,58 @@ def chart_geral_daily():    return _geral_chart(q1_geral, 'dia',    'cg-daily', 
 def chart_geral_weekly():   return _geral_chart(q7_geral, 'semana', 'cg-weekly',  lambda k: k[5:].replace('-','/'), 'async/caso', bar=True)
 def chart_geral_monthly():  return _geral_chart(q8_geral, 'mes',    'cg-monthly', fmt_mes, 'async/caso', bar=True,  forced_keys=monthly_keys_jan26())
 def chart_geral_pct_wkly(): return _geral_chart(q7_geral, 'semana', 'cg-cpw',    lambda k: k[5:].replace('-','/'), '% async/CR', pct=True, bar=False)
+
+# ── visão geral 4 charts (tabs Semanal / Mensal) ──────────────────────────────
+
+def _chart_total(q_geral, date_key, cid, label_fn, forced_keys=None):
+    """Barras: total consolidado (soma de todas as equipes)."""
+    keys, _, _, total = build_team_series(q_geral, date_key, forced_keys=forced_keys)
+    if not keys: return "<p class='empty'>Sem dados</p>"
+    ds = bar_datasets({'Total': total}, {'Total': '#3498db'})
+    return make_chart(cid, [label_fn(k) for k in keys], ds, 'async/caso', bar=True)
+
+def _chart_equipes(q_geral, date_key, cid, label_fn, forced_keys=None):
+    """Barras: uma barra por equipe."""
+    return _geral_chart(q_geral, date_key, cid, label_fn, 'async/caso', bar=True, forced_keys=forced_keys)
+
+def _chart_sen_geral(q_sen, date_key, cid, label_fn, forced_keys=None):
+    """Linhas: Expert vs Newbie — todas as equipes combinadas."""
+    keys, series, _, total = build_category_series(q_sen, None, date_key, 'senioridade', SENIORITY_ORDER, forced_keys=forced_keys)
+    if not series: return "<p class='empty'>Sem dados</p>"
+    return make_chart(cid, [label_fn(k) for k in keys], line_datasets(series, SENIORITY_COLORS, total=total), 'async/caso', bar=False)
+
+def _chart_faixa_geral(q_faixa, date_key, cid, label_fn, forced_keys=None):
+    """Linhas: M1/M2/M3/M4+ — todas as equipes combinadas."""
+    keys, series, _, total = build_category_series(q_faixa, None, date_key, 'faixa', FAIXA_ORDER, forced_keys=forced_keys)
+    if not series: return "<p class='empty'>Sem dados</p>"
+    return make_chart(cid, [label_fn(k) for k in keys], line_datasets(series, FAIXA_COLORS, total=total), 'async/caso', bar=False)
+
+def visao_geral_semanal():
+    lbl = lambda k: k[5:].replace('-','/')
+    return f"""
+    <div class="section-title">Visão Geral <small style="font-weight:400;font-size:11px">(últimas 8 semanas — todas as equipes)</small></div>
+    <div style="display:flex;gap:16px">
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução Geral</h3>{_chart_total(q7_geral,'semana','vs-total',lbl)}</div>
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução por Equipe</h3>{_chart_equipes(q7_geral,'semana','vs-equipe',lbl)}</div>
+    </div>
+    <div style="display:flex;gap:16px">
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução por Senioridade</h3>{_chart_sen_geral(q9,'semana','vs-sen',lbl)}</div>
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução por Período (M1–M4+)</h3>{_chart_faixa_geral(q10,'semana','vs-faixa',lbl)}</div>
+    </div>"""
+
+def visao_geral_mensal():
+    fk  = monthly_keys_jan26()
+    lbl = fmt_mes
+    return f"""
+    <div class="section-title">Visão Geral <small style="font-weight:400;font-size:11px">(fev/26 → hoje — todas as equipes)</small></div>
+    <div style="display:flex;gap:16px">
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução Geral</h3>{_chart_total(q8_geral,'mes','vm-total',lbl,fk)}</div>
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução por Equipe</h3>{_chart_equipes(q8_geral,'mes','vm-equipe',lbl,fk)}</div>
+    </div>
+    <div style="display:flex;gap:16px">
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução por Senioridade</h3>{_chart_sen_geral(q11,'mes','vm-sen',lbl,fk)}</div>
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução por Período (M1–M4+)</h3>{_chart_faixa_geral(q12,'mes','vm-faixa',lbl,fk)}</div>
+    </div>"""
 def chart_geral_pct_mth():  return _geral_chart(q8_geral, 'mes',    'cg-cpm',    fmt_mes, '% async/CR', pct=True, bar=False, forced_keys=monthly_keys_jan26())
 
 # ── gráficos de senioridade/faixa ─────────────────────────────────────────────
@@ -738,15 +790,10 @@ def tab_semanal():
     team_blocks = "".join(_team_block_semanal(t) for t in TEAMS)
     return f"""
     <div id="tab-Semanal" class="tab-content">
-      <h2>Visão Semanal — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(últimas 8 semanas — {fmt_date(trend_ini)} a {fmt_date(ontem)})</small></h2>
+      <h2>Visão Semanal — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(últimas 8 semanas)</small></h2>
+      {visao_geral_semanal()}
+      <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro abaixo para isolar uma equipe</small></div>
       {section_team_filter('Semanal')}
-      <div class="card"><h3>WoW por Equipe</h3>{wow_table_all()}</div>
-      <div class="section-title">Async/Caso & % Uso por Equipe</div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Semanal — todas as equipes</h3>{_geral_chart(q7_geral,'semana','cg2-weekly',lambda k:k[5:].replace('-','/'),'async/caso')}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>% Uso Semanal — todas as equipes</h3>{_geral_chart(q7_geral,'semana','cg2-cpw',lambda k:k[5:].replace('-','/'),'% async/CR',pct=True,bar=False)}</div>
-      </div>
-      <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro acima para isolar uma equipe</small></div>
       {team_blocks}
     </div>"""
 
@@ -754,14 +801,10 @@ def tab_mensal():
     team_blocks = "".join(_team_block_mensal(t) for t in TEAMS)
     return f"""
     <div id="tab-Mensal" class="tab-content">
-      <h2>Visão Mensal — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(Jan/2026 → {today.strftime('%b/%Y')})</small></h2>
+      <h2>Visão Mensal — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(fev/26 → {today.strftime('%b/%Y')})</small></h2>
+      {visao_geral_mensal()}
+      <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro abaixo para isolar uma equipe</small></div>
       {section_team_filter('Mensal')}
-      <div class="section-title">Async/Caso & % Uso por Equipe</div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Mensal — todas as equipes</h3>{_geral_chart(q8_geral,'mes','cg2-monthly',fmt_mes,'async/caso',forced_keys=monthly_keys_jan26())}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>% Uso Mensal — todas as equipes</h3>{_geral_chart(q8_geral,'mes','cg2-cpm',fmt_mes,'% async/CR',pct=True,bar=False,forced_keys=monthly_keys_jan26())}</div>
-      </div>
-      <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro acima para isolar uma equipe</small></div>
       {team_blocks}
     </div>"""
 
