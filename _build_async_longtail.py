@@ -721,10 +721,7 @@ def tab_content(team):
       </div>
 
       <div id="stab-{s}-Semanal" class="stab-content">
-        <div style="display:flex;gap:16px">
-          <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office <small>8 semanas</small></h3>{chart_weekly(team,'t')}</div>
-          <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office <small>8 semanas</small></h3>{chart_pct_weekly(team,'t')}</div>
-        </div>
+        <div class="card"><h3>Async/Caso por Office <small>8 semanas</small></h3>{chart_weekly(team,'t')}</div>
         <div style="display:flex;gap:16px">
           <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_semanal(team,'ts')}</div>
           <div class="card" style="flex:1;min-width:0"><h3>Tempo de Operação — M1/M2/M3/M4+</h3>{chart_faixa_semanal(team,'ts')}</div>
@@ -732,10 +729,7 @@ def tab_content(team):
       </div>
 
       <div id="stab-{s}-Mensal" class="stab-content">
-        <div style="display:flex;gap:16px">
-          <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office <small>fev/26–hoje</small></h3>{chart_monthly(team,'t')}</div>
-          <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office <small>fev/26–hoje</small></h3>{chart_pct_monthly(team,'t')}</div>
-        </div>
+        <div class="card"><h3>Async/Caso por Office <small>fev/26–hoje</small></h3>{chart_monthly(team,'t')}</div>
         <div style="display:flex;gap:16px">
           <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_mensal(team,'tm')}</div>
           <div class="card" style="flex:1;min-width:0"><h3>Tempo de Operação — M1/M2/M3/M4+</h3>{chart_faixa_mensal(team,'tm')}</div>
@@ -766,10 +760,7 @@ def _team_block_semanal(team):
     return f"""
     <div class="team-section" data-team="{s}">
       <div class="section-title">{s}</div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office</h3>{chart_weekly(team)}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office</h3>{chart_pct_weekly(team)}</div>
-      </div>
+      <div class="card"><h3>Async/Caso por Office</h3>{chart_weekly(team)}</div>
       <div style="display:flex;gap:16px">
         <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_semanal(team,'sw')}</div>
         <div class="card" style="flex:1;min-width:0"><h3>Tempo de Operação — M1/M2/M3/M4+</h3>{chart_faixa_semanal(team,'sw')}</div>
@@ -781,10 +772,7 @@ def _team_block_mensal(team):
     return f"""
     <div class="team-section" data-team="{s}">
       <div class="section-title">{s}</div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office</h3>{chart_monthly(team)}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office</h3>{chart_pct_monthly(team)}</div>
-      </div>
+      <div class="card"><h3>Async/Caso por Office</h3>{chart_monthly(team)}</div>
       <div style="display:flex;gap:16px">
         <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_mensal(team,'mw')}</div>
         <div class="card" style="flex:1;min-width:0"><h3>Tempo de Operação — M1/M2/M3/M4+</h3>{chart_faixa_mensal(team,'mw')}</div>

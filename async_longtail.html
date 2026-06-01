@@ -275,8 +275,7 @@ Chart.register({
       
     <div class="team-section" data-team="ME">
       <div class="section-title">ME</div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office</h3><div style="position:relative;height:280px"><canvas id="cw-ME"></canvas></div>
+      <div class="card"><h3>Async/Caso por Office</h3><div style="position:relative;height:280px"><canvas id="cw-ME"></canvas></div>
 <script>(function(){
   var ctx=document.getElementById('cw-ME').getContext('2d');
   window._charts=window._charts||{};
@@ -294,25 +293,6 @@ Chart.register({
     }
   });
 })();</script></div>
-        <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office</h3><div style="position:relative;height:280px"><canvas id="cpw-ME"></canvas></div>
-<script>(function(){
-  var ctx=document.getElementById('cpw-ME').getContext('2d');
-  window._charts=window._charts||{};
-  window._charts['cpw-ME']=new Chart(ctx,{
-    type:'line',data:{"labels": ["04/06", "04/13", "04/20", "04/27", "05/04", "05/11", "05/18", "05/25"], "datasets": [{"type": "line", "label": "Total", "data": [39.0, 37.0, 32.0, 35.0, 40.0, 42.0, 42.0, 41.0], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "AEC", "data": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "borderColor": "#3498db", "backgroundColor": "#3498db33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "ATE", "data": [41.0, 39.0, 34.0, 35.0, 39.0, 42.0, 41.0, 38.0], "borderColor": "#e74c3c", "backgroundColor": "#e74c3c33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "CTX", "data": [61.0, 57.0, 49.0, 56.0, null, null, null, null], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "KTA_BRASIL", "data": [47.0, 46.0, 38.0, 49.0, 55.0, 58.0, 61.0, 61.0], "borderColor": "#f39c12", "backgroundColor": "#f39c1233", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
-    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
-        tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
-      },
-      scales:{
-        y:{title:{display:true,text:'% async/CR',font:{size:11}},min:0,ticks:{font:{size:11}}},
-        x:{ticks:{font:{size:10}}}
-      }
-    }
-  });
-})();</script></div>
-      </div>
       <div style="display:flex;gap:16px">
         <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3><div style="position:relative;height:280px"><canvas id="csen-sw-ME"></canvas></div>
 <script>(function(){
@@ -354,8 +334,7 @@ Chart.register({
     </div>
     <div class="team-section" data-team="Publicaciones">
       <div class="section-title">Publicaciones</div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office</h3><div style="position:relative;height:280px"><canvas id="cw-Publicaciones"></canvas></div>
+      <div class="card"><h3>Async/Caso por Office</h3><div style="position:relative;height:280px"><canvas id="cw-Publicaciones"></canvas></div>
 <script>(function(){
   var ctx=document.getElementById('cw-Publicaciones').getContext('2d');
   window._charts=window._charts||{};
@@ -373,25 +352,6 @@ Chart.register({
     }
   });
 })();</script></div>
-        <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office</h3><div style="position:relative;height:280px"><canvas id="cpw-Publicaciones"></canvas></div>
-<script>(function(){
-  var ctx=document.getElementById('cpw-Publicaciones').getContext('2d');
-  window._charts=window._charts||{};
-  window._charts['cpw-Publicaciones']=new Chart(ctx,{
-    type:'line',data:{"labels": ["04/06", "04/13", "04/20", "04/27", "05/04", "05/11", "05/18", "05/25"], "datasets": [{"type": "line", "label": "Total", "data": [41.0, 40.0, 33.0, 29.0, 32.0, 28.0, 22.0, 21.0], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "AEC", "data": [31.0, 30.0, 25.0, 22.0, 22.0, 20.0, 18.0, 17.0], "borderColor": "#3498db", "backgroundColor": "#3498db33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "CTX", "data": [0.0, 0.0, 0.0, 0.0, null, null, null, null], "borderColor": "#e74c3c", "backgroundColor": "#e74c3c33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "KTA", "data": [null, null, null, null, null, null, null, null], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "KTA_BRASIL", "data": [60.0, 58.0, 45.0, 39.0, 43.0, 37.0, 27.0, 24.0], "borderColor": "#f39c12", "backgroundColor": "#f39c1233", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
-    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
-        tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
-      },
-      scales:{
-        y:{title:{display:true,text:'% async/CR',font:{size:11}},min:0,ticks:{font:{size:11}}},
-        x:{ticks:{font:{size:10}}}
-      }
-    }
-  });
-})();</script></div>
-      </div>
       <div style="display:flex;gap:16px">
         <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3><div style="position:relative;height:280px"><canvas id="csen-sw-Publicaciones"></canvas></div>
 <script>(function(){
@@ -433,8 +393,7 @@ Chart.register({
     </div>
     <div class="team-section" data-team="Ventas">
       <div class="section-title">Ventas</div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office</h3><div style="position:relative;height:280px"><canvas id="cw-Ventas"></canvas></div>
+      <div class="card"><h3>Async/Caso por Office</h3><div style="position:relative;height:280px"><canvas id="cw-Ventas"></canvas></div>
 <script>(function(){
   var ctx=document.getElementById('cw-Ventas').getContext('2d');
   window._charts=window._charts||{};
@@ -452,25 +411,6 @@ Chart.register({
     }
   });
 })();</script></div>
-        <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office</h3><div style="position:relative;height:280px"><canvas id="cpw-Ventas"></canvas></div>
-<script>(function(){
-  var ctx=document.getElementById('cpw-Ventas').getContext('2d');
-  window._charts=window._charts||{};
-  window._charts['cpw-Ventas']=new Chart(ctx,{
-    type:'line',data:{"labels": ["04/06", "04/13", "04/20", "04/27", "05/04", "05/11", "05/18", "05/25"], "datasets": [{"type": "line", "label": "Total", "data": [42.0, 41.0, 36.0, 33.0, 37.0, 38.0, 41.0, 37.0], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "AEC", "data": [69.0, 73.0, 59.0, 53.0, 56.0, 60.0, 63.0, 59.0], "borderColor": "#3498db", "backgroundColor": "#3498db33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "CTX", "data": [0.0, 0.0, 0.0, 0.0, null, null, null, null], "borderColor": "#e74c3c", "backgroundColor": "#e74c3c33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "KTA_BRASIL", "data": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "MELICIDADE", "data": [null, null, null, null, 14.0, 0.0, null, null], "borderColor": "#f39c12", "backgroundColor": "#f39c1233", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
-    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
-        tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
-      },
-      scales:{
-        y:{title:{display:true,text:'% async/CR',font:{size:11}},min:0,ticks:{font:{size:11}}},
-        x:{ticks:{font:{size:10}}}
-      }
-    }
-  });
-})();</script></div>
-      </div>
       <div style="display:flex;gap:16px">
         <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3><div style="position:relative;height:280px"><canvas id="csen-sw-Ventas"></canvas></div>
 <script>(function(){
@@ -596,8 +536,7 @@ Chart.register({
       
     <div class="team-section" data-team="ME">
       <div class="section-title">ME</div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office</h3><div style="position:relative;height:280px"><canvas id="cm-ME"></canvas></div>
+      <div class="card"><h3>Async/Caso por Office</h3><div style="position:relative;height:280px"><canvas id="cm-ME"></canvas></div>
 <script>(function(){
   var ctx=document.getElementById('cm-ME').getContext('2d');
   window._charts=window._charts||{};
@@ -615,25 +554,6 @@ Chart.register({
     }
   });
 })();</script></div>
-        <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office</h3><div style="position:relative;height:280px"><canvas id="cpm-ME"></canvas></div>
-<script>(function(){
-  var ctx=document.getElementById('cpm-ME').getContext('2d');
-  window._charts=window._charts||{};
-  window._charts['cpm-ME']=new Chart(ctx,{
-    type:'line',data:{"labels": ["fev/26", "mar/26", "abr/26", "mai/26", "jun/26"], "datasets": [{"type": "line", "label": "Total", "data": [null, 33.0, 36.0, 40.0, null], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "AEC", "data": [null, 0.0, 0.0, 0.0, null], "borderColor": "#3498db", "backgroundColor": "#3498db33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "ATE", "data": [null, 30.0, 37.0, 39.0, null], "borderColor": "#e74c3c", "backgroundColor": "#e74c3c33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "CTX", "data": [null, 54.0, 55.0, null, null], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "KTA_BRASIL", "data": [null, 38.0, 44.0, 58.0, null], "borderColor": "#f39c12", "backgroundColor": "#f39c1233", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
-    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
-        tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
-      },
-      scales:{
-        y:{title:{display:true,text:'% async/CR',font:{size:11}},min:0,ticks:{font:{size:11}}},
-        x:{ticks:{font:{size:10}}}
-      }
-    }
-  });
-})();</script></div>
-      </div>
       <div style="display:flex;gap:16px">
         <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3><div style="position:relative;height:280px"><canvas id="csen-mw-ME"></canvas></div>
 <script>(function(){
@@ -675,8 +595,7 @@ Chart.register({
     </div>
     <div class="team-section" data-team="Publicaciones">
       <div class="section-title">Publicaciones</div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office</h3><div style="position:relative;height:280px"><canvas id="cm-Publicaciones"></canvas></div>
+      <div class="card"><h3>Async/Caso por Office</h3><div style="position:relative;height:280px"><canvas id="cm-Publicaciones"></canvas></div>
 <script>(function(){
   var ctx=document.getElementById('cm-Publicaciones').getContext('2d');
   window._charts=window._charts||{};
@@ -694,25 +613,6 @@ Chart.register({
     }
   });
 })();</script></div>
-        <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office</h3><div style="position:relative;height:280px"><canvas id="cpm-Publicaciones"></canvas></div>
-<script>(function(){
-  var ctx=document.getElementById('cpm-Publicaciones').getContext('2d');
-  window._charts=window._charts||{};
-  window._charts['cpm-Publicaciones']=new Chart(ctx,{
-    type:'line',data:{"labels": ["fev/26", "mar/26", "abr/26", "mai/26", "jun/26"], "datasets": [{"type": "line", "label": "Total", "data": [0.0, 46.0, 37.0, 25.0, null], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "AEC", "data": [null, 42.0, 28.0, 19.0, null], "borderColor": "#3498db", "backgroundColor": "#3498db33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "CTX", "data": [0.0, 30.0, 0.0, null, null], "borderColor": "#e74c3c", "backgroundColor": "#e74c3c33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "KTA", "data": [null, null, null, null, null], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "KTA_BRASIL", "data": [null, 59.0, 52.0, 32.0, null], "borderColor": "#f39c12", "backgroundColor": "#f39c1233", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
-    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
-        tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
-      },
-      scales:{
-        y:{title:{display:true,text:'% async/CR',font:{size:11}},min:0,ticks:{font:{size:11}}},
-        x:{ticks:{font:{size:10}}}
-      }
-    }
-  });
-})();</script></div>
-      </div>
       <div style="display:flex;gap:16px">
         <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3><div style="position:relative;height:280px"><canvas id="csen-mw-Publicaciones"></canvas></div>
 <script>(function(){
@@ -754,8 +654,7 @@ Chart.register({
     </div>
     <div class="team-section" data-team="Ventas">
       <div class="section-title">Ventas</div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office</h3><div style="position:relative;height:280px"><canvas id="cm-Ventas"></canvas></div>
+      <div class="card"><h3>Async/Caso por Office</h3><div style="position:relative;height:280px"><canvas id="cm-Ventas"></canvas></div>
 <script>(function(){
   var ctx=document.getElementById('cm-Ventas').getContext('2d');
   window._charts=window._charts||{};
@@ -773,25 +672,6 @@ Chart.register({
     }
   });
 })();</script></div>
-        <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office</h3><div style="position:relative;height:280px"><canvas id="cpm-Ventas"></canvas></div>
-<script>(function(){
-  var ctx=document.getElementById('cpm-Ventas').getContext('2d');
-  window._charts=window._charts||{};
-  window._charts['cpm-Ventas']=new Chart(ctx,{
-    type:'line',data:{"labels": ["fev/26", "mar/26", "abr/26", "mai/26", "jun/26"], "datasets": [{"type": "line", "label": "Total", "data": [null, 42.0, 37.0, 38.0, null], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "AEC", "data": [null, 59.0, 63.0, 59.0, null], "borderColor": "#3498db", "backgroundColor": "#3498db33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "CTX", "data": [null, 0.0, 0.0, null, null], "borderColor": "#e74c3c", "backgroundColor": "#e74c3c33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "KTA_BRASIL", "data": [null, 0.0, 0.0, 0.0, null], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "MELICIDADE", "data": [null, null, null, 10.0, null], "borderColor": "#f39c12", "backgroundColor": "#f39c1233", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
-    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
-        tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
-      },
-      scales:{
-        y:{title:{display:true,text:'% async/CR',font:{size:11}},min:0,ticks:{font:{size:11}}},
-        x:{ticks:{font:{size:10}}}
-      }
-    }
-  });
-})();</script></div>
-      </div>
       <div style="display:flex;gap:16px">
         <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3><div style="position:relative;height:280px"><canvas id="csen-mw-Ventas"></canvas></div>
 <script>(function(){
@@ -871,8 +751,7 @@ Chart.register({
       </div>
 
       <div id="stab-ME-Semanal" class="stab-content">
-        <div style="display:flex;gap:16px">
-          <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office <small>8 semanas</small></h3><div style="position:relative;height:280px"><canvas id="cw-t-ME"></canvas></div>
+        <div class="card"><h3>Async/Caso por Office <small>8 semanas</small></h3><div style="position:relative;height:280px"><canvas id="cw-t-ME"></canvas></div>
 <script>(function(){
   var ctx=document.getElementById('cw-t-ME').getContext('2d');
   window._charts=window._charts||{};
@@ -890,25 +769,6 @@ Chart.register({
     }
   });
 })();</script></div>
-          <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office <small>8 semanas</small></h3><div style="position:relative;height:280px"><canvas id="cpw-t-ME"></canvas></div>
-<script>(function(){
-  var ctx=document.getElementById('cpw-t-ME').getContext('2d');
-  window._charts=window._charts||{};
-  window._charts['cpw-t-ME']=new Chart(ctx,{
-    type:'line',data:{"labels": ["04/06", "04/13", "04/20", "04/27", "05/04", "05/11", "05/18", "05/25"], "datasets": [{"type": "line", "label": "Total", "data": [39.0, 37.0, 32.0, 35.0, 40.0, 42.0, 42.0, 41.0], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "AEC", "data": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "borderColor": "#3498db", "backgroundColor": "#3498db33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "ATE", "data": [41.0, 39.0, 34.0, 35.0, 39.0, 42.0, 41.0, 38.0], "borderColor": "#e74c3c", "backgroundColor": "#e74c3c33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "CTX", "data": [61.0, 57.0, 49.0, 56.0, null, null, null, null], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "KTA_BRASIL", "data": [47.0, 46.0, 38.0, 49.0, 55.0, 58.0, 61.0, 61.0], "borderColor": "#f39c12", "backgroundColor": "#f39c1233", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
-    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
-        tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
-      },
-      scales:{
-        y:{title:{display:true,text:'% async/CR',font:{size:11}},min:0,ticks:{font:{size:11}}},
-        x:{ticks:{font:{size:10}}}
-      }
-    }
-  });
-})();</script></div>
-        </div>
         <div style="display:flex;gap:16px">
           <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3><div style="position:relative;height:280px"><canvas id="csen-ts-ME"></canvas></div>
 <script>(function(){
@@ -950,8 +810,7 @@ Chart.register({
       </div>
 
       <div id="stab-ME-Mensal" class="stab-content">
-        <div style="display:flex;gap:16px">
-          <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office <small>fev/26–hoje</small></h3><div style="position:relative;height:280px"><canvas id="cm-t-ME"></canvas></div>
+        <div class="card"><h3>Async/Caso por Office <small>fev/26–hoje</small></h3><div style="position:relative;height:280px"><canvas id="cm-t-ME"></canvas></div>
 <script>(function(){
   var ctx=document.getElementById('cm-t-ME').getContext('2d');
   window._charts=window._charts||{};
@@ -969,25 +828,6 @@ Chart.register({
     }
   });
 })();</script></div>
-          <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office <small>fev/26–hoje</small></h3><div style="position:relative;height:280px"><canvas id="cpm-t-ME"></canvas></div>
-<script>(function(){
-  var ctx=document.getElementById('cpm-t-ME').getContext('2d');
-  window._charts=window._charts||{};
-  window._charts['cpm-t-ME']=new Chart(ctx,{
-    type:'line',data:{"labels": ["fev/26", "mar/26", "abr/26", "mai/26", "jun/26"], "datasets": [{"type": "line", "label": "Total", "data": [null, 33.0, 36.0, 40.0, null], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "AEC", "data": [null, 0.0, 0.0, 0.0, null], "borderColor": "#3498db", "backgroundColor": "#3498db33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "ATE", "data": [null, 30.0, 37.0, 39.0, null], "borderColor": "#e74c3c", "backgroundColor": "#e74c3c33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "CTX", "data": [null, 54.0, 55.0, null, null], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "KTA_BRASIL", "data": [null, 38.0, 44.0, 58.0, null], "borderColor": "#f39c12", "backgroundColor": "#f39c1233", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
-    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
-        tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
-      },
-      scales:{
-        y:{title:{display:true,text:'% async/CR',font:{size:11}},min:0,ticks:{font:{size:11}}},
-        x:{ticks:{font:{size:10}}}
-      }
-    }
-  });
-})();</script></div>
-        </div>
         <div style="display:flex;gap:16px">
           <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3><div style="position:relative;height:280px"><canvas id="csen-tm-ME"></canvas></div>
 <script>(function(){
@@ -1067,8 +907,7 @@ Chart.register({
       </div>
 
       <div id="stab-Publicaciones-Semanal" class="stab-content">
-        <div style="display:flex;gap:16px">
-          <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office <small>8 semanas</small></h3><div style="position:relative;height:280px"><canvas id="cw-t-Publicaciones"></canvas></div>
+        <div class="card"><h3>Async/Caso por Office <small>8 semanas</small></h3><div style="position:relative;height:280px"><canvas id="cw-t-Publicaciones"></canvas></div>
 <script>(function(){
   var ctx=document.getElementById('cw-t-Publicaciones').getContext('2d');
   window._charts=window._charts||{};
@@ -1086,25 +925,6 @@ Chart.register({
     }
   });
 })();</script></div>
-          <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office <small>8 semanas</small></h3><div style="position:relative;height:280px"><canvas id="cpw-t-Publicaciones"></canvas></div>
-<script>(function(){
-  var ctx=document.getElementById('cpw-t-Publicaciones').getContext('2d');
-  window._charts=window._charts||{};
-  window._charts['cpw-t-Publicaciones']=new Chart(ctx,{
-    type:'line',data:{"labels": ["04/06", "04/13", "04/20", "04/27", "05/04", "05/11", "05/18", "05/25"], "datasets": [{"type": "line", "label": "Total", "data": [41.0, 40.0, 33.0, 29.0, 32.0, 28.0, 22.0, 21.0], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "AEC", "data": [31.0, 30.0, 25.0, 22.0, 22.0, 20.0, 18.0, 17.0], "borderColor": "#3498db", "backgroundColor": "#3498db33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "CTX", "data": [0.0, 0.0, 0.0, 0.0, null, null, null, null], "borderColor": "#e74c3c", "backgroundColor": "#e74c3c33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "KTA", "data": [null, null, null, null, null, null, null, null], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "KTA_BRASIL", "data": [60.0, 58.0, 45.0, 39.0, 43.0, 37.0, 27.0, 24.0], "borderColor": "#f39c12", "backgroundColor": "#f39c1233", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
-    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
-        tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
-      },
-      scales:{
-        y:{title:{display:true,text:'% async/CR',font:{size:11}},min:0,ticks:{font:{size:11}}},
-        x:{ticks:{font:{size:10}}}
-      }
-    }
-  });
-})();</script></div>
-        </div>
         <div style="display:flex;gap:16px">
           <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3><div style="position:relative;height:280px"><canvas id="csen-ts-Publicaciones"></canvas></div>
 <script>(function(){
@@ -1146,8 +966,7 @@ Chart.register({
       </div>
 
       <div id="stab-Publicaciones-Mensal" class="stab-content">
-        <div style="display:flex;gap:16px">
-          <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office <small>fev/26–hoje</small></h3><div style="position:relative;height:280px"><canvas id="cm-t-Publicaciones"></canvas></div>
+        <div class="card"><h3>Async/Caso por Office <small>fev/26–hoje</small></h3><div style="position:relative;height:280px"><canvas id="cm-t-Publicaciones"></canvas></div>
 <script>(function(){
   var ctx=document.getElementById('cm-t-Publicaciones').getContext('2d');
   window._charts=window._charts||{};
@@ -1165,25 +984,6 @@ Chart.register({
     }
   });
 })();</script></div>
-          <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office <small>fev/26–hoje</small></h3><div style="position:relative;height:280px"><canvas id="cpm-t-Publicaciones"></canvas></div>
-<script>(function(){
-  var ctx=document.getElementById('cpm-t-Publicaciones').getContext('2d');
-  window._charts=window._charts||{};
-  window._charts['cpm-t-Publicaciones']=new Chart(ctx,{
-    type:'line',data:{"labels": ["fev/26", "mar/26", "abr/26", "mai/26", "jun/26"], "datasets": [{"type": "line", "label": "Total", "data": [0.0, 46.0, 37.0, 25.0, null], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "AEC", "data": [null, 42.0, 28.0, 19.0, null], "borderColor": "#3498db", "backgroundColor": "#3498db33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "CTX", "data": [0.0, 30.0, 0.0, null, null], "borderColor": "#e74c3c", "backgroundColor": "#e74c3c33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "KTA", "data": [null, null, null, null, null], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "KTA_BRASIL", "data": [null, 59.0, 52.0, 32.0, null], "borderColor": "#f39c12", "backgroundColor": "#f39c1233", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
-    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
-        tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
-      },
-      scales:{
-        y:{title:{display:true,text:'% async/CR',font:{size:11}},min:0,ticks:{font:{size:11}}},
-        x:{ticks:{font:{size:10}}}
-      }
-    }
-  });
-})();</script></div>
-        </div>
         <div style="display:flex;gap:16px">
           <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3><div style="position:relative;height:280px"><canvas id="csen-tm-Publicaciones"></canvas></div>
 <script>(function(){
@@ -1263,8 +1063,7 @@ Chart.register({
       </div>
 
       <div id="stab-Ventas-Semanal" class="stab-content">
-        <div style="display:flex;gap:16px">
-          <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office <small>8 semanas</small></h3><div style="position:relative;height:280px"><canvas id="cw-t-Ventas"></canvas></div>
+        <div class="card"><h3>Async/Caso por Office <small>8 semanas</small></h3><div style="position:relative;height:280px"><canvas id="cw-t-Ventas"></canvas></div>
 <script>(function(){
   var ctx=document.getElementById('cw-t-Ventas').getContext('2d');
   window._charts=window._charts||{};
@@ -1282,25 +1081,6 @@ Chart.register({
     }
   });
 })();</script></div>
-          <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office <small>8 semanas</small></h3><div style="position:relative;height:280px"><canvas id="cpw-t-Ventas"></canvas></div>
-<script>(function(){
-  var ctx=document.getElementById('cpw-t-Ventas').getContext('2d');
-  window._charts=window._charts||{};
-  window._charts['cpw-t-Ventas']=new Chart(ctx,{
-    type:'line',data:{"labels": ["04/06", "04/13", "04/20", "04/27", "05/04", "05/11", "05/18", "05/25"], "datasets": [{"type": "line", "label": "Total", "data": [42.0, 41.0, 36.0, 33.0, 37.0, 38.0, 41.0, 37.0], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "AEC", "data": [69.0, 73.0, 59.0, 53.0, 56.0, 60.0, 63.0, 59.0], "borderColor": "#3498db", "backgroundColor": "#3498db33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "CTX", "data": [0.0, 0.0, 0.0, 0.0, null, null, null, null], "borderColor": "#e74c3c", "backgroundColor": "#e74c3c33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "KTA_BRASIL", "data": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "MELICIDADE", "data": [null, null, null, null, 14.0, 0.0, null, null], "borderColor": "#f39c12", "backgroundColor": "#f39c1233", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
-    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
-        tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
-      },
-      scales:{
-        y:{title:{display:true,text:'% async/CR',font:{size:11}},min:0,ticks:{font:{size:11}}},
-        x:{ticks:{font:{size:10}}}
-      }
-    }
-  });
-})();</script></div>
-        </div>
         <div style="display:flex;gap:16px">
           <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3><div style="position:relative;height:280px"><canvas id="csen-ts-Ventas"></canvas></div>
 <script>(function(){
@@ -1342,8 +1122,7 @@ Chart.register({
       </div>
 
       <div id="stab-Ventas-Mensal" class="stab-content">
-        <div style="display:flex;gap:16px">
-          <div class="card" style="flex:1;min-width:0"><h3>Async/Caso por Office <small>fev/26–hoje</small></h3><div style="position:relative;height:280px"><canvas id="cm-t-Ventas"></canvas></div>
+        <div class="card"><h3>Async/Caso por Office <small>fev/26–hoje</small></h3><div style="position:relative;height:280px"><canvas id="cm-t-Ventas"></canvas></div>
 <script>(function(){
   var ctx=document.getElementById('cm-t-Ventas').getContext('2d');
   window._charts=window._charts||{};
@@ -1361,25 +1140,6 @@ Chart.register({
     }
   });
 })();</script></div>
-          <div class="card" style="flex:1;min-width:0"><h3>% de Uso por Office <small>fev/26–hoje</small></h3><div style="position:relative;height:280px"><canvas id="cpm-t-Ventas"></canvas></div>
-<script>(function(){
-  var ctx=document.getElementById('cpm-t-Ventas').getContext('2d');
-  window._charts=window._charts||{};
-  window._charts['cpm-t-Ventas']=new Chart(ctx,{
-    type:'line',data:{"labels": ["fev/26", "mar/26", "abr/26", "mai/26", "jun/26"], "datasets": [{"type": "line", "label": "Total", "data": [null, 42.0, 37.0, 38.0, null], "borderColor": "#1a1a2e", "backgroundColor": "#1a1a2e22", "borderWidth": 3, "pointRadius": 4, "tension": 0.3, "fill": false, "spanGaps": true}, {"type": "line", "label": "AEC", "data": [null, 59.0, 63.0, 59.0, null], "borderColor": "#3498db", "backgroundColor": "#3498db33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "CTX", "data": [null, 0.0, 0.0, null, null], "borderColor": "#e74c3c", "backgroundColor": "#e74c3c33", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "KTA_BRASIL", "data": [null, 0.0, 0.0, 0.0, null], "borderColor": "#2ecc71", "backgroundColor": "#2ecc7133", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}, {"type": "line", "label": "MELICIDADE", "data": [null, null, null, 10.0, null], "borderColor": "#f39c12", "backgroundColor": "#f39c1233", "borderWidth": 2, "tension": 0.35, "spanGaps": true, "pointRadius": 4, "fill": false}]},
-    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{position:'top',labels:{filter:function(i){return !i.text.startsWith('__');},boxWidth:12,font:{size:11}}},
-        tooltip:{filter:function(i){return !i.dataset.label.startsWith('__');}}
-      },
-      scales:{
-        y:{title:{display:true,text:'% async/CR',font:{size:11}},min:0,ticks:{font:{size:11}}},
-        x:{ticks:{font:{size:10}}}
-      }
-    }
-  });
-})();</script></div>
-        </div>
         <div style="display:flex;gap:16px">
           <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3><div style="position:relative;height:280px"><canvas id="csen-tm-Ventas"></canvas></div>
 <script>(function(){
