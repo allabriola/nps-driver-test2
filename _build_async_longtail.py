@@ -31,6 +31,12 @@ SENIORITY_ORDER  = ['Expert', 'Newbie']
 FAIXA_COLORS     = {'M1': '#3498db', 'M2': '#2ecc71', 'M3': '#f39c12', 'M4+': '#9b59b6'}
 FAIXA_ORDER      = ['M1', 'M2', 'M3', 'M4+']
 
+_MESES_PT = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez']
+def fmt_mes(k):
+    """'2026-01' → 'jan/26'"""
+    y, m = k[:4], k[5:7]
+    return f"{_MESES_PT[int(m)-1]}/{y[2:]}"
+
 today       = date.today()
 dow         = today.weekday()
 monday      = today - timedelta(days=dow)
@@ -493,7 +499,7 @@ def chart_weekly(team):
 def chart_monthly(team):
     keys, series, cmap, total = build_office_series(q8, team, 'mes')
     if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'cm-{TEAM_SHORT[team]}', [k[2:].replace('-','/') for k in keys], bar_datasets(series, cmap, total=total), 'async/caso', bar=True)
+    return make_chart(f'cm-{TEAM_SHORT[team]}', [fmt_mes(k) for k in keys], bar_datasets(series, cmap, total=total), 'async/caso', bar=True)
 
 def chart_pct_weekly(team):
     keys, series, cmap, total = build_office_series(q7, team, 'semana')
@@ -503,7 +509,7 @@ def chart_pct_weekly(team):
 def chart_pct_monthly(team):
     keys, series, cmap, total = build_office_series(q8, team, 'mes')
     if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'cpm-{TEAM_SHORT[team]}', [k[2:].replace('-','/') for k in keys], line_datasets(series, cmap, multiplier=100, total=total), '% async/CR', bar=False)
+    return make_chart(f'cpm-{TEAM_SHORT[team]}', [fmt_mes(k) for k in keys], line_datasets(series, cmap, multiplier=100, total=total), '% async/CR', bar=False)
 
 # ── gráficos Geral (série = equipe) ──────────────────────────────────────────
 
@@ -516,9 +522,9 @@ def _geral_chart(q, date_key, cid, label_fn, y_label, pct=False, bar=True, x_rot
 
 def chart_geral_daily():    return _geral_chart(q1_geral, 'dia',    'cg-daily',   lambda k: k[5:].replace('-','/'), 'async/caso', bar=True, x_rot=45)
 def chart_geral_weekly():   return _geral_chart(q7_geral, 'semana', 'cg-weekly',  lambda k: k[5:].replace('-','/'), 'async/caso', bar=True)
-def chart_geral_monthly():  return _geral_chart(q8_geral, 'mes',    'cg-monthly', lambda k: k[2:].replace('-','/'), 'async/caso', bar=True)
+def chart_geral_monthly():  return _geral_chart(q8_geral, 'mes',    'cg-monthly', lambda k: fmt_mes(k), 'async/caso', bar=True)
 def chart_geral_pct_wkly(): return _geral_chart(q7_geral, 'semana', 'cg-cpw',    lambda k: k[5:].replace('-','/'), '% async/CR', pct=True, bar=False)
-def chart_geral_pct_mth():  return _geral_chart(q8_geral, 'mes',    'cg-cpm',    lambda k: k[2:].replace('-','/'), '% async/CR', pct=True, bar=False)
+def chart_geral_pct_mth():  return _geral_chart(q8_geral, 'mes',    'cg-cpm',    lambda k: fmt_mes(k), '% async/CR', pct=True, bar=False)
 
 # ── gráficos de senioridade/faixa ─────────────────────────────────────────────
 
@@ -535,12 +541,12 @@ def chart_faixa_semanal(team, pfx='s'):
 def chart_sen_mensal(team, pfx='m'):
     keys, series, _, total = build_category_series(q11, team, 'mes', 'senioridade', SENIORITY_ORDER)
     if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'csen-{pfx}-{TEAM_SHORT[team]}', [k[2:].replace('-','/') for k in keys], bar_datasets(series, SENIORITY_COLORS, total=total), 'async/caso')
+    return make_chart(f'csen-{pfx}-{TEAM_SHORT[team]}', [fmt_mes(k) for k in keys], bar_datasets(series, SENIORITY_COLORS, total=total), 'async/caso')
 
 def chart_faixa_mensal(team, pfx='m'):
     keys, series, _, total = build_category_series(q12, team, 'mes', 'faixa',       FAIXA_ORDER)
     if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'cfx-{pfx}-{TEAM_SHORT[team]}',  [k[2:].replace('-','/') for k in keys], bar_datasets(series, FAIXA_COLORS,     total=total), 'async/caso')
+    return make_chart(f'cfx-{pfx}-{TEAM_SHORT[team]}',  [fmt_mes(k) for k in keys], bar_datasets(series, FAIXA_COLORS,     total=total), 'async/caso')
 
 # ── seniority block reutilizável ──────────────────────────────────────────────
 
@@ -674,8 +680,8 @@ def tab_mensal():
       {section_team_filter('Mensal')}
       <div class="section-title">Async/Caso & % Uso por Equipe</div>
       <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Mensal — todas as equipes</h3>{_geral_chart(q8_geral,'mes','cg2-monthly',lambda k:k[2:].replace('-','/'),'async/caso')}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>% Uso Mensal — todas as equipes</h3>{_geral_chart(q8_geral,'mes','cg2-cpm',lambda k:k[2:].replace('-','/'),'% async/CR',pct=True,bar=False)}</div>
+        <div class="card" style="flex:1;min-width:0"><h3>Mensal — todas as equipes</h3>{_geral_chart(q8_geral,'mes','cg2-monthly',lambda k:fmt_mes(k),'async/caso')}</div>
+        <div class="card" style="flex:1;min-width:0"><h3>% Uso Mensal — todas as equipes</h3>{_geral_chart(q8_geral,'mes','cg2-cpm',lambda k:fmt_mes(k),'% async/CR',pct=True,bar=False)}</div>
       </div>
       <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro acima para isolar uma equipe</small></div>
       {team_blocks}
