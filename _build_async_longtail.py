@@ -52,10 +52,15 @@ monday      = today - timedelta(days=dow)
 sem_ant_ini = monday - timedelta(days=7)
 sem_ant_fin = monday - timedelta(days=1)
 sem_act_ini = monday
-mes_ini     = today.replace(day=1)
 trend_ini   = monday - timedelta(days=56)
 ontem       = today - timedelta(days=1)
 mes_jan26   = date(2026, 2, 1)   # período mensal: Fev/2026 → atual
+
+# Se hoje é o dia 1, o mês corrente ainda não tem dados → usar mês anterior
+if today.day == 1:
+    mes_ini = (today - timedelta(days=1)).replace(day=1)
+else:
+    mes_ini = today.replace(day=1)
 
 print(f"Datas: sem_ant={sem_ant_ini}–{sem_ant_fin} | mes_ini={mes_ini} | trend={trend_ini} | mensal desde {mes_jan26}")
 
