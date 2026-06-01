@@ -342,16 +342,27 @@ def section_team_filter(tab_id):
 # ── tabelas ───────────────────────────────────────────────────────────────────
 
 def section_wow(team):
-    ant = {r['escritorio']: r for r in q2 if r['equipe'] == team}
-    act = {r['escritorio']: r for r in q3 if r['equipe'] == team}
-    offices = sorted(set(list(ant.keys()) + list(act.keys())))
-    if not offices: return "<p class='empty'>Sem dados</p>"
-    rows_html = ""
+    """Tabela pivotada: últimas 4 semanas completas × office."""
+    team_rows = [r for r in q7 if r['equipe'] == team]
+    if not team_rows: return "<p class='empty'>Sem dados</p>"
+    semanas = sorted(set(str(r['semana'])[:10] for r in team_rows), reverse=True)[:4]
+    semanas = list(reversed(semanas))  # crescente: mais antiga → mais recente
+    offices = sorted(set(r['escritorio'] for r in team_rows))
+    idx = {(str(r['semana'])[:10], r['escritorio']): r for r in team_rows}
+    def week_label(s):
+        d = date.fromisoformat(s)
+        fim = d + timedelta(days=6)
+        return f"{d.strftime('%d/%m')}–{fim.strftime('%d/%m')}"
+    head = "<tr><th>Escritório</th>" + "".join(f"<th><small>{week_label(s)}</small></th>" for s in semanas) + "</tr>"
+    body = ""
     for off in offices:
-        a, c = ant.get(off, {}), act.get(off, {})
-        vant, vact = a.get('async_por_caso'), c.get('async_por_caso')
-        rows_html += f'<tr data-office="{off}"><td>{off}</td><td class="num">{icon(vant)}</td><td class="num-s">{int(a.get("incoming_cr",0) or 0)}</td><td class="num">{icon(vact)}</td><td class="num-s">{int(c.get("incoming_cr",0) or 0)}</td><td class="num">{delta_arrow(vant,vact)}</td></tr>'
-    return f'<table class="dt"><thead><tr><th>Escritório</th><th>Sem Ant<br><small>{fmt_date(sem_ant_ini)}–{fmt_date(sem_ant_fin)}</small></th><th>CR</th><th>Sem Atual<br><small>{fmt_date(sem_act_ini)}–{fmt_date(ontem)}</small></th><th>CR</th><th>Delta</th></tr></thead><tbody>{rows_html}</tbody></table>'
+        body += f'<tr data-office="{off}"><td>{off}</td>'
+        for s in semanas:
+            r = idx.get((s, off))
+            v = r.get('async_por_caso') if r else None
+            body += f'<td class="num">{icon(v)}</td>'
+        body += "</tr>"
+    return f'<table class="dt"><thead>{head}</thead><tbody>{body}</tbody></table>'
 
 def wow_table_all():
     rows_html = ""
@@ -368,10 +379,23 @@ def wow_table_all():
     return f'<table class="dt"><thead><tr><th>Equipe</th><th>Sem Ant<br><small>{fmt_date(sem_ant_ini)}–{fmt_date(sem_ant_fin)}</small></th><th>CR</th><th>Sem Atual<br><small>{fmt_date(sem_act_ini)}–{fmt_date(ontem)}</small></th><th>CR</th><th>Delta</th></tr></thead><tbody>{rows_html}</tbody></table>'
 
 def section_mes(team):
-    rows = pivot_offices(q4, team)
-    if not rows: return "<p class='empty'>Sem dados</p>"
-    rows_html = "".join(f'<tr data-office="{r["escritorio"]}"><td>{r["escritorio"]}</td><td class="num">{icon(r.get("async_por_caso"))}</td><td class="num-s">{int(r.get("incoming_cr") or 0)}</td><td class="num-s">{int(r.get("async_total") or 0)}</td></tr>' for r in rows)
-    return f'<table class="dt"><thead><tr><th>Escritório</th><th>Async/Caso<br><small>{fmt_date(mes_ini)}–{fmt_date(ontem)}</small></th><th>CR</th><th>Async Total</th></tr></thead><tbody>{rows_html}</tbody></table>'
+    """Tabela pivotada: últimos 4 meses × office."""
+    team_rows = [r for r in q8 if r['equipe'] == team]
+    if not team_rows: return "<p class='empty'>Sem dados</p>"
+    meses = sorted(set(str(r['mes']) for r in team_rows), reverse=True)[:4]
+    meses = list(reversed(meses))
+    offices = sorted(set(r['escritorio'] for r in team_rows))
+    idx = {(str(r['mes']), r['escritorio']): r for r in team_rows}
+    head = "<tr><th>Escritório</th>" + "".join(f"<th>{fmt_mes(m)}</th>" for m in meses) + "</tr>"
+    body = ""
+    for off in offices:
+        body += f'<tr data-office="{off}"><td>{off}</td>'
+        for m in meses:
+            r = idx.get((m, off))
+            v = r.get('async_por_caso') if r else None
+            body += f'<td class="num">{icon(v)}</td>'
+        body += "</tr>"
+    return f'<table class="dt"><thead>{head}</thead><tbody>{body}</tbody></table>'
 
 def section_lideres(team):
     rows = sorted([r for r in q5 if r['equipe'] == team], key=lambda x: -(float(x.get('async_por_caso') or 0)))
@@ -631,8 +655,8 @@ def tab_content(team):
       <div id="stab-{s}-Geral" class="stab-content show">
         <div class="card"><h3>Resumo Executivo</h3>{exec_summary(team)}</div>
         <div style="display:flex;gap:16px">
-          <div class="card" style="flex:1;min-width:0"><h3>WoW por Office</h3>{section_wow(team)}</div>
-          <div class="card" style="flex:1;min-width:0"><h3>Mês Acumulado <small>({mes_ini.strftime('%b/%Y')})</small></h3>{section_mes(team)}</div>
+          <div class="card" style="flex:1;min-width:0"><h3>Últimas 4 Semanas por Office</h3>{section_wow(team)}</div>
+          <div class="card" style="flex:1;min-width:0"><h3>Últimos 4 Meses por Office</h3>{section_mes(team)}</div>
         </div>
         <div class="card"><h3>Diário por Office <small>últimos 15 dias</small></h3>{chart_daily(team)}</div>
         <div class="card"><h3>Por Team Leader <small>(sem {fmt_date(sem_ant_ini)}–{fmt_date(sem_ant_fin)})</small></h3>{section_lideres(team)}</div>
