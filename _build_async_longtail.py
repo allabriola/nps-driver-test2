@@ -257,6 +257,48 @@ WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID >= "{mes_jan26}" AND ixc.DATE_ID
 GROUP BY 1,2,3 ORDER BY 1,2,3
 """); print(f"  Q12 faixa mensal: {len(q12)}")
 
+# Q13 — senioridade × dia (últimos 15 dias)
+q13 = run(f"""
+SELECT ixc.USER_TEAM_NAME AS equipe, ixc.DATE_ID AS dia,
+  CASE WHEN km.FLAG_EXPERT_STATUS THEN 'Expert' ELSE 'Newbie' END AS senioridade,
+  COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") AS async_total,
+  SUM(ixc.DENOM_IXC) AS incoming_cr,
+  ROUND(COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(ixc.DENOM_IXC), 0), 2) AS async_por_caso
+FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL` ixc
+JOIN `meli-bi-data.WHOWNER.BT_CX_KM_TRAINING_STATUS` km
+  ON ixc.CI_OWNER_ID = km.USER_LDAP AND ixc.DATE_ID = km.DATE_ID
+  AND km.USER_TEAM_NAME IN ({TEAMS_IN})
+WHERE ixc.VALID_IXC_FLAG = TRUE
+  AND ixc.DATE_ID BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 15 DAY) AND DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
+  AND ixc.USER_TEAM_NAME IN ({TEAMS_IN}) AND ixc.CI_OWNER_ID IS NOT NULL
+GROUP BY 1,2,3 ORDER BY 1,2,3
+"""); print(f"  Q13 sen diário: {len(q13)}")
+
+# Q14 — faixa × dia (últimos 15 dias)
+q14 = run(f"""
+SELECT ixc.USER_TEAM_NAME AS equipe, ixc.DATE_ID AS dia,
+  CASE
+    WHEN staff.fst_day IS NULL OR staff.fst_day < DATE '2026-01-01' THEN 'M4+'
+    WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) <= 1 THEN 'M1'
+    WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) = 2  THEN 'M2'
+    WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) = 3  THEN 'M3'
+    ELSE 'M4+'
+  END AS faixa,
+  COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") AS async_total,
+  SUM(ixc.DENOM_IXC) AS incoming_cr,
+  ROUND(COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(ixc.DENOM_IXC), 0), 2) AS async_por_caso
+FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL` ixc
+LEFT JOIN (
+  SELECT USER_LDAP, COALESCE(MIN(FST_DAY_QUEUE_DATE), MIN(DATE_ID)) AS fst_day
+  FROM `meli-bi-data.WHOWNER.BT_CX_STAFF_HISTORY`
+  WHERE USER_TEAM_NAME IN ({TEAMS_IN}) GROUP BY 1
+) staff ON ixc.CI_OWNER_ID = staff.USER_LDAP
+WHERE ixc.VALID_IXC_FLAG = TRUE
+  AND ixc.DATE_ID BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 15 DAY) AND DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
+  AND ixc.USER_TEAM_NAME IN ({TEAMS_IN}) AND ixc.CI_OWNER_ID IS NOT NULL
+GROUP BY 1,2,3 ORDER BY 1,2,3
+"""); print(f"  Q14 faixa diário: {len(q14)}")
+
 # ── aggregações para Geral ────────────────────────────────────────────────────
 
 def agg_to_team(rows, date_key):
@@ -627,6 +669,21 @@ def visao_geral_mensal():
       <div class="card" style="flex:1;min-width:0"><h3>Evolução por Senioridade</h3>{_chart_sen_geral(q11,'mes','vm-sen',lbl,fk)}</div>
       <div class="card" style="flex:1;min-width:0"><h3>Evolução por Período (M1–M4+)</h3>{_chart_faixa_geral(q12,'mes','vm-faixa',lbl,fk)}</div>
     </div>"""
+
+def visao_geral_diaria():
+    lbl = lambda k: k[5:].replace('-','/')
+    q13_g = agg_to_team(q13, 'dia')
+    q14_g = agg_to_team(q14, 'dia')
+    return f"""
+    <div class="section-title">Visão Geral <small style="font-weight:400;font-size:11px">(últimos 15 dias — todas as equipes)</small></div>
+    <div style="display:flex;gap:16px">
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução Geral</h3>{_chart_total(q1_geral,'dia','vd-total',lbl)}</div>
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução por Equipe</h3>{_chart_equipes(q1_geral,'dia','vd-equipe',lbl)}</div>
+    </div>
+    <div style="display:flex;gap:16px">
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução por Senioridade</h3>{_chart_sen_geral(q13,'dia','vd-sen',lbl)}</div>
+      <div class="card" style="flex:1;min-width:0"><h3>Evolução por Período (M1–M4+)</h3>{_chart_faixa_geral(q14,'dia','vd-faixa',lbl)}</div>
+    </div>"""
 def chart_geral_pct_mth():  return _geral_chart(q8_geral, 'mes',    'cg-cpm',    fmt_mes, '% async/CR', pct=True, bar=False, forced_keys=monthly_keys_jan26())
 
 # ── gráficos de senioridade/faixa ─────────────────────────────────────────────
@@ -652,6 +709,16 @@ def chart_faixa_mensal(team, pfx='m'):
     keys, series, _, total = build_category_series(q12, team, 'mes', 'faixa', FAIXA_ORDER, forced_keys=fk)
     if not series: return "<p class='empty'>Sem dados</p>"
     return make_chart(f'cfx-{pfx}-{TEAM_SHORT[team]}',  [fmt_mes(k) for k in keys], line_datasets(series, FAIXA_COLORS, total=total), 'async/caso', bar=False)
+
+def chart_sen_diario(team, pfx='d'):
+    keys, series, _, total = build_category_series(q13, team, 'dia', 'senioridade', SENIORITY_ORDER)
+    if not keys: return "<p class='empty'>Sem dados</p>"
+    return make_chart(f'csen-{pfx}-{TEAM_SHORT[team]}', [k[5:].replace('-','/') for k in keys], line_datasets(series, SENIORITY_COLORS, total=total), 'async/caso', bar=False, x_rotation=45)
+
+def chart_faixa_diario(team, pfx='d'):
+    keys, series, _, total = build_category_series(q14, team, 'dia', 'faixa', FAIXA_ORDER)
+    if not keys: return "<p class='empty'>Sem dados</p>"
+    return make_chart(f'cfx-{pfx}-{TEAM_SHORT[team]}',  [k[5:].replace('-','/') for k in keys], line_datasets(series, FAIXA_COLORS, total=total), 'async/caso', bar=False, x_rotation=45)
 
 # ── seniority block reutilizável ──────────────────────────────────────────────
 
@@ -705,6 +772,7 @@ def tab_content(team):
 
       <div class="subtabs">
         <button class="stab-btn active" onclick="showSubTab('{s}','Geral',this)">Geral</button>
+        <button class="stab-btn" onclick="showSubTab('{s}','Diario',this)">Diário</button>
         <button class="stab-btn" onclick="showSubTab('{s}','Semanal',this)">Semanal</button>
         <button class="stab-btn" onclick="showSubTab('{s}','Mensal',this)">Mensal</button>
       </div>
@@ -715,9 +783,16 @@ def tab_content(team):
           <div class="card" style="flex:1;min-width:0"><h3>Últimas 4 Semanas por Office</h3>{section_wow(team)}</div>
           <div class="card" style="flex:1;min-width:0"><h3>Últimos 4 Meses por Office</h3>{section_mes(team)}</div>
         </div>
-        <div class="card"><h3>Diário por Office <small>últimos 15 dias</small></h3>{chart_daily(team)}</div>
         <div class="card"><h3>Por Team Leader <small>(sem {fmt_date(sem_ant_ini)}–{fmt_date(sem_ant_fin)})</small></h3>{section_lideres(team)}</div>
         <div class="card"><h3>Top 20 Reps — maior async/caso <small>(mín. 10 CR)</small></h3>{section_reps(team)}</div>
+      </div>
+
+      <div id="stab-{s}-Diario" class="stab-content">
+        <div class="card"><h3>Async/Caso por Office <small>últimos 15 dias</small></h3>{chart_daily(team)}</div>
+        <div style="display:flex;gap:16px">
+          <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_diario(team,'td')}</div>
+          <div class="card" style="flex:1;min-width:0"><h3>Tempo de Operação — M1/M2/M3/M4+</h3>{chart_faixa_diario(team,'td')}</div>
+        </div>
       </div>
 
       <div id="stab-{s}-Semanal" class="stab-content">
@@ -779,6 +854,29 @@ def _team_block_mensal(team):
       </div>
     </div>"""
 
+def _team_block_diario(team):
+    s = TEAM_SHORT[team]
+    return f"""
+    <div class="team-section" data-team="{s}">
+      <div class="section-title">{s}</div>
+      <div class="card"><h3>Async/Caso por Office</h3>{chart_daily(team)}</div>
+      <div style="display:flex;gap:16px">
+        <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_diario(team,'dw')}</div>
+        <div class="card" style="flex:1;min-width:0"><h3>Tempo de Operação — M1/M2/M3/M4+</h3>{chart_faixa_diario(team,'dw')}</div>
+      </div>
+    </div>"""
+
+def tab_diario():
+    team_blocks = "".join(_team_block_diario(t) for t in TEAMS)
+    return f"""
+    <div id="tab-Diario" class="tab-content">
+      <h2>Visão Diária — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(últimos 15 dias)</small></h2>
+      {visao_geral_diaria()}
+      <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro abaixo para isolar uma equipe</small></div>
+      {section_team_filter('Diario')}
+      {team_blocks}
+    </div>"""
+
 def tab_semanal():
     team_blocks = "".join(_team_block_semanal(t) for t in TEAMS)
     return f"""
@@ -804,9 +902,10 @@ def tab_mensal():
 # ── HTML ───────────────────────────────────────────────────────────────────────
 
 tabs_nav  = '<button class="tab-btn active" onclick="showTab(\'Geral\')">Geral</button>'
+tabs_nav += '<button class="tab-btn" onclick="showTab(\'Diario\')">Diário</button>'
 tabs_nav += '<button class="tab-btn" onclick="showTab(\'Semanal\')">Semanal</button>'
 tabs_nav += '<button class="tab-btn" onclick="showTab(\'Mensal\')">Mensal</button>'
-tabs_body = tab_geral() + tab_semanal() + tab_mensal()
+tabs_body = tab_geral() + tab_diario() + tab_semanal() + tab_mensal()
 for team in TEAMS:
     s = TEAM_SHORT[team]
     tabs_nav  += f'<button class="tab-btn" onclick="showTab(\'{s}\')">{s}</button>'
