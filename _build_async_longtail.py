@@ -568,10 +568,11 @@ def make_chart(cid, labels, datasets, y_label, bar=True, height=280, x_rotation=
 
 # ── gráficos por office (abas ME/Pub/Ventas) ──────────────────────────────────
 
-def chart_daily(team):
+def chart_daily(team, pfx=''):
     keys, series, cmap, total = build_office_series(q1, team, 'dia')
     if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'cd-{TEAM_SHORT[team]}', [k[5:].replace('-','/') for k in keys], bar_datasets(series, cmap, total=total), 'async/caso', bar=True, x_rotation=45)
+    cid = f'cd-{pfx}-{TEAM_SHORT[team]}' if pfx else f'cd-{TEAM_SHORT[team]}'
+    return make_chart(cid, [k[5:].replace('-','/') for k in keys], bar_datasets(series, cmap, total=total), 'async/caso', bar=True, x_rotation=45)
 
 def chart_weekly(team, pfx=''):
     keys, series, cmap, total = build_office_series(q7, team, 'semana')
@@ -788,7 +789,7 @@ def tab_content(team):
       </div>
 
       <div id="stab-{s}-Diario" class="stab-content">
-        <div class="card"><h3>Async/Caso por Office <small>últimos 15 dias</small></h3>{chart_daily(team)}</div>
+        <div class="card"><h3>Async/Caso por Office <small>últimos 15 dias</small></h3>{chart_daily(team,'t')}</div>
         <div style="display:flex;gap:16px">
           <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_diario(team,'td')}</div>
           <div class="card" style="flex:1;min-width:0"><h3>Tempo de Operação — M1/M2/M3/M4+</h3>{chart_faixa_diario(team,'td')}</div>
@@ -1018,7 +1019,7 @@ function filterOffice(team,office,btn){{
   document.querySelectorAll('#tab-'+team+' tr[data-office]').forEach(row=>{{
     row.style.display=(office==='ALL'||row.dataset.office===office)?'':'none';
   }});
-  ['cd-','cw-','cw-t-','cm-','cm-t-','cpw-','cpw-t-','cpm-','cpm-t-'].forEach(p=>{{
+  ['cd-','cd-t-','cw-','cw-t-','cm-','cm-t-','cpw-','cpw-t-','cpm-','cpm-t-'].forEach(p=>{{
     var c=(window._charts||{{}})[p+team];
     if(!c)return;
     c.data.datasets.forEach((ds,i)=>{{
