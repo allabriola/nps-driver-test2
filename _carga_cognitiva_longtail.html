@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carga Cognitiva — Sellers Longtail BR | Q2 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<style>
+  :root{--green:#1a8a3c;--yellow:#b8860b;--red:#c0392b;--orange:#e67e22;--bg:#f4f6f8;--card:#fff;--border:#dde3ea;--head:#2c3e50;--accent:#3498db}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:#222;font-size:13px}
+  header{background:var(--head);color:#fff;padding:16px 24px}
+  header h1{font-size:18px}
+  header .sub{font-size:11px;opacity:.7;margin-top:4px}
+  .legend{display:flex;gap:16px;padding:8px 24px;background:#fff;border-bottom:1px solid var(--border);font-size:11px;flex-wrap:wrap;align-items:center}
+  .legend span{display:flex;align-items:center;gap:4px}
+  .badge{display:inline-block;padding:2px 9px;border-radius:10px;font-weight:700;font-size:11px;color:#fff;white-space:nowrap}
+  .badge-green{background:#27ae60}
+  .badge-amber{background:#f39c12}
+  .badge-orange{background:#e67e22}
+  .badge-red{background:#c0392b}
+  .tabs{display:flex;gap:4px;padding:12px 24px 0;background:#fff;border-bottom:2px solid var(--accent);flex-wrap:wrap}
+  .tab-btn{padding:8px 18px;border:none;background:#eef2f7;border-radius:6px 6px 0 0;cursor:pointer;font-size:13px;font-weight:600;color:#555;transition:all .15s}
+  .tab-btn.active{background:var(--accent);color:#fff}
+  .tab-btn:hover:not(.active){background:#d5e8f7}
+  .tab-content{display:none;padding:20px 24px}
+  .tab-content.show{display:block}
+  .tab-content h2{font-size:15px;color:var(--head);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+  .section-title{font-size:11px;font-weight:700;color:var(--head);text-transform:uppercase;letter-spacing:.5px;margin:18px 0 8px;padding-left:2px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px}
+  .card h3{font-size:13px;font-weight:700;color:var(--head);margin-bottom:12px}
+  .card h3 small{font-weight:400;color:#777;font-size:11px}
+  .kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+  .kpi-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 16px}
+  .kpi-card .team-name{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
+  .kpi-card .score-val{font-size:34px;font-weight:800;line-height:1;margin-bottom:4px}
+  .kpi-card .score-label{font-size:11px;color:#666;margin-bottom:10px}
+  .kpi-card .rank-pill{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;background:#f0f4f8;color:#444}
+  .kpi-card .vol{font-size:11px;color:#888;margin-top:6px}
+  table.dt{border-collapse:collapse;width:100%;font-size:12px}
+  table.dt th{background:#f0f4f8;padding:7px 10px;text-align:center;font-size:11px;border-bottom:2px solid var(--border);white-space:nowrap;color:#444;font-weight:700}
+  table.dt th:first-child{text-align:left}
+  table.dt td{padding:6px 10px;border-bottom:1px solid #eef0f3;white-space:nowrap;text-align:center}
+  table.dt td:first-child{text-align:left;font-weight:600}
+  table.dt tr:hover td{background:#f7fafd}
+  table.dt tr.highlight td{background:#fffbe6}
+  table.dt tr.highlight-me td{background:#edf6ff}
+  table.dt tr.highlight-ventas td{background:#f0fff4}
+  table.dt tr.highlight-pub td{background:#fdf4ff}
+  .num{text-align:center;font-weight:600}
+  .num-s{text-align:center;color:#666}
+  .ok{color:var(--green)}
+  .warn{color:var(--yellow)}
+  .crit{color:var(--red)}
+  .insight-box{border-left:4px solid var(--accent);padding:12px 16px;background:#f0f8ff;border-radius:0 6px 6px 0;margin-bottom:14px;font-size:13px;line-height:1.7}
+  .insight-box.orange{border-color:var(--orange);background:#fff8f0}
+  .insight-box.green{border-color:#27ae60;background:#f0fff4}
+  .insight-box strong{color:#1a1a2e}
+  .sim-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+  .sim-card{background:var(--card);border:2px solid var(--border);border-radius:8px;padding:18px;text-align:center}
+  .sim-card .label{font-size:11px;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:6px}
+  .sim-card .val{font-size:32px;font-weight:800;margin-bottom:4px}
+  .sim-card .sub{font-size:11px;color:#666}
+  .sim-card.active{border-color:#e67e22;background:#fff8f0}
+  .sim-card.inactive{border-color:#27ae60;background:#f0fff4}
+  .progress-wrap{margin:8px 0 4px}
+  .progress-bar{height:10px;border-radius:5px;background:#eee;overflow:hidden}
+  .progress-fill{height:100%;border-radius:5px;transition:width .3s}
+  .note{font-size:11px;color:#888;font-style:italic;margin-top:8px}
+  @media(max-width:900px){.kpi-grid{grid-template-columns:1fr}.sim-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Carga Cognitiva — Sellers Longtail BR</h1>
+  <div class="sub">Fonte: BT_CX_KM_COGNITIVE_EFFORT_SCORE &nbsp;|&nbsp; Q2 2026 (abr/2026) &nbsp;|&nbsp; Score 1–15 = soma de percentis TMO + NPS + Passos Manuais</div>
+</header>
+
+<div class="legend">
+  <span><span class="badge badge-green">1–7</span>&nbsp;Baixo</span>
+  <span><span class="badge badge-amber">8–10</span>&nbsp;Moderado</span>
+  <span><span class="badge badge-orange">11–12</span>&nbsp;Alto</span>
+  <span><span class="badge badge-red">13–15</span>&nbsp;Muito alto</span>
+  <span style="margin-left:auto;color:#888;font-size:11px">Score = Pctl(TMO) + Pctl(NPS detrator) + Pctl(Passos Manuais) &nbsp;|&nbsp; Score ponderado do time = média por volume</span>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('resumo')">Resumo</button>
+  <button class="tab-btn" onclick="showTab('me')">BR_ME</button>
+  <button class="tab-btn" onclick="showTab('ventas')">BR_Ventas</button>
+  <button class="tab-btn" onclick="showTab('pub')">BR_Publicaciones</button>
+  <button class="tab-btn" onclick="showTab('ranking')">Ranking MLB</button>
+  <button class="tab-btn" onclick="showTab('sim')">Simulação Post Compra</button>
+</div>
+
+<!-- ===================== RESUMO ===================== -->
+<div id="tab-resumo" class="tab-content show">
+  <h2>Resumo — Sellers Longtail BR (Q2 2026)</h2>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="team-name">BR_ME_Sellers_Longtail</div>
+      <div class="score-val" style="color:#e67e22">10,48</div>
+      <div class="score-label">Score ponderado (0–15)</div>
+      <div class="rank-pill">#18 de 36 no MLB</div>
+      <div class="vol">388.409 atendimentos &nbsp;|&nbsp; 14 processos</div>
+    </div>
+    <div class="kpi-card">
+      <div class="team-name">BR_Ventas_Sellers_Longtail</div>
+      <div class="score-val" style="color:#f39c12">9,12</div>
+      <div class="score-label">Score ponderado (0–15)</div>
+      <div class="rank-pill">#24 de 36 no MLB</div>
+      <div class="vol">197.925 atendimentos &nbsp;|&nbsp; 10 processos</div>
+    </div>
+    <div class="kpi-card">
+      <div class="team-name">BR_Publicaciones_Sellers_Longtail</div>
+      <div class="score-val" style="color:#f39c12">7,07</div>
+      <div class="score-label">Score ponderado combinado</div>
+      <div class="rank-pill">#28 e #31 de 36 (2 times fonte)</div>
+      <div class="vol">135.594 atendimentos &nbsp;|&nbsp; 13 processos</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Posição relativa no MLB <small>— score ponderado por volume, Q2 2026</small></h3>
+    <div style="position:relative;height:220px"><canvas id="chart-resumo"></canvas></div>
+  </div>
+
+  <div class="section-title">Principais achados</div>
+
+  <div class="insight-box orange">
+    <strong>BR_ME tem o processo mais pesado de todos os Longtail:</strong> "Jornada de la entrega" com score <strong>15/15</strong> (máximo possível) — TMO de 223 minutos e 375 passos manuais. Apesar do baixo volume (3.224 casos), é um outlier crítico que exige atenção especial no treinamento e suporte.
+  </div>
+
+  <div class="insight-box">
+    <strong>"Reputación" é o maior driver de carga em Ventas e ME:</strong> Score 11 com <strong>592 passos manuais</strong> — o maior número de passos de todos os processos Longtail. Aparece tanto em BR_ME (17,1% do volume) quanto em BR_Ventas (34,1% do volume), sendo o principal alvo para redução de carga.
+  </div>
+
+  <div class="insight-box green">
+    <strong>BR_Publicaciones tem a menor carga entre os três times:</strong> Score combinado de 7,07 — abaixo da mediana MLB. Os processos mais pesados (PR - Artículos prohibidos, score 11) têm volume moderado e NPS favorável.
+  </div>
+
+  <div class="section-title">Processo mais pesado por time</div>
+  <table class="dt">
+    <thead><tr>
+      <th>Time</th><th>Processo mais pesado</th><th>Score</th><th>TMO (min)</th><th>Passos Manuais</th><th>Volume</th><th>% do Time</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td>BR_ME_Sellers_Longtail</td>
+        <td>Jornada de la entrega</td>
+        <td><span class="badge badge-red">15</span></td>
+        <td>223</td><td>375</td><td>3.224</td><td>0,8%</td>
+      </tr>
+      <tr>
+        <td>BR_Ventas_Sellers_Longtail</td>
+        <td>Reputación</td>
+        <td><span class="badge badge-orange">11</span></td>
+        <td>69</td><td>592</td><td>67.534</td><td>34,1%</td>
+      </tr>
+      <tr>
+        <td>BR_Publicaciones_Sellers_Longtail</td>
+        <td>PR - Artículos prohibidos</td>
+        <td><span class="badge badge-orange">11</span></td>
+        <td>77</td><td>132</td><td>14.226</td><td>10,5%</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===================== BR_ME ===================== -->
+<div id="tab-me" class="tab-content">
+  <h2>BR_ME_Sellers_Longtail — Detalhamento por Processo</h2>
+  <div class="insight-box">
+    Score ponderado: <strong>10,48</strong> &nbsp;|&nbsp; Ranking: <strong>#18 de 36 no MLB</strong> &nbsp;|&nbsp; Volume total: <strong>388.409</strong> &nbsp;|&nbsp; 14 processos
+  </div>
+
+  <div style="display:flex;gap:16px;flex-wrap:wrap">
+    <div class="card" style="flex:1;min-width:300px">
+      <h3>Score por Processo <small>— ordenado por score</small></h3>
+      <div style="position:relative;height:380px"><canvas id="chart-me-proc"></canvas></div>
+    </div>
+    <div class="card" style="flex:1;min-width:340px">
+      <h3>Tabela de Processos</h3>
+      <table class="dt">
+        <thead><tr><th>Processo</th><th>Score</th><th>TMO<br>(min)</th><th>Passos<br>Manuais</th><th>Volume</th><th>% Vol</th></tr></thead>
+        <tbody>
+          <tr><td>Jornada de la entrega</td><td><span class="badge badge-red">15</span></td><td>223</td><td>375</td><td>3.224</td><td>0,8%</td></tr>
+          <tr><td>Despacho Ventas y Pub.</td><td><span class="badge badge-orange">12</span></td><td>84</td><td>298</td><td>88.572</td><td>22,8%</td></tr>
+          <tr><td>Viaje del paquete - Comprador</td><td><span class="badge badge-orange">12</span></td><td>86</td><td>234</td><td>49.870</td><td>12,8%</td></tr>
+          <tr><td>Reversa</td><td><span class="badge badge-orange">12</span></td><td>86</td><td>107</td><td>12.641</td><td>3,3%</td></tr>
+          <tr><td>Reputación</td><td><span class="badge badge-orange">11</span></td><td>69</td><td><strong>592</strong></td><td>66.392</td><td>17,1%</td></tr>
+          <tr><td>Asignación ME Pre Despacho</td><td><span class="badge badge-orange">11</span></td><td>96</td><td>—</td><td>170</td><td>0,0%</td></tr>
+          <tr><td>Drivers</td><td><span class="badge badge-orange">11</span></td><td>89</td><td>156</td><td>36.595</td><td>9,4%</td></tr>
+          <tr><td>Post Compra Func. Vendedor</td><td><span class="badge badge-amber">10</span></td><td>71</td><td>71</td><td>31.738</td><td>8,2%</td></tr>
+          <tr><td>Places Kangu</td><td><span class="badge badge-amber">9</span></td><td>74</td><td>204</td><td>29.744</td><td>7,7%</td></tr>
+          <tr><td>Gestiones Operativas</td><td><span class="badge badge-amber">9</span></td><td>72</td><td>159</td><td>20.751</td><td>5,3%</td></tr>
+          <tr><td>Costos de envío - Comprador</td><td><span class="badge badge-amber">9</span></td><td>135</td><td>26</td><td>490</td><td>0,1%</td></tr>
+          <tr><td>Viaje del paquete - Vendedor</td><td><span class="badge badge-green">7</span></td><td>81</td><td>36</td><td>8.039</td><td>2,1%</td></tr>
+          <tr><td>Anulación de Venta</td><td><span class="badge badge-green">7</span></td><td>68</td><td>35</td><td>224</td><td>0,1%</td></tr>
+          <tr><td>Reputación ME</td><td><span class="badge badge-green">6</span></td><td>56</td><td>57</td><td>39.959</td><td>10,3%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-title">Atenção</div>
+  <div class="insight-box orange">
+    <strong>Jornada de la entrega (score 15):</strong> TMO de 223 minutos é extremamente alto — mais de 2,5x acima da média dos outros processos. 375 passos manuais confirmam a complexidade. Apesar do volume reduzido (0,8%), é o processo que mais esgota o rep individualmente.
+  </div>
+  <div class="insight-box">
+    <strong>Reputación (score 11):</strong> Com 592 passos manuais e 17% do volume, é o maior driver de carga sustentada do time. Alto volume + muitos passos = exposição diária constante ao processo mais manual de todos.
+  </div>
+</div>
+
+<!-- ===================== BR_VENTAS ===================== -->
+<div id="tab-ventas" class="tab-content">
+  <h2>BR_Ventas_Sellers_Longtail — Detalhamento por Processo</h2>
+  <div class="insight-box">
+    Score ponderado: <strong>9,12</strong> &nbsp;|&nbsp; Ranking: <strong>#24 de 36 no MLB</strong> &nbsp;|&nbsp; Volume total: <strong>197.925</strong> &nbsp;|&nbsp; 10 processos
+  </div>
+
+  <div style="display:flex;gap:16px;flex-wrap:wrap">
+    <div class="card" style="flex:1;min-width:300px">
+      <h3>Score por Processo <small>— ordenado por score</small></h3>
+      <div style="position:relative;height:320px"><canvas id="chart-ventas-proc"></canvas></div>
+    </div>
+    <div class="card" style="flex:1;min-width:340px">
+      <h3>Tabela de Processos</h3>
+      <table class="dt">
+        <thead><tr><th>Processo</th><th>Score</th><th>TMO<br>(min)</th><th>Passos<br>Manuais</th><th>Volume</th><th>% Vol</th></tr></thead>
+        <tbody>
+          <tr><td>Reputación</td><td><span class="badge badge-orange">11</span></td><td>69</td><td><strong>592</strong></td><td>67.534</td><td>34,1%</td></tr>
+          <tr><td>Denuncia de usuario</td><td><span class="badge badge-orange">11</span></td><td>109</td><td>—</td><td>1.435</td><td>0,7%</td></tr>
+          <tr class="highlight"><td>Post Compra Func. Vendedor ★</td><td><span class="badge badge-amber">10</span></td><td>71</td><td>71</td><td>38.781</td><td>19,6%</td></tr>
+          <tr><td>Facturación</td><td><span class="badge badge-amber">10</span></td><td>99</td><td>62</td><td>15.931</td><td>8,0%</td></tr>
+          <tr><td>Asignación Post Venta</td><td><span class="badge badge-amber">9</span></td><td>51</td><td>—</td><td>183</td><td>0,1%</td></tr>
+          <tr><td>Emision de Nota Fiscal</td><td><span class="badge badge-amber">8</span></td><td>67</td><td>157</td><td>19.652</td><td>9,9%</td></tr>
+          <tr><td>Afiliados ML</td><td><span class="badge badge-green">7</span></td><td>77</td><td>25</td><td>12.162</td><td>6,1%</td></tr>
+          <tr><td>Anulación de Venta</td><td><span class="badge badge-green">7</span></td><td>68</td><td>35</td><td>1.648</td><td>0,8%</td></tr>
+          <tr><td>Reputación ME</td><td><span class="badge badge-green">6</span></td><td>56</td><td>57</td><td>37.103</td><td>18,7%</td></tr>
+          <tr><td>Datos fiscales</td><td><span class="badge badge-green">6</span></td><td>62</td><td>42</td><td>3.496</td><td>1,8%</td></tr>
+        </tbody>
+      </table>
+      <div class="note">★ Processo analisado na aba "Simulação Post Compra"</div>
+    </div>
+  </div>
+
+  <div class="section-title">Distribuição de volume por faixa de score</div>
+  <div class="card">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+      <div style="flex:1;min-width:160px;padding:12px;border-radius:6px;background:#fff3cd;border:1px solid #ffc107;text-align:center">
+        <div style="font-size:22px;font-weight:800;color:#e67e22">34,8%</div>
+        <div style="font-size:11px;color:#666;margin-top:2px">Score 11–12 (Alto)<br>68.969 casos</div>
+      </div>
+      <div style="flex:1;min-width:160px;padding:12px;border-radius:6px;background:#fff8e1;border:1px solid #ffca28;text-align:center">
+        <div style="font-size:22px;font-weight:800;color:#f39c12">37,6%</div>
+        <div style="font-size:11px;color:#666;margin-top:2px">Score 8–10 (Moderado)<br>74.547 casos</div>
+      </div>
+      <div style="flex:1;min-width:160px;padding:12px;border-radius:6px;background:#f0fff4;border:1px solid #27ae60;text-align:center">
+        <div style="font-size:22px;font-weight:800;color:#27ae60">27,5%</div>
+        <div style="font-size:11px;color:#666;margin-top:2px">Score 1–7 (Baixo)<br>54.409 casos</div>
+      </div>
+    </div>
+    <div class="note">72% do volume do time está em processos com score ≥ 8 (moderado a alto).</div>
+  </div>
+</div>
+
+<!-- ===================== BR_PUBLICACIONES ===================== -->
+<div id="tab-pub" class="tab-content">
+  <h2>BR_Publicaciones_Sellers_Longtail — Detalhamento por Processo</h2>
+  <div class="insight-box green">
+    Score ponderado combinado: <strong>7,07</strong> &nbsp;|&nbsp; Volume total: <strong>135.594</strong> &nbsp;|&nbsp; 13 processos<br>
+    <span style="font-size:11px;color:#555">Composto por: BR_MLPreVenda_Offline (#31, score 6,57) + BR_Prustomer_Offline (#28, score 7,65)</span>
+  </div>
+
+  <div style="display:flex;gap:16px;flex-wrap:wrap">
+    <div class="card" style="flex:1;min-width:300px">
+      <h3>Score por Processo <small>— ordenado por score</small></h3>
+      <div style="position:relative;height:360px"><canvas id="chart-pub-proc"></canvas></div>
+    </div>
+    <div class="card" style="flex:1;min-width:340px">
+      <h3>Tabela de Processos</h3>
+      <table class="dt">
+        <thead><tr><th>Processo</th><th>Score</th><th>TMO<br>(min)</th><th>Passos<br>Manuais</th><th>Volume</th><th>% Vol</th></tr></thead>
+        <tbody>
+          <tr><td>Denuncia de usuario</td><td><span class="badge badge-orange">11</span></td><td>109</td><td>—</td><td>1.662</td><td>1,2%</td></tr>
+          <tr><td>Guardia Urbana</td><td><span class="badge badge-orange">11</span></td><td>84</td><td>—</td><td>155</td><td>0,1%</td></tr>
+          <tr><td>Asignación - Prustomer</td><td><span class="badge badge-orange">11</span></td><td>89</td><td>—</td><td>663</td><td>0,5%</td></tr>
+          <tr><td>PR - Artículos prohibidos</td><td><span class="badge badge-orange">11</span></td><td>77</td><td>132</td><td>14.226</td><td>10,5%</td></tr>
+          <tr><td>PR - Propiedad intelectual</td><td><span class="badge badge-amber">8</span></td><td>96</td><td>66</td><td>36.029</td><td>26,6%</td></tr>
+          <tr><td>Anulación de Venta</td><td><span class="badge badge-green">7</span></td><td>68</td><td>35</td><td>1.118</td><td>0,8%</td></tr>
+          <tr><td>PR - Datos Personales</td><td><span class="badge badge-green">7</span></td><td>76</td><td>38</td><td>1.417</td><td>1,0%</td></tr>
+          <tr><td>Afiliados ML</td><td><span class="badge badge-green">7</span></td><td>77</td><td>25</td><td>14.238</td><td>10,5%</td></tr>
+          <tr><td>Gestión de Publicación</td><td><span class="badge badge-green">6</span></td><td>81</td><td>8</td><td>19.434</td><td>14,3%</td></tr>
+          <tr><td>Potenciar Ventas</td><td><span class="badge badge-green">6</span></td><td>89</td><td>21</td><td>19.627</td><td>14,5%</td></tr>
+          <tr><td>Calidad de foto</td><td><span class="badge badge-green">5</span></td><td>61</td><td>20</td><td>4.012</td><td>3,0%</td></tr>
+          <tr><td>PR - Técnica prohibida</td><td><span class="badge badge-green">5</span></td><td>77</td><td>50</td><td>18.412</td><td>13,6%</td></tr>
+          <tr><td>Antes de publicar</td><td><span class="badge badge-green">5</span></td><td>78</td><td>52</td><td>4.601</td><td>3,4%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-title">Contexto</div>
+  <div class="insight-box green">
+    <strong>Publicaciones é o time com menor carga cognitiva dos três.</strong> Mais de 60% do volume está em processos com score ≤ 6 (Gestión de Publicación, Potenciar Ventas, PR - Técnica prohibida). O maior processo de risco é <strong>PR - Propiedad intelectual</strong> (score 8, 26,6% do volume, TMO 96 min).
+  </div>
+</div>
+
+<!-- ===================== RANKING MLB ===================== -->
+<div id="tab-ranking" class="tab-content">
+  <h2>Ranking MLB — Score Ponderado por Time (Q2 2026)</h2>
+  <div class="insight-box">
+    36 times ordenados por score ponderado (volume × score / volume total). Times Longtail destacados. Fonte: BT_CX_KM_COGNITIVE_EFFORT_SCORE, DATE_ID = 2026-04-01.
+  </div>
+
+  <div class="card">
+    <h3>Ranking completo <small>— Longtail BR em destaque</small></h3>
+    <div style="position:relative;height:600px"><canvas id="chart-ranking"></canvas></div>
+  </div>
+
+  <div class="card">
+    <h3>Tabela de Ranking</h3>
+    <table class="dt">
+      <thead><tr><th>#</th><th>Time</th><th>Score Ponderado</th><th>Score Máx.</th><th>Processos</th><th>Volume</th></tr></thead>
+      <tbody id="ranking-tbody">
+        <tr><td>1</td><td>BR_Reclameaqui_ML_Pós_Entrega</td><td><span class="badge badge-red">13,88</span></td><td>14</td><td>5</td><td>56.192</td></tr>
+        <tr><td>2</td><td>GOV_ML_ME / PROCON_ML_ME</td><td><span class="badge badge-red">13,69</span></td><td>15</td><td>19</td><td>43.178</td></tr>
+        <tr><td>3</td><td>PROGOV_Finalizacion</td><td><span class="badge badge-red">13,42</span></td><td>15</td><td>7</td><td>4.431</td></tr>
+        <tr><td>4</td><td>OUV - LGPD</td><td><span class="badge badge-red">13,00</span></td><td>13</td><td>1</td><td>447</td></tr>
+        <tr><td>5</td><td>BR_Reclameaqui_ML_Envios</td><td><span class="badge badge-red">12,96</span></td><td>15</td><td>12</td><td>36.470</td></tr>
+        <tr><td>6</td><td>OUV_RDR_Bacen / RDR_MINUTA</td><td><span class="badge badge-red">12,71</span></td><td>13</td><td>6</td><td>4.918</td></tr>
+        <tr><td>7</td><td>OUV - Cap</td><td><span class="badge badge-red">12,63</span></td><td>14</td><td>11</td><td>9.199</td></tr>
+        <tr><td>8</td><td>BR_MED_PNRMP_Offline</td><td><span class="badge badge-orange">12,11</span></td><td>15</td><td>21</td><td>341.451</td></tr>
+        <tr><td>9</td><td>BR_ME_Distribuição_Offline</td><td><span class="badge badge-orange">11,98</span></td><td>15</td><td>6</td><td>174.961</td></tr>
+        <tr><td>10</td><td>BR_Reclameaqui_ML_Comprador</td><td><span class="badge badge-orange">11,96</span></td><td>15</td><td>16</td><td>18.803</td></tr>
+        <tr><td>11</td><td>BR_FBM_Seller_Offline_Premium</td><td><span class="badge badge-orange">11,79</span></td><td>14</td><td>9</td><td>128.369</td></tr>
+        <tr><td>12</td><td>BR_MLVendedor_Analisis_Masivo</td><td><span class="badge badge-orange">11,53</span></td><td>13</td><td>8</td><td>22.971</td></tr>
+        <tr><td>13</td><td>PROCON_MP / GOV_MP</td><td><span class="badge badge-orange">11,44</span></td><td>13</td><td>21</td><td>31.938</td></tr>
+        <tr><td>14</td><td>BR_Seg360_Offline</td><td><span class="badge badge-orange">11,08</span></td><td>12</td><td>3</td><td>10.052</td></tr>
+        <tr><td>14</td><td>BR_Reclameaqui_MP_Contas</td><td><span class="badge badge-orange">11,08</span></td><td>13</td><td>11</td><td>9.351</td></tr>
+        <tr><td>16</td><td>OUV - Ouvidoria Regulatório</td><td><span class="badge badge-orange">10,91</span></td><td>13</td><td>22</td><td>17.272</td></tr>
+        <tr><td>17</td><td>BR_Reclameaqui_MP_Creditos</td><td><span class="badge badge-amber">10,66</span></td><td>13</td><td>8</td><td>12.897</td></tr>
+        <tr class="highlight-me"><td>18</td><td><strong>BR_ME_Sellers_Longtail ★</strong></td><td><span class="badge badge-amber">10,48</span></td><td>15</td><td>14</td><td>388.409</td></tr>
+        <tr><td>19</td><td>BR_MED_PNRME_Offline</td><td><span class="badge badge-amber">10,33</span></td><td>15</td><td>20</td><td>182.319</td></tr>
+        <tr><td>20</td><td>BR_Redes_Offline</td><td><span class="badge badge-amber">10,14</span></td><td>11</td><td>3</td><td>1.964</td></tr>
+        <tr><td>21</td><td>BR_Reclameaqui_MP_Pagamentos</td><td><span class="badge badge-amber">10,05</span></td><td>13</td><td>15</td><td>6.299</td></tr>
+        <tr><td>22</td><td>MELI_PRO_MLB</td><td><span class="badge badge-amber">9,65</span></td><td>12</td><td>14</td><td>32.088</td></tr>
+        <tr><td>23</td><td>BR_MPCredits_Offline</td><td><span class="badge badge-amber">9,23</span></td><td>12</td><td>6</td><td>31.603</td></tr>
+        <tr class="highlight-ventas"><td>24</td><td><strong>BR_Ventas_Sellers_Longtail ★</strong></td><td><span class="badge badge-amber">9,12</span></td><td>11</td><td>10</td><td>197.925</td></tr>
+        <tr><td>25</td><td>BR_MPContas_Security_Offline</td><td><span class="badge badge-amber">8,82</span></td><td>12</td><td>13</td><td>60.071</td></tr>
+        <tr><td>26</td><td>BR_SOS_MP_IVR</td><td><span class="badge badge-amber">8,66</span></td><td>12</td><td>11</td><td>210.732</td></tr>
+        <tr><td>27</td><td>BR_MPCartões_Offline</td><td><span class="badge badge-amber">8,06</span></td><td>12</td><td>10</td><td>97.436</td></tr>
+        <tr class="highlight-pub"><td>28</td><td><strong>BR_Prustomer_Offline (Pub. parte) ★</strong></td><td><span class="badge badge-green">7,65</span></td><td>11</td><td>7</td><td>62.916</td></tr>
+        <tr><td>29</td><td>BR_MPRecebimentos_Offline</td><td><span class="badge badge-green">7,41</span></td><td>10</td><td>16</td><td>23.455</td></tr>
+        <tr><td>30</td><td>BR_Top_Off_Offline</td><td><span class="badge badge-green">6,63</span></td><td>12</td><td>34</td><td>37.717</td></tr>
+        <tr class="highlight-pub"><td>31</td><td><strong>BR_MLPreVenda_Offline (Pub. parte) ★</strong></td><td><span class="badge badge-green">6,57</span></td><td>11</td><td>12</td><td>72.678</td></tr>
+        <tr><td>32</td><td>BR_BigSellers_Offline</td><td><span class="badge badge-green">6,50</span></td><td>12</td><td>6</td><td>1.899</td></tr>
+        <tr><td>33</td><td>BR_MPPoint_Offline</td><td><span class="badge badge-green">6,05</span></td><td>12</td><td>11</td><td>19.403</td></tr>
+        <tr><td>34</td><td>BR_MED_PDDMP_Flex_Offline</td><td><span class="badge badge-green">3,48</span></td><td>14</td><td>27</td><td>344.306</td></tr>
+        <tr><td>35</td><td>BR_MED_PDD_DS&amp;XD_Offline</td><td><span class="badge badge-green">1,05</span></td><td>14</td><td>44</td><td>822.183</td></tr>
+        <tr><td>36</td><td>BR_MED_PDD_FBM_Offline</td><td><span class="badge badge-green">0,54</span></td><td>14</td><td>50</td><td>707.244</td></tr>
+      </tbody>
+    </table>
+    <div class="note">★ Times Longtail BR. Publicaciones usa nomes dos times-fonte até atualização na tabela.</div>
+  </div>
+</div>
+
+<!-- ===================== SIMULAÇÃO ===================== -->
+<div id="tab-sim" class="tab-content">
+  <h2>Simulação — Impacto de "Post Compra Funcionalidades Vendedor" em BR_Ventas</h2>
+
+  <div class="insight-box">
+    <strong>Pergunta:</strong> Adicionar/manter o processo "Post Compra Funcionalidades Vendedor" no time BR_Ventas_Sellers_Longtail aumenta a carga cognitiva dos representantes?
+  </div>
+
+  <div class="section-title">Resultado da Simulação</div>
+  <div class="sim-grid">
+    <div class="sim-card active">
+      <div class="label">Cenário atual — COM Post Compra</div>
+      <div class="val" style="color:#e67e22">9,119</div>
+      <div class="sub">Score ponderado do time &nbsp;|&nbsp; #24 de 36 no MLB</div>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" style="width:60.8%;background:#e67e22"></div></div>
+      </div>
+      <div class="note">Post Compra: 38.781 casos = 19,6% do volume</div>
+    </div>
+    <div class="sim-card inactive">
+      <div class="label">Hipotético — SEM Post Compra</div>
+      <div class="val" style="color:#27ae60">8,904</div>
+      <div class="sub">Score ponderado do time &nbsp;|&nbsp; #24 de 36 no MLB</div>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" style="width:59.4%;background:#27ae60"></div></div>
+      </div>
+      <div class="note">159.144 casos restantes (80,4% do volume atual)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Comparativo visual</h3>
+    <div style="position:relative;height:180px"><canvas id="chart-sim"></canvas></div>
+  </div>
+
+  <div class="section-title">Interpretação</div>
+
+  <table class="dt" style="margin-bottom:16px">
+    <thead><tr><th>Métrica</th><th>Com Post Compra</th><th>Sem Post Compra</th><th>Diferença</th></tr></thead>
+    <tbody>
+      <tr><td>Score ponderado do time</td><td><strong>9,119</strong></td><td><strong>8,904</strong></td><td style="color:#e67e22">+0,215 ↑</td></tr>
+      <tr><td>Ranking MLB</td><td>#24 de 36</td><td>#24 de 36</td><td style="color:#888">sem mudança</td></tr>
+      <tr><td>Score do processo isolado</td><td colspan="2" style="text-align:center">10 (fixo)</td><td style="color:#e67e22">acima da média</td></tr>
+      <tr><td>% do volume total do time</td><td>19,6%</td><td>0%</td><td style="color:#888">38.781 casos</td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight-box orange">
+    <strong>Sim, o processo aumenta a carga cognitiva</strong> — mas o impacto é <strong>moderado (+0,215 pontos)</strong>. O motivo é que o processo tem score 10, que está acima da média ponderada do time (9,12), puxando o índice para cima. No entanto, mesmo removendo o processo, o ranking do time não muda (continua em #24).
+  </div>
+
+  <div class="insight-box">
+    <strong>Por que o impacto não é maior?</strong> O score 10 do processo não é muito distante da média 9,12. Além disso, processos de score baixo como Reputación ME (score 6, 18,7% do volume) atuam como "ancora" que reduz o índice geral do time, compensando parcialmente o peso do Post Compra.
+  </div>
+
+  <div class="insight-box green">
+    <strong>O principal driver de carga no BR_Ventas não é Post Compra</strong> — é <strong>Reputación</strong> (score 11, 592 passos manuais, 34% do volume). Se o objetivo é reduzir a carga cognitiva do time, a prioridade deveria ser simplificar o fluxo de Reputación, não remover Post Compra.
+  </div>
+
+  <div class="section-title">Score do processo vs. média do time</div>
+  <div class="card">
+    <div style="position:relative;height:180px"><canvas id="chart-sim2"></canvas></div>
+  </div>
+</div>
+
+<script>
+function showTab(id){
+  document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('show')});
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
+  document.getElementById('tab-'+id).classList.add('show');
+  event.target.classList.add('active');
+}
+
+function scoreBg(s){
+  if(s>=13)return'#c0392b';
+  if(s>=11)return'#e67e22';
+  if(s>=8)return'#f39c12';
+  return'#27ae60';
+}
+
+// Resumo chart — bar com 3 times + referências
+(function(){
+  var ctx=document.getElementById('chart-resumo').getContext('2d');
+  new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:['BR_ME_Sellers_Longtail','BR_Ventas_Sellers_Longtail','BR_Publicaciones_Sellers_Longtail'],
+      datasets:[{
+        label:'Score ponderado',
+        data:[10.48,9.12,7.07],
+        backgroundColor:['#f39c1299','#f39c1299','#27ae6099'],
+        borderColor:['#e67e22','#f39c12','#27ae60'],
+        borderWidth:2,borderRadius:4
+      },{
+        type:'line',label:'Mediana MLB (~9,0)',
+        data:[9.0,9.0,9.0],
+        borderColor:'#3498db',borderDash:[6,4],
+        pointRadius:0,borderWidth:1.5,fill:false,tension:0
+      },{
+        type:'line',label:'Limiar alto (11)',
+        data:[11,11,11],
+        borderColor:'#e67e22',borderDash:[6,4],
+        pointRadius:0,borderWidth:1.5,fill:false,tension:0
+      }]
+    },
+    options:{
+      indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{position:'top',labels:{boxWidth:12,font:{size:11}}},
+        tooltip:{callbacks:{label:function(c){return' Score: '+c.raw;}}}
+      },
+      scales:{
+        x:{min:0,max:15,title:{display:true,text:'Score ponderado (0–15)',font:{size:11}},
+           ticks:{font:{size:11}}},
+        y:{ticks:{font:{size:12}}}
+      }
+    }
+  });
+})();
+
+// ME processos
+(function(){
+  var labels=['Jornada entrega','Despacho V+P','Viaje pq - Comprador','Reversa','Reputación','Asignación ME','Drivers','Post Compra Func.','Places Kangu','Gest. Operativas','Costos envío','Viaje pq - Vendedor','Anulación','Reputación ME'];
+  var scores=[15,12,12,12,11,11,11,10,9,9,9,7,7,6];
+  var bgs=scores.map(function(s){return scoreBg(s)+'aa'});
+  var bds=scores.map(function(s){return scoreBg(s)});
+  var ctx=document.getElementById('chart-me-proc').getContext('2d');
+  new Chart(ctx,{
+    type:'bar',
+    data:{labels:labels,datasets:[{label:'Score',data:scores,backgroundColor:bgs,borderColor:bds,borderWidth:1.5,borderRadius:3}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' Score: '+c.raw;}}}},
+      scales:{x:{min:0,max:15,ticks:{stepSize:1,font:{size:10}}},y:{ticks:{font:{size:10}}}}
+    }
+  });
+})();
+
+// Ventas processos
+(function(){
+  var labels=['Reputación','Denuncia usuario','Post Compra Func. ★','Facturación','Asignación PV','Nota Fiscal','Afiliados ML','Anulación','Reputación ME','Datos fiscales'];
+  var scores=[11,11,10,10,9,8,7,7,6,6];
+  var bgs=scores.map(function(s){return scoreBg(s)+'aa'});
+  var bds=scores.map(function(s){return scoreBg(s)});
+  var ctx=document.getElementById('chart-ventas-proc').getContext('2d');
+  new Chart(ctx,{
+    type:'bar',
+    data:{labels:labels,datasets:[{label:'Score',data:scores,backgroundColor:bgs,borderColor:bds,borderWidth:1.5,borderRadius:3}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' Score: '+c.raw;}}}},
+      scales:{x:{min:0,max:15,ticks:{stepSize:1,font:{size:10}}},y:{ticks:{font:{size:10}}}}
+    }
+  });
+})();
+
+// Publicaciones processos
+(function(){
+  var labels=['Denuncia usuario','Guardia Urbana','Asignación Prustomer','PR - Art. prohibidos','PR - Prop. intelectual','Anulación','PR - Datos Personales','Afiliados ML','Gestión Publicación','Potenciar Ventas','Calidad de foto','PR - Técnica prohibida','Antes de publicar'];
+  var scores=[11,11,11,11,8,7,7,7,6,6,5,5,5];
+  var bgs=scores.map(function(s){return scoreBg(s)+'aa'});
+  var bds=scores.map(function(s){return scoreBg(s)});
+  var ctx=document.getElementById('chart-pub-proc').getContext('2d');
+  new Chart(ctx,{
+    type:'bar',
+    data:{labels:labels,datasets:[{label:'Score',data:scores,backgroundColor:bgs,borderColor:bds,borderWidth:1.5,borderRadius:3}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' Score: '+c.raw;}}}},
+      scales:{x:{min:0,max:15,ticks:{stepSize:1,font:{size:10}}},y:{ticks:{font:{size:10}}}}
+    }
+  });
+})();
+
+// Ranking chart
+(function(){
+  var labels=[
+    'BR_Reclameaqui_Pós_Entrega','GOV_ML_ME/PROCON','PROGOV_Finaliz.','OUV - LGPD','Reclameaqui_Envios',
+    'OUV_RDR_Bacen','OUV - Cap','MED_PNRMP','ME_Distribuição','Reclameaqui_Comprador',
+    'FBM_Seller_Premium','MLVendedor_Masivo','PROCON_MP/GOV','Seg360','Reclameaqui_MP_Contas',
+    'OUV_Ouvidoria_Reg','Reclameaqui_MP_Cred','→ BR_ME_Longtail ★','MED_PNRME','BR_Redes',
+    'Reclameaqui_MP_Pag','MELI_PRO_MLB','MPCredits','→ BR_Ventas_Longtail ★','MPContas_Security',
+    'SOS_MP_IVR','MPCartões','→ BR_Pub_Longtail(Prust.) ★','MPRecebimentos','Top_Off',
+    '→ BR_Pub_Longtail(PreV.) ★','BigSellers','MPPoint','MED_PDDMP_Flex','MED_PDD_DS_XD','MED_PDD_FBM'
+  ];
+  var scores=[13.88,13.69,13.42,13.0,12.96,12.71,12.63,12.11,11.98,11.96,11.79,11.53,11.44,11.08,11.08,10.91,10.66,10.48,10.33,10.14,10.05,9.65,9.23,9.12,8.82,8.66,8.06,7.65,7.41,6.63,6.57,6.5,6.05,3.48,1.05,0.54];
+  var bgs=labels.map(function(l,i){
+    if(l.indexOf('★')>=0)return'#3498dbcc';
+    return scoreBg(scores[i])+'88';
+  });
+  var bds=labels.map(function(l,i){
+    if(l.indexOf('★')>=0)return'#2980b9';
+    return scoreBg(scores[i]);
+  });
+  var ctx=document.getElementById('chart-ranking').getContext('2d');
+  new Chart(ctx,{
+    type:'bar',
+    data:{labels:labels,datasets:[{label:'Score ponderado',data:scores,backgroundColor:bgs,borderColor:bds,borderWidth:1.5,borderRadius:2}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:function(c){return' Score: '+c.raw.toFixed(2);}}}
+      },
+      scales:{x:{min:0,max:15,title:{display:true,text:'Score ponderado',font:{size:10}},ticks:{stepSize:1,font:{size:10}}},y:{ticks:{font:{size:9}}}}
+    }
+  });
+})();
+
+// Simulação chart 1 — com vs sem
+(function(){
+  var ctx=document.getElementById('chart-sim').getContext('2d');
+  new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:['BR_Ventas COM Post Compra','BR_Ventas SEM Post Compra'],
+      datasets:[
+        {label:'Score ponderado',data:[9.119,8.904],
+         backgroundColor:['#e67e2299','#27ae6099'],
+         borderColor:['#e67e22','#27ae60'],
+         borderWidth:2,borderRadius:4},
+        {type:'line',label:'Média MLB ~9,0',data:[9.0,9.0],
+         borderColor:'#3498db',borderDash:[6,4],
+         pointRadius:0,borderWidth:1.5,fill:false,tension:0}
+      ]
+    },
+    options:{
+      indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{boxWidth:12,font:{size:11}}}},
+      scales:{x:{min:8,max:10,ticks:{font:{size:11}}},y:{ticks:{font:{size:12}}}}
+    }
+  });
+})();
+
+// Simulação chart 2 — processos do time com destaque
+(function(){
+  var labels=['Reputación','Denuncia','Post Compra ★','Facturación','Nota Fiscal','Afiliados ML','Anulação','Rep. ME','Dados fiscais'];
+  var scores=[11,11,10,10,8,7,7,6,6];
+  var bgs=labels.map(function(l,i){
+    if(l.indexOf('★')>=0)return'#3498dbcc';
+    return scoreBg(scores[i])+'88';
+  });
+  var ctx=document.getElementById('chart-sim2').getContext('2d');
+  new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:labels,
+      datasets:[
+        {label:'Score do processo',data:scores,backgroundColor:bgs,borderColor:bgs.map(function(c){return c.slice(0,7)}),borderWidth:1.5,borderRadius:3},
+        {type:'line',label:'Média ponderada do time (9,12)',data:scores.map(function(){return 9.12}),
+         borderColor:'#2c3e50',borderDash:[5,4],pointRadius:0,borderWidth:2,fill:false,tension:0}
+      ]
+    },
+    options:{
+      indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{boxWidth:12,font:{size:11}}}},
+      scales:{x:{min:0,max:15,ticks:{stepSize:1,font:{size:10}}},y:{ticks:{font:{size:11}}}}
+    }
+  });
+})();
+</script>
+</body>
+</html>
