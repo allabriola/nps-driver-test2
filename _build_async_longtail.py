@@ -6,7 +6,7 @@ Equipes: BR_ME_Sellers_Longtail, BR_Publicaciones_Sellers_Longtail, BR_Ventas_Se
 Gera: _async_longtail.html
 """
 import sys, json, time
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime as dt
 sys.stdout.reconfigure(encoding='utf-8')
 from google.cloud import bigquery
 from google.api_core.exceptions import Forbidden
@@ -991,7 +991,7 @@ Chart.register({{
 <body>
 <header>
   <h1>Chat Assíncrono — Longtail Sellers BR</h1>
-  <div class="sub">Atualizado: {today.strftime('%d/%m/%Y')} &nbsp;|&nbsp; Fonte: DM_CX_IXC_DETAIL &nbsp;|&nbsp; async/caso = disparos assíncronos ÷ DENOM_IXC</div>
+  <div class="sub">Última atualização: {dt.now().strftime('%d/%m/%Y às %H:%M')} &nbsp;|&nbsp; Fonte: DM_CX_IXC_DETAIL &nbsp;|&nbsp; async/caso = disparos assíncronos ÷ DENOM_IXC</div>
 </header>
 <div class="legend">
   <span><span class="ok">●</span> &lt;1.0 Normal</span>
