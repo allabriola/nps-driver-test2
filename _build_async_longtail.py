@@ -950,6 +950,8 @@ Chart.register({{
   body{{font-family:'Segoe UI',sans-serif;background:var(--bg);color:#222;font-size:13px}}
   header{{background:var(--head);color:#fff;padding:16px 24px}}
   header h1{{font-size:18px}} header .sub{{font-size:11px;opacity:.7;margin-top:4px}}
+  .update-badge{{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;color:#fff;margin-top:8px;letter-spacing:.3px}}
+  .update-badge .dot{{width:8px;height:8px;border-radius:50%;background:#2ecc71;box-shadow:0 0 6px #2ecc71;flex-shrink:0}}
   .legend{{display:flex;gap:16px;padding:8px 24px;background:#fff;border-bottom:1px solid var(--border);font-size:11px;flex-wrap:wrap}}
   .legend span{{display:flex;align-items:center;gap:4px}}
   .tabs{{display:flex;gap:4px;padding:12px 24px 0;background:#fff;border-bottom:2px solid var(--accent);flex-wrap:wrap}}
@@ -991,7 +993,8 @@ Chart.register({{
 <body>
 <header>
   <h1>Chat Assíncrono — Longtail Sellers BR</h1>
-  <div class="sub">Última atualização: {dt.now().strftime('%d/%m/%Y às %H:%M')} &nbsp;|&nbsp; Fonte: DM_CX_IXC_DETAIL &nbsp;|&nbsp; async/caso = disparos assíncronos ÷ DENOM_IXC</div>
+  <div class="update-badge"><span class="dot"></span>Última atualização: {dt.now().strftime('%d/%m/%Y às %H:%M')}</div>
+  <div class="sub">Fonte: DM_CX_IXC_DETAIL &nbsp;|&nbsp; async/caso = disparos assíncronos ÷ DENOM_IXC</div>
 </header>
 <div class="legend">
   <span><span class="ok">●</span> &lt;1.0 Normal</span>
