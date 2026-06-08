@@ -686,9 +686,9 @@
   },
   "Jun": {
     "CBT": [
-      53,
-      10,
-      65
+      74,
+      12,
+      89
     ],
     "Experiencia Impositiva Mature": [
       3,
@@ -701,9 +701,9 @@
       7
     ],
     "Experiencia Impositiva Seller Dev": [
-      50,
-      12,
-      65
+      78,
+      17,
+      100
     ],
     "FBM-S Mature": [
       8,
@@ -716,9 +716,9 @@
       17
     ],
     "FBM-S Seller Dev": [
-      49,
-      23,
-      75
+      75,
+      28,
+      110
     ],
     "ME Vendedor Mature": [
       50,
@@ -731,14 +731,14 @@
       70
     ],
     "ME Vendedor Seller Dev": [
-      572,
-      57,
-      675
+      827,
+      82,
+      971
     ],
     "Otros CV": [
-      59,
-      29,
-      95
+      74,
+      51,
+      135
     ],
     "PCF Vendedor Mature": [
       17,
@@ -751,44 +751,44 @@
       77
     ],
     "PCF Vendedor Seller Dev": [
-      50,
-      13,
-      75
-    ],
-    "PDD DS&XD - Vendedor": [
-      81,
-      52,
+      100,
+      23,
       140
     ],
+    "PDD DS&XD - Vendedor": [
+      141,
+      89,
+      250
+    ],
     "PDD FBM - Vendedor": [
-      35,
-      14,
-      52
+      56,
+      25,
+      85
     ],
     "PDD Fotos - Vendedor": [
-      4,
-      0,
-      4
+      5,
+      3,
+      9
     ],
     "PDD MP,FLEX & CBT - Vendedor": [
-      6,
-      3,
-      10
+      18,
+      9,
+      32
     ],
     "PNR ME - Vendedor": [
-      15,
-      10,
-      28
+      38,
+      20,
+      64
     ],
     "PNR MP - Vendedor": [
+      20,
       12,
-      7,
-      27
+      43
     ],
     "Partners": [
-      304,
-      51,
-      389
+      441,
+      65,
+      553
     ],
     "Post Venta Mature": [
       42,
@@ -801,9 +801,9 @@
       139
     ],
     "Post Venta Seller Dev": [
-      130,
-      12,
-      154
+      252,
+      21,
+      293
     ],
     "Publicaciones Mature": [
       21,
@@ -816,9 +816,9 @@
       64
     ],
     "Publicaciones Seller Dev": [
-      284,
-      59,
-      388
+      435,
+      83,
+      579
     ]
   }
 }
