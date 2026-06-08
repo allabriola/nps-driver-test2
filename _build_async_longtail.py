@@ -13,17 +13,27 @@ from google.api_core.exceptions import Forbidden
 
 BQ = bigquery.Client(project="meli-bi-data")
 
-TEAMS = [
+LONGTAIL_TEAMS = [
     "BR_ME_Sellers_Longtail",
     "BR_Publicaciones_Sellers_Longtail",
     "BR_Ventas_Sellers_Longtail",
 ]
+MATURE_TEAMS = [
+    "BR_ME_Sellers_Mature",
+    "BR_Publicaciones_Sellers_Mature",
+    "BR_Ventas_Sellers_Mature",
+]
+ALL_TEAMS = LONGTAIL_TEAMS + MATURE_TEAMS
+TEAMS = LONGTAIL_TEAMS  # usado nos gráficos e abas do Geral/Semanal/Mensal
 TEAM_SHORT = {
     "BR_ME_Sellers_Longtail":            "ME",
     "BR_Publicaciones_Sellers_Longtail": "Publicaciones",
     "BR_Ventas_Sellers_Longtail":        "Ventas",
+    "BR_ME_Sellers_Mature":              "ME-M",
+    "BR_Publicaciones_Sellers_Mature":   "Pub-M",
+    "BR_Ventas_Sellers_Mature":          "Ventas-M",
 }
-TEAMS_IN = ", ".join(f'"{t}"' for t in TEAMS)
+TEAMS_IN = ", ".join(f'"{t}"' for t in ALL_TEAMS)  # queries incluem Longtail + Mature
 COLORS   = ['#3498db','#e74c3c','#2ecc71','#f39c12','#9b59b6','#1abc9c','#e67e22','#34495e','#e91e63','#00bcd4']
 
 SENIORITY_COLORS = {'Expert': '#2ecc71', 'Newbie': '#e74c3c'}
@@ -315,9 +325,31 @@ def agg_to_team(rows, date_key):
         out.append(v)
     return out
 
-q1_geral  = agg_to_team(q1,  'dia')
-q7_geral  = agg_to_team(q7,  'semana')
-q8_geral  = agg_to_team(q8,  'mes')
+q1_geral  = agg_to_team([r for r in q1  if r['equipe'] in LONGTAIL_TEAMS], 'dia')
+q7_geral  = agg_to_team([r for r in q7  if r['equipe'] in LONGTAIL_TEAMS], 'semana')
+q8_geral  = agg_to_team([r for r in q8  if r['equipe'] in LONGTAIL_TEAMS], 'mes')
+
+def agg_group_total(rows, date_key, team_list, group_name):
+    """Agrega todas as equipes de um grupo em uma única série com nome group_name."""
+    buf = {}
+    for r in rows:
+        if r['equipe'] not in team_list: continue
+        k = str(r[date_key])[:10] if r.get(date_key) else ''
+        buf.setdefault(k, {'equipe': group_name, date_key: k, 'async_total': 0, 'incoming_cr': 0})
+        buf[k]['async_total'] += int(r.get('async_total') or 0)
+        buf[k]['incoming_cr'] += int(r.get('incoming_cr') or 0)
+    out = []
+    for v in buf.values():
+        cr = v['incoming_cr']
+        v['async_por_caso'] = round(v['async_total'] / cr, 2) if cr else None
+        out.append(v)
+    return out
+
+# dados de comparação Longtail vs Mature
+q7_cmp = (agg_group_total(q7, 'semana', LONGTAIL_TEAMS, 'Longtail') +
+          agg_group_total(q7, 'semana', MATURE_TEAMS,   'Mature'))
+q8_cmp = (agg_group_total(q8, 'mes', LONGTAIL_TEAMS, 'Longtail') +
+          agg_group_total(q8, 'mes', MATURE_TEAMS,   'Mature'))
 
 # ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -687,6 +719,21 @@ def visao_geral_diaria():
     </div>"""
 def chart_geral_pct_mth():  return _geral_chart(q8_geral, 'mes',    'cg-cpm',    fmt_mes, '% async/CR', pct=True, bar=False, forced_keys=monthly_keys_jan26())
 
+# ── gráficos comparação Longtail vs Mature ────────────────────────────────────
+
+CMP_COLORS = {'Longtail': '#3498db', 'Mature': '#e74c3c'}
+
+def _chart_cmp(rows, date_key, cid, label_fn, forced_keys=None):
+    """Linha Longtail vs Mature."""
+    if not rows: return "<p class='empty'>Sem dados</p>"
+    keys = forced_keys if forced_keys else sorted(set(str(r[date_key])[:10] if r.get(date_key) else r.get(date_key,'') for r in rows))
+    idx  = {(str(r[date_key])[:10] if r.get(date_key) else r.get(date_key,''), r['equipe']): r.get('async_por_caso') for r in rows}
+    series = {g: [idx.get((k, g)) for k in keys] for g in ['Longtail','Mature']}
+    return make_chart(cid, [label_fn(k) for k in keys], line_datasets(series, CMP_COLORS), 'async/caso', bar=False)
+
+def chart_cmp_weekly():  return _chart_cmp(q7_cmp, 'semana', 'cmp-wkly', lambda k: k[5:].replace('-','/'))
+def chart_cmp_monthly(): return _chart_cmp(q8_cmp, 'mes',    'cmp-mth',  fmt_mes, forced_keys=monthly_keys_jan26())
+
 # ── gráficos de senioridade/faixa ─────────────────────────────────────────────
 
 def chart_sen_semanal(team, pfx='s'):
@@ -818,16 +865,21 @@ def tab_geral():
     <div id="tab-Geral" class="tab-content">
       <h2>Geral — Longtail Sellers BR</h2>
       <div class="card"><h3>WoW por Equipe</h3>{wow_table_all()}</div>
-      <div class="section-title">Async/Caso por Equipe</div>
+      <div class="section-title">Async/Caso por Equipe — Longtail</div>
       <div style="display:flex;gap:16px">
         <div class="card" style="flex:1;min-width:0"><h3>Diário</h3>{chart_geral_daily()}</div>
         <div class="card" style="flex:1;min-width:0"><h3>Semanal</h3>{chart_geral_weekly()}</div>
         <div class="card" style="flex:1;min-width:0"><h3>Mensal</h3>{chart_geral_monthly()}</div>
       </div>
-      <div class="section-title">% de Uso Assíncrono por Equipe</div>
+      <div class="section-title">% de Uso Assíncrono — Longtail</div>
       <div style="display:flex;gap:16px">
         <div class="card" style="flex:1;min-width:0"><h3>Semanal</h3>{chart_geral_pct_wkly()}</div>
         <div class="card" style="flex:1;min-width:0"><h3>Mensal</h3>{chart_geral_pct_mth()}</div>
+      </div>
+      <div class="section-title">Comparação Longtail vs Mature <small style="font-weight:400;font-size:11px;text-transform:none">— async/caso agregado por grupo</small></div>
+      <div style="display:flex;gap:16px">
+        <div class="card" style="flex:1;min-width:0"><h3>Semanal</h3>{chart_cmp_weekly()}</div>
+        <div class="card" style="flex:1;min-width:0"><h3>Mensal</h3>{chart_cmp_monthly()}</div>
       </div>
     </div>"""
 
@@ -908,6 +960,12 @@ tabs_nav += '<button class="tab-btn" onclick="showTab(\'Semanal\')">Semanal</but
 tabs_nav += '<button class="tab-btn" onclick="showTab(\'Mensal\')">Mensal</button>'
 tabs_body = tab_geral() + tab_diario() + tab_semanal() + tab_mensal()
 for team in TEAMS:
+    s = TEAM_SHORT[team]
+    tabs_nav  += f'<button class="tab-btn" onclick="showTab(\'{s}\')">{s}</button>'
+    tabs_body += tab_content(team)
+# abas Mature
+tabs_nav += '<span style="border-left:2px solid #dde3ea;margin:4px 4px 0;height:28px;display:inline-block;vertical-align:bottom"></span>'
+for team in MATURE_TEAMS:
     s = TEAM_SHORT[team]
     tabs_nav  += f'<button class="tab-btn" onclick="showTab(\'{s}\')">{s}</button>'
     tabs_body += tab_content(team)
