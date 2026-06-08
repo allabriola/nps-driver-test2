@@ -508,7 +508,7 @@ def section_reps(team):
     def qi_cell(r):
         n = int(r.get('amostras_qi') or 0)
         tip = f'{n} análise{"s" if n!=1 else ""} feita{"s" if n!=1 else ""}' if n else 'sem análises no período'
-        return f'<td class="num" title="{tip}">{icon_qi(r.get("pct_qi"))}</td>'
+        return f'<td class="num"><span class="tip" data-tip="{tip}">{icon_qi(r.get("pct_qi"))}</span></td>'
     rows_html = "".join(f'<tr data-office="{r["escritorio"]}"><td>{r["rep"]}</td><td>{r["escritorio"]}</td><td>{r["lider"] or "—"}</td><td class="num">{icon(r.get("async_por_caso"))}</td><td class="num-s">{int(r.get("incoming_cr") or 0)}</td><td class="num-s">{int(r.get("async_total") or 0)}</td>{qi_cell(r)}</tr>' for r in rows)
     return f'<table class="dt"><thead><tr><th>Rep</th><th>Escritório</th><th>Líder</th><th>Async/Caso</th><th>CR</th><th>Async</th><th>% QI</th></tr></thead><tbody>{rows_html}</tbody></table>'
 
@@ -1067,6 +1067,9 @@ Chart.register({{
   .good{{color:var(--green)}} .bad{{color:var(--red)}} .neutral{{color:#888}}
   ul.exec{{padding-left:18px}} ul.exec li{{margin-bottom:6px;line-height:1.5}}
   .empty{{color:#999;font-style:italic;padding:8px 0}}
+  .tip{{position:relative;cursor:help;border-bottom:1px dotted #999}}
+  .tip::after{{content:attr(data-tip);position:absolute;bottom:130%;left:50%;transform:translateX(-50%);background:#2c3e50;color:#fff;padding:5px 10px;border-radius:5px;font-size:11px;font-weight:400;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:999}}
+  .tip:hover::after{{opacity:1}}
   .team-section{{margin-bottom:8px}}
   .subtabs{{display:flex;gap:6px;margin-bottom:16px;border-bottom:2px solid var(--border);padding-bottom:0}}
   .stab-btn{{padding:6px 18px;border:none;background:transparent;border-radius:6px 6px 0 0;cursor:pointer;font-size:12px;font-weight:600;color:#666;transition:all .15s;border-bottom:2px solid transparent;margin-bottom:-2px}}
