@@ -139,16 +139,16 @@ SELECT ixc.USER_TEAM_NAME AS equipe, staff.USER_TEAM_LEADER_LDAP AS lider, ixc.U
   ROUND(COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(ixc.DENOM_IXC), 0), 2) AS async_por_caso
 FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL` ixc
 LEFT JOIN (SELECT USER_LDAP, USER_TEAM_LEADER_LDAP FROM `meli-bi-data.WHOWNER.BT_CX_STAFF_HISTORY`
-  WHERE DATE_ID = "{sem_ant_fin}" AND USER_TEAM_NAME IN ({TEAMS_IN})) staff
+  WHERE DATE_ID = "{ontem}" AND USER_TEAM_NAME IN ({TEAMS_IN})) staff
   ON ixc.CI_OWNER_ID = staff.USER_LDAP
-WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID BETWEEN "{sem_ant_ini}" AND "{sem_ant_fin}"
+WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID BETWEEN "{mes_ini}" AND "{ontem}"
   AND ixc.USER_TEAM_NAME IN ({TEAMS_IN}) AND ixc.CS_MANAGER IS NOT NULL
   AND staff.USER_TEAM_LEADER_LDAP IS NOT NULL
 GROUP BY 1,2,3 ORDER BY 1, async_por_caso DESC
 """); print(f"  Q5 líderes: {len(q5)}")
 
 q6 = run(f"""
-SELECT main.*, qi.pct_qi, qi.amostras_qi, tmo.tmo_min, prod.produtividade
+SELECT main.*, tmo.tmo_min, prod.produtividade
 FROM (
   SELECT equipe, rep, escritorio, lider, async_total, incoming_cr, async_por_caso FROM (
     SELECT ixc.USER_TEAM_NAME AS equipe, ixc.CI_OWNER_ID AS rep, ixc.USER_OFFICE AS escritorio,
@@ -158,9 +158,9 @@ FROM (
       ROUND(COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(ixc.DENOM_IXC), 0), 2) AS async_por_caso
     FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL` ixc
     LEFT JOIN (SELECT USER_LDAP, USER_TEAM_LEADER_LDAP FROM `meli-bi-data.WHOWNER.BT_CX_STAFF_HISTORY`
-      WHERE DATE_ID = "{sem_ant_fin}" AND USER_TEAM_NAME IN ({TEAMS_IN})) staff
+      WHERE DATE_ID = "{ontem}" AND USER_TEAM_NAME IN ({TEAMS_IN})) staff
       ON ixc.CI_OWNER_ID = staff.USER_LDAP
-    WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID BETWEEN "{sem_ant_ini}" AND "{sem_ant_fin}"
+    WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID BETWEEN "{mes_ini}" AND "{ontem}"
       AND ixc.USER_TEAM_NAME IN ({TEAMS_IN}) AND ixc.CI_OWNER_ID IS NOT NULL AND ixc.CS_MANAGER IS NOT NULL
     GROUP BY 1,2,3,4 HAVING SUM(ixc.DENOM_IXC) >= 10
     QUALIFY ROW_NUMBER() OVER (PARTITION BY ixc.USER_TEAM_NAME ORDER BY
@@ -169,24 +169,14 @@ FROM (
 ) main
 LEFT JOIN (
   SELECT USER_LDAP,
-    ROUND(AVG(QM_GESTION) * 100, 1) AS pct_qi,
-    COUNT(*) AS amostras_qi
-  FROM `meli-bi-data.WHOWNER.BT_NRT_QI_METRIC_REASONS_SFTP`
-  WHERE USER_TEAM_NAME IN ({TEAMS_IN})
-    AND REFERENCE_DATE BETWEEN "{sem_ant_ini}" AND "{sem_ant_fin}"
-    AND FLAG_NOT_NA AND FLAG_NOT_DUPLICATED AND FLAG_NOT_ELIMINATED AND FLAG_VALID_REASON
-  GROUP BY 1
-) qi ON main.rep = qi.USER_LDAP
-LEFT JOIN (
-  SELECT USER_LDAP,
     SUM(NUMERATOR_VALUE) / NULLIF(SUM(DENOMINATOR_VALUE), 0) / 60 AS tmo_min
   FROM `meli-bi-data.SBOX_CX_BI_ADS_CORE.CONSOLIDADO_KPI_LDAP`
   WHERE KPI_NAME = 'TMO'
-    AND TIME_WINDOW = 'WEEK_ID'
+    AND TIME_WINDOW = 'MONTH_ID'
     AND CS_CENTER = 'BR'
     AND USER_TEAM_NAME IN ({TEAMS_IN})
     AND KM_STATUS IN ('EXPERT', 'NEWBIE')
-    AND DTTM_ID = "{sem_ant_ini}"
+    AND DTTM_ID = "{mes_ini}"
   GROUP BY 1
 ) tmo ON main.rep = tmo.USER_LDAP
 LEFT JOIN (
@@ -194,11 +184,11 @@ LEFT JOIN (
     SUM(NUMERATOR_VALUE) / NULLIF(SUM(DENOMINATOR_VALUE), 0) AS produtividade
   FROM `meli-bi-data.SBOX_CX_BI_ADS_CORE.CONSOLIDADO_KPI_LDAP`
   WHERE KPI_NAME = 'PRODUCTIVIDAD'
-    AND TIME_WINDOW = 'WEEK_ID'
+    AND TIME_WINDOW = 'MONTH_ID'
     AND CS_CENTER = 'BR'
     AND USER_TEAM_NAME IN ({TEAMS_IN})
     AND KM_STATUS IN ('EXPERT', 'NEWBIE')
-    AND DTTM_ID = "{sem_ant_ini}"
+    AND DTTM_ID = "{mes_ini}"
   GROUP BY 1
 ) prod ON main.rep = prod.USER_LDAP
 ORDER BY equipe, async_por_caso DESC
@@ -529,15 +519,10 @@ def section_lideres(team):
 def section_reps(team):
     rows = sorted([r for r in q6 if r['equipe'] == team], key=lambda x: -(float(x.get('async_por_caso') or 0)))[:20]
     if not rows: return "<p class='empty'>Sem dados (mín. 10 CR)</p>"
-    def qi_cell(r):
-        n = int(r.get('amostras_qi') or 0)
-        tip = f'{n} análise{"s" if n!=1 else ""} feita{"s" if n!=1 else ""}' if n else 'sem análises no período'
-        return f'<td class="num"><span class="tip" data-tip="{tip}">{icon_qi(r.get("pct_qi"))}</span></td>'
     def tmo_cell(r):
         v = r.get('tmo_min')
         if v is None: return '<td class="num-s">—</td>'
-        v = float(v)
-        return f'<td class="num-s">{v:.1f} min</td>'
+        return f'<td class="num-s">{float(v):.1f} min</td>'
     def prod_cell(r):
         v = r.get('produtividade')
         if v is None: return '<td class="num-s">—</td>'
@@ -548,9 +533,9 @@ def section_reps(team):
         f'<td class="num">{icon(r.get("async_por_caso"))}</td>'
         f'<td class="num-s">{int(r.get("incoming_cr") or 0)}</td>'
         f'<td class="num-s">{int(r.get("async_total") or 0)}</td>'
-        f'{tmo_cell(r)}{prod_cell(r)}{qi_cell(r)}</tr>'
+        f'{tmo_cell(r)}{prod_cell(r)}</tr>'
         for r in rows)
-    return f'<table class="dt"><thead><tr><th>Rep</th><th>Escritório</th><th>Líder</th><th>Async/Caso</th><th>CR</th><th>Async</th><th>TMO</th><th>Produtividade</th><th>% QI</th></tr></thead><tbody>{rows_html}</tbody></table>'
+    return f'<table class="dt"><thead><tr><th>Rep</th><th>Escritório</th><th>Líder</th><th>Async/Caso</th><th>CR</th><th>Async</th><th>TMO</th><th>Produtividade</th></tr></thead><tbody>{rows_html}</tbody></table>'
 
 # ── build series ───────────────────────────────────────────────────────────────
 
@@ -900,8 +885,8 @@ def tab_content(team):
           <div class="card" style="flex:1;min-width:0"><h3>Últimas 4 Semanas por Office</h3>{section_wow(team)}</div>
           <div class="card" style="flex:1;min-width:0"><h3>Últimos 4 Meses por Office</h3>{section_mes(team)}</div>
         </div>
-        <div class="card"><h3>Por Team Leader <small>(sem {fmt_date(sem_ant_ini)}–{fmt_date(sem_ant_fin)})</small></h3>{section_lideres(team)}</div>
-        <div class="card"><h3>Top 20 Reps — maior async/caso <small>(mín. 10 CR)</small></h3>{section_reps(team)}</div>
+        <div class="card"><h3>Por Team Leader <small>({mes_ini.strftime('%b/%Y')} — mês vigente)</small></h3>{section_lideres(team)}</div>
+        <div class="card"><h3>Top 20 Reps — maior async/caso <small>({mes_ini.strftime('%b/%Y')} — mín. 10 CR)</small></h3>{section_reps(team)}</div>
       </div>
 
       <div id="stab-{s}-Diario" class="stab-content">
