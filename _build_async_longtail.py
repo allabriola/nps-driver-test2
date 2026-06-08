@@ -148,7 +148,7 @@ GROUP BY 1,2,3 ORDER BY 1, async_por_caso DESC
 """); print(f"  Q5 líderes: {len(q5)}")
 
 q6 = run(f"""
-SELECT main.*, qi.pct_qi
+SELECT main.*, qi.pct_qi, qi.amostras_qi, tmo.tmo_min, prod.produtividade
 FROM (
   SELECT equipe, rep, escritorio, lider, async_total, incoming_cr, async_por_caso FROM (
     SELECT ixc.USER_TEAM_NAME AS equipe, ixc.CI_OWNER_ID AS rep, ixc.USER_OFFICE AS escritorio,
