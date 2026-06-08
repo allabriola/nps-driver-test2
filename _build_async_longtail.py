@@ -148,22 +148,34 @@ GROUP BY 1,2,3 ORDER BY 1, async_por_caso DESC
 """); print(f"  Q5 líderes: {len(q5)}")
 
 q6 = run(f"""
-SELECT equipe, rep, escritorio, lider, async_total, incoming_cr, async_por_caso FROM (
-  SELECT ixc.USER_TEAM_NAME AS equipe, ixc.CI_OWNER_ID AS rep, ixc.USER_OFFICE AS escritorio,
-    staff.USER_TEAM_LEADER_LDAP AS lider,
-    COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") AS async_total,
-    SUM(ixc.DENOM_IXC) AS incoming_cr,
-    ROUND(COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(ixc.DENOM_IXC), 0), 2) AS async_por_caso
-  FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL` ixc
-  LEFT JOIN (SELECT USER_LDAP, USER_TEAM_LEADER_LDAP FROM `meli-bi-data.WHOWNER.BT_CX_STAFF_HISTORY`
-    WHERE DATE_ID = "{sem_ant_fin}" AND USER_TEAM_NAME IN ({TEAMS_IN})) staff
-    ON ixc.CI_OWNER_ID = staff.USER_LDAP
-  WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID BETWEEN "{sem_ant_ini}" AND "{sem_ant_fin}"
-    AND ixc.USER_TEAM_NAME IN ({TEAMS_IN}) AND ixc.CI_OWNER_ID IS NOT NULL AND ixc.CS_MANAGER IS NOT NULL
-  GROUP BY 1,2,3,4 HAVING SUM(ixc.DENOM_IXC) >= 10
-  QUALIFY ROW_NUMBER() OVER (PARTITION BY ixc.USER_TEAM_NAME ORDER BY
-    ROUND(COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(ixc.DENOM_IXC), 0), 2) DESC) <= 20
-)
+SELECT main.*, qi.pct_qi
+FROM (
+  SELECT equipe, rep, escritorio, lider, async_total, incoming_cr, async_por_caso FROM (
+    SELECT ixc.USER_TEAM_NAME AS equipe, ixc.CI_OWNER_ID AS rep, ixc.USER_OFFICE AS escritorio,
+      staff.USER_TEAM_LEADER_LDAP AS lider,
+      COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") AS async_total,
+      SUM(ixc.DENOM_IXC) AS incoming_cr,
+      ROUND(COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(ixc.DENOM_IXC), 0), 2) AS async_por_caso
+    FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL` ixc
+    LEFT JOIN (SELECT USER_LDAP, USER_TEAM_LEADER_LDAP FROM `meli-bi-data.WHOWNER.BT_CX_STAFF_HISTORY`
+      WHERE DATE_ID = "{sem_ant_fin}" AND USER_TEAM_NAME IN ({TEAMS_IN})) staff
+      ON ixc.CI_OWNER_ID = staff.USER_LDAP
+    WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID BETWEEN "{sem_ant_ini}" AND "{sem_ant_fin}"
+      AND ixc.USER_TEAM_NAME IN ({TEAMS_IN}) AND ixc.CI_OWNER_ID IS NOT NULL AND ixc.CS_MANAGER IS NOT NULL
+    GROUP BY 1,2,3,4 HAVING SUM(ixc.DENOM_IXC) >= 10
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY ixc.USER_TEAM_NAME ORDER BY
+      ROUND(COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(ixc.DENOM_IXC), 0), 2) DESC) <= 20
+  )
+) main
+LEFT JOIN (
+  SELECT USER_LDAP,
+    ROUND(AVG(QM_GESTION) * 100, 1) AS pct_qi
+  FROM `meli-bi-data.WHOWNER.BT_NRT_QI_METRIC_REASONS_SFTP`
+  WHERE USER_TEAM_NAME IN ({TEAMS_IN})
+    AND REFERENCE_DATE BETWEEN "{sem_ant_ini}" AND "{sem_ant_fin}"
+    AND FLAG_NOT_NA AND FLAG_NOT_DUPLICATED AND FLAG_NOT_ELIMINATED AND FLAG_VALID_REASON
+  GROUP BY 1
+) qi ON main.rep = qi.USER_LDAP
 ORDER BY equipe, async_por_caso DESC
 """); print(f"  Q6 reps: {len(q6)}")
 
@@ -376,6 +388,14 @@ def icon(v):
     if v <= 2.0: return f'<span class="warn">{v:.2f}</span>'
     return           f'<span class="crit">{v:.2f}</span>'
 
+def icon_qi(v):
+    """% QI: verde >= 85%, amarelo >= 70%, vermelho < 70%."""
+    if v is None: return "<span style='color:#bbb'>—</span>"
+    v = float(v)
+    if v >= 85:  return f'<span class="ok">{v:.1f}%</span>'
+    if v >= 70:  return f'<span class="warn">{v:.1f}%</span>'
+    return           f'<span class="crit">{v:.1f}%</span>'
+
 def delta_arrow(prev, curr):
     if prev is None or curr is None: return "—"
     d = float(curr) - float(prev)
@@ -484,8 +504,8 @@ def section_lideres(team):
 def section_reps(team):
     rows = sorted([r for r in q6 if r['equipe'] == team], key=lambda x: -(float(x.get('async_por_caso') or 0)))[:20]
     if not rows: return "<p class='empty'>Sem dados (mín. 10 CR)</p>"
-    rows_html = "".join(f'<tr data-office="{r["escritorio"]}"><td>{r["rep"]}</td><td>{r["escritorio"]}</td><td>{r["lider"] or "—"}</td><td class="num">{icon(r.get("async_por_caso"))}</td><td class="num-s">{int(r.get("incoming_cr") or 0)}</td><td class="num-s">{int(r.get("async_total") or 0)}</td></tr>' for r in rows)
-    return f'<table class="dt"><thead><tr><th>Rep</th><th>Escritório</th><th>Líder</th><th>Async/Caso</th><th>CR</th><th>Async</th></tr></thead><tbody>{rows_html}</tbody></table>'
+    rows_html = "".join(f'<tr data-office="{r["escritorio"]}"><td>{r["rep"]}</td><td>{r["escritorio"]}</td><td>{r["lider"] or "—"}</td><td class="num">{icon(r.get("async_por_caso"))}</td><td class="num-s">{int(r.get("incoming_cr") or 0)}</td><td class="num-s">{int(r.get("async_total") or 0)}</td><td class="num">{icon_qi(r.get("pct_qi"))}</td></tr>' for r in rows)
+    return f'<table class="dt"><thead><tr><th>Rep</th><th>Escritório</th><th>Líder</th><th>Async/Caso</th><th>CR</th><th>Async</th><th>% QI</th></tr></thead><tbody>{rows_html}</tbody></table>'
 
 # ── build series ───────────────────────────────────────────────────────────────
 
