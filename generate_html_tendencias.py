@@ -790,28 +790,15 @@ def _tab_exec():
     exec_html_mon = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary("_exec_summary.html")}</div></div>'
     exec_html_wk  = f'<div class="section-block"><div class="exec-wrap">{_load_exec_summary("_exec_summary_wk.html")}</div></div>'
 
-    # ── Visão Semanal (S1/S2 + VIG) ──────────────────────────────────
+    # ── Visão Semanal (S1 vs S2, apenas semanas fechadas) ────────────
     wk_nps_s2 = wk_cons[-2] if len(wk_cons) >= 2 else None
     wk_nps_s1 = wk_cons[-1] if wk_cons else None
     wk_delta  = round(wk_nps_s1 - wk_nps_s2, 2) if wk_nps_s1 and wk_nps_s2 else None
     wk_vtgt   = round(wk_nps_s1 - NPS_TARGET, 2) if wk_nps_s1 else None
     wk_d_cls  = "kpi-pos" if wk_delta and wk_delta >= 0 else "kpi-neg"
-    vig_d2    = round(vig_cons_nps - wk_nps_s1, 2) if vig_cons_nps and wk_nps_s1 else None
-    vig_d_cls2= "kpi-pos" if vig_d2 and vig_d2 >= 0 else "kpi-neg"
+    wk_tgt_cls= "kpi-pos" if wk_vtgt  and wk_vtgt  >= 0 else "kpi-neg"
 
-    wk_kpis = (f'<div class="kpi-strip" style="grid-template-columns:repeat(5,1fr)">'
-               f'<div class="kpi-card" style="border-top:4px solid #F39C12">'
-               f'<div class="kpi-label">NPS VIG Atual &#9889;</div>'
-               f'<div class="kpi-value">{fn(vig_cons_nps)}%</div>'
-               f'<div class="kpi-sub">{esc(VIG_LABEL)}</div></div>'
-               f'<div class="kpi-card" style="border-top:4px solid #F39C12">'
-               f'<div class="kpi-label">&#916; VIG vs S1</div>'
-               f'<div class="kpi-value {vig_d_cls2}">{"+"if vig_d2 and vig_d2>=0 else ""}{fn(vig_d2)}pp</div>'
-               f'<div class="kpi-sub">{vig_cons_surv:,} pesquisas</div></div>'
-               f'<div class="kpi-card" style="border-top:4px solid #888">'
-               f'<div class="kpi-label">Target</div>'
-               f'<div class="kpi-value">{tgt_str}%</div>'
-               f'<div class="kpi-sub">Base sem media&#231;&#227;o</div></div>'
+    wk_kpis = (f'<div class="kpi-strip" style="grid-template-columns:repeat(4,1fr)">'
                f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
                f'<div class="kpi-label">NPS S1 Fechada</div>'
                f'<div class="kpi-value">{fn(wk_nps_s1)}%</div>'
@@ -819,16 +806,21 @@ def _tab_exec():
                f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
                f'<div class="kpi-label">&#916; WoW (S2&#8594;S1)</div>'
                f'<div class="kpi-value {wk_d_cls}">{"+"if wk_delta and wk_delta>=0 else ""}{fn(wk_delta)}pp</div>'
-               f'<div class="kpi-sub">S2: {fn(wk_nps_s2)}%</div></div>'
+               f'<div class="kpi-sub">S2: {fn(wk_nps_s2)}% &middot; {esc(S2_LABEL)}</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid #888">'
+               f'<div class="kpi-label">Target</div>'
+               f'<div class="kpi-value">{tgt_str}%</div>'
+               f'<div class="kpi-sub">Base sem media&#231;&#227;o</div></div>'
+               f'<div class="kpi-card" style="border-top:4px solid #888">'
+               f'<div class="kpi-label">&#916; S1 vs Target</div>'
+               f'<div class="kpi-value {wk_tgt_cls}">{"+"if wk_vtgt and wk_vtgt>=0 else ""}{fn(wk_vtgt)}pp</div>'
+               f'<div class="kpi-sub">Obj: {tgt_str}%</div></div>'
                f'</div>')
 
-    # Gráfico semanal (linha + área, inclui VIG)
-    wk_line_chart = chart_line_area_monthly("c_wk_exec_hist",
-                                            height=270)  # reutiliza com dados semanais
-    # Sobrescreve dados do chart semanal dinamicamente via JS inline
-    wk_lbl_js  = _json.dumps(WEEK_LABELS_VIG)
-    wk_cons_js = _json.dumps(wk_cons_vig)
-    tgt_vals_js= _json.dumps(wk_target_series)
+    # Gráfico semanal — apenas semanas fechadas
+    wk_lbl_js  = _json.dumps(WEEK_LABELS)
+    wk_cons_js = _json.dumps(wk_cons)
+    tgt_vals_js= _json.dumps(wk_target_series[:-1])
 
     wk_line_chart = (f'<div style="position:relative;height:270px;">'
                      f'<canvas id="c_wk_exec_line"></canvas></div>'
@@ -873,7 +865,7 @@ def _tab_exec():
                      f'<div style="padding:18px 20px;border-right:1px solid #f0f2f5">'
                      f'<div class="section-title">Hist&#243;rico NPS &mdash; Semanal</div>'
                      f'<div style="font-size:11px;color:#aaa;margin-bottom:10px">'
-                     f'&#218;ltimas {len(WEEK_LABELS_VIG)} semanas incl. VIG</div>'
+                     f'&#218;ltimas {len(WEEK_LABELS)} semanas fechadas</div>'
                      f'{wk_line_chart}</div>'
                      f'{wf_wk}'
                      f'</div></div>')
