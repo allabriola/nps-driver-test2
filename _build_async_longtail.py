@@ -169,7 +169,8 @@ FROM (
 ) main
 LEFT JOIN (
   SELECT USER_LDAP,
-    ROUND(AVG(QM_GESTION) * 100, 1) AS pct_qi
+    ROUND(AVG(QM_GESTION) * 100, 1) AS pct_qi,
+    COUNT(*) AS amostras_qi
   FROM `meli-bi-data.WHOWNER.BT_NRT_QI_METRIC_REASONS_SFTP`
   WHERE USER_TEAM_NAME IN ({TEAMS_IN})
     AND REFERENCE_DATE BETWEEN "{sem_ant_ini}" AND "{sem_ant_fin}"
@@ -504,7 +505,11 @@ def section_lideres(team):
 def section_reps(team):
     rows = sorted([r for r in q6 if r['equipe'] == team], key=lambda x: -(float(x.get('async_por_caso') or 0)))[:20]
     if not rows: return "<p class='empty'>Sem dados (mín. 10 CR)</p>"
-    rows_html = "".join(f'<tr data-office="{r["escritorio"]}"><td>{r["rep"]}</td><td>{r["escritorio"]}</td><td>{r["lider"] or "—"}</td><td class="num">{icon(r.get("async_por_caso"))}</td><td class="num-s">{int(r.get("incoming_cr") or 0)}</td><td class="num-s">{int(r.get("async_total") or 0)}</td><td class="num">{icon_qi(r.get("pct_qi"))}</td></tr>' for r in rows)
+    def qi_cell(r):
+        n = int(r.get('amostras_qi') or 0)
+        tip = f'{n} análise{"s" if n!=1 else ""} feita{"s" if n!=1 else ""}' if n else 'sem análises no período'
+        return f'<td class="num" title="{tip}">{icon_qi(r.get("pct_qi"))}</td>'
+    rows_html = "".join(f'<tr data-office="{r["escritorio"]}"><td>{r["rep"]}</td><td>{r["escritorio"]}</td><td>{r["lider"] or "—"}</td><td class="num">{icon(r.get("async_por_caso"))}</td><td class="num-s">{int(r.get("incoming_cr") or 0)}</td><td class="num-s">{int(r.get("async_total") or 0)}</td>{qi_cell(r)}</tr>' for r in rows)
     return f'<table class="dt"><thead><tr><th>Rep</th><th>Escritório</th><th>Líder</th><th>Async/Caso</th><th>CR</th><th>Async</th><th>% QI</th></tr></thead><tbody>{rows_html}</tbody></table>'
 
 # ── build series ───────────────────────────────────────────────────────────────
