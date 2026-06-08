@@ -177,6 +177,23 @@ LEFT JOIN (
     AND FLAG_NOT_NA AND FLAG_NOT_DUPLICATED AND FLAG_NOT_ELIMINATED AND FLAG_VALID_REASON
   GROUP BY 1
 ) qi ON main.rep = qi.USER_LDAP
+LEFT JOIN (
+  SELECT USER_LDAP,
+    ROUND(AVG(TMO_SEC) / 60, 1) AS tmo_min
+  FROM `meli-bi-data.WHOWNER.DM_CX_TMO`
+  WHERE USER_TEAM_NAME IN ({TEAMS_IN})
+    AND DATE(ASSIGN_DTTM) BETWEEN "{sem_ant_ini}" AND "{sem_ant_fin}"
+    AND NOT FLAG_IS_OUTLIER AND NOT FLAG_DROP
+  GROUP BY 1
+) tmo ON main.rep = tmo.USER_LDAP
+LEFT JOIN (
+  SELECT USER_LDAP,
+    ROUND(SUM(NUM_QUANTITY) / NULLIF(SUM(DENOM_PRODUCTIVE_STATUS), 0), 2) AS produtividade
+  FROM `meli-bi-data.WHOWNER.DM_CX_PRODUCTIVITY_AGENT_HOUR`
+  WHERE USER_TEAM_NAME IN ({TEAMS_IN})
+    AND DATE(DATETIME_ID) BETWEEN "{sem_ant_ini}" AND "{sem_ant_fin}"
+  GROUP BY 1
+) prod ON main.rep = prod.USER_LDAP
 ORDER BY equipe, async_por_caso DESC
 """); print(f"  Q6 reps: {len(q6)}")
 
@@ -509,8 +526,24 @@ def section_reps(team):
         n = int(r.get('amostras_qi') or 0)
         tip = f'{n} análise{"s" if n!=1 else ""} feita{"s" if n!=1 else ""}' if n else 'sem análises no período'
         return f'<td class="num"><span class="tip" data-tip="{tip}">{icon_qi(r.get("pct_qi"))}</span></td>'
-    rows_html = "".join(f'<tr data-office="{r["escritorio"]}"><td>{r["rep"]}</td><td>{r["escritorio"]}</td><td>{r["lider"] or "—"}</td><td class="num">{icon(r.get("async_por_caso"))}</td><td class="num-s">{int(r.get("incoming_cr") or 0)}</td><td class="num-s">{int(r.get("async_total") or 0)}</td>{qi_cell(r)}</tr>' for r in rows)
-    return f'<table class="dt"><thead><tr><th>Rep</th><th>Escritório</th><th>Líder</th><th>Async/Caso</th><th>CR</th><th>Async</th><th>% QI</th></tr></thead><tbody>{rows_html}</tbody></table>'
+    def tmo_cell(r):
+        v = r.get('tmo_min')
+        if v is None: return '<td class="num-s">—</td>'
+        v = float(v)
+        return f'<td class="num-s">{v:.1f} min</td>'
+    def prod_cell(r):
+        v = r.get('produtividade')
+        if v is None: return '<td class="num-s">—</td>'
+        return f'<td class="num-s">{float(v):.2f}/h</td>'
+    rows_html = "".join(
+        f'<tr data-office="{r["escritorio"]}"><td>{r["rep"]}</td><td>{r["escritorio"]}</td>'
+        f'<td>{r["lider"] or "—"}</td>'
+        f'<td class="num">{icon(r.get("async_por_caso"))}</td>'
+        f'<td class="num-s">{int(r.get("incoming_cr") or 0)}</td>'
+        f'<td class="num-s">{int(r.get("async_total") or 0)}</td>'
+        f'{tmo_cell(r)}{prod_cell(r)}{qi_cell(r)}</tr>'
+        for r in rows)
+    return f'<table class="dt"><thead><tr><th>Rep</th><th>Escritório</th><th>Líder</th><th>Async/Caso</th><th>CR</th><th>Async</th><th>TMO</th><th>Produtividade</th><th>% QI</th></tr></thead><tbody>{rows_html}</tbody></table>'
 
 # ── build series ───────────────────────────────────────────────────────────────
 
