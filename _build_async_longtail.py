@@ -148,19 +148,23 @@ GROUP BY 1,2,3 ORDER BY 1, async_por_caso DESC
 """); print(f"  Q5 líderes: {len(q5)}")
 
 q6 = run(f"""
-SELECT ixc.USER_TEAM_NAME AS equipe, ixc.CI_OWNER_ID AS rep, ixc.USER_OFFICE AS escritorio,
-  staff.USER_TEAM_LEADER_LDAP AS lider,
-  COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") AS async_total,
-  SUM(ixc.DENOM_IXC) AS incoming_cr,
-  ROUND(COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(ixc.DENOM_IXC), 0), 2) AS async_por_caso
-FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL` ixc
-LEFT JOIN (SELECT USER_LDAP, USER_TEAM_LEADER_LDAP FROM `meli-bi-data.WHOWNER.BT_CX_STAFF_HISTORY`
-  WHERE DATE_ID = "{sem_ant_fin}" AND USER_TEAM_NAME IN ({TEAMS_IN})) staff
-  ON ixc.CI_OWNER_ID = staff.USER_LDAP
-WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID BETWEEN "{sem_ant_ini}" AND "{sem_ant_fin}"
-  AND ixc.USER_TEAM_NAME IN ({TEAMS_IN}) AND ixc.CI_OWNER_ID IS NOT NULL AND ixc.CS_MANAGER IS NOT NULL
-GROUP BY 1,2,3,4 HAVING SUM(ixc.DENOM_IXC) >= 10
-ORDER BY 1, async_por_caso DESC LIMIT 60
+SELECT equipe, rep, escritorio, lider, async_total, incoming_cr, async_por_caso FROM (
+  SELECT ixc.USER_TEAM_NAME AS equipe, ixc.CI_OWNER_ID AS rep, ixc.USER_OFFICE AS escritorio,
+    staff.USER_TEAM_LEADER_LDAP AS lider,
+    COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") AS async_total,
+    SUM(ixc.DENOM_IXC) AS incoming_cr,
+    ROUND(COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(ixc.DENOM_IXC), 0), 2) AS async_por_caso
+  FROM `meli-bi-data.WHOWNER.DM_CX_IXC_DETAIL` ixc
+  LEFT JOIN (SELECT USER_LDAP, USER_TEAM_LEADER_LDAP FROM `meli-bi-data.WHOWNER.BT_CX_STAFF_HISTORY`
+    WHERE DATE_ID = "{sem_ant_fin}" AND USER_TEAM_NAME IN ({TEAMS_IN})) staff
+    ON ixc.CI_OWNER_ID = staff.USER_LDAP
+  WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID BETWEEN "{sem_ant_ini}" AND "{sem_ant_fin}"
+    AND ixc.USER_TEAM_NAME IN ({TEAMS_IN}) AND ixc.CI_OWNER_ID IS NOT NULL AND ixc.CS_MANAGER IS NOT NULL
+  GROUP BY 1,2,3,4 HAVING SUM(ixc.DENOM_IXC) >= 10
+  QUALIFY ROW_NUMBER() OVER (PARTITION BY ixc.USER_TEAM_NAME ORDER BY
+    ROUND(COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") / NULLIF(SUM(ixc.DENOM_IXC), 0), 2) DESC) <= 20
+)
+ORDER BY equipe, async_por_caso DESC
 """); print(f"  Q6 reps: {len(q6)}")
 
 q7 = run(f"""
