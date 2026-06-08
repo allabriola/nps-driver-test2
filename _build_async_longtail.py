@@ -878,8 +878,8 @@ def tab_geral():
       </div>
       <div class="section-title">Comparação Longtail vs Mature <small style="font-weight:400;font-size:11px;text-transform:none">— async/caso agregado por grupo</small></div>
       <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Semanal</h3>{chart_cmp_weekly()}</div>
         <div class="card" style="flex:1;min-width:0"><h3>Mensal</h3>{chart_cmp_monthly()}</div>
+        <div class="card" style="flex:1;min-width:0"><h3>Semanal</h3>{chart_cmp_weekly()}</div>
       </div>
     </div>"""
 
