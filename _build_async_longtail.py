@@ -658,13 +658,13 @@ def chart_daily(team, pfx=''):
     keys, series, cmap, total = build_office_series(q1, team, 'dia')
     if not keys: return "<p class='empty'>Sem dados</p>"
     cid = f'cd-{pfx}-{TEAM_SHORT[team]}' if pfx else f'cd-{TEAM_SHORT[team]}'
-    return make_chart(cid, [k[5:].replace('-','/') for k in keys], bar_datasets(series, cmap, total=total), 'async/caso', bar=True, x_rotation=45)
+    return make_chart(cid, [k[8:10]+'/'+k[5:7] for k in keys], bar_datasets(series, cmap, total=total), 'async/caso', bar=True, x_rotation=45)
 
 def chart_weekly(team, pfx=''):
     keys, series, cmap, total = build_office_series(q7, team, 'semana')
     if not keys: return "<p class='empty'>Sem dados</p>"
     cid = f'cw-{pfx}-{TEAM_SHORT[team]}' if pfx else f'cw-{TEAM_SHORT[team]}'
-    return make_chart(cid, [k[5:].replace('-','/') for k in keys], bar_datasets(series, cmap, total=total), 'async/caso', bar=True)
+    return make_chart(cid, [k[8:10]+'/'+k[5:7] for k in keys], bar_datasets(series, cmap, total=total), 'async/caso', bar=True)
 
 def chart_monthly(team, pfx=''):
     fk = monthly_keys_jan26()
@@ -677,7 +677,7 @@ def chart_pct_weekly(team, pfx=''):
     keys, series, cmap, total = build_office_series(q7, team, 'semana')
     if not keys: return "<p class='empty'>Sem dados</p>"
     cid = f'cpw-{pfx}-{TEAM_SHORT[team]}' if pfx else f'cpw-{TEAM_SHORT[team]}'
-    return make_chart(cid, [k[5:].replace('-','/') for k in keys], line_datasets(series, cmap, multiplier=100, total=total), '% async/CR', bar=False)
+    return make_chart(cid, [k[8:10]+'/'+k[5:7] for k in keys], line_datasets(series, cmap, multiplier=100, total=total), '% async/CR', bar=False)
 
 def chart_pct_monthly(team, pfx=''):
     fk = monthly_keys_jan26()
@@ -700,10 +700,10 @@ def _geral_chart(q, date_key, cid, label_fn, y_label, pct=False, bar=True, x_rot
         ds = line_datasets(series, cmap, total=total)
     return make_chart(cid, labels, ds, y_label, bar=bar, x_rotation=x_rot)
 
-def chart_geral_daily():    return _geral_chart(q1_geral, 'dia',    'cg-daily',   lambda k: k[5:].replace('-','/'), 'async/caso', bar=True, x_rot=45)
-def chart_geral_weekly():   return _geral_chart(q7_geral, 'semana', 'cg-weekly',  lambda k: k[5:].replace('-','/'), 'async/caso', bar=True)
+def chart_geral_daily():    return _geral_chart(q1_geral, 'dia',    'cg-daily',   lambda k: k[8:10]+'/'+k[5:7], 'async/caso', bar=True, x_rot=45)
+def chart_geral_weekly():   return _geral_chart(q7_geral, 'semana', 'cg-weekly',  lambda k: k[8:10]+'/'+k[5:7], 'async/caso', bar=True)
 def chart_geral_monthly():  return _geral_chart(q8_geral, 'mes',    'cg-monthly', fmt_mes, 'async/caso', bar=True,  forced_keys=monthly_keys_jan26())
-def chart_geral_pct_wkly(): return _geral_chart(q7_geral, 'semana', 'cg-cpw',    lambda k: k[5:].replace('-','/'), '% async/CR', pct=True, bar=False)
+def chart_geral_pct_wkly(): return _geral_chart(q7_geral, 'semana', 'cg-cpw',    lambda k: k[8:10]+'/'+k[5:7], '% async/CR', pct=True, bar=False)
 
 # ── visão geral 4 charts (tabs Semanal / Mensal) ──────────────────────────────
 
@@ -731,7 +731,7 @@ def _chart_faixa_geral(q_faixa, date_key, cid, label_fn, forced_keys=None):
     return make_chart(cid, [label_fn(k) for k in keys], line_datasets(series, FAIXA_COLORS, total=total), 'async/caso', bar=False)
 
 def visao_geral_semanal():
-    lbl = lambda k: k[5:].replace('-','/')
+    lbl = lambda k: k[8:10]+'/'+k[5:7]
     return f"""
     <div class="section-title">Visão Geral <small style="font-weight:400;font-size:11px">(últimas 8 semanas — todas as equipes)</small></div>
     <div style="display:flex;gap:16px">
@@ -758,7 +758,7 @@ def visao_geral_mensal():
     </div>"""
 
 def visao_geral_diaria():
-    lbl = lambda k: k[5:].replace('-','/')
+    lbl = lambda k: k[8:10]+'/'+k[5:7]
     q13_g = agg_to_team(q13, 'dia')
     q14_g = agg_to_team(q14, 'dia')
     return f"""
@@ -785,7 +785,7 @@ def _chart_cmp(rows, date_key, cid, label_fn, forced_keys=None):
     series = {g: [idx.get((k, g)) for k in keys] for g in ['Longtail','Mature']}
     return make_chart(cid, [label_fn(k) for k in keys], line_datasets(series, CMP_COLORS), 'async/caso', bar=False)
 
-def chart_cmp_weekly():  return _chart_cmp(q7_cmp, 'semana', 'cmp-wkly', lambda k: k[5:].replace('-','/'))
+def chart_cmp_weekly():  return _chart_cmp(q7_cmp, 'semana', 'cmp-wkly', lambda k: k[8:10]+'/'+k[5:7])
 def chart_cmp_monthly(): return _chart_cmp(q8_cmp, 'mes',    'cmp-mth',  fmt_mes, forced_keys=monthly_keys_jan26())
 
 # ── gráficos de senioridade/faixa ─────────────────────────────────────────────
@@ -793,12 +793,12 @@ def chart_cmp_monthly(): return _chart_cmp(q8_cmp, 'mes',    'cmp-mth',  fmt_mes
 def chart_sen_semanal(team, pfx='s'):
     keys, series, _, total = build_category_series(q9,  team, 'semana', 'senioridade', SENIORITY_ORDER)
     if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'csen-{pfx}-{TEAM_SHORT[team]}', [k[5:].replace('-','/') for k in keys], line_datasets(series, SENIORITY_COLORS, total=total), 'async/caso', bar=False)
+    return make_chart(f'csen-{pfx}-{TEAM_SHORT[team]}', [k[8:10]+'/'+k[5:7] for k in keys], line_datasets(series, SENIORITY_COLORS, total=total), 'async/caso', bar=False)
 
 def chart_faixa_semanal(team, pfx='s'):
     keys, series, _, total = build_category_series(q10, team, 'semana', 'faixa',       FAIXA_ORDER)
     if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'cfx-{pfx}-{TEAM_SHORT[team]}',  [k[5:].replace('-','/') for k in keys], line_datasets(series, FAIXA_COLORS,     total=total), 'async/caso', bar=False)
+    return make_chart(f'cfx-{pfx}-{TEAM_SHORT[team]}',  [k[8:10]+'/'+k[5:7] for k in keys], line_datasets(series, FAIXA_COLORS,     total=total), 'async/caso', bar=False)
 
 def chart_sen_mensal(team, pfx='m'):
     fk = monthly_keys_jan26()
@@ -815,12 +815,12 @@ def chart_faixa_mensal(team, pfx='m'):
 def chart_sen_diario(team, pfx='d'):
     keys, series, _, total = build_category_series(q13, team, 'dia', 'senioridade', SENIORITY_ORDER)
     if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'csen-{pfx}-{TEAM_SHORT[team]}', [k[5:].replace('-','/') for k in keys], line_datasets(series, SENIORITY_COLORS, total=total), 'async/caso', bar=False, x_rotation=45)
+    return make_chart(f'csen-{pfx}-{TEAM_SHORT[team]}', [k[8:10]+'/'+k[5:7] for k in keys], line_datasets(series, SENIORITY_COLORS, total=total), 'async/caso', bar=False, x_rotation=45)
 
 def chart_faixa_diario(team, pfx='d'):
     keys, series, _, total = build_category_series(q14, team, 'dia', 'faixa', FAIXA_ORDER)
     if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'cfx-{pfx}-{TEAM_SHORT[team]}',  [k[5:].replace('-','/') for k in keys], line_datasets(series, FAIXA_COLORS, total=total), 'async/caso', bar=False, x_rotation=45)
+    return make_chart(f'cfx-{pfx}-{TEAM_SHORT[team]}',  [k[8:10]+'/'+k[5:7] for k in keys], line_datasets(series, FAIXA_COLORS, total=total), 'async/caso', bar=False, x_rotation=45)
 
 # ── seniority block reutilizável ──────────────────────────────────────────────
 
