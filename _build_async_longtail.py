@@ -834,7 +834,7 @@ def seniority_block(team, period, pfx):
         c_faixa = chart_faixa_mensal(team, pfx)
     return f"""
     <div class="team-section" data-team="{s}">
-      <div class="section-title">{s}</div>
+      <div class="team-header">{s}</div>
       <div style="display:flex;gap:16px">
         <div class="card" style="flex:1;min-width:0">
           <h3>Senioridade — Expert vs Newbie</h3>{c_sen}
@@ -941,7 +941,7 @@ def _team_block_semanal(team):
     s = TEAM_SHORT[team]
     return f"""
     <div class="team-section" data-team="{s}">
-      <div class="section-title">{s}</div>
+      <div class="team-header">{s}</div>
       <div class="card"><h3>Async/Caso por Office</h3>{chart_weekly(team)}</div>
       <div style="display:flex;gap:16px">
         <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_semanal(team,'sw')}</div>
@@ -953,7 +953,7 @@ def _team_block_mensal(team):
     s = TEAM_SHORT[team]
     return f"""
     <div class="team-section" data-team="{s}">
-      <div class="section-title">{s}</div>
+      <div class="team-header">{s}</div>
       <div class="card"><h3>Async/Caso por Office</h3>{chart_monthly(team)}</div>
       <div style="display:flex;gap:16px">
         <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_mensal(team,'mw')}</div>
@@ -965,7 +965,7 @@ def _team_block_diario(team):
     s = TEAM_SHORT[team]
     return f"""
     <div class="team-section" data-team="{s}">
-      <div class="section-title">{s}</div>
+      <div class="team-header">{s}</div>
       <div class="card"><h3>Async/Caso por Office</h3>{chart_daily(team)}</div>
       <div style="display:flex;gap:16px">
         <div class="card" style="flex:1;min-width:0"><h3>Senioridade — Expert vs Newbie</h3>{chart_sen_diario(team,'dw')}</div>
@@ -1074,6 +1074,8 @@ Chart.register({{
   .tab-content.show{{display:block}}
   .tab-content h2{{font-size:15px;color:var(--head);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}}
   .section-title{{font-size:11px;font-weight:700;color:var(--head);text-transform:uppercase;letter-spacing:.5px;margin:8px 0 8px;padding-left:2px}}
+  .team-header{{font-size:15px;font-weight:700;color:#fff;background:var(--head);padding:10px 18px;border-radius:8px;margin:20px 0 12px;display:flex;align-items:center;gap:10px}}
+  .team-header::before{{content:'▸';font-size:13px;opacity:.7}}
   .card{{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px}}
   .card h3{{font-size:13px;font-weight:700;color:var(--head);margin-bottom:12px}}
   .card h3 small{{font-weight:400;color:#777;font-size:11px}}
