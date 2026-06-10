@@ -964,10 +964,10 @@ def tab_content(team):
       </div>
     </div>"""
 
-def tab_geral():
+def tab_comparativo():
     return f"""
-    <div id="tab-Geral" class="tab-content">
-      <h2>Geral — Longtail &amp; Mature Sellers BR</h2>
+    <div id="tab-Comparativo" class="tab-content">
+      <h2>Comparativo — Longtail &amp; Mature Sellers BR</h2>
       <div class="card">
         <h3>Diário — últimos 15 dias <small style="color:#777;font-weight:400">(async/caso por equipe)</small></h3>
         {table_geral_diario()}
@@ -1023,56 +1023,79 @@ def _team_block_diario(team):
       </div>
     </div>"""
 
-def tab_diario():
+def _diario_body():
     team_blocks = "".join(_team_block_diario(t) for t in TEAMS)
-    return f"""
-    <div id="tab-Diario" class="tab-content">
-      <h2>Visão Diária — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(últimos 15 dias)</small></h2>
+    return f"""<h2>Visão Diária <small style="font-weight:400;font-size:12px">(últimos 15 dias)</small></h2>
       {visao_geral_diaria()}
       <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro abaixo para isolar uma equipe</small></div>
-      {section_team_filter('Diario')}
-      {team_blocks}
-    </div>"""
+      {section_team_filter('Diario')}{team_blocks}"""
 
-def tab_semanal():
+def _semanal_body():
     team_blocks = "".join(_team_block_semanal(t) for t in TEAMS)
-    return f"""
-    <div id="tab-Semanal" class="tab-content">
-      <h2>Visão Semanal — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(últimas 8 semanas)</small></h2>
+    return f"""<h2>Visão Semanal <small style="font-weight:400;font-size:12px">(últimas 8 semanas)</small></h2>
       {visao_geral_semanal()}
       <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro abaixo para isolar uma equipe</small></div>
-      {section_team_filter('Semanal')}
-      {team_blocks}
-    </div>"""
+      {section_team_filter('Semanal')}{team_blocks}"""
 
-def tab_mensal():
+def _mensal_body():
     team_blocks = "".join(_team_block_mensal(t) for t in TEAMS)
-    return f"""
-    <div id="tab-Mensal" class="tab-content">
-      <h2>Visão Mensal — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(fev/26 → {today.strftime('%b/%Y')})</small></h2>
+    return f"""<h2>Visão Mensal <small style="font-weight:400;font-size:12px">(fev/26 → {today.strftime('%b/%Y')})</small></h2>
       {visao_geral_mensal()}
       <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro abaixo para isolar uma equipe</small></div>
-      {section_team_filter('Mensal')}
-      {team_blocks}
+      {section_team_filter('Mensal')}{team_blocks}"""
+
+def tab_geral():
+    return f"""
+    <div id="tab-Geral" class="tab-content">
+      <div class="gtab-nav">
+        <button class="gtab-btn active" onclick="showGTab('Geral','Diario',this)">Diário</button>
+        <button class="gtab-btn" onclick="showGTab('Geral','Semanal',this)">Semanal</button>
+        <button class="gtab-btn" onclick="showGTab('Geral','Mensal',this)">Mensal</button>
+      </div>
+      <div id="gtab-Geral-Diario" class="gtab-content show" style="padding:20px 0 0">
+        {_diario_body()}
+      </div>
+      <div id="gtab-Geral-Semanal" class="gtab-content" style="padding:20px 0 0">
+        {_semanal_body()}
+      </div>
+      <div id="gtab-Geral-Mensal" class="gtab-content" style="padding:20px 0 0">
+        {_mensal_body()}
+      </div>
+    </div>"""
+
+def tab_longtail():
+    nav = "".join(
+        f'<button class="gtab-btn {"active" if i==0 else ""}" onclick="showGTab(\'Longtail\',\'{TEAM_SHORT[t]}\',this)">{TEAM_SHORT[t]}</button>'
+        for i, t in enumerate(LONGTAIL_TEAMS))
+    content = "".join(
+        f'<div id="gtab-Longtail-{TEAM_SHORT[t]}" class="gtab-content {"show" if i==0 else ""}">{tab_content(t)}</div>'
+        for i, t in enumerate(LONGTAIL_TEAMS))
+    return f"""
+    <div id="tab-Longtail" class="tab-content">
+      <div class="gtab-nav">{nav}</div>
+      {content}
+    </div>"""
+
+def tab_mature():
+    nav = "".join(
+        f'<button class="gtab-btn {"active" if i==0 else ""}" onclick="showGTab(\'Mature\',\'{TEAM_SHORT[t]}\',this)">{TEAM_SHORT[t]}</button>'
+        for i, t in enumerate(MATURE_TEAMS))
+    content = "".join(
+        f'<div id="gtab-Mature-{TEAM_SHORT[t]}" class="gtab-content {"show" if i==0 else ""}">{tab_content(t)}</div>'
+        for i, t in enumerate(MATURE_TEAMS))
+    return f"""
+    <div id="tab-Mature" class="tab-content">
+      <div class="gtab-nav">{nav}</div>
+      {content}
     </div>"""
 
 # ── HTML ───────────────────────────────────────────────────────────────────────
 
-tabs_nav  = '<button class="tab-btn active" onclick="showTab(\'Geral\')">Geral</button>'
-tabs_nav += '<button class="tab-btn" onclick="showTab(\'Diario\')">Diário</button>'
-tabs_nav += '<button class="tab-btn" onclick="showTab(\'Semanal\')">Semanal</button>'
-tabs_nav += '<button class="tab-btn" onclick="showTab(\'Mensal\')">Mensal</button>'
-tabs_body = tab_geral() + tab_diario() + tab_semanal() + tab_mensal()
-for team in TEAMS:
-    s = TEAM_SHORT[team]
-    tabs_nav  += f'<button class="tab-btn" onclick="showTab(\'{s}\')">{s}</button>'
-    tabs_body += tab_content(team)
-# abas Mature
-tabs_nav += '<span style="border-left:2px solid #dde3ea;margin:4px 4px 0;height:28px;display:inline-block;vertical-align:bottom"></span>'
-for team in MATURE_TEAMS:
-    s = TEAM_SHORT[team]
-    tabs_nav  += f'<button class="tab-btn" onclick="showTab(\'{s}\')">{s}</button>'
-    tabs_body += tab_content(team)
+tabs_nav  = '<button class="tab-btn active" onclick="showTab(\'Comparativo\')">Comparativo</button>'
+tabs_nav += '<button class="tab-btn" onclick="showTab(\'Geral\')">Geral</button>'
+tabs_nav += '<button class="tab-btn" onclick="showTab(\'Longtail\')">Longtail</button>'
+tabs_nav += '<button class="tab-btn" onclick="showTab(\'Mature\')">Mature</button>'
+tabs_body = tab_comparativo() + tab_geral() + tab_longtail() + tab_mature()
 
 html = f"""<!DOCTYPE html>
 <html lang="pt-BR">
@@ -1154,6 +1177,13 @@ Chart.register({{
   .stab-btn:hover:not(.active){{color:var(--head);background:#f0f4f8}}
   .stab-content{{display:none}}
   .stab-content.show{{display:block}}
+  .gtab-nav{{display:flex;gap:4px;background:#f4f6f8;border-bottom:2px solid var(--accent);padding:8px 8px 0}}
+  .gtab-btn{{padding:8px 20px;border:none;background:#eef2f7;border-radius:6px 6px 0 0;cursor:pointer;font-size:13px;font-weight:600;color:#555;transition:all .15s}}
+  .gtab-btn.active{{background:var(--accent);color:#fff}}
+  .gtab-btn:hover:not(.active){{background:#d5e8f7}}
+  .gtab-content{{display:none;padding:0}}
+  .gtab-content.show{{display:block}}
+  .tab-inner{{display:block}}
   @media(max-width:900px){{div[style*="display:flex"]{{flex-direction:column!important}}}}
 </style>
 </head>
@@ -1200,6 +1230,12 @@ function filterOffice(team,office,btn){{
   }});
 }}
 
+function showGTab(grp,sub,btn){{
+  document.querySelectorAll('#tab-'+grp+' > .gtab-content').forEach(el=>el.classList.remove('show'));
+  document.querySelectorAll('#tab-'+grp+' > .gtab-nav .gtab-btn').forEach(el=>el.classList.remove('active'));
+  document.getElementById('gtab-'+grp+'-'+sub).classList.add('show');
+  btn.classList.add('active');
+}}
 function showSubTab(team,subtab,btn){{
   document.querySelectorAll('#tab-'+team+' .stab-content').forEach(el=>el.classList.remove('show'));
   document.querySelectorAll('#tab-'+team+' .stab-btn').forEach(el=>el.classList.remove('active'));

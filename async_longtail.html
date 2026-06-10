@@ -78,13 +78,20 @@ Chart.register({
   .stab-btn:hover:not(.active){color:var(--head);background:#f0f4f8}
   .stab-content{display:none}
   .stab-content.show{display:block}
+  .gtab-nav{display:flex;gap:4px;background:#f4f6f8;border-bottom:2px solid var(--accent);padding:8px 8px 0}
+  .gtab-btn{padding:8px 20px;border:none;background:#eef2f7;border-radius:6px 6px 0 0;cursor:pointer;font-size:13px;font-weight:600;color:#555;transition:all .15s}
+  .gtab-btn.active{background:var(--accent);color:#fff}
+  .gtab-btn:hover:not(.active){background:#d5e8f7}
+  .gtab-content{display:none;padding:0}
+  .gtab-content.show{display:block}
+  .tab-inner{display:block}
   @media(max-width:900px){div[style*="display:flex"]{flex-direction:column!important}}
 </style>
 </head>
 <body>
 <header>
   <h1>Chat Assíncrono — Longtail Sellers BR</h1>
-  <div class="update-badge"><span class="dot"></span>Última atualização: 10/06/2026 às 10:43</div>
+  <div class="update-badge"><span class="dot"></span>Última atualização: 10/06/2026 às 10:59</div>
   <div class="sub">Fonte: DM_CX_IXC_DETAIL &nbsp;|&nbsp; async/caso = disparos assíncronos ÷ DENOM_IXC</div>
 </header>
 <div class="legend">
@@ -96,10 +103,10 @@ Chart.register({
   <span><span style="color:#1a1a2e">—</span> Total</span>
   <span style="margin-left:auto;color:#888">↑ piora &nbsp;↓ melhora &nbsp;→ estável</span>
 </div>
-<div class="tabs"><button class="tab-btn active" onclick="showTab('Geral')">Geral</button><button class="tab-btn" onclick="showTab('Diario')">Diário</button><button class="tab-btn" onclick="showTab('Semanal')">Semanal</button><button class="tab-btn" onclick="showTab('Mensal')">Mensal</button><button class="tab-btn" onclick="showTab('ME')">ME</button><button class="tab-btn" onclick="showTab('Publicaciones')">Publicaciones</button><button class="tab-btn" onclick="showTab('Ventas')">Ventas</button><span style="border-left:2px solid #dde3ea;margin:4px 4px 0;height:28px;display:inline-block;vertical-align:bottom"></span><button class="tab-btn" onclick="showTab('ME-M')">ME-M</button><button class="tab-btn" onclick="showTab('Pub-M')">Pub-M</button><button class="tab-btn" onclick="showTab('Ventas-M')">Ventas-M</button></div>
+<div class="tabs"><button class="tab-btn active" onclick="showTab('Comparativo')">Comparativo</button><button class="tab-btn" onclick="showTab('Geral')">Geral</button><button class="tab-btn" onclick="showTab('Longtail')">Longtail</button><button class="tab-btn" onclick="showTab('Mature')">Mature</button></div>
 
-    <div id="tab-Geral" class="tab-content">
-      <h2>Geral — Longtail &amp; Mature Sellers BR</h2>
+    <div id="tab-Comparativo" class="tab-content">
+      <h2>Comparativo — Longtail &amp; Mature Sellers BR</h2>
       <div class="card">
         <h3>Diário — últimos 15 dias <small style="color:#777;font-weight:400">(async/caso por equipe)</small></h3>
         <div class="scroll-x"><table class="dt"><thead><tr><th>Equipe</th><th>26/05</th><th>27/05</th><th>28/05</th><th>29/05</th><th>30/05</th><th>31/05</th><th>01/06</th><th>02/06</th><th>03/06</th><th>04/06</th><th>05/06</th><th>06/06</th><th>07/06</th><th>08/06</th><th>09/06</th></tr></thead><tbody><tr><td colspan="99" style="background:#e8ecf0;padding:3px 10px;font-size:10px;font-weight:700;color:#555;letter-spacing:.3px">LONGTAIL</td></tr><tr><td><strong>ME</strong></td><td class="num"><span class="ok">0.49</span></td><td class="num"><span class="ok">0.43</span></td><td class="num"><span class="ok">0.42</span></td><td class="num"><span class="ok">0.38</span></td><td class="num"><span class="ok">0.24</span></td><td class="num"><span class="ok">0.38</span></td><td class="num"><span class="ok">0.40</span></td><td class="num"><span class="ok">0.44</span></td><td class="num"><span class="ok">0.45</span></td><td class="num"><span class="ok">0.28</span></td><td class="num"><span class="ok">0.35</span></td><td class="num"><span class="ok">0.37</span></td><td class="num"><span class="ok">0.38</span></td><td class="num"><span class="ok">0.38</span></td><td class="num"><span class="ok">0.40</span></td></tr><tr><td><strong>Publicaciones</strong></td><td class="num"><span class="ok">0.24</span></td><td class="num"><span class="ok">0.22</span></td><td class="num"><span class="ok">0.22</span></td><td class="num"><span class="ok">0.19</span></td><td class="num"><span class="ok">0.16</span></td><td class="num"><span class="ok">0.15</span></td><td class="num"><span class="ok">0.19</span></td><td class="num"><span class="ok">0.18</span></td><td class="num"><span class="ok">0.19</span></td><td class="num"><span class="ok">0.08</span></td><td class="num"><span class="ok">0.16</span></td><td class="num"><span class="ok">0.14</span></td><td class="num"><span class="ok">0.12</span></td><td class="num"><span class="ok">0.17</span></td><td class="num"><span class="ok">0.17</span></td></tr><tr><td><strong>Ventas</strong></td><td class="num"><span class="ok">0.45</span></td><td class="num"><span class="ok">0.41</span></td><td class="num"><span class="ok">0.36</span></td><td class="num"><span class="ok">0.30</span></td><td class="num"><span class="ok">0.21</span></td><td class="num"><span class="ok">0.32</span></td><td class="num"><span class="ok">0.34</span></td><td class="num"><span class="ok">0.35</span></td><td class="num"><span class="ok">0.38</span></td><td class="num"><span class="ok">0.21</span></td><td class="num"><span class="ok">0.26</span></td><td class="num"><span class="ok">0.16</span></td><td class="num"><span class="ok">0.26</span></td><td class="num"><span class="ok">0.31</span></td><td class="num"><span class="ok">0.32</span></td></tr><tr><td colspan="99" style="background:#e8ecf0;padding:3px 10px;font-size:10px;font-weight:700;color:#555;letter-spacing:.3px">MATURE</td></tr><tr><td><strong>ME-M</strong></td><td class="num"><span class="ok">0.36</span></td><td class="num"><span class="ok">0.37</span></td><td class="num"><span class="ok">0.34</span></td><td class="num"><span class="ok">0.33</span></td><td class="num">—</td><td class="num">—</td><td class="num"><span class="ok">0.38</span></td><td class="num"><span class="ok">0.44</span></td><td class="num"><span class="ok">0.39</span></td><td class="num">—</td><td class="num"><span class="ok">0.43</span></td><td class="num">—</td><td class="num">—</td><td class="num"><span class="ok">0.34</span></td><td class="num"><span class="ok">0.43</span></td></tr><tr><td><strong>Pub-M</strong></td><td class="num"><span class="ok">0.41</span></td><td class="num"><span class="ok">0.39</span></td><td class="num"><span class="ok">0.38</span></td><td class="num"><span class="ok">0.41</span></td><td class="num">—</td><td class="num">—</td><td class="num"><span class="ok">0.38</span></td><td class="num"><span class="ok">0.43</span></td><td class="num"><span class="ok">0.38</span></td><td class="num">—</td><td class="num"><span class="ok">0.41</span></td><td class="num">—</td><td class="num">—</td><td class="num"><span class="ok">0.41</span></td><td class="num"><span class="ok">0.35</span></td></tr><tr><td><strong>Ventas-M</strong></td><td class="num"><span class="ok">0.21</span></td><td class="num"><span class="ok">0.21</span></td><td class="num"><span class="ok">0.19</span></td><td class="num"><span class="ok">0.18</span></td><td class="num">—</td><td class="num">—</td><td class="num"><span class="ok">0.19</span></td><td class="num"><span class="ok">0.25</span></td><td class="num"><span class="ok">0.22</span></td><td class="num">—</td><td class="num"><span class="ok">0.16</span></td><td class="num">—</td><td class="num">—</td><td class="num"><span class="ok">0.18</span></td><td class="num"><span class="ok">0.18</span></td></tr></tbody></table></div>
@@ -152,8 +159,14 @@ Chart.register({
 })();</script></div>
       </div>
     </div>
-    <div id="tab-Diario" class="tab-content">
-      <h2>Visão Diária — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(últimos 15 dias)</small></h2>
+    <div id="tab-Geral" class="tab-content">
+      <div class="gtab-nav">
+        <button class="gtab-btn active" onclick="showGTab('Geral','Diario',this)">Diário</button>
+        <button class="gtab-btn" onclick="showGTab('Geral','Semanal',this)">Semanal</button>
+        <button class="gtab-btn" onclick="showGTab('Geral','Mensal',this)">Mensal</button>
+      </div>
+      <div id="gtab-Geral-Diario" class="gtab-content show" style="padding:20px 0 0">
+        <h2>Visão Diária <small style="font-weight:400;font-size:12px">(últimos 15 dias)</small></h2>
       
     <div class="section-title">Visão Geral <small style="font-weight:400;font-size:11px">(últimos 15 dias — todas as equipes)</small></div>
     <div style="display:flex;gap:16px">
@@ -234,7 +247,6 @@ Chart.register({
     </div>
       <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro abaixo para isolar uma equipe</small></div>
       <div class="off-filter" id="team-filter-Diario"><button class="off-btn active" onclick="filterTeamSection('Diario','ALL',this)">Todas</button><button class="off-btn" onclick="filterTeamSection('Diario','ME',this)">ME</button><button class="off-btn" onclick="filterTeamSection('Diario','Publicaciones',this)">Publicaciones</button><button class="off-btn" onclick="filterTeamSection('Diario','Ventas',this)">Ventas</button></div>
-      
     <div class="team-section" data-team="ME">
       <div class="team-header">ME</div>
       <div class="card"><h3>Async/Caso por Office</h3><div style="position:relative;height:280px"><canvas id="cd-ME"></canvas></div>
@@ -412,9 +424,9 @@ Chart.register({
 })();</script></div>
       </div>
     </div>
-    </div>
-    <div id="tab-Semanal" class="tab-content">
-      <h2>Visão Semanal — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(últimas 8 semanas)</small></h2>
+      </div>
+      <div id="gtab-Geral-Semanal" class="gtab-content" style="padding:20px 0 0">
+        <h2>Visão Semanal <small style="font-weight:400;font-size:12px">(últimas 8 semanas)</small></h2>
       
     <div class="section-title">Visão Geral <small style="font-weight:400;font-size:11px">(últimas 8 semanas — todas as equipes)</small></div>
     <div style="display:flex;gap:16px">
@@ -495,7 +507,6 @@ Chart.register({
     </div>
       <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro abaixo para isolar uma equipe</small></div>
       <div class="off-filter" id="team-filter-Semanal"><button class="off-btn active" onclick="filterTeamSection('Semanal','ALL',this)">Todas</button><button class="off-btn" onclick="filterTeamSection('Semanal','ME',this)">ME</button><button class="off-btn" onclick="filterTeamSection('Semanal','Publicaciones',this)">Publicaciones</button><button class="off-btn" onclick="filterTeamSection('Semanal','Ventas',this)">Ventas</button></div>
-      
     <div class="team-section" data-team="ME">
       <div class="team-header">ME</div>
       <div class="card"><h3>Async/Caso por Office</h3><div style="position:relative;height:280px"><canvas id="cw-ME"></canvas></div>
@@ -673,9 +684,9 @@ Chart.register({
 })();</script></div>
       </div>
     </div>
-    </div>
-    <div id="tab-Mensal" class="tab-content">
-      <h2>Visão Mensal — Longtail Sellers BR <small style="font-weight:400;font-size:12px">(fev/26 → Jun/2026)</small></h2>
+      </div>
+      <div id="gtab-Geral-Mensal" class="gtab-content" style="padding:20px 0 0">
+        <h2>Visão Mensal <small style="font-weight:400;font-size:12px">(fev/26 → Jun/2026)</small></h2>
       
     <div class="section-title">Visão Geral <small style="font-weight:400;font-size:11px">(fev/26 → hoje — todas as equipes)</small></div>
     <div style="display:flex;gap:16px">
@@ -756,7 +767,6 @@ Chart.register({
     </div>
       <div class="section-title">Abertura por Equipe <small style="font-weight:400;font-size:11px">— use o filtro abaixo para isolar uma equipe</small></div>
       <div class="off-filter" id="team-filter-Mensal"><button class="off-btn active" onclick="filterTeamSection('Mensal','ALL',this)">Todas</button><button class="off-btn" onclick="filterTeamSection('Mensal','ME',this)">ME</button><button class="off-btn" onclick="filterTeamSection('Mensal','Publicaciones',this)">Publicaciones</button><button class="off-btn" onclick="filterTeamSection('Mensal','Ventas',this)">Ventas</button></div>
-      
     <div class="team-section" data-team="ME">
       <div class="team-header">ME</div>
       <div class="card"><h3>Async/Caso por Office</h3><div style="position:relative;height:280px"><canvas id="cm-ME"></canvas></div>
@@ -934,7 +944,11 @@ Chart.register({
 })();</script></div>
       </div>
     </div>
+      </div>
     </div>
+    <div id="tab-Longtail" class="tab-content">
+      <div class="gtab-nav"><button class="gtab-btn active" onclick="showGTab('Longtail','ME',this)">ME</button><button class="gtab-btn " onclick="showGTab('Longtail','Publicaciones',this)">Publicaciones</button><button class="gtab-btn " onclick="showGTab('Longtail','Ventas',this)">Ventas</button></div>
+      <div id="gtab-Longtail-ME" class="gtab-content show">
     <div id="tab-ME" class="tab-content">
       <h2>BR_ME_Sellers_Longtail</h2>
       <div class="off-filter" id="filter-ME"><button class="off-btn active" onclick="filterOffice('ME','ALL',this)">Todos</button><button class="off-btn" onclick="filterOffice('ME','AEC',this)">AEC</button><button class="off-btn" onclick="filterOffice('ME','ATE',this)">ATE</button><button class="off-btn" onclick="filterOffice('ME','KTA_BRASIL',this)">KTA_BRASIL</button></div>
@@ -1132,7 +1146,7 @@ Chart.register({
 })();</script></div>
         </div>
       </div>
-    </div>
+    </div></div><div id="gtab-Longtail-Publicaciones" class="gtab-content ">
     <div id="tab-Publicaciones" class="tab-content">
       <h2>BR_Publicaciones_Sellers_Longtail</h2>
       <div class="off-filter" id="filter-Publicaciones"><button class="off-btn active" onclick="filterOffice('Publicaciones','ALL',this)">Todos</button><button class="off-btn" onclick="filterOffice('Publicaciones','AEC',this)">AEC</button><button class="off-btn" onclick="filterOffice('Publicaciones','KTA_BRASIL',this)">KTA_BRASIL</button></div>
@@ -1330,7 +1344,7 @@ Chart.register({
 })();</script></div>
         </div>
       </div>
-    </div>
+    </div></div><div id="gtab-Longtail-Ventas" class="gtab-content ">
     <div id="tab-Ventas" class="tab-content">
       <h2>BR_Ventas_Sellers_Longtail</h2>
       <div class="off-filter" id="filter-Ventas"><button class="off-btn active" onclick="filterOffice('Ventas','ALL',this)">Todos</button><button class="off-btn" onclick="filterOffice('Ventas','AEC',this)">AEC</button><button class="off-btn" onclick="filterOffice('Ventas','KTA_BRASIL',this)">KTA_BRASIL</button></div>
@@ -1528,7 +1542,11 @@ Chart.register({
 })();</script></div>
         </div>
       </div>
+    </div></div>
     </div>
+    <div id="tab-Mature" class="tab-content">
+      <div class="gtab-nav"><button class="gtab-btn active" onclick="showGTab('Mature','ME-M',this)">ME-M</button><button class="gtab-btn " onclick="showGTab('Mature','Pub-M',this)">Pub-M</button><button class="gtab-btn " onclick="showGTab('Mature','Ventas-M',this)">Ventas-M</button></div>
+      <div id="gtab-Mature-ME-M" class="gtab-content show">
     <div id="tab-ME-M" class="tab-content">
       <h2>BR_ME_Sellers_Mature</h2>
       <div class="off-filter" id="filter-ME-M"><button class="off-btn active" onclick="filterOffice('ME-M','ALL',this)">Todos</button><button class="off-btn" onclick="filterOffice('ME-M','MELICIDADE',this)">MELICIDADE</button></div>
@@ -1726,7 +1744,7 @@ Chart.register({
 })();</script></div>
         </div>
       </div>
-    </div>
+    </div></div><div id="gtab-Mature-Pub-M" class="gtab-content ">
     <div id="tab-Pub-M" class="tab-content">
       <h2>BR_Publicaciones_Sellers_Mature</h2>
       <div class="off-filter" id="filter-Pub-M"><button class="off-btn active" onclick="filterOffice('Pub-M','ALL',this)">Todos</button><button class="off-btn" onclick="filterOffice('Pub-M','MELICIDADE',this)">MELICIDADE</button></div>
@@ -1924,7 +1942,7 @@ Chart.register({
 })();</script></div>
         </div>
       </div>
-    </div>
+    </div></div><div id="gtab-Mature-Ventas-M" class="gtab-content ">
     <div id="tab-Ventas-M" class="tab-content">
       <h2>BR_Ventas_Sellers_Mature</h2>
       <div class="off-filter" id="filter-Ventas-M"><button class="off-btn active" onclick="filterOffice('Ventas-M','ALL',this)">Todos</button><button class="off-btn" onclick="filterOffice('Ventas-M','MELICIDADE',this)">MELICIDADE</button></div>
@@ -2122,6 +2140,7 @@ Chart.register({
 })();</script></div>
         </div>
       </div>
+    </div></div>
     </div>
 <script>
 function showTab(id){
@@ -2149,6 +2168,12 @@ function filterOffice(team,office,btn){
   });
 }
 
+function showGTab(grp,sub,btn){
+  document.querySelectorAll('#tab-'+grp+' > .gtab-content').forEach(el=>el.classList.remove('show'));
+  document.querySelectorAll('#tab-'+grp+' > .gtab-nav .gtab-btn').forEach(el=>el.classList.remove('active'));
+  document.getElementById('gtab-'+grp+'-'+sub).classList.add('show');
+  btn.classList.add('active');
+}
 function showSubTab(team,subtab,btn){
   document.querySelectorAll('#tab-'+team+' .stab-content').forEach(el=>el.classList.remove('show'));
   document.querySelectorAll('#tab-'+team+' .stab-btn').forEach(el=>el.classList.remove('active'));
