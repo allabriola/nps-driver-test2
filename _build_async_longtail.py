@@ -216,9 +216,10 @@ WHERE VALID_IXC_FLAG = TRUE AND DATE_ID >= "{mes_jan26}" AND DATE_ID < CURRENT_D
 GROUP BY 1,2,3 ORDER BY 1, 2 ASC, async_por_caso DESC
 """); print(f"  Q8 mensal: {len(q8)}")
 
-# Q9 — senioridade (Expert/Newbie) × semana
+# Q9 — senioridade (Expert/Newbie) × semana × office
 q9 = run(f"""
 SELECT ixc.USER_TEAM_NAME AS equipe, DATE_TRUNC(ixc.DATE_ID, WEEK(MONDAY)) AS semana,
+  ixc.USER_OFFICE AS escritorio,
   CASE WHEN km.FLAG_EXPERT_STATUS THEN 'Expert' ELSE 'Newbie' END AS senioridade,
   COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") AS async_total,
   SUM(ixc.DENOM_IXC) AS incoming_cr,
@@ -229,12 +230,14 @@ JOIN `meli-bi-data.WHOWNER.BT_CX_KM_TRAINING_STATUS` km
   AND km.USER_TEAM_NAME IN ({TEAMS_IN})
 WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID >= "{trend_ini}" AND ixc.DATE_ID < CURRENT_DATE()
   AND ixc.USER_TEAM_NAME IN ({TEAMS_IN}) AND ixc.CI_OWNER_ID IS NOT NULL
-GROUP BY 1,2,3 ORDER BY 1,2,3
+  AND ixc.USER_OFFICE IS NOT NULL
+GROUP BY 1,2,3,4 ORDER BY 1,2,3,4
 """); print(f"  Q9 sen semanal: {len(q9)}")
 
-# Q10 — faixa M1/M2/M3/M4+ × semana (MIN(DATE_ID) na equipe = data de entrada no time)
+# Q10 — faixa M1/M2/M3/M4+ × semana × office
 q10 = run(f"""
 SELECT ixc.USER_TEAM_NAME AS equipe, DATE_TRUNC(ixc.DATE_ID, WEEK(MONDAY)) AS semana,
+  ixc.USER_OFFICE AS escritorio,
   CASE
     WHEN staff.fst_day IS NULL OR staff.fst_day < DATE '2026-01-01' THEN 'M4+'
     WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) <= 1 THEN 'M1'
@@ -254,12 +257,14 @@ LEFT JOIN (
 ) staff ON ixc.CI_OWNER_ID = staff.USER_LDAP
 WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID >= "{trend_ini}" AND ixc.DATE_ID < CURRENT_DATE()
   AND ixc.USER_TEAM_NAME IN ({TEAMS_IN}) AND ixc.CI_OWNER_ID IS NOT NULL
-GROUP BY 1,2,3 ORDER BY 1,2,3
+  AND ixc.USER_OFFICE IS NOT NULL
+GROUP BY 1,2,3,4 ORDER BY 1,2,3,4
 """); print(f"  Q10 faixa semanal: {len(q10)}")
 
-# Q11 — senioridade × mês (Jan/2026 em diante)
+# Q11 — senioridade × mês × office
 q11 = run(f"""
 SELECT ixc.USER_TEAM_NAME AS equipe, FORMAT_DATE('%Y-%m', ixc.DATE_ID) AS mes,
+  ixc.USER_OFFICE AS escritorio,
   CASE WHEN km.FLAG_EXPERT_STATUS THEN 'Expert' ELSE 'Newbie' END AS senioridade,
   COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") AS async_total,
   SUM(ixc.DENOM_IXC) AS incoming_cr,
@@ -270,12 +275,14 @@ JOIN `meli-bi-data.WHOWNER.BT_CX_KM_TRAINING_STATUS` km
   AND km.USER_TEAM_NAME IN ({TEAMS_IN})
 WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID >= "{mes_jan26}" AND ixc.DATE_ID < CURRENT_DATE()
   AND ixc.USER_TEAM_NAME IN ({TEAMS_IN}) AND ixc.CI_OWNER_ID IS NOT NULL
-GROUP BY 1,2,3 ORDER BY 1,2,3
+  AND ixc.USER_OFFICE IS NOT NULL
+GROUP BY 1,2,3,4 ORDER BY 1,2,3,4
 """); print(f"  Q11 sen mensal: {len(q11)}")
 
-# Q12 — faixa × mês (Jan/2026, MIN(DATE_ID) na equipe = data de entrada no time)
+# Q12 — faixa × mês × office
 q12 = run(f"""
 SELECT ixc.USER_TEAM_NAME AS equipe, FORMAT_DATE('%Y-%m', ixc.DATE_ID) AS mes,
+  ixc.USER_OFFICE AS escritorio,
   CASE
     WHEN staff.fst_day IS NULL OR staff.fst_day < DATE '2026-01-01' THEN 'M4+'
     WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) <= 1 THEN 'M1'
@@ -295,12 +302,14 @@ LEFT JOIN (
 ) staff ON ixc.CI_OWNER_ID = staff.USER_LDAP
 WHERE ixc.VALID_IXC_FLAG = TRUE AND ixc.DATE_ID >= "{mes_jan26}" AND ixc.DATE_ID < CURRENT_DATE()
   AND ixc.USER_TEAM_NAME IN ({TEAMS_IN}) AND ixc.CI_OWNER_ID IS NOT NULL
-GROUP BY 1,2,3 ORDER BY 1,2,3
+  AND ixc.USER_OFFICE IS NOT NULL
+GROUP BY 1,2,3,4 ORDER BY 1,2,3,4
 """); print(f"  Q12 faixa mensal: {len(q12)}")
 
-# Q13 — senioridade × dia (últimos 15 dias)
+# Q13 — senioridade × dia × office (últimos 15 dias)
 q13 = run(f"""
 SELECT ixc.USER_TEAM_NAME AS equipe, ixc.DATE_ID AS dia,
+  ixc.USER_OFFICE AS escritorio,
   CASE WHEN km.FLAG_EXPERT_STATUS THEN 'Expert' ELSE 'Newbie' END AS senioridade,
   COUNTIF(ixc.SUB_TASA LIKE "%Chat asincrónico%") AS async_total,
   SUM(ixc.DENOM_IXC) AS incoming_cr,
@@ -312,12 +321,14 @@ JOIN `meli-bi-data.WHOWNER.BT_CX_KM_TRAINING_STATUS` km
 WHERE ixc.VALID_IXC_FLAG = TRUE
   AND ixc.DATE_ID BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 15 DAY) AND DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
   AND ixc.USER_TEAM_NAME IN ({TEAMS_IN}) AND ixc.CI_OWNER_ID IS NOT NULL
-GROUP BY 1,2,3 ORDER BY 1,2,3
+  AND ixc.USER_OFFICE IS NOT NULL
+GROUP BY 1,2,3,4 ORDER BY 1,2,3,4
 """); print(f"  Q13 sen diário: {len(q13)}")
 
-# Q14 — faixa × dia (últimos 15 dias)
+# Q14 — faixa × dia × office (últimos 15 dias)
 q14 = run(f"""
 SELECT ixc.USER_TEAM_NAME AS equipe, ixc.DATE_ID AS dia,
+  ixc.USER_OFFICE AS escritorio,
   CASE
     WHEN staff.fst_day IS NULL OR staff.fst_day < DATE '2026-01-01' THEN 'M4+'
     WHEN DATE_DIFF(DATE_TRUNC(ixc.DATE_ID, MONTH), DATE_TRUNC(staff.fst_day, MONTH), MONTH) <= 1 THEN 'M1'
@@ -337,7 +348,8 @@ LEFT JOIN (
 WHERE ixc.VALID_IXC_FLAG = TRUE
   AND ixc.DATE_ID BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 15 DAY) AND DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
   AND ixc.USER_TEAM_NAME IN ({TEAMS_IN}) AND ixc.CI_OWNER_ID IS NOT NULL
-GROUP BY 1,2,3 ORDER BY 1,2,3
+  AND ixc.USER_OFFICE IS NOT NULL
+GROUP BY 1,2,3,4 ORDER BY 1,2,3,4
 """); print(f"  Q14 faixa diário: {len(q14)}")
 
 # ── aggregações para Geral ────────────────────────────────────────────────────
@@ -629,15 +641,24 @@ def build_team_series(rows, date_key, forced_keys=None):
     total = [round(total_buf[k]['at']/total_buf[k]['cr'], 2) if total_buf.get(k, {}).get('cr') else None for k in keys]
     return keys, series, colors, total
 
-def build_category_series(rows, team, date_key, cat_key, categories, forced_keys=None):
+def build_category_series(rows, team, date_key, cat_key, categories, forced_keys=None, office=None):
     team_rows = [r for r in rows if r.get('equipe') == team] if team else list(rows)
+    if office:
+        team_rows = [r for r in team_rows if r.get('escritorio') == office]
     if not team_rows and not forced_keys: return [], {}, {}, []
     keys = forced_keys if forced_keys else sorted(set(_dk(r, date_key) for r in team_rows))
-    idx = {}
+    # aggregate by (key, category) summing async_total/incoming_cr
+    buf = {}
     for r in team_rows:
         k = _dk(r, date_key); c = str(r.get(cat_key, ''))
-        if c: idx[(k, c)] = r
-    series_map = {c: [idx.get((k, c), {}).get('async_por_caso') for k in keys] for c in categories}
+        if c:
+            buf.setdefault((k, c), {'at': 0, 'cr': 0})
+            buf[(k, c)]['at'] += int(r.get('async_total') or 0)
+            buf[(k, c)]['cr'] += int(r.get('incoming_cr') or 0)
+    def cat_val(k, c):
+        d = buf.get((k, c))
+        return round(d['at']/d['cr'], 2) if d and d['cr'] else None
+    series_map = {c: [cat_val(k, c) for k in keys] for c in categories}
     total = []
     for k in keys:
         rows_k = [r for r in team_rows if _dk(r, date_key) == k]
@@ -645,6 +666,21 @@ def build_category_series(rows, team, date_key, cat_key, categories, forced_keys
         cr = sum(int(r.get('incoming_cr') or 0) for r in rows_k)
         total.append(round(at/cr, 2) if cr else None)
     return keys, series_map, {}, total
+
+def _cat_per_office(q_rows, team, date_key, cat_key, categories, offices, label_fn,
+                    color_map, chart_type, forced_keys=None):
+    """Retorna {ALL: datasets, off1: datasets, off2: ...} e (cid, labels) para chart filtrado por office."""
+    keys, s_all, _, t_all = build_category_series(q_rows, team, date_key, cat_key, categories, forced_keys)
+    if not keys: return None, None, None
+    labels = [label_fn(k) for k in keys]
+    def ds(series, total):
+        return line_datasets(series, color_map, total=total) if chart_type == 'line' else bar_datasets(series, color_map, total=total)
+    data = {'ALL': ds(s_all, t_all)}
+    for off in offices:
+        _, s_off, _, t_off = build_category_series(q_rows, team, date_key, cat_key, categories, keys, office=off)
+        if any(any(v is not None for v in vals) for vals in s_off.values()):
+            data[off] = ds(s_off, t_off)
+    return keys, labels, data
 
 # ── dataset builders ───────────────────────────────────────────────────────────
 
@@ -840,37 +876,60 @@ def chart_cmp_monthly(): return _chart_cmp(q8_cmp, 'mes',    'cmp-mth',  fmt_mes
 
 # ── gráficos de senioridade/faixa ─────────────────────────────────────────────
 
+def _make_cat_chart_filterable(q_rows, team, date_key, cat_key, categories, color_map,
+                               cid, label_fn, forced_keys=None, x_rotation=0):
+    """Chart com _catData por office para filtro dinâmico."""
+    offices = get_offices(team)
+    _, labels, data = _cat_per_office(q_rows, team, date_key, cat_key, categories,
+                                       offices, label_fn, color_map, 'line', forced_keys)
+    if data is None: return "<p class='empty'>Sem dados</p>"
+    init_ds = json.dumps(data['ALL'], default=jd)
+    all_json = json.dumps(data, default=jd)
+    rotation = f'maxRotation:{x_rotation},' if x_rotation else ''
+    return f"""<div style="position:relative;height:280px"><canvas id="{cid}"></canvas></div>
+<script>(function(){{
+  var ctx=document.getElementById('{cid}').getContext('2d');
+  window._charts=window._charts||{{}};
+  window._catData=window._catData||{{}};
+  window._catData['{cid}']={all_json};
+  window._charts['{cid}']=new Chart(ctx,{{type:'line',
+    data:{{labels:{json.dumps(labels)},datasets:{init_ds}}},
+    options:{{responsive:true,maintainAspectRatio:false,interaction:{{mode:'index',intersect:false}},
+      plugins:{{
+        legend:{{position:'top',labels:{{filter:function(i){{return !i.text.startsWith('__');}},boxWidth:12,font:{{size:11}}}}}},
+        tooltip:{{filter:function(i){{return !i.dataset.label.startsWith('__');}}}}
+      }},
+      scales:{{
+        y:{{title:{{display:true,text:'async/caso',font:{{size:11}}}},min:0,ticks:{{font:{{size:11}}}}}},
+        x:{{ticks:{{{rotation}font:{{size:10}}}}}}
+      }}
+    }}
+  }});
+}})();</script>"""
+
 def chart_sen_semanal(team, pfx='s'):
-    keys, series, _, total = build_category_series(q9,  team, 'semana', 'senioridade', SENIORITY_ORDER)
-    if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'csen-{pfx}-{TEAM_SHORT[team]}', [k[8:10]+'/'+k[5:7] for k in keys], line_datasets(series, SENIORITY_COLORS, total=total), 'async/caso', bar=False)
+    return _make_cat_chart_filterable(q9, team, 'semana', 'senioridade', SENIORITY_ORDER,
+        SENIORITY_COLORS, f'csen-{pfx}-{TEAM_SHORT[team]}', lambda k: k[8:10]+'/'+k[5:7])
 
 def chart_faixa_semanal(team, pfx='s'):
-    keys, series, _, total = build_category_series(q10, team, 'semana', 'faixa',       FAIXA_ORDER)
-    if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'cfx-{pfx}-{TEAM_SHORT[team]}',  [k[8:10]+'/'+k[5:7] for k in keys], line_datasets(series, FAIXA_COLORS,     total=total), 'async/caso', bar=False)
+    return _make_cat_chart_filterable(q10, team, 'semana', 'faixa', FAIXA_ORDER,
+        FAIXA_COLORS, f'cfx-{pfx}-{TEAM_SHORT[team]}', lambda k: k[8:10]+'/'+k[5:7])
 
 def chart_sen_mensal(team, pfx='m'):
-    fk = monthly_keys_jan26()
-    keys, series, _, total = build_category_series(q11, team, 'mes', 'senioridade', SENIORITY_ORDER, forced_keys=fk)
-    if not series: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'csen-{pfx}-{TEAM_SHORT[team]}', [fmt_mes(k) for k in keys], line_datasets(series, SENIORITY_COLORS, total=total), 'async/caso', bar=False)
+    return _make_cat_chart_filterable(q11, team, 'mes', 'senioridade', SENIORITY_ORDER,
+        SENIORITY_COLORS, f'csen-{pfx}-{TEAM_SHORT[team]}', fmt_mes, forced_keys=monthly_keys_jan26())
 
 def chart_faixa_mensal(team, pfx='m'):
-    fk = monthly_keys_jan26()
-    keys, series, _, total = build_category_series(q12, team, 'mes', 'faixa', FAIXA_ORDER, forced_keys=fk)
-    if not series: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'cfx-{pfx}-{TEAM_SHORT[team]}',  [fmt_mes(k) for k in keys], line_datasets(series, FAIXA_COLORS, total=total), 'async/caso', bar=False)
+    return _make_cat_chart_filterable(q12, team, 'mes', 'faixa', FAIXA_ORDER,
+        FAIXA_COLORS, f'cfx-{pfx}-{TEAM_SHORT[team]}', fmt_mes, forced_keys=monthly_keys_jan26())
 
 def chart_sen_diario(team, pfx='d'):
-    keys, series, _, total = build_category_series(q13, team, 'dia', 'senioridade', SENIORITY_ORDER)
-    if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'csen-{pfx}-{TEAM_SHORT[team]}', [k[8:10]+'/'+k[5:7] for k in keys], line_datasets(series, SENIORITY_COLORS, total=total), 'async/caso', bar=False, x_rotation=45)
+    return _make_cat_chart_filterable(q13, team, 'dia', 'senioridade', SENIORITY_ORDER,
+        SENIORITY_COLORS, f'csen-{pfx}-{TEAM_SHORT[team]}', lambda k: k[8:10]+'/'+k[5:7], x_rotation=45)
 
 def chart_faixa_diario(team, pfx='d'):
-    keys, series, _, total = build_category_series(q14, team, 'dia', 'faixa', FAIXA_ORDER)
-    if not keys: return "<p class='empty'>Sem dados</p>"
-    return make_chart(f'cfx-{pfx}-{TEAM_SHORT[team]}',  [k[8:10]+'/'+k[5:7] for k in keys], line_datasets(series, FAIXA_COLORS, total=total), 'async/caso', bar=False, x_rotation=45)
+    return _make_cat_chart_filterable(q14, team, 'dia', 'faixa', FAIXA_ORDER,
+        FAIXA_COLORS, f'cfx-{pfx}-{TEAM_SHORT[team]}', lambda k: k[8:10]+'/'+k[5:7], x_rotation=45)
 
 # ── seniority block reutilizável ──────────────────────────────────────────────
 
@@ -1220,6 +1279,7 @@ function filterOffice(team,office,btn){{
   document.querySelectorAll('#tab-'+team+' tr[data-office]').forEach(row=>{{
     row.style.display=(office==='ALL'||row.dataset.office===office)?'':'none';
   }});
+  // gráficos por office (barras)
   ['cd-','cd-t-','cw-','cw-t-','cm-','cm-t-','cpw-','cpw-t-','cpm-','cpm-t-'].forEach(p=>{{
     var c=(window._charts||{{}})[p+team];
     if(!c)return;
@@ -1228,6 +1288,18 @@ function filterOffice(team,office,btn){{
       c.setDatasetVisibility(i,r||office==='ALL'||ds.label===office);
     }});
     c.update();
+  }});
+  // gráficos de senioridade/faixa — trocar datasets pelo office selecionado
+  var catSuffixes=['csen-ts-','cfx-ts-','csen-mw-','cfx-mw-','csen-dw-','cfx-dw-',
+                   'csen-td-','cfx-td-','csen-tm-','cfx-tm-','csen-sw-','cfx-sw-'];
+  catSuffixes.forEach(function(p){{
+    var cid=p+team;
+    var chart=(window._charts||{{}})[cid];
+    var allData=(window._catData||{{}})[cid];
+    if(!chart||!allData)return;
+    var key=(office==='ALL'||!allData[office])?'ALL':office;
+    chart.data.datasets=allData[key];
+    chart.update();
   }});
 }}
 
