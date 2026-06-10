@@ -382,6 +382,56 @@ q7_cmp = (agg_group_total(q7, 'semana', LONGTAIL_TEAMS, 'Longtail') +
 q8_cmp = (agg_group_total(q8, 'mes', LONGTAIL_TEAMS, 'Longtail') +
           agg_group_total(q8, 'mes', MATURE_TEAMS,   'Mature'))
 
+def _pivot_table(rows, date_key, periods, label_fn, period_label):
+    """Tabela pivotada: linhas = equipes, colunas = períodos."""
+    idx = {}
+    for r in rows:
+        k = str(r[date_key])[:10] if r.get(date_key) else str(r.get(date_key,''))
+        team = r['equipe']
+        idx.setdefault((team, k), {'at': 0, 'cr': 0})
+        idx[(team, k)]['at'] += int(r.get('async_total') or 0)
+        idx[(team, k)]['cr'] += int(r.get('incoming_cr') or 0)
+    def val(team, k):
+        d = idx.get((team, k))
+        return round(d['at']/d['cr'], 2) if d and d['cr'] else None
+    sep = '<tr><td colspan="99" style="background:#e8ecf0;padding:3px 10px;font-size:10px;font-weight:700;color:#555;letter-spacing:.3px">LONGTAIL</td></tr>'
+    sep_m = '<tr><td colspan="99" style="background:#e8ecf0;padding:3px 10px;font-size:10px;font-weight:700;color:#555;letter-spacing:.3px">MATURE</td></tr>'
+    body = sep
+    for team in LONGTAIL_TEAMS:
+        s = TEAM_SHORT[team]
+        body += f'<tr><td><strong>{s}</strong></td>'
+        for p in periods:
+            body += f'<td class="num">{icon(val(team, p))}</td>'
+        body += '</tr>'
+    body += sep_m
+    for team in MATURE_TEAMS:
+        s = TEAM_SHORT[team]
+        body += f'<tr><td><strong>{s}</strong></td>'
+        for p in periods:
+            body += f'<td class="num">{icon(val(team, p))}</td>'
+        body += '</tr>'
+    head = f'<tr><th>{period_label}</th>' + ''.join(f'<th>{label_fn(p)}</th>' for p in periods) + '</tr>'
+    return f'<div class="scroll-x"><table class="dt"><thead>{head}</thead><tbody>{body}</tbody></table></div>'
+
+def table_geral_diario():
+    days = sorted(set(str(r['dia'])[:10] for r in q1), reverse=True)[:15]
+    days = list(reversed(days))
+    return _pivot_table(q1, 'dia', days, lambda k: k[8:10]+'/'+k[5:7], 'Equipe')
+
+def table_geral_semanal():
+    sems = sorted(set(str(r['semana'])[:10] for r in q7), reverse=True)[:8]
+    sems = list(reversed(sems))
+    def sem_lbl(k):
+        from datetime import date as _d, timedelta as _td
+        d = _d.fromisoformat(k); fim = d + _td(days=6)
+        return f"{d.strftime('%d/%m')}"
+    return _pivot_table(q7, 'semana', sems, sem_lbl, 'Equipe')
+
+def table_geral_mensal():
+    meses = sorted(set(str(r['mes']) for r in q8), reverse=True)[:4]
+    meses = list(reversed(meses))
+    return _pivot_table(q8, 'mes', meses, fmt_mes, 'Equipe')
+
 # ── helpers ───────────────────────────────────────────────────────────────────
 
 def jd(obj):
@@ -917,18 +967,18 @@ def tab_content(team):
 def tab_geral():
     return f"""
     <div id="tab-Geral" class="tab-content">
-      <h2>Geral — Longtail Sellers BR</h2>
-      <div class="card"><h3>WoW por Equipe</h3>{wow_table_all()}</div>
-      <div class="section-title">Async/Caso por Equipe — Longtail</div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Diário</h3>{chart_geral_daily()}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>Semanal</h3>{chart_geral_weekly()}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>Mensal</h3>{chart_geral_monthly()}</div>
+      <h2>Geral — Longtail &amp; Mature Sellers BR</h2>
+      <div class="card">
+        <h3>Diário — últimos 15 dias <small style="color:#777;font-weight:400">(async/caso por equipe)</small></h3>
+        {table_geral_diario()}
       </div>
-      <div class="section-title">% de Uso Assíncrono — Longtail</div>
-      <div style="display:flex;gap:16px">
-        <div class="card" style="flex:1;min-width:0"><h3>Mensal</h3>{chart_geral_pct_mth()}</div>
-        <div class="card" style="flex:1;min-width:0"><h3>Semanal</h3>{chart_geral_pct_wkly()}</div>
+      <div class="card">
+        <h3>Semanal — últimas 8 semanas <small style="color:#777;font-weight:400">(async/caso por equipe)</small></h3>
+        {table_geral_semanal()}
+      </div>
+      <div class="card">
+        <h3>Mensal — últimos 4 meses <small style="color:#777;font-weight:400">(async/caso por equipe)</small></h3>
+        {table_geral_mensal()}
       </div>
       <div class="section-title">Comparação Longtail vs Mature <small style="font-weight:400;font-size:11px;text-transform:none">— async/caso agregado por grupo</small></div>
       <div style="display:flex;gap:16px">
