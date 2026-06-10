@@ -915,10 +915,11 @@ def exec_summary(team):
 
 # ── abas ───────────────────────────────────────────────────────────────────────
 
-def tab_content(team):
+def tab_content(team, inner=False):
     s = TEAM_SHORT[team]
+    cls = "tab-inner" if inner else "tab-content"
     return f"""
-    <div id="tab-{s}" class="tab-content">
+    <div id="tab-{s}" class="{cls}">
       <h2>{team}</h2>
       {section_office_filter(team)}
 
@@ -1068,7 +1069,7 @@ def tab_longtail():
         f'<button class="gtab-btn {"active" if i==0 else ""}" onclick="showGTab(\'Longtail\',\'{TEAM_SHORT[t]}\',this)">{TEAM_SHORT[t]}</button>'
         for i, t in enumerate(LONGTAIL_TEAMS))
     content = "".join(
-        f'<div id="gtab-Longtail-{TEAM_SHORT[t]}" class="gtab-content {"show" if i==0 else ""}">{tab_content(t)}</div>'
+        f'<div id="gtab-Longtail-{TEAM_SHORT[t]}" class="gtab-content {"show" if i==0 else ""}">{tab_content(t, inner=True)}</div>'
         for i, t in enumerate(LONGTAIL_TEAMS))
     return f"""
     <div id="tab-Longtail" class="tab-content">
@@ -1081,7 +1082,7 @@ def tab_mature():
         f'<button class="gtab-btn {"active" if i==0 else ""}" onclick="showGTab(\'Mature\',\'{TEAM_SHORT[t]}\',this)">{TEAM_SHORT[t]}</button>'
         for i, t in enumerate(MATURE_TEAMS))
     content = "".join(
-        f'<div id="gtab-Mature-{TEAM_SHORT[t]}" class="gtab-content {"show" if i==0 else ""}">{tab_content(t)}</div>'
+        f'<div id="gtab-Mature-{TEAM_SHORT[t]}" class="gtab-content {"show" if i==0 else ""}">{tab_content(t, inner=True)}</div>'
         for i, t in enumerate(MATURE_TEAMS))
     return f"""
     <div id="tab-Mature" class="tab-content">
