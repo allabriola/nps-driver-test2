@@ -16,7 +16,7 @@ PERIODS = {
     "Mar": ("2026-03-01", "2026-03-31"),
     "Abr": ("2026-04-01", "2026-04-30"),
     "Mai": ("2026-05-01", "2026-05-31"),
-    "Jun": ("2026-06-01", "2026-06-11"),
+    "Jun": ("2026-06-01", "2026-06-12"),
 }
 
 # Lista dos 27 drivers Sellers (filtro direto sem LK join — garante paridade com Tableau)
