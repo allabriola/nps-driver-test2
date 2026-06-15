@@ -3,54 +3,54 @@
     "Jan": {
       "consolidated": 57.82,
       "drivers": {
-        "ME Vendedor Seller Dev": 56.3,
+        "Publicaciones Seller Dev": 51.39,
         "PCF Vendedor Seller Dev": 38.18,
+        "ME Vendedor Seller Dev": 56.3,
         "Partners": 68.92,
         "Post Venta Seller Dev": 52.4,
-        "Publicaciones Seller Dev": 51.39,
         "Experiencia Impositiva Seller Dev": 57.13
       }
     },
     "Fev": {
       "consolidated": 58.25,
       "drivers": {
+        "Experiencia Impositiva Seller Dev": 57.77,
         "PCF Vendedor Seller Dev": 38.77,
+        "Post Venta Seller Dev": 52.6,
         "Publicaciones Seller Dev": 51.88,
         "Partners": 69.35,
-        "Experiencia Impositiva Seller Dev": 57.77,
-        "Post Venta Seller Dev": 52.6,
         "ME Vendedor Seller Dev": 56.8
       }
     },
     "Mar": {
       "consolidated": 58.68,
       "drivers": {
-        "Partners": 69.77,
         "Experiencia Impositiva Seller Dev": 58.4,
         "Post Venta Seller Dev": 52.8,
+        "Partners": 69.77,
         "PCF Vendedor Seller Dev": 39.35,
-        "ME Vendedor Seller Dev": 57.3,
-        "Publicaciones Seller Dev": 52.38
+        "Publicaciones Seller Dev": 52.38,
+        "ME Vendedor Seller Dev": 57.3
       }
     },
     "Abr": {
       "consolidated": 59.19,
       "drivers": {
-        "Partners": 70.19,
-        "Experiencia Impositiva Seller Dev": 59.03,
-        "PCF Vendedor Seller Dev": 39.93,
-        "Publicaciones Seller Dev": 52.87,
         "ME Vendedor Seller Dev": 57.8,
-        "Post Venta Seller Dev": 53.4
+        "Post Venta Seller Dev": 53.4,
+        "Partners": 70.19,
+        "Publicaciones Seller Dev": 52.87,
+        "PCF Vendedor Seller Dev": 39.93,
+        "Experiencia Impositiva Seller Dev": 59.03
       }
     },
     "Mai": {
       "consolidated": 59.7,
       "drivers": {
-        "PCF Vendedor Seller Dev": 40.52,
-        "Partners": 70.61,
         "Experiencia Impositiva Seller Dev": 59.67,
+        "Partners": 70.61,
         "Post Venta Seller Dev": 54.0,
+        "PCF Vendedor Seller Dev": 40.52,
         "Publicaciones Seller Dev": 53.36,
         "ME Vendedor Seller Dev": 58.3
       }
@@ -58,12 +58,12 @@
     "Jun": {
       "consolidated": 60.22,
       "drivers": {
-        "PCF Vendedor Seller Dev": 41.1,
-        "Publicaciones Seller Dev": 53.85,
+        "Partners": 71.04,
         "ME Vendedor Seller Dev": 58.8,
-        "Experiencia Impositiva Seller Dev": 60.3,
         "Post Venta Seller Dev": 54.6,
-        "Partners": 71.04
+        "Publicaciones Seller Dev": 53.85,
+        "Experiencia Impositiva Seller Dev": 60.3,
+        "PCF Vendedor Seller Dev": 41.1
       }
     }
   },
@@ -82,22 +82,22 @@
     "30/mar": {
       "consolidated": 58.84,
       "drivers": {
-        "Post Venta Seller Dev": 52.98,
+        "Partners": 69.86,
         "ME Vendedor Seller Dev": 57.47,
-        "Publicaciones Seller Dev": 52.53,
         "PCF Vendedor Seller Dev": 39.55,
+        "Publicaciones Seller Dev": 52.53,
         "Experiencia Impositiva Seller Dev": 58.69,
-        "Partners": 69.86
+        "Post Venta Seller Dev": 52.98
       }
     },
     "06/abr": {
       "consolidated": 59.19,
       "drivers": {
         "Publicaciones Seller Dev": 52.87,
+        "ME Vendedor Seller Dev": 57.8,
+        "Experiencia Impositiva Seller Dev": 59.03,
         "Partners": 70.19,
         "Post Venta Seller Dev": 53.4,
-        "Experiencia Impositiva Seller Dev": 59.03,
-        "ME Vendedor Seller Dev": 57.8,
         "PCF Vendedor Seller Dev": 39.93
       }
     },
@@ -105,9 +105,9 @@
       "consolidated": 54.42,
       "drivers": {
         "Experiencia Impositiva Seller Dev": 59.03,
+        "PCF Vendedor Seller Dev": 39.93,
         "ME Vendedor Seller Dev": 57.8,
         "Publicaciones Seller Dev": 52.87,
-        "PCF Vendedor Seller Dev": 39.93,
         "Post Venta Seller Dev": 53.4
       }
     },
@@ -126,20 +126,20 @@
       "drivers": {
         "PCF Vendedor Seller Dev": 40.13,
         "Post Venta Seller Dev": 53.63,
-        "Partners": 70.61,
-        "ME Vendedor Seller Dev": 57.99,
+        "Publicaciones Seller Dev": 53.06,
         "Experiencia Impositiva Seller Dev": 59.3,
-        "Publicaciones Seller Dev": 53.06
+        "Partners": 70.61,
+        "ME Vendedor Seller Dev": 57.99
       }
     },
     "04/mai": {
       "consolidated": 59.7,
       "drivers": {
-        "ME Vendedor Seller Dev": 58.3,
-        "Publicaciones Seller Dev": 53.36,
         "Experiencia Impositiva Seller Dev": 59.67,
-        "Partners": 70.61,
         "PCF Vendedor Seller Dev": 40.52,
+        "Partners": 70.61,
+        "Publicaciones Seller Dev": 53.36,
+        "ME Vendedor Seller Dev": 58.3,
         "Post Venta Seller Dev": 54.0
       }
     },
@@ -147,8 +147,8 @@
       "consolidated": 59.7,
       "drivers": {
         "Partners": 70.61,
-        "Experiencia Impositiva Seller Dev": 59.67,
         "Publicaciones Seller Dev": 53.36,
+        "Experiencia Impositiva Seller Dev": 59.67,
         "ME Vendedor Seller Dev": 58.3,
         "Post Venta Seller Dev": 54.0,
         "PCF Vendedor Seller Dev": 40.52
@@ -179,11 +179,22 @@
     "01/jun": {
       "consolidated": 60.22,
       "drivers": {
-        "Publicaciones Seller Dev": 53.85,
-        "Experiencia Impositiva Seller Dev": 60.3,
-        "Post Venta Seller Dev": 54.6,
         "PCF Vendedor Seller Dev": 41.1,
+        "Partners": 71.04,
+        "Publicaciones Seller Dev": 53.85,
         "ME Vendedor Seller Dev": 58.8,
+        "Post Venta Seller Dev": 54.6,
+        "Experiencia Impositiva Seller Dev": 60.3
+      }
+    },
+    "08/jun": {
+      "consolidated": 60.22,
+      "drivers": {
+        "ME Vendedor Seller Dev": 58.8,
+        "Experiencia Impositiva Seller Dev": 60.3,
+        "PCF Vendedor Seller Dev": 41.1,
+        "Publicaciones Seller Dev": 53.85,
+        "Post Venta Seller Dev": 54.6,
         "Partners": 71.04
       }
     },
