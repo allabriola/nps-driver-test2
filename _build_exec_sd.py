@@ -37,6 +37,44 @@ if os.path.exists('_recurrence_cases.json'):
     with open('_recurrence_cases.json', encoding='utf-8') as f:
         rc = json.load(f)
 
+# Transcrições S1 para extrair motivos de detratores
+_trx_s1 = {}
+if os.path.exists('_trx_s1.json'):
+    with open('_trx_s1.json', encoding='utf-8') as f:
+        _trx_s1 = json.load(f)
+
+_CONTACT_KWS = {
+    'envio e logística':      ['envio','entrega','logistica','transportadora','frete','rastreio','prazo'],
+    'devolução e reembolso':  ['devolucao','devolver','reembolso','cancelamento','estorno'],
+    'cobrança e faturamento': ['cobranca','nota fiscal','fatura','pagamento','taxa','imposto'],
+    'mediação e disputa':     ['mediacao','disputa','reclamacao','procon','ouvidoria'],
+    'produto e qualidade':    ['produto','qualidade','defeito','quebrado','errado'],
+    'plataforma e sistema':   ['plataforma','sistema','erro','bug','acesso','login'],
+}
+_PAIN_KWS = {
+    'urgência não atendida':  ['urgente','preciso','urgencia','imediato','agora'],
+    'falta de solução':       ['sem solucao','nao resolveu','nao ajudou','continua'],
+    'atendimento ruim':       ['mal atendido','grosseiro','descaso','ignorado'],
+}
+
+def _get_det_themes(grp):
+    """Extrai motivos de contato dos detratores via _trx_s1.json."""
+    gdata = _trx_s1.get(grp, {})
+    det = gdata.get('detrator', gdata)
+    if not det: return [], [], 0
+    n = len(det)
+    c_cnt = {k: 0 for k in _CONTACT_KWS}
+    p_cnt = {k: 0 for k in _PAIN_KWS}
+    for cid, msgs in det.items():
+        user_t = ' '.join(m.get('msg','').lower() for m in msgs if m.get('role')=='USER')
+        for cat, kws in _CONTACT_KWS.items():
+            if any(k in user_t for k in kws): c_cnt[cat] += 1
+        for pat, kws in _PAIN_KWS.items():
+            if any(k in user_t for k in kws): p_cnt[pat] += 1
+    contacts = [(c,v) for c,v in sorted(c_cnt.items(), key=lambda x:-x[1]) if v>0]
+    pains    = [(p,v) for p,v in sorted(p_cnt.items(), key=lambda x:-x[1]) if v>0]
+    return contacts, pains, n
+
 lC, lP = ml[-1], ml[-2]  # Mai, Abr
 
 # ── Helpers ───────────────────────────────────────────────────────────
@@ -557,37 +595,50 @@ def build_narrative_wk(grp, icon):
     proc_cdu = v.get('top_proc_cdu', {})  # CDUs do processo top_neg
 
     if top_wk and (v['mom'] or 0) < -0.5:
-        # Há queda WoW — mostrar o processo responsável
+        # Queda WoW — mostrar processo responsável + motivos dos detratores
         proc_wk_name = top_wk['proc']
         delta_wk     = top_wk['delta']
         vol_wk       = top_wk['vol']
         text += (f"O processo <strong>{esc(proc_wk_name)}</strong> foi o principal vetor "
                  f"da queda ({int(vol_wk)}% do vol, <strong>{fn(delta_wk)} pp WoW</strong>). ")
 
-        # CDU: tentar obter do processo que causou a queda WoW
+        # Tentar obter CDU do PRÓPRIO processo de queda (se coincide com top_neg)
         if proc_wk_name == top_proc and proc_cdu:
-            # CDU do processo que causou a queda
             top_cdu_item = sorted(proc_cdu.items(), key=lambda x: -x[1].get('s', 0))
             if top_cdu_item:
                 cdu_n, cdu_v = top_cdu_item[0]
-                cdu_nps_str  = f" (NPS {fn(cdu_v.get('nps'))}%)" if cdu_v.get('nps') else ""
-                cdu_share_v  = round(100 * cdu_v.get('s', 0) /
-                                     sum(c.get('s',0) for c in proc_cdu.values()) if proc_cdu else 1, 0)
-                text += (f"No processo, a CDU dominante é <strong>{esc(cdu_n)}</strong> "
-                         f"({int(cdu_share_v)}% das pesquisas{cdu_nps_str}).")
+                cdu_s_tot = sum(c.get('s',0) for c in proc_cdu.values()) or 1
+                cdu_share_v = round(100 * cdu_v.get('s', 0) / cdu_s_tot, 0)
+                text += (f"No processo, o principal motivo dos detratores é "
+                         f"<strong>{esc(cdu_n)}</strong> "
+                         f"({int(cdu_share_v)}% das pesquisas).")
         else:
-            # Processo WoW diferente do top_neg — mostrar CDU do driver como contexto
-            cdu_name, cdu_narr, cdu_share = cdu_narrative_wk(grp)
-            if cdu_name and cdu_narr:
-                cdu_desc = cdu_narr.split('. ')[0] if '. ' in cdu_narr else cdu_narr
-                text += (f"CDU predominante no driver: <strong>{esc(cdu_name)}</strong> "
-                         f"({cdu_share}% das pesquisas) — {esc(cdu_desc)}.")
+            # Processo WoW ≠ top_neg: usar motivos de transcrições dos detratores
+            contacts, pains, n_det = _get_det_themes(grp)
+            if contacts and n_det > 0:
+                mot_parts = [f"<strong>{esc(c[0])}</strong> ({c[1]}/{n_det})" for c in contacts[:2]]
+                mot_str = " e ".join(mot_parts)
+                pain_str = (f" — <strong>{esc(pains[0][0])}</strong> como dor dominante"
+                            if pains else "")
+                text += (f"Detratores do driver apontam: {mot_str}{pain_str}.")
+            else:
+                # Fallback: CDU sem atribuição enganosa ao processo de queda
+                cats = rc.get(grp, {}).get('categories_wk') or rc.get(grp, {}).get('categories_mon') or []
+                if cats:
+                    top_cat = cats[0]
+                    cdu_n   = top_cat.get('sub_pattern', '')
+                    cdu_pct = top_cat.get('share_pct', 0)
+                    cdu_narr = (top_cat.get('narrative', '') or '').split('. ')[0]
+                    if cdu_n:
+                        text += (f"Principal CDU do driver: <strong>{esc(cdu_n)}</strong> "
+                                 f"({cdu_pct}% das pesquisas)"
+                                 f"{f' — {esc(cdu_narr)}' if cdu_narr else ''}.")
     else:
-        # Sem queda ou sem dado WoW — mostrar CDU como de costume
+        # Sem queda significativa — mostrar CDU vinculado ao processo correto
         cdu_name, cdu_narr, cdu_share = cdu_narrative_wk(grp)
         if cdu_name and cdu_narr:
             cdu_desc = cdu_narr.split('. ')[0] if '. ' in cdu_narr else cdu_narr
-            proc_str = f" no processo <strong>{esc(top_proc)}</strong>" if top_proc else ""
+            proc_str = (f" no processo <strong>{esc(top_proc)}</strong>" if top_proc else "")
             text += (f"CDU dominante{proc_str}: <strong>{esc(cdu_name)}</strong> "
                      f"({cdu_share}% das pesquisas) — {esc(cdu_desc)}.")
 

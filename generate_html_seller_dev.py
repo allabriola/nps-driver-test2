@@ -1773,20 +1773,36 @@ def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
             wd_wk = w[1]
 
             if wd_wk is not None and wd_wk < -1:
-                # Queda significativa: conectar processo + CDU + razão dos detratores
-                cdu_part = ""
-                if cats_wk:
+                # Queda significativa: conectar processo + motivos de detratores
+                why_part = ""
+                trx_ins = _deep_trx_insights(grp)
+                if trx_ins and trx_ins["det"]["n"] > 0:
+                    det = trx_ins["det"]
+                    n_det = det["n"]
+                    # Top motivos de contato (lista de tuplas (theme, count))
+                    contacts = [(c[0], c[1]) for c in det.get("contact",[]) if c[1] > 0]
+                    # Top dores
+                    pains = [(p[0], p[1]) for p in det.get("pain",[]) if p[1] > 0]
+                    res_pct = det.get("res_pct", 0)
+                    if contacts:
+                        mot_parts = [f"<strong>{esc(c[0])}</strong> ({c[1]}/{n_det})" for c in contacts[:2]]
+                        mot_str = " e ".join(mot_parts)
+                        pain_str = (f" — <strong>{esc(pains[0][0])}</strong> como dor dominante"
+                                    if pains else "")
+                        res_str = f" Resolução: {res_pct:.0f}%." if res_pct else ""
+                        why_part = (f" Detratores do driver apontam: {mot_str}"
+                                    f"{pain_str}.{res_str}")
+                elif cats_wk:
                     top_cat = cats_wk[0]
-                    cdu_n   = top_cat.get("sub_pattern","")
+                    cdu_n = top_cat.get("sub_pattern","")
                     cdu_pct = top_cat.get("share_pct", 0)
                     cdu_desc = (top_cat.get("narrative","") or "").split(". ")[0]
                     if cdu_n and cdu_desc:
-                        cdu_part = (f" A CDU dominante nos detratores do driver é "
-                                    f"<strong>{esc(cdu_n)}</strong> ({cdu_pct}% das pesquisas)"
-                                    f" — {esc(cdu_desc)}.")
+                        why_part = (f" CDU dominante: <strong>{esc(cdu_n)}</strong> "
+                                    f"({cdu_pct}% das pesquisas) — {esc(cdu_desc)}.")
                 proc_txt = (f" O processo <strong>{esc(w[0])}</strong> liderou a queda "
                             f"({w[2]:.0f}% do vol, NPS {fn(w[3])}%, "
-                            f"<strong>{wd_wk:+.1f}pp WoW</strong>).{cdu_part}")
+                            f"<strong>{wd_wk:+.1f}pp WoW</strong>).{why_part}")
                 # Destaque positivo se houver
                 if len(movers) > 1 and (movers[-1][1] or 0) > 1 and movers[-1] != movers[0]:
                     b = movers[-1]
