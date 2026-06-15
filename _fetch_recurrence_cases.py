@@ -368,6 +368,36 @@ def build_categories(cases_summary):
 
     return sorted(categories, key=lambda x: -x["s1_count"])[:4]
 
+# ── Carrega breakdown semanal para identificar processo WoW-declining ──
+import os as _os
+_mb = {}
+if _os.path.exists('_monthly_breakdown.json'):
+    with open('_monthly_breakdown.json', encoding='utf-8') as _f:
+        _mb = json.load(_f)
+
+def _wk_declining_proc(drvs):
+    """Retorna o processo com maior queda WoW (S1 vs S2) para o grupo."""
+    p_s1, p_s2 = {}, {}
+    for drv in drvs:
+        for proc, v in _mb.get('S1', {}).get(drv, {}).get('P', {}).items():
+            r = p_s1.setdefault(proc, {'p':0,'d':0,'s':0})
+            r['p']+=v.get('p',0); r['d']+=v.get('d',0); r['s']+=v.get('s',0)
+        for proc, v in _mb.get('S2', {}).get(drv, {}).get('P', {}).items():
+            r = p_s2.setdefault(proc, {'p':0,'d':0,'s':0})
+            r['p']+=v.get('p',0); r['d']+=v.get('d',0); r['s']+=v.get('s',0)
+    s_tot = sum(v['s'] for v in p_s1.values()) or 1
+    drops = []
+    for proc in p_s1:
+        if proc not in p_s2: continue
+        s = p_s1[proc]['s']
+        if s / s_tot < 0.04: continue  # menos de 4% do volume
+        n1 = round(100*(p_s1[proc]['p']-p_s1[proc]['d'])/s, 2) if s else None
+        n2 = round(100*(p_s2[proc]['p']-p_s2[proc]['d'])/p_s2[proc]['s'], 2) if p_s2[proc]['s'] else None
+        if n1 is not None and n2 is not None and n1 - n2 < -1:
+            drops.append((proc, round(n1-n2, 1)))
+    drops.sort(key=lambda x: x[1])
+    return drops[0][0] if drops else None
+
 # ── Principal ──────────────────────────────────────────────────────────
 result = {}
 
@@ -378,9 +408,21 @@ for grp, drvs in DRIVER_GROUPS.items():
         print(f"\n[{grp}] sem top_neg — pulando")
         continue
 
+    # Processo com maior queda WoW (pode ser diferente do top_neg mensal)
+    wk_declining = _wk_declining_proc(drvs)
+    wk_proc = wk_declining if wk_declining and wk_declining != top_proc else top_proc
+
     print(f"\n{'='*60}")
-    print(f"[{grp}] Processo: {top_proc}")
-    result[grp] = {"top_proc": top_proc, "weekly": {}, "monthly": {}, "categories_mon": [], "categories_wk": []}
+    print(f"[{grp}] Processo top_neg mensal: {top_proc}")
+    if wk_declining and wk_declining != top_proc:
+        print(f"[{grp}] Processo WoW-declining: {wk_declining} → buscando casos específicos")
+
+    result[grp] = {
+        "top_proc": top_proc,
+        "top_proc_wk": wk_proc,
+        "weekly": {}, "monthly": {},
+        "categories_mon": [], "categories_wk": []
+    }
 
     # ── Mês atual (Mai) ──────────────────────────────────────────────
     print(f"  [Mai] buscando detratores...")
@@ -414,9 +456,9 @@ for grp, drvs in DRIVER_GROUPS.items():
         for cat in result[grp]["categories_mon"]:
             print(f"      · {cat['sub_pattern']} ({cat['s1_count']} casos)")
 
-    # ── S1 semanal ───────────────────────────────────────────────────
-    print(f"  [S1] buscando detratores...")
-    wk_cases = fetch_detractors(top_proc, S1_START, S1_END, lim=40)
+    # ── S1 semanal (usa processo WoW-declining se diferente do top_neg) ─
+    print(f"  [S1/{wk_proc}] buscando detratores...")
+    wk_cases = fetch_detractors(wk_proc, S1_START, S1_END, lim=40)
     print(f"    {len(wk_cases)} detratores encontrados")
     time.sleep(0.5)
 

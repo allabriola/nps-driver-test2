@@ -1533,10 +1533,14 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
                     share_badge = (f' <span style="background:#fff0f0;color:#E84142;border:1px solid #f5c6c6;'
                                    f'border-radius:10px;padding:1px 8px;font-size:11px;font-weight:700;'
                                    f'margin-left:6px">{r["share_pct"]}% das pesquisas</span>')
-                rec_items += (f'<div style="margin:10px 0;padding:10px 14px;'
+                _proc_wk_lbl = _RC.get(grp, {}).get("top_proc_wk", "")
+            _proc_tag = (f'<span style="font-size:10px;font-weight:600;color:#888;margin-left:6px;'
+                         f'background:#f0f4ff;border:1px solid #c8d8fa;border-radius:4px;padding:1px 6px">'
+                         f'{esc(_proc_wk_lbl)}</span>') if _proc_wk_lbl else ""
+            rec_items += (f'<div style="margin:10px 0;padding:10px 14px;'
                               f'background:#fff8f8;border-left:3px solid #E84142;border-radius:0 6px 6px 0">'
                               f'<div style="font-size:13px;font-weight:700;color:#222;margin-bottom:4px">'
-                              f'{esc(r["sub_pattern"])}{share_badge}</div>'
+                              f'{esc(r["sub_pattern"])}{share_badge}{_proc_tag}</div>'
                               f'<div style="font-size:11px;color:#888;margin-bottom:6px">'
                               f'S1: <strong style="color:#E84142">{r["s1_count"]} caso{"s" if r["s1_count"]>1 else ""}</strong>'
                               f' &nbsp;|&nbsp; mensal: <strong style="color:#E84142">{r["monthly_count"]} caso{"s" if r["monthly_count"]>1 else ""}</strong>'
@@ -1639,8 +1643,8 @@ def _recurrence_deep(grp, trx_source=None, top_proc=None):
     if not rc:
         return []
 
-    # Prefere categorias mensais; fallback para semanais
-    cats = rc.get("categories_mon") or rc.get("categories_wk") or []
+    # Prefere categories_wk (processo WoW-declining) quando disponível
+    cats = rc.get("categories_wk") or rc.get("categories_mon") or []
     if not cats:
         return []
 
