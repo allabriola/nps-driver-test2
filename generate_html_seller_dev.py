@@ -1542,10 +1542,10 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
                                    f'border-radius:10px;padding:1px 8px;font-size:11px;font-weight:700;'
                                    f'margin-left:6px">{r["share_pct"]}% das pesquisas</span>')
                 _proc_wk_lbl = r.get("proc_name", "") or _RC.get(grp, {}).get("top_proc_wk", "")
-            _proc_tag = (f'<span style="font-size:10px;font-weight:600;color:#888;margin-left:6px;'
-                         f'background:#f0f4ff;border:1px solid #c8d8fa;border-radius:4px;padding:1px 6px">'
-                         f'{esc(_proc_wk_lbl)}</span>') if _proc_wk_lbl else ""
-            rec_items += (f'<div style="margin:10px 0;padding:10px 14px;'
+                _proc_tag = (f'<span style="font-size:10px;font-weight:600;color:#888;margin-left:6px;'
+                             f'background:#f0f4ff;border:1px solid #c8d8fa;border-radius:4px;padding:1px 6px">'
+                             f'{esc(_proc_wk_lbl)}</span>') if _proc_wk_lbl else ""
+                rec_items += (f'<div style="margin:10px 0;padding:10px 14px;'
                               f'background:#fff8f8;border-left:3px solid #E84142;border-radius:0 6px 6px 0">'
                               f'<div style="font-size:13px;font-weight:700;color:#222;margin-bottom:4px">'
                               f'{esc(r["sub_pattern"])}{share_badge}{_proc_tag}</div>'
