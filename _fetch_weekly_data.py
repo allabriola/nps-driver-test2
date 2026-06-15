@@ -16,22 +16,28 @@ PERIODS = {
     "VIG_new": ("2026-06-15", "2026-06-15", "WEEK"),
 }
 
+_DRV_IN = ("'ME Vendedor Seller Dev','ME Vendedor Mature','ME Vendedor Meli Pro',"
+           "'PCF Vendedor Seller Dev','PCF Vendedor Mature','PCF Vendedor Meli Pro',"
+           "'Post Venta Seller Dev','Post Venta Mature','Post Venta Meli Pro',"
+           "'Publicaciones Seller Dev','Publicaciones Mature','Publicaciones Meli Pro',"
+           "'Experiencia Impositiva Seller Dev','Experiencia Impositiva Mature','Experiencia Impositiva Meli Pro',"
+           "'Partners','CBT','FBM-S Seller Dev','FBM-S Mature','FBM-S Meli Pro',"
+           "'PDD DS&XD - Vendedor','PDD FBM - Vendedor','PDD MP,FLEX & CBT - Vendedor',"
+           "'PDD Fotos - Vendedor','PNR ME - Vendedor','PNR MP - Vendedor','Otros CV'")
+
 BASE_SQL = """
-SELECT m.DRIVER_TARGET_NPS AS DRIVER,
-       SUM(m.PROMOTERS)   AS P,
-       SUM(m.DETRACTORS)  AS D,
-       SUM(m.SURVEYS)     AS S
-FROM `meli-bi-data.WHOWNER.DM_CX_NPS_CS_GOALS_MGR_AND_UP` m
-INNER JOIN `meli-bi-data.WHOWNER.LK_CX_NPS_CS_GOALS_DRIVER_MANAGER` lk
-  ON lk.NPS_TARGET_DRIVER = m.DRIVER_TARGET_NPS
-  AND lk.CENTER = m.CENTER
-  AND lk.MONTH_ID = DATE_TRUNC(m.DATE_ID, MONTH)
-WHERE m.DATE_ID BETWEEN DATE("{start}") AND DATE("{end}")
-  AND m.CENTER = "BR"
-  AND m.QUE_QUEUE_TYPE = "VALID_CS"
-  AND m.MP_ON_FLAG = "E-Commerce"
-  AND m.FLAG_QUARTER_MONTH = "{flag}"
-  AND lk.NPS_TARGET_DRIVER_GROUP = "Sellers"
+SELECT DRIVER_TARGET_NPS AS DRIVER,
+       SUM(PROMOTERS)   AS P,
+       SUM(DETRACTORS)  AS D,
+       SUM(SURVEYS)     AS S
+FROM `meli-bi-data.WHOWNER.DM_CX_NPS_CS_GOALS_MGR_AND_UP`
+WHERE DATE_ID BETWEEN DATE("{start}") AND DATE("{end}")
+  AND CENTER = "BR"
+  AND SIT_SITE_ID = "MLB"
+  AND QUE_QUEUE_TYPE = "VALID_CS"
+  AND MP_ON_FLAG = "E-Commerce"
+  AND FLAG_QUARTER_MONTH = "{flag}"
+  AND DRIVER_TARGET_NPS IN (""" + _DRV_IN + """)
 GROUP BY 1
 ORDER BY 1
 """
