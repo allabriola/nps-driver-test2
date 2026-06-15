@@ -44,9 +44,11 @@ if os.path.exists('_trx_s1.json'):
         _trx_s1 = json.load(f)
 
 _CONTACT_KWS = {
-    'envio e logística':      ['envio','entrega','logistica','transportadora','frete','rastreio','prazo'],
-    'devolução e reembolso':  ['devolucao','devolver','reembolso','cancelamento','estorno'],
-    'cobrança e faturamento': ['cobranca','nota fiscal','fatura','pagamento','taxa','imposto'],
+    'envio e logística':      ['entrega','logistica','transportadora','frete','rastreio','prazo',
+                               'pacote','coleta','inbound','despacho','atraso na entrega'],
+    'devolução e reembolso':  ['devolucao','devolver','reembolso','cancelamento','estorno','reversa'],
+    'cobrança e faturamento': ['cobranca','nota fiscal','nf-e','nfe','fatura','pagamento',
+                               'taxa','imposto','certificado','faturador','emissao','cnpj','fiscal'],
     'mediação e disputa':     ['mediacao','disputa','reclamacao','procon','ouvidoria'],
     'produto e qualidade':    ['produto','qualidade','defeito','quebrado','errado'],
     'plataforma e sistema':   ['plataforma','sistema','erro','bug','acesso','login'],

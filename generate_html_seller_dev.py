@@ -1591,10 +1591,14 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
 def _analyze_trx_group(trx_dict):
     """Analisa um grupo de transcrições e retorna padrões quantificados."""
     CONTACT = {
-        "envio e logística":        ["envio","entrega","atraso","coleta","rastreio","full","inbound","status"],
-        "cobrança e faturamento":   ["cobrança","fatura","cobrado","certificado","faturador","ads","campanha",
-                                     "boleto","tarifa","comiss"],
-        "mediação e disputa":       ["mediação","mediacao","reclamo","disputa","divergência","IS","inconformidade"],
+        "envio e logística":        ["entrega","atraso","coleta","rastreio","full","inbound",
+                                     "transportadora","logistica","envio atrasado","pacote",
+                                     "viaje del paquete","despacho","remessa"],
+        "cobrança e faturamento":   ["cobrança","fatura","cobrado","certificado","faturador",
+                                     "nota fiscal","nf-e","nfe","emissao","emitir","imposto",
+                                     "cnpj","fiscal","tributar","boleto","tarifa","comiss",
+                                     "ads","campanha"],
+        "mediação e disputa":       ["mediação","mediacao","reclamo","disputa","divergência","inconformidade"],
         "reputação e conta":        ["reputação","suspens","conta","restrit","banid","penaliz","badge"],
         "publicação e afiliados":   ["publicação","anúncio","afiliado","comissão","métricas","publicar"],
         "devolução e reembolso":    ["devolução","reembolso","cancelamento","retorno","estorno"],
