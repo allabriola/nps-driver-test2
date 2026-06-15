@@ -1,19 +1,31 @@
 [
   {
+    "label": "Semana 08/jun",
+    "archived_at": "2026-06-15",
+    "file": "semana_2026-06-08.html",
+    "s1_label": "08/jun",
+    "s2_label": "01/jun",
+    "vig_label": "",
+    "month": "Junho 2026",
+    "nps_s1": 67.05,
+    "most_recent": true,
+    "has_sd": true
+  },
+  {
     "label": "Semana 01/jun",
-    "archived_at": "2026-06-08",
+    "archived_at": "2026-06-15",
     "file": "semana_2026-06-01.html",
     "s1_label": "01/jun",
     "s2_label": "25/mai",
     "vig_label": "",
     "month": "Junho 2026",
     "nps_s1": 69.88,
-    "most_recent": true,
+    "most_recent": false,
     "has_sd": true
   },
   {
     "label": "Semana 25/mai",
-    "archived_at": "2026-06-08",
+    "archived_at": "2026-06-15",
     "file": "semana_2026-05-25.html",
     "s1_label": "25/mai",
     "s2_label": "18/mai",
@@ -25,7 +37,7 @@
   },
   {
     "label": "Semana 18/mai",
-    "archived_at": "2026-06-08",
+    "archived_at": "2026-06-15",
     "file": "semana_2026-05-18.html",
     "s1_label": "18/mai",
     "s2_label": "11/mai",
@@ -37,7 +49,7 @@
   },
   {
     "label": "Semana 11/mai",
-    "archived_at": "2026-06-08",
+    "archived_at": "2026-06-15",
     "file": "semana_2026-05-11.html",
     "s1_label": "11/mai",
     "s2_label": "04/mai",
@@ -49,7 +61,7 @@
   },
   {
     "label": "Semana 04/mai",
-    "archived_at": "2026-06-08",
+    "archived_at": "2026-06-15",
     "file": "semana_2026-05-04.html",
     "s1_label": "04/mai",
     "s2_label": "27/abr",
@@ -61,7 +73,7 @@
   },
   {
     "label": "Semana 27/abr",
-    "archived_at": "2026-06-08",
+    "archived_at": "2026-06-15",
     "file": "semana_2026-04-27.html",
     "s1_label": "27/abr",
     "s2_label": "20/abr",
@@ -73,7 +85,7 @@
   },
   {
     "label": "Semana 20/abr",
-    "archived_at": "2026-06-08",
+    "archived_at": "2026-06-15",
     "file": "semana_2026-04-20.html",
     "s1_label": "20/abr",
     "s2_label": "13/abr",
@@ -85,7 +97,7 @@
   },
   {
     "label": "Semana 13/abr",
-    "archived_at": "2026-06-08",
+    "archived_at": "2026-06-15",
     "file": "semana_2026-04-13.html",
     "s1_label": "13/abr",
     "s2_label": "06/abr",
@@ -97,7 +109,7 @@
   },
   {
     "label": "Semana 06/abr",
-    "archived_at": "2026-06-08",
+    "archived_at": "2026-06-15",
     "file": "semana_2026-04-06.html",
     "s1_label": "06/abr",
     "s2_label": "30/mar",
@@ -109,7 +121,7 @@
   },
   {
     "label": "Semana 30/mar",
-    "archived_at": "2026-06-08",
+    "archived_at": "2026-06-15",
     "file": "semana_2026-03-30.html",
     "s1_label": "30/mar",
     "s2_label": "",
