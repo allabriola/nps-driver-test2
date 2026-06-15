@@ -3851,8 +3851,74 @@ if __name__ == '__main__':
         )
         _os_mod.makedirs(_PROFILE_DIR, exist_ok=True)
 
+        _UPLOAD_JS_INNER = """async ({b64html, docId, csrfToken}) => {
+            const bin = atob(b64html);
+            const bytes = new Uint8Array(bin.length);
+            for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+            const fd = new FormData();
+            fd.append("file", new Blob([bytes], {type:"text/html;charset=utf-8"}),
+                      "nps_tendencias_seller_dev.html");
+            fd.append("title", "NPS Tendencias Seller Dev BR");
+            const r = await fetch("/api/v1/documents/" + docId + "/versions",
+                                  {method:"POST", body:fd, credentials:"include",
+                                   headers: csrfToken ? {"X-CSRF-Token": csrfToken} : {}});
+            const txt = await r.text();
+            return {status: r.status, body: txt.substring(0, 200)};
+        }"""
+
+        def _try_cdp_upload(html_b64):
+            """Tenta upload via Chrome com debug remoto (porta 9222)."""
+            try:
+                with _sync_pw() as _pw:
+                    _browser = _pw.chromium.connect_over_cdp("http://localhost:9222",
+                                                              timeout=3000)
+                    _ctx = _browser.contexts[0] if _browser.contexts else None
+                    if not _ctx:
+                        return None
+                    # Encontrar página do Grid ou abrir nova
+                    _page = next(
+                        (p for p in _ctx.pages if "grid.adminml.com" in p.url),
+                        _ctx.pages[0] if _ctx.pages else _ctx.new_page()
+                    )
+                    if "grid.adminml.com" not in _page.url:
+                        _page.goto("https://grid.adminml.com",
+                                   wait_until="networkidle", timeout=15000)
+                    _all_ck = _ctx.cookies("https://grid.adminml.com")
+                    _csrf = next((_c["value"] for _c in _all_ck
+                                  if _c.get("name") == "_csrf"), "")
+                    _result = _page.evaluate(
+                        _UPLOAD_JS_INNER,
+                        {"b64html": html_b64, "docId": GRID_DOC_ID, "csrfToken": _csrf},
+                    )
+                    # Salvar cookies capturados para fallback
+                    _updated = _ctx.cookies()
+                    with open(GRID_COOKIES_F, "w", encoding="utf-8") as _fw:
+                        _json_mod.dump([{
+                            "domain": _c["domain"], "name": _c["name"],
+                            "value": _c["value"], "path": _c.get("path", "/"),
+                            "secure": _c.get("secure", False),
+                            "httpOnly": _c.get("httpOnly", False),
+                            "sameSite": _c.get("sameSite", "None"),
+                            "hostOnly": not _c["domain"].startswith("."),
+                            "session": _c.get("expires", -1) == -1,
+                            "expirationDate": _c.get("expires"),
+                            "storeId": None,
+                        } for _c in _updated], _fw, indent=2)
+                    return _result
+            except Exception:
+                return None
+
         with open(OUTPUT_FILE, "rb") as _f:
             _html_b64 = _b64_mod.b64encode(_f.read()).decode()
+
+        # ── Tenta Chrome com debug remoto primeiro (sem cookies manuais) ──
+        _cdp_result = _try_cdp_upload(_html_b64)
+        if _cdp_result and _cdp_result.get("status") in (200, 201):
+            import re as _rr
+            _vm = _rr.search(r'"version"\s*:\s*(\d+)', _cdp_result.get("body", ""))
+            _v = _vm.group(1) if _vm else "?"
+            print(f"Grid: OK (v{_v}) -> https://grid.adminml.com/d/{GRID_DOC_ID}/view")
+            raise SystemExit(0)  # Sucesso via CDP, pular o resto
 
         _UPLOAD_JS = """async ({b64html, docId, csrfToken}) => {
             const bin = atob(b64html);
