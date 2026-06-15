@@ -47,7 +47,7 @@ _CONTACT_KWS = {
     'envio e logística':      ['entrega','logistica','transportadora','frete','rastreio','prazo',
                                'pacote','coleta','inbound','despacho','atraso na entrega'],
     'devolução e reembolso':  ['devolucao','devolver','reembolso','cancelamento','estorno','reversa'],
-    'cobrança e faturamento': ['cobranca','nota fiscal','nf-e','nfe','fatura','pagamento',
+    'cobrança e faturamento': ['cobranca','nota fiscal','nf-e','fatura','pagamento',
                                'taxa','imposto','certificado','faturador','emissao','cnpj','fiscal'],
     'mediação e disputa':     ['mediacao','disputa','reclamacao','procon','ouvidoria'],
     'produto e qualidade':    ['produto','qualidade','defeito','quebrado','errado'],
