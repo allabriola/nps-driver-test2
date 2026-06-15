@@ -1752,6 +1752,10 @@ def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
     off_m2  = bd_curr.get("O_M2", {}) if bd_curr else {}
 
     proc_txt = ""
+    cdu_txt  = ""
+    rc_grp   = _RC.get(grp, {})
+    cats_wk  = rc_grp.get("categories_wk") or rc_grp.get("categories_mon") or []
+
     if proc_m1:
         s_tot = sum(v["s"] for v in proc_m1.values()) or 1
         movers = []
@@ -1763,17 +1767,51 @@ def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
             pd = round(v1["nps"] - v2["nps"], 1) if v2.get("nps") else None
             movers.append((proc, pd, round(share*100,1), v1["nps"], v1["s"]))
         movers.sort(key=lambda x: (x[1] or 0))
-        parts = []
+
         if movers:
-            w = movers[0]
-            wd_s = f" ({w[1]:+.1f}pp WoW)" if w[1] is not None else ""
-            parts.append(f"<strong>{esc(w[0])}</strong> {w[2]:.0f}% do vol, NPS {fn(w[3])}%{wd_s}")
-        if len(movers) > 1 and (movers[-1][1] or 0) > 1 and movers[-1] != movers[0]:
-            b = movers[-1]
-            bd_s = f" ({b[1]:+.1f}pp WoW)" if b[1] is not None else ""
-            parts.append(f"<strong>{esc(b[0])}</strong> {b[2]:.0f}% do vol, NPS {fn(b[3])}%{bd_s}")
-        if parts:
-            proc_txt = " Processos: " + "; ".join(parts) + "."
+            w = movers[0]  # processo que mais caiu (ou menor WoW)
+            wd_wk = w[1]
+
+            if wd_wk is not None and wd_wk < -1:
+                # Queda significativa: conectar processo + CDU + razão dos detratores
+                cdu_part = ""
+                if cats_wk:
+                    top_cat = cats_wk[0]
+                    cdu_n   = top_cat.get("sub_pattern","")
+                    cdu_pct = top_cat.get("share_pct", 0)
+                    cdu_desc = (top_cat.get("narrative","") or "").split(". ")[0]
+                    if cdu_n and cdu_desc:
+                        cdu_part = (f" A CDU dominante nos detratores do driver é "
+                                    f"<strong>{esc(cdu_n)}</strong> ({cdu_pct}% das pesquisas)"
+                                    f" — {esc(cdu_desc)}.")
+                proc_txt = (f" O processo <strong>{esc(w[0])}</strong> liderou a queda "
+                            f"({w[2]:.0f}% do vol, NPS {fn(w[3])}%, "
+                            f"<strong>{wd_wk:+.1f}pp WoW</strong>).{cdu_part}")
+                # Destaque positivo se houver
+                if len(movers) > 1 and (movers[-1][1] or 0) > 1 and movers[-1] != movers[0]:
+                    b = movers[-1]
+                    bd_s = f" ({b[1]:+.1f}pp WoW)" if b[1] is not None else ""
+                    proc_txt += (f" Destaque positivo: <strong>{esc(b[0])}</strong> "
+                                 f"({b[2]:.0f}% do vol, NPS {fn(b[3])}%{bd_s}).")
+            else:
+                # Sem queda significativa: listar processos + CDU separados
+                parts = []
+                wd_s = f" ({w[1]:+.1f}pp WoW)" if w[1] is not None else ""
+                parts.append(f"<strong>{esc(w[0])}</strong> {w[2]:.0f}% do vol, NPS {fn(w[3])}%{wd_s}")
+                if len(movers) > 1 and (movers[-1][1] or 0) > 1 and movers[-1] != movers[0]:
+                    b = movers[-1]
+                    bd_s = f" ({b[1]:+.1f}pp WoW)" if b[1] is not None else ""
+                    parts.append(f"<strong>{esc(b[0])}</strong> {b[2]:.0f}% do vol, NPS {fn(b[3])}%{bd_s}")
+                if parts:
+                    proc_txt = " Processos: " + "; ".join(parts) + "."
+                # CDU normal sem vinculação ao processo de queda
+                if cats_wk:
+                    top = cats_wk[0]
+                    cdu_n = top.get("sub_pattern",""); cdu_pct = top.get("share_pct",0)
+                    cdu_desc = (top.get("narrative","") or "").split(". ")[0]
+                    if cdu_n and cdu_desc:
+                        cdu_txt = (f" CDU dominante: <strong>{esc(cdu_n)}</strong> "
+                                   f"({cdu_pct}% das pesquisas) — {esc(cdu_desc)}.")
 
     off_txt = ""
     if off_m1:
@@ -1786,19 +1824,6 @@ def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
             o_parts = [f"<strong>{k}</strong>: {fn(n)}% ({p}%{', '+f'{w:+.1f}pp' if w is not None else ''})"
                        for k,p,n,w in offs[:2]]
             off_txt = " Oficinas: " + "; ".join(o_parts) + "."
-
-    # ── 5. CDU do processo top (de _RC) ─────────────────────────────
-    cdu_txt = ""
-    rc_grp = _RC.get(grp, {})
-    cats_wk = rc_grp.get("categories_wk") or rc_grp.get("categories_mon") or []
-    if cats_wk:
-        top = cats_wk[0]
-        cdu_n = top.get("sub_pattern",""); cdu_pct = top.get("share_pct",0)
-        cdu_desc = (top.get("narrative","") or "").split(". ")[0]
-        top_proc = rc_grp.get("top_proc","")
-        if cdu_n and cdu_desc:
-            proc_str = f" ({esc(top_proc)})" if top_proc else ""
-            cdu_txt = (f" CDU{proc_str}: <strong>{esc(cdu_n)}</strong> ({cdu_pct}% das pesquisas) — {esc(cdu_desc)}.")
 
     # ── 6. Contexto mensal ───────────────────────────────────────────
     m_series = grp_mon.get(grp, [])
