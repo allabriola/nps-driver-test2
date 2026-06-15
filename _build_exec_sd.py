@@ -445,12 +445,37 @@ def tgt_wk(drvs):
     wd2 = sum(wh.get(d,{}).get(wk_s1,(0,0,0))[2] for d in drvs if drv_tgts.get(d))
     return round(wn/wd2, 2) if wd2 else nt
 
+def _proc_wk_change(drvs):
+    """Encontra o processo com maior queda WoW (S1 vs S2) a partir do mb."""
+    p_s1, p_s2 = {}, {}
+    for drv in drvs:
+        for proc, v in mb.get('S1', {}).get(drv, {}).get('P', {}).items():
+            r = p_s1.setdefault(proc, {'p':0,'d':0,'s':0})
+            r['p']+=v.get('p',0); r['d']+=v.get('d',0); r['s']+=v.get('s',0)
+        for proc, v in mb.get('S2', {}).get(drv, {}).get('P', {}).items():
+            r = p_s2.setdefault(proc, {'p':0,'d':0,'s':0})
+            r['p']+=v.get('p',0); r['d']+=v.get('d',0); r['s']+=v.get('s',0)
+    changes = []
+    total_s1 = sum(v['s'] for v in p_s1.values()) or 1
+    for proc in p_s1:
+        if proc not in p_s2 or p_s1[proc]['s'] < 10: continue
+        n1 = nps(p_s1[proc]['p'], p_s1[proc]['d'], p_s1[proc]['s'])
+        n2 = nps(p_s2[proc]['p'], p_s2[proc]['d'], p_s2[proc]['s'])
+        if n1 is not None and n2 is not None:
+            changes.append({'proc': proc, 'nps_s1': n1, 'nps_s2': n2,
+                            'delta': round(n1-n2, 1),
+                            'vol': round(100*p_s1[proc]['s']/total_s1, 0)})
+    if not changes: return None
+    changes.sort(key=lambda x: x['delta'])
+    return changes[0]  # maior queda
+
 # NPS semanal por grupo
 wk_drv_data = {}
 for grp, drvs in SD.items():
     nc, sc = grp_nps_wk(drvs, wk_s1)
     np2, _ = grp_nps_wk(drvs, wk_s2)
     tg     = tgt_wk(drvs)
+    _pa_neg = pa.get(grp, {}).get('top_neg', {})
     wk_drv_data[grp] = {
         'nc': nc, 'np': np2, 'sc': sc, 'tgt': tg,
         'gap': round(nc - tg, 1) if nc is not None else None,
@@ -458,7 +483,9 @@ for grp, drvs in SD.items():
         'sr_mai': seniority(drvs, 'S1'),   # breakdown S1
         'sr_abr': seniority(drvs, 'S2'),   # breakdown S2
         'off_mai': office_summary(drvs, 'S1'),
-        'top_proc': pa.get(grp, {}).get('top_neg', {}).get('proc', ''),
+        'top_proc': _pa_neg.get('proc', ''),
+        'top_proc_cdu': _pa_neg.get('detail', {}).get('cdu', {}),
+        'top_proc_wk': _proc_wk_change(drvs),
     }
 
 def cdu_narrative_wk(grp):
@@ -524,13 +551,45 @@ def build_narrative_wk(grp, icon):
                 f"{', ' + sign(o['mom']) + fn(o['mom']) + ' pp WoW' if o['mom'] is not None else ''})"
                 for o in offs[:2]) + ". "
 
-    cdu_name, cdu_narr, cdu_share = cdu_narrative_wk(grp)
-    if cdu_name and cdu_narr:
-        proc = v.get('top_proc', '')
-        cdu_desc = cdu_narr.split('. ')[0] if '. ' in cdu_narr else cdu_narr
-        proc_str = f" no processo <strong>{proc}</strong>" if proc else ""
-        text += (f"CDU dominante{proc_str}: <strong>{esc(cdu_name)}</strong> "
-                 f"({cdu_share}% das pesquisas) — {esc(cdu_desc)}.")
+    # Processo que mais caiu WoW + CDU vinculado a ele
+    top_wk   = v.get('top_proc_wk')    # {'proc', 'nps_s1', 'nps_s2', 'delta', 'vol'}
+    top_proc = v.get('top_proc', '')   # processo top_neg mensal (tem CDU detalhado)
+    proc_cdu = v.get('top_proc_cdu', {})  # CDUs do processo top_neg
+
+    if top_wk and (v['mom'] or 0) < -0.5:
+        # Há queda WoW — mostrar o processo responsável
+        proc_wk_name = top_wk['proc']
+        delta_wk     = top_wk['delta']
+        vol_wk       = top_wk['vol']
+        text += (f"O processo <strong>{esc(proc_wk_name)}</strong> foi o principal vetor "
+                 f"da queda ({int(vol_wk)}% do vol, <strong>{fn(delta_wk)} pp WoW</strong>). ")
+
+        # CDU: tentar obter do processo que causou a queda WoW
+        if proc_wk_name == top_proc and proc_cdu:
+            # CDU do processo que causou a queda
+            top_cdu_item = sorted(proc_cdu.items(), key=lambda x: -x[1].get('s', 0))
+            if top_cdu_item:
+                cdu_n, cdu_v = top_cdu_item[0]
+                cdu_nps_str  = f" (NPS {fn(cdu_v.get('nps'))}%)" if cdu_v.get('nps') else ""
+                cdu_share_v  = round(100 * cdu_v.get('s', 0) /
+                                     sum(c.get('s',0) for c in proc_cdu.values()) if proc_cdu else 1, 0)
+                text += (f"No processo, a CDU dominante é <strong>{esc(cdu_n)}</strong> "
+                         f"({int(cdu_share_v)}% das pesquisas{cdu_nps_str}).")
+        else:
+            # Processo WoW diferente do top_neg — mostrar CDU do driver como contexto
+            cdu_name, cdu_narr, cdu_share = cdu_narrative_wk(grp)
+            if cdu_name and cdu_narr:
+                cdu_desc = cdu_narr.split('. ')[0] if '. ' in cdu_narr else cdu_narr
+                text += (f"CDU predominante no driver: <strong>{esc(cdu_name)}</strong> "
+                         f"({cdu_share}% das pesquisas) — {esc(cdu_desc)}.")
+    else:
+        # Sem queda ou sem dado WoW — mostrar CDU como de costume
+        cdu_name, cdu_narr, cdu_share = cdu_narrative_wk(grp)
+        if cdu_name and cdu_narr:
+            cdu_desc = cdu_narr.split('. ')[0] if '. ' in cdu_narr else cdu_narr
+            proc_str = f" no processo <strong>{esc(top_proc)}</strong>" if top_proc else ""
+            text += (f"CDU dominante{proc_str}: <strong>{esc(cdu_name)}</strong> "
+                     f"({cdu_share}% das pesquisas) — {esc(cdu_desc)}.")
 
     return f'<p style="font-size:13px;line-height:1.9;margin-bottom:10px;color:#333">{text}</p>'
 
