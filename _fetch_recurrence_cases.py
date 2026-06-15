@@ -396,7 +396,7 @@ def _wk_declining_proc(drvs):
         if n1 is not None and n2 is not None and n1 - n2 < -1:
             drops.append((proc, round(n1-n2, 1)))
     drops.sort(key=lambda x: x[1])
-    return drops[0][0] if drops else None
+    return [d[0] for d in drops[:2]] if drops else []  # top 2 processos de queda
 
 # ── Principal ──────────────────────────────────────────────────────────
 result = {}
@@ -408,18 +408,20 @@ for grp, drvs in DRIVER_GROUPS.items():
         print(f"\n[{grp}] sem top_neg — pulando")
         continue
 
-    # Processo com maior queda WoW (pode ser diferente do top_neg mensal)
-    wk_declining = _wk_declining_proc(drvs)
-    wk_proc = wk_declining if wk_declining and wk_declining != top_proc else top_proc
+    # Top 2 processos com maior queda WoW
+    wk_declining_list = _wk_declining_proc(drvs)  # lista com até 2 processos
+    wk_proc   = wk_declining_list[0] if wk_declining_list else top_proc
+    wk_proc2  = wk_declining_list[1] if len(wk_declining_list) > 1 else None
 
     print(f"\n{'='*60}")
     print(f"[{grp}] Processo top_neg mensal: {top_proc}")
-    if wk_declining and wk_declining != top_proc:
-        print(f"[{grp}] Processo WoW-declining: {wk_declining} → buscando casos específicos")
+    if wk_declining_list:
+        print(f"[{grp}] Processos WoW-declining: {wk_declining_list}")
 
     result[grp] = {
         "top_proc": top_proc,
         "top_proc_wk": wk_proc,
+        "top_proc_wk2": wk_proc2,
         "weekly": {}, "monthly": {},
         "categories_mon": [], "categories_wk": []
     }
@@ -456,17 +458,15 @@ for grp, drvs in DRIVER_GROUPS.items():
         for cat in result[grp]["categories_mon"]:
             print(f"      · {cat['sub_pattern']} ({cat['s1_count']} casos)")
 
-    # ── S1 semanal (usa processo WoW-declining se diferente do top_neg) ─
+    # ── S1 semanal: top 1 processo WoW-declining ────────────────────
     print(f"  [S1/{wk_proc}] buscando detratores...")
-    wk_cases = fetch_detractors(wk_proc, S1_START, S1_END, lim=40)
+    wk_cases = fetch_detractors(wk_proc, S1_START, S1_END, lim=30)
     print(f"    {len(wk_cases)} detratores encontrados")
     time.sleep(0.5)
 
     if wk_cases:
         wk_ids = [c["case_id"] for c in wk_cases]
         wk_trx = fetch_transcripts(wk_ids)
-        print(f"    {len(wk_trx)} transcrições obtidas")
-
         wk_meta = {c["case_id"]: c for c in wk_cases}
         for cid, msgs in wk_trx.items():
             result[grp]["weekly"][cid] = summarize_case(wk_meta.get(cid,{}), msgs)
@@ -478,8 +478,29 @@ for grp, drvs in DRIVER_GROUPS.items():
                     "transferido": False, "resolvido": False, "escalacao": False,
                 }
 
+    # ── S1 semanal: top 2 processo WoW-declining (se existir) ───────
+    if wk_proc2:
+        print(f"  [S1/{wk_proc2}] buscando detratores (2º processo)...")
+        wk_cases2 = fetch_detractors(wk_proc2, S1_START, S1_END, lim=20)
+        print(f"    {len(wk_cases2)} detratores encontrados")
+        time.sleep(0.5)
+        if wk_cases2:
+            wk_ids2 = [c["case_id"] for c in wk_cases2]
+            wk_trx2 = fetch_transcripts(wk_ids2)
+            wk_meta2 = {c["case_id"]: c for c in wk_cases2}
+            for cid, msgs in wk_trx2.items():
+                result[grp]["weekly"][cid] = summarize_case(wk_meta2.get(cid,{}), msgs)
+            for c in wk_cases2:
+                if c["case_id"] not in result[grp]["weekly"]:
+                    result[grp]["weekly"][c["case_id"]] = {
+                        "motivo": "", "survey_comment": c.get("survey_comment",""),
+                        "cdu": c.get("cdu",""), "n_msgs": 0,
+                        "transferido": False, "resolvido": False, "escalacao": False,
+                    }
+
+    if result[grp]["weekly"]:
         result[grp]["categories_wk"] = build_categories(result[grp]["weekly"])
-        print(f"    {len(result[grp]['categories_wk'])} categorias geradas (S1)")
+        print(f"    {len(result[grp]['categories_wk'])} categorias geradas (S1 — {wk_proc}{f' + {wk_proc2}' if wk_proc2 else ''})")
 
 with open("_recurrence_cases.json", "w", encoding="utf-8") as f:
     json.dump(result, f, ensure_ascii=False, indent=2)
