@@ -458,49 +458,45 @@ for grp, drvs in DRIVER_GROUPS.items():
         for cat in result[grp]["categories_mon"]:
             print(f"      · {cat['sub_pattern']} ({cat['s1_count']} casos)")
 
-    # ── S1 semanal: top 1 processo WoW-declining ────────────────────
-    print(f"  [S1/{wk_proc}] buscando detratores...")
-    wk_cases = fetch_detractors(wk_proc, S1_START, S1_END, lim=30)
-    print(f"    {len(wk_cases)} detratores encontrados")
-    time.sleep(0.5)
-
-    if wk_cases:
-        wk_ids = [c["case_id"] for c in wk_cases]
-        wk_trx = fetch_transcripts(wk_ids)
-        wk_meta = {c["case_id"]: c for c in wk_cases}
-        for cid, msgs in wk_trx.items():
-            result[grp]["weekly"][cid] = summarize_case(wk_meta.get(cid,{}), msgs)
-        for c in wk_cases:
-            if c["case_id"] not in result[grp]["weekly"]:
-                result[grp]["weekly"][c["case_id"]] = {
-                    "motivo": "", "survey_comment": c.get("survey_comment",""),
-                    "cdu": c.get("cdu",""), "n_msgs": 0,
-                    "transferido": False, "resolvido": False, "escalacao": False,
-                }
-
-    # ── S1 semanal: top 2 processo WoW-declining (se existir) ───────
-    if wk_proc2:
-        print(f"  [S1/{wk_proc2}] buscando detratores (2º processo)...")
-        wk_cases2 = fetch_detractors(wk_proc2, S1_START, S1_END, lim=20)
-        print(f"    {len(wk_cases2)} detratores encontrados")
+    def _fetch_and_summarize(proc_name, lim=30):
+        """Busca detratores de um processo e retorna casos sumarizados."""
+        print(f"  [S1/{proc_name}] buscando detratores...")
+        cases = fetch_detractors(proc_name, S1_START, S1_END, lim=lim)
+        print(f"    {len(cases)} detratores encontrados")
         time.sleep(0.5)
-        if wk_cases2:
-            wk_ids2 = [c["case_id"] for c in wk_cases2]
-            wk_trx2 = fetch_transcripts(wk_ids2)
-            wk_meta2 = {c["case_id"]: c for c in wk_cases2}
-            for cid, msgs in wk_trx2.items():
-                result[grp]["weekly"][cid] = summarize_case(wk_meta2.get(cid,{}), msgs)
-            for c in wk_cases2:
-                if c["case_id"] not in result[grp]["weekly"]:
-                    result[grp]["weekly"][c["case_id"]] = {
+        summarized = {}
+        if cases:
+            trx = fetch_transcripts([c["case_id"] for c in cases])
+            meta = {c["case_id"]: c for c in cases}
+            for cid, msgs in trx.items():
+                summarized[cid] = summarize_case(meta.get(cid,{}), msgs)
+            for c in cases:
+                if c["case_id"] not in summarized:
+                    summarized[c["case_id"]] = {
                         "motivo": "", "survey_comment": c.get("survey_comment",""),
                         "cdu": c.get("cdu",""), "n_msgs": 0,
                         "transferido": False, "resolvido": False, "escalacao": False,
                     }
+        return summarized
 
-    if result[grp]["weekly"]:
-        result[grp]["categories_wk"] = build_categories(result[grp]["weekly"])
-        print(f"    {len(result[grp]['categories_wk'])} categorias geradas (S1 — {wk_proc}{f' + {wk_proc2}' if wk_proc2 else ''})")
+    # ── S1 semanal: buscar SEPARADO por processo (garante representação de cada) ─
+    wk_summary1 = _fetch_and_summarize(wk_proc, lim=30)
+    cats1 = build_categories(wk_summary1)[:2]  # top 2 do processo 1
+    for c in cats1:
+        c["proc_name"] = wk_proc
+
+    cats2 = []
+    if wk_proc2:
+        wk_summary2 = _fetch_and_summarize(wk_proc2, lim=20)
+        cats2 = build_categories(wk_summary2)[:1]  # top 1 do processo 2
+        for c in cats2:
+            c["proc_name"] = wk_proc2
+        result[grp]["weekly"].update(wk_summary2)
+
+    result[grp]["weekly"].update(wk_summary1)
+    # Combina: top 2 do proc1 + top 1 do proc2 = 3 boxes no total
+    result[grp]["categories_wk"] = cats1 + cats2
+    print(f"    {len(cats1)} cats do proc1 + {len(cats2)} cats do proc2 = {len(result[grp]['categories_wk'])} total")
 
 with open("_recurrence_cases.json", "w", encoding="utf-8") as f:
     json.dump(result, f, ensure_ascii=False, indent=2)

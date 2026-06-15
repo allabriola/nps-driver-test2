@@ -1541,7 +1541,7 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
                     share_badge = (f' <span style="background:#fff0f0;color:#E84142;border:1px solid #f5c6c6;'
                                    f'border-radius:10px;padding:1px 8px;font-size:11px;font-weight:700;'
                                    f'margin-left:6px">{r["share_pct"]}% das pesquisas</span>')
-                _proc_wk_lbl = _RC.get(grp, {}).get("top_proc_wk", "")
+                _proc_wk_lbl = r.get("proc_name", "") or _RC.get(grp, {}).get("top_proc_wk", "")
             _proc_tag = (f'<span style="font-size:10px;font-weight:600;color:#888;margin-left:6px;'
                          f'background:#f0f4ff;border:1px solid #c8d8fa;border-radius:4px;padding:1px 6px">'
                          f'{esc(_proc_wk_lbl)}</span>') if _proc_wk_lbl else ""
@@ -1667,6 +1667,7 @@ def _recurrence_deep(grp, trx_source=None, top_proc=None):
             "share_pct":     c.get("share_pct", 0),
             "examples":      c.get("examples", [])[:3],
             "narrative":     c.get("narrative", ""),
+            "proc_name":     c.get("proc_name", ""),  # processo de origem do caso
         })
     return result
 
