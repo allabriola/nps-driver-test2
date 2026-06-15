@@ -939,6 +939,12 @@ def _tab_exec():
     wk_vtgt   = round(wk_nps_s1 - NPS_TARGET, 2) if wk_nps_s1 else None
     wk_d_cls  = "kpi-pos" if wk_delta and wk_delta >= 0 else "kpi-neg"
 
+    # Survey counts S1 e S2
+    _surv_s1 = sum(weekly_driver.get(d,{}).get("S1",(0,0,0))[2]
+                   for d in ALL_DRIVERS if d not in EXCLUIDOS)
+    _surv_s2 = sum(weekly_driver.get(d,{}).get("S2",(0,0,0))[2]
+                   for d in ALL_DRIVERS if d not in EXCLUIDOS)
+
     # KPIs semanais — apenas semanas fechadas (sem VIG)
     g_sign = "+" if wk_vtgt is not None and wk_vtgt >= 0 else ""
     g_cls  = "kpi-pos" if wk_vtgt is not None and wk_vtgt >= 0 else "kpi-neg"
@@ -947,11 +953,13 @@ def _tab_exec():
                f'<div class="kpi-card" style="border-top:4px solid #3483FA">'
                f'<div class="kpi-label">NPS S1 Fechada</div>'
                f'<div class="kpi-value">{fn(wk_nps_s1)}%</div>'
-               f'<div class="kpi-sub">{esc(S1_LABEL)}</div></div>'
+               f'<div class="kpi-sub">{esc(S1_LABEL)}</div>'
+               f'<div class="kpi-sub" style="color:#3483FA;font-weight:600">{_surv_s1:,} pesquisas</div></div>'
                f'<div class="kpi-card" style="border-top:4px solid #888">'
                f'<div class="kpi-label">NPS S2 Anterior</div>'
                f'<div class="kpi-value">{fn(wk_nps_s2)}%</div>'
-               f'<div class="kpi-sub">{esc(S2_LABEL)}</div></div>'
+               f'<div class="kpi-sub">{esc(S2_LABEL)}</div>'
+               f'<div class="kpi-sub" style="color:#888;font-weight:600">{_surv_s2:,} pesquisas</div></div>'
                f'<div class="kpi-card" style="border-top:4px solid #888">'
                f'<div class="kpi-label">Target</div>'
                f'<div class="kpi-value">{tgt_str}%</div>'
