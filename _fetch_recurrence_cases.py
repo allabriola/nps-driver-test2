@@ -20,7 +20,8 @@ with open('generate_html_gerencia.py', 'r', encoding='utf-8') as f:
 stop = re.search(r'# SECTION 3', src)
 ns = {}
 exec(compile(src[:stop.start()], 'g', 'exec'), ns)
-S1_LABEL = ns.get('S1_LABEL', '')
+S1_LABEL   = ns.get('S1_LABEL', '')
+WEEK_LABELS = ns.get('WEEK_LABELS', [])
 
 MON_NUM = {"jan":"01","fev":"02","mar":"03","abr":"04","mai":"05",
            "jun":"06","jul":"07","ago":"08","set":"09","out":"10","nov":"11","dez":"12"}
@@ -368,21 +369,25 @@ def build_categories(cases_summary):
 
     return sorted(categories, key=lambda x: -x["s1_count"])[:4]
 
-# ── Carrega breakdown semanal para identificar processo WoW-declining ──
+# ── Carrega _breakdown_historical.json — dados semanais reais por semana ──
 import os as _os
-_mb = {}
-if _os.path.exists('_monthly_breakdown.json'):
-    with open('_monthly_breakdown.json', encoding='utf-8') as _f:
-        _mb = json.load(_f)
+_bh_rc = {}
+if _os.path.exists('_breakdown_historical.json'):
+    with open('_breakdown_historical.json', encoding='utf-8') as _f:
+        _bh_rc = json.load(_f)
+
+# Deriva labels de semana a partir do S1_LABEL (ex: "08/jun – 14/jun" → "08/jun")
+_s1_wk_lbl = WEEK_LABELS[-1] if WEEK_LABELS else None   # ex: "08/jun"
+_s2_wk_lbl = WEEK_LABELS[-2] if len(WEEK_LABELS) >= 2 else None  # ex: "01/jun"
 
 def _wk_declining_proc(drvs):
-    """Retorna o processo com maior queda WoW (S1 vs S2) para o grupo."""
+    """Retorna processos com maior contribuição de queda WoW usando dados históricos reais."""
     p_s1, p_s2 = {}, {}
     for drv in drvs:
-        for proc, v in _mb.get('S1', {}).get(drv, {}).get('P', {}).items():
+        for proc, v in _bh_rc.get(_s1_wk_lbl, {}).get(drv, {}).get('P', {}).items():
             r = p_s1.setdefault(proc, {'p':0,'d':0,'s':0})
             r['p']+=v.get('p',0); r['d']+=v.get('d',0); r['s']+=v.get('s',0)
-        for proc, v in _mb.get('S2', {}).get(drv, {}).get('P', {}).items():
+        for proc, v in _bh_rc.get(_s2_wk_lbl, {}).get(drv, {}).get('P', {}).items():
             r = p_s2.setdefault(proc, {'p':0,'d':0,'s':0})
             r['p']+=v.get('p',0); r['d']+=v.get('d',0); r['s']+=v.get('s',0)
     s_tot = sum(v['s'] for v in p_s1.values()) or 1
@@ -394,9 +399,12 @@ def _wk_declining_proc(drvs):
         n1 = round(100*(p_s1[proc]['p']-p_s1[proc]['d'])/s, 2) if s else None
         n2 = round(100*(p_s2[proc]['p']-p_s2[proc]['d'])/p_s2[proc]['s'], 2) if p_s2[proc]['s'] else None
         if n1 is not None and n2 is not None and n1 - n2 < -1:
-            drops.append((proc, round(n1-n2, 1)))
+            share = s / s_tot
+            contrib = round((n1 - n2) * share, 2)  # WoW × share = contribuição real
+            drops.append((proc, contrib))
+    # Ordena por contribuição (mais negativa = maior impacto real)
     drops.sort(key=lambda x: x[1])
-    return [d[0] for d in drops[:2]] if drops else []  # top 2 processos de queda
+    return [d[0] for d in drops[:2]] if drops else []
 
 # ── Principal ──────────────────────────────────────────────────────────
 result = {}

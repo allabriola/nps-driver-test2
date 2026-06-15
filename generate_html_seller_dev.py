@@ -1819,7 +1819,8 @@ def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
             v2 = proc_m2.get(proc,{})
             pd = round(v1["nps"] - v2["nps"], 1) if v2.get("nps") else None
             movers.append((proc, pd, round(share*100,1), v1["nps"], v1["s"]))
-        movers.sort(key=lambda x: (x[1] or 0))
+        # Ordena por CONTRIBUIÇÃO (WoW × share) — maior impacto real primeiro
+        movers.sort(key=lambda x: ((x[1] or 0) * x[2] / 100))
 
         # Processos com queda WoW significativa (< -1pp)
         declining = [(proc, pd, vol, nps_v, s) for proc, pd, vol, nps_v, s in movers
