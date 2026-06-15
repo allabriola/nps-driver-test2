@@ -1545,8 +1545,30 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
                               f'{ex_badges}'
                               f'</div>')
             period_ref = "VIG vs mensal" if is_vig else "S1 vs mensal"
+
+            # Encontrar processo com maior queda WoW para contextualizar os casos
+            p_m1 = (bd_curr or {}).get("P_M1", {})
+            p_m2 = (bd_prev or {}).get("P_M2", {})
+            s_tot = sum(v.get("s",0) for v in p_m1.values()) or 1
+            _wk_proc_ctx = ""
+            if p_m1 and p_m2 and not is_vig:
+                _wk_drops = []
+                for _proc, _v1 in p_m1.items():
+                    if _v1.get("nps") is None or _v1.get("s",0)/s_tot < 0.05: continue
+                    _v2 = p_m2.get(_proc, {})
+                    if _v2.get("nps") is not None:
+                        _delta = round(_v1["nps"] - _v2["nps"], 1)
+                        if _delta < -1:
+                            _wk_drops.append((_proc, _delta))
+                if _wk_drops:
+                    _wk_drops.sort(key=lambda x: x[1])
+                    _wp, _wd = _wk_drops[0]
+                    _wk_proc_ctx = (f' Esses casos são exemplos recorrentes nos detratores do driver '
+                                    f'e contribuem para a queda em '
+                                    f'<strong>{esc(_wp)}</strong> ({_wd:+.1f}pp WoW).')
+
             body = (f'Padrões identificados em <strong>ambos os períodos ({period_ref})</strong> '
-                    f'— problema crônico, requer atuação estrutural:'
+                    f'— problema crônico, requer atuação estrutural.{_wk_proc_ctx}'
                     f'{rec_items}')
             bullets.append(bullet(dot_neg, "Recorrência — o que especificamente se repete", body))
 
