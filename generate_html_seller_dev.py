@@ -1789,6 +1789,24 @@ def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
     cdu_txt  = ""
     rc_grp   = _RC.get(grp, {})
     cats_wk  = rc_grp.get("categories_wk") or rc_grp.get("categories_mon") or []
+    _pa_neg  = _PA.get(grp, {}).get("top_neg", {})
+
+    def _cdu_for_proc(proc_name):
+        """Retorna CDU do processo informado a partir dos dados disponíveis."""
+        # 1) _RC categories_wk (processo WoW-declining buscado via BQ)
+        if proc_name == rc_grp.get("top_proc_wk", ""):
+            if cats_wk:
+                cdu_n = cats_wk[0].get("sub_pattern","")
+                cdu_narr = (cats_wk[0].get("narrative","") or "").split(". ")[0]
+                if cdu_n:
+                    return f"CDU: <strong>{esc(cdu_n)}</strong>{f' — {esc(cdu_narr)}' if cdu_narr else ''}"
+        # 2) _PA top_neg (processo top negativo mensal com CDU detalhado)
+        if proc_name == _pa_neg.get("proc",""):
+            proc_cdu = _pa_neg.get("detail",{}).get("cdu",{})
+            if proc_cdu:
+                top_c = max(proc_cdu.items(), key=lambda x: x[1].get("s",0))
+                return f"CDU: <strong>{esc(top_c[0])}</strong>"
+        return ""
 
     if proc_m1:
         s_tot = sum(v["s"] for v in proc_m1.values()) or 1
@@ -1802,59 +1820,42 @@ def _analytical_exec(grp, nps_curr, nps_prev, surv, tgt, bd_curr, bd_prev,
             movers.append((proc, pd, round(share*100,1), v1["nps"], v1["s"]))
         movers.sort(key=lambda x: (x[1] or 0))
 
-        if movers:
-            w = movers[0]  # processo que mais caiu (ou menor WoW)
-            wd_wk = w[1]
+        # Processos com queda WoW significativa (< -1pp)
+        declining = [(proc, pd, vol, nps_v, s) for proc, pd, vol, nps_v, s in movers
+                     if pd is not None and pd < -1]
 
-            if wd_wk is not None and wd_wk < -1:
-                # Queda significativa: conectar processo + motivos de detratores
-                why_part = ""
-                trx_ins = _deep_trx_insights(grp)
-                if trx_ins and trx_ins["det"]["n"] > 0:
-                    det = trx_ins["det"]
-                    n_det = det["n"]
-                    # Top motivos de contato (lista de tuplas (theme, count))
-                    contacts = [(c[0], c[1]) for c in det.get("contact",[]) if c[1] > 0]
-                    # Top dores
-                    pains = [(p[0], p[1]) for p in det.get("pain",[]) if p[1] > 0]
-                    res_pct = det.get("res_pct", 0)
-                    if contacts:
-                        mot_parts = [f"<strong>{esc(c[0])}</strong> ({c[1]}/{n_det})" for c in contacts[:2]]
-                        mot_str = " e ".join(mot_parts)
-                        pain_str = (f" — <strong>{esc(pains[0][0])}</strong> como dor dominante"
-                                    if pains else "")
-                        res_str = f" Resolução: {res_pct:.0f}%." if res_pct else ""
-                        why_part = (f" Detratores do driver apontam: {mot_str}"
-                                    f"{pain_str}.{res_str}")
-                elif cats_wk:
-                    top_cat = cats_wk[0]
-                    cdu_n = top_cat.get("sub_pattern","")
-                    cdu_pct = top_cat.get("share_pct", 0)
-                    cdu_desc = (top_cat.get("narrative","") or "").split(". ")[0]
-                    if cdu_n and cdu_desc:
-                        why_part = (f" CDU dominante: <strong>{esc(cdu_n)}</strong> "
-                                    f"({cdu_pct}% das pesquisas) — {esc(cdu_desc)}.")
-                proc_txt = (f" O processo <strong>{esc(w[0])}</strong> liderou a queda "
-                            f"({w[2]:.0f}% do vol, NPS {fn(w[3])}%, "
-                            f"<strong>{wd_wk:+.1f}pp WoW</strong>).{why_part}")
-                # Destaque positivo se houver
-                if len(movers) > 1 and (movers[-1][1] or 0) > 1 and movers[-1] != movers[0]:
-                    b = movers[-1]
-                    bd_s = f" ({b[1]:+.1f}pp WoW)" if b[1] is not None else ""
-                    proc_txt += (f" Destaque positivo: <strong>{esc(b[0])}</strong> "
-                                 f"({b[2]:.0f}% do vol, NPS {fn(b[3])}%{bd_s}).")
+        if declining:
+            # Mostrar até 2 processos de queda com CDU de cada
+            proc_parts = []
+            for w in declining[:2]:
+                proc_name, delta, vol, nps_v, _ = w
+                cdu_str = _cdu_for_proc(proc_name)
+                cdu_part = f" ({cdu_str})" if cdu_str else ""
+                proc_parts.append(
+                    f"<strong>{esc(proc_name)}</strong> "
+                    f"({vol:.0f}% do vol, NPS {fn(nps_v)}%, "
+                    f"<strong>{delta:+.1f}pp WoW</strong>){cdu_part}"
+                )
+            if len(proc_parts) == 1:
+                proc_txt = f" O processo {proc_parts[0]} concentrou a queda."
             else:
-                # Sem queda significativa: listar processos + CDU separados
+                proc_txt = f" Os processos {proc_parts[0]} e {proc_parts[1]} concentraram as quedas."
+            # Destaque positivo se houver
+            positives = [(proc, pd, vol, nps_v, s) for proc, pd, vol, nps_v, s in movers
+                         if pd is not None and pd > 1]
+            if positives:
+                b = positives[-1]
+                proc_txt += (f" Destaque positivo: <strong>{esc(b[0])}</strong> "
+                             f"({b[2]:.0f}% do vol, NPS {fn(b[3])}%, {b[1]:+.1f}pp WoW).")
+        else:
+            # Sem quedas significativas: listar os 2 maiores volumes
+            if movers:
                 parts = []
-                wd_s = f" ({w[1]:+.1f}pp WoW)" if w[1] is not None else ""
-                parts.append(f"<strong>{esc(w[0])}</strong> {w[2]:.0f}% do vol, NPS {fn(w[3])}%{wd_s}")
-                if len(movers) > 1 and (movers[-1][1] or 0) > 1 and movers[-1] != movers[0]:
-                    b = movers[-1]
-                    bd_s = f" ({b[1]:+.1f}pp WoW)" if b[1] is not None else ""
-                    parts.append(f"<strong>{esc(b[0])}</strong> {b[2]:.0f}% do vol, NPS {fn(b[3])}%{bd_s}")
+                for w in movers[:2]:
+                    wd_s = f" ({w[1]:+.1f}pp WoW)" if w[1] is not None else ""
+                    parts.append(f"<strong>{esc(w[0])}</strong> {w[2]:.0f}% do vol, NPS {fn(w[3])}%{wd_s}")
                 if parts:
                     proc_txt = " Processos: " + "; ".join(parts) + "."
-                # CDU normal sem vinculação ao processo de queda
                 if cats_wk:
                     top = cats_wk[0]
                     cdu_n = top.get("sub_pattern",""); cdu_pct = top.get("share_pct",0)
