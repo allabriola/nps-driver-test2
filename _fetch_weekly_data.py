@@ -13,7 +13,7 @@ client = bigquery.Client(project="meli-bi-data")
 PERIODS = {
     "S1_new":  ("2026-06-08", "2026-06-14", "WEEK"),
     "S2_new":  ("2026-06-01", "2026-06-07", "WEEK"),
-    "VIG_new": ("2026-06-15", "2026-06-17", "WEEK"),
+    "VIG_new": ("2026-06-15", "2026-06-18", "WEEK"),
 }
 
 _DRV_IN = ("'ME Vendedor Seller Dev','ME Vendedor Mature','ME Vendedor Meli Pro',"
