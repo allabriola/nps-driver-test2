@@ -162,11 +162,15 @@ with open("_copilot_by_process.json", "w", encoding="utf-8") as f:
     json.dump(by_proc, f, ensure_ascii=False, indent=2, default=str)
 print(f"   Salvo: _copilot_by_process.json ({len(by_proc)} linhas)\n")
 
-print("3. Transcrições para categorização...")
-transcripts = run_query(SQL_TRANSCRIPTS, "transcrições")
-with open("_copilot_transcripts_raw.json", "w", encoding="utf-8") as f:
-    json.dump(transcripts, f, ensure_ascii=False, indent=2, default=str)
-print(f"   Salvo: _copilot_transcripts_raw.json ({len(transcripts)} transcrições)\n")
+print("3. Transcrições para categorização (opcional — requer permissão especial)...")
+try:
+    transcripts = run_query(SQL_TRANSCRIPTS, "transcrições")
+    with open("_copilot_transcripts_raw.json", "w", encoding="utf-8") as f:
+        json.dump(transcripts, f, ensure_ascii=False, indent=2, default=str)
+    print(f"   Salvo: _copilot_transcripts_raw.json ({len(transcripts)} transcrições)\n")
+except Exception as e:
+    print(f"   ! Acesso negado à tabela de transcrições — aba Consultas ficará indisponível.")
+    print(f"   ! Erro: {str(e)[:120]}\n")
 
 print("=== Fetch concluído! ===")
-print("Próximo: python _copilot_categorize.py")
+print("Próximo: python _build_copilot_dashboard.py")

@@ -32,6 +32,23 @@ REPS    = load_json("_copilot_reps.json",       [])
 BY_PROC = load_json("_copilot_by_process.json", [])
 CATS    = load_json("_copilot_categories.json", {})
 
+# Converte campos numéricos que possam ter vindo como string do BQ
+NUM_FIELDS = ["pct_adopcion","outgoing_total","outgoing_copilot","dias_uso",
+              "tmo_com_copilot","tmo_sem_copilot","nps_copilot","n_nps","estilo_meli","n_qm"]
+for r in REPS:
+    for f in NUM_FIELDS:
+        v = r.get(f)
+        if v is None or v == "None": r[f] = None; continue
+        try: r[f] = float(v)
+        except (ValueError, TypeError): r[f] = None
+PROC_NUM = ["outgoing_total","outgoing_copilot","pct_adopcion"]
+for r in BY_PROC:
+    for f in PROC_NUM:
+        v = r.get(f)
+        if v is None or v == "None": r[f] = 0; continue
+        try: r[f] = float(v)
+        except (ValueError, TypeError): r[f] = 0
+
 print(f"  {len(REPS)} reps | {len(BY_PROC)} linhas proc | {len(CATS)} processos categorizados")
 
 # ══════════════════════════════════════════════════════════════════════

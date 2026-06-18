@@ -71,8 +71,12 @@ INSTRUÇÕES:
 # ── MAIN ──────────────────────────────────────────────────────────────
 print("=== CX Copilot — Categorização de Consultas ===\n")
 
-with open("_copilot_transcripts_raw.json", encoding="utf-8") as f:
-    all_tr = json.load(f)
+try:
+    with open("_copilot_transcripts_raw.json", encoding="utf-8") as f:
+        all_tr = json.load(f)
+except FileNotFoundError:
+    print("! _copilot_transcripts_raw.json não encontrado — nada para categorizar.")
+    sys.exit(0)
 
 # Agrupa por processo
 by_proc = defaultdict(list)
