@@ -20,13 +20,17 @@ MIN_QM    = 1      # n_qm mínimo
 # CARREGA DADOS
 # ══════════════════════════════════════════════════════════════════════
 print("Carregando JSONs...")
-with open("_copilot_reps.json",       encoding="utf-8") as f: REPS      = json.load(f)
-with open("_copilot_by_process.json", encoding="utf-8") as f: BY_PROC   = json.load(f)
-try:
-    with open("_copilot_categories.json", encoding="utf-8") as f: CATS = json.load(f)
-except FileNotFoundError:
-    CATS = {}
-    print("  ! _copilot_categories.json não encontrado — aba Consultas ficará vazia")
+def load_json(path, default):
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"  ! {path} não encontrado — usando dados vazios")
+        return default
+
+REPS    = load_json("_copilot_reps.json",       [])
+BY_PROC = load_json("_copilot_by_process.json", [])
+CATS    = load_json("_copilot_categories.json", {})
 
 print(f"  {len(REPS)} reps | {len(BY_PROC)} linhas proc | {len(CATS)} processos categorizados")
 

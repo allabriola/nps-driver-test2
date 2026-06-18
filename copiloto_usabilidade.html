@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CX Copilot — Usabilidade dos Reps</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f7;color:#1a1a2e}
+.header{background:#1a1a2e;color:white;padding:20px 32px;display:flex;justify-content:space-between;align-items:flex-start}
+.header h1{font-size:18px;font-weight:700}
+.header .sub{font-size:12px;color:#94a3b8;margin-top:4px}
+.filter-bar{background:white;padding:10px 32px;display:flex;align-items:center;gap:16px;border-bottom:1px solid #e2e8f0;flex-wrap:wrap}
+.filter-bar label{font-size:12px;font-weight:600;color:#64748b}
+.filter-bar select{font-size:12px;padding:5px 10px;border-radius:7px;border:1px solid #e2e8f0;background:white;color:#1e293b}
+.container{max-width:1350px;margin:0 auto;padding:20px 16px 40px}
+.tabs{display:flex;gap:4px;margin-bottom:16px;background:white;padding:6px;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.07);width:fit-content;flex-wrap:wrap}
+.tab-btn{padding:7px 18px;border-radius:7px;border:none;cursor:pointer;font-size:13px;font-weight:600;background:transparent;color:#64748b;transition:.15s}
+.tab-btn.active{background:#1d4ed8;color:white}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.ptabs{display:flex;gap:3px;margin-bottom:16px;background:#e2e8f0;padding:4px;border-radius:8px;width:fit-content}
+.ptab{padding:6px 18px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:600;background:transparent;color:#64748b}
+.ptab.active{background:white;color:#1d4ed8;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.period-pane{display:none}.period-pane.active{display:block}
+.sc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.kc{background:white;border-radius:10px;padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.kc .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:#94a3b8;font-weight:600;margin-bottom:7px}
+.kc .val{font-size:22px;font-weight:800;color:#1d4ed8;line-height:1}
+.kc .cmp{font-size:11px;color:#94a3b8;margin-top:4px}
+.ch-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:10px}
+.cc{background:white;border-radius:10px;padding:16px 20px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.cc h3{font-size:12px;font-weight:700;color:#1e293b}
+.cc p{font-size:10.5px;color:#94a3b8;margin:2px 0 10px}
+.rep-table-wrap{margin-top:10px;overflow-x:auto}
+table.rt{width:100%;border-collapse:collapse;font-size:11.5px}
+table.rt th{background:#1a1a2e;color:white;padding:7px 10px;text-align:center;font-size:10.5px;font-weight:600;letter-spacing:.3px;white-space:nowrap}
+table.rt th.left{text-align:left}
+table.rt td{padding:5px 9px;border-bottom:1px solid #f1f5f9;text-align:center;white-space:nowrap}
+table.rt td.rep-name{text-align:left;font-weight:600;font-size:11px;color:#1e293b}
+table.rt tr:hover td{filter:brightness(.97)}
+.gc{background:#dcfce7!important;color:#15803d;font-weight:700}
+.yc{background:#fef9c3!important;color:#854d0e;font-weight:700}
+.rc{background:#fee2e2!important;color:#dc2626;font-weight:700}
+.sd{color:#cbd5e1;font-style:italic}
+.note{font-size:11px;color:#94a3b8;background:white;padding:9px 14px;border-radius:8px;border-left:3px solid #e2e8f0;margin-top:10px;line-height:1.6}
+.note strong{color:#64748b}
+.note.warn{border-left-color:#f59e0b;background:#fffbeb}.note.warn strong{color:#92400e}
+.bdg{font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;display:inline-block;margin:1px}
+.bdg.red{background:#fee2e2;color:#dc2626}
+.bdg.neu{background:#f1f5f9;color:#64748b}
+.exp-badge{background:#dbeafe;color:#1d4ed8;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px}
+.new-badge{background:#f3e8ff;color:#7c3aed;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px}
+.section-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin:20px 0 10px;padding-top:8px;border-top:1px solid #e2e8f0}
+.cat-card{background:white;border-radius:10px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.cat-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.cat-name{font-size:13px;font-weight:700;color:#1e293b}
+.cat-pct{font-size:13px;font-weight:800;color:#1d4ed8}
+.cat-bar-wrap{background:#e2e8f0;border-radius:4px;height:6px;margin-bottom:8px}
+.cat-bar{background:#1d4ed8;border-radius:4px;height:6px;transition:.3s}
+.cat-desc{font-size:11.5px;color:#64748b;margin-bottom:8px}
+.ex-item{font-size:11px;color:#374151;background:#f8fafc;border-left:3px solid #93c5fd;padding:5px 10px;margin-bottom:4px;border-radius:0 5px 5px 0;font-style:italic}
+.footer{font-size:11px;color:#94a3b8;text-align:center;margin-top:28px}
+.hidden{display:none!important}
+@media(max-width:900px){.sc-grid{grid-template-columns:repeat(3,1fr)}.ch-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <h1>CX Copilot — Usabilidade dos Reps · BR</h1>
+    <div class="sub">Últimos 30 dias · 0 reps ativos · Gerado em 18/06/2026</div>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <label>Oficina:</label>
+  <select id="f-office" onchange="applyFilters()"><option value="ALL">Todas as Oficinas</option></select>
+  <label>Canal:</label>
+  <select id="f-canal" onchange="applyFilters()"><option value="ALL">Todos os Canais</option></select>
+  <span id="filter-count" style="font-size:11px;color:#94a3b8;margin-left:8px"></span>
+</div>
+
+<div class="container">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="setTab('geral',this)">Visão Geral</button>
+    <button class="tab-btn" onclick="setTab('q4',this)">Reps Q4</button>
+    <button class="tab-btn" onclick="setTab('proc',this)">Por Processo</button>
+    <button class="tab-btn" onclick="setTab('top',this)">Top Usuários</button>
+    <button class="tab-btn" onclick="setTab('consul',this)">Análise de Consultas</button>
+    <button class="tab-btn" onclick="setTab('crit',this)">Reps Críticos</button>
+  </div>
+
+  <!-- ══ TAB 1: VISÃO GERAL ══ -->
+  <div id="tab-geral" class="tab-pane active">
+    <div class="sc-grid">
+      <div class="kc"><div class="lbl">Reps Ativos Copilot</div><div class="val">0</div><div class="cmp">Expert: 0 | Newbie: 0</div></div>
+      <div class="kc"><div class="lbl">Adoção Média</div><div class="val" style="color:#dc2626">0%</div><div class="cmp">% outgoing com Copilot</div></div>
+      <div class="kc"><div class="lbl">Adoção &lt; 30%</div><div class="val" style="color:#d97706">0</div><div class="cmp">0% dos reps</div></div>
+      <div class="kc"><div class="lbl">Q4 ≥1 Métrica</div><div class="val" style="color:#7c3aed">0</div><div class="cmp">NPS, TMO ou Estilo Meli</div></div>
+      <div class="kc"><div class="lbl">Críticos</div><div class="val" style="color:#dc2626">0</div><div class="cmp">Baixa adoção + Q4</div></div>
+    </div>
+    <div class="ch-grid">
+      <div class="cc">
+        <h3>Distribuição de Adoção</h3>
+        <p>N° de reps por faixa de % adoção Copilot</p>
+        <canvas id="ch-dist"></canvas>
+      </div>
+      <div class="cc">
+        <h3>Expert vs Newbie — Adoção Média</h3>
+        <p>Comparação de adoção por senioridade</p>
+        <canvas id="ch-sen"></canvas>
+      </div>
+    </div>
+    <div class="section-lbl">Todos os Reps — Visão Geral</div>
+    <p class="sd" style="padding:12px">Nenhum rep encontrado.</p>
+  </div>
+
+  <!-- ══ TAB 2: REPS Q4 ══ -->
+  <div id="tab-q4" class="tab-pane">
+    
+    <div class="ptabs">
+      <button class="ptab active" onclick="setPtab('q4','todos',this)">Todos (0)</button>
+      <button class="ptab" onclick="setPtab('q4','expert',this)">Expert (0)</button>
+      <button class="ptab" onclick="setPtab('q4','newbie',this)">Newbie (0)</button>
+    </div>
+    <div id="q4-todos"   class="period-pane active"><p class="sd" style="padding:12px">Nenhum rep encontrado.</p></div>
+    <div id="q4-expert"  class="period-pane"><p class="sd" style="padding:12px">Nenhum rep encontrado.</p></div>
+    <div id="q4-newbie"  class="period-pane"><p class="sd" style="padding:12px">Nenhum rep encontrado.</p></div>
+    <div class="note">
+      <strong>Q4</strong> = pior quartil: NPS abaixo de —% | TMO acima de —s | Estilo Meli abaixo de —.
+      Reps com poucos dados (&lt;3 pesquisas NPS ou &lt;1 análise QM) não são marcados Q4 para aquela métrica.
+    </div>
+  </div>
+
+  <!-- ══ TAB 3: POR PROCESSO ══ -->
+  <div id="tab-proc" class="tab-pane">
+    
+    <div class="ptabs">
+      <button class="ptab active" onclick="setPtab('proc','todos',this)">Todos os Reps</button>
+      <button class="ptab" onclick="setPtab('proc','q4',this)">Apenas Reps Q4</button>
+    </div>
+    <div id="proc-todos" class="period-pane active"><table class="rt" data-table>
+          <thead><tr>
+            <th class="left">Processo</th><th>Reps</th>
+            <th>Outgoing Total</th><th>Com Copilot</th><th>Adoção%</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table></div>
+    <div id="proc-q4"    class="period-pane"><table class="rt" data-table>
+          <thead><tr>
+            <th class="left">Processo</th><th>Reps</th>
+            <th>Outgoing Total</th><th>Com Copilot</th><th>Adoção%</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table></div>
+    <div class="note">Ordenado do menor para maior % de adoção — processos no topo são prioridade de atenção.</div>
+  </div>
+
+  <!-- ══ TAB 4: TOP USUÁRIOS ══ -->
+  <div id="tab-top" class="tab-pane">
+    <div class="section-lbl">Top 20 Reps por Adoção Copilot</div>
+    <p class="sd" style="padding:12px">Nenhum rep encontrado.</p>
+    <div class="note">Top 20 reps por % de adoção. Verde = boa performance naquele indicador.</div>
+  </div>
+
+  <!-- ══ TAB 5: ANÁLISE DE CONSULTAS ══ -->
+  <div id="tab-consul" class="tab-pane">
+    <div class="section-lbl">O que os reps pedem ao Copilot — por processo</div>
+    <p class="note">Execute _copilot_categorize.py para gerar a análise de consultas.</p>
+  </div>
+
+  <!-- ══ TAB 6: REPS CRÍTICOS ══ -->
+  <div id="tab-crit" class="tab-pane">
+    <div class="section-lbl">Reps com Baixa Adoção + Performance Crítica</div>
+    <p class="note">Nenhum rep crítico encontrado (baixa adoção + Q4 em alguma métrica).</p>
+  </div>
+
+  <div class="footer">CX Copilot · Usabilidade · 18/06/2026 · Dados: últimos 30 dias</div>
+</div>
+
+<script>
+// ── TABS ──────────────────────────────────────────────────────────────
+function setTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+function setPtab(group, id, btn) {
+  document.querySelectorAll('[id^="' + group + '-"]').forEach(p => p.classList.remove('active'));
+  btn.closest('.ptabs').querySelectorAll('.ptab').forEach(b => b.classList.remove('active'));
+  document.getElementById(group + '-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FILTROS ───────────────────────────────────────────────────────────
+function applyFilters() {
+  const office = document.getElementById('f-office').value;
+  const canal  = document.getElementById('f-canal').value;
+  let vis = 0, tot = 0;
+  document.querySelectorAll('table[data-table] tbody tr').forEach(tr => {
+    const td = tr.querySelector('td[data-office]');
+    if (!td) { tr.classList.remove('hidden'); return; }
+    const ro = td.dataset.office || '';
+    const rc = td.dataset.canal  || '';
+    const show = (office === 'ALL' || ro === office) && (canal === 'ALL' || rc === canal);
+    tr.classList.toggle('hidden', !show);
+    tot++; if (show) vis++;
+  });
+  const el = document.getElementById('filter-count');
+  if (office !== 'ALL' || canal !== 'ALL') el.textContent = `${vis} de ${tot} reps visíveis`;
+  else el.textContent = '';
+}
+
+// ── CHARTS ────────────────────────────────────────────────────────────
+const DIST_DATA = [0, 0, 0, 0, 0];
+const DIST_LBLS = ["0-20%", "20-40%", "40-60%", "60-80%", "80-100%"];
+
+const adopt_expert = 0.0;
+const adopt_newbie = 0.0;
+
+window.addEventListener('DOMContentLoaded', () => {
+  new Chart(document.getElementById('ch-dist'), {
+    type: 'bar',
+    data: {
+      labels: DIST_LBLS,
+      datasets: [{
+        label: 'Reps',
+        data: DIST_DATA,
+        backgroundColor: ['#dc2626','#f59e0b','#f59e0b','#22c55e','#15803d'],
+        borderRadius: 5
+      }]
+    },
+    options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+  });
+
+  new Chart(document.getElementById('ch-sen'), {
+    type: 'bar',
+    data: {
+      labels: ['Expert', 'Newbie'],
+      datasets: [{
+        label: 'Adoção Média %',
+        data: [adopt_expert, adopt_newbie],
+        backgroundColor: ['#1d4ed8','#7c3aed'],
+        borderRadius: 5
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v+'%' } } }
+    }
+  });
+});
+</script>
+</body>
+</html>
