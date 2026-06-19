@@ -266,6 +266,29 @@ def q_wow_solution_by_cdu() -> str:
     ORDER BY 1, 2, surveys DESC
     """
 
+def q_wow_by_office_dim(dim_field: str) -> str:
+    """Query WoW com agrupamento por office + dimensão — para o filtro de office."""
+    cutoff = TODAY - timedelta(weeks=3)
+    return f"""
+    SELECT
+      DATE_TRUNC(CAST(SURVEY_DATE_SURVEY AS DATE), ISOWEEK)      AS week_start,
+      COALESCE(NULLIF(TRIM(USER_OFFICE),''), 'Não informado')    AS office,
+      COALESCE(NULLIF(TRIM({dim_field}),''), 'N/A')              AS dim,
+      COUNT(*)       AS surveys,
+      SUM(PROMOTER)  AS promoters,
+      SUM(DETRACTOR) AS detractors
+    FROM {TABLE_NPS}
+    WHERE SIT_SITE_ID      = '{SITE}'
+      AND SURVEY_CENTER    = 'BR'
+      AND PRO_PROCESS_NAME = '{PROCESS_KEY}'
+      AND {TEAMS_FILTER}
+      AND {NPS_FILTER}
+      AND CAST(SURVEY_DATE_SURVEY AS DATE) >= '{cutoff}'
+    GROUP BY 1, 2, 3
+    HAVING COUNT(*) >= 1
+    ORDER BY 1, 2, surveys DESC
+    """
+
 def q_wow_dim(dim_field: str) -> str:
     """Query genérica para WoW por dimensão (canal, senioridade, escritório)."""
     cutoff = TODAY - timedelta(weeks=3)
@@ -757,6 +780,51 @@ def process_wow_dim(raw: list[dict], weekly_weeks: list[str]) -> dict:
         by_dim.setdefault(str(r["dim"]), {})[lbl] = {"p": p, "d": d, "s": s, "nps": _calc_nps(p, d, s)}
     return by_dim
 
+def process_wow_by_office_dim(raw: list[dict], weekly_weeks: list[str] = None) -> dict:
+    """{office: {dim: {week_label: {p,d,s}}}} — usa todas as semanas disponíveis no NPS."""
+    result: dict = {}
+    for r in raw:
+        ws  = r["week_start"]
+        lbl = ws.strftime("%d/%m") if hasattr(ws, "strftime") else str(ws)[8:10] + "/" + str(ws)[5:7]
+        p, d, s = int(r["promoters"] or 0), int(r["detractors"] or 0), int(r["surveys"] or 0)
+        office = str(r["office"])
+        dim    = str(r["dim"])
+        result.setdefault(office, {}).setdefault(dim, {})[lbl] = {"p": p, "d": d, "s": s}
+    return result
+
+def compute_wow_office_filter(by_office_cdu: dict, by_office_channel: dict,
+                               by_office_seniority: dict, weekly_weeks: list[str],
+                               wow_cdu_all: dict, wow_channel_all: dict,
+                               wow_seniority_all: dict, wow_office_all: dict) -> dict:
+    """Retorna {office: {cdu, channel, seniority, office}} com cascatas pré-computadas."""
+    # Obtém lista de offices com dados suficientes
+    all_offices = set(by_office_cdu) | set(by_office_channel) | set(by_office_seniority)
+
+    result = {
+        "Todos": {
+            "cdu":       wow_cdu_all,
+            "channel":   wow_channel_all,
+            "seniority": wow_seniority_all,
+            "office":    wow_office_all,
+        }
+    }
+
+    for office in sorted(all_offices):
+        if office in ("Não informado", "N/A"):
+            continue
+        entry = {}
+        for key, by_off in [("cdu", by_office_cdu), ("channel", by_office_channel),
+                             ("seniority", by_office_seniority)]:
+            by_dim = by_off.get(office, {})
+            if by_dim:
+                entry[key] = compute_wow_waterfall(by_dim, weekly_weeks, key)
+            else:
+                entry[key] = {"bars": [], "contribs": []}
+        entry["office"] = {"bars": [], "contribs": []}  # sem sub-filtro de office dentro de office
+        result[office] = entry
+
+    return result
+
 def process_wow_sol(raw: list[dict], weekly_weeks: list[str] = None) -> dict:
     """{cdu: {solution: {week_label: {p,d,s,nps}}}}
     Usa todas as semanas disponíveis no NPS (não filtra por weekly_weeks do outgoing)."""
@@ -780,8 +848,8 @@ def _compute_mix_neto(contribs_extended):
 def compute_wow_sol_waterfalls(by_sol_cdu: dict, weekly_weeks: list[str] = None) -> dict:
     """Retorna {cdu: {bars, mix, neto, nps_last, nps_prev, last_w, prev_w}} para todos os CDUs."""
     result = {}
-    last_w = (weekly_weeks or [""])[- 1] if weekly_weeks else ""
-    prev_w = (weekly_weeks or ["", ""])[-2] if weekly_weeks and len(weekly_weeks) >= 2 else ""
+    _last_w = (weekly_weeks or [""])[- 1] if weekly_weeks else ""
+    _prev_w = (weekly_weeks or ["", ""])[-2] if weekly_weeks and len(weekly_weeks) >= 2 else ""
 
     for cdu, by_sol in by_sol_cdu.items():
         # Agrega por semana
@@ -872,12 +940,6 @@ def compute_wow_sol_waterfalls(by_sol_cdu: dict, weekly_weeks: list[str] = None)
 
 def compute_wow_waterfall(by_dim: dict, weekly_weeks: list[str], dim_label: str) -> dict:
     """Monta cascata WoW para uma dimensão."""
-    if len(weekly_weeks) < 2:
-        return {"bars": [], "last_w": "—", "prev_w": "—", "nps_last": None, "nps_prev": None, "contribs": []}
-
-    last_w = weekly_weeks[-1]
-    prev_w = weekly_weeks[-2]
-
     # NPS agregado por semana
     def agg_week(wk):
         p, d, s = 0, 0, 0
@@ -886,6 +948,26 @@ def compute_wow_waterfall(by_dim: dict, weekly_weeks: list[str], dim_label: str)
             if not isinstance(e, dict): continue
             p += e.get("p", 0); d += e.get("d", 0); s += e.get("s", 0)
         return _calc_nps(p, d, s), s
+
+    # Tenta usar as semanas do outgoing; se não houver dados, pega as 2 com mais surveys
+    _last_w = (weekly_weeks or [""])[-1] if weekly_weeks else ""
+    _prev_w = (weekly_weeks or ["",""])[-2] if weekly_weeks and len(weekly_weeks) >= 2 else ""
+    _, s_test_last = agg_week(_last_w)
+    _, s_test_prev = agg_week(_prev_w)
+
+    if not s_test_last or not s_test_prev:
+        # Detecta as 2 semanas com mais surveys nos dados disponíveis
+        week_totals: dict = {}
+        for dim_v, weeks in by_dim.items():
+            for wk, e in weeks.items():
+                if isinstance(e, dict):
+                    week_totals[wk] = week_totals.get(wk, 0) + e.get("s", 0)
+        top_wks = sorted(sorted(week_totals, key=lambda w: -week_totals[w])[:4])
+        if len(top_wks) < 2:
+            return {"bars": [], "last_w": "—", "prev_w": "—", "nps_last": None, "nps_prev": None, "contribs": []}
+        last_w, prev_w = top_wks[-1], top_wks[-2]
+    else:
+        last_w, prev_w = _last_w, _prev_w
 
     nps_last, s_last = agg_week(last_w)
     nps_prev, s_prev = agg_week(prev_w)
@@ -1295,11 +1377,12 @@ def build_all(html_only: bool = False):
         wow_office    = cached.get("wow_office", {"bars": [], "contribs": []})
         wow_analysis  = cached.get("wow_analysis", "")
         themes_weekly      = cached.get("themes_weekly", {})
-        wow_sol_waterfalls = cached.get("wow_sol_waterfalls", {})
+        wow_sol_waterfalls  = cached.get("wow_sol_waterfalls", {})
+        wow_office_filter   = cached.get("wow_office_filter", {"Todos": {}})
         return (monthly, weekly, daily, themes_by_cdu, themes_weekly, solutions, nps_by_cdu, nps_monthly,
                 nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard,
                 detractor_analysis, wow_cdu, wow_channel, wow_seniority, wow_office, wow_analysis,
-                wow_sol_waterfalls)
+                wow_sol_waterfalls, wow_office_filter)
 
     print("▸ Volume mensal…")
     monthly_raw = run(q_monthly())
@@ -1325,6 +1408,7 @@ def build_all(html_only: bool = False):
     except Exception as e:
         print(f"   [warn] WoW dims: {e}")
         wow_channel_raw = wow_seniority_raw = wow_office_raw = []
+
     print("▸ NPS diário…")
     nps_day_raw = run(q_nps_daily())
 
@@ -1337,6 +1421,19 @@ def build_all(html_only: bool = False):
     nps_weekly       = process_nps_agg(nps_week_raw, weekly["weeks"], "week_start")
     nps_daily        = process_nps_agg(nps_day_raw,  daily["days"],  "day")
     nps_weekly_by_cdu = process_nps_weekly_by_cdu(nps_week_cdu_raw, weekly["weeks"])
+
+    print("▸ WoW — filtro por office (CDU, canal, senioridade)…")
+    try:
+        wow_ofc_cdu_raw  = run(q_wow_by_office_dim("CDU"))
+        wow_ofc_ch_raw   = run(q_wow_by_office_dim("USER_TEAM_CHANNEL"))
+        wow_ofc_sen_raw  = run(q_wow_by_office_dim("ANTIGUEDAD_REP"))
+        _by_ofc_cdu  = process_wow_by_office_dim(wow_ofc_cdu_raw)
+        _by_ofc_ch   = process_wow_by_office_dim(wow_ofc_ch_raw)
+        _by_ofc_sen  = process_wow_by_office_dim(wow_ofc_sen_raw)
+    except Exception as e:
+        print(f"   [warn] WoW office filter: {e}")
+        _by_ofc_cdu = _by_ofc_ch = _by_ofc_sen = {}
+
     print("▸ WoW — solução por CDU…")
     try:
         wow_sol_raw = run(q_wow_solution_by_cdu())
@@ -1354,6 +1451,11 @@ def build_all(html_only: bool = False):
     wow_seniority= compute_wow_waterfall(wow_by_seniority, weekly["weeks"], "Senioridade")
     wow_office   = compute_wow_waterfall(wow_by_office,    weekly["weeks"], "Escritório")
     wow_analysis = generate_wow_analysis(wow_cdu, wow_channel, wow_seniority, wow_office)
+
+    wow_office_filter = compute_wow_office_filter(
+        _by_ofc_cdu, _by_ofc_ch, _by_ofc_sen, weekly["weeks"],
+        wow_cdu, wow_channel, wow_seniority, wow_office
+    )
     waterfalls       = compute_waterfalls(nps_by_cdu, nps_monthly)
     mom_scorecard    = compute_mom_scorecard(monthly, nps_monthly, nps_by_cdu,
                                              waterfalls.get("process_target"))
@@ -1403,11 +1505,12 @@ def build_all(html_only: bool = False):
                  "detractor_analysis": detractor_analysis,
                  "wow_cdu": wow_cdu, "wow_channel": wow_channel,
                  "wow_seniority": wow_seniority, "wow_office": wow_office,
-                 "wow_analysis": wow_analysis}, charts=True)
+                 "wow_analysis": wow_analysis,
+                 "wow_office_filter": wow_office_filter}, charts=True)
     return (monthly, weekly, daily, themes_by_cdu, themes_weekly, solutions, nps_by_cdu, nps_monthly,
             nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard,
             detractor_analysis, wow_cdu, wow_channel, wow_seniority, wow_office, wow_analysis,
-            wow_sol_waterfalls)
+            wow_sol_waterfalls, wow_office_filter)
 
 # ── HTML ──────────────────────────────────────────────────────────────────────
 def jd(obj) -> str:
@@ -2088,6 +2191,21 @@ def _render_solutions(solutions: list, total_v: int) -> str:
         )
     return rows
 
+def _build_wow_office_filter_js(wow_office_filter: dict, wow_cdu: dict) -> dict:
+    """Converte wow_office_filter para formato JS com arrays de barras."""
+    result = {}
+    for k, v in wow_office_filter.items():
+        cdu_data = v.get("cdu") or {}
+        result[k] = {
+            "cdu":       cdu_data.get("bars", []) if isinstance(cdu_data, dict) else [],
+            "channel":   (v.get("channel") or {}).get("bars", []),
+            "seniority": (v.get("seniority") or {}).get("bars", []),
+            "office":    (v.get("office") or {}).get("bars", []),
+            "last_w":    cdu_data.get("last_w", wow_cdu.get("last_w", "—")) if isinstance(cdu_data, dict) else wow_cdu.get("last_w", "—"),
+            "prev_w":    cdu_data.get("prev_w", wow_cdu.get("prev_w", "—")) if isinstance(cdu_data, dict) else wow_cdu.get("prev_w", "—"),
+        }
+    return result
+
 def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
                   themes_weekly: dict, solutions: list, nps_by_cdu: list, nps_monthly: dict,
                   nps_weekly: list, nps_daily: list,
@@ -2095,7 +2213,7 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
                   mom_scorecard: list, detractor_analysis: dict,
                   wow_cdu: dict, wow_channel: dict, wow_seniority: dict,
                   wow_office: dict, wow_analysis: str,
-                  wow_sol_waterfalls: dict) -> str:
+                  wow_sol_waterfalls: dict, wow_office_filter: dict) -> str:
     from datetime import datetime as _dt
     now_str = _dt.now().strftime("%d/%m/%Y às %H:%M")
 
@@ -2572,24 +2690,34 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   <!-- ── ABA IMPACTO SEMANAL ───────────────────────────────────── -->
   <div class="tab-pane" id="tp2">
 
+    <!-- Filtro de Office -->
+    <div style="display:flex;align-items:center;gap:10px;background:#fff;
+                border-radius:10px;padding:10px 16px;box-shadow:0 1px 4px rgba(0,0,0,.07)">
+      <span style="font-size:12px;font-weight:700;color:#444;white-space:nowrap">Filtrar por Escritório:</span>
+      <select class="cdu-sel" id="officeSel" onchange="selectOfficeFilter(this.value)" style="font-size:13px">
+        {''.join(f'<option value="{o}">{o}</option>' for o in wow_office_filter)}
+      </select>
+      <span id="officeFilterLabel" style="font-size:11px;color:#888">Aplica nos gráficos de cascata abaixo</span>
+    </div>
+
     <div class="grid2">
       <div class="card">
-        <p class="chart-title">WoW por CDU · {wow_cdu.get('prev_w','—')} → {wow_cdu.get('last_w','—')}</p>
+        <p class="chart-title" id="titleWowCdu">WoW por CDU · {wow_cdu.get('prev_w','—')} → {wow_cdu.get('last_w','—')}</p>
         <div class="cw" style="height:420px"><canvas id="cWowCdu"></canvas></div>
       </div>
       <div class="card">
-        <p class="chart-title">WoW por Escritório · {wow_office.get('prev_w','—')} → {wow_office.get('last_w','—')}</p>
+        <p class="chart-title" id="titleWowOfc">WoW por Escritório · {wow_office.get('prev_w','—')} → {wow_office.get('last_w','—')}</p>
         <div class="cw" style="height:420px"><canvas id="cWowOffice"></canvas></div>
       </div>
     </div>
 
     <div class="grid2">
       <div class="card">
-        <p class="chart-title">WoW por Canal · {wow_channel.get('prev_w','—')} → {wow_channel.get('last_w','—')}</p>
+        <p class="chart-title" id="titleWowCh">WoW por Canal · {wow_channel.get('prev_w','—')} → {wow_channel.get('last_w','—')}</p>
         <div class="cw" style="height:360px"><canvas id="cWowChannel"></canvas></div>
       </div>
       <div class="card">
-        <p class="chart-title">WoW por Senioridade · {wow_seniority.get('prev_w','—')} → {wow_seniority.get('last_w','—')}</p>
+        <p class="chart-title" id="titleWowSen">WoW por Senioridade · {wow_seniority.get('prev_w','—')} → {wow_seniority.get('last_w','—')}</p>
         <div class="cw" style="height:360px"><canvas id="cWowSeniority"></canvas></div>
       </div>
     </div>
@@ -2742,8 +2870,34 @@ function npsColor(v) {{
   return '#E05252';
 }}
 
-const CDU_THEMES_DET = {jd(cdu_themes_det)};
+const CDU_THEMES_DET    = {jd(cdu_themes_det)};
 const WOW_SOL_WATERFALLS = {jd(wow_sol_waterfalls)};
+const WOW_OFFICE_FILTER  = {jd(_build_wow_office_filter_js(wow_office_filter, wow_cdu))};
+
+let _wfCdu = null, _wfChannel = null, _wfSeniority = null, _wfOffice = null;
+
+function selectOfficeFilter(office) {{
+  const f = WOW_OFFICE_FILTER[office] || WOW_OFFICE_FILTER['Todos'];
+  if (!f) return;
+
+  // Destroi gráficos anteriores
+  if (_wfCdu)       {{ _wfCdu.destroy();       _wfCdu = null; }}
+  if (_wfChannel)   {{ _wfChannel.destroy();   _wfChannel = null; }}
+  if (_wfSeniority) {{ _wfSeniority.destroy(); _wfSeniority = null; }}
+  if (_wfOffice)    {{ _wfOffice.destroy();     _wfOffice = null; }}
+
+  const lw = f.last_w || '—', pw = f.prev_w || '—';
+  const el = id => document.getElementById(id);
+  if (el('titleWowCdu'))  el('titleWowCdu').textContent  = `WoW por CDU · ${{pw}} → ${{lw}} [${{office}}]`;
+  if (el('titleWowCh'))   el('titleWowCh').textContent   = `WoW por Canal · ${{pw}} → ${{lw}} [${{office}}]`;
+  if (el('titleWowSen'))  el('titleWowSen').textContent  = `WoW por Senioridade · ${{pw}} → ${{lw}} [${{office}}]`;
+  if (el('titleWowOfc'))  el('titleWowOfc').textContent  = `WoW por Escritório · ${{pw}} → ${{lw}}`;
+
+  _wfCdu       = waterfallChart('cWowCdu',      f.cdu       || []);
+  _wfChannel   = waterfallChart('cWowChannel',  f.channel   || []);
+  _wfSeniority = waterfallChart('cWowSeniority',f.seniority || []);
+  _wfOffice    = waterfallChart('cWowOffice',   f.office    || []);
+}}
 let solWaterfallChart = null;
 
 function selectSolWaterfall(cdu) {{
@@ -2846,7 +3000,7 @@ function survChart(id, labels, datasets) {{
 }}
 
 function waterfallChart(id, bars) {{
-  if (!bars || !bars.length || !document.getElementById(id)) return;
+  if (!bars || !bars.length || !document.getElementById(id)) return null;
   const labels  = bars.map(b => b.label);
   const spacers = bars.map(b => b.spacer);
   const values  = bars.map(b => b.bar);
@@ -2921,6 +3075,7 @@ function waterfallChart(id, bars) {{
       }}
     }}
   }});
+  return chart;
 }}
 
 function initNpsCharts() {{
@@ -3209,9 +3364,8 @@ function initImpactoCharts() {{
     seniority: {jd(wow_seniority.get('bars', []))},
   }};
 
-  [['cWowCdu', wowData.cdu], ['cWowOffice', wowData.office],
-   ['cWowChannel', wowData.channel], ['cWowSeniority', wowData.seniority]
-  ].forEach(([id, bars]) => waterfallChart(id, bars));
+  // Inicializa filtro de office com "Todos"
+  selectOfficeFilter('Todos');
 
   survChart('cSurvM', {jd(monthly['months'])}, {jd(surv_m_datasets)});
   survChart('cSurvW', {jd(weekly['weeks'])},   {jd(surv_w_datasets)});
@@ -3290,11 +3444,11 @@ if __name__ == "__main__":
         (monthly, weekly, daily, themes_by_cdu, themes_weekly, solutions, nps_by_cdu, nps_monthly,
          nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard,
          detractor_analysis, wow_cdu, wow_channel, wow_seniority, wow_office, wow_analysis,
-         wow_sol_waterfalls) = build_all(html_only=html_only)
+         wow_sol_waterfalls, wow_office_filter) = build_all(html_only=html_only)
         html = generate_html(monthly, weekly, daily, themes_by_cdu, themes_weekly, solutions, nps_by_cdu,
                              nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls,
                              mom_scorecard, detractor_analysis, wow_cdu, wow_channel,
-                             wow_seniority, wow_office, wow_analysis, wow_sol_waterfalls)
+                             wow_seniority, wow_office, wow_analysis, wow_sol_waterfalls, wow_office_filter)
         out  = "outgoing_drivers_analysis.html"
         with open(out, "w", encoding="utf-8") as f:
             f.write(html)
