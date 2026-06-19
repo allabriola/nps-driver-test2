@@ -1446,105 +1446,111 @@ def _classify_theme(name: str) -> str:
 def generate_impact_executive_summary(detractor_analysis: dict, wow_cdu: dict,
                                        wow_channel: dict, wow_seniority: dict,
                                        wow_office: dict, nps_by_cdu: list) -> str:
-    last_w = wow_cdu.get("last_w", "—")
-    prev_w = wow_cdu.get("prev_w", "—")
+    last_w   = wow_cdu.get("last_w", "—")
+    prev_w   = wow_cdu.get("prev_w", "—")
     nps_last = wow_cdu.get("nps_last")
     nps_prev = wow_cdu.get("nps_prev")
+    nps_map  = {r["cdu"]: r for r in nps_by_cdu}
+    paras = []
 
-    # Seção 1: Contexto WoW
+    # ── Parágrafo 1: variação WoW e responsável principal ───────────────────
     if nps_last is not None and nps_prev is not None:
-        delta = round(nps_last - nps_prev, 1)
-        direction = "queda" if delta < 0 else "alta"
-        ctx_html = (f'<li class="ex-li"><strong>Contexto:</strong> NPS do processo Drivers '
-                    f'<span style="color:{"#E05252" if delta<0 else "#70AD47"};font-weight:700">'
-                    f'{"" if delta>=0 else ""}{delta:+.1f}pp</span> na semana de {last_w} vs {prev_w} '
-                    f'({nps_prev:.1f} → {nps_last:.1f}).')
-        # top positive e negative da cascata CDU
-        contribs = wow_cdu.get("contribs", [])
-        if contribs:
-            top_pos = max(contribs, key=lambda x: x[1], default=None)
-            top_neg = min(contribs, key=lambda x: x[1], default=None)
-            if top_neg and top_neg[1] < -0.05:
-                e = top_neg[2]
-                ctx_html += (f' Principal detrator semanal: <strong>{top_neg[0]}</strong> '
-                             f'({e["nps0"]:.1f}→{e["nps1"]:.1f}, {top_neg[1]:+.2f}pp).')
-            if top_pos and top_pos[1] > 0.05:
-                e = top_pos[2]
-                ctx_html += (f' Principal contribuidor positivo: <strong>{top_pos[0]}</strong> '
-                             f'({e["nps0"]:.1f}→{e["nps1"]:.1f}, {top_pos[1]:+.2f}pp).')
-        ctx_html += '</li>'
-    else:
-        ctx_html = '<li class="ex-li"><strong>Contexto:</strong> Dados de WoW insuficientes.</li>'
+        delta     = round(nps_last - nps_prev, 1)
+        direction = "caiu" if delta < 0 else "subiu"
+        contribs  = wow_cdu.get("contribs", [])
+        top_neg   = min(contribs, key=lambda x: x[1], default=None) if contribs else None
+        top_pos   = max(contribs, key=lambda x: x[1], default=None) if contribs else None
 
-    # Seção 2: Oportunidades de Processo e Representante
-    proc_items, rep_items = [], []
+        p = (f"Na semana de <strong>{last_w}</strong>, o NPS do processo Drivers "
+             f"<strong style='color:{'#E05252' if delta<0 else '#70AD47'}'>{direction} {abs(delta):.1f}pp</strong> "
+             f"em relação a {prev_w} ({nps_prev:.1f} → {nps_last:.1f}).")
+        if top_neg and top_neg[1] < -0.1:
+            e = top_neg[2]
+            p += (f" O principal responsável pela queda foi <strong>{top_neg[0]}</strong>, "
+                  f"cujo NPS recuou de {e['nps0']:.1f} para {e['nps1']:.1f} "
+                  f"({top_neg[1]:+.2f}pp de impacto no processo).")
+        if top_pos and top_pos[1] > 0.1:
+            e = top_pos[2]
+            p += (f" Em contrapartida, <strong>{top_pos[0]}</strong> contribuiu positivamente "
+                  f"({e['nps0']:.1f} → {e['nps1']:.1f}, {top_pos[1]:+.2f}pp).")
+        paras.append(p)
+
+    # ── Parágrafo 2: dimensões (canal, escritório, senioridade) ─────────────
+    dim_insights = []
+    for wow, lbl in [(wow_channel, "canal"), (wow_office, "escritório"), (wow_seniority, "senioridade")]:
+        c = wow.get("contribs", [])
+        if not c: continue
+        neg = min(c, key=lambda x: x[1], default=None)
+        if neg and neg[1] < -0.1:
+            e = neg[2]
+            dim_insights.append(
+                f"por <strong>{lbl}</strong>, <strong>{neg[0]}</strong> foi o mais afetado "
+                f"({e['nps0']:.1f} → {e['nps1']:.1f}, {neg[1]:+.2f}pp)"
+            )
+    if dim_insights:
+        paras.append("Analisando as demais dimensões: " + "; ".join(dim_insights) + ".")
+
+    # ── Parágrafo 3: oportunidades de processo ───────────────────────────────
+    proc_items = []
     for cdu, data in detractor_analysis.items():
-        nps_ytd = next((r["nps"] for r in nps_by_cdu if r["cdu"] == cdu), None)
         for t in data.get("themes", []):
-            cat = _classify_theme(t["name"])
-            sample = t["samples"][0][:140] if t.get("samples") else ""
-            item = {
-                "cdu": cdu[:38], "theme": t["name"], "pct": t["pct"],
-                "sample": sample, "nps": nps_ytd
-            }
-            if cat in ("processo", "both"):   proc_items.append(item)
-            if cat in ("representante", "both"): rep_items.append(item)
+            if _classify_theme(t["name"]) in ("processo", "both"):
+                s = t["samples"][0][:120] if t.get("samples") else ""
+                proc_items.append((cdu, t["name"], t["pct"], s))
+    proc_items.sort(key=lambda x: x[2], reverse=True)
+    if proc_items:
+        top = proc_items[0]
+        extras = [f"<strong>{it[0][:28]}</strong> ({it[1]}, {it[2]}%)" for it in proc_items[1:3]]
+        p = (f"Em relação a <strong>oportunidades de processo</strong>, o tema mais frequente é "
+             f"<strong>{top[1]}</strong> em <strong>{top[0][:35]}</strong> ({top[2]}% dos casos)")
+        if top[3]:
+            p += f' — detratores relatam: <em>"{top[3]}…"</em>'
+        if extras:
+            p += ". Outros temas de processo relevantes: " + ", ".join(extras) + "."
+        else:
+            p += "."
+        paras.append(p)
 
-    # ordena por % e limita a top 4 de cada
-    proc_items.sort(key=lambda x: x["pct"], reverse=True)
-    rep_items.sort(key=lambda x:  x["pct"], reverse=True)
+    # ── Parágrafo 4: oportunidades de representante ──────────────────────────
+    rep_items = []
+    for cdu, data in detractor_analysis.items():
+        for t in data.get("themes", []):
+            if _classify_theme(t["name"]) in ("representante", "both"):
+                s = t["samples"][0][:120] if t.get("samples") else ""
+                rep_items.append((cdu, t["name"], t["pct"], s))
+    rep_items.sort(key=lambda x: x[2], reverse=True)
+    if rep_items:
+        top = rep_items[0]
+        p = (f"Quanto às <strong>oportunidades de representante</strong>, destaca-se "
+             f"<strong>{top[1]}</strong> em <strong>{top[0][:35]}</strong> ({top[2]}% dos casos)")
+        if top[3]:
+            p += f' — relato típico: <em>"{top[3]}…"</em>'
+        p += ". Isso indica que parte da insatisfação está relacionada à qualidade do atendimento e resolução de primeiro contato."
+        paras.append(p)
 
-    def _render_opp(items, label, color):
-        if not items:
-            return f'<li class="ex-li"><strong>{label}:</strong> Nenhum tema identificado.</li>'
-        html = f'<li class="ex-li"><strong>{label}:</strong><ul style="margin:6px 0 0 16px;display:flex;flex-direction:column;gap:6px">'
-        for it in items[:4]:
-            nps_str = f' · NPS {it["nps"]:.1f}' if it["nps"] is not None else ""
-            html += (f'<li><span style="background:{color}18;color:{color};font-weight:700;'
-                     f'padding:1px 7px;border-radius:10px;font-size:11px">{it["cdu"][:35]}</span> '
-                     f'<strong>{it["theme"]}</strong> ({it["pct"]}%{nps_str})'
-                     + (f'<br><em style="font-size:11px;color:#666">"…{it["sample"]}…"</em>' if it["sample"] else "")
-                     + '</li>')
-        html += '</ul></li>'
-        return html
-
-    proc_html = _render_opp(proc_items, "Oportunidades de Processo", "#4472C4")
-    rep_html  = _render_opp(rep_items,  "Oportunidades de Representante", "#ED7D31")
-
-    # Seção 3: CDUs sem detratores mas com NPS abaixo do target (sinal de alerta silencioso)
-    nps_map = {r["cdu"]: r for r in nps_by_cdu}
-    process_target = nps_map.get(list(nps_map.keys())[0], {}).get("target", 71) if nps_map else 71
-
-    alert_cdus = [
-        cdu for cdu in detractor_analysis
-        if detractor_analysis[cdu].get("total", 0) < 5
-        and (nps_map.get(cdu, {}).get("nps") or 100) < (process_target or 71)
-    ]
-    alert_html = ""
-    if alert_cdus:
-        alert_html = (
-            f'<li class="ex-li"><strong>CDUs com NPS abaixo do target e poucos comentários:</strong> '
-            + ", ".join(f"<strong>{c[:35]}</strong>" for c in alert_cdus[:4])
-            + " — monitorar proativamente pois há baixa cobertura qualitativa.</li>"
+    # ── Parágrafo 5: CDUs mais críticos com baixo NPS ────────────────────────
+    critical = sorted(
+        [(cdu, nps_map[cdu]["nps"]) for cdu in detractor_analysis
+         if cdu in nps_map and nps_map[cdu].get("nps") is not None
+         and detractor_analysis[cdu].get("total", 0) >= 5],
+        key=lambda x: x[1]
+    )[:3]
+    if critical:
+        crit_str = ", ".join(
+            f"<strong>{c[:32]}</strong> (NPS {n:.1f})" for c, n in critical
+        )
+        paras.append(
+            f"Os CDUs que combinam alto volume de detratores com NPS mais baixo são: {crit_str}. "
+            f"Estes devem ser priorizados em planos de ação imediatos."
         )
 
-    # Seção 4: top CDU por tema de queda
-    worst_by_theme = sorted(
-        [(cdu, t) for cdu, data in detractor_analysis.items()
-         for t in data.get("themes", [])[:1]],   # top theme de cada CDU
-        key=lambda x: x[1]["pct"], reverse=True
-    )[:4]
-    insights_html = ""
-    if worst_by_theme:
-        insights_html = '<li class="ex-li"><strong>Principal motivo por CDU:</strong><ul style="margin:6px 0 0 16px;display:flex;flex-direction:column;gap:4px">'
-        for cdu, t in worst_by_theme:
-            s = t["samples"][0][:120] if t.get("samples") else ""
-            insights_html += (f'<li><strong>{cdu[:40]}</strong>: {t["name"]} ({t["pct"]}%)'
-                              + (f'<br><em style="font-size:11px;color:#666">"…{s}…"</em>' if s else "")
-                              + '</li>')
-        insights_html += '</ul></li>'
+    if not paras:
+        return '<p style="color:#999;font-size:13px">Dados insuficientes para análise automática.</p>'
 
-    return f'<ul class="ex-bullets">{ctx_html}{proc_html}{rep_html}{alert_html}{insights_html}</ul>'
+    return "".join(
+        f'<p class="ex-li" style="font-size:13px;color:#333;line-height:1.65">{p}</p>'
+        for p in paras
+    )
 
 def _render_detractor_card(data: dict, label: str, nps_val, impact_val=None,
                             combo_data: dict = None, combo_id: str = "") -> str:
@@ -1835,7 +1841,9 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
     # Seletor CDU → temas de detratores (JSON para JS)
     cdu_themes_det = {
         cdu: [{"name": t["name"], "pct": t["pct"],
-               "sample": t["samples"][0][:160] if t.get("samples") else ""}
+               "summary": t["samples"][0][:220] if t.get("samples") else
+                          f"Motivo identificado em {t.get('count',0)} comentários de detratores.",
+               "case_ids": []}
               for t in data.get("themes", [])]
         for cdu, data in detractor_analysis.items()
     }
@@ -2356,6 +2364,8 @@ function npsColor(v) {{
   return '#E05252';
 }}
 
+const CDU_THEMES_DET = {jd(cdu_themes_det)};
+
 // ── Helpers globais ──────────────────────────────────────────────────────────
 function survChart(id, labels, datasets) {{
   new Chart(document.getElementById(id), {{
@@ -2751,8 +2761,7 @@ function initImpactoCharts() {{
   survChart('cSurvM', {jd(monthly['months'])}, {jd(surv_m_datasets)});
   survChart('cSurvW', {jd(weekly['weeks'])},   {jd(surv_w_datasets)});
 
-  // Seletor CDU → motivos de detratores
-  const CDU_THEMES_DET = {jd(cdu_themes_det)};
+  // Seletor CDU → motivos de detratores (CDU_THEMES_DET é global, definida abaixo)
   const firstCdu = Object.keys(CDU_THEMES_DET)[0];
   if (firstCdu) selectImpactoCDU(firstCdu);
 
@@ -2773,23 +2782,14 @@ function buildCard(t, i) {{
 }}
 
 function selectImpactoCDU(cdu) {{
-  const themes = (typeof CDU_THEMES_DET !== 'undefined' ? CDU_THEMES_DET[cdu] : null) || [];
+  const themes = CDU_THEMES_DET[cdu] || [];
   const el = document.getElementById('impactoThemesBox');
   if (!el) return;
   if (!themes.length) {{
-    el.innerHTML = '<div class="no-data-block"><span class="no-data-icon">🔒</span><div><strong>Sem dados de detratores para este CDU</strong><br>Poucos comentários no período ou CDU com NPS muito alto.</div></div>';
+    el.innerHTML = '<div class="no-data-block"><span class="no-data-icon">💬</span><div><strong>Sem dados de detratores para este CDU</strong><br>Poucos comentários no período ou NPS elevado (baixo volume de detratores).</div></div>';
     return;
   }}
-  el.innerHTML = '<div class="themes-list">' + themes.map((t, i) => {{
-    const c = ACCENT[i % ACCENT.length];
-    return `<div class="theme-card" style="border-left-color:${{c}}">
-      <div class="tc-header">
-        <span class="tc-name">${{t.name}}</span>
-        <span class="tc-badge" style="background:${{c}}22;color:${{c}}">${{t.pct}}% dos casos</span>
-      </div>
-      ${{t.sample ? `<p class="tc-summary">"…${{t.sample}}…"</p>` : ''}}
-    </div>`;
-  }}).join('') + '</div>';
+  el.innerHTML = '<div class="themes-list">' + themes.map((t,i) => buildCard(t,i)).join('') + '</div>';
 }}
 
 function selectCDU(cdu) {{
