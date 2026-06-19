@@ -2198,6 +2198,68 @@ function npsColor(v) {{
   return '#E05252';
 }}
 
+// ── Waterfall global ─────────────────────────────────────────────────────────
+function waterfallChart(id, bars) {{
+  if (!bars || !bars.length || !document.getElementById(id)) return;
+  const labels  = bars.map(b => b.label);
+  const spacers = bars.map(b => b.spacer);
+  const values  = bars.map(b => b.bar);
+  const colors  = bars.map(b => b.color);
+  new Chart(document.getElementById(id), {{
+    type: 'bar',
+    data: {{ labels, datasets: [
+      {{ label: '_spacer', data: spacers,
+         backgroundColor: 'transparent', borderColor: 'transparent', stack: 's' }},
+      {{ label: 'value', data: values,
+         backgroundColor: colors, borderRadius: 3, stack: 's',
+         borderColor: colors.map(c => c.replace('cc','')), borderWidth: 1 }},
+    ] }},
+    plugins: [{{
+      id: 'wfLabels',
+      afterDatasetsDraw(chart) {{
+        const {{ ctx, data }} = chart;
+        const metaV = chart.getDatasetMeta(1);
+        ctx.save();
+        ctx.font = 'bold 10px -apple-system, sans-serif';
+        ctx.textAlign = 'center';
+        metaV.data.forEach((bar, i) => {{
+          const contrib = bars[i].contrib;
+          if (contrib === null || contrib === undefined) return;
+          const lbl = (contrib > 0 ? '+' : '') + contrib.toFixed(1) + 'pp';
+          ctx.fillStyle = bars[i].isAnchor ? '#555' : (contrib >= 0 ? '#2d7d2d' : '#b71c1c');
+          ctx.textBaseline = 'bottom';
+          ctx.fillText(lbl, bar.x, bar.y - 3);
+        }});
+        ctx.restore();
+      }}
+    }}],
+    options: {{
+      responsive: true, maintainAspectRatio: false,
+      layout: {{ padding: {{ top: 22 }} }},
+      plugins: {{
+        legend: {{ display: false }},
+        tooltip: {{ callbacks: {{ label: ctx => {{
+          if (ctx.datasetIndex === 0) return null;
+          const b = bars[ctx.dataIndex];
+          if (b.isAnchor) return ` NPS: ${{b.bar.toFixed(1)}}`;
+          const lines = [` Impacto: ${{(b.contrib>=0?'+':'')}}${{b.contrib.toFixed(2)}}pp`];
+          if (b.nps !== undefined) lines.push(` NPS CDU: ${{b.nps}}  Target: ${{b.target_proc ?? b.target}}`);
+          if (b.weight !== undefined) lines.push(` Peso: ${{b.weight}}%`);
+          if (b.nps1 !== undefined) lines.push(` ${{b.nps1}} (atual) vs ${{b.nps0}} (ant.)`);
+          if (b.nps_m1 !== undefined) lines.push(` ${{b.nps_m1}} (atual) vs ${{b.nps_m0}} (ant.)`);
+          return lines;
+        }} }} }}
+      }},
+      scales: {{
+        x: {{ stacked: true, grid: {{ display: false }},
+              ticks: {{ font: {{ size: 10 }}, maxRotation: 30 }} }},
+        y: {{ stacked: true, grid: {{ color: '#f0f2f5' }},
+              ticks: {{ font: {{ size: 11 }}, callback: v => v.toFixed(0) }} }}
+      }}
+    }}
+  }});
+}}
+
 function initNpsCharts() {{
   // NPS por CDU — horizontal bar (mantido para referência nos tooltips)
   const npsLabels  = {jd(nps_bar_labels)};
@@ -2301,77 +2363,9 @@ function initNpsCharts() {{
     }});
   }});
 
-  // ── Helper: waterfall chart (definido fora para ser global — ver abaixo) ────
+  // ── Waterfall (função global definida abaixo) ────────────────────────────
   waterfallChart('cWtf',     {jd(wtf)});
   waterfallChart('cCascade', {jd(casc)});
-}}  // fim initNpsCharts
-
-// ── Waterfall global (usado por NPS e Impacto Semanal) ────────────────────────
-function waterfallChart(id, bars) {{
-    if (!bars.length || !document.getElementById(id)) return;
-    const labels  = bars.map(b => b.label);
-    const spacers = bars.map(b => b.spacer);
-    const values  = bars.map(b => b.bar);
-    const colors  = bars.map(b => b.color);
-    new Chart(document.getElementById(id), {{
-      type: 'bar',
-      data: {{ labels, datasets: [
-        {{ label: '_spacer', data: spacers,
-           backgroundColor: 'transparent', borderColor: 'transparent', stack: 's' }},
-        {{ label: 'value',   data: values,
-           backgroundColor: colors, borderRadius: 3, stack: 's',
-           borderColor: colors.map(c => c.replace('cc','')),
-           borderWidth: 1 }},
-      ] }},
-      plugins: [{{
-        id: 'wfLabels',
-        afterDatasetsDraw(chart) {{
-          const {{ ctx, data }} = chart;
-          const metaV = chart.getDatasetMeta(1);
-          ctx.save();
-          ctx.font = 'bold 10px -apple-system, sans-serif';
-          ctx.textAlign = 'center';
-          metaV.data.forEach((bar, i) => {{
-            const contrib = bars[i].contrib;
-            if (contrib === null || contrib === undefined) return;
-            const lbl = (contrib > 0 ? '+' : '') + contrib.toFixed(1) + 'pp';
-            ctx.fillStyle = bars[i].isAnchor ? '#555' : (contrib >= 0 ? '#2d7d2d' : '#b71c1c');
-            ctx.textBaseline = 'bottom';
-            ctx.fillText(lbl, bar.x, bar.y - 3);
-          }});
-          ctx.restore();
-        }}
-      }}],
-      options: {{
-        responsive: true, maintainAspectRatio: false,
-        layout: {{ padding: {{ top: 22 }} }},
-        plugins: {{
-          legend: {{ display: false }},
-          tooltip: {{
-            callbacks: {{
-              label: ctx => {{
-                if (ctx.datasetIndex === 0) return null;
-                const b = bars[ctx.dataIndex];
-                if (b.isAnchor) return ` NPS: ${{b.bar.toFixed(1)}}`;
-                const lines = [` Impacto: ${{(b.contrib>=0?'+':'')}}${{b.contrib.toFixed(2)}}pp`];
-                if (b.nps !== undefined) lines.push(` NPS CDU: ${{b.nps}}  Target processo: ${{b.target_proc ?? b.target}}`);
-                if (b.weight !== undefined) lines.push(` Peso no processo: ${{b.weight}}%`);
-                if (b.nps_m1 !== undefined) lines.push(` ${{b.nps_m1}} (atual) vs ${{b.nps_m0}} (ant.)`);
-                return lines;
-              }}
-            }}
-          }}
-        }},
-        scales: {{
-          x: {{ stacked: true, grid: {{ display: false }},
-                ticks: {{ font: {{ size: 10 }}, maxRotation: 30 }} }},
-          y: {{ stacked: true,
-                grid: {{ color: '#f0f2f5' }},
-                ticks: {{ font: {{ size: 11 }}, callback: v => v.toFixed(0) }} }}
-        }}
-      }}
-    }});
-  }}
 
   // helper: linha de evolução + target tracejado
   function npsEvoChart(id, labels, npsVals, targetVal) {{
