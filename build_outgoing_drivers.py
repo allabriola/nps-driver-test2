@@ -2307,12 +2307,6 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
       <div id="impactoThemesBox"></div>
     </div>
 
-    <!-- Resumo Executivo Impacto Semanal -->
-    <div class="card ex-block">
-      <div class="ex-title">Resumo Executivo · Diagnóstico de Impacto Semanal</div>
-      {impact_exec_summary}
-    </div>
-
   </div><!-- /tp2 -->
 
 </main>
