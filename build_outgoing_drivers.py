@@ -2301,8 +2301,13 @@ function initNpsCharts() {{
     }});
   }});
 
-  // ── Helper: waterfall chart ────────────────────────────────────────────────
-  function waterfallChart(id, bars) {{
+  // ── Helper: waterfall chart (definido fora para ser global — ver abaixo) ────
+  waterfallChart('cWtf',     {jd(wtf)});
+  waterfallChart('cCascade', {jd(casc)});
+}}  // fim initNpsCharts
+
+// ── Waterfall global (usado por NPS e Impacto Semanal) ────────────────────────
+function waterfallChart(id, bars) {{
     if (!bars.length || !document.getElementById(id)) return;
     const labels  = bars.map(b => b.label);
     const spacers = bars.map(b => b.spacer);
@@ -2367,9 +2372,6 @@ function initNpsCharts() {{
       }}
     }});
   }}
-
-  waterfallChart('cWtf',     {jd(wtf)});
-  waterfallChart('cCascade', {jd(casc)});
 
   // helper: linha de evolução + target tracejado
   function npsEvoChart(id, labels, npsVals, targetVal) {{
