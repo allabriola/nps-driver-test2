@@ -387,8 +387,10 @@ def analyze_themes(case_transcripts: dict[str, list[str]], n_themes: int = 5) ->
         return re.sub(r"\s+", " ", txt).strip()
 
     texts = []
+    orig_texts = []   # textos originais para exibição nas amostras
     for _, msgs in case_list:
         combined = " ".join(m.strip() for m in msgs[:4])
+        orig_texts.append(combined[:300])
         texts.append(clean_text(combined))
 
     n = min(n_themes, len(texts))
@@ -428,20 +430,30 @@ def analyze_themes(case_transcripts: dict[str, list[str]], n_themes: int = 5) ->
 
         bigrams   = [t for t in top_terms if " " in t][:3]
         unigrams  = [t for t in top_terms if " " not in t][:4]
-        name_parts = (bigrams[:2] + unigrams[:2]) if bigrams else unigrams[:3]
-        name = " · ".join(name_parts[:3]).title()
+        all_terms = (bigrams + unigrams)[:6]
 
-        all_terms = (bigrams + unigrams)[:5]
+        # Pega 2 mensagens originais representativas do cluster (mais longas e limpas)
+        cluster_orig = [orig_texts[i] for i, m in enumerate(mask) if m]
+        msg_samples = sorted(
+            [m for m in cluster_orig if len(m.strip()) > 30],
+            key=len, reverse=True
+        )[:2]
+
+        # Nome descritivo usando mapa de categorias
+        name = _categorize_cluster(msg_samples + [" ".join(all_terms)], all_terms)
+
+        # Descrição: sintetiza o que foi identificado + contagem
         summary = (
-            f"Casos concentrados em: {', '.join(all_terms[:4])}. "
-            f"{count} atendimentos no período analisado."
+            f"{count} atendimentos identificados neste tema. "
+            f"Padrão de contato: {', '.join(all_terms[:3])}."
         )
 
         themes.append({
             "name":     name,
             "pct":      pct,
-            "case_ids": c_ids[:3],
+            "case_ids": c_ids[:2],
             "summary":  summary,
+            "samples":  [m[:220] for m in msg_samples],
         })
 
     themes.sort(key=lambda x: x["pct"], reverse=True)
@@ -1522,30 +1534,53 @@ def _render_mom_scorecard(rows: list) -> str:
     return html
 
 _CATEGORY_MAP = [
-    ("Cliente reclama que conta foi bloqueada/pausada sem justificativa",
-     ["bloqueado","pausado","suspenso","inativ","conta bloqueada","conta pausada","pausaram","suspenderam"]),
-    ("Nível de fidelidade caiu de forma injusta",
-     ["nível","nivel","platinum","prata","ouro","pontuação","nivel de lealt","rebaixado","nivel caiu","nivel de lealda"]),
-    ("Problema não resolvido após contato com o suporte",
-     ["não resolveu","nao resolveu","não resolv","nao resolv","problema resolv","não foi resolvido","sem solução","sem solucao"]),
-    ("Suporte não ajudou ou foi ineficiente",
-     ["suporte não","nao ajudou","não ajudou","não fez nada","nada por mim","perdeu tempo","livraram","enrolac","enrolou"]),
-    ("Demora ou falta de retorno do atendimento",
-     ["demora","demorou","demoro","nunca retorn","sem resposta","não retorn","esperei","esperei muito","tempo de espera"]),
-    ("Falta de informações claras sobre métricas e processos",
-     ["informaç","informac","explicaç","explicac","não entend","não soub","sem informac","não explicou","não me explicou"]),
-    ("Reclamação sobre rotas, recorrido ou serviço Extra",
-     ["rota","roteiro","percurso","entrega","recorrido","rutas","rota cancelada","sem rota","oferta de rota"]),
-    ("Bug ou instabilidade no aplicativo/plataforma",
-     ["app","aplicativo","bug","sistema","erro no","falha","plataforma","aplicacao","não abre","travou"]),
-    ("Punição ou avaliação injusta pelo sistema",
-     ["injust","punição","punido","penalidad","avaliação","avaliado injust","culpa","não foi minha culpa","injustamente"]),
-    ("Problema com pagamento ou remuneração de rota",
-     ["pagamento","pago","salário","salario","remu","valor correto","não pagou","nao pagou","não recebi","rota paga"]),
-    ("Atendente limitado para resolver o problema",
-     ["limitado","limitada","não pôde","nao pode","não tinha acesso","só pode","apenas informou","só informou"]),
-    ("Cliente questiona suspensão ou regra do programa",
-     ["regra","política","política","termo","contrato","programa","acordo","desativado","cancelado","desativa"]),
+    # ── Conta / Bloqueio ─────────────────────────────────────────────────────
+    ("Conta bloqueada ou pausada sem justificativa clara",
+     ["bloqueado","pausado","suspenso","inativ","conta bloqueada","conta pausada","pausaram","suspenderam","desativado","desativar"]),
+    # ── Nível de Lealdade ────────────────────────────────────────────────────
+    ("Entregador questiona queda injusta no nível de fidelidade",
+     ["nível","nivel","platinum","prata","ouro","pontuação","nivel de lealt","rebaixado","nivel caiu","nivel de lealda",
+      "entregas sem","entregas sucesso","mês anterior","minhas entregas"]),
+    # ── Rota / Recorrido ─────────────────────────────────────────────────────
+    ("Motorista busca informações ou reclamação sobre rotas/recorridos",
+     ["rota","roteiro","percurso","recorrido","rutas","rota cancelada","sem rota","oferta de rota",
+      "oferta rota","rotas disponíveis","recorridos","recorrido cancelado"]),
+    # ── Entrega / Serviço Extra ───────────────────────────────────────────────
+    ("Condutor com dúvidas ou problemas durante a entrega ME Extra",
+     ["envios extra","motorista envios","envio extra","entregador","entrega","coleta","pacote","despacho",
+      "hugme","parceiro","flotillero"]),
+    # ── Onboarding / Ativação ────────────────────────────────────────────────
+    ("Condutor em processo de onboarding ou ativação do serviço",
+     ["ativar","ativação","cadastro","onboarding","habilitação","habilitar","credenciamento","novo conductor",
+      "primeiros passos","começar","iniciar"]),
+    # ── Pagamento / Remuneração ───────────────────────────────────────────────
+    ("Motorista questiona pagamento ou remuneração de rota",
+     ["pagamento","pago","salário","salario","remuner","valor correto","não pagou","nao pagou",
+      "não recebi","rota paga","saldo","comissão","recebimento"]),
+    # ── Bug / Aplicativo ─────────────────────────────────────────────────────
+    ("Bug ou instabilidade no aplicativo ME Extra",
+     ["app","aplicativo","bug","sistema","erro no","falha","plataforma","aplicacao","não abre","travou",
+      "tela","carregando","sistema caiu","instabilidade"]),
+    # ── Punição / Avaliação ───────────────────────────────────────────────────
+    ("Condutor contesta punição ou avaliação negativa injusta",
+     ["injust","punição","punido","penalidad","avaliação","avaliado injust","culpa","não foi minha culpa",
+      "injustamente","contestar","revisão","reconsidera"]),
+    # ── Suporte ineficiente ───────────────────────────────────────────────────
+    ("Problema não resolvido após contato — suporte ineficiente",
+     ["não resolveu","nao resolveu","não resolv","nao resolv","problema resolv","não foi resolvido",
+      "suporte não","nao ajudou","não ajudou","não fez nada","livraram","enrolou",
+      "limitado","não pôde","não tinha acesso","apenas informou"]),
+    # ── Demora / Retorno ──────────────────────────────────────────────────────
+    ("Demora no atendimento ou falta de retorno",
+     ["demora","demorou","demoro","nunca retorn","sem resposta","não retorn","esperei","tempo de espera",
+      "breve alguem","conversa numero","entrara conversa"]),
+    # ── Informações / Regras ──────────────────────────────────────────────────
+    ("Condutor sem informações claras sobre métricas ou regras",
+     ["informaç","informac","explicaç","explicac","não entend","não soub","sem informac","não explicou",
+      "não me explicou","regra","política","termo","contrato","programa","abaixo informaç"]),
+    # ── Cancelamento ─────────────────────────────────────────────────────────
+    ("Cancelamento de conta ou serviço questionado pelo condutor",
+     ["cancelad","encerrar","cancelamento","desligar","saída","demitido","desvinculado","finalizar conta"]),
 ]
 
 def _categorize_cluster(samples: list[str], top_terms: list[str]) -> str:
@@ -2900,13 +2935,19 @@ function initImpactoCharts() {{
 function buildCard(t, i) {{
   const c = ACCENT[i % ACCENT.length];
   const chips = (t.case_ids||[]).map(id=>`<span class="case-chip">#${{id}}</span>`).join('');
+  const sampleHtml = (t.samples||[]).map(s =>
+    `<div class="det-sample" style="margin-top:6px;font-size:12px;color:#555;font-style:italic;
+     background:#fafafa;border-left:2px solid ${{c}}33;padding:6px 10px;border-radius:0 6px 6px 0">
+     "${{s.slice(0,220)}}"</div>`
+  ).join('');
   return `<div class="theme-card" style="border-left-color:${{c}}">
     <div class="tc-header">
       <span class="tc-name">${{t.name}}</span>
       <span class="tc-badge" style="background:${{c}}22;color:${{c}}">${{t.pct}}% dos casos</span>
     </div>
     <p class="tc-summary">${{t.summary}}</p>
-    <div class="tc-chips">${{chips}}</div>
+    ${{sampleHtml}}
+    <div class="tc-chips" style="margin-top:6px">${{chips}}</div>
   </div>`;
 }}
 
