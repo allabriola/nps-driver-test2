@@ -307,18 +307,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
       <div class="cw" style="height:400px"><canvas id="cNpsWk"></canvas></div>
     </div>
 
-    <!-- Representatividade de pesquisas por CDU -->
-    <div class="grid2">
-      <div class="card">
-        <p class="chart-title">Pesquisas por CDU · Mensal</p>
-        <div class="cw" style="height:360px"><canvas id="cSurvM"></canvas></div>
-      </div>
-      <div class="card">
-        <p class="chart-title">Pesquisas por CDU · Semanal</p>
-        <div class="cw" style="height:360px"><canvas id="cSurvW"></canvas></div>
-      </div>
-    </div>
-
     <div class="card">
       <p class="chart-title">Scorecard MoM por CDU · Mai → Jun</p>
       <table class="rtable"><thead><tr>
@@ -361,6 +349,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
       <div class="card">
         <p class="chart-title">WoW por Senioridade · 08/06 → 15/06</p>
         <div class="cw" style="height:360px"><canvas id="cWowSeniority"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Representatividade de pesquisas por CDU -->
+    <div class="grid2">
+      <div class="card">
+        <p class="chart-title">Pesquisas por CDU · Mensal</p>
+        <div class="cw" style="height:360px"><canvas id="cSurvM"></canvas></div>
+      </div>
+      <div class="card">
+        <p class="chart-title">Pesquisas por CDU · Semanal</p>
+        <div class="cw" style="height:360px"><canvas id="cSurvW"></canvas></div>
       </div>
     </div>
 
@@ -502,12 +502,29 @@ function waterfallChart(id, bars) {
         ctx.font = 'bold 10px -apple-system, sans-serif';
         ctx.textAlign = 'center';
         metaV.data.forEach((bar, i) => {
-          const contrib = bars[i].contrib;
-          if (contrib === null || contrib === undefined) return;
-          const lbl = (contrib > 0 ? '+' : '') + contrib.toFixed(1) + 'pp';
-          ctx.fillStyle = bars[i].isAnchor ? '#555' : (contrib >= 0 ? '#2d7d2d' : '#b71c1c');
-          ctx.textBaseline = 'bottom';
-          ctx.fillText(lbl, bar.x, bar.y - 3);
+          const b = bars[i];
+          const h = Math.abs(bar.base - bar.y);
+
+          // contribuição acima da barra
+          const contrib = b.contrib;
+          if (contrib !== null && contrib !== undefined) {
+            const lbl = (contrib > 0 ? '+' : '') + contrib.toFixed(1) + 'pp';
+            ctx.fillStyle = b.isAnchor ? '#555' : (contrib >= 0 ? '#2d7d2d' : '#b71c1c');
+            ctx.textBaseline = 'bottom';
+            ctx.fillText(lbl, bar.x, bar.y - 3);
+          }
+
+          // NPS dentro da barra (se alta o suficiente)
+          const npsVal = b.isAnchor ? b.bar : (b.nps1 ?? b.nps ?? null);
+          if (npsVal !== null && npsVal !== undefined && h > 18) {
+            ctx.save();
+            ctx.font = 'bold 10px -apple-system, sans-serif';
+            ctx.fillStyle = 'rgba(255,255,255,0.92)';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(npsVal.toFixed(1), bar.x, bar.y + h / 2);
+            ctx.restore();
+          }
         });
         ctx.restore();
       }
@@ -745,8 +762,7 @@ function initNpsCharts() {
     });
   }
 
-  survChart('cSurvM', ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"], [{"label": "Quiere saber porqué se inactivó su cuenta", "data": [595, 561, 803, 639, 590, 266], "backgroundColor": "#4472C4", "borderRadius": 4, "stack": "s"}, {"label": "Quiere saber como funciona Envíos Extra", "data": [344, 384, 435, 421, 392, 257], "backgroundColor": "#ED7D31", "borderRadius": 4, "stack": "s"}, {"label": "Tiene problemas durante la creacion de la cuenta", "data": [110, 118, 158, 262, 271, 112], "backgroundColor": "#70AD47", "borderRadius": 4, "stack": "s"}, {"label": "Bugs", "data": [0, 0, 6, 6, 7, 0], "backgroundColor": "#FFC000", "borderRadius": 4, "stack": "s"}, {"label": "Quiere reclamar por inconvenientes en el recorrido o en el service center", "data": [107, 81, 137, 146, 188, 144], "backgroundColor": "#E05252", "borderRadius": 4, "stack": "s"}, {"label": "Quiere saber porque no le pagaron una ruta", "data": [114, 158, 174, 203, 152, 97], "backgroundColor": "#9B59B6", "borderRadius": 4, "stack": "s"}, {"label": "Generales", "data": [21, 14, 18, 27, 25, 7], "backgroundColor": "#255E91", "borderRadius": 4, "stack": "s"}, {"label": "Tiene un inconviente con sus metricas de Nivel de Lealtad", "data": [75, 98, 92, 112, 142, 146], "backgroundColor": "#c45f00", "borderRadius": 4, "stack": "s"}, {"label": "Oferta de rutas", "data": [64, 89, 130, 168, 145, 134], "backgroundColor": "#3aaa72", "borderRadius": 4, "stack": "s"}, {"label": "Quiere saber porque no recibe rutas", "data": [181, 161, 179, 195, 190, 119], "backgroundColor": "#b38600", "borderRadius": 4, "stack": "s"}, {"label": "Flotillero - Extra", "data": [14, 26, 35, 49, 208, 109], "backgroundColor": "#4472C4", "borderRadius": 4, "stack": "s"}]);
-  survChart('cSurvW', ["20/04", "27/04", "04/05", "11/05", "18/05", "25/05", "01/06", "08/06", "15/06"],   [{"label": "Quiere saber porqué se inactivó su cuenta", "data": [46, 126, 121, 155, 150, 127, 93, 92, 81], "backgroundColor": "#4472C4", "borderRadius": 4, "stack": "s"}, {"label": "Quiere saber como funciona Envíos Extra", "data": [43, 119, 92, 104, 76, 77, 78, 93, 86], "backgroundColor": "#ED7D31", "borderRadius": 4, "stack": "s"}, {"label": "Tiene problemas durante la creacion de la cuenta", "data": [23, 80, 61, 80, 67, 38, 52, 39, 21], "backgroundColor": "#70AD47", "borderRadius": 4, "stack": "s"}, {"label": "Bugs", "data": [0, 0, 4, 0, 0, 0, 0, 0, 0], "backgroundColor": "#FFC000", "borderRadius": 4, "stack": "s"}, {"label": "Quiere reclamar por inconvenientes en el recorrido o en el service center", "data": [13, 42, 31, 49, 41, 46, 34, 55, 55], "backgroundColor": "#E05252", "borderRadius": 4, "stack": "s"}, {"label": "Quiere saber porque no le pagaron una ruta", "data": [21, 55, 34, 42, 37, 25, 18, 38, 41], "backgroundColor": "#9B59B6", "borderRadius": 4, "stack": "s"}, {"label": "Generales", "data": [4, 3, 9, 6, 6, 4, 3, 0, 3], "backgroundColor": "#255E91", "borderRadius": 4, "stack": "s"}, {"label": "Tiene un inconviente con sus metricas de Nivel de Lealtad", "data": [8, 77, 23, 19, 18, 40, 69, 48, 29], "backgroundColor": "#c45f00", "borderRadius": 4, "stack": "s"}, {"label": "Oferta de rutas", "data": [14, 31, 39, 29, 32, 39, 24, 58, 52], "backgroundColor": "#3aaa72", "borderRadius": 4, "stack": "s"}, {"label": "Quiere saber porque no recibe rutas", "data": [19, 47, 49, 39, 38, 47, 48, 38, 33], "backgroundColor": "#b38600", "borderRadius": 4, "stack": "s"}, {"label": "Flotillero - Extra", "data": [3, 6, 42, 46, 65, 54, 39, 38, 32], "backgroundColor": "#4472C4", "borderRadius": 4, "stack": "s"}]);
+  // survChart movido para initImpactoCharts
 
   // Combo Outgoing + NPS por CDU (cards de detratores)
   function detCombo(id, combo) {
@@ -850,6 +866,9 @@ function initImpactoCharts() {
   [['cWowCdu', wowData.cdu], ['cWowOffice', wowData.office],
    ['cWowChannel', wowData.channel], ['cWowSeniority', wowData.seniority]
   ].forEach(([id, bars]) => waterfallChart(id, bars));
+
+  survChart('cSurvM', ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"], [{"label": "Quiere saber porqué se inactivó su cuenta", "data": [595, 561, 803, 639, 590, 266], "backgroundColor": "#4472C4", "borderRadius": 4, "stack": "s"}, {"label": "Quiere saber como funciona Envíos Extra", "data": [344, 384, 435, 421, 392, 257], "backgroundColor": "#ED7D31", "borderRadius": 4, "stack": "s"}, {"label": "Tiene problemas durante la creacion de la cuenta", "data": [110, 118, 158, 262, 271, 112], "backgroundColor": "#70AD47", "borderRadius": 4, "stack": "s"}, {"label": "Bugs", "data": [0, 0, 6, 6, 7, 0], "backgroundColor": "#FFC000", "borderRadius": 4, "stack": "s"}, {"label": "Quiere reclamar por inconvenientes en el recorrido o en el service center", "data": [107, 81, 137, 146, 188, 144], "backgroundColor": "#E05252", "borderRadius": 4, "stack": "s"}, {"label": "Quiere saber porque no le pagaron una ruta", "data": [114, 158, 174, 203, 152, 97], "backgroundColor": "#9B59B6", "borderRadius": 4, "stack": "s"}, {"label": "Generales", "data": [21, 14, 18, 27, 25, 7], "backgroundColor": "#255E91", "borderRadius": 4, "stack": "s"}, {"label": "Tiene un inconviente con sus metricas de Nivel de Lealtad", "data": [75, 98, 92, 112, 142, 146], "backgroundColor": "#c45f00", "borderRadius": 4, "stack": "s"}, {"label": "Oferta de rutas", "data": [64, 89, 130, 168, 145, 134], "backgroundColor": "#3aaa72", "borderRadius": 4, "stack": "s"}, {"label": "Quiere saber porque no recibe rutas", "data": [181, 161, 179, 195, 190, 119], "backgroundColor": "#b38600", "borderRadius": 4, "stack": "s"}, {"label": "Flotillero - Extra", "data": [14, 26, 35, 49, 208, 109], "backgroundColor": "#4472C4", "borderRadius": 4, "stack": "s"}]);
+  survChart('cSurvW', ["20/04", "27/04", "04/05", "11/05", "18/05", "25/05", "01/06", "08/06", "15/06"],   [{"label": "Quiere saber porqué se inactivó su cuenta", "data": [46, 126, 121, 155, 150, 127, 93, 92, 81], "backgroundColor": "#4472C4", "borderRadius": 4, "stack": "s"}, {"label": "Quiere saber como funciona Envíos Extra", "data": [43, 119, 92, 104, 76, 77, 78, 93, 86], "backgroundColor": "#ED7D31", "borderRadius": 4, "stack": "s"}, {"label": "Tiene problemas durante la creacion de la cuenta", "data": [23, 80, 61, 80, 67, 38, 52, 39, 21], "backgroundColor": "#70AD47", "borderRadius": 4, "stack": "s"}, {"label": "Bugs", "data": [0, 0, 4, 0, 0, 0, 0, 0, 0], "backgroundColor": "#FFC000", "borderRadius": 4, "stack": "s"}, {"label": "Quiere reclamar por inconvenientes en el recorrido o en el service center", "data": [13, 42, 31, 49, 41, 46, 34, 55, 55], "backgroundColor": "#E05252", "borderRadius": 4, "stack": "s"}, {"label": "Quiere saber porque no le pagaron una ruta", "data": [21, 55, 34, 42, 37, 25, 18, 38, 41], "backgroundColor": "#9B59B6", "borderRadius": 4, "stack": "s"}, {"label": "Generales", "data": [4, 3, 9, 6, 6, 4, 3, 0, 3], "backgroundColor": "#255E91", "borderRadius": 4, "stack": "s"}, {"label": "Tiene un inconviente con sus metricas de Nivel de Lealtad", "data": [8, 77, 23, 19, 18, 40, 69, 48, 29], "backgroundColor": "#c45f00", "borderRadius": 4, "stack": "s"}, {"label": "Oferta de rutas", "data": [14, 31, 39, 29, 32, 39, 24, 58, 52], "backgroundColor": "#3aaa72", "borderRadius": 4, "stack": "s"}, {"label": "Quiere saber porque no recibe rutas", "data": [19, 47, 49, 39, 38, 47, 48, 38, 33], "backgroundColor": "#b38600", "borderRadius": 4, "stack": "s"}, {"label": "Flotillero - Extra", "data": [3, 6, 42, 46, 65, 54, 39, 38, 32], "backgroundColor": "#4472C4", "borderRadius": 4, "stack": "s"}]);
 
 }
 

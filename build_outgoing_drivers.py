@@ -2036,18 +2036,6 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
       <div class="cw" style="height:400px"><canvas id="cNpsWk"></canvas></div>
     </div>
 
-    <!-- Representatividade de pesquisas por CDU -->
-    <div class="grid2">
-      <div class="card">
-        <p class="chart-title">Pesquisas por CDU · Mensal</p>
-        <div class="cw" style="height:360px"><canvas id="cSurvM"></canvas></div>
-      </div>
-      <div class="card">
-        <p class="chart-title">Pesquisas por CDU · Semanal</p>
-        <div class="cw" style="height:360px"><canvas id="cSurvW"></canvas></div>
-      </div>
-    </div>
-
     <div class="card">
       <p class="chart-title">Scorecard MoM por CDU · {prev_mlbl} → {last_mlbl}</p>
       <table class="rtable">{scorecard_html}</table>
@@ -2082,6 +2070,18 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
       <div class="card">
         <p class="chart-title">WoW por Senioridade · {wow_seniority.get('prev_w','—')} → {wow_seniority.get('last_w','—')}</p>
         <div class="cw" style="height:360px"><canvas id="cWowSeniority"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Representatividade de pesquisas por CDU -->
+    <div class="grid2">
+      <div class="card">
+        <p class="chart-title">Pesquisas por CDU · Mensal</p>
+        <div class="cw" style="height:360px"><canvas id="cSurvM"></canvas></div>
+      </div>
+      <div class="card">
+        <p class="chart-title">Pesquisas por CDU · Semanal</p>
+        <div class="cw" style="height:360px"><canvas id="cSurvW"></canvas></div>
       </div>
     </div>
 
@@ -2223,12 +2223,29 @@ function waterfallChart(id, bars) {{
         ctx.font = 'bold 10px -apple-system, sans-serif';
         ctx.textAlign = 'center';
         metaV.data.forEach((bar, i) => {{
-          const contrib = bars[i].contrib;
-          if (contrib === null || contrib === undefined) return;
-          const lbl = (contrib > 0 ? '+' : '') + contrib.toFixed(1) + 'pp';
-          ctx.fillStyle = bars[i].isAnchor ? '#555' : (contrib >= 0 ? '#2d7d2d' : '#b71c1c');
-          ctx.textBaseline = 'bottom';
-          ctx.fillText(lbl, bar.x, bar.y - 3);
+          const b = bars[i];
+          const h = Math.abs(bar.base - bar.y);
+
+          // contribuição acima da barra
+          const contrib = b.contrib;
+          if (contrib !== null && contrib !== undefined) {{
+            const lbl = (contrib > 0 ? '+' : '') + contrib.toFixed(1) + 'pp';
+            ctx.fillStyle = b.isAnchor ? '#555' : (contrib >= 0 ? '#2d7d2d' : '#b71c1c');
+            ctx.textBaseline = 'bottom';
+            ctx.fillText(lbl, bar.x, bar.y - 3);
+          }}
+
+          // NPS dentro da barra (se alta o suficiente)
+          const npsVal = b.isAnchor ? b.bar : (b.nps1 ?? b.nps ?? null);
+          if (npsVal !== null && npsVal !== undefined && h > 18) {{
+            ctx.save();
+            ctx.font = 'bold 10px -apple-system, sans-serif';
+            ctx.fillStyle = 'rgba(255,255,255,0.92)';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(npsVal.toFixed(1), bar.x, bar.y + h / 2);
+            ctx.restore();
+          }}
         }});
         ctx.restore();
       }}
@@ -2466,8 +2483,7 @@ function initNpsCharts() {{
     }});
   }}
 
-  survChart('cSurvM', {jd(monthly['months'])}, {jd(surv_m_datasets)});
-  survChart('cSurvW', {jd(weekly['weeks'])},   {jd(surv_w_datasets)});
+  // survChart movido para initImpactoCharts
 
   // Combo Outgoing + NPS por CDU (cards de detratores)
   function detCombo(id, combo) {{
@@ -2571,6 +2587,9 @@ function initImpactoCharts() {{
   [['cWowCdu', wowData.cdu], ['cWowOffice', wowData.office],
    ['cWowChannel', wowData.channel], ['cWowSeniority', wowData.seniority]
   ].forEach(([id, bars]) => waterfallChart(id, bars));
+
+  survChart('cSurvM', {jd(monthly['months'])}, {jd(surv_m_datasets)});
+  survChart('cSurvW', {jd(weekly['weeks'])},   {jd(surv_w_datasets)});
 
 }}
 
