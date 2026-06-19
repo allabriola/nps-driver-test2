@@ -244,6 +244,28 @@ def q_nps_weekly() -> str:
     ORDER BY 1
     """
 
+def q_wow_solution_by_cdu() -> str:
+    cutoff = TODAY - timedelta(weeks=5)  # 5 semanas para garantir 2 semanas com dados
+    return f"""
+    SELECT
+      DATE_TRUNC(CAST(SURVEY_DATE_SURVEY AS DATE), ISOWEEK) AS week_start,
+      COALESCE(NULLIF(TRIM(CDU),''), 'Sem CDU')                 AS cdu,
+      COALESCE(NULLIF(TRIM(CX_SOL_NAME),''), 'Sem Solução')     AS solution,
+      COUNT(*)          AS surveys,
+      SUM(PROMOTER)     AS promoters,
+      SUM(DETRACTOR)    AS detractors
+    FROM {TABLE_NPS}
+    WHERE SIT_SITE_ID      = '{SITE}'
+      AND SURVEY_CENTER    = 'BR'
+      AND PRO_PROCESS_NAME = '{PROCESS_KEY}'
+      AND {TEAMS_FILTER}
+      AND {NPS_FILTER}
+      AND CAST(SURVEY_DATE_SURVEY AS DATE) >= '{cutoff}'
+    GROUP BY 1, 2, 3
+    HAVING COUNT(*) >= 1
+    ORDER BY 1, 2, surveys DESC
+    """
+
 def q_wow_dim(dim_field: str) -> str:
     """Query genérica para WoW por dimensão (canal, senioridade, escritório)."""
     cutoff = TODAY - timedelta(weeks=3)
@@ -735,6 +757,104 @@ def process_wow_dim(raw: list[dict], weekly_weeks: list[str]) -> dict:
         by_dim.setdefault(str(r["dim"]), {})[lbl] = {"p": p, "d": d, "s": s, "nps": _calc_nps(p, d, s)}
     return by_dim
 
+def process_wow_sol(raw: list[dict], weekly_weeks: list[str] = None) -> dict:
+    """{cdu: {solution: {week_label: {p,d,s,nps}}}}
+    Usa todas as semanas disponíveis no NPS (não filtra por weekly_weeks do outgoing)."""
+    result: dict = {}
+    for r in raw:
+        ws  = r["week_start"]
+        lbl = ws.strftime("%d/%m") if hasattr(ws, "strftime") else str(ws)[8:10] + "/" + str(ws)[5:7]
+        p, d, s = int(r["promoters"] or 0), int(r["detractors"] or 0), int(r["surveys"] or 0)
+        cdu = str(r["cdu"])
+        sol = str(r["solution"])
+        result.setdefault(cdu, {}).setdefault(sol, {})[lbl] = {
+            "p": p, "d": d, "s": s, "nps": _calc_nps(p, d, s)
+        }
+    return result
+
+def _compute_mix_neto(contribs_extended):
+    """Calcula mix e neto totais. contribs_extended = [(lbl, total_contrib, extra)]"""
+    return sum(c[1] for c in contribs_extended if c[1] > 0), \
+           sum(c[1] for c in contribs_extended if c[1] < 0)
+
+def compute_wow_sol_waterfalls(by_sol_cdu: dict, weekly_weeks: list[str] = None) -> dict:
+    """Retorna {cdu: {bars, mix, neto, nps_last, nps_prev, last_w, prev_w}} para todos os CDUs."""
+    result = {}
+    last_w = (weekly_weeks or [""])[- 1] if weekly_weeks else ""
+    prev_w = (weekly_weeks or ["", ""])[-2] if weekly_weeks and len(weekly_weeks) >= 2 else ""
+
+    for cdu, by_sol in by_sol_cdu.items():
+        # Agrega por semana
+        def agg_week(wk):
+            p, d, s = 0, 0, 0
+            for sol, weeks in by_sol.items():
+                e = weeks.get(wk, {})
+                if not isinstance(e, dict): continue
+                p += e.get("p", 0); d += e.get("d", 0); s += e.get("s", 0)
+            return _calc_nps(p, d, s), s
+
+        nps_last, s_last = agg_week(last_w)
+        nps_prev, s_prev = agg_week(prev_w)
+        # Sempre usa as 2 semanas com mais surveys (ignora last_w/prev_w do outgoing)
+        week_totals: dict = {}
+        for sol, weeks in by_sol.items():
+            for wk, e in weeks.items():
+                week_totals[wk] = week_totals.get(wk, 0) + e.get("s", 0)
+        top_weeks = sorted(week_totals, key=lambda w: -week_totals[w])
+        if len(top_weeks) < 2:
+            continue
+        # Ordena por data para ter semana atual e anterior
+        sorted_by_date = sorted(top_weeks[:4])  # top 4 mais populosas, ordenadas por data
+        last_w, prev_w = sorted_by_date[-1], sorted_by_date[-2]
+
+        nps_last, s_last = agg_week(last_w)
+        nps_prev, s_prev = agg_week(prev_w)
+        if nps_last is None or nps_prev is None or not s_last or not s_prev:
+            continue
+
+        # Mix/Neto por solução
+        contribs = []
+        for sol, weeks in by_sol.items():
+            e1 = weeks.get(last_w, {}); e0 = weeks.get(prev_w, {})
+            nps1 = e1.get("nps"); nps0 = e0.get("nps")
+            s1 = e1.get("s", 0); s0 = e0.get("s", 0)
+            if nps1 is None or nps0 is None or not s1 or not s0: continue
+
+            share_m1 = s1 / s_last
+            share_m0 = s0 / s_prev
+            mix_i  = round((nps0 or 0) * (share_m1 - share_m0), 2)
+            neto_i = round(((nps1 or 0) - (nps0 or 0)) * share_m1, 2)
+            total_i = round(mix_i + neto_i, 2)
+
+            if abs(total_i) >= 0.02:
+                contribs.append((sol[:35], total_i, {"nps1": nps1, "nps0": nps0,
+                                                      "mix": mix_i, "neto": neto_i,
+                                                      "s1": s1, "s0": s0}))
+
+        total_mix  = round(sum(c[2]["mix"]  for c in contribs), 2)
+        total_neto = round(sum(c[2]["neto"] for c in contribs), 2)
+
+        pos = sorted([c for c in contribs if c[1] >= 0], key=lambda x: -x[1])
+        neg = sorted([c for c in contribs if c[1] <  0], key=lambda x:  x[1])
+
+        # Adiciona barras de mix/neto ao final
+        mix_neg_contribs = [(f"Mix (composição de volume)", total_mix,
+                             {"nps1": None, "nps0": None, "mix": total_mix, "neto": 0,
+                              "is_mix_bar": True})]
+        neto_neg_contribs = [(f"Neto (qualidade NPS)", total_neto,
+                              {"nps1": None, "nps0": None, "mix": 0, "neto": total_neto,
+                               "is_neto_bar": True})]
+
+        all_contribs = pos + neg + mix_neg_contribs + neto_neg_contribs
+        bars = _wf_bars(f"{prev_w} ({nps_prev:.1f})", nps_prev,
+                        all_contribs,
+                        f"{last_w} ({nps_last:.1f})", nps_last)
+
+        result[cdu] = {"bars": bars, "nps_last": nps_last, "nps_prev": nps_prev,
+                       "last_w": last_w, "prev_w": prev_w,
+                       "mix": total_mix, "neto": total_neto}
+    return result
+
 def compute_wow_waterfall(by_dim: dict, weekly_weeks: list[str], dim_label: str) -> dict:
     """Monta cascata WoW para uma dimensão."""
     if len(weekly_weeks) < 2:
@@ -1124,10 +1244,12 @@ def build_all(html_only: bool = False):
         wow_seniority = cached.get("wow_seniority", {"bars": [], "contribs": []})
         wow_office    = cached.get("wow_office", {"bars": [], "contribs": []})
         wow_analysis  = cached.get("wow_analysis", "")
-        themes_weekly  = cached.get("themes_weekly", {})
+        themes_weekly      = cached.get("themes_weekly", {})
+        wow_sol_waterfalls = cached.get("wow_sol_waterfalls", {})
         return (monthly, weekly, daily, themes_by_cdu, themes_weekly, solutions, nps_by_cdu, nps_monthly,
                 nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard,
-                detractor_analysis, wow_cdu, wow_channel, wow_seniority, wow_office, wow_analysis)
+                detractor_analysis, wow_cdu, wow_channel, wow_seniority, wow_office, wow_analysis,
+                wow_sol_waterfalls)
 
     print("▸ Volume mensal…")
     monthly_raw = run(q_monthly())
@@ -1165,6 +1287,14 @@ def build_all(html_only: bool = False):
     nps_weekly       = process_nps_agg(nps_week_raw, weekly["weeks"], "week_start")
     nps_daily        = process_nps_agg(nps_day_raw,  daily["days"],  "day")
     nps_weekly_by_cdu = process_nps_weekly_by_cdu(nps_week_cdu_raw, weekly["weeks"])
+    print("▸ WoW — solução por CDU…")
+    try:
+        wow_sol_raw = run(q_wow_solution_by_cdu())
+        wow_sol_by_cdu_raw = process_wow_sol(wow_sol_raw)
+        wow_sol_waterfalls  = compute_wow_sol_waterfalls(wow_sol_by_cdu_raw)
+    except Exception as e:
+        print(f"   [warn] WoW solução: {e}")
+        wow_sol_waterfalls = {}
     wow_by_channel    = process_wow_dim(wow_channel_raw,   weekly["weeks"])
     wow_by_seniority  = process_wow_dim(wow_seniority_raw, weekly["weeks"])
     wow_by_office     = process_wow_dim(wow_office_raw,    weekly["weeks"])
@@ -1215,7 +1345,7 @@ def build_all(html_only: bool = False):
 
     _save_cache({"monthly": monthly, "weekly": weekly, "daily": daily,
                  "solutions": solutions, "themes_by_cdu": themes_by_cdu,
-                 "themes_weekly": themes_weekly,
+                 "themes_weekly": themes_weekly, "wow_sol_waterfalls": wow_sol_waterfalls,
                  "nps_by_cdu": nps_by_cdu, "nps_monthly": nps_monthly,
                  "nps_weekly": nps_weekly, "nps_daily": nps_daily,
                  "nps_weekly_by_cdu": nps_weekly_by_cdu,
@@ -1226,7 +1356,8 @@ def build_all(html_only: bool = False):
                  "wow_analysis": wow_analysis}, charts=True)
     return (monthly, weekly, daily, themes_by_cdu, themes_weekly, solutions, nps_by_cdu, nps_monthly,
             nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard,
-            detractor_analysis, wow_cdu, wow_channel, wow_seniority, wow_office, wow_analysis)
+            detractor_analysis, wow_cdu, wow_channel, wow_seniority, wow_office, wow_analysis,
+            wow_sol_waterfalls)
 
 # ── HTML ──────────────────────────────────────────────────────────────────────
 def jd(obj) -> str:
@@ -1613,7 +1744,8 @@ def _classify_theme(name: str) -> str:
 
 def generate_impact_executive_summary(detractor_analysis: dict, wow_cdu: dict,
                                        wow_channel: dict, wow_seniority: dict,
-                                       wow_office: dict, nps_by_cdu: list) -> str:
+                                       wow_office: dict, nps_by_cdu: list,
+                                       wow_sol_waterfalls: dict = None) -> str:
     last_w   = wow_cdu.get("last_w", "—")
     prev_w   = wow_cdu.get("prev_w", "—")
     nps_last = wow_cdu.get("nps_last")
@@ -1711,6 +1843,22 @@ def generate_impact_executive_summary(detractor_analysis: dict, wow_cdu: dict,
             f"Os CDUs que combinam alto volume de detratores com NPS mais baixo são: {crit_str}. "
             f"Estes devem ser priorizados em planos de ação imediatos."
         )
+
+    # ── Parágrafo 5+: Mix vs Neto via wow_sol_waterfalls (se disponível) ─────
+    # Calcula mix/neto agregado somando todos os CDUs
+    if wow_sol_waterfalls:
+        all_mix  = sum(v.get("mix",  0) for v in wow_sol_waterfalls.values() if isinstance(v, dict))
+        all_neto = sum(v.get("neto", 0) for v in wow_sol_waterfalls.values() if isinstance(v, dict))
+        if abs(all_mix) > 0.05 or abs(all_neto) > 0.05:
+            dominant = "mix (variação na composição de volume por solução)" if abs(all_mix) > abs(all_neto) \
+                       else "neto (variação na qualidade de NPS por solução)"
+            paras.append(
+                f"A decomposição <strong>MIX/NETO</strong> revela: impacto de mix "
+                f"<strong style='color:{'#E05252' if all_mix<0 else '#70AD47'}'>{all_mix:+.2f}pp</strong> "
+                f"e impacto de neto "
+                f"<strong style='color:{'#E05252' if all_neto<0 else '#70AD47'}'>{all_neto:+.2f}pp</strong>. "
+                f"O efeito dominante foi o <strong>{dominant}</strong>."
+            )
 
     if not paras:
         return '<p style="color:#999;font-size:13px">Dados insuficientes para análise automática.</p>'
@@ -1896,7 +2044,8 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
                   nps_weekly_by_cdu: dict, waterfalls: dict,
                   mom_scorecard: list, detractor_analysis: dict,
                   wow_cdu: dict, wow_channel: dict, wow_seniority: dict,
-                  wow_office: dict, wow_analysis: str) -> str:
+                  wow_office: dict, wow_analysis: str,
+                  wow_sol_waterfalls: dict) -> str:
     from datetime import datetime as _dt
     now_str = _dt.now().strftime("%d/%m/%Y às %H:%M")
 
@@ -2004,7 +2153,8 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
 
     # Resumo executivo da aba Impacto Semanal
     impact_exec_summary = generate_impact_executive_summary(
-        detractor_analysis, wow_cdu, wow_channel, wow_seniority, wow_office, nps_by_cdu
+        detractor_analysis, wow_cdu, wow_channel, wow_seniority, wow_office, nps_by_cdu,
+        wow_sol_waterfalls
     )
 
     # Seletor CDU → temas de detratores (JSON para JS)
@@ -2394,6 +2544,20 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
       </div>
     </div>
 
+    <!-- Cascata WoW por Solução com filtro CDU -->
+    <div class="card">
+      <div class="th-hdr">
+        <div class="th-title-row">
+          <span class="th-label">WoW Impacto por Solução · CDU:</span>
+          <select class="cdu-sel" id="solWaterfallCduSel" onchange="selectSolWaterfall(this.value)">
+            {''.join(f'<option value="{cdu}">{cdu}</option>' for cdu in wow_sol_waterfalls) if wow_sol_waterfalls else '<option>Sem dados</option>'}
+          </select>
+        </div>
+        <span class="th-sub">Contribuição de cada solução para a variação WoW · MIX = efeito composição · NETO = efeito qualidade NPS</span>
+      </div>
+      <div class="cw" style="height:440px"><canvas id="cSolWaterfall"></canvas></div>
+    </div>
+
     <!-- Representatividade de pesquisas por CDU -->
     <div class="grid2">
       <div class="card">
@@ -2529,6 +2693,82 @@ function npsColor(v) {{
 }}
 
 const CDU_THEMES_DET = {jd(cdu_themes_det)};
+const WOW_SOL_WATERFALLS = {jd(wow_sol_waterfalls)};
+let solWaterfallChart = null;
+
+function selectSolWaterfall(cdu) {{
+  const data = WOW_SOL_WATERFALLS[cdu];
+  const el   = document.getElementById('cSolWaterfall');
+  if (!el) return;
+  if (solWaterfallChart) {{ solWaterfallChart.destroy(); solWaterfallChart = null; }}
+  if (!data || !data.bars || !data.bars.length) {{
+    el.style.display = 'none';
+    return;
+  }}
+  el.style.display = '';
+  const bars = data.bars;
+  const labels  = bars.map(b => b.label);
+  const spacers = bars.map(b => b.spacer);
+  const values  = bars.map(b => b.bar);
+  const colors  = bars.map(b => {{
+    if (b.isAnchor) return '#4472C4';
+    const extra = b[2] || b;
+    if (extra.is_mix_bar  || (typeof b.label === 'string' && b.label.includes('Mix')))  return '#9B59B6cc';
+    if (extra.is_neto_bar || (typeof b.label === 'string' && b.label.includes('Neto'))) return '#17A589cc';
+    return b.color || (b.contrib >= 0 ? '#70AD47cc' : '#E05252cc');
+  }});
+  solWaterfallChart = new Chart(el, {{
+    type: 'bar',
+    data: {{ labels, datasets: [
+      {{ label: '_spacer', data: spacers,
+         backgroundColor: 'transparent', borderColor: 'transparent', stack: 's' }},
+      {{ label: 'value', data: values,
+         backgroundColor: colors, borderRadius: 3, stack: 's',
+         borderColor: colors.map(c => typeof c === 'string' ? c.replace('cc','') : c),
+         borderWidth: 1 }},
+    ] }},
+    plugins: [{{
+      id: 'solWfLabels',
+      afterDatasetsDraw(chart) {{
+        const {{ ctx, data }} = chart;
+        const metaV = chart.getDatasetMeta(1);
+        ctx.save();
+        ctx.font = 'bold 10px -apple-system, sans-serif';
+        ctx.textAlign = 'center';
+        metaV.data.forEach((bar, i) => {{
+          const b = bars[i];
+          if (b.contrib === null || b.contrib === undefined) return;
+          const lbl = (b.contrib > 0 ? '+' : '') + b.contrib.toFixed(2) + 'pp';
+          ctx.fillStyle = b.isAnchor ? '#555' : (b.contrib >= 0 ? '#2d7d2d' : '#b71c1c');
+          ctx.textBaseline = 'bottom';
+          ctx.fillText(lbl, bar.x, bar.y - 3);
+        }});
+        ctx.restore();
+      }}
+    }}],
+    options: {{
+      responsive: true, maintainAspectRatio: false,
+      layout: {{ padding: {{ top: 22 }} }},
+      plugins: {{
+        legend: {{ display: false }},
+        tooltip: {{ callbacks: {{ label: ctx => {{
+          if (ctx.datasetIndex === 0) return null;
+          const b = bars[ctx.dataIndex];
+          if (b.isAnchor) return ` NPS: ${{b.bar.toFixed(1)}}`;
+          const lines = [` Impacto total: ${{(b.contrib>=0?'+':'')}}${{b.contrib?.toFixed(2)}}pp`];
+          if (b.nps1 !== undefined && b.nps1 !== null) lines.push(` NPS: ${{b.nps0?.toFixed(1)}} → ${{b.nps1?.toFixed(1)}}`);
+          if (b.mix !== undefined) lines.push(` Mix: ${{(b.mix>=0?'+':'')}}${{b.mix?.toFixed(2)}}pp | Neto: ${{(b.neto>=0?'+':'')}}${{b.neto?.toFixed(2)}}pp`);
+          return lines;
+        }} }} }}
+      }},
+      scales: {{
+        x: {{ stacked: true, grid: {{ display: false }}, ticks: {{ font: {{ size: 10 }}, maxRotation: 35 }} }},
+        y: {{ stacked: true, grid: {{ color: '#f0f2f5' }},
+              ticks: {{ font: {{ size: 11 }}, callback: v => v.toFixed(0) }} }}
+      }}
+    }}
+  }});
+}}
 
 // ── Helpers globais ──────────────────────────────────────────────────────────
 function survChart(id, labels, datasets) {{
@@ -2925,9 +3165,13 @@ function initImpactoCharts() {{
   survChart('cSurvM', {jd(monthly['months'])}, {jd(surv_m_datasets)});
   survChart('cSurvW', {jd(weekly['weeks'])},   {jd(surv_w_datasets)});
 
-  // Seletor CDU → motivos de detratores (CDU_THEMES_DET é global, definida abaixo)
+  // Seletor CDU → motivos de detratores
   const firstCdu = Object.keys(CDU_THEMES_DET)[0];
   if (firstCdu) selectImpactoCDU(firstCdu);
+
+  // Seletor CDU → cascata de solução
+  const firstSolCdu = Object.keys(WOW_SOL_WATERFALLS)[0];
+  if (firstSolCdu) selectSolWaterfall(firstSolCdu);
 
 }}
 
@@ -2994,11 +3238,12 @@ if __name__ == "__main__":
     try:
         (monthly, weekly, daily, themes_by_cdu, themes_weekly, solutions, nps_by_cdu, nps_monthly,
          nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard,
-         detractor_analysis, wow_cdu, wow_channel, wow_seniority, wow_office, wow_analysis) = build_all(html_only=html_only)
+         detractor_analysis, wow_cdu, wow_channel, wow_seniority, wow_office, wow_analysis,
+         wow_sol_waterfalls) = build_all(html_only=html_only)
         html = generate_html(monthly, weekly, daily, themes_by_cdu, themes_weekly, solutions, nps_by_cdu,
                              nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls,
                              mom_scorecard, detractor_analysis, wow_cdu, wow_channel,
-                             wow_seniority, wow_office, wow_analysis)
+                             wow_seniority, wow_office, wow_analysis, wow_sol_waterfalls)
         out  = "outgoing_drivers_analysis.html"
         with open(out, "w", encoding="utf-8") as f:
             f.write(html)
