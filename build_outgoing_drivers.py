@@ -1774,7 +1774,8 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
                   mom_scorecard: list, detractor_analysis: dict,
                   wow_cdu: dict, wow_channel: dict, wow_seniority: dict,
                   wow_office: dict, wow_analysis: str) -> str:
-    now_str = TODAY.strftime("%d/%m/%Y")
+    from datetime import datetime as _dt
+    now_str = _dt.now().strftime("%d/%m/%Y às %H:%M")
 
     top_cdu   = monthly["top_cdu"] or "—"
     total_v   = monthly["total_vol"]
@@ -2132,7 +2133,10 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 
 <main class="main">
 
-  {generate_exec_summary(monthly, weekly, daily, solutions)}
+  <div class="card ex-block">
+    <div class="ex-title">Resumo Executivo · Impacto Semanal</div>
+    {impact_exec_summary}
+  </div>
 
   <nav class="tab-nav">
     <button class="tab-btn active" onclick="goTab(0)">Outgoing</button>
