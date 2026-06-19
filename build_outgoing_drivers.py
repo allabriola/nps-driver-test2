@@ -311,25 +311,17 @@ def q_case_ids(cdu: str) -> str:
     cutoff   = TODAY - timedelta(days=TRANSCRIPT_DAYS)
     cdu_safe = cdu.replace("'", "''")
     return f"""
-    SELECT DISTINCT i.CAS_CASE_ID
+    SELECT DISTINCT CAST(i.CAS_CASE_ID AS STRING) AS CAS_CASE_ID
     FROM {TABLE_CI} i
-    WHERE i.SIT_SITE_ID          = '{SITE}'
-      AND i.FLAG_OUTGOING_GESTION = 1
-      AND i.CI_PROCESS_ID IN (
-          SELECT DISTINCT CI_PROCESS_ID FROM {TABLE_OG}
-          WHERE SIT_SITE_ID      = '{SITE}'
-            AND PRO_PROCESS_NAME = '{PROCESS_KEY}'
-            AND {TEAMS_FILTER}
-      )
-      AND i.WCM_CONT_ID IN (
-          SELECT DISTINCT SOLUTION_ID FROM {TABLE_OG}
-          WHERE SIT_SITE_ID      = '{SITE}'
-            AND PRO_PROCESS_NAME = '{PROCESS_KEY}'
-            AND {TEAMS_FILTER}
-            AND {CDU_EXPR}       = '{cdu_safe}'
-      )
+    INNER JOIN {TABLE_OG} og ON i.WCM_CONT_ID = og.SOLUTION_ID
+    WHERE i.SIT_SITE_ID           = '{SITE}'
+      AND i.FLAG_OUTGOING_GESTION  = 1
+      AND og.SIT_SITE_ID           = '{SITE}'
+      AND og.PRO_PROCESS_NAME      = '{PROCESS_KEY}'
+      AND {TEAMS_FILTER.replace('USER_TEAM_NAME', 'og.USER_TEAM_NAME')}
+      AND COALESCE(NULLIF(TRIM(og.CDU),''), 'Sem CDU') = '{cdu_safe}'
       AND CAST(i.CI_CREATED_DATE AS DATE) >= '{cutoff}'
-    LIMIT 1000
+    LIMIT 500
     """
 
 def q_transcripts(case_ids: list[str]) -> str:
@@ -337,11 +329,14 @@ def q_transcripts(case_ids: list[str]) -> str:
     return f"""
     SELECT
       CAST(CAS_CASE_ID AS STRING)  AS case_id,
-      OBFUSCATED_MESSAGE_CONTENT   AS msg
+      SPEAKER_ROLE,
+      INITIAL_DTTM,
+      SUBSTR(OBFUSCATED_MESSAGE_CONTENT, 1, 400) AS msg
     FROM {TABLE_TR}
     WHERE CAS_CASE_ID IN ({ids})
       AND OBFUSCATED_MESSAGE_CONTENT IS NOT NULL
-      AND LENGTH(OBFUSCATED_MESSAGE_CONTENT) > 20
+      AND LENGTH(OBFUSCATED_MESSAGE_CONTENT) > 15
+    ORDER BY CAS_CASE_ID, INITIAL_DTTM
     """
 
 # ── TF-IDF + KMeans ──────────────────────────────────────────────────────────
@@ -970,7 +965,9 @@ def fetch_themes(cdu: str) -> list[dict]:
         print(f"   [BQ] '{cdu}': buscando case IDs…")
         try:
             raw_ids = run(q_case_ids(cdu))
-            ids = [str(int(r["CAS_CASE_ID"])) for r in raw_ids if r.get("CAS_CASE_ID") is not None]
+            ids = [str(r.get("CAS_CASE_ID", r.get("cas_case_id", "")))
+                   for r in raw_ids if r.get("CAS_CASE_ID") or r.get("cas_case_id")]
+            ids = [i for i in ids if i]
         except Exception as e:
             print(f"   [quota] '{cdu}' ignorado: {e}")
             return []
@@ -978,14 +975,23 @@ def fetch_themes(cdu: str) -> list[dict]:
             return []
 
         print(f"   [BQ] '{cdu}': {len(ids)} casos, buscando transcrições…")
-        case_transcripts: dict[str, list[str]] = {}
+        # {case_id: {"user": [msgs], "rep": [msgs]}}
+        case_transcripts: dict[str, dict] = {}
         try:
-            for i in range(0, len(ids), 1000):
-                rows = run(q_transcripts(ids[i:i + 1000]))
+            for i in range(0, len(ids), 500):
+                rows = run(q_transcripts(ids[i:i + 500]))
                 for r in rows:
-                    cid, msg = r.get("case_id"), r.get("msg")
+                    cid  = r.get("case_id")
+                    msg  = r.get("msg")
+                    role = (r.get("SPEAKER_ROLE") or r.get("speaker_role") or "").upper()
                     if cid and msg:
-                        case_transcripts.setdefault(cid, []).append(msg)
+                        entry = case_transcripts.setdefault(cid, {"user": [], "rep": []})
+                        if role == "USER":
+                            entry["user"].append(msg)
+                        elif role in ("REP", "AGENT"):
+                            entry["rep"].append(msg)
+                        else:  # BOT or unknown — add to user for contact reason context
+                            entry["user"].append(msg)
             _save_cache(case_transcripts, cdu)
         except Exception as e:
             print(f"   [quota] transcrições de '{cdu}' ignoradas: {e}")
@@ -993,8 +999,11 @@ def fetch_themes(cdu: str) -> list[dict]:
     else:
         case_transcripts = cached
 
-    themes = analyze_themes(case_transcripts)
-    print(f"   [TF-IDF] '{cdu}': {len(themes)} temas")
+    # Analisa mensagens do USER (o que o cliente pede)
+    user_texts = {cid: d["user"] if isinstance(d, dict) else d
+                  for cid, d in case_transcripts.items()}
+    themes = analyze_themes(user_texts)
+    print(f"   [TF-IDF USER] '{cdu}': {len(themes)} temas")
     return themes
 
 def build_all(html_only: bool = False):
