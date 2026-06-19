@@ -156,6 +156,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   <nav class="tab-nav">
     <button class="tab-btn active" onclick="goTab(0)">Outgoing</button>
     <button class="tab-btn"        onclick="goTab(1)">NPS</button>
+    <button class="tab-btn"        onclick="goTab(2)">Impacto Semanal</button>
   </nav>
 
   <!-- ── ABA OUTGOING ─────────────────────────────────────────── -->
@@ -338,6 +339,38 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 
   </div><!-- /tp1 -->
 
+  <!-- ── ABA IMPACTO SEMANAL ───────────────────────────────────── -->
+  <div class="tab-pane" id="tp2">
+
+    <div class="grid2">
+      <div class="card">
+        <p class="chart-title">WoW por CDU · 08/06 → 15/06</p>
+        <div class="cw" style="height:420px"><canvas id="cWowCdu"></canvas></div>
+      </div>
+      <div class="card">
+        <p class="chart-title">WoW por Escritório · 08/06 → 15/06</p>
+        <div class="cw" style="height:420px"><canvas id="cWowOffice"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <p class="chart-title">WoW por Canal · 08/06 → 15/06</p>
+        <div class="cw" style="height:360px"><canvas id="cWowChannel"></canvas></div>
+      </div>
+      <div class="card">
+        <p class="chart-title">WoW por Senioridade · 08/06 → 15/06</p>
+        <div class="cw" style="height:360px"><canvas id="cWowSeniority"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card ex-block">
+      <div class="ex-title">Análise Automática · O que mais impactou essa semana?</div>
+      <ul class="ex-bullets"><li class="ex-li">O NPS do processo Drivers <strong>piorou -4.5pp</strong> na semana de 15/06 vs 08/06 (67.8 → 63.3).</li><li class="ex-li">Em <strong>CDU</strong>, o destaque positivo foi <strong>Quiere saber porque no recibe rutas</strong> (60.5→87.9, +2.03pp de contribuição). O maior detrator foi <strong>Tiene un inconviente con sus metricas de Nivel de Lealtad</strong> (58.3→51.7, -2.08pp de contribuição).</li><li class="ex-li">Em <strong>Escritório</strong>, o destaque positivo foi <strong>KTA_BRASIL</strong> (66.0→66.3, +2.19pp de contribuição). O maior detrator foi <strong>ATE</strong> (69.3→60.2, -6.70pp de contribuição).</li><li class="ex-li">Em <strong>Canal</strong>, o destaque positivo foi <strong>MULTICANAL C2C</strong> (52.0→59.2, +1.76pp de contribuição). O maior detrator foi <strong>MULTICANAL CHAT</strong> (70.1→64.2, -5.83pp de contribuição).</li><li class="ex-li">Em <strong>Senioridade</strong>, o destaque positivo foi <strong>NEWBIE</strong> (59.9→66.5, +4.70pp de contribuição). O maior detrator foi <strong>EXPERT</strong> (77.5→64.3, -6.53pp de contribuição).</li></ul>
+    </div>
+
+  </div><!-- /tp2 -->
+
 </main>
 
 <script>
@@ -346,10 +379,12 @@ const ALL_THEMES = {"Quiere saber porqué se inactivó su cuenta": [{"name": "En
 
 // ── Tab ──────────────────────────────────────────────────────────────────────
 let npsInited = false;
+let impactoInited = false;
 function goTab(n) {
   document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===n));
   document.querySelectorAll('.tab-pane').forEach((p,i) => p.classList.toggle('active', i===n));
-  if (n === 1 && !npsInited) { initNpsCharts(); npsInited = true; }
+  if (n === 1 && !npsInited)     { initNpsCharts();     npsInited = true; }
+  if (n === 2 && !impactoInited) { initImpactoCharts(); impactoInited = true; }
 }
 
 // ── Plugins ──────────────────────────────────────────────────────────────────
@@ -805,6 +840,20 @@ function initNpsCharts() {
 
   detCombo('cDetWorst',  {"labels": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"], "og": [447, 545, 533, 737, 1045, 841], "nps": [40.0, 52.0, 52.2, 48.2, 62.0, 58.9], "target": 70.0});
   detCombo('cDetTopOg',  {"labels": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"], "og": [3237, 5404, 8449, 8308, 9134, 4092], "nps": [77.3, 82.4, 70.5, 71.8, 74.2, 72.2], "target": 72.0});
+}
+
+// ── Aba Impacto Semanal ───────────────────────────────────────────────────────
+function initImpactoCharts() {
+  const wowData = {
+    cdu:       [{"label": "08/06 (67.8)", "spacer": 0, "bar": 67.8, "isAnchor": true, "color": "#4472C4", "contrib": null}, {"label": "Quiere saber porque no recibe ru", "spacer": 67.8, "bar": 2.03, "isAnchor": false, "contrib": 2.03, "color": "#70AD47cc", "nps1": 87.9, "nps0": 60.5, "s1": 33, "s0": 38}, {"label": "Flotillero - Extra", "spacer": 69.83, "bar": 0.48, "isAnchor": false, "contrib": 0.48, "color": "#70AD47cc", "nps1": 71.9, "nps0": 63.2, "s1": 32, "s0": 38}, {"label": "Quiere saber porqué se inactivó ", "spacer": 70.31, "bar": 0.19, "isAnchor": false, "contrib": 0.19, "color": "#70AD47cc", "nps1": 72.8, "nps0": 72.8, "s1": 81, "s0": 92}, {"label": "Quiere reclamar por inconvenient", "spacer": 70.02, "bar": 0.48, "isAnchor": false, "contrib": -0.48, "color": "#E05252cc", "nps1": 54.5, "nps0": 67.3, "s1": 55, "s0": 55}, {"label": "Quiere gestionar una cuenta ya c", "spacer": 69.36, "bar": 0.66, "isAnchor": false, "contrib": -0.66, "color": "#E05252cc", "nps1": 40.0, "nps0": 66.7, "s1": 10, "s0": 12}, {"label": "Tiene problemas durante la creac", "spacer": 68.64, "bar": 0.72, "isAnchor": false, "contrib": -0.72, "color": "#E05252cc", "nps1": 71.4, "nps0": 53.8, "s1": 21, "s0": 39}, {"label": "Oferta de rutas", "spacer": 67.49, "bar": 1.15, "isAnchor": false, "contrib": -1.15, "color": "#E05252cc", "nps1": 51.9, "nps0": 63.8, "s1": 52, "s0": 58}, {"label": "Quiere saber como funciona Envío", "spacer": 66.24, "bar": 1.25, "isAnchor": false, "contrib": -1.25, "color": "#E05252cc", "nps1": 65.1, "nps0": 76.3, "s1": 86, "s0": 93}, {"label": "Quiere saber porque no le pagaro", "spacer": 64.92, "bar": 1.32, "isAnchor": false, "contrib": -1.32, "color": "#E05252cc", "nps1": 51.2, "nps0": 81.6, "s1": 41, "s0": 38}, {"label": "Tiene un inconviente con sus met", "spacer": 62.84, "bar": 2.08, "isAnchor": false, "contrib": -2.08, "color": "#E05252cc", "nps1": 51.7, "nps0": 58.3, "s1": 29, "s0": 48}, {"label": "15/06 (63.3)", "spacer": 0, "bar": 63.3, "isAnchor": true, "color": "#4472C4", "contrib": null}],
+    office:    [{"label": "08/06 (67.5)", "spacer": 0, "bar": 67.5, "isAnchor": true, "color": "#4472C4", "contrib": null}, {"label": "KTA_BRASIL", "spacer": 67.5, "bar": 2.19, "isAnchor": false, "contrib": 2.19, "color": "#70AD47cc", "nps1": 66.3, "nps0": 66.0, "s1": 181, "s0": 191}, {"label": "AEC", "spacer": 69.69, "bar": 0.42, "isAnchor": false, "contrib": 0.42, "color": "#70AD47cc", "nps1": 78.9, "nps0": 57.7, "s1": 19, "s0": 26}, {"label": "ATE", "spacer": 63.41, "bar": 6.7, "isAnchor": false, "contrib": -6.7, "color": "#E05252cc", "nps1": 60.2, "nps0": 69.3, "s1": 254, "s0": 303}, {"label": "15/06 (63.4)", "spacer": 0, "bar": 63.4, "isAnchor": true, "color": "#4472C4", "contrib": null}],
+    channel:   [{"label": "08/06 (67.5)", "spacer": 0, "bar": 67.5, "isAnchor": true, "color": "#4472C4", "contrib": null}, {"label": "MULTICANAL C2C", "spacer": 67.5, "bar": 1.76, "isAnchor": false, "contrib": 1.76, "color": "#70AD47cc", "nps1": 59.2, "nps0": 52.0, "s1": 71, "s0": 75}, {"label": "MULTICANAL CHAT", "spacer": 63.43, "bar": 5.83, "isAnchor": false, "contrib": -5.83, "color": "#E05252cc", "nps1": 64.2, "nps0": 70.1, "s1": 383, "s0": 445}, {"label": "15/06 (63.4)", "spacer": 0, "bar": 63.4, "isAnchor": true, "color": "#4472C4", "contrib": null}],
+    seniority: [{"label": "08/06 (67.5)", "spacer": 0, "bar": 67.5, "isAnchor": true, "color": "#4472C4", "contrib": null}, {"label": "NEWBIE", "spacer": 67.5, "bar": 4.7, "isAnchor": false, "contrib": 4.7, "color": "#70AD47cc", "nps1": 66.5, "nps0": 59.9, "s1": 194, "s0": 207}, {"label": "TRAINING", "spacer": 70.26, "bar": 1.94, "isAnchor": false, "contrib": -1.94, "color": "#E05252cc", "nps1": 30.0, "nps0": 40.5, "s1": 20, "s0": 42}, {"label": "EXPERT", "spacer": 63.73, "bar": 6.53, "isAnchor": false, "contrib": -6.53, "color": "#E05252cc", "nps1": 64.3, "nps0": 77.5, "s1": 238, "s0": 271}, {"label": "15/06 (63.7)", "spacer": 0, "bar": 63.7, "isAnchor": true, "color": "#4472C4", "contrib": null}],
+  };
+
+  [['cWowCdu', wowData.cdu], ['cWowOffice', wowData.office],
+   ['cWowChannel', wowData.channel], ['cWowSeniority', wowData.seniority]
+  ].forEach(([id, bars]) => waterfallChart(id, bars));
 
 }
 

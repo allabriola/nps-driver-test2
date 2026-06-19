@@ -243,6 +243,28 @@ def q_nps_weekly() -> str:
     ORDER BY 1
     """
 
+def q_wow_dim(dim_field: str) -> str:
+    """Query genérica para WoW por dimensão (canal, senioridade, escritório)."""
+    cutoff = TODAY - timedelta(weeks=3)
+    return f"""
+    SELECT
+      COALESCE(NULLIF(TRIM({dim_field}),''), 'Não informado')  AS dim,
+      DATE_TRUNC(CAST(SURVEY_DATE_SURVEY AS DATE), ISOWEEK)   AS week_start,
+      COUNT(*)                                                 AS surveys,
+      SUM(PROMOTER)                                            AS promoters,
+      SUM(DETRACTOR)                                           AS detractors
+    FROM {TABLE_NPS}
+    WHERE SIT_SITE_ID      = '{SITE}'
+      AND SURVEY_CENTER    = 'BR'
+      AND PRO_PROCESS_NAME = '{PROCESS_KEY}'
+      AND {TEAMS_FILTER}
+      AND {NPS_FILTER}
+      AND CAST(SURVEY_DATE_SURVEY AS DATE) >= '{cutoff}'
+    GROUP BY 1, 2
+    HAVING COUNT(*) >= 5
+    ORDER BY 1, 2
+    """
+
 def q_nps_daily() -> str:
     daily_start = TODAY - timedelta(days=DAILY_DAYS)
     return f"""
@@ -569,7 +591,7 @@ def process_nps_weekly_by_cdu(raw: list[dict], weekly_weeks: list[str]) -> dict:
         p, d, s = int(r["promoters"] or 0), int(r["detractors"] or 0), int(r["surveys"] or 0)
         tgt = round(float(r["target"]) * 100, 1) if r.get("target") is not None else None
         by_cdu.setdefault(r["cdu"], {})[lbl] = {
-            "nps": _calc_nps(p, d, s), "target": tgt, "s": s
+            "nps": _calc_nps(p, d, s), "target": tgt, "s": s, "p": p, "d": d
         }
     result = {}
     for cdu, weeks in by_cdu.items():
@@ -676,6 +698,121 @@ def compute_waterfalls(nps_by_cdu: list, nps_monthly: dict) -> dict:
             "tgt_wt": tgt_wt, "actual_wt": actual_wt,
             "process_target": process_target,
             "total_gap": total_gap}
+
+def process_wow_dim(raw: list[dict], weekly_weeks: list[str]) -> dict:
+    """Retorna {dim: {week_label: {p, d, s, nps}}}."""
+    by_dim: dict[str, dict] = {}
+    for r in raw:
+        ws  = r["week_start"]
+        lbl = ws.strftime("%d/%m") if hasattr(ws, "strftime") else str(ws)[8:10] + "/" + str(ws)[5:7]
+        p, d, s = int(r["promoters"] or 0), int(r["detractors"] or 0), int(r["surveys"] or 0)
+        by_dim.setdefault(str(r["dim"]), {})[lbl] = {"p": p, "d": d, "s": s, "nps": _calc_nps(p, d, s)}
+    return by_dim
+
+def compute_wow_waterfall(by_dim: dict, weekly_weeks: list[str], dim_label: str) -> dict:
+    """Monta cascata WoW para uma dimensão."""
+    if len(weekly_weeks) < 2:
+        return {"bars": [], "last_w": "—", "prev_w": "—", "nps_last": None, "nps_prev": None, "contribs": []}
+
+    last_w = weekly_weeks[-1]
+    prev_w = weekly_weeks[-2]
+
+    # NPS agregado por semana
+    def agg_week(wk):
+        p, d, s = 0, 0, 0
+        for dim, weeks in by_dim.items():
+            e = weeks.get(wk, {})
+            if not isinstance(e, dict): continue
+            p += e.get("p", 0); d += e.get("d", 0); s += e.get("s", 0)
+        return _calc_nps(p, d, s), s
+
+    nps_last, s_last = agg_week(last_w)
+    nps_prev, s_prev = agg_week(prev_w)
+
+    if nps_last is None or nps_prev is None or not s_last or not s_prev:
+        return {"bars": [], "last_w": last_w, "prev_w": prev_w,
+                "nps_last": nps_last, "nps_prev": nps_prev, "contribs": []}
+
+    # Contribuição por dimensão
+    contribs = []
+    for dim, weeks in by_dim.items():
+        e1 = weeks.get(last_w, {}); e0 = weeks.get(prev_w, {})
+        nps1 = e1.get("nps"); nps0 = e0.get("nps")
+        s1 = e1.get("s", 0);  s0 = e0.get("s", 0)
+        if nps1 is None or nps0 is None or not s1 or not s0: continue
+        contrib = round(nps1 * s1 / s_last - nps0 * s0 / s_prev, 2)
+        if abs(contrib) >= 0.01:
+            contribs.append((dim, contrib, {"nps1": nps1, "nps0": nps0, "s1": s1, "s0": s0}))
+
+    pos = sorted([c for c in contribs if c[1] >= 0], key=lambda x: -x[1])
+    neg = sorted([c for c in contribs if c[1] <  0], key=lambda x: -x[1])
+    bars = _wf_bars(f"{prev_w} ({nps_prev:.1f})", nps_prev, pos + neg,
+                    f"{last_w} ({nps_last:.1f})", nps_last)
+
+    return {"bars": bars, "last_w": last_w, "prev_w": prev_w,
+            "nps_last": nps_last, "nps_prev": nps_prev, "contribs": contribs}
+
+def wow_from_weekly_by_cdu(nps_weekly_by_cdu: dict, weekly_weeks: list[str]) -> dict:
+    """Converte nps_weekly_by_cdu para formato de by_dim."""
+    last_i = len(weekly_weeks) - 1
+    prev_i = len(weekly_weeks) - 2
+    by_dim: dict[str, dict] = {}
+    for cdu, entries in nps_weekly_by_cdu.items():
+        by_dim[cdu] = {}
+        for idx, wk in [(prev_i, weekly_weeks[prev_i] if prev_i >= 0 else None),
+                        (last_i, weekly_weeks[last_i] if last_i >= 0 else None)]:
+            if wk is None or idx >= len(entries): continue
+            e = entries[idx]
+            if not isinstance(e, dict): continue
+            by_dim[cdu][wk] = {"p": e.get("p", 0), "d": e.get("d", 0),
+                                "s": e.get("s", 0), "nps": e.get("nps")}
+    return by_dim
+
+def generate_wow_analysis(wow_cdu: dict, wow_channel: dict,
+                          wow_seniority: dict, wow_office: dict) -> str:
+    """Gera texto de análise automática das cascatas WoW."""
+    lines = []
+    delta = None
+    if wow_cdu.get("nps_last") is not None and wow_cdu.get("nps_prev") is not None:
+        delta = round(wow_cdu["nps_last"] - wow_cdu["nps_prev"], 1)
+        sign  = "+" if delta >= 0 else ""
+        direction = "melhorou" if delta >= 0 else "piorou"
+        lines.append(
+            f"O NPS do processo Drivers <strong>{direction} {sign}{delta}pp</strong> "
+            f"na semana de {wow_cdu['last_w']} vs {wow_cdu['prev_w']} "
+            f"({wow_cdu['nps_prev']:.1f} → {wow_cdu['nps_last']:.1f})."
+        )
+
+    def top_contrib(wow: dict, label: str):
+        contribs = wow.get("contribs", [])
+        if not contribs: return None
+        top_pos = max(contribs, key=lambda x: x[1], default=None)
+        top_neg = min(contribs, key=lambda x: x[1], default=None)
+        parts = []
+        if top_pos and top_pos[1] > 0.05:
+            e = top_pos[2]
+            parts.append(
+                f"Em <strong>{label}</strong>, o destaque positivo foi "
+                f"<strong>{top_pos[0]}</strong> ({e['nps0']:.1f}→{e['nps1']:.1f}, "
+                f"{'+' if top_pos[1]>=0 else ''}{top_pos[1]:.2f}pp de contribuição)."
+            )
+        if top_neg and top_neg[1] < -0.05:
+            e = top_neg[2]
+            parts.append(
+                f"O maior detrator foi <strong>{top_neg[0]}</strong> "
+                f"({e['nps0']:.1f}→{e['nps1']:.1f}, "
+                f"{top_neg[1]:.2f}pp de contribuição)."
+            )
+        return " ".join(parts) if parts else None
+
+    for wow, lbl in [(wow_cdu, "CDU"), (wow_office, "Escritório"),
+                     (wow_channel, "Canal"), (wow_seniority, "Senioridade")]:
+        txt = top_contrib(wow, lbl)
+        if txt: lines.append(txt)
+
+    if not lines:
+        return '<p class="no-data">Dados insuficientes para análise automática.</p>'
+    return "".join(f'<li class="ex-li">{l}</li>' for l in lines)
 
 def analyze_detractor_comments(raw: list[dict]) -> dict:
     """Analisa comentários de detratores: razões + temas TF-IDF + amostras."""
@@ -881,7 +1018,14 @@ def build_all(html_only: bool = False):
         mom_scorecard      = cached.get("mom_scorecard") or compute_mom_scorecard(
             monthly, nps_monthly, nps_by_cdu, waterfalls.get("process_target"))
         detractor_analysis = cached.get("detractor_analysis", {})
-        return monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard, detractor_analysis
+        wow_cdu       = cached.get("wow_cdu", {"bars": [], "contribs": []})
+        wow_channel   = cached.get("wow_channel", {"bars": [], "contribs": []})
+        wow_seniority = cached.get("wow_seniority", {"bars": [], "contribs": []})
+        wow_office    = cached.get("wow_office", {"bars": [], "contribs": []})
+        wow_analysis  = cached.get("wow_analysis", "")
+        return (monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly,
+                nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard,
+                detractor_analysis, wow_cdu, wow_channel, wow_seniority, wow_office, wow_analysis)
 
     print("▸ Volume mensal…")
     monthly_raw = run(q_monthly())
@@ -899,6 +1043,14 @@ def build_all(html_only: bool = False):
     nps_week_raw = run(q_nps_weekly())
     print("▸ NPS semanal por CDU…")
     nps_week_cdu_raw = run(q_nps_weekly_by_cdu())
+    print("▸ WoW — canal, senioridade, escritório…")
+    try:
+        wow_channel_raw    = run(q_wow_dim("USER_TEAM_CHANNEL"))
+        wow_seniority_raw  = run(q_wow_dim("ANTIGUEDAD_REP"))
+        wow_office_raw     = run(q_wow_dim("USER_OFFICE"))
+    except Exception as e:
+        print(f"   [warn] WoW dims: {e}")
+        wow_channel_raw = wow_seniority_raw = wow_office_raw = []
     print("▸ NPS diário…")
     nps_day_raw = run(q_nps_daily())
 
@@ -911,6 +1063,15 @@ def build_all(html_only: bool = False):
     nps_weekly       = process_nps_agg(nps_week_raw, weekly["weeks"], "week_start")
     nps_daily        = process_nps_agg(nps_day_raw,  daily["days"],  "day")
     nps_weekly_by_cdu = process_nps_weekly_by_cdu(nps_week_cdu_raw, weekly["weeks"])
+    wow_by_channel    = process_wow_dim(wow_channel_raw,   weekly["weeks"])
+    wow_by_seniority  = process_wow_dim(wow_seniority_raw, weekly["weeks"])
+    wow_by_office     = process_wow_dim(wow_office_raw,    weekly["weeks"])
+    wow_by_cdu_raw    = wow_from_weekly_by_cdu(nps_weekly_by_cdu, weekly["weeks"])
+    wow_cdu      = compute_wow_waterfall(wow_by_cdu_raw,   weekly["weeks"], "CDU")
+    wow_channel  = compute_wow_waterfall(wow_by_channel,   weekly["weeks"], "Canal")
+    wow_seniority= compute_wow_waterfall(wow_by_seniority, weekly["weeks"], "Senioridade")
+    wow_office   = compute_wow_waterfall(wow_by_office,    weekly["weeks"], "Escritório")
+    wow_analysis = generate_wow_analysis(wow_cdu, wow_channel, wow_seniority, wow_office)
     waterfalls       = compute_waterfalls(nps_by_cdu, nps_monthly)
     mom_scorecard    = compute_mom_scorecard(monthly, nps_monthly, nps_by_cdu,
                                              waterfalls.get("process_target"))
@@ -950,10 +1111,14 @@ def build_all(html_only: bool = False):
                  "nps_by_cdu": nps_by_cdu, "nps_monthly": nps_monthly,
                  "nps_weekly": nps_weekly, "nps_daily": nps_daily,
                  "nps_weekly_by_cdu": nps_weekly_by_cdu,
-                 "waterfalls": waterfalls,
-                 "mom_scorecard": mom_scorecard,
-                 "detractor_analysis": detractor_analysis}, charts=True)
-    return monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard, detractor_analysis
+                 "waterfalls": waterfalls, "mom_scorecard": mom_scorecard,
+                 "detractor_analysis": detractor_analysis,
+                 "wow_cdu": wow_cdu, "wow_channel": wow_channel,
+                 "wow_seniority": wow_seniority, "wow_office": wow_office,
+                 "wow_analysis": wow_analysis}, charts=True)
+    return (monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly,
+            nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard,
+            detractor_analysis, wow_cdu, wow_channel, wow_seniority, wow_office, wow_analysis)
 
 # ── HTML ──────────────────────────────────────────────────────────────────────
 def jd(obj) -> str:
@@ -1434,7 +1599,9 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
                   solutions: list, nps_by_cdu: list, nps_monthly: dict,
                   nps_weekly: list, nps_daily: list,
                   nps_weekly_by_cdu: dict, waterfalls: dict,
-                  mom_scorecard: list, detractor_analysis: dict) -> str:
+                  mom_scorecard: list, detractor_analysis: dict,
+                  wow_cdu: dict, wow_channel: dict, wow_seniority: dict,
+                  wow_office: dict, wow_analysis: str) -> str:
     now_str = TODAY.strftime("%d/%m/%Y")
 
     top_cdu   = monthly["top_cdu"] or "—"
@@ -1766,6 +1933,7 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   <nav class="tab-nav">
     <button class="tab-btn active" onclick="goTab(0)">Outgoing</button>
     <button class="tab-btn"        onclick="goTab(1)">NPS</button>
+    <button class="tab-btn"        onclick="goTab(2)">Impacto Semanal</button>
   </nav>
 
   <!-- ── ABA OUTGOING ─────────────────────────────────────────── -->
@@ -1892,6 +2060,38 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 
   </div><!-- /tp1 -->
 
+  <!-- ── ABA IMPACTO SEMANAL ───────────────────────────────────── -->
+  <div class="tab-pane" id="tp2">
+
+    <div class="grid2">
+      <div class="card">
+        <p class="chart-title">WoW por CDU · {wow_cdu.get('prev_w','—')} → {wow_cdu.get('last_w','—')}</p>
+        <div class="cw" style="height:420px"><canvas id="cWowCdu"></canvas></div>
+      </div>
+      <div class="card">
+        <p class="chart-title">WoW por Escritório · {wow_office.get('prev_w','—')} → {wow_office.get('last_w','—')}</p>
+        <div class="cw" style="height:420px"><canvas id="cWowOffice"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <p class="chart-title">WoW por Canal · {wow_channel.get('prev_w','—')} → {wow_channel.get('last_w','—')}</p>
+        <div class="cw" style="height:360px"><canvas id="cWowChannel"></canvas></div>
+      </div>
+      <div class="card">
+        <p class="chart-title">WoW por Senioridade · {wow_seniority.get('prev_w','—')} → {wow_seniority.get('last_w','—')}</p>
+        <div class="cw" style="height:360px"><canvas id="cWowSeniority"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card ex-block">
+      <div class="ex-title">Análise Automática · O que mais impactou essa semana?</div>
+      <ul class="ex-bullets">{wow_analysis}</ul>
+    </div>
+
+  </div><!-- /tp2 -->
+
 </main>
 
 <script>
@@ -1900,10 +2100,12 @@ const ALL_THEMES = {jd(themes_by_cdu)};
 
 // ── Tab ──────────────────────────────────────────────────────────────────────
 let npsInited = false;
+let impactoInited = false;
 function goTab(n) {{
   document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===n));
   document.querySelectorAll('.tab-pane').forEach((p,i) => p.classList.toggle('active', i===n));
-  if (n === 1 && !npsInited) {{ initNpsCharts(); npsInited = true; }}
+  if (n === 1 && !npsInited)     {{ initNpsCharts();     npsInited = true; }}
+  if (n === 2 && !impactoInited) {{ initImpactoCharts(); impactoInited = true; }}
 }}
 
 // ── Plugins ──────────────────────────────────────────────────────────────────
@@ -2359,6 +2561,20 @@ function initNpsCharts() {{
 
   detCombo('cDetWorst',  {jd(combo_worst)});
   detCombo('cDetTopOg',  {jd(combo_top_og)});
+}}
+
+// ── Aba Impacto Semanal ───────────────────────────────────────────────────────
+function initImpactoCharts() {{
+  const wowData = {{
+    cdu:       {jd(wow_cdu.get('bars', []))},
+    office:    {jd(wow_office.get('bars', []))},
+    channel:   {jd(wow_channel.get('bars', []))},
+    seniority: {jd(wow_seniority.get('bars', []))},
+  }};
+
+  [['cWowCdu', wowData.cdu], ['cWowOffice', wowData.office],
+   ['cWowChannel', wowData.channel], ['cWowSeniority', wowData.seniority]
+  ].forEach(([id, bars]) => waterfallChart(id, bars));
 
 }}
 
@@ -2393,8 +2609,13 @@ function selectCDU(cdu) {{
 if __name__ == "__main__":
     html_only = "--html-only" in sys.argv
     try:
-        monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard, detractor_analysis = build_all(html_only=html_only)
-        html = generate_html(monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard, detractor_analysis)
+        (monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly,
+         nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard,
+         detractor_analysis, wow_cdu, wow_channel, wow_seniority, wow_office, wow_analysis) = build_all(html_only=html_only)
+        html = generate_html(monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu,
+                             nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls,
+                             mom_scorecard, detractor_analysis, wow_cdu, wow_channel,
+                             wow_seniority, wow_office, wow_analysis)
         out  = "outgoing_drivers_analysis.html"
         with open(out, "w", encoding="utf-8") as f:
             f.write(html)
