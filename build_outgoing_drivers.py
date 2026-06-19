@@ -2203,6 +2203,7 @@ function survChart(id, labels, datasets) {{
   new Chart(document.getElementById(id), {{
     type: 'bar',
     data: {{ labels, datasets }},
+    plugins: [innerPctPlugin],
     options: {{
       responsive: true, maintainAspectRatio: false,
       layout: {{ padding: {{ top: 20 }} }},
