@@ -1542,6 +1542,36 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
         tgt = nps_map_det.get(cdu, {}).get("target") or process_target
         return {"labels": monthly["months"], "og": og_vals, "nps": nps_vals, "target": tgt}
 
+    # ── Surveys por CDU (representatividade) ─────────────────────────────────
+    by_cdu_m    = nps_monthly.get("by_cdu_month", {})
+    survey_cdus = [cdu for cdu in monthly["top_cdus"]
+                   if any(isinstance(by_cdu_m.get(cdu, {}).get(k), dict)
+                          for k in by_cdu_m.get(cdu, {}))]
+    surv_m_datasets = []
+    for i, cdu in enumerate(survey_cdus):
+        row = by_cdu_m.get(cdu, {})
+        mk_sorted = sorted(row.keys())
+        data_m = []
+        for m in monthly["months"]:
+            ym = next((k for k in mk_sorted if month_label(k) == m), None)
+            entry = row.get(ym, {}) if ym else {}
+            data_m.append(entry.get("s", 0) if isinstance(entry, dict) else 0)
+        surv_m_datasets.append({
+            "label": cdu, "data": data_m,
+            "backgroundColor": PALETTE[i % len(PALETTE)],
+            "borderRadius": 4, "stack": "s"
+        })
+
+    surv_w_datasets = []
+    for i, cdu in enumerate(survey_cdus):
+        wk_entries = nps_weekly_by_cdu.get(cdu, [None] * len(weekly["weeks"]))
+        data_w = [e.get("s", 0) if isinstance(e, dict) else 0 for e in wk_entries]
+        surv_w_datasets.append({
+            "label": cdu, "data": data_w,
+            "backgroundColor": PALETTE[i % len(PALETTE)],
+            "borderRadius": 4, "stack": "s"
+        })
+
     combo_worst  = _cdu_combo_data(det_worst_data.get("cdu", ""))
     combo_top_og = _cdu_combo_data(det_top_og_data.get("cdu", ""))
 
@@ -1836,6 +1866,18 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     <div class="card">
       <p class="chart-title">Evolução Semanal NPS + Target</p>
       <div class="cw" style="height:400px"><canvas id="cNpsWk"></canvas></div>
+    </div>
+
+    <!-- Representatividade de pesquisas por CDU -->
+    <div class="grid2">
+      <div class="card">
+        <p class="chart-title">Pesquisas por CDU · Mensal</p>
+        <div class="cw" style="height:360px"><canvas id="cSurvM"></canvas></div>
+      </div>
+      <div class="card">
+        <p class="chart-title">Pesquisas por CDU · Semanal</p>
+        <div class="cw" style="height:360px"><canvas id="cSurvW"></canvas></div>
+      </div>
     </div>
 
     <div class="card">
@@ -2202,6 +2244,32 @@ function initNpsCharts() {{
 
   npsEvoChart('cNpsMon', {jd(monthly['months'])}, {jd(nps_monthly['monthly_nps'])}, {jd(avg_target)});
   npsEvoChart('cNpsWk',  {jd(weekly['weeks'])},   {jd(nps_weekly)}, {jd(avg_target)});
+
+  // Representatividade de pesquisas por CDU
+  function survChart(id, labels, datasets) {{
+    new Chart(document.getElementById(id), {{
+      type: 'bar',
+      data: {{ labels, datasets }},
+      options: {{
+        responsive: true, maintainAspectRatio: false,
+        layout: {{ padding: {{ top: 20 }} }},
+        plugins: {{
+          legend: {{ position: 'bottom', labels: {{ boxWidth: 12, padding: 10, font: {{ size: 11 }} }} }},
+          tooltip: {{ callbacks: {{ label: ctx =>
+            ` ${{ctx.dataset.label}}: ${{ctx.parsed.y.toLocaleString('pt-BR')}} pesquisas`
+          }} }}
+        }},
+        scales: {{
+          x: {{ stacked: true, grid: {{ display: false }}, ticks: {{ font: {{ size: 11 }} }} }},
+          y: {{ stacked: true, grid: {{ color: '#f0f2f5' }},
+                ticks: {{ font: {{ size: 11 }}, callback: v => v.toLocaleString('pt-BR') }} }}
+        }}
+      }}
+    }});
+  }}
+
+  survChart('cSurvM', {jd(monthly['months'])}, {jd(surv_m_datasets)});
+  survChart('cSurvW', {jd(weekly['weeks'])},   {jd(surv_w_datasets)});
 
   // Combo Outgoing + NPS por CDU (cards de detratores)
   function detCombo(id, combo) {{
