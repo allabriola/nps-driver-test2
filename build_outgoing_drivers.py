@@ -812,36 +812,59 @@ def compute_wow_sol_waterfalls(by_sol_cdu: dict, weekly_weeks: list[str] = None)
         if nps_last is None or nps_prev is None or not s_last or not s_prev:
             continue
 
-        # Decomposição: NETO por solução + MIX agregado
-        contribs = []
+        # Decomposição NETO/MIX usando p/d/s diretamente (garante fechamento mesmo com s<5)
+        # SUM(neto_s) + SUM(mix_s) = NPS_M1 - NPS_M0
+        def _nps_raw(e):
+            """NPS calculado direto de p/d/s, aceita qualquer volume."""
+            if not isinstance(e, dict): return None, 0
+            s = e.get("s", 0)
+            if not s: return None, 0
+            return round(100.0 * (e.get("p",0) - e.get("d",0)) / s, 2), s
+
+        all_neto = []
         total_mix = 0.0
         for sol, weeks in by_sol.items():
-            e1 = weeks.get(last_w, {}); e0 = weeks.get(prev_w, {})
-            nps1 = e1.get("nps"); nps0 = e0.get("nps")
-            s1 = e1.get("s", 0); s0 = e0.get("s", 0)
-            if nps1 is None or nps0 is None or not s1 or not s0: continue
-            share_m1 = s1 / s_last
-            share_m0 = s0 / s_prev
-            neto_i = round(((nps1 or 0) - (nps0 or 0)) * share_m1, 2)  # ganho/perda por experiência
-            mix_i  = round((nps0 or 0) * (share_m1 - share_m0), 2)     # ganho/perda por volume
+            nps1, s1 = _nps_raw(weeks.get(last_w))
+            nps0, s0 = _nps_raw(weeks.get(prev_w))
+            share_m1 = s1 / s_last if s_last else 0
+            share_m0 = s0 / s_prev if s_prev else 0
+
+            if nps1 is not None and nps0 is not None:
+                neto_i = (nps1 - nps0) * share_m1
+                mix_i  = nps0 * (share_m1 - share_m0)
+            elif nps1 is not None:
+                neto_i = nps1 * share_m1; mix_i = 0.0
+            elif nps0 is not None:
+                neto_i = 0.0; mix_i = -nps0 * share_m0
+            else:
+                continue
+
             total_mix += mix_i
-            if abs(neto_i) >= 0.02:
-                contribs.append((sol[:40], neto_i, {"nps1": nps1, "nps0": nps0,
-                                                     "mix": mix_i, "neto": neto_i,
-                                                     "s1": s1, "s0": s0}))
+            all_neto.append((sol[:40], round(neto_i, 2),
+                             {"nps1": nps1, "nps0": nps0, "mix": round(mix_i, 2),
+                              "neto": round(neto_i, 2), "s1": s1, "s0": s0}))
 
         total_mix  = round(total_mix, 2)
-        total_neto = round(sum(c[1] for c in contribs), 2)
 
-        pos = sorted([c for c in contribs if c[1] >= 0], key=lambda x: -x[1])
-        neg = sorted([c for c in contribs if c[1] <  0], key=lambda x:  x[1])
-        # Uma barra de mix agregado ao final
+        # Exibe top soluções + bucket "Outras soluções" para as menores
+        all_neto_sorted = sorted(all_neto, key=lambda x: abs(x[1]), reverse=True)
+        top_n    = min(8, len(all_neto_sorted))  # mostra até 8 soluções
+        top      = all_neto_sorted[:top_n]
+        resto    = all_neto_sorted[top_n:]
+        if resto:
+            resto_neto = round(sum(c[1] for c in resto), 2)
+            top.append((f"Outras soluções ({len(resto)})", resto_neto,
+                        {"nps1": None, "nps0": None, "is_others": True}))
+
+        pos = sorted([c for c in top if c[1] >= 0], key=lambda x: -x[1])
+        neg = sorted([c for c in top if c[1] <  0], key=lambda x:  x[1])
         mix_bar = [("Impacto de Mix (variação de volume)", total_mix,
-                    {"nps1": None, "nps0": None, "is_mix_bar": True})] if abs(total_mix) >= 0.02 else []
+                    {"nps1": None, "nps0": None, "is_mix_bar": True})] if abs(total_mix) >= 0.01 else []
         bars = _wf_bars(f"{prev_w} ({nps_prev:.1f})", nps_prev,
                         pos + neg + mix_bar,
                         f"{last_w} ({nps_last:.1f})", nps_last)
 
+        total_neto = round(sum(c[1] for c in top), 2)
         result[cdu] = {"bars": bars, "nps_last": nps_last, "nps_prev": nps_prev,
                        "last_w": last_w, "prev_w": prev_w,
                        "mix": total_mix, "neto": total_neto}
@@ -872,21 +895,46 @@ def compute_wow_waterfall(by_dim: dict, weekly_weeks: list[str], dim_label: str)
                 "nps_last": nps_last, "nps_prev": nps_prev, "contribs": []}
 
     # Decomposição NETO (experiência) + MIX (volume) por dimensão
-    contribs = []
+    # Fórmula: neto_i = (NPS_M1 - NPS_M0) × peso_M1  |  mix_i = NPS_M0 × (peso_M1 - peso_M0)
+    def _nps_raw_dim(e):
+        if not isinstance(e, dict): return None, 0
+        s = e.get("s", 0)
+        if not s: return None, 0
+        return round(100.0 * (e.get("p",0) - e.get("d",0)) / s, 2), s
+
+    all_dim_neto = []
     total_mix = 0.0
     for dim, weeks in by_dim.items():
-        e1 = weeks.get(last_w, {}); e0 = weeks.get(prev_w, {})
-        nps1 = e1.get("nps"); nps0 = e0.get("nps")
-        s1 = e1.get("s", 0);  s0 = e0.get("s", 0)
-        if nps1 is None or nps0 is None or not s1 or not s0: continue
-        share_m1 = s1 / s_last
-        share_m0 = s0 / s_prev
-        neto_i = round(((nps1 or 0) - (nps0 or 0)) * share_m1, 2)
-        mix_i  = round((nps0 or 0) * (share_m1 - share_m0), 2)
+        nps1, s1 = _nps_raw_dim(weeks.get(last_w))
+        nps0, s0 = _nps_raw_dim(weeks.get(prev_w))
+        share_m1 = s1 / s_last if s_last else 0
+        share_m0 = s0 / s_prev if s_prev else 0
+
+        if nps1 is not None and nps0 is not None:
+            neto_i = (nps1 - nps0) * share_m1
+            mix_i  = nps0 * (share_m1 - share_m0)
+        elif nps1 is not None:
+            neto_i = nps1 * share_m1; mix_i = 0.0
+        elif nps0 is not None:
+            neto_i = 0.0; mix_i = -nps0 * share_m0
+        else:
+            continue
+
         total_mix += mix_i
-        if abs(neto_i) >= 0.01:
-            contribs.append((dim, neto_i, {"nps1": nps1, "nps0": nps0, "s1": s1, "s0": s0,
-                                           "mix": mix_i, "neto": neto_i}))
+        all_dim_neto.append((dim, round(neto_i, 2), {"nps1": nps1, "nps0": nps0,
+                                                      "s1": s1, "s0": s0,
+                                                      "mix": round(mix_i, 2),
+                                                      "neto": round(neto_i, 2)}))
+
+    # Agrupa dimensões menores em bucket "Outras" se necessário
+    all_dim_sorted = sorted(all_dim_neto, key=lambda x: abs(x[1]), reverse=True)
+    top_n   = min(10, len(all_dim_sorted))
+    contribs = all_dim_sorted[:top_n]
+    resto = all_dim_sorted[top_n:]
+    if resto:
+        resto_v = round(sum(c[1] for c in resto), 2)
+        contribs.append((f"Outras ({len(resto)})", resto_v,
+                         {"nps1": None, "nps0": None, "is_others": True}))
 
     total_mix = round(total_mix, 2)
     pos = sorted([c for c in contribs if c[1] >= 0], key=lambda x: -x[1])
