@@ -870,10 +870,9 @@ def analyze_detractor_comments(raw: list[dict]) -> dict:
                              if feat[i] not in STOPWORDS and len(feat[i]) >= 4]
                 bigrams  = [t for t in top_terms if " " in t][:2]
                 unigrams = [t for t in top_terms if " " not in t][:3]
-                name_parts = (bigrams[:1] + unigrams[:2]) if bigrams else unigrams[:3]
-                name = " · ".join(name_parts).title()
-                # sample comment from this cluster
-                c_samples = [texts[i] for i, m in enumerate(mask) if m][:2]
+                all_terms_c = (bigrams + unigrams)[:6]
+                c_samples   = [texts[i] for i, m in enumerate(mask) if m][:3]
+                name        = _categorize_cluster(c_samples, all_terms_c)
                 themes.append({"name": name, "pct": pct, "count": count,
                                "samples": c_samples})
 
@@ -1425,6 +1424,43 @@ def _render_mom_scorecard(rows: list) -> str:
     html += "</tbody>"
     return html
 
+_CATEGORY_MAP = [
+    ("Cliente reclama que conta foi bloqueada/pausada sem justificativa",
+     ["bloqueado","pausado","suspenso","inativ","conta bloqueada","conta pausada","pausaram","suspenderam"]),
+    ("Nível de fidelidade caiu de forma injusta",
+     ["nível","nivel","platinum","prata","ouro","pontuação","nivel de lealt","rebaixado","nivel caiu","nivel de lealda"]),
+    ("Problema não resolvido após contato com o suporte",
+     ["não resolveu","nao resolveu","não resolv","nao resolv","problema resolv","não foi resolvido","sem solução","sem solucao"]),
+    ("Suporte não ajudou ou foi ineficiente",
+     ["suporte não","nao ajudou","não ajudou","não fez nada","nada por mim","perdeu tempo","livraram","enrolac","enrolou"]),
+    ("Demora ou falta de retorno do atendimento",
+     ["demora","demorou","demoro","nunca retorn","sem resposta","não retorn","esperei","esperei muito","tempo de espera"]),
+    ("Falta de informações claras sobre métricas e processos",
+     ["informaç","informac","explicaç","explicac","não entend","não soub","sem informac","não explicou","não me explicou"]),
+    ("Reclamação sobre rotas, recorrido ou serviço Extra",
+     ["rota","roteiro","percurso","entrega","recorrido","rutas","rota cancelada","sem rota","oferta de rota"]),
+    ("Bug ou instabilidade no aplicativo/plataforma",
+     ["app","aplicativo","bug","sistema","erro no","falha","plataforma","aplicacao","não abre","travou"]),
+    ("Punição ou avaliação injusta pelo sistema",
+     ["injust","punição","punido","penalidad","avaliação","avaliado injust","culpa","não foi minha culpa","injustamente"]),
+    ("Problema com pagamento ou remuneração de rota",
+     ["pagamento","pago","salário","salario","remu","valor correto","não pagou","nao pagou","não recebi","rota paga"]),
+    ("Atendente limitado para resolver o problema",
+     ["limitado","limitada","não pôde","nao pode","não tinha acesso","só pode","apenas informou","só informou"]),
+    ("Cliente questiona suspensão ou regra do programa",
+     ["regra","política","política","termo","contrato","programa","acordo","desativado","cancelado","desativa"]),
+]
+
+def _categorize_cluster(samples: list[str], top_terms: list[str]) -> str:
+    combined = " ".join(samples[:3]).lower() + " " + " ".join(top_terms).lower()
+    for cat_name, keywords in _CATEGORY_MAP:
+        if any(kw in combined for kw in keywords):
+            return cat_name
+    bigrams = [t for t in top_terms if " " in t][:1]
+    uni     = [t for t in top_terms if " " not in t][:2]
+    hint    = " e ".join(bigrams + uni) if (bigrams or uni) else "experiência negativa"
+    return f"Clientes relatam insatisfação com {hint}"
+
 _PROC_KW  = {"sistema","app","aplicativo","bloqueado","bloqueada","pausado","pausada",
               "nivel","nível","métric","metricas","dados","informaç","informac","bug",
               "plataform","serviç","servic","erro","falha","cálculo","calculo",
@@ -1839,11 +1875,19 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
     )
 
     # Seletor CDU → temas de detratores (JSON para JS)
+    def _theme_summary(t):
+        cnt = t.get("count", 0)
+        smp = t.get("samples", [])
+        if smp:
+            quote = smp[0][:180].replace('"', "'")
+            return f'{cnt} detratores identificados neste tema. Relato típico: "{quote}"'
+        return f"Motivo identificado em {cnt} comentários de detratores."
+
     cdu_themes_det = {
         cdu: [{"name": t["name"], "pct": t["pct"],
-               "summary": t["samples"][0][:220] if t.get("samples") else
-                          f"Motivo identificado em {t.get('count',0)} comentários de detratores.",
-               "case_ids": []}
+               "summary": _theme_summary(t),
+               "case_ids": [],
+               "extra_samples": t.get("samples", [])[1:3]}
               for t in data.get("themes", [])]
         for cdu, data in detractor_analysis.items()
     }
@@ -2789,7 +2833,20 @@ function selectImpactoCDU(cdu) {{
     el.innerHTML = '<div class="no-data-block"><span class="no-data-icon">💬</span><div><strong>Sem dados de detratores para este CDU</strong><br>Poucos comentários no período ou NPS elevado (baixo volume de detratores).</div></div>';
     return;
   }}
-  el.innerHTML = '<div class="themes-list">' + themes.map((t,i) => buildCard(t,i)).join('') + '</div>';
+  el.innerHTML = '<div class="themes-list">' + themes.map((t, i) => {{
+    const c = ACCENT[i % ACCENT.length];
+    const extras = (t.extra_samples || []).map(s =>
+      `<div class="det-sample" style="margin-top:5px">"${{s.slice(0,180)}}"</div>`
+    ).join('');
+    return `<div class="theme-card" style="border-left-color:${{c}}">
+      <div class="tc-header">
+        <span class="tc-name">${{t.name}}</span>
+        <span class="tc-badge" style="background:${{c}}22;color:${{c}}">${{t.pct}}% dos casos</span>
+      </div>
+      <p class="tc-summary">${{t.summary}}</p>
+      ${{extras}}
+    </div>`;
+  }}).join('') + '</div>';
 }}
 
 function selectCDU(cdu) {{
