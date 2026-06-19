@@ -2198,7 +2198,29 @@ function npsColor(v) {{
   return '#E05252';
 }}
 
-// ── Waterfall global ─────────────────────────────────────────────────────────
+// ── Helpers globais ──────────────────────────────────────────────────────────
+function survChart(id, labels, datasets) {{
+  new Chart(document.getElementById(id), {{
+    type: 'bar',
+    data: {{ labels, datasets }},
+    options: {{
+      responsive: true, maintainAspectRatio: false,
+      layout: {{ padding: {{ top: 20 }} }},
+      plugins: {{
+        legend: {{ position: 'bottom', labels: {{ boxWidth: 12, padding: 10, font: {{ size: 11 }} }} }},
+        tooltip: {{ callbacks: {{ label: ctx =>
+          ` ${{ctx.dataset.label}}: ${{ctx.parsed.y.toLocaleString('pt-BR')}} pesquisas`
+        }} }}
+      }},
+      scales: {{
+        x: {{ stacked: true, grid: {{ display: false }}, ticks: {{ font: {{ size: 11 }} }} }},
+        y: {{ stacked: true, grid: {{ color: '#f0f2f5' }},
+              ticks: {{ font: {{ size: 11 }}, callback: v => v.toLocaleString('pt-BR') }} }}
+      }}
+    }}
+  }});
+}}
+
 function waterfallChart(id, bars) {{
   if (!bars || !bars.length || !document.getElementById(id)) return;
   const labels  = bars.map(b => b.label);
@@ -2460,28 +2482,7 @@ function initNpsCharts() {{
   npsEvoChart('cNpsMon', {jd(monthly['months'])}, {jd(nps_monthly['monthly_nps'])}, {jd(avg_target)});
   npsEvoChart('cNpsWk',  {jd(weekly['weeks'])},   {jd(nps_weekly)}, {jd(avg_target)});
 
-  // Representatividade de pesquisas por CDU
-  function survChart(id, labels, datasets) {{
-    new Chart(document.getElementById(id), {{
-      type: 'bar',
-      data: {{ labels, datasets }},
-      options: {{
-        responsive: true, maintainAspectRatio: false,
-        layout: {{ padding: {{ top: 20 }} }},
-        plugins: {{
-          legend: {{ position: 'bottom', labels: {{ boxWidth: 12, padding: 10, font: {{ size: 11 }} }} }},
-          tooltip: {{ callbacks: {{ label: ctx =>
-            ` ${{ctx.dataset.label}}: ${{ctx.parsed.y.toLocaleString('pt-BR')}} pesquisas`
-          }} }}
-        }},
-        scales: {{
-          x: {{ stacked: true, grid: {{ display: false }}, ticks: {{ font: {{ size: 11 }} }} }},
-          y: {{ stacked: true, grid: {{ color: '#f0f2f5' }},
-                ticks: {{ font: {{ size: 11 }}, callback: v => v.toLocaleString('pt-BR') }} }}
-        }}
-      }}
-    }});
-  }}
+  // survChart definida no escopo global (abaixo de initNpsCharts)
 
   // survChart movido para initImpactoCharts
 
