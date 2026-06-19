@@ -140,7 +140,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   <div class="logo">ML</div>
   <div>
     <h1>Processo Drivers — Outgoing &amp; NPS</h1>
-    <p>MLB · BR_ME_Sellers_Longtail · BR_ME_Pre-Despacho_Offline · Jan–Mai 2026 · Atualizado em 19/06/2026 às 11:19</p>
+    <p>MLB · BR_ME_Sellers_Longtail · BR_ME_Pre-Despacho_Offline · Jan–Mai 2026 · Atualizado em 19/06/2026 às 11:32</p>
   </div>
 </header>
 
@@ -517,10 +517,8 @@ function selectSolWaterfall(cdu) {
   const spacers = bars.map(b => b.spacer);
   const values  = bars.map(b => b.bar);
   const colors  = bars.map(b => {
-    if (b.isAnchor) return '#4472C4';
-    const extra = b[2] || b;
-    if (extra.is_mix_bar  || (typeof b.label === 'string' && b.label.includes('Mix')))  return '#9B59B6cc';
-    if (extra.is_neto_bar || (typeof b.label === 'string' && b.label.includes('Neto'))) return '#17A589cc';
+    if (b.isAnchor) return '#4472C4cc';
+    if (typeof b.label === 'string' && b.label.includes('Mix')) return '#9B59B6cc';
     return b.color || (b.contrib >= 0 ? '#70AD47cc' : '#E05252cc');
   });
   solWaterfallChart = new Chart(el, {
@@ -561,9 +559,12 @@ function selectSolWaterfall(cdu) {
           if (ctx.datasetIndex === 0) return null;
           const b = bars[ctx.dataIndex];
           if (b.isAnchor) return ` NPS: ${b.bar.toFixed(1)}`;
-          const lines = [` Impacto total: ${(b.contrib>=0?'+':'')}${b.contrib?.toFixed(2)}pp`];
+          const isMix = typeof b.label === 'string' && b.label.includes('Mix');
+          const lbl = isMix ? ` Mix (variação de volume): ${(b.contrib>=0?'+':'')}${b.contrib?.toFixed(2)}pp`
+                             : ` Neto (experiência): ${(b.contrib>=0?'+':'')}${b.contrib?.toFixed(2)}pp`;
+          const lines = [lbl];
           if (b.nps1 !== undefined && b.nps1 !== null) lines.push(` NPS: ${b.nps0?.toFixed(1)} → ${b.nps1?.toFixed(1)}`);
-          if (b.mix !== undefined) lines.push(` Mix: ${(b.mix>=0?'+':'')}${b.mix?.toFixed(2)}pp | Neto: ${(b.neto>=0?'+':'')}${b.neto?.toFixed(2)}pp`);
+          if (!isMix && b.mix !== undefined) lines.push(` Mix desta solução: ${(b.mix>=0?'+':'')}${b.mix?.toFixed(2)}pp`);
           return lines;
         } } }
       },

@@ -812,42 +812,34 @@ def compute_wow_sol_waterfalls(by_sol_cdu: dict, weekly_weeks: list[str] = None)
         if nps_last is None or nps_prev is None or not s_last or not s_prev:
             continue
 
-        # Mix/Neto por solução
+        # Decomposição: NETO por solução + MIX agregado
         contribs = []
+        total_mix = 0.0
         for sol, weeks in by_sol.items():
             e1 = weeks.get(last_w, {}); e0 = weeks.get(prev_w, {})
             nps1 = e1.get("nps"); nps0 = e0.get("nps")
             s1 = e1.get("s", 0); s0 = e0.get("s", 0)
             if nps1 is None or nps0 is None or not s1 or not s0: continue
-
             share_m1 = s1 / s_last
             share_m0 = s0 / s_prev
-            mix_i  = round((nps0 or 0) * (share_m1 - share_m0), 2)
-            neto_i = round(((nps1 or 0) - (nps0 or 0)) * share_m1, 2)
-            total_i = round(mix_i + neto_i, 2)
+            neto_i = round(((nps1 or 0) - (nps0 or 0)) * share_m1, 2)  # ganho/perda por experiência
+            mix_i  = round((nps0 or 0) * (share_m1 - share_m0), 2)     # ganho/perda por volume
+            total_mix += mix_i
+            if abs(neto_i) >= 0.02:
+                contribs.append((sol[:40], neto_i, {"nps1": nps1, "nps0": nps0,
+                                                     "mix": mix_i, "neto": neto_i,
+                                                     "s1": s1, "s0": s0}))
 
-            if abs(total_i) >= 0.02:
-                contribs.append((sol[:35], total_i, {"nps1": nps1, "nps0": nps0,
-                                                      "mix": mix_i, "neto": neto_i,
-                                                      "s1": s1, "s0": s0}))
-
-        total_mix  = round(sum(c[2]["mix"]  for c in contribs), 2)
-        total_neto = round(sum(c[2]["neto"] for c in contribs), 2)
+        total_mix  = round(total_mix, 2)
+        total_neto = round(sum(c[1] for c in contribs), 2)
 
         pos = sorted([c for c in contribs if c[1] >= 0], key=lambda x: -x[1])
         neg = sorted([c for c in contribs if c[1] <  0], key=lambda x:  x[1])
-
-        # Adiciona barras de mix/neto ao final
-        mix_neg_contribs = [(f"Mix (composição de volume)", total_mix,
-                             {"nps1": None, "nps0": None, "mix": total_mix, "neto": 0,
-                              "is_mix_bar": True})]
-        neto_neg_contribs = [(f"Neto (qualidade NPS)", total_neto,
-                              {"nps1": None, "nps0": None, "mix": 0, "neto": total_neto,
-                               "is_neto_bar": True})]
-
-        all_contribs = pos + neg + mix_neg_contribs + neto_neg_contribs
+        # Uma barra de mix agregado ao final
+        mix_bar = [("Impacto de Mix (variação de volume)", total_mix,
+                    {"nps1": None, "nps0": None, "is_mix_bar": True})] if abs(total_mix) >= 0.02 else []
         bars = _wf_bars(f"{prev_w} ({nps_prev:.1f})", nps_prev,
-                        all_contribs,
+                        pos + neg + mix_bar,
                         f"{last_w} ({nps_last:.1f})", nps_last)
 
         result[cdu] = {"bars": bars, "nps_last": nps_last, "nps_prev": nps_prev,
@@ -879,24 +871,34 @@ def compute_wow_waterfall(by_dim: dict, weekly_weeks: list[str], dim_label: str)
         return {"bars": [], "last_w": last_w, "prev_w": prev_w,
                 "nps_last": nps_last, "nps_prev": nps_prev, "contribs": []}
 
-    # Contribuição por dimensão
+    # Decomposição NETO (experiência) + MIX (volume) por dimensão
     contribs = []
+    total_mix = 0.0
     for dim, weeks in by_dim.items():
         e1 = weeks.get(last_w, {}); e0 = weeks.get(prev_w, {})
         nps1 = e1.get("nps"); nps0 = e0.get("nps")
         s1 = e1.get("s", 0);  s0 = e0.get("s", 0)
         if nps1 is None or nps0 is None or not s1 or not s0: continue
-        contrib = round(nps1 * s1 / s_last - nps0 * s0 / s_prev, 2)
-        if abs(contrib) >= 0.01:
-            contribs.append((dim, contrib, {"nps1": nps1, "nps0": nps0, "s1": s1, "s0": s0}))
+        share_m1 = s1 / s_last
+        share_m0 = s0 / s_prev
+        neto_i = round(((nps1 or 0) - (nps0 or 0)) * share_m1, 2)
+        mix_i  = round((nps0 or 0) * (share_m1 - share_m0), 2)
+        total_mix += mix_i
+        if abs(neto_i) >= 0.01:
+            contribs.append((dim, neto_i, {"nps1": nps1, "nps0": nps0, "s1": s1, "s0": s0,
+                                           "mix": mix_i, "neto": neto_i}))
 
+    total_mix = round(total_mix, 2)
     pos = sorted([c for c in contribs if c[1] >= 0], key=lambda x: -x[1])
     neg = sorted([c for c in contribs if c[1] <  0], key=lambda x: -x[1])
-    bars = _wf_bars(f"{prev_w} ({nps_prev:.1f})", nps_prev, pos + neg,
+    mix_bar = [("Impacto de Mix (variação de volume)", total_mix,
+                {"nps1": None, "nps0": None, "is_mix_bar": True})] if abs(total_mix) >= 0.01 else []
+    bars = _wf_bars(f"{prev_w} ({nps_prev:.1f})", nps_prev, pos + neg + mix_bar,
                     f"{last_w} ({nps_last:.1f})", nps_last)
 
     return {"bars": bars, "last_w": last_w, "prev_w": prev_w,
-            "nps_last": nps_last, "nps_prev": nps_prev, "contribs": contribs}
+            "nps_last": nps_last, "nps_prev": nps_prev, "contribs": contribs,
+            "mix": total_mix, "neto": round(sum(c[1] for c in contribs), 2)}
 
 def wow_from_weekly_by_cdu(nps_weekly_by_cdu: dict, weekly_weeks: list[str]) -> dict:
     """Converte nps_weekly_by_cdu para formato de by_dim."""
@@ -2711,10 +2713,8 @@ function selectSolWaterfall(cdu) {{
   const spacers = bars.map(b => b.spacer);
   const values  = bars.map(b => b.bar);
   const colors  = bars.map(b => {{
-    if (b.isAnchor) return '#4472C4';
-    const extra = b[2] || b;
-    if (extra.is_mix_bar  || (typeof b.label === 'string' && b.label.includes('Mix')))  return '#9B59B6cc';
-    if (extra.is_neto_bar || (typeof b.label === 'string' && b.label.includes('Neto'))) return '#17A589cc';
+    if (b.isAnchor) return '#4472C4cc';
+    if (typeof b.label === 'string' && b.label.includes('Mix')) return '#9B59B6cc';
     return b.color || (b.contrib >= 0 ? '#70AD47cc' : '#E05252cc');
   }});
   solWaterfallChart = new Chart(el, {{
@@ -2755,9 +2755,12 @@ function selectSolWaterfall(cdu) {{
           if (ctx.datasetIndex === 0) return null;
           const b = bars[ctx.dataIndex];
           if (b.isAnchor) return ` NPS: ${{b.bar.toFixed(1)}}`;
-          const lines = [` Impacto total: ${{(b.contrib>=0?'+':'')}}${{b.contrib?.toFixed(2)}}pp`];
+          const isMix = typeof b.label === 'string' && b.label.includes('Mix');
+          const lbl = isMix ? ` Mix (variação de volume): ${{(b.contrib>=0?'+':'')}}${{b.contrib?.toFixed(2)}}pp`
+                             : ` Neto (experiência): ${{(b.contrib>=0?'+':'')}}${{b.contrib?.toFixed(2)}}pp`;
+          const lines = [lbl];
           if (b.nps1 !== undefined && b.nps1 !== null) lines.push(` NPS: ${{b.nps0?.toFixed(1)}} → ${{b.nps1?.toFixed(1)}}`);
-          if (b.mix !== undefined) lines.push(` Mix: ${{(b.mix>=0?'+':'')}}${{b.mix?.toFixed(2)}}pp | Neto: ${{(b.neto>=0?'+':'')}}${{b.neto?.toFixed(2)}}pp`);
+          if (!isMix && b.mix !== undefined) lines.push(` Mix desta solução: ${{(b.mix>=0?'+':'')}}${{b.mix?.toFixed(2)}}pp`);
           return lines;
         }} }} }}
       }},
