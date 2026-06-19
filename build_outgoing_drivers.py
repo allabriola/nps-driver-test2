@@ -29,7 +29,8 @@ TEAMS = ("BR_ME_Sellers_Longtail", "BR_ME_Pre-Despacho_Offline")
 TODAY           = date.today()
 START_YEAR      = date(TODAY.year, 1, 1)
 EIGHT_WEEKS_AGO = TODAY - timedelta(weeks=8)
-TRANSCRIPT_DAYS = 90
+TRANSCRIPT_DAYS         = 90
+TRANSCRIPT_DAYS_WEEKLY  = 14   # janela para análise do impacto semanal
 
 MES_PT = {
     "01": "Jan", "02": "Fev", "03": "Mar", "04": "Abr",
@@ -304,6 +305,24 @@ def q_detractor_comments(cdu: str, days: int = 90) -> str:
       AND LENGTH(TRIM(COMMENTS)) > 10
       AND CAST(SURVEY_DATE_SURVEY AS DATE) >= '{cutoff}'
     ORDER BY dt DESC
+    LIMIT 300
+    """
+
+def q_case_ids_weekly(cdu: str) -> str:
+    """Busca case IDs das últimas 2 semanas para análise do impacto semanal."""
+    cutoff   = TODAY - timedelta(days=TRANSCRIPT_DAYS_WEEKLY)
+    cdu_safe = cdu.replace("'", "''")
+    return f"""
+    SELECT DISTINCT CAST(i.CAS_CASE_ID AS STRING) AS CAS_CASE_ID
+    FROM {TABLE_CI} i
+    INNER JOIN {TABLE_OG} og ON i.WCM_CONT_ID = og.SOLUTION_ID
+    WHERE i.SIT_SITE_ID           = '{SITE}'
+      AND i.FLAG_OUTGOING_GESTION  = 1
+      AND og.SIT_SITE_ID           = '{SITE}'
+      AND og.PRO_PROCESS_NAME      = '{PROCESS_KEY}'
+      AND {TEAMS_FILTER.replace('USER_TEAM_NAME', 'og.USER_TEAM_NAME')}
+      AND COALESCE(NULLIF(TRIM(og.CDU),''), 'Sem CDU') = '{cdu_safe}'
+      AND CAST(i.CI_CREATED_DATE AS DATE) >= '{cutoff}'
     LIMIT 300
     """
 
@@ -956,6 +975,68 @@ def process_nps_agg(raw: list[dict], labels: list[str], key_field: str) -> list:
             result.append(None)
     return result
 
+def fetch_themes_weekly(cdu: str) -> list[dict]:
+    """Busca temas de transcrições das últimas 2 semanas para o seletor do Impacto Semanal."""
+    if not cdu or cdu == SEM_CDU:
+        return []
+
+    cache_key = f"_tr_weekly_{re.sub(r'[^a-zA-Z0-9]', '_', cdu)[:30]}.json"
+    import time as _t
+    if os.path.exists(cache_key):
+        age_h = (_t.time() - os.path.getmtime(cache_key)) / 3600
+        if age_h < 24:
+            with open(cache_key, encoding="utf-8") as f:
+                cached = json.load(f)
+            print(f"   [cache weekly] {cdu[:35]} ({age_h:.1f}h)")
+            case_transcripts = cached
+        else:
+            cached = None
+    else:
+        cached = None
+
+    if cached is None:
+        print(f"   [BQ weekly] '{cdu[:40]}': buscando case IDs (últimos {TRANSCRIPT_DAYS_WEEKLY}d)…")
+        try:
+            raw_ids = run(q_case_ids_weekly(cdu))
+            ids = [str(r.get("CAS_CASE_ID", r.get("cas_case_id", "")))
+                   for r in raw_ids if r.get("CAS_CASE_ID") or r.get("cas_case_id")]
+            ids = [i for i in ids if i]
+        except Exception as e:
+            print(f"   [warn] {e}")
+            return []
+        if not ids:
+            print(f"   [BQ weekly] '{cdu[:35]}': sem casos no período")
+            return []
+
+        print(f"   [BQ weekly] '{cdu[:35]}': {len(ids)} casos, buscando transcrições…")
+        case_transcripts: dict[str, dict] = {}
+        try:
+            for i in range(0, len(ids), 300):
+                rows = run(q_transcripts(ids[i:i + 300]))
+                for r in rows:
+                    cid  = r.get("case_id")
+                    msg  = r.get("msg")
+                    role = (r.get("SPEAKER_ROLE") or r.get("speaker_role") or "").upper()
+                    if cid and msg:
+                        entry = case_transcripts.setdefault(cid, {"user": [], "rep": []})
+                        if role == "USER":
+                            entry["user"].append(msg)
+                        elif role in ("REP", "AGENT"):
+                            entry["rep"].append(msg)
+                        else:
+                            entry["user"].append(msg)
+            with open(cache_key, "w", encoding="utf-8") as f:
+                json.dump(case_transcripts, f, ensure_ascii=False, default=str)
+        except Exception as e:
+            print(f"   [warn] transcrições semanais de '{cdu[:35]}' ignoradas: {e}")
+            return []
+
+    user_texts = {cid: d["user"] if isinstance(d, dict) else d
+                  for cid, d in case_transcripts.items()}
+    themes = analyze_themes(user_texts)
+    print(f"   [TF-IDF semanal] '{cdu[:35]}': {len(themes)} temas")
+    return themes
+
 def fetch_themes(cdu: str) -> list[dict]:
     if not cdu or cdu == SEM_CDU:
         return []
@@ -1031,7 +1112,8 @@ def build_all(html_only: bool = False):
         wow_seniority = cached.get("wow_seniority", {"bars": [], "contribs": []})
         wow_office    = cached.get("wow_office", {"bars": [], "contribs": []})
         wow_analysis  = cached.get("wow_analysis", "")
-        return (monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly,
+        themes_weekly  = cached.get("themes_weekly", {})
+        return (monthly, weekly, daily, themes_by_cdu, themes_weekly, solutions, nps_by_cdu, nps_monthly,
                 nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard,
                 detractor_analysis, wow_cdu, wow_channel, wow_seniority, wow_office, wow_analysis)
 
@@ -1109,13 +1191,19 @@ def build_all(html_only: bool = False):
             detractor_analysis[_cdu] = {"cdu": _cdu, "total": 0, "themes": [], "samples": [], "reasons": []}
 
     themes_by_cdu: dict[str, list] = {}
+    themes_weekly: dict[str, list] = {}
     top_cdus = monthly["top_cdus"]
-    print(f"\n▸ Análise temática Drivers ({len(top_cdus)} CDUs)…")
+    print(f"\n▸ Análise temática — 90 dias ({len(top_cdus)} CDUs)…")
     for cdu in top_cdus:
         themes_by_cdu[cdu] = fetch_themes(cdu)
 
+    print(f"\n▸ Análise temática semanal — {TRANSCRIPT_DAYS_WEEKLY} dias ({len(top_cdus)} CDUs)…")
+    for cdu in top_cdus:
+        themes_weekly[cdu] = fetch_themes_weekly(cdu)
+
     _save_cache({"monthly": monthly, "weekly": weekly, "daily": daily,
                  "solutions": solutions, "themes_by_cdu": themes_by_cdu,
+                 "themes_weekly": themes_weekly,
                  "nps_by_cdu": nps_by_cdu, "nps_monthly": nps_monthly,
                  "nps_weekly": nps_weekly, "nps_daily": nps_daily,
                  "nps_weekly_by_cdu": nps_weekly_by_cdu,
@@ -1124,7 +1212,7 @@ def build_all(html_only: bool = False):
                  "wow_cdu": wow_cdu, "wow_channel": wow_channel,
                  "wow_seniority": wow_seniority, "wow_office": wow_office,
                  "wow_analysis": wow_analysis}, charts=True)
-    return (monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly,
+    return (monthly, weekly, daily, themes_by_cdu, themes_weekly, solutions, nps_by_cdu, nps_monthly,
             nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard,
             detractor_analysis, wow_cdu, wow_channel, wow_seniority, wow_office, wow_analysis)
 
@@ -1768,7 +1856,7 @@ def _render_solutions(solutions: list, total_v: int) -> str:
     return rows
 
 def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
-                  solutions: list, nps_by_cdu: list, nps_monthly: dict,
+                  themes_weekly: dict, solutions: list, nps_by_cdu: list, nps_monthly: dict,
                   nps_weekly: list, nps_daily: list,
                   nps_weekly_by_cdu: dict, waterfalls: dict,
                   mom_scorecard: list, detractor_analysis: dict,
@@ -1885,21 +1973,11 @@ def generate_html(monthly: dict, weekly: dict, daily: dict, themes_by_cdu: dict,
     )
 
     # Seletor CDU → temas de detratores (JSON para JS)
-    def _theme_summary(t):
-        cnt = t.get("count", 0)
-        smp = t.get("samples", [])
-        if smp:
-            quote = smp[0][:180].replace('"', "'")
-            return f'{cnt} detratores identificados neste tema. Relato típico: "{quote}"'
-        return f"Motivo identificado em {cnt} comentários de detratores."
-
+    # Seletor "Principais Motivos" usa transcrições semanais (últimos 14 dias)
+    # Fallback para themes_by_cdu (90 dias) se não houver dados semanais
     cdu_themes_det = {
-        cdu: [{"name": t["name"], "pct": t["pct"],
-               "summary": _theme_summary(t),
-               "case_ids": [],
-               "extra_samples": t.get("samples", [])[1:3]}
-              for t in data.get("themes", [])]
-        for cdu, data in detractor_analysis.items()
+        cdu: (themes_weekly.get(cdu) or themes_by_cdu.get(cdu) or [])
+        for cdu in monthly["top_cdus"]
     }
     def _cdu_combo_data(cdu):
         og_ds  = next((ds for ds in monthly["datasets"] if ds["label"] == cdu), None)
@@ -2302,7 +2380,7 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
             {''.join(f'<option value="{cdu}">{cdu}</option>' for cdu in detractor_analysis)}
           </select>
         </div>
-        <span class="th-sub">O que os detratores questionam — base: comentários DM_CX_NPS_Y20_DETAIL (últimos 90 dias)</span>
+        <span class="th-sub">Motivos de contato identificados nas transcrições — base: BT_CX_TRANSCRIPT · últimos {TRANSCRIPT_DAYS_WEEKLY} dias</span>
       </div>
       <div id="impactoThemesBox"></div>
     </div>
@@ -2873,10 +2951,10 @@ function selectCDU(cdu) {{
 if __name__ == "__main__":
     html_only = "--html-only" in sys.argv
     try:
-        (monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu, nps_monthly,
+        (monthly, weekly, daily, themes_by_cdu, themes_weekly, solutions, nps_by_cdu, nps_monthly,
          nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls, mom_scorecard,
          detractor_analysis, wow_cdu, wow_channel, wow_seniority, wow_office, wow_analysis) = build_all(html_only=html_only)
-        html = generate_html(monthly, weekly, daily, themes_by_cdu, solutions, nps_by_cdu,
+        html = generate_html(monthly, weekly, daily, themes_by_cdu, themes_weekly, solutions, nps_by_cdu,
                              nps_monthly, nps_weekly, nps_daily, nps_weekly_by_cdu, waterfalls,
                              mom_scorecard, detractor_analysis, wow_cdu, wow_channel,
                              wow_seniority, wow_office, wow_analysis)
