@@ -1545,9 +1545,9 @@ def generate_impact_executive_summary(detractor_analysis: dict, wow_cdu: dict,
     proc_items.sort(key=lambda x: x[2], reverse=True)
     if proc_items:
         top = proc_items[0]
-        extras = [f"<strong>{it[0][:28]}</strong> ({it[1]}, {it[2]}%)" for it in proc_items[1:3]]
+        extras = [f"<strong>{it[0]}</strong> ({it[1]}, {it[2]}%)" for it in proc_items[1:3]]
         p = (f"Em relação a <strong>oportunidades de processo</strong>, o tema mais frequente é "
-             f"<strong>{top[1]}</strong> em <strong>{top[0][:35]}</strong> ({top[2]}% dos casos)")
+             f"<strong>{top[1]}</strong> em <strong>{top[0]}</strong> ({top[2]}% dos casos)")
         if top[3]:
             p += f' — detratores relatam: <em>"{top[3]}…"</em>'
         if extras:
@@ -1567,7 +1567,7 @@ def generate_impact_executive_summary(detractor_analysis: dict, wow_cdu: dict,
     if rep_items:
         top = rep_items[0]
         p = (f"Quanto às <strong>oportunidades de representante</strong>, destaca-se "
-             f"<strong>{top[1]}</strong> em <strong>{top[0][:35]}</strong> ({top[2]}% dos casos)")
+             f"<strong>{top[1]}</strong> em <strong>{top[0]}</strong> ({top[2]}% dos casos)")
         if top[3]:
             p += f' — relato típico: <em>"{top[3]}…"</em>'
         p += ". Isso indica que parte da insatisfação está relacionada à qualidade do atendimento e resolução de primeiro contato."
@@ -1582,7 +1582,7 @@ def generate_impact_executive_summary(detractor_analysis: dict, wow_cdu: dict,
     )[:3]
     if critical:
         crit_str = ", ".join(
-            f"<strong>{c[:32]}</strong> (NPS {n:.1f})" for c, n in critical
+            f"<strong>{c}</strong> (NPS {n:.1f})" for c, n in critical
         )
         paras.append(
             f"Os CDUs que combinam alto volume de detratores com NPS mais baixo são: {crit_str}. "
