@@ -1990,20 +1990,21 @@ def generate_impact_executive_summary(detractor_analysis: dict, wow_cdu: dict,
         )
 
     # ── Parágrafo 5+: Mix vs Neto via wow_sol_waterfalls (se disponível) ─────
-    # Calcula mix/neto agregado somando todos os CDUs
-    if wow_sol_waterfalls:
-        all_mix  = sum(v.get("mix",  0) for v in wow_sol_waterfalls.values() if isinstance(v, dict))
-        all_neto = sum(v.get("neto", 0) for v in wow_sol_waterfalls.values() if isinstance(v, dict))
-        if abs(all_mix) > 0.05 or abs(all_neto) > 0.05:
-            dominant = "mix (variação na composição de volume por solução)" if abs(all_mix) > abs(all_neto) \
-                       else "neto (variação na qualidade de NPS por solução)"
-            paras.append(
-                f"A decomposição <strong>MIX/NETO</strong> revela: impacto de mix "
-                f"<strong style='color:{'#E05252' if all_mix<0 else '#70AD47'}'>{all_mix:+.2f}pp</strong> "
-                f"e impacto de neto "
-                f"<strong style='color:{'#E05252' if all_neto<0 else '#70AD47'}'>{all_neto:+.2f}pp</strong>. "
-                f"O efeito dominante foi o <strong>{dominant}</strong>."
-            )
+    # MIX/NETO da cascata WoW por CDU (mesmo cálculo dos gráficos)
+    # wow_cdu.mix = efeito composição de volume entre CDUs
+    # wow_cdu.neto = efeito qualidade NPS dentro de cada CDU
+    cdu_mix  = round(wow_cdu.get("mix",  0) or 0, 2)
+    cdu_neto = round(wow_cdu.get("neto", 0) or 0, 2)
+    if abs(cdu_mix) > 0.05 or abs(cdu_neto) > 0.05:
+        dominant = "mix (variação no volume relativo entre CDUs)" if abs(cdu_mix) > abs(cdu_neto) \
+                   else "neto (variação na qualidade de NPS dentro dos CDUs)"
+        paras.append(
+            f"A decomposição <strong>MIX/NETO</strong> do processo revela: impacto de mix "
+            f"<strong style='color:{'#E05252' if cdu_mix<0 else '#70AD47'}'>{cdu_mix:+.2f}pp</strong> "
+            f"e impacto de neto "
+            f"<strong style='color:{'#E05252' if cdu_neto<0 else '#70AD47'}'>{cdu_neto:+.2f}pp</strong>. "
+            f"O efeito dominante foi o <strong>{dominant}</strong>."
+        )
 
     if not paras:
         return '<p style="color:#999;font-size:13px">Dados insuficientes para análise automática.</p>'
