@@ -1897,28 +1897,46 @@ def generate_impact_executive_summary(detractor_analysis: dict, wow_cdu: dict,
     nps_prev = wow_cdu.get("nps_prev")
     nps_map  = {r["cdu"]: r for r in nps_by_cdu}
     paras = []
+    # total surveys na semana atual (para calcular peso dos CDUs)
+    s_last = sum(c[2].get("s1", 0) for c in wow_cdu.get("contribs", [])
+                 if not c[2].get("is_mix_bar") and not c[2].get("is_others")) or 1
 
     # ── Parágrafo 1: variação WoW e responsável principal ───────────────────
     if nps_last is not None and nps_prev is not None:
         delta     = round(nps_last - nps_prev, 1)
         direction = "caiu" if delta < 0 else "subiu"
-        contribs  = wow_cdu.get("contribs", [])
+        contribs  = [c for c in wow_cdu.get("contribs", [])
+                     if not c[2].get("is_mix_bar") and not c[2].get("is_others")]
         top_neg   = min(contribs, key=lambda x: x[1], default=None) if contribs else None
         top_pos   = max(contribs, key=lambda x: x[1], default=None) if contribs else None
 
         p = (f"Na semana de <strong>{last_w}</strong>, o NPS do processo Drivers "
              f"<strong style='color:{'#E05252' if delta<0 else '#70AD47'}'>{direction} {abs(delta):.1f}pp</strong> "
              f"em relação a {prev_w} ({nps_prev:.1f} → {nps_last:.1f}).")
-        if top_neg and top_neg[1] < -0.1:
-            e = top_neg[2]
-            p += (f" O principal responsável pela queda foi <strong>{top_neg[0]}</strong>, "
-                  f"cujo NPS recuou de {e['nps0']:.1f} para {e['nps1']:.1f} "
-                  f"({top_neg[1]:+.2f}pp de impacto no processo).")
-        if top_pos and top_pos[1] > 0.1:
-            e = top_pos[2]
-            p += (f" Em contrapartida, <strong>{top_pos[0]}</strong> contribuiu positivamente "
-                  f"({e['nps0']:.1f} → {e['nps1']:.1f}, {top_pos[1]:+.2f}pp).")
         paras.append(p)
+
+        # Parágrafo dedicado: maior ganho e maior perda da cascata WoW por CDU
+        gain_loss_parts = []
+        if top_pos and top_pos[1] > 0.05:
+            e = top_pos[2]
+            nps_change = round((e.get('nps1') or 0) - (e.get('nps0') or 0), 1)
+            gain_loss_parts.append(
+                f"O CDU com <strong>maior ganho</strong> foi <strong>{top_pos[0]}</strong> "
+                f"({top_pos[1]:+.2f}pp de impacto): NPS passou de {e.get('nps0', '—'):.1f} "
+                f"para {e.get('nps1', '—'):.1f} ({nps_change:+.1f}pp na qualidade), "
+                f"com peso de {round((e.get('s1',0)/(s_last or 1))*100,1)}% das pesquisas na semana."
+            )
+        if top_neg and top_neg[1] < -0.05:
+            e = top_neg[2]
+            nps_change = round((e.get('nps1') or 0) - (e.get('nps0') or 0), 1)
+            gain_loss_parts.append(
+                f"O CDU com <strong>maior perda</strong> foi <strong>{top_neg[0]}</strong> "
+                f"({top_neg[1]:+.2f}pp de impacto): NPS caiu de {e.get('nps0', '—'):.1f} "
+                f"para {e.get('nps1', '—'):.1f} ({nps_change:+.1f}pp na qualidade), "
+                f"com peso de {round((e.get('s1',0)/(s_last or 1))*100,1)}% das pesquisas."
+            )
+        if gain_loss_parts:
+            paras.append(" ".join(gain_loss_parts))
 
     # ── Parágrafo 2: dimensões (canal, escritório, senioridade) ─────────────
     dim_insights = []
