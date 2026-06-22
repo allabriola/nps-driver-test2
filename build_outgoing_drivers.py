@@ -3005,7 +3005,7 @@ function waterfallChart(id, bars) {{
   const spacers = bars.map(b => b.spacer);
   const values  = bars.map(b => b.bar);
   const colors  = bars.map(b => b.color);
-  new Chart(document.getElementById(id), {{
+  const chart = new Chart(document.getElementById(id), {{
     type: 'bar',
     data: {{ labels, datasets: [
       {{ label: '_spacer', data: spacers,
