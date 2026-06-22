@@ -245,7 +245,7 @@ def q_nps_weekly() -> str:
     """
 
 def q_wow_solution_by_cdu() -> str:
-    cutoff = TODAY - timedelta(weeks=5)  # 5 semanas para garantir 2 semanas com dados
+    cutoff = TODAY - timedelta(weeks=3)
     return f"""
     SELECT
       DATE_TRUNC(CAST(SURVEY_DATE_SURVEY AS DATE), ISOWEEK) AS week_start,
@@ -861,19 +861,11 @@ def compute_wow_sol_waterfalls(by_sol_cdu: dict, weekly_weeks: list[str] = None)
                 p += e.get("p", 0); d += e.get("d", 0); s += e.get("s", 0)
             return _calc_nps(p, d, s), s
 
-        nps_last, s_last = agg_week(last_w)
-        nps_prev, s_prev = agg_week(prev_w)
-        # Sempre usa as 2 semanas com mais surveys (ignora last_w/prev_w do outgoing)
-        week_totals: dict = {}
-        for sol, weeks in by_sol.items():
-            for wk, e in weeks.items():
-                week_totals[wk] = week_totals.get(wk, 0) + e.get("s", 0)
-        top_weeks = sorted(week_totals, key=lambda w: -week_totals[w])
-        if len(top_weeks) < 2:
+        # Usa as 2 semanas mais RECENTES por data (não por volume)
+        all_weeks = sorted({wk for sol, weeks in by_sol.items() for wk in weeks})
+        if len(all_weeks) < 2:
             continue
-        # Ordena por data para ter semana atual e anterior
-        sorted_by_date = sorted(top_weeks[:4])  # top 4 mais populosas, ordenadas por data
-        last_w, prev_w = sorted_by_date[-1], sorted_by_date[-2]
+        last_w, prev_w = all_weeks[-1], all_weeks[-2]
 
         nps_last, s_last = agg_week(last_w)
         nps_prev, s_prev = agg_week(prev_w)
