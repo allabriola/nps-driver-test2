@@ -14,9 +14,9 @@ import json as _json
 
 REPORT_DATE = _dt.now().strftime("%d/%m/%Y")
 REPORT_TIME = _dt.now().strftime("%H:%M")
-S1_LABEL  = "08/jun – 14/jun"
-S2_LABEL  = "01/jun – 07/jun"
-VIG_LABEL = "15/jun – 19/jun"
+S1_LABEL  = "15/jun – 21/jun"
+S2_LABEL  = "08/jun – 14/jun"
+VIG_LABEL = "22/jun – 22/jun"
 M1_LABEL  = "Maio 2026"
 M2_LABEL  = "Abril 2026"
 NPS_TARGET = 56.61  # SUM(NUM_TARGET_NPS)/SUM(DENOM_TARGET_NPS) via LK JOIN — Abril/2026 (~52,5% oficial)
@@ -148,7 +148,7 @@ drivers_vigente = {
 # SECTION 2C: HISTORICAL DATA
 # ═══════════════════════════════════════════════════════════════
 MONTH_LABELS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"]
-WEEK_LABELS  = ["30/mar", "06/abr", "13/abr", "20/abr", "27/abr", "04/mai", "11/mai", "18/mai", "25/mai", "01/jun", "08/jun"]
+WEEK_LABELS  = ["30/mar", "06/abr", "13/abr", "20/abr", "27/abr", "04/mai", "11/mai", "18/mai", "25/mai", "01/jun", "08/jun", "15/jun"]
 
 monthly_history = {
     "CBT":                                       {"Jan":(481,57,549), "Fev":(224,27,254), "Mar":(323,58,395), "Abr":(345,54,405), "Mai":(66,11,80)},
