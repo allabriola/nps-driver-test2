@@ -2557,11 +2557,6 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 
 <main class="main">
 
-  <div class="card ex-block">
-    <div class="ex-title">Resumo Executivo · Impacto Semanal</div>
-    {impact_exec_summary}
-  </div>
-
   <nav class="tab-nav">
     <button class="tab-btn active" onclick="goTab(0)">Outgoing</button>
     <button class="tab-btn"        onclick="goTab(1)">NPS</button>
@@ -2682,6 +2677,11 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 
   <!-- ── ABA IMPACTO SEMANAL ───────────────────────────────────── -->
   <div class="tab-pane" id="tp2">
+
+    <div class="card ex-block">
+      <div class="ex-title">Resumo Executivo · Impacto Semanal</div>
+      {impact_exec_summary}
+    </div>
 
     <!-- Filtro de Office -->
     <div style="display:flex;align-items:center;gap:10px;background:#fff;
