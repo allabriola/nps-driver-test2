@@ -2973,10 +2973,10 @@ function survChart(id, labels, datasets) {{
   new Chart(document.getElementById(id), {{
     type: 'bar',
     data: {{ labels, datasets }},
-    plugins: [innerPctPlugin],
+    plugins: [stackedTotalsPlugin, innerPctPlugin],
     options: {{
       responsive: true, maintainAspectRatio: false,
-      layout: {{ padding: {{ top: 20 }} }},
+      layout: {{ padding: {{ top: 24 }} }},
       plugins: {{
         legend: {{ position: 'bottom', labels: {{ boxWidth: 12, padding: 10, font: {{ size: 11 }} }} }},
         tooltip: {{ callbacks: {{ label: ctx =>
