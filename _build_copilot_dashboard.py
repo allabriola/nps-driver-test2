@@ -357,6 +357,7 @@ html = f"""<!DOCTYPE html>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>CX Copilot — Usabilidade dos Reps</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
 *{{margin:0;padding:0;box-sizing:border-box}}
 body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f7;color:#1a1a2e}}
@@ -552,7 +553,17 @@ window.addEventListener('DOMContentLoaded', () => {{
         borderRadius: 5
       }}]
     }},
-    options: {{ plugins: {{ legend: {{ display: false }} }}, scales: {{ y: {{ beginAtZero: true, ticks: {{ precision: 0 }} }} }} }}
+    options: {{
+      plugins: {{
+        legend: {{ display: false }},
+        datalabels: {{
+          anchor: 'center', align: 'center',
+          color: '#fff', font: {{ weight: 'bold', size: 13 }},
+          formatter: v => v
+        }}
+      }},
+      scales: {{ y: {{ beginAtZero: true, ticks: {{ precision: 0 }} }} }}
+    }}
   }});
 
   new Chart(document.getElementById('ch-sen'), {{
@@ -567,7 +578,14 @@ window.addEventListener('DOMContentLoaded', () => {{
       }}]
     }},
     options: {{
-      plugins: {{ legend: {{ display: false }} }},
+      plugins: {{
+        legend: {{ display: false }},
+        datalabels: {{
+          anchor: 'center', align: 'center',
+          color: '#fff', font: {{ weight: 'bold', size: 13 }},
+          formatter: v => v + '%'
+        }}
+      }},
       scales: {{ y: {{ beginAtZero: true, max: 100, ticks: {{ callback: v => v+'%' }} }} }}
     }}
   }});
