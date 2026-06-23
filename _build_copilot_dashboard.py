@@ -171,10 +171,11 @@ def reps_table(reps_list, show_q4_only=False, extra_cols=True):
         em_cls    = color_estilo(r.get("estilo_meli"), r["q4_estilo"])
         sen_cls   = "exp-badge" if r.get("senioridade") == "Expert" else "new-badge"
         rows += f"""<tr>
-          <td class="rep-name" data-office="{r['USER_OFFICE']}" data-canal="{r['USER_TEAM_CHANNEL']}">{r['USER_LDAP']}</td>
+          <td class="rep-name" data-office="{r['USER_OFFICE']}" data-canal="{r['USER_TEAM_CHANNEL']}" data-team="{r.get('USER_TEAM_NAME','')}">{r['USER_LDAP']}</td>
           <td><span class="{sen_cls}">{r.get('senioridade','N/D')}</span></td>
           <td>{r.get('USER_OFFICE','—')}</td>
           <td>{r.get('USER_TEAM_CHANNEL','—')}</td>
+          <td>{r.get('USER_TEAM_NAME','—')}</td>
           <td class="{adopt_cls}">{fmt(r.get('pct_adopcion'))}%</td>
           <td class="{nps_cls}">{fmt(r.get('nps_copilot'))}%</td>
           <td class="{tmo_cls}">{fmt(r.get('tmo_com_copilot'),0,'s')}</td>
@@ -185,7 +186,7 @@ def reps_table(reps_list, show_q4_only=False, extra_cols=True):
     return f"""
     <table class="rt" data-table>
       <thead><tr>
-        <th class="left">Rep</th><th>Senioridade</th><th>Oficina</th><th>Canal</th>
+        <th class="left">Rep</th><th>Senioridade</th><th>Oficina</th><th>Canal</th><th>Equipe</th>
         {th("Adoção%")}{th("NPS")}{th("TMO(s)")}{th("Estilo Meli")}{header_q4}
       </tr></thead>
       <tbody>{rows}</tbody>
@@ -331,8 +332,9 @@ def build_criticos_tab():
         adopt_cls = color_adopt(r.get("pct_adopcion"))
         sen_cls   = "exp-badge" if r.get("senioridade") == "Expert" else "new-badge"
         rows += f"""<tr>
-          <td class="rep-name" data-office="{r['USER_OFFICE']}" data-canal="{r['USER_TEAM_CHANNEL']}">{r['USER_LDAP']}</td>
+          <td class="rep-name" data-office="{r['USER_OFFICE']}" data-canal="{r['USER_TEAM_CHANNEL']}" data-team="{r.get('USER_TEAM_NAME','')}">{r['USER_LDAP']}</td>
           <td><span class="{sen_cls}">{r.get('senioridade','N/D')}</span></td>
+          <td>{r.get('USER_TEAM_NAME','—')}</td>
           <td class="{adopt_cls}">{fmt(r.get('pct_adopcion'))}%</td>
           <td>{fmt(r.get('nps_copilot'))}%</td>
           <td>{fmt(r.get('tmo_com_copilot'),0,'s')}</td>
@@ -350,7 +352,7 @@ def build_criticos_tab():
     </div>
     <table class="rt" data-table>
       <thead><tr>
-        <th class="left">Rep</th><th>Senioridade</th>
+        <th class="left">Rep</th><th>Senioridade</th><th>Equipe</th>
         {th("Adoção%")}{th("NPS")}{th("TMO(s)")}{th("Estilo Meli")}
         {th("Métricas Q4")}<th>Oficina</th><th>Canal</th>
       </tr></thead>
@@ -363,8 +365,10 @@ def build_criticos_tab():
 # ══════════════════════════════════════════════════════════════════════
 offices  = sorted({r.get("USER_OFFICE","N/D") for r in REPS})
 canais   = sorted({r.get("USER_TEAM_CHANNEL","N/D") for r in REPS})
+teams    = sorted({r.get("USER_TEAM_NAME","N/D") for r in REPS})
 offices_opts  = '<option value="ALL">Todas as Oficinas</option>' + "".join(f'<option value="{o}">{o}</option>' for o in offices if o != "N/D")
 canais_opts   = '<option value="ALL">Todos os Canais</option>'   + "".join(f'<option value="{c}">{c}</option>' for c in canais  if c != "N/D")
+teams_opts    = '<option value="ALL">Todas as Equipes</option>'  + "".join(f'<option value="{t}">{t}</option>' for t in teams   if t != "N/D")
 
 today = date.today().strftime("%d/%m/%Y")
 
@@ -456,6 +460,8 @@ th:hover .th-tip-box{{display:block}}
   <select id="f-office" onchange="applyFilters()">{offices_opts}</select>
   <label>Canal:</label>
   <select id="f-canal" onchange="applyFilters()">{canais_opts}</select>
+  <label>Equipe:</label>
+  <select id="f-team" onchange="applyFilters()">{teams_opts}</select>
   <span id="filter-count" style="font-size:11px;color:#94a3b8;margin-left:8px"></span>
 </div>
 
@@ -544,18 +550,22 @@ function setPtab(group, id, btn) {{
 function applyFilters() {{
   const office = document.getElementById('f-office').value;
   const canal  = document.getElementById('f-canal').value;
+  const team   = document.getElementById('f-team').value;
   let vis = 0, tot = 0;
   document.querySelectorAll('table[data-table] tbody tr').forEach(tr => {{
     const td = tr.querySelector('td[data-office]');
     if (!td) {{ tr.classList.remove('hidden'); return; }}
     const ro = td.dataset.office || '';
     const rc = td.dataset.canal  || '';
-    const show = (office === 'ALL' || ro === office) && (canal === 'ALL' || rc === canal);
+    const rt = td.dataset.team   || '';
+    const show = (office === 'ALL' || ro === office)
+              && (canal  === 'ALL' || rc === canal)
+              && (team   === 'ALL' || rt === team);
     tr.classList.toggle('hidden', !show);
     tot++; if (show) vis++;
   }});
   const el = document.getElementById('filter-count');
-  if (office !== 'ALL' || canal !== 'ALL') el.textContent = `${{vis}} de ${{tot}} reps visíveis`;
+  if (office !== 'ALL' || canal !== 'ALL' || team !== 'ALL') el.textContent = `${{vis}} de ${{tot}} reps visíveis`;
   else el.textContent = '';
 }}
 
