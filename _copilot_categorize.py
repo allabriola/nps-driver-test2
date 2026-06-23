@@ -106,7 +106,11 @@ def extract_examples(items_for_cat, category_name, n=2):
                         clean = re.sub(r'%\w+', '…', s)
                         clean = re.sub(r'\[.*?\]', '', clean).strip()
                         if len(clean) > 20:
-                            examples.append({"texto": clean[:120], "case_id": str(case_id)})
+                            examples.append({
+                                "texto": clean[:120],
+                                "case_id": str(case_id),
+                                "transcript": text[:3000]
+                            })
                 if len(examples) >= n:
                     break
         if len(examples) >= n:

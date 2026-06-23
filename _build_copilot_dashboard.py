@@ -311,10 +311,12 @@ def build_consultas_tab():
           </div>
           <div class="cat-bar-wrap"><div class="cat-bar" style="width:${{c.pct_estimado||0}}%"></div></div>
           <div class="cat-desc">${{c.descricao||''}}</div>
-          <div class="cat-ex">${{(c.exemplos||[]).map(e=>{{
+          <div class="cat-ex">${{(c.exemplos||[]).map((e,ei)=>{{
             const texto = typeof e === 'object' ? e.texto : e;
             const cid   = typeof e === 'object' && e.case_id ? ` <span class="ex-case">Caso ${{e.case_id}}</span>` : '';
-            return `<div class="ex-item">"${{texto}}"${{cid}}</div>`;
+            const tr    = typeof e === 'object' && e.transcript ? e.transcript : '';
+            const btn   = tr ? `<span class="ex-ver" onclick='openTranscript(${{JSON.stringify(tr)}}, ${{JSON.stringify(e.case_id||"")}})'>Ver conversa</span>` : '';
+            return `<div class="ex-item">"${{texto}}"${{cid}}${{btn}}</div>`;
           }}).join('')}}</div>
         </div>`).join('');
     }}
@@ -443,6 +445,16 @@ th:hover .th-tip-box{{display:block}}
 .cat-name{{font-size:13px;font-weight:700;color:#1e293b}}
 .cat-pct{{font-size:13px;font-weight:800;color:#1d4ed8}}
 .ex-case{{display:inline-block;margin-left:6px;font-size:10px;font-weight:700;background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:4px;vertical-align:middle}}
+.ex-ver{{display:inline-block;margin-left:8px;font-size:10px;font-weight:600;color:#1d4ed8;cursor:pointer;text-decoration:underline;vertical-align:middle}}
+.ex-ver:hover{{color:#1e40af}}
+#tr-modal{{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center}}
+#tr-modal.open{{display:flex}}
+#tr-modal-box{{background:white;border-radius:12px;width:min(720px,92vw);max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.3)}}
+#tr-modal-header{{padding:16px 20px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center}}
+#tr-modal-title{{font-size:14px;font-weight:700;color:#1e293b}}
+#tr-modal-close{{cursor:pointer;font-size:20px;color:#94a3b8;line-height:1;padding:0 4px}}
+#tr-modal-close:hover{{color:#1e293b}}
+#tr-modal-body{{padding:16px 20px;overflow-y:auto;font-size:12px;line-height:1.7;color:#334155;white-space:pre-wrap;font-family:monospace}}
 .cat-bar-wrap{{background:#e2e8f0;border-radius:4px;height:6px;margin-bottom:8px}}
 .cat-bar{{background:#1d4ed8;border-radius:4px;height:6px;transition:.3s}}
 .cat-desc{{font-size:11.5px;color:#64748b;margin-bottom:8px}}
@@ -457,6 +469,16 @@ th:hover .th-tip-box{{display:block}}
   <div>
     <h1>CX Copilot — Usabilidade dos Reps · BR</h1>
     <div class="sub">Últimos {DAYS_BACK} dias · {n_total} reps ativos · Gerado em {today}</div>
+  </div>
+</div>
+
+<div id="tr-modal" onclick="if(event.target===this)closeTranscript()">
+  <div id="tr-modal-box">
+    <div id="tr-modal-header">
+      <span id="tr-modal-title">Conversa completa</span>
+      <span id="tr-modal-close" onclick="closeTranscript()">&#x2715;</span>
+    </div>
+    <div id="tr-modal-body"></div>
   </div>
 </div>
 
@@ -550,6 +572,17 @@ function setPtab(group, id, btn) {{
   document.getElementById(group + '-' + id).classList.add('active');
   btn.classList.add('active');
 }}
+
+// ── MODAL TRANSCRIÇÃO ─────────────────────────────────────────────────
+function openTranscript(text, caseId) {{
+  document.getElementById('tr-modal-title').textContent = caseId ? 'Conversa — Caso ' + caseId : 'Conversa completa';
+  document.getElementById('tr-modal-body').textContent = text;
+  document.getElementById('tr-modal').classList.add('open');
+}}
+function closeTranscript() {{
+  document.getElementById('tr-modal').classList.remove('open');
+}}
+document.addEventListener('keydown', e => {{ if (e.key === 'Escape') closeTranscript(); }});
 
 // ── FILTROS ───────────────────────────────────────────────────────────
 function applyFilters() {{
