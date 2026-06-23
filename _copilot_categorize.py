@@ -90,23 +90,23 @@ def classify(text):
                 return cat["nome"]
     return CATEGORIAS[-1]["nome"]
 
-def extract_examples(texts, category_name, n=2):
-    """Extrai frases curtas relevantes como exemplos."""
+def extract_examples(items_for_cat, category_name, n=2):
+    """Extrai frases curtas relevantes como exemplos, com CAS_CASE_ID."""
     examples = []
-    for text in texts:
-        # Pega frases que contêm keywords da categoria
+    cat_match = next((c for c in CATEGORIAS if c["nome"] == category_name), None)
+    for item in items_for_cat:
+        text = item.get("copilot_transcript", "")
+        case_id = item.get("CAS_CASE_ID") or item.get("cas_case_id") or ""
         sentences = re.split(r'[.\n]', text.lower())
         for s in sentences:
             s = s.strip()
             if 20 < len(s) < 150:
-                cat_match = next((c for c in CATEGORIAS if c["nome"] == category_name), None)
                 if cat_match:
                     if any(kw in s for kw in cat_match["keywords"]) or not cat_match["keywords"]:
-                        # Limpa placeholders e capitaliza
                         clean = re.sub(r'%\w+', '…', s)
                         clean = re.sub(r'\[.*?\]', '', clean).strip()
                         if len(clean) > 20:
-                            examples.append(clean[:120])
+                            examples.append({"texto": clean[:120], "case_id": str(case_id)})
                 if len(examples) >= n:
                     break
         if len(examples) >= n:
@@ -147,12 +147,12 @@ for proc, items in procs_sorted:
 
     # Classifica cada transcrição
     counts = Counter()
-    texts_by_cat = defaultdict(list)
+    items_by_cat = defaultdict(list)
     for t in items:
         txt = t.get("copilot_transcript", "")
         cat = classify(txt)
         counts[cat] += 1
-        texts_by_cat[cat].append(txt)
+        items_by_cat[cat].append(t)
 
     total = sum(counts.values())
     cats_out = []
@@ -161,7 +161,7 @@ for proc, items in procs_sorted:
         if pct < 3:
             continue
         cat_def = next((c for c in CATEGORIAS if c["nome"] == cat_name), {})
-        exemplos = extract_examples(texts_by_cat[cat_name], cat_name, n=2)
+        exemplos = extract_examples(items_by_cat[cat_name], cat_name, n=2)
         cats_out.append({
             "nome": cat_name,
             "descricao": cat_def.get("descricao", ""),

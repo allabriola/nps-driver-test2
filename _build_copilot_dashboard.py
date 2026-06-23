@@ -311,7 +311,11 @@ def build_consultas_tab():
           </div>
           <div class="cat-bar-wrap"><div class="cat-bar" style="width:${{c.pct_estimado||0}}%"></div></div>
           <div class="cat-desc">${{c.descricao||''}}</div>
-          <div class="cat-ex">${{(c.exemplos||[]).map(e=>`<div class="ex-item">"${{e}}"</div>`).join('')}}</div>
+          <div class="cat-ex">${{(c.exemplos||[]).map(e=>{{
+            const texto = typeof e === 'object' ? e.texto : e;
+            const cid   = typeof e === 'object' && e.case_id ? ` <span class="ex-case">Caso ${{e.case_id}}</span>` : '';
+            return `<div class="ex-item">"${{texto}}"${{cid}}</div>`;
+          }}).join('')}}</div>
         </div>`).join('');
     }}
     document.addEventListener('DOMContentLoaded', renderCats);
@@ -438,6 +442,7 @@ th:hover .th-tip-box{{display:block}}
 .cat-header{{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}}
 .cat-name{{font-size:13px;font-weight:700;color:#1e293b}}
 .cat-pct{{font-size:13px;font-weight:800;color:#1d4ed8}}
+.ex-case{{display:inline-block;margin-left:6px;font-size:10px;font-weight:700;background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:4px;vertical-align:middle}}
 .cat-bar-wrap{{background:#e2e8f0;border-radius:4px;height:6px;margin-bottom:8px}}
 .cat-bar{{background:#1d4ed8;border-radius:4px;height:6px;transition:.3s}}
 .cat-desc{{font-size:11.5px;color:#64748b;margin-bottom:8px}}
