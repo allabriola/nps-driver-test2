@@ -136,6 +136,27 @@ for r in REPS:
 
 # ══════════════════════════════════════════════════════════════════════
 # TABELAS HTML
+# ── Tooltip helper ────────────────────────────────────────────────────
+TIPS = {
+    "Adoção%":     "% dos outgoings (respostas ao cliente) em que o rep efetivamente usou o Copilot. Denominador = Copilot habilitado; numerador = rep interagiu com o Copilot naquele outgoing.",
+    "NPS":         "NPS médio dos casos atendidos com Copilot. Promotor (+1), Passivo (0), Detrator (−1), exibido em %. Requer mínimo de 3 pesquisas para ser calculado.",
+    "TMO(s)":      "Tempo Médio de Operação em segundos nos casos onde o rep usou o Copilot (FLAG_COPILOT=1). Valores altos indicam atendimentos mais demorados.",
+    "Estilo Meli": "Nota de qualidade do QM (form Estilo Meli IA). Escala de 0 a 1 — avalia start contact, exploração, orientação e encerramento do atendimento.",
+    "Status Q4":   "Métricas em que o rep está no pior quartil (25% piores da equipe). Q4 NPS = NPS baixo | Q4 TMO = tempo alto | Q4 Estilo = nota QM baixa.",
+    "Métricas Q4": "Métricas em que o rep está no pior quartil (25% piores da equipe). Q4 NPS = NPS baixo | Q4 TMO = tempo alto | Q4 Estilo = nota QM baixa.",
+    "Adoção% (processo)": "% dos outgoings neste processo em que os reps usaram o Copilot.",
+}
+
+def th(label, tip_key=None, cls=""):
+    tip = TIPS.get(tip_key or label, "")
+    cls_attr = f' class="{cls}"' if cls else ""
+    if not tip:
+        return f"<th{cls_attr}>{label}</th>"
+    return (f'<th{cls_attr}>{label}'
+            f'<span class="th-tip-icon">?</span>'
+            f'<span class="th-tip-box">{tip}</span>'
+            f'</th>')
+
 # ══════════════════════════════════════════════════════════════════════
 def reps_table(reps_list, show_q4_only=False, extra_cols=True):
     """Gera <table> de reps com métricas."""
@@ -160,12 +181,12 @@ def reps_table(reps_list, show_q4_only=False, extra_cols=True):
           <td class="{em_cls}">{fmt(r.get('estilo_meli'))}</td>
           {'<td>' + badge_q4(r) + '</td>' if extra_cols else ''}
         </tr>"""
-    header_q4 = "<th>Status Q4</th>" if extra_cols else ""
+    header_q4 = th("Status Q4") if extra_cols else ""
     return f"""
     <table class="rt" data-table>
       <thead><tr>
         <th class="left">Rep</th><th>Senioridade</th><th>Oficina</th><th>Canal</th>
-        <th>Adoção%</th><th>NPS</th><th>TMO(s)</th><th>Estilo Meli</th>{header_q4}
+        {th("Adoção%")}{th("NPS")}{th("TMO(s)")}{th("Estilo Meli")}{header_q4}
       </tr></thead>
       <tbody>{rows}</tbody>
     </table>"""
@@ -329,9 +350,9 @@ def build_criticos_tab():
     </div>
     <table class="rt" data-table>
       <thead><tr>
-        <th class="left">Rep</th><th>Senioridade</th><th>Adoção%</th>
-        <th>NPS</th><th>TMO(s)</th><th>Estilo Meli</th>
-        <th>Métricas Q4</th><th>Oficina</th><th>Canal</th>
+        <th class="left">Rep</th><th>Senioridade</th>
+        {th("Adoção%")}{th("NPS")}{th("TMO(s)")}{th("Estilo Meli")}
+        {th("Métricas Q4")}<th>Oficina</th><th>Canal</th>
       </tr></thead>
       <tbody>{rows}</tbody>
     </table>
@@ -404,6 +425,10 @@ table.rt tr:hover td{{filter:brightness(.97)}}
 .bdg.neu{{background:#f1f5f9;color:#64748b}}
 .exp-badge{{background:#dbeafe;color:#1d4ed8;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px}}
 .new-badge{{background:#f3e8ff;color:#7c3aed;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px}}
+th{{position:relative}}
+.th-tip-icon{{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:#94a3b8;color:#fff;font-size:9px;font-weight:700;margin-left:5px;cursor:help;vertical-align:middle;line-height:1}}
+.th-tip-box{{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#1e293b;color:#f1f5f9;font-size:12px;font-weight:400;line-height:1.5;padding:8px 12px;border-radius:7px;width:240px;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,.3);white-space:normal;text-align:left}}
+th:hover .th-tip-box{{display:block}}
 .section-lbl{{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin:20px 0 10px;padding-top:8px;border-top:1px solid #e2e8f0}}
 .cat-card{{background:white;border-radius:10px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}}
 .cat-header{{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}}
