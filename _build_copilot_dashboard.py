@@ -454,7 +454,16 @@ th:hover .th-tip-box{{display:block}}
 #tr-modal-title{{font-size:14px;font-weight:700;color:#1e293b}}
 #tr-modal-close{{cursor:pointer;font-size:20px;color:#94a3b8;line-height:1;padding:0 4px}}
 #tr-modal-close:hover{{color:#1e293b}}
-#tr-modal-body{{padding:16px 20px;overflow-y:auto;font-size:12px;line-height:1.7;color:#334155;white-space:pre-wrap;font-family:monospace}}
+#tr-modal-body{{padding:16px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}}
+.chat-msg{{display:flex;flex-direction:column;max-width:80%}}
+.chat-msg.copilot{{align-self:flex-start}}
+.chat-msg.rep{{align-self:flex-end}}
+.chat-label{{font-size:10px;font-weight:700;margin-bottom:3px;padding:0 4px}}
+.chat-msg.copilot .chat-label{{color:#1d4ed8}}
+.chat-msg.rep .chat-label{{color:#6b7280;text-align:right}}
+.chat-bubble{{padding:10px 14px;border-radius:12px;font-size:12px;line-height:1.6;color:#1e293b;white-space:pre-wrap}}
+.chat-msg.copilot .chat-bubble{{background:#eff6ff;border:1px solid #bfdbfe;border-top-left-radius:2px}}
+.chat-msg.rep .chat-bubble{{background:#f1f5f9;border:1px solid #e2e8f0;border-top-right-radius:2px}}
 .cat-bar-wrap{{background:#e2e8f0;border-radius:4px;height:6px;margin-bottom:8px}}
 .cat-bar{{background:#1d4ed8;border-radius:4px;height:6px;transition:.3s}}
 .cat-desc{{font-size:11.5px;color:#64748b;margin-bottom:8px}}
@@ -574,10 +583,59 @@ function setPtab(group, id, btn) {{
 }}
 
 // ── MODAL TRANSCRIÇÃO ─────────────────────────────────────────────────
+function parseTranscript(text) {{
+  // Divide em blocos por linha e detecta speaker
+  const lines = text.split('\n');
+  const msgs = [];
+  let current = null;
+
+  for (const raw of lines) {{
+    const line = raw.trim();
+    if (!line) continue;
+
+    // Padrão: [timestamp] speaker: conteúdo  OU  speaker: conteúdo
+    const m = line.match(/^(?:\[.*?\]\s*)?(\w[\w\s]*?):\s*(.+)$/s);
+    if (m) {{
+      const speaker = m[1].trim().toLowerCase();
+      const content = m[2].trim();
+      const isCopilot = speaker.includes('copilot') || speaker.includes('assistant') || speaker.includes('bot');
+      const isRep     = speaker.includes('rep') || speaker.includes('user') || speaker.includes('agent') || speaker.includes('atend');
+      const role = isCopilot ? 'copilot' : (isRep ? 'rep' : (msgs.length % 2 === 0 ? 'copilot' : 'rep'));
+      const label = isCopilot ? '🤖 Copilot' : '👤 Rep';
+
+      if (current && current.role === role) {{
+        current.text += '\n' + content;
+      }} else {{
+        current = {{ role, label, text: content }};
+        msgs.push(current);
+      }}
+    }} else if (current) {{
+      current.text += '\n' + line;
+    }} else {{
+      // Primeira linha sem padrão — assume copilot
+      current = {{ role: 'copilot', label: '🤖 Copilot', text: line }};
+      msgs.push(current);
+    }}
+  }}
+  return msgs;
+}}
+
 function openTranscript(text, caseId) {{
   document.getElementById('tr-modal-title').textContent = caseId ? 'Conversa — Caso ' + caseId : 'Conversa completa';
-  document.getElementById('tr-modal-body').textContent = text;
+  const body = document.getElementById('tr-modal-body');
+  const msgs = parseTranscript(text);
+
+  if (msgs.length === 0) {{
+    body.innerHTML = '<p style="color:#94a3b8;font-size:12px">Transcrição não disponível.</p>';
+  }} else {{
+    body.innerHTML = msgs.map(m => `
+      <div class="chat-msg ${{m.role}}">
+        <div class="chat-label">${{m.label}}</div>
+        <div class="chat-bubble">${{m.text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}}</div>
+      </div>`).join('');
+  }}
   document.getElementById('tr-modal').classList.add('open');
+  body.scrollTop = 0;
 }}
 function closeTranscript() {{
   document.getElementById('tr-modal').classList.remove('open');
