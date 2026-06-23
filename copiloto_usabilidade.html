@@ -15987,38 +15987,29 @@ function setPtab(group, id, btn) {
 
 // ── MODAL TRANSCRIÇÃO ─────────────────────────────────────────────────
 function parseTranscript(text) {
-  // Divide em blocos por linha e detecta speaker
-  const lines = text.split('
-');
   const msgs = [];
   let current = null;
-
-  for (const raw of lines) {
-    const line = raw.trim();
+  const lines = text.split(String.fromCharCode(10));
+  const reLine = new RegExp('^(?:\[[\s\S]*?\]\s*)?([A-Za-z][\w ](0, 30)):\s*(.+)');
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
     if (!line) continue;
-
-    // Padrão: [timestamp] speaker: conteúdo  OU  speaker: conteúdo
-    const m = line.match(/^(?:\[.*?\]\s*)?(\w[\w\s]*?):\s*(.+)$/s);
+    const m = reLine.exec(line);
     if (m) {
-      const speaker = m[1].trim().toLowerCase();
+      const sp = m[1].trim().toLowerCase();
       const content = m[2].trim();
-      const isCopilot = speaker.includes('copilot') || speaker.includes('assistant') || speaker.includes('bot');
-      const isRep     = speaker.includes('rep') || speaker.includes('user') || speaker.includes('agent') || speaker.includes('atend');
-      const role = isCopilot ? 'copilot' : (isRep ? 'rep' : (msgs.length % 2 === 0 ? 'copilot' : 'rep'));
+      const isCopilot = sp.indexOf('copilot') >= 0 || sp.indexOf('bot') >= 0 || sp.indexOf('assistant') >= 0;
+      const role  = isCopilot ? 'copilot' : 'rep';
       const label = isCopilot ? '🤖 Copilot' : '👤 Rep';
-
       if (current && current.role === role) {
-        current.text += '
-' + content;
+        current.text += ' ' + content;
       } else {
-        current = { role, label, text: content };
+        current = { role: role, label: label, text: content };
         msgs.push(current);
       }
     } else if (current) {
-      current.text += '
-' + line;
+      current.text += ' ' + line;
     } else {
-      // Primeira linha sem padrão — assume copilot
       current = { role: 'copilot', label: '🤖 Copilot', text: line };
       msgs.push(current);
     }
@@ -16026,27 +16017,25 @@ function parseTranscript(text) {
   return msgs;
 }
 
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
 function openTranscript(text, caseId) {
   document.getElementById('tr-modal-title').textContent = caseId ? 'Conversa — Caso ' + caseId : 'Conversa completa';
   const body = document.getElementById('tr-modal-body');
   const msgs = parseTranscript(text);
-
-  if (msgs.length === 0) {
+  if (!msgs.length) {
     body.innerHTML = '<p style="color:#94a3b8;font-size:12px">Transcrição não disponível.</p>';
   } else {
-    body.innerHTML = msgs.map(m => `
-      <div class="chat-msg ${m.role}">
-        <div class="chat-label">${m.label}</div>
-        <div class="chat-bubble">${m.text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
-      </div>`).join('');
+    body.innerHTML = msgs.map(function(m) {
+      return '<div class="chat-msg ' + m.role + '"><div class="chat-label">' + m.label +
+             '</div><div class="chat-bubble">' + esc(m.text) + '</div></div>';
+    }).join('');
   }
   document.getElementById('tr-modal').classList.add('open');
   body.scrollTop = 0;
 }
-function closeTranscript() {
-  document.getElementById('tr-modal').classList.remove('open');
-}
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeTranscript(); });
+function closeTranscript() { document.getElementById('tr-modal').classList.remove('open'); }
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeTranscript(); });
 
 // ── FILTROS ───────────────────────────────────────────────────────────
 function applyFilters() {
