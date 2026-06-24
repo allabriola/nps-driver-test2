@@ -50,6 +50,16 @@ if %errorlevel% equ 0 (
     echo [%date% %time%] NPS Tendencias Gerencia: ERRO (codigo %errorlevel%) >> "%LOG%"
 )
 
+:: 4a - Busca dados vigente do BQ e atualiza generate_html_gerencia.py
+echo [%date% %time%] Buscando dados vigente do BQ... >> "%LOG%"
+python _fetch_weekly_data.py >> "%LOG%" 2>&1
+if %errorlevel% equ 0 (
+    python _update_weekly.py >> "%LOG%" 2>&1
+    echo [%date% %time%] Dados vigente + gerencia.py: OK >> "%LOG%"
+) else (
+    echo [%date% %time%] Dados vigente: ERRO (codigo %errorlevel%) >> "%LOG%"
+)
+
 :: 4 - Busca casos detratores do BQ (para Highlights & Resumos por driver)
 echo [%date% %time%] Buscando casos recorrentes BQ... >> "%LOG%"
 python _fetch_recurrence_cases.py >> "%LOG%" 2>&1
