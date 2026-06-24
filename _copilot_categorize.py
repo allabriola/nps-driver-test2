@@ -1,125 +1,75 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Categoriza transcrições rep↔Copilot por processo via análise de palavras-chave.
+Categoriza transcrições rep↔Copilot por processo usando Claude API.
 Input:  _copilot_transcripts_raw.json
 Output: _copilot_categories.json
 """
-import sys, json, re
-from collections import defaultdict, Counter
+import sys, json
+from collections import defaultdict
 sys.stdout.reconfigure(encoding='utf-8')
+import anthropic
 
-MIN_TR_PER_PROC = 5
+client = anthropic.Anthropic()
 
-# ── Categorias e palavras-chave ──────────────────────────────────────────────
-# Ordem importa: primeira categoria que fizer match ganha
-CATEGORIAS = [
-    {
-        "nome": "Reputação / Métricas",
-        "descricao": "Dúvidas sobre impacto na reputação, métricas, nível de lealdade e cancelamentos",
-        "keywords": ["reputaci", "reputaç", "metrica", "métrica", "nivel de leal", "nivel lealt",
-                     "cancelac", "cancelaç", "demora", "atraso", "thermômetro", "termometro",
-                     "penalizac", "penalizaç", "afect", "afeta"]
-    },
-    {
-        "nome": "Reclamo / Mediação",
-        "descricao": "Gestão de reclamos abertos, mediações e disputas entre comprador e vendedor",
-        "keywords": ["reclamo", "mediaci", "mediação", "disputa", "reclamac", "reclamaç",
-                     "abrió recl", "abriu recl", "reclama"]
-    },
-    {
-        "nome": "Devolução / Reversa",
-        "descricao": "Devoluções de produtos, reversas logísticas e reembolsos",
-        "keywords": ["devoluci", "devoluç", "reversa", "reembolso", "reintegr", "retorno",
-                     "produto devolvid", "entregó devoluc", "entregou devoluç"]
-    },
-    {
-        "nome": "Despacho / Entrega / Logística",
-        "descricao": "Problemas com envio, rastreio, etiqueta e status de entrega",
-        "keywords": ["despacho", "entrega", "envio", "etiqueta", "flete", "transportadora",
-                     "viaje del paquete", "viagem do pacote", "rastreo", "rastreio",
-                     "operador logis", "correo", "shipment", "logistic"]
-    },
-    {
-        "nome": "Publicação / Anúncio",
-        "descricao": "Dúvidas sobre criação, edição, pausas e configurações de publicações",
-        "keywords": ["publicaci", "publicaç", "anuncio", "anúncio", "listing", "pausad",
-                     "activ", "desactiv", "ativar", "desativar", "foto", "descripci",
-                     "descrição", "categoria", "atribut", "variaci", "variaç"]
-    },
-    {
-        "nome": "Pagamentos / Acreditação",
-        "descricao": "Liberação de pagamentos, acreditação de valores e questões financeiras",
-        "keywords": ["pago", "pagament", "acreditac", "acreditaç", "dinero", "dinheiro",
-                     "liberaci", "liberaç", "cobro", "cobrança", "transferencia", "transferência",
-                     "saldo", "retenc", "retençã"]
-    },
-    {
-        "nome": "Conta / Acesso / Segurança",
-        "descricao": "Problemas de acesso à conta, verificação de identidade e segurança",
-        "keywords": ["cuenta", "conta", "acceso", "acesso", "contrase", "senha", "verific",
-                     "identidad", "identidade", "bloquead", "bloqueaç", "suspend",
-                     "factor", "autenticac", "autenticaç"]
-    },
-    {
-        "nome": "Potenciar Vendas / Ferramentas",
-        "descricao": "Uso de ferramentas para aumentar vendas, promoções e visibilidade",
-        "keywords": ["potenciar", "potencializ", "venta", "venda", "promoci", "promoç",
-                     "descuento", "desconto", "visibilidad", "visibilidade", "product",
-                     "mercado ads", "publicidad"]
-    },
-    {
-        "nome": "Regulamento / Política (PR)",
-        "descricao": "Infrações de políticas, artigos proibidos, propriedade intelectual",
-        "keywords": ["prohibid", "proibid", "politica", "política", "regulament",
-                     "propiedad intelectual", "propriedade intelectual", "infrac",
-                     "baja", "baixa", "sancion", "sanção", "denunci"]
-    },
-    {
-        "nome": "Outras Dúvidas Operacionais",
-        "descricao": "Consultas diversas sobre processos e procedimentos de atendimento",
-        "keywords": []   # fallback
-    },
-]
-
-def classify(text):
-    t = text.lower()
-    for cat in CATEGORIAS[:-1]:
-        for kw in cat["keywords"]:
-            if kw in t:
-                return cat["nome"]
-    return CATEGORIAS[-1]["nome"]
-
-def extract_examples(items_for_cat, category_name, n=2):
-    """Extrai frases curtas relevantes como exemplos, com CAS_CASE_ID."""
-    examples = []
-    cat_match = next((c for c in CATEGORIAS if c["nome"] == category_name), None)
-    for item in items_for_cat:
-        text = item.get("copilot_transcript", "")
-        case_id = item.get("CAS_CASE_ID") or item.get("cas_case_id") or ""
-        sentences = re.split(r'[.\n]', text.lower())
-        for s in sentences:
-            s = s.strip()
-            if 20 < len(s) < 150:
-                if cat_match:
-                    if any(kw in s for kw in cat_match["keywords"]) or not cat_match["keywords"]:
-                        clean = re.sub(r'%\w+', '…', s)
-                        clean = re.sub(r'\[.*?\]', '', clean).strip()
-                        if len(clean) > 20:
-                            examples.append({
-                                "texto": clean[:120],
-                                "case_id": str(case_id),
-                                "transcript": text[:3000]
-                            })
-                if len(examples) >= n:
-                    break
-        if len(examples) >= n:
-            break
-    return examples[:n]
+SAMPLE_PER_PROC  = 50   # máx transcrições enviadas ao Claude por processo
+MAX_TR_CHARS     = 800  # máx chars por transcrição (evita tokens excessivos)
+MIN_TR_PER_PROC  = 5    # processos com menos transcrições são ignorados
 
 
-# ── MAIN ─────────────────────────────────────────────────────────────────────
-print("=== CX Copilot — Categorização de Consultas (análise local) ===\n")
+def categorize_process(processo, transcripts):
+    sample = transcripts[:SAMPLE_PER_PROC]
+    bloco = "\n\n---\n\n".join([
+        f"[CONVERSA {i+1}]\n{t['copilot_transcript'][:MAX_TR_CHARS]}"
+        for i, t in enumerate(sample)
+    ])
+
+    prompt = f"""Você analisará transcrições de conversas entre representantes de atendimento (reps) \
+e o assistente de IA Copilot, no processo: "{processo}".
+
+OBJETIVO: Identificar as principais CATEGORIAS DE CONSULTAS que os reps fazem ao Copilot \
+para orientar reforços de treinamento em sala.
+
+TRANSCRIÇÕES:
+{bloco}
+
+INSTRUÇÕES:
+- Identifique entre 4 e 7 categorias distintas de consultas dos reps
+- Seja específico e orientado à ação (ex: "Como emitir NF de devolução", não "Documentos")
+- Para cada categoria extraia 2 exemplos reais de frases/perguntas do rep
+- pct_estimado deve somar ~100 entre todas as categorias
+- Retorne SOMENTE JSON válido, sem texto fora do JSON:
+
+{{
+  "categorias": [
+    {{
+      "nome": "Nome curto da categoria",
+      "descricao": "Uma linha explicando o tipo de consulta",
+      "pct_estimado": 25,
+      "exemplos": ["frase exata rep 1", "frase exata rep 2"]
+    }}
+  ]
+}}"""
+
+    try:
+        msg = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=1800,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        text = msg.content[0].text.strip()
+        if "```" in text:
+            text = text.split("```")[1]
+            if text.lower().startswith("json"):
+                text = text[4:]
+        return json.loads(text.strip())
+    except Exception as e:
+        print(f"    ! Erro: {e}")
+        return {"categorias": []}
+
+
+# ── MAIN ──────────────────────────────────────────────────────────────
+print("=== CX Copilot — Categorização de Consultas ===\n")
 
 try:
     with open("_copilot_transcripts_raw.json", encoding="utf-8") as f:
@@ -132,7 +82,8 @@ except FileNotFoundError:
 by_proc = defaultdict(list)
 for t in all_tr:
     proc = (t.get("processo") or "Outros").strip()
-    by_proc[proc].append(t)
+    if proc:
+        by_proc[proc].append(t)
 
 print(f"Processos com transcrições: {len(by_proc)}")
 for proc, items in sorted(by_proc.items(), key=lambda x: -len(x[1])):
@@ -147,36 +98,18 @@ for proc, items in procs_sorted:
         print(f"\n  Pulando '{proc}' ({n} transcrições — mínimo {MIN_TR_PER_PROC})")
         continue
 
-    print(f"\n  [{proc}] {n} transcrições → classificando...")
+    print(f"\n  [{proc}] {n} transcrições → categorizando...")
+    result = categorize_process(proc, items)
+    cats = result.get("categorias", [])
 
-    # Classifica cada transcrição
-    counts = Counter()
-    items_by_cat = defaultdict(list)
-    for t in items:
-        txt = t.get("copilot_transcript", "")
-        cat = classify(txt)
-        counts[cat] += 1
-        items_by_cat[cat].append(t)
+    results[proc] = {
+        "n_transcricoes": n,
+        "categorias": cats
+    }
 
-    total = sum(counts.values())
-    cats_out = []
-    for cat_name, cnt in counts.most_common():
-        pct = round(cnt / total * 100)
-        if pct < 3:
-            continue
-        cat_def = next((c for c in CATEGORIAS if c["nome"] == cat_name), {})
-        exemplos = extract_examples(items_by_cat[cat_name], cat_name, n=2)
-        cats_out.append({
-            "nome": cat_name,
-            "descricao": cat_def.get("descricao", ""),
-            "pct_estimado": pct,
-            "exemplos": exemplos
-        })
-
-    results[proc] = {"n_transcricoes": n, "categorias": cats_out}
-    print(f"  → {len(cats_out)} categorias:")
-    for c in cats_out:
-        print(f"     • {c['nome']} ({c['pct_estimado']}%)")
+    print(f"  → {len(cats)} categorias:")
+    for c in cats:
+        print(f"     • {c.get('nome','?')} ({c.get('pct_estimado',0)}%)")
 
 with open("_copilot_categories.json", "w", encoding="utf-8") as f:
     json.dump(results, f, ensure_ascii=False, indent=2)

@@ -1,0 +1,174 @@
+Waiting on bqjob_r20093a7ea56f3e05_0000019dd4a75982_1 ... (0s) Current status: RUNNING                                                                                      Waiting on bqjob_r20093a7ea56f3e05_0000019dd4a75982_1 ... (1s) Current status: RUNNING                                                                                      Waiting on bqjob_r20093a7ea56f3e05_0000019dd4a75982_1 ... (2s) Current status: RUNNING                                                                                      Waiting on bqjob_r20093a7ea56f3e05_0000019dd4a75982_1 ... (2s) Current status: DONE   
+dim,driver,val,p,d,s
+C,CBT,MULTICANAL CHAT,77,16,96
+O,CBT,ONELINK_MEDELLIN,73,15,91
+O,CBT,TESLA,4,1,5
+C,Experiencia Impositiva Mature,MULTICANAL C2C,0,0,1
+C,Experiencia Impositiva Mature,MULTICANAL CHAT,2,0,3
+O,Experiencia Impositiva Mature,CTX,0,0,1
+O,Experiencia Impositiva Mature,AEC,2,0,3
+C,Experiencia Impositiva Meli Pro,MULTICANAL CHAT,3,0,3
+O,Experiencia Impositiva Meli Pro,AEC,3,0,3
+C,Experiencia Impositiva Seller Dev,MULTICANAL C2C,10,17,28
+C,Experiencia Impositiva Seller Dev,MULTICANAL CHAT,47,6,60
+O,Experiencia Impositiva Seller Dev,KTA_BRASIL,5,14,20
+O,Experiencia Impositiva Seller Dev,AEC,47,6,60
+O,Experiencia Impositiva Seller Dev,CTX,5,3,8
+C,FBM-S Mature,MULTICANAL CHAT,13,4,17
+C,FBM-S Mature,MULTICANAL C2C,4,0,4
+O,FBM-S Mature,ATE,11,3,14
+O,FBM-S Mature,MELICIDADE,6,1,7
+C,FBM-S Meli Pro,MULTICANAL C2C,2,0,2
+C,FBM-S Meli Pro,MULTICANAL CHAT,15,0,18
+O,FBM-S Meli Pro,ATE,11,0,13
+O,FBM-S Meli Pro,MELICIDADE,6,0,7
+C,FBM-S Seller Dev,MULTICANAL CHAT,59,18,83
+C,FBM-S Seller Dev,MULTICANAL C2C,25,11,37
+C,FBM-S Seller Dev,(sem canal),1,0,1
+O,FBM-S Seller Dev,ATE,64,29,100
+O,FBM-S Seller Dev,MELICIDADE,20,0,20
+O,FBM-S Seller Dev,(sem office),1,0,1
+C,ME Vendedor Mature,MULTICANAL CHAT,126,28,160
+C,ME Vendedor Mature,MULTICANAL C2C,20,6,26
+O,ME Vendedor Mature,MELICIDADE,82,24,110
+O,ME Vendedor Mature,ATE,18,6,24
+O,ME Vendedor Mature,AEC,16,2,18
+O,ME Vendedor Mature,KTA_BRASIL,24,2,28
+O,ME Vendedor Mature,CTX,6,0,6
+C,ME Vendedor Meli Pro,MULTICANAL CHAT,103,9,118
+C,ME Vendedor Meli Pro,MULTICANAL C2C,1,1,2
+O,ME Vendedor Meli Pro,MELICIDADE,91,9,105
+O,ME Vendedor Meli Pro,CTX,0,1,1
+O,ME Vendedor Meli Pro,AEC,6,0,6
+O,ME Vendedor Meli Pro,ATE,3,0,4
+O,ME Vendedor Meli Pro,KTA_BRASIL,4,0,4
+C,ME Vendedor Seller Dev,MULTICANAL CHAT,876,122,1084
+C,ME Vendedor Seller Dev,MULTICANAL C2C,182,30,224
+O,ME Vendedor Seller Dev,ATE,374,64,478
+O,ME Vendedor Seller Dev,KTA_BRASIL,346,54,432
+O,ME Vendedor Seller Dev,CTX,88,18,118
+O,ME Vendedor Seller Dev,AEC,248,16,278
+O,ME Vendedor Seller Dev,MELICIDADE,2,0,2
+C,Otros CV,OFFLINE,30,31,63
+C,Otros CV,MULTICANAL CHAT,60,16,78
+C,Otros CV,(sem canal),26,11,38
+C,Otros CV,MULTICANAL C2C,17,8,26
+C,Otros CV,CHAT,49,2,54
+O,Otros CV,AEC,31,21,53
+O,Otros CV,ATE,20,14,36
+O,Otros CV,(sem office),26,11,38
+O,Otros CV,KTA_BRASIL,10,10,21
+O,Otros CV,MELICIDADE,68,7,79
+O,Otros CV,ONELINK_BOGOTA,7,4,11
+O,Otros CV,ONELINK_MEDELLIN,15,1,16
+O,Otros CV,CTX,5,0,5
+C,PCF Vendedor Mature,MULTICANAL CHAT,19,8,31
+C,PCF Vendedor Mature,MULTICANAL C2C,2,1,3
+O,PCF Vendedor Mature,MELICIDADE,10,3,16
+O,PCF Vendedor Mature,ATE,2,3,6
+O,PCF Vendedor Mature,AEC,7,2,9
+O,PCF Vendedor Mature,KTA_BRASIL,2,1,3
+C,PCF Vendedor Meli Pro,MULTICANAL CHAT,99,14,129
+C,PCF Vendedor Meli Pro,MULTICANAL C2C,2,0,2
+O,PCF Vendedor Meli Pro,MELICIDADE,77,12,100
+O,PCF Vendedor Meli Pro,ATE,18,2,24
+O,PCF Vendedor Meli Pro,KTA_BRASIL,0,0,1
+O,PCF Vendedor Meli Pro,AEC,6,0,6
+C,PCF Vendedor Seller Dev,MULTICANAL C2C,30,18,50
+C,PCF Vendedor Seller Dev,MULTICANAL CHAT,52,12,79
+O,PCF Vendedor Seller Dev,KTA_BRASIL,28,11,45
+O,PCF Vendedor Seller Dev,ATE,33,10,46
+O,PCF Vendedor Seller Dev,AEC,14,5,25
+O,PCF Vendedor Seller Dev,CTX,5,3,10
+O,PCF Vendedor Seller Dev,MELICIDADE,2,1,3
+C,PDD DS&XD - Vendedor,OFFLINE,69,53,137
+C,PDD DS&XD - Vendedor,MULTICANAL CHAT,17,11,32
+C,PDD DS&XD - Vendedor,(sem canal),26,10,40
+C,PDD DS&XD - Vendedor,MULTICANAL C2C,0,1,1
+O,PDD DS&XD - Vendedor,ATE,40,35,86
+O,PDD DS&XD - Vendedor,AEC,39,24,66
+O,PDD DS&XD - Vendedor,(sem office),26,10,40
+O,PDD DS&XD - Vendedor,KTA_BRASIL,7,3,13
+O,PDD DS&XD - Vendedor,MELICIDADE,0,3,5
+C,PDD FBM - Vendedor,OFFLINE,20,13,37
+C,PDD FBM - Vendedor,(sem canal),18,6,26
+C,PDD FBM - Vendedor,MULTICANAL CHAT,5,6,11
+O,PDD FBM - Vendedor,AEC,14,8,23
+O,PDD FBM - Vendedor,(sem office),18,6,26
+O,PDD FBM - Vendedor,ATE,10,6,18
+O,PDD FBM - Vendedor,ONELINK_BOGOTA,0,2,2
+O,PDD FBM - Vendedor,KTA_BRASIL,0,2,3
+O,PDD FBM - Vendedor,MELICIDADE,1,1,2
+C,PDD Fotos - Vendedor,OFFLINE,7,7,17
+C,PDD Fotos - Vendedor,(sem canal),3,0,3
+O,PDD Fotos - Vendedor,ONELINK_BOGOTA,7,7,16
+O,PDD Fotos - Vendedor,KTA_BRASIL,0,0,1
+O,PDD Fotos - Vendedor,(sem office),3,0,3
+C,"PDD MP,FLEX & CBT - Vendedor",OFFLINE,5,7,13
+C,"PDD MP,FLEX & CBT - Vendedor",(sem canal),2,2,4
+C,"PDD MP,FLEX & CBT - Vendedor",MULTICANAL CHAT,1,1,2
+O,"PDD MP,FLEX & CBT - Vendedor",ATE,4,4,9
+O,"PDD MP,FLEX & CBT - Vendedor",KTA_BRASIL,0,2,2
+O,"PDD MP,FLEX & CBT - Vendedor",(sem office),2,2,4
+O,"PDD MP,FLEX & CBT - Vendedor",MELICIDADE,0,1,1
+O,"PDD MP,FLEX & CBT - Vendedor",AEC,2,1,3
+C,PNR ME - Vendedor,OFFLINE,46,28,79
+C,PNR ME - Vendedor,(sem canal),12,6,19
+C,PNR ME - Vendedor,MULTICANAL CHAT,4,5,9
+O,PNR ME - Vendedor,ATE,24,16,43
+O,PNR ME - Vendedor,AEC,24,11,37
+O,PNR ME - Vendedor,(sem office),12,6,19
+O,PNR ME - Vendedor,MELICIDADE,2,6,8
+C,PNR MP - Vendedor,OFFLINE,14,12,26
+C,PNR MP - Vendedor,(sem canal),10,8,21
+C,PNR MP - Vendedor,MULTICANAL CHAT,3,3,6
+C,PNR MP - Vendedor,MULTICANAL C2C,0,1,1
+O,PNR MP - Vendedor,(sem office),10,8,21
+O,PNR MP - Vendedor,AEC,4,7,11
+O,PNR MP - Vendedor,ATE,12,7,19
+O,PNR MP - Vendedor,MELICIDADE,1,1,2
+O,PNR MP - Vendedor,KTA_BRASIL,0,1,1
+C,Partners,MULTICANAL CHAT,499,65,616
+C,Partners,MULTICANAL C2C,67,20,102
+C,Partners,(sem canal),1,0,1
+O,Partners,KTA_BRASIL,213,36,279
+O,Partners,ATE,286,33,344
+O,Partners,CTX,42,9,58
+O,Partners,AEC,25,7,37
+O,Partners,(sem office),1,0,1
+C,Post Venta Mature,MULTICANAL CHAT,37,6,49
+C,Post Venta Mature,MULTICANAL C2C,9,0,9
+O,Post Venta Mature,MELICIDADE,28,4,36
+O,Post Venta Mature,AEC,6,2,9
+O,Post Venta Mature,ATE,5,0,6
+O,Post Venta Mature,KTA_BRASIL,6,0,6
+O,Post Venta Mature,CTX,1,0,1
+C,Post Venta Meli Pro,MULTICANAL CHAT,148,1,151
+C,Post Venta Meli Pro,(sem canal),1,0,1
+O,Post Venta Meli Pro,MELICIDADE,134,1,137
+O,Post Venta Meli Pro,(sem office),1,0,1
+O,Post Venta Meli Pro,KTA_BRASIL,1,0,1
+O,Post Venta Meli Pro,AEC,10,0,10
+O,Post Venta Meli Pro,ATE,3,0,3
+C,Post Venta Seller Dev,MULTICANAL CHAT,145,9,166
+C,Post Venta Seller Dev,MULTICANAL C2C,32,9,43
+O,Post Venta Seller Dev,AEC,72,8,83
+O,Post Venta Seller Dev,KTA_BRASIL,65,5,77
+O,Post Venta Seller Dev,ATE,34,3,40
+O,Post Venta Seller Dev,CTX,6,2,9
+C,Publicaciones Mature,MULTICANAL CHAT,23,2,27
+C,Publicaciones Mature,MULTICANAL C2C,2,1,3
+O,Publicaciones Mature,KTA_BRASIL,11,2,15
+O,Publicaciones Mature,AEC,7,1,8
+O,Publicaciones Mature,MELICIDADE,7,0,7
+C,Publicaciones Meli Pro,MULTICANAL CHAT,59,4,64
+O,Publicaciones Meli Pro,MELICIDADE,49,3,53
+O,Publicaciones Meli Pro,KTA_BRASIL,5,1,6
+O,Publicaciones Meli Pro,AEC,5,0,5
+C,Publicaciones Seller Dev,MULTICANAL CHAT,343,42,421
+C,Publicaciones Seller Dev,MULTICANAL C2C,54,33,89
+C,Publicaciones Seller Dev,(sem canal),1,0,1
+O,Publicaciones Seller Dev,KTA_BRASIL,129,35,179
+O,Publicaciones Seller Dev,AEC,245,34,301
+O,Publicaciones Seller Dev,CTX,23,6,30
+O,Publicaciones Seller Dev,(sem office),1,0,1

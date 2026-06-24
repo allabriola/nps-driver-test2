@@ -1,0 +1,1 @@
+Waiting on bqjob_r1efd0501c1cff5e2_0000019df29f4e85_1 ... (0s) Current status: DONE   

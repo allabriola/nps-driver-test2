@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Dashboard Chat Assíncrono — Longtail Sellers BR
@@ -1330,8 +1330,8 @@ function filterTeamSection(tab,team,btn){{
 </body>
 </html>"""
 
-out_raw = r"c:\Users\allabriola\PROJETO CLAUDINHO\_async_longtail.html"
-out_pub = r"c:\Users\allabriola\PROJETO CLAUDINHO\async_longtail.html"
+out_raw = r"C:\claudinho\_async_longtail.html"
+out_pub = r"C:\claudinho\async_longtail.html"
 for path in [out_raw, out_pub]:
     with open(path, 'w', encoding='utf-8') as f:
         f.write(html)

@@ -1,0 +1,254 @@
+{
+  "Tiene un inconviente con sus metricas de Nivel de Lealtad": {
+    "label": "Métricas / Nível Lealtad",
+    "n": 122,
+    "themes": [
+      {
+        "name": "nivel · entregas · muito · conta",
+        "count": 46,
+        "pct": 38,
+        "cases": [
+          {
+            "id": "453908176",
+            "preview": "esse foi meus indicadores ontem a noite meus indicadores estavam tudo certo pra mim subir pra o nivel platinum mas continuei no prata quando atualizou pra mim voc�s tinham acesso a esse resumo pontos "
+          },
+          {
+            "id": "453920623",
+            "preview": "pq essa altera��o no nivel, de platinum para prata? gostaria de saber o motivo sendo que a pontua��o estava extremamente boa ent�o continuo no nivel platinum? n�o mudei o nivel? antes da mudan�a eu ti"
+          },
+          {
+            "id": "453903358",
+            "preview": "bom dia! sou motorista do mercado livre envios extras. esse e meu primeiro m�s, e meu nivel n�o mudou n�o, eu quero saber pq n�o subi de nivel tinha toda a pontua��o pra virar platinum e antes da meia"
+          }
+        ]
+      },
+      {
+        "name": "estaba · pero · estoy · tengo",
+        "count": 20,
+        "pct": 16,
+        "cases": [
+          {
+            "id": "451133413",
+            "preview": "eram quatro pacotinhos que eu tinha que entregar. ai, meu deus, e a menina nem pra me responder, so que el horario de devolucion, y eso seria en la area de devolucion. y estoy esperando ella responder"
+          },
+          {
+            "id": "453971580",
+            "preview": "y asi, o, el barracon aqui de lajes, el mudo, el aumento mas, entonces es para para ver si hay rota y no entra. para usted, nadie resolve nada tambien. la semana pasada, yo fiz rota de manh� y de tard"
+          },
+          {
+            "id": "451802077",
+            "preview": "preciso saber se ha instabilidade a metrica de devolu��o de entrega ta caindo muito sim, todos os dias a reclama��o desce drasticamente chegar la e falar bem assim, n�o recebi o pacote? o cara, por qu"
+          }
+        ]
+      },
+      {
+        "name": "reclama · rota · nivel · pontua",
+        "count": 56,
+        "pct": 46,
+        "cases": [
+          {
+            "id": "452936125",
+            "preview": "ate pq tira as ag�ncias so prejudica quem n�o pode pega nos hub todos os dias as sacas costuma chegar nas ag�ncias lacradas mas faltando pacote ou com pacote de outra rota misturadas n�o,precisa tira,"
+          },
+          {
+            "id": "453985501",
+            "preview": "boa noite, como eu estava conversando com o suporte: em rela��o a minha conta ta do envios extras, finalizei a ultima rota do m�s, dia: %num/%num e os meus percentuais n�o foram calculados para eu pod"
+          },
+          {
+            "id": "453938234",
+            "preview": "o que acontece e que por erro do sistema esses insucessos que n�o existiram impactaram direto na minha pontua��o poxa eu trabalho muito pra manter meu nivel e por erros do sistema cair de nivel e fica"
+          }
+        ]
+      }
+    ]
+  },
+  "Quiere reclamar por inconvenientes en el recorrido o en el service center": {
+    "label": "Inconvenientes / SC",
+    "n": 104,
+    "themes": [
+      {
+        "name": "gente · ellos · estoy · hacer",
+        "count": 21,
+        "pct": 20,
+        "cases": [
+          {
+            "id": "451757651",
+            "preview": "eles chegam no dono da ag�ncia fica. o cliente pegou e levou. varias vezes eu ja liguei, assim, absurdo para uma empresa desse porte, yo hasta estaba comentando con los otros entregadores, �no? n�o te"
+          },
+          {
+            "id": "452505204",
+            "preview": "de reclamacion tambien, �entendio? somos plasticos para mercaderia como motorista por casi dos anos. y que si quisesse era eso, o sea, el motorista va a hacer una rota, pero cuando llega a el bloquea,"
+          },
+          {
+            "id": "451075633",
+            "preview": "que yo no voy a conseguir llegar hasta alla, so que ai eu n�o sei onde conversar, porque os azulzinhos, na hora que a gente, que esta la dentro esta teniendo mas condiciones? rota que yo hice, esta %n"
+          }
+        ]
+      },
+      {
+        "name": "pacote · rota · pacotes · ncia",
+        "count": 43,
+        "pct": 41,
+        "cases": [
+          {
+            "id": "452754159",
+            "preview": "da para fazer com a rota ja finalizada? tenho tudo alguns problemas com a base de suzano. qual e a op��o no aplicativo? sou m�e de um adolescente especial nivel %num de suporte n�o verbal. e quando eu"
+          },
+          {
+            "id": "454067033",
+            "preview": "eles conseguem dar baixa, mesmo sem eu ter o pacote? ok, vou ir la, qualquer coisa retorno aqui pode ser? fiz uma entrega parcial, pq o pacote faltante n�o veio na saca, e agora meu aplicativo n�o fin"
+          },
+          {
+            "id": "452448489",
+            "preview": "fiz a devolu��o na ag�ncia. gostaria de n�o ser prejudicado nas pontua��es por uma falha que n�o e minha referente � conversa %num fiz a devolu��o na agencia de um pacote que veio violado e sem a merc"
+          }
+        ]
+      },
+      {
+        "name": "rota · muito · ncia · cancelamento",
+        "count": 40,
+        "pct": 38,
+        "cases": [
+          {
+            "id": "450402942",
+            "preview": "boa tarde, sou entregador do mercado livre extra, e vim carregar no aeroporto de brasilia, na logistica, eai chegando aqui, entrei na vaga que destinaram e n�o tinha rota pra mim, e n�o pagar�o meus %"
+          },
+          {
+            "id": "451227396",
+            "preview": "eu tava com um percurso aceito , e quando cheguei para retirar a saca no estabelecimento aguia agropet em salesopolis, situado na avenida camargo primo %num, um outro motorista, ja tinha retirado. que"
+          },
+          {
+            "id": "451383381",
+            "preview": "ah, esta joia, muito obrigado! { ;screen_1_textarea_0 ;: ;resolveu meu problema com efici\\u00eancia e bem educada. ;, ;screen_0_dropdown_0 ;: ;10_10_-_muito_prov\\u00e1vel ;, ;flow_token ;: ;unused ;} "
+          }
+        ]
+      }
+    ]
+  },
+  "Quiere saber porque no le pagaron una ruta": {
+    "label": "Rota Não Paga",
+    "n": 102,
+    "themes": [
+      {
+        "name": "pero · solo · hice · entonces",
+        "count": 12,
+        "pct": 12,
+        "cases": [
+          {
+            "id": "451861278",
+            "preview": "sou motorista do envio extra mas minha rota do nivel platinum sempre vem %num hoje caiu essa rota no valor menor oye, puede continuar la palabra que yo estaba. que la fue una cancelamiento pero ahi yo"
+          },
+          {
+            "id": "452357583",
+            "preview": "yo estaba atravesando de un lado para el otro ya tengo, eso fue en febrero, y hasta ahora nada. como tengo aquella pesquisa yo creo que no gustaron mucho. de como fue su primera entrega, me falaron en"
+          },
+          {
+            "id": "451613292",
+            "preview": "mas eu n�o tenho outro carro a n�o ser o q eu coloquei no aplicativo entregado extra porque minha conta ta dano suspensa minhas localiza��o e troca de veiculo boa tarde eu estou no envio extra de entr"
+          }
+        ]
+      },
+      {
+        "name": "rota · screen_0_dropdown_0 10_10_ · 10_10_ _muito_prov · 10_10_",
+        "count": 48,
+        "pct": 47,
+        "cases": [
+          {
+            "id": "452758989",
+            "preview": "o percurso depois de um tempo sem carregar no galp�o ele some do aplicativo ok . tambem tenho o qr code do cancelamento o percurso sumiu do app e os %num% n�o foi pago tinha um percurso aceita pra hj "
+          },
+          {
+            "id": "453417730",
+            "preview": "n�o, so aparece a notifica��o de cancelamento. sim, gostaria de saber se minha conta do envios extra esta com algum problema. pois faz %num semanas que eu aceito percursos, e faltando um dia pra entre"
+          },
+          {
+            "id": "451575654",
+            "preview": "sou entregadora do mercado livre e estava com uma rota ativa para hoje, mas quando cheguei no galp�o n�o tinha rota disponivel para mim gostaria de tirar uma duvida com voc�, por gentileza na parte de"
+          }
+        ]
+      },
+      {
+        "name": "rota · valor · ncia · u00e3o",
+        "count": 42,
+        "pct": 41,
+        "cases": [
+          {
+            "id": "452927669",
+            "preview": "esse e o valor que me mandaram quando aceitei. bom dia... na sexta feira eu fiz uma rota na petlegau o horario do percurso foi das %houre o valor que me mandaram era de %num,%num r$! e hoje fui verifi"
+          },
+          {
+            "id": "453282042",
+            "preview": "porem minha rota ja havia sido cancelada e disponibilizada para outro driver resalto que a segunda remessa das sacas so chegaram por volta das %hour n�o, a ag�ncia em si, no caso a select laja jato n�"
+          },
+          {
+            "id": "452951042",
+            "preview": "o aplicativo cancelou sozinho mais n�o apareceu o saldo no app fiquei la na ag�ncia esperando as sacas a sim, mais no aplicativo n�o mostra o valor, somente das saidas concluidas meu percurso foi canc"
+          }
+        ]
+      }
+    ]
+  },
+  "Tiene problemas durante la creacion de la cuenta": {
+    "label": "Criação de Conta",
+    "n": 63,
+    "themes": [
+      {
+        "name": "cuenta · conta · envios · extra",
+        "count": 18,
+        "pct": 29,
+        "cases": [
+          {
+            "id": "454085935",
+            "preview": "esta havendo um erro pq nunca trabalhei em transportadora sim eu ja fiz o meu cadastro antes a minha conta esta vinculada com qual empresa? quero saber como esta minha conta nos envios extra sou entre"
+          },
+          {
+            "id": "453688310",
+            "preview": "eu quero saber sem tenho como recorrer n�o estou conseguindo carregar mercadoria pra entregar no galp�o do mercado livre aqui em palmas tocantins disseram que estou impedido de carregar aqui no galp�o"
+          },
+          {
+            "id": "454015985",
+            "preview": "fala q fa�o parte de terceiros que presta servi�o para o mercado livre so que n�o fis parte de nenhuma transportadora ent�o n�o faz sentido vargem grande paulista sp tracker nunca trabalhei para trans"
+          }
+        ]
+      },
+      {
+        "name": "screen_0_dropdown_0 10_10_ · _muito_prov · 10_10_ _muito_prov · 10_10_",
+        "count": 29,
+        "pct": 46,
+        "cases": [
+          {
+            "id": "453427864",
+            "preview": "{ ;screen_1_textarea_0 ;: ;otima ;, ;screen_0_dropdown_0 ;: ;10_10_-_muito_prov\\u00e1vel ;, ;flow_token ;: ;unused ;} n�o consigo finalizar meu cadastro ja fiz esse procedimento 3vezes"
+          },
+          {
+            "id": "453802772",
+            "preview": "n�o esta indo meu mei esta tudo nos requisitos que vcs exigem preciso por meu cnpj no cadastro { ;screen_0_dropdown_0 ;: ;10_10_-_muito_prov\\u00e1vel ;, ;flow_token ;: ;unused ;}"
+          },
+          {
+            "id": "453326550",
+            "preview": "{ ;screen_1_textarea_0 ;: ;exelente ;, ;screen_0_dropdown_0 ;: ;10_10_-_muito_prov\\u00e1vel ;, ;flow_token ;: ;unused ;} ja fiz a altera��o do meu cnae mas ate agora nao consigo me cadastrar"
+          }
+        ]
+      },
+      {
+        "name": "fazer · cnae · cadastro · cnpj",
+        "count": 16,
+        "pct": 25,
+        "cases": [
+          {
+            "id": "453983689",
+            "preview": "%num minha vou fazer o print infoma que n�o tem o cnae necessario e se eu alterei o cnpj esperar %num dias uteis, mas eu tenho o cnae necessario estou tentando cadastrar meu cnpj %num.%num.%num/%num-%"
+          },
+          {
+            "id": "453790943",
+            "preview": "ja faz um m�s acho k nnn sai dai eu faz troquei o cnae,ja esta direitinho e continua assim fiz meu cadastro tudo so que chega em uma parte travou fica nessa parte e ja passou um m�s e o meu cnae ta ce"
+          },
+          {
+            "id": "453415666",
+            "preview": "n�o ja fazem mais de %num dias quando eu coloco o cnpj diz que o cnae n�o e aceito e continua dando a mesma mensagem n�o consigo finalizar meu cadastro no envios extra mas ja mudei o cnae para um acei"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,999 @@
+CUS_CUST_ID,semana,processo,cdu,solucao,qtd
+14937436,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",7
+14937436,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Costos de devolución,Costos -  No cobramos costo de envío en esta devolución,5
+14937436,Pre_01-16Mar,Reversa,Generales,Pedido de datos - Solicitamos datos para gestión,4
+14937436,Pre_01-16Mar,Emision de Nota Fiscal,Restricción fiscal,Facturador: General - Pedimos datos,4
+14937436,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones: Dudas Reversa: Número de devolución -  Debe esperar a que se genere (V),2
+14937436,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),2
+14937436,Pre_01-16Mar,Facturación,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),2
+14937436,Pre_01-16Mar,Gestiones Operativas,Colecta,Colecta: todo sobre el servicio,1
+14937436,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Cambios,Cambios: qué es y cómo funciona un cambio,1
+14937436,Pre_01-16Mar,Facturación,Dudas sobre Deuda /Débito (Automático o forzado),Facturación - Deuda o débito,1
+14937436,Pre_01-16Mar,Facturación,Bugs,Pedido de datos - Solicitamos datos para gestión,1
+14937436,Pre_01-16Mar,Facturación,Dudas sobre cargos facturados,Facturación - Cargos por venta,1
+14937436,Pre_01-16Mar,Facturación,Bugs,(sem solucao),1
+14937436,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Reclamo abierto,Reclamo abierto - Dudas sobre la devolución,1
+14937436,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - no recibió el paquete, puede iniciar mediación",1
+14937436,Pre_01-16Mar,Facturación,Generales,Pedido de datos - Solicitamos datos para gestión,1
+14937436,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),6
+14937436,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",4
+14937436,S1_17-23Mar,Reputación,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),3
+14937436,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Costos de devolución,Costos -  No cobramos costo de envío en esta devolución,3
+14937436,S1_17-23Mar,Facturación,Generales,Pedido de datos - Solicitamos datos para gestión,3
+14937436,S1_17-23Mar,Facturación,Bugs,Pedido de datos - Solicitamos datos para gestión,2
+14937436,S1_17-23Mar,Facturación,Dudas sobre cargos facturados,Facturación - Cargos por venta,1
+14937436,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Pedimos revisión de la mediación,1
+14937436,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Fuera de plazo de reclamo (V),1
+14937436,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - nueva fecha limite (V),1
+14937436,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Reclamo abierto,Reclamo abierto - Dudas sobre la devolución,1
+14937436,S2_24-30Mar,Reputación,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),7
+14937436,S2_24-30Mar,Facturación,Generales,Pedido de datos - Solicitamos datos para gestión,3
+14937436,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",3
+14937436,S2_24-30Mar,Reversa,Quiere reclamar por un producto ya devuelto,Devolución entregada: pasaron 3 días hábiles - no cubrimos,2
+14937436,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),2
+14937436,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - nueva fecha limite (V),2
+14937436,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Costos de devolución,Costos -  No cobramos costo de envío en esta devolución,1
+14937436,S2_24-30Mar,Viaje del paquete - Vendedor,Necesita que le liberen el dinero,Dinero no disponible - bonificamos al vendedor,1
+14937436,S2_24-30Mar,Facturación,Dudas sobre cargos facturados,Facturación - Cargos por venta,1
+14937436,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Fuera de plazo de reclamo (V),1
+14937436,S2_24-30Mar,Facturación,Bugs,Pedido de datos - Solicitamos datos para gestión,1
+14937436,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Pedimos revisión de la mediación,1
+14937436,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Costos de devolución,Costos -  No cobramos costo de envío en esta devolución,1
+14937436,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",1
+14937436,S4_07-13Abr,Facturación,Dudas sobre cargos facturados,Facturación - Cargo por Envíos - Que es el costo de envío / envío a cargo del comprador,3
+14937436,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),3
+14937436,S4_07-13Abr,Facturación,Dudas sobre Saldos a favor / Pagos duplicados,Facturación - Saldo a favor Retornable,3
+14937436,S4_07-13Abr,Facturación,Generales,Pedido de datos - Solicitamos datos para gestión,2
+14937436,S5_14-16Abr,Facturación,Generales,Pedido de datos - Solicitamos datos para gestión,1
+23179304,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: No cambiamos medidas,12
+23179304,Pre_01-16Mar,Reversa,Quiere reclamar por un producto ya devuelto,Devolución entregada: cubrimos al vendedor,9
+23179304,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: usuario en blocklist - no reestimamos,4
+23179304,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,3
+23179304,Pre_01-16Mar,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y excluimos,2
+23179304,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,AUTOMÁTICO - Envío a cargo del V: usuario en blocklist permanente - no reestimamos,1
+23179304,Pre_01-16Mar,Despacho Ventas y Publicaciones,Bugs,Gestión Manual - Problema Resuelto,1
+23179304,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: explicamos los beneficios de usar ME,1
+23179304,Pre_01-16Mar,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y mantenemos impacto,1
+23179304,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: dimensiones por categoría - no reestimamos,1
+23179304,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,1
+23179304,Pre_01-16Mar,Gestiones Operativas,Colecta,Colecta: todo sobre el servicio,1
+23179304,Pre_01-16Mar,Reversa,Quiere reclamar por un producto ya devuelto,Devolución entregada: pasaron 3 días hábiles - no cubrimos,1
+23179304,Pre_01-16Mar,Reversa,Quiere saber el motivo de inicio de la devolución,Devoluciones: informamos motivo - no bonificamos,1
+23179304,S1_17-23Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,12
+23179304,S1_17-23Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: usuario en blocklist - no reestimamos,5
+23179304,S1_17-23Mar,Reversa,Quiere reclamar por un producto ya devuelto,Devolución entregada: cubrimos al vendedor,5
+23179304,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones: Dudas Reversa: Número de devolución -  Debe esperar a que se genere (V),2
+23179304,S1_17-23Mar,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y mantenemos impacto,2
+23179304,S1_17-23Mar,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y excluimos,1
+23179304,S1_17-23Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: pedimos dimensiones del producto,1
+23179304,S1_17-23Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío: cómo se calcula y condiciones de envío gratis,1
+23179304,S1_17-23Mar,Reversa,Quiere saber sobre la acreditación del dinero,Devolución: comprador tiene el producto - cubrimos,1
+23179304,S1_17-23Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Problemas para despachar: no aplica despacho por fuera,1
+23179304,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Cross Docking - No excluimos,4
+23179304,S2_24-30Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,4
+23179304,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Cross Docking - Excluimos,3
+23179304,S2_24-30Mar,Reputación ME,HT - Colecta,Reputación ME Colecta XD: colecta pendiente,2
+23179304,S2_24-30Mar,Despacho Ventas y Publicaciones,Bugs,(sem solucao),2
+23179304,S2_24-30Mar,Reputación ME,Análisis masivo de ventas,Gestión masiva - Derivamos a offline,2
+23179304,S2_24-30Mar,Reputación ME,Bugs,Gestión Manual - Problema Resuelto,1
+23179304,S2_24-30Mar,Reputación ME,HT - Colecta,Reputación ME Colecta XD: Culpa seller - No excluimos,1
+23179304,S2_24-30Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: usuario en blocklist - no reestimamos,1
+23179304,S2_24-30Mar,Reputación ME,Bugs,General Bugs - Esperando resolución del caso/error,1
+23179304,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,1
+23179304,S2_24-30Mar,Reputación ME,Generales,Consulta derivada - Pendiente de respuesta por equipo responsable,1
+23179304,S2_24-30Mar,Reputación,Cancelaciones,Analizamos reputación - Cancelación revisada,1
+23179304,S2_24-30Mar,Reputación ME,HT - Colecta,Reputación ME Colecta XD: Culpa MELI,1
+23179304,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: usuario en blocklist - no reestimamos,2
+23179304,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones: Dudas Reversa: Número de devolución -  Debe esperar a que se genere (V),2
+23179304,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,2
+23179304,S3_31Mar-06Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Vendedor newbie - Excluimos,1
+23179304,S3_31Mar-06Abr,Reputación ME,HT - Colecta,Reputación ME Colecta XD: colecta pendiente,1
+23179304,S3_31Mar-06Abr,Gestiones Operativas,Colecta,Colecta: todo sobre el servicio,1
+23179304,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",1
+23179304,S3_31Mar-06Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Flex - Excluimos,1
+23179304,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones: Dudas Reversa: Número de devolución -  Debe esperar a que se genere (V),2
+23179304,S4_07-13Abr,Reversa,Quiere reclamar por un producto ya devuelto,Devolución fallida: no es defectuoso - no bonificamos,1
+23179304,S4_07-13Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,1
+23179304,S4_07-13Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Cross Docking - No excluimos,1
+23179304,S4_07-13Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: recobro incorrecto - bonificamos,1
+23179304,S4_07-13Abr,Reputación,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),1
+23179304,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",1
+23179304,S4_07-13Abr,Reversa,Quiere reclamar por un producto ya devuelto,Devolución entregada: cubrimos al vendedor,1
+23179304,S5_14-16Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Cross Docking - No excluimos,1
+23179304,S5_14-16Abr,Despacho Ventas y Publicaciones,(sem CDU),(sem solucao),1
+84636219,Pre_01-16Mar,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Aprobamos factura y reactivamos la publicación,46
+84636219,Pre_01-16Mar,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Factura inválida,41
+84636219,Pre_01-16Mar,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Pedimos factura (Fakes),11
+84636219,Pre_01-16Mar,PR - Propiedad intelectual,Publicación activa,Consultas generales - La publicación se encuentra activa,9
+84636219,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),6
+84636219,Pre_01-16Mar,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Publicación anulada por facturas (Fakes),4
+84636219,Pre_01-16Mar,Reversa,Quiere consultar por una devolución en camino,En devolución: envío con estado cancelado,4
+84636219,Pre_01-16Mar,PR - Propiedad intelectual,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),4
+84636219,Pre_01-16Mar,Reputación,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),3
+84636219,Pre_01-16Mar,PR - Artículos prohibidos,Rollback,Artículo Prohibido - Rollback (reactivamos publicación),3
+84636219,Pre_01-16Mar,PR - Propiedad intelectual,Fakes,"Propiedad Intelectual - Fakes, moderamos publicación eliminada",3
+84636219,Pre_01-16Mar,Denuncia de usuario,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),2
+84636219,Pre_01-16Mar,Gestión de Publicación,Modificar,Modificar - Modificaciones desconocidas de integradores o colaboradores,1
+84636219,Pre_01-16Mar,PR - Propiedad intelectual,Publicaciones Revisadas,"Propiedad Intelectual - Publicación revisada, mantenemos la baja",1
+84636219,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio a cargo del V: indicamos cómo cargar dimensiones,1
+84636219,Pre_01-16Mar,PR - Propiedad intelectual,Rollback,Propiedad Intelectual - Quitamos la moderación para reactivar la publicación (Rollback),1
+84636219,Pre_01-16Mar,PR - Propiedad intelectual,Rollback,"Propiedad Intelectual - Rollback a infracción, publicación eliminada",1
+84636219,S1_17-23Mar,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Factura inválida,132
+84636219,S1_17-23Mar,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Aprobamos factura y reactivamos la publicación,84
+84636219,S1_17-23Mar,PR - Propiedad intelectual,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),72
+84636219,S1_17-23Mar,PR - Propiedad intelectual,Acuerdos Comerciales,Propiedad Intelectual - Producto de marca de publicación limitada (Goldlist - Gating),40
+84636219,S1_17-23Mar,PR - Propiedad intelectual,Publicación activa,Consultas generales - La publicación se encuentra activa,35
+84636219,S1_17-23Mar,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Pedimos factura (Fakes),23
+84636219,S1_17-23Mar,PR - Propiedad intelectual,Publicaciones Revisadas,"Propiedad Intelectual - Publicación revisada, mantenemos la baja",3
+84636219,S1_17-23Mar,PR - Propiedad intelectual,Rollback,Propiedad Intelectual - Quitamos la moderación para reactivar la publicación (Rollback),3
+84636219,S1_17-23Mar,PR - Propiedad intelectual,Fakes,"Propiedad Intelectual - Fakes, moderamos publicación eliminada",3
+84636219,S1_17-23Mar,PR - Datos Personales,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),2
+84636219,S1_17-23Mar,Denuncia de usuario,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),2
+84636219,S1_17-23Mar,PR - Artículos prohibidos,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),2
+84636219,S1_17-23Mar,Denuncia de usuario,Generales,Pedido de datos - Solicitamos datos para gestión,1
+84636219,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto incompatible y mantenemos impacto,1
+84636219,S1_17-23Mar,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Publicación anulada por facturas (Fakes),1
+84636219,S1_17-23Mar,PR - Propiedad intelectual,Goldlist,Publicar - Seller no puede solicitar ser parte de la Goldlist,1
+84636219,S1_17-23Mar,PR - Propiedad intelectual,Held,Publicación pausada - Quitamos el tag HELD y reactivamos,1
+84636219,S1_17-23Mar,Reputación,Generales,Pedido de datos - Solicitamos datos para gestión,1
+84636219,S1_17-23Mar,PR - Artículos prohibidos,Publicación activa,Consultas generales - La publicación se encuentra activa,1
+84636219,S1_17-23Mar,Gestión de Publicación,Modificar,Modificar - Estado de la publicación y cómo cambiarlo,1
+84636219,S1_17-23Mar,Gestión de Publicación,Modificar,Modificar - Modificaciones desconocidas de integradores o colaboradores,1
+84636219,S1_17-23Mar,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y excluimos,1
+84636219,S1_17-23Mar,PR - Propiedad intelectual,Fakes,"Propiedad Intelectual - Publicación moderada por reseñas, mensajes y/o reclamos de producto falso (Fakes)",1
+84636219,S1_17-23Mar,PR - Artículos prohibidos,Rollback,Artículo Prohibido - Rollback (reactivamos publicación),1
+84636219,S1_17-23Mar,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Publicación inactiva por infringir políticas de productos falsificados (Fakes),1
+84636219,S2_24-30Mar,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Aprobamos factura y reactivamos la publicación,27
+84636219,S2_24-30Mar,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Factura inválida,19
+84636219,S2_24-30Mar,PR - Propiedad intelectual,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),4
+84636219,S2_24-30Mar,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Pedimos factura (Fakes),2
+84636219,S2_24-30Mar,PR - Propiedad intelectual,Publicación activa,Consultas generales - La publicación se encuentra activa,2
+84636219,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,1
+84636219,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,1
+84636219,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Cross Docking - Excluimos,1
+84636219,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,1
+84636219,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,2
+84636219,S3_31Mar-06Abr,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y excluimos,1
+84636219,S3_31Mar-06Abr,Reputación,Reclamos,Auto: Criterio reclamos - No afecta a la reputación por antigüedad,1
+84636219,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto defectuoso y mantenemos impacto,1
+84636219,S4_07-13Abr,Viaje del paquete - Vendedor,Tiene dudas sobre el estado del envio,Envío en camino - está demorado (V),1
+154509696,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,17
+154509696,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,12
+154509696,Pre_01-16Mar,Reputación,Bugs,(sem solucao),4
+154509696,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto diferente y mantenemos impacto,3
+154509696,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto no recibido y mantenemos impacto,3
+154509696,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Mediación abierta,Mediación abierta - Consulta por reputación,2
+154509696,Pre_01-16Mar,Despacho Ventas y Publicaciones,Bugs,(sem solucao),2
+154509696,Pre_01-16Mar,Reputación,Reclamos,Auto: Solicitud de exclusión - Spam (Caso en gestión),2
+154509696,Pre_01-16Mar,Reputación,Bugs,General Bugs - Esperando resolución del caso/error,2
+154509696,Pre_01-16Mar,Reputación ME,Bugs,Gestión Manual - Problema Resuelto,1
+154509696,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto incompleto y mantenemos impacto,1
+154509696,Pre_01-16Mar,Reputación,Cancelaciones,Analizamos reputación - Cancelación no afecta la reputación,1
+154509696,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,7
+154509696,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,3
+154509696,S1_17-23Mar,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y excluimos,2
+154509696,S1_17-23Mar,Reputación,Generales,Consulta derivada - Pendiente de respuesta por equipo responsable,2
+154509696,S1_17-23Mar,Reputación,Consultas informativas de Reputación,Criterios reputación - Cómo ver el motivo del reclamo/devolución,1
+154509696,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Bugs,(sem solucao),1
+154509696,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto no recibido y mantenemos impacto,1
+154509696,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,7
+154509696,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto no recibido y mantenemos impacto,7
+154509696,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,6
+154509696,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto diferente y mantenemos impacto,2
+154509696,S2_24-30Mar,Reputación,Análisis masivo de ventas,Gestión masiva - Derivamos a offline,2
+154509696,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación porque vendedor no ofrece soporte y mantenemos impacto,1
+154509696,S2_24-30Mar,Reputación,Reclamos,Auto: Criterio reclamos - No afecta a la reputación por antigüedad,1
+154509696,S2_24-30Mar,Reputación,Reclamos,Auto: Impacto reclamos - Reclamo revisado y no se puede excluir,1
+154509696,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Mediación abierta,Mediación abierta - Consulta por reputación,1
+154509696,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto defectuoso y mantenemos impacto,1
+154509696,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,23
+154509696,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,5
+154509696,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto no recibido y mantenemos impacto,1
+154509696,S3_31Mar-06Abr,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y mantenemos impacto,1
+154509696,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,1
+154509696,S3_31Mar-06Abr,Reputación,Reclamos,"Auto: Criterio reclamos - No afecta a la reputación, el producto no le sirvió",1
+154509696,S3_31Mar-06Abr,Reputación ME,Bugs,Gestión Manual - Problema Resuelto,1
+154509696,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,11
+154509696,S4_07-13Abr,Reputación,Consultas informativas de Reputación,Criterios reputación - Cómo ser Tienda Oficial,1
+154509696,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,1
+154509696,S4_07-13Abr,Reputación,Bugs,(sem solucao),1
+154509696,S4_07-13Abr,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y excluimos,1
+154509696,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,1
+154509696,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto no recibido y mantenemos impacto,1
+154509696,S5_14-16Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,5
+154509696,S5_14-16Abr,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,2
+154509696,S5_14-16Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto no recibido y mantenemos impacto,1
+154509696,S5_14-16Abr,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,1
+154804479,Pre_01-16Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Vendedor newbie - Excluimos,11
+154804479,Pre_01-16Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Envío no afecta al HT,6
+154804479,Pre_01-16Mar,Anulación de Venta,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),3
+154804479,Pre_01-16Mar,Reputación ME,HT - Informativas,Reputación ME Informativas: Cómo mejorar la reputación HT,2
+154804479,Pre_01-16Mar,Anulación de Venta,Quiere cancelar - con ME,"Cancelar venta (ME) - No puede: envío en camino, Full o entregado",2
+154804479,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,1
+154804479,Pre_01-16Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,1
+154804479,Pre_01-16Mar,PR - Propiedad intelectual,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),1
+154804479,Pre_01-16Mar,Reputación ME,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),1
+154804479,Pre_01-16Mar,Gestión de Publicación,Modificar,Modificar - Estado de la publicación y cómo cambiarlo,1
+154804479,Pre_01-16Mar,PR - Artículos prohibidos,Rollback,Artículo Prohibido - Rollback (reactivamos publicación),1
+154804479,S1_17-23Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Vendedor newbie - Excluimos,9
+154804479,S1_17-23Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Envío no afecta al HT,3
+154804479,S1_17-23Mar,Reputación ME,Generales,Pedido de datos - Solicitamos datos para gestión,2
+154804479,S1_17-23Mar,PR - Artículos prohibidos,Rollback,Artículo Prohibido - Rollback (reactivamos publicación),2
+154804479,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,2
+154804479,S1_17-23Mar,Despacho Ventas y Publicaciones,Tiene problemas con la etiqueta de su envío,Etiqueta no vencida: regeneramos,1
+154804479,S1_17-23Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,1
+154804479,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Vendedor newbie - Excluimos,2
+154804479,S2_24-30Mar,Reputación ME,Generales,Pedido de datos - Solicitamos datos para gestión,2
+154804479,S2_24-30Mar,Anulación de Venta,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),1
+154804479,S2_24-30Mar,PR - Propiedad intelectual,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),1
+154804479,S2_24-30Mar,Despacho Ventas y Publicaciones,Tiene problemas con la etiqueta de su envío,Etiqueta no vencida: regeneramos,1
+154804479,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Generales,Pedido de datos - Solicitamos datos para gestión,12
+154804479,S3_31Mar-06Abr,Gestión de Publicación,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),8
+154804479,S3_31Mar-06Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Vendedor newbie - Excluimos,8
+154804479,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Bugs,General Bugs - Consultamos por posible inestabilidad,6
+154804479,S3_31Mar-06Abr,Reputación,Generales,Pedido de datos - Solicitamos datos para gestión,5
+154804479,S3_31Mar-06Abr,Reputación ME,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),5
+154804479,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Tiene problemas con la etiqueta de su envío,Etiqueta no disponible: pago en plazo de acreditación,3
+154804479,S3_31Mar-06Abr,Emision de Nota Fiscal,Temporal,Temporal - Declaração de Conteúdo Eletrônica (DCe) para sellers,2
+154804479,S3_31Mar-06Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,2
+154804479,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Tiene problemas con la etiqueta de su envío,Etiqueta não disponível: aguardar liberação da NF,2
+154804479,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Bugs,Dudas etiquetas: Cómo imprimir y usar,1
+154804479,S3_31Mar-06Abr,Emision de Nota Fiscal,Restricción fiscal,Facturador: General - Pedimos datos,1
+154804479,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Bugs,(sem solucao),1
+154804479,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Tiene problemas con la etiqueta de su envío,Etiqueta indisponível: precisa cadastrar dados fiscais,1
+154804479,S3_31Mar-06Abr,Reputación ME,HT - Informativas,Reputación ME Informativas: Todo sobre el destaque de publicaciones,1
+154804479,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Bugs,General Bugs - Consulta BM,1
+154804479,S3_31Mar-06Abr,Reputación ME,HT - Colecta,Reputación ME Colecta XD: colecta pendiente,1
+154804479,S3_31Mar-06Abr,Gestión de Publicación,Configuración y funcionalidades,Colaboradores - Configuración y funcionalidades,1
+154804479,S4_07-13Abr,Reputación ME,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),19
+154804479,S4_07-13Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Vendedor newbie - Excluimos,15
+154804479,S4_07-13Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,15
+154804479,S4_07-13Abr,Reputación ME,Generales,Pedido de datos - Solicitamos datos para gestión,13
+154804479,S4_07-13Abr,Reputación ME,HT - Colecta,Reputación ME Colecta XD: colecta pendiente,13
+154804479,S4_07-13Abr,Reputación,Generales,Pedido de datos - Solicitamos datos para gestión,8
+154804479,S4_07-13Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Envío no afecta al HT,6
+154804479,S4_07-13Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,6
+154804479,S4_07-13Abr,Emision de Nota Fiscal,Temporal,Temporal - Declaração de Conteúdo Eletrônica (DCe) para sellers,6
+154804479,S4_07-13Abr,Despacho Ventas y Publicaciones,Generales,Pedido de datos - Solicitamos datos para gestión,5
+154804479,S4_07-13Abr,Emision de Nota Fiscal,Restricción fiscal,Facturador: General - Pedimos datos,4
+154804479,S4_07-13Abr,Despacho Ventas y Publicaciones,Bugs,General Bugs - Consultamos por posible inestabilidad,3
+154804479,S4_07-13Abr,Reputación ME,Generales,第三方联系 - 告知需通过原账户联系客服,3
+154804479,S4_07-13Abr,Gestión de Publicación,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),3
+154804479,S4_07-13Abr,Despacho Ventas y Publicaciones,Bugs,(sem solucao),1
+154804479,S4_07-13Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Usuario fraudulento - No excluimos,1
+154804479,S4_07-13Abr,Despacho Ventas y Publicaciones,Bugs,Dudas etiquetas: Cómo imprimir y usar,1
+154804479,S4_07-13Abr,Reputación ME,HT - Informativas,Reputación ME Informativas: Cómo mejorar la reputación HT,1
+154804479,S4_07-13Abr,PR - Artículos prohibidos,Rollback,Artículo Prohibido - Rollback (reactivamos publicación),1
+154804479,S4_07-13Abr,Reputación ME,Bugs,General Bugs - Análisis de bug en curso,1
+154804479,S4_07-13Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Flex - Excluimos,1
+154804479,S4_07-13Abr,Despacho Ventas y Publicaciones,Tiene problemas con la etiqueta de su envío,Etiqueta no vencida: regeneramos,1
+154804479,S4_07-13Abr,Reputación,Reclamos,"Reputación - Alto volumen de contacto, debe solicitar revisión de ventas",1
+154804479,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,1
+154804479,S5_14-16Abr,Reputación ME,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),4
+154804479,S5_14-16Abr,Reputación ME,Generales,第三方联系 - 告知需通过原账户联系客服,2
+154804479,S5_14-16Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Envío no afecta al HT,2
+154804479,S5_14-16Abr,Reputación ME,Generales,Pedido de datos - Solicitamos datos para gestión,2
+154804479,S5_14-16Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Vendedor newbie - Excluimos,2
+154804479,S5_14-16Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,2
+154804479,S5_14-16Abr,Reputación ME,HT - Colecta,Reputación ME Colecta XD: colecta pendiente,2
+154804479,S5_14-16Abr,Reputación ME,Bugs,General Bugs - Análisis de bug en curso,1
+154804479,S5_14-16Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Flex - Excluimos,1
+329519362,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),11
+329519362,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Dentro de la promesa de entrega (V),9
+329519362,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",7
+329519362,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - nueva fecha limite (V),6
+329519362,Pre_01-16Mar,Reversa,Quiere consultar por una devolución en camino,Devolución demorada: indicamos fecha limit,4
+329519362,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones: Dudas Reversa: Número de devolución -  Debe esperar a que se genere (V),3
+329519362,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - No sabe cómo funciona  / tiene dudas con el envío (V),2
+329519362,Pre_01-16Mar,Reversa,Quiere consultar por una devolución en camino,Devolución demorada: cubrimos al vendedor,2
+329519362,Pre_01-16Mar,Reversa,Quiere consultar por una devolución en camino,Devolución: extraviado / robado,1
+329519362,Pre_01-16Mar,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,1
+329519362,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Pedimos revisión de la mediación,1
+329519362,Pre_01-16Mar,Reversa,Quiere reclamar por un producto ya devuelto,Devolución entregada: cubrimos al vendedor,1
+329519362,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Dentro de la promesa de entrega (V),4
+329519362,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Fuera de plazo de reclamo (V),2
+329519362,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - no recibió el paquete, puede iniciar mediación",2
+329519362,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",2
+329519362,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),1
+329519362,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - nueva fecha limite (V),1
+329519362,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - No sabe cómo funciona  / tiene dudas con el envío (V),1
+329519362,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Dentro de la promesa de entrega (V),9
+329519362,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - No sabe cómo funciona  / tiene dudas con el envío (V),1
+329519362,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Sin ruta asignada aún,1
+329519362,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Fuera de plazo de reclamo (V),1
+329519362,S2_24-30Mar,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,1
+329519362,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Dentro de la promesa de entrega (V),5
+329519362,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - No sabe cómo funciona  / tiene dudas con el envío (V),3
+329519362,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - no recibió el paquete, puede iniciar mediación",2
+329519362,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),1
+329519362,S3_31Mar-06Abr,Reversa,Quiere consultar por una devolución en camino,Devolución demorada: cubrimos al vendedor,1
+329519362,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Pedimos datos para comprobar el daño en la devolución,1
+329519362,S3_31Mar-06Abr,PR - Técnica prohibida,Rollback,Técnica prohibida - Rollback (reactivamos publicación),1
+329519362,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - nueva fecha limite (V),1
+329519362,S3_31Mar-06Abr,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,1
+329519362,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Dentro de la promesa de entrega (V),4
+329519362,S4_07-13Abr,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,4
+329519362,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - nueva fecha limite (V),2
+329519362,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - no recibió el paquete, puede iniciar mediación",2
+329519362,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Fuera de plazo de reclamo (V),1
+329519362,S5_14-16Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Dentro de la promesa de entrega (V),1
+329519362,S5_14-16Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - No sabe cómo funciona  / tiene dudas con el envío (V),1
+329519362,S5_14-16Abr,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Pedimos revisión de la mediación,1
+329519362,S5_14-16Abr,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,1
+329519362,S5_14-16Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - nueva fecha limite (V),1
+365800715,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,33
+365800715,Pre_01-16Mar,Despacho Ventas y Publicaciones,Bugs,(sem solucao),6
+365800715,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: recobro incorrecto - bonificamos,4
+365800715,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: No cambiamos medidas,2
+365800715,Pre_01-16Mar,Asignación del Contáctanos OUV Cap,Cerrados SR,(sem solucao),1
+365800715,Pre_01-16Mar,Despacho Ventas y Publicaciones,Tiene dudas generales sobre el despacho,Reglas ME: dimensiones máximas permitidas,1
+365800715,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: pedimos dimensiones del producto,1
+365800715,Pre_01-16Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,1
+365800715,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,1
+365800715,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío: no aplica a bonificación,1
+365800715,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío: cómo se calcula y condiciones de envío gratis,1
+365800715,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio a cargo del V: indicamos cómo cargar dimensiones,1
+365800715,S1_17-23Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,16
+365800715,S1_17-23Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,5
+365800715,S1_17-23Mar,Despacho Ventas y Publicaciones,Análisis masivo de ventas,Gestión masiva - Derivamos a offline,1
+365800715,S1_17-23Mar,Despacho Ventas y Publicaciones,Bugs,Gestión Manual - Problema Resuelto,1
+365800715,S1_17-23Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío V: Consulta por dimensión,1
+365800715,S1_17-23Mar,Despacho Ventas y Publicaciones,Bugs,(sem solucao),1
+365800715,S1_17-23Mar,Reputación,Consultas informativas de Reputación,Experiencia de compra - Status de la publicación,1
+365800715,S2_24-30Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,21
+365800715,S2_24-30Mar,Despacho Ventas y Publicaciones,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),2
+365800715,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,1
+365800715,S2_24-30Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío V: Consulta por dimensión,1
+365800715,S2_24-30Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: No cambiamos medidas,1
+365800715,S2_24-30Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío: cálculo por unidad (V),1
+365800715,S2_24-30Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío: no aplica a bonificación,1
+365800715,S2_24-30Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio pelo V: categorias especiais,1
+365800715,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,16
+365800715,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: recobro incorrecto - bonificamos,1
+365800715,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio a cargo del V: indicamos cómo cargar dimensiones,1
+365800715,S4_07-13Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,1
+365800715,S5_14-16Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,1
+385406637,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: pedimos dimensiones del producto,9
+385406637,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,4
+385406637,Pre_01-16Mar,Reputación ME,Generales,Pedido de datos - Solicitamos datos para gestión,4
+385406637,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Mediación abierta,No puede enviar mensajes - Reclamo / Mediación abierta (V),3
+385406637,Pre_01-16Mar,Despacho Ventas y Publicaciones,Análisis masivo de ventas,Gestión masiva - Derivamos a offline,3
+385406637,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),3
+385406637,Pre_01-16Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Cross Docking - Excluimos,2
+385406637,Pre_01-16Mar,Reputación ME,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),2
+385406637,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio a cargo del V: indicamos cómo cargar dimensiones,2
+385406637,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,1
+385406637,Pre_01-16Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Problemas para despachar: quiere consultar con el comprador (V),1
+385406637,Pre_01-16Mar,Reputación ME,HT - Colecta,Reputación ME Colecta XD: colecta pendiente,1
+385406637,Pre_01-16Mar,Despacho Ventas y Publicaciones,Bugs,(sem solucao),1
+385406637,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío: cómo funciona (V),1
+385406637,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Pedimos revisión de la mediación,1
+385406637,Pre_01-16Mar,Gestión de Publicación,Gestión de venta,Gestión de ventas - Consultar detalle y estado de la venta,1
+385406637,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto diferente y mantenemos impacto,1
+385406637,Pre_01-16Mar,Gestión de Publicación,Modificar,"Modificar - Modificar características principales, secundarias de la publicación o compatibilidad",1
+385406637,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Verdi MED,Mediación abierta con IA - Vendedor desea más fotos o evidencias,1
+385406637,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Costos de devolución,Costos - Costo de devolución cobrado al vendedor,5
+385406637,S1_17-23Mar,Reputación ME,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),4
+385406637,S1_17-23Mar,Gestiones Operativas,Bugs,Gestión logística: negamos solicitud,3
+385406637,S1_17-23Mar,Potenciar Ventas,Bugs,Pedido de datos - Solicitamos datos para gestión,3
+385406637,S1_17-23Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,3
+385406637,S1_17-23Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio a cargo del V: indicamos cómo cargar dimensiones,3
+385406637,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Vendedor Riesgo Alto o CO excedido,2
+385406637,S1_17-23Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Problemas para despachar: cambiamos medidas,1
+385406637,S1_17-23Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: No cambiamos medidas,1
+385406637,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto incompatible y mantenemos impacto,1
+385406637,S1_17-23Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío: cómo se calcula y condiciones de envío gratis,1
+385406637,S1_17-23Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Flex - Excluimos,1
+385406637,S1_17-23Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Envío no afecta al HT,1
+385406637,S1_17-23Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Flex - No excluimos,1
+385406637,S1_17-23Mar,Reputación,Generales,Pedido de datos - Solicitamos datos para gestión,1
+385406637,S1_17-23Mar,Reversa,Quiere reclamar por un producto ya devuelto,Devolución entregada: cubrimos al vendedor,1
+385406637,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Costos de devolución,Costos - Costo de devolución cobrado al vendedor,4
+385406637,S2_24-30Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,3
+385406637,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Error en la mediación/Consultas ARC,Error en la mediación - Derivamos a MED,2
+385406637,S2_24-30Mar,Gestión de Publicación,Modificar,"Modificar - Modificar características principales, secundarias de la publicación o compatibilidad",2
+385406637,S2_24-30Mar,Potenciar Ventas,Bugs,Pedido de datos - Solicitamos datos para gestión,2
+385406637,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Pedimos revisión de la mediación,2
+385406637,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Cross Docking - No excluimos,2
+385406637,S2_24-30Mar,Gestiones Operativas,Bugs,Gestión logística: negamos solicitud,1
+385406637,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,3
+385406637,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,2
+385406637,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación porque vendedor no ofrece soporte y mantenemos impacto,1
+385406637,S3_31Mar-06Abr,Potenciar Ventas,Bugs,(sem solucao),1
+385406637,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Pedimos revisión de la mediación,1
+385406637,S3_31Mar-06Abr,Antes de publicar,Publicar,Publicar - Cómo publicar un producto,1
+385406637,S4_07-13Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío V: Consulta por dimensión,4
+385406637,S4_07-13Abr,Reversa,Quiere reclamar por un producto ya devuelto,Devolución entregada: pasaron 3 días hábiles - no cubrimos,3
+385406637,S4_07-13Abr,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Problemas para despachar: quiere consultar con el comprador (V),3
+385406637,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Pedimos revisión de la mediación,2
+385406637,S4_07-13Abr,Reversa,Generales,Pedido de datos - Solicitamos datos para gestión,2
+385406637,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Bugs,Pedido de datos - Solicitamos datos para gestión,2
+385406637,S4_07-13Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: No cambiamos medidas,1
+385406637,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,1
+385406637,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Error en la mediación/Consultas ARC,Error en la mediación - Derivamos a MED,1
+385406637,S4_07-13Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,1
+385406637,S4_07-13Abr,Viaje del paquete - Vendedor,Tiene dudas sobre el estado del envio,Envío en camino - está demorado (V),1
+385406637,S4_07-13Abr,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y excluimos,1
+385406637,S4_07-13Abr,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Problemas para despachar: diferencia entre etiqueta y producto,1
+385406637,S4_07-13Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio a cargo del V: indicamos cómo cargar dimensiones,1
+385406637,S4_07-13Abr,Despacho Ventas y Publicaciones,Tiene dudas generales sobre el despacho,Reglas ME: dimensiones máximas permitidas,1
+385406637,S5_14-16Abr,Viaje del paquete - Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,3
+385406637,S5_14-16Abr,Viaje del paquete - Vendedor,Tiene dudas sobre el estado del envio,Envío en camino - está demorado (V),1
+456794404,Pre_01-16Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Reactivar ME: No reactivamos - indicamos motivo,12
+456794404,Pre_01-16Mar,Despacho Ventas y Publicaciones,Cancelaciones,Cancelado Fraudulento: Auto oferta (V),6
+456794404,Pre_01-16Mar,Despacho Ventas y Publicaciones,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),4
+456794404,Pre_01-16Mar,Reputación ME,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),3
+456794404,Pre_01-16Mar,Despacho Ventas y Publicaciones,Generales,Consulta derivada - Pendiente de respuesta por equipo responsable,1
+456794404,Pre_01-16Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Vendedor newbie - Excluimos,1
+456794404,S1_17-23Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Reactivar ME: No reactivamos - indicamos motivo,12
+456794404,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Bugs,Costos -  No cobramos costo de envío en esta devolución,10
+456794404,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),9
+456794404,S1_17-23Mar,Despacho Ventas y Publicaciones,Generales,Pedido de datos - Solicitamos datos para gestión,9
+456794404,S1_17-23Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Activar ME: Cómo activar el servicio en sus publicaciones,5
+456794404,S1_17-23Mar,Reversa,Quiere reclamar por un producto ya devuelto,Devolución entregada: cubrimos al vendedor,5
+456794404,S1_17-23Mar,Viaje del paquete - Vendedor,Tiene dudas sobre el estado del envio,Envío cancelado - informamos motivo al vendedor,5
+456794404,S1_17-23Mar,Despacho Ventas y Publicaciones,Generales,Consulta derivada - Pendiente de respuesta por equipo responsable,4
+456794404,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,3
+456794404,S1_17-23Mar,Gestión de Publicación,Generales,Pedido de datos - Solicitamos datos para gestión,3
+456794404,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,2
+456794404,S1_17-23Mar,Reversa,Bugs,Devolución entregada: tenemos remito de entrega - no cubrimos,2
+456794404,S1_17-23Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: Costo fue pagado por el C,1
+456794404,S1_17-23Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Producto peligroso: consultamos con Hazmat,1
+456794404,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Producto dañado o tiene mismo daño que reportó el C,1
+456794404,S1_17-23Mar,Despacho Ventas y Publicaciones,Cancelaciones,Cancelado Fraudulento: Auto oferta (V),1
+456794404,S1_17-23Mar,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,1
+456794404,S2_24-30Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Reactivar ME: No reactivamos - indicamos motivo,19
+456794404,S2_24-30Mar,Despacho Ventas y Publicaciones,Generales,Pedido de datos - Solicitamos datos para gestión,17
+456794404,S2_24-30Mar,Despacho Ventas y Publicaciones,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),10
+456794404,S2_24-30Mar,Despacho Ventas y Publicaciones,Bugs,Gestión Manual - Problema Resuelto,4
+456794404,S2_24-30Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío V: Consulta por dimensión,3
+456794404,S2_24-30Mar,Despacho Ventas y Publicaciones,Generales,Consulta derivada - Pendiente de respuesta por equipo responsable,3
+456794404,S2_24-30Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Producto peligroso: respuesta de Hazmat,2
+456794404,S2_24-30Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Activar ME: Servicio no disponible por categoría,2
+456794404,S2_24-30Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Producto peligroso: consultamos con Hazmat,1
+456794404,S2_24-30Mar,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Factura inválida,1
+456794404,S2_24-30Mar,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Factura Adulterada,1
+456794404,S2_24-30Mar,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,1
+456794404,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Activar ME: Servicio no disponible por categoría,2
+456794404,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Reactivar ME: No reactivamos - indicamos motivo,1
+456794404,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Generales,Pedido de datos - Solicitamos datos para gestión,1
+456794404,S4_07-13Abr,Despacho Ventas y Publicaciones,Generales,Pedido de datos - Solicitamos datos para gestión,19
+456794404,S4_07-13Abr,Despacho Ventas y Publicaciones,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),4
+456794404,S4_07-13Abr,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Activar ME: Servicio no disponible por categoría,1
+456794404,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,1
+456794404,S4_07-13Abr,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Reactivar ME: No reactivamos - indicamos motivo,1
+456794404,S4_07-13Abr,PR - Propiedad intelectual,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),1
+456794404,S4_07-13Abr,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Factura inválida,1
+456794404,S4_07-13Abr,Despacho Ventas y Publicaciones,Bugs,Gestión Manual - Problema Resuelto,1
+456794404,S4_07-13Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío V: Consulta por dimensión,1
+456794404,S4_07-13Abr,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Producto peligroso: consultamos con Hazmat,1
+456794404,S5_14-16Abr,Despacho Ventas y Publicaciones,Generales,Pedido de datos - Solicitamos datos para gestión,2
+456794404,S5_14-16Abr,Despacho Ventas y Publicaciones,(sem CDU),(sem solucao),1
+456794404,S5_14-16Abr,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Reactivar ME: No reactivamos - indicamos motivo,1
+1182029748,Pre_01-16Mar,PR - Técnica prohibida,Histórico de infracciones,Consejos PR - Consulta informativa sobre histórico de infracciones,10
+1182029748,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio a cargo del V: indicamos cómo cargar dimensiones,10
+1182029748,Pre_01-16Mar,Reputación,Bugs,Analizamos reputación - Cancelación afecta la reputación y excluimos,6
+1182029748,Pre_01-16Mar,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Factura inválida,4
+1182029748,Pre_01-16Mar,PR - Propiedad intelectual,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),4
+1182029748,Pre_01-16Mar,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Aprobamos factura y reactivamos la publicación,2
+1182029748,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Pedimos datos para comprobar el daño en la devolución,2
+1182029748,Pre_01-16Mar,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y mantenemos impacto,1
+1182029748,Pre_01-16Mar,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Pedimos factura (Fakes),1
+1182029748,Pre_01-16Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Envío no afecta al HT,1
+1182029748,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Pedimos revisión de la mediación,1
+1182029748,Pre_01-16Mar,Despacho Ventas y Publicaciones,Tiene problemas con la etiqueta de su envío,Dudas etiquetas: Cómo imprimir y usar,1
+1182029748,S1_17-23Mar,PR - Propiedad intelectual,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),6
+1182029748,S1_17-23Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio a cargo del V: indicamos cómo cargar dimensiones,3
+1182029748,S1_17-23Mar,PR - Propiedad intelectual,Publicación activa,Consultas generales - La publicación se encuentra activa,2
+1182029748,S1_17-23Mar,PR - Técnica prohibida,Histórico de infracciones,Consejos PR - Consulta informativa sobre histórico de infracciones,2
+1182029748,S1_17-23Mar,PR - Propiedad intelectual,Fakes,"Propiedad Intelectual - Fakes, moderamos publicación eliminada",1
+1182029748,S1_17-23Mar,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Factura inválida,1
+1182029748,S1_17-23Mar,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y excluimos,1
+1182029748,S1_17-23Mar,Reputación,Bugs,Analizamos reputación - Cancelación afecta la reputación y excluimos,1
+1182029748,S2_24-30Mar,PR - Propiedad intelectual,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),6
+1182029748,S2_24-30Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio a cargo del V: indicamos cómo cargar dimensiones,5
+1182029748,S2_24-30Mar,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Factura inválida,4
+1182029748,S2_24-30Mar,PR - Técnica prohibida,Histórico de infracciones,Consejos PR - Consulta informativa sobre histórico de infracciones,2
+1182029748,S2_24-30Mar,PR - Técnica prohibida,Publicación activa,Consultas generales - La publicación se encuentra activa,1
+1182029748,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto sin stock y mantenemos impacto,1
+1182029748,S2_24-30Mar,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Aprobamos factura y reactivamos la publicación,1
+1182029748,S3_31Mar-06Abr,PR - Propiedad intelectual,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),2
+1182029748,S3_31Mar-06Abr,PR - Técnica prohibida,Histórico de infracciones,Consejos PR - Consulta informativa sobre histórico de infracciones,2
+1182029748,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio a cargo del V: indicamos cómo cargar dimensiones,2
+1182029748,S3_31Mar-06Abr,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Factura inválida,1
+1182029748,S3_31Mar-06Abr,PR - Propiedad intelectual,Publicación activa,Consultas generales - La publicación se encuentra activa,1
+1182029748,S4_07-13Abr,PR - Propiedad intelectual,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),7
+1182029748,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",6
+1182029748,S4_07-13Abr,PR - Técnica prohibida,Histórico de infracciones,Consejos PR - Consulta informativa sobre histórico de infracciones,6
+1182029748,S4_07-13Abr,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Factura inválida,4
+1182029748,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Pedimos revisión de la mediación,3
+1182029748,S4_07-13Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio a cargo del V: indicamos cómo cargar dimensiones,2
+1182029748,S4_07-13Abr,Reputación,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),1
+1182029748,S5_14-16Abr,PR - Propiedad intelectual,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),8
+1182029748,S5_14-16Abr,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",3
+1182029748,S5_14-16Abr,Reputación,Cancelaciones,Analizamos reputación - Cancelación no afecta la reputación,3
+1182029748,S5_14-16Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Flex - Excluimos,3
+1182029748,S5_14-16Abr,Reputación,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),3
+1182029748,S5_14-16Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio a cargo del V: indicamos cómo cargar dimensiones,2
+1182029748,S5_14-16Abr,PR - Técnica prohibida,Histórico de infracciones,Consejos PR - Consulta informativa sobre histórico de infracciones,2
+1201847969,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: No cambiamos medidas,14
+1201847969,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio a cargo del V: indicamos cómo cargar dimensiones,7
+1201847969,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío V: Consulta por dimensión,5
+1201847969,Pre_01-16Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,4
+1201847969,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,1
+1201847969,Pre_01-16Mar,Despacho Ventas y Publicaciones,Análisis masivo de ventas,Gestión masiva - Derivamos a offline,1
+1201847969,Pre_01-16Mar,Despacho Ventas y Publicaciones,Tiene dudas generales sobre el despacho,Reglas ME: dimensiones máximas permitidas,1
+1201847969,Pre_01-16Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Activar ME: Servicio no disponible por categoría,1
+1201847969,Pre_01-16Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Problemas para despachar: cambiamos medidas,1
+1201847969,Pre_01-16Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Reactivar ME: confirmamos que la publicación no supera las medidas permitidas,1
+1201847969,S1_17-23Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio a cargo del V: indicamos cómo cargar dimensiones,10
+1201847969,S1_17-23Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,4
+1201847969,S1_17-23Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío V: Consulta por dimensión,4
+1201847969,S1_17-23Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: No cambiamos medidas,3
+1201847969,S1_17-23Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Problemas para despachar: cambiamos medidas,1
+1201847969,S1_17-23Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Problemas para despachar: aplica despacho por fuera,1
+1201847969,S1_17-23Mar,Despacho Ventas y Publicaciones,Análisis masivo de ventas,Gestión masiva - Derivamos a offline,1
+1201847969,S1_17-23Mar,Despacho Ventas y Publicaciones,Tiene dudas generales sobre el despacho,Reglas ME: dimensiones máximas permitidas,1
+1201847969,S2_24-30Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio a cargo del V: indicamos cómo cargar dimensiones,23
+1201847969,S2_24-30Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío V: Consulta por dimensión,4
+1201847969,S2_24-30Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,3
+1201847969,S2_24-30Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: No cambiamos medidas,2
+1201847969,S2_24-30Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Problemas para despachar: no cambiamos medidas,1
+1201847969,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio a cargo del V: indicamos cómo cargar dimensiones,10
+1201847969,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Tiene dudas generales sobre el despacho,Reglas ME: dimensiones máximas permitidas,3
+1201847969,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",2
+1201847969,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Problemas para despachar: cambiamos medidas,2
+1201847969,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,2
+1201847969,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío V: Consulta por dimensión,2
+1201847969,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: No cambiamos medidas,1
+1201847969,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Temporal,Temporal - Cargo por unidad en ventas marzo 2026 (MLA),1
+1201847969,S4_07-13Abr,Despacho Ventas y Publicaciones,Generales,Contacto de tercero - Indicamos medios de atención para contacto desde la cuenta original,3
+1201847969,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Pedimos revisión de la mediación,1
+1201847969,S4_07-13Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: No cambiamos medidas,1
+1201847969,S4_07-13Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: explicamos los beneficios de usar ME,1
+1201847969,S4_07-13Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío V: Consulta por dimensión,1
+1201847969,S4_07-13Abr,Reputación,Generales,Contacto de tercero - Indicamos medios de atención para contacto desde la cuenta original,1
+1201847969,S4_07-13Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,AUTOMÁTICA: não recalculamos medidas,1
+1201847969,S4_07-13Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envio a cargo del V: indicamos cómo cargar dimensiones,1
+1201847969,S4_07-13Abr,Despacho Ventas y Publicaciones,Bugs,(sem solucao),1
+1236414223,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Fuera de plazo de reclamo (V),6
+1236414223,Pre_01-16Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,4
+1236414223,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",3
+1236414223,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",9
+1236414223,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Fuera de plazo de reclamo (V),7
+1236414223,S1_17-23Mar,Despacho Ventas y Publicaciones,Bugs,General Bugs - Análisis de bug en curso,5
+1236414223,S1_17-23Mar,Despacho Ventas y Publicaciones,Bugs,(sem solucao),2
+1236414223,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,1
+1236414223,S1_17-23Mar,Despacho Ventas y Publicaciones,(sem CDU),(sem solucao),1
+1236414223,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Dentro de la promesa de entrega (V),1
+1236414223,S2_24-30Mar,Despacho Ventas y Publicaciones,Generales,Pedido de datos - Solicitamos datos para gestión,7
+1236414223,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,6
+1236414223,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Envío no afecta al HT,2
+1236414223,S2_24-30Mar,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Costo de envío V: Consulta por dimensión,2
+1236414223,S2_24-30Mar,Reputación ME,Generales,Pedido de datos - Solicitamos datos para gestión,2
+1236414223,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,1
+1236414223,S2_24-30Mar,Despacho Ventas y Publicaciones,Bugs,(sem solucao),1
+1236414223,S2_24-30Mar,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Aprobamos factura y reactivamos la publicación,1
+1236414223,S3_31Mar-06Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,4
+1236414223,S3_31Mar-06Abr,Reputación,Generales,Pedido de datos - Solicitamos datos para gestión,2
+1236414223,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,2
+1236414223,S3_31Mar-06Abr,Reputación ME,Generales,Pedido de datos - Solicitamos datos para gestión,1
+1236414223,S4_07-13Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,11
+1236414223,S4_07-13Abr,Gestión de Publicación,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),5
+1236414223,S4_07-13Abr,Despacho Ventas y Publicaciones,Reclama por el costo de envío,Envío a cargo del V: cambiamos medidas,4
+1236414223,S4_07-13Abr,Potenciar Ventas,Posicionamiento,Potenciador (Posicionamiento) - Cómo mejorar mi competitividad,3
+1236414223,S4_07-13Abr,Despacho Ventas y Publicaciones,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),2
+1236414223,S4_07-13Abr,Anulación de Venta,Generales,Pedido de datos - Solicitamos datos para gestión,2
+1236414223,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,1
+1236414223,S4_07-13Abr,Despacho Ventas y Publicaciones,Bugs,(sem solucao),1
+1236414223,S4_07-13Abr,Reversa,Quiere reclamar por un producto ya devuelto,Devolución entregada: cubrimos al vendedor,1
+1236414223,S5_14-16Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,1
+1661120116,Pre_01-16Mar,PR - Técnica prohibida,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),10
+1661120116,Pre_01-16Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,5
+1661120116,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,4
+1661120116,Pre_01-16Mar,Reversa,Quiere reclamar por un producto ya devuelto,Devolución entregada: pasaron 3 días hábiles - no cubrimos,2
+1661120116,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto no recibido y mantenemos impacto,1
+1661120116,Pre_01-16Mar,Reversa,Quiere reclamar por un producto ya devuelto,Devolución entregada: cubrimos al vendedor,1
+1661120116,Pre_01-16Mar,Reputación,Cancelaciones,Analizamos reputación - Cancelación revisada,1
+1661120116,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Mediación abierta,Mediación abierta - Consulta por reputación,11
+1661120116,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,3
+1661120116,S1_17-23Mar,Reversa,Quiere reclamar por un producto ya devuelto,Devolución fallida: no es defectuoso - no bonificamos,2
+1661120116,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Mediación abierta,Hay una MED abierta,2
+1661120116,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Bugs,(sem solucao),2
+1661120116,S1_17-23Mar,Reputación,Reclamos,Auto: Criterio reclamos - No afecta a la reputación por antigüedad,1
+1661120116,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,1
+1661120116,S1_17-23Mar,Reputación,Consultas informativas de Reputación,Criterios reputación - Cómo funciona la reputación,1
+1661120116,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Verdi MED,Mediación abierta con IA - Vendedor en desacuerdo con culpabilidad,1
+1661120116,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,1
+1661120116,S1_17-23Mar,Reputación,Reclamos,"Auto: Criterio reclamos - No afecta a la reputación, compró por error",1
+1661120116,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Verdi MED,Mediación abierta con IA - Otros errores no mapeados,1
+1661120116,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,5
+1661120116,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,4
+1661120116,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto incompleto y mantenemos impacto,1
+1661120116,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Reclamo abierto,Reclamo abierto - Dudas sobre la devolución,1
+1661120116,S2_24-30Mar,Reputación ME,HT - Colecta,Reputación ME Colecta XD: colecta pendiente,1
+1661120116,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,1
+1661120116,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto diferente y mantenemos impacto,1
+1661120116,S2_24-30Mar,Reputación ME,Análisis masivo de ventas,Gestión masiva - Derivamos a offline,1
+1661120116,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - No sabe cómo funciona  / tiene dudas con el envío (V),1
+1661120116,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Mediación abierta,Mediación abierta - Consulta por reputación,1
+1661120116,S3_31Mar-06Abr,Places Kangu,Como funciona Places,ME Places: Cómo programar el cierre de tu agencia,3
+1661120116,S3_31Mar-06Abr,Places Kangu,Como funciona Places,ME Places: Cómo consultar el horario de la ventana de recolección,2
+1661120116,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Mediación abierta,Mediación abierta - Consulta por reputación,2
+1661120116,S3_31Mar-06Abr,Places Kangu,Generales,Places: respuesta de Relacionamiento,1
+1661120116,S3_31Mar-06Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,1
+1661120116,S3_31Mar-06Abr,Reputación,Reclamos,"Auto: Criterio reclamos - No afecta a la reputación, compró por error",1
+1661120116,S3_31Mar-06Abr,Reputación ME,Bugs,Gestión Manual - Problema Resuelto,1
+1661120116,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto diferente y mantenemos impacto,1
+1661120116,S3_31Mar-06Abr,Places Kangu,General,Places: Tarea en curso,1
+1661120116,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,1
+1661120116,S3_31Mar-06Abr,Places Kangu,Bugs,General Bugs - Esperando resolución del caso/error,1
+1661120116,S3_31Mar-06Abr,Reputación,Reclamos,"Auto: Criterio reclamos - No impacta en la reputación, tiene tag avoid por otro motivo",1
+1661120116,S4_07-13Abr,Places Kangu,Como funciona Places,ME Places: Cómo programar el cierre de tu agencia,11
+1661120116,S4_07-13Abr,Anulación de Venta,Generales,Pedido de datos - Solicitamos datos para gestión,4
+1661120116,S4_07-13Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,1
+1661120116,S4_07-13Abr,Reputación,Reclamos,Falha Sistêmica - Resposta consulta,1
+1661120116,S4_07-13Abr,Reputación ME,HT - Colecta,Reputación ME Colecta XD: Culpa seller - Excluimos,1
+1661120116,S5_14-16Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto diferente y mantenemos impacto,1
+1661120116,S5_14-16Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Vendedor newbie - Excluimos,1
+2006832805,Pre_01-16Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,3
+2006832805,Pre_01-16Mar,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y excluimos,2
+2006832805,Pre_01-16Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Usuario fraudulento - No excluimos,1
+2006832805,S1_17-23Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,8
+2006832805,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,4
+2006832805,S1_17-23Mar,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y excluimos,4
+2006832805,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,3
+2006832805,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto no recibido y mantenemos impacto,2
+2006832805,S1_17-23Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Usuario fraudulento - No excluimos,2
+2006832805,S1_17-23Mar,Reputación ME,HT - Fuerza mayor,Reputación fuerza mayor: Excluimos,2
+2006832805,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,1
+2006832805,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto defectuoso y mantenemos impacto,1
+2006832805,S1_17-23Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,1
+2006832805,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,9
+2006832805,S2_24-30Mar,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y excluimos,5
+2006832805,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Usuario fraudulento - No excluimos,4
+2006832805,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,4
+2006832805,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,4
+2006832805,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,2
+2006832805,S2_24-30Mar,Reputación ME,HT - Fuerza mayor,Reputación fuerza mayor: Excluimos,2
+2006832805,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto defectuoso y mantenemos impacto,2
+2006832805,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,2
+2006832805,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto no recibido y mantenemos impacto,2
+2006832805,S3_31Mar-06Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,3
+2006832805,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,2
+2006832805,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,2
+2006832805,S3_31Mar-06Abr,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y excluimos,2
+2006832805,S3_31Mar-06Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Usuario fraudulento - No excluimos,1
+2006832805,S3_31Mar-06Abr,Reputación ME,HT - Fuerza mayor,Reputación fuerza mayor: Excluimos,1
+2006832805,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto no recibido y mantenemos impacto,1
+2006832805,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,1
+2006832805,S4_07-13Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,3
+2006832805,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,3
+2006832805,S4_07-13Abr,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y excluimos,2
+2006832805,S4_07-13Abr,Reputación ME,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),2
+2006832805,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,2
+2006832805,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto no recibido y mantenemos impacto,1
+2006832805,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto defectuoso y mantenemos impacto,1
+2006832805,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,1
+2006832805,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,1
+2006832805,S4_07-13Abr,Reputación ME,HT - Fuerza mayor,Reputación fuerza mayor: Excluimos,1
+2006832805,S4_07-13Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,1
+2006832805,S5_14-16Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,6
+2006832805,S5_14-16Abr,Reputación ME,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),3
+2006832805,S5_14-16Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto no recibido y mantenemos impacto,2
+2006832805,S5_14-16Abr,Post Compra Funcionalidades Vendedor,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,2
+2006832805,S5_14-16Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,2
+2006832805,S5_14-16Abr,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y excluimos,2
+2006832805,S5_14-16Abr,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,2
+2006832805,S5_14-16Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,2
+2006832805,S5_14-16Abr,Reputación ME,HT - Fuerza mayor,Reputación fuerza mayor: Excluimos,1
+2006832805,S5_14-16Abr,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,1
+2294642870,Pre_01-16Mar,Reputación ME,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),24
+2294642870,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,10
+2294642870,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Mediación abierta,Mediación abierta - Consulta por reputación,3
+2294642870,Pre_01-16Mar,Reversa,Quiere consultar por una devolución en camino,Devolución: extraviado / robado,3
+2294642870,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,3
+2294642870,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto defectuoso y mantenemos impacto,2
+2294642870,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Verdi MED,Mediación cerrada con IA - Desacuerdo con la resolución,2
+2294642870,Pre_01-16Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,2
+2294642870,Pre_01-16Mar,Reputación,Reclamos,Auto: Impacto reclamos - Reclamo revisado y no se puede excluir,1
+2294642870,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación porque vendedor no ofrece soporte y mantenemos impacto,1
+2294642870,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Mediación abierta,Mediación abierta - Dudas sobre la devolución,1
+2294642870,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto incompleto y mantenemos impacto,1
+2294642870,S1_17-23Mar,Reputación,Reclamos,"Auto: Criterio reclamos - No afecta a la reputación, compró por error",1
+2294642870,S1_17-23Mar,Reputación ME,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),1
+2294642870,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Costos de devolución,Costos -  No cobramos costo de envío en esta devolución,1
+2294642870,S1_17-23Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Envío no afecta al HT,1
+2294642870,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Fuera de plazo de reclamo (V),1
+2294642870,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,7
+2294642870,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,4
+2294642870,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Mediación abierta,Mediación abierta - Consulta por reputación,2
+2294642870,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,2
+2294642870,S2_24-30Mar,Reputación,Análisis masivo de ventas,Gestión masiva - Derivamos a offline,2
+2294642870,S2_24-30Mar,Reversa,Quiere reclamar por un producto ya devuelto,Devolución entregada: cubrimos al vendedor,1
+2294642870,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Fuera de plazo de reclamo (V),1
+2294642870,S2_24-30Mar,Reputación,Consultas informativas de Reputación,Criterios reputación - Cómo ser Tienda Oficial,1
+2294642870,S2_24-30Mar,Reputación,Reclamos,Auto: Criterio reclamos - No afecta a la reputación por arrepentimiento del comprador,1
+2294642870,S2_24-30Mar,Reputación,Cancelaciones,Analizamos reputación - Cancelación no afecta la reputación,1
+2294642870,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Envío no afecta al HT,1
+2294642870,S2_24-30Mar,Reputación,Consultas informativas de Reputación,Criterios reputación - Cómo funciona la reputación,1
+2294642870,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,7
+2294642870,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,2
+2294642870,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,2
+2294642870,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Bugs,(sem solucao),1
+2294642870,S3_31Mar-06Abr,Reputación,Consultas informativas de Reputación,Recovery Sellers - Cómo funciona el beneficio,1
+2294642870,S3_31Mar-06Abr,Reputación,Bugs,(sem solucao),1
+2294642870,S3_31Mar-06Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,1
+2294642870,S3_31Mar-06Abr,Reputación,Análisis masivo de ventas,Gestión masiva - Derivamos a offline,1
+2294642870,S3_31Mar-06Abr,Reputación,Consultas informativas de Reputación,Criterios reputación - Cómo ver el motivo del reclamo/devolución,1
+2294642870,S3_31Mar-06Abr,Reputación,Reclamos,Auto: Impacto reclamos - Venta no impacta porque ya fue excluida en otro caso,1
+2294642870,S4_07-13Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,4
+2294642870,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,3
+2294642870,S4_07-13Abr,Reputación ME,Soporte MeLi,Soporte MeLi - Información sobre eventos o sobre la empresa,1
+2294642870,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto diferente y mantenemos impacto,1
+2294642870,S4_07-13Abr,Reputación,Bugs,(sem solucao),1
+2294642870,S4_07-13Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Cross Docking - Excluimos,1
+2294642870,S5_14-16Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,2
+2294642870,S5_14-16Abr,Reputación ME,Bugs,Gestión Manual - Problema Resuelto,1
+2358605416,Pre_01-16Mar,Viaje del paquete - Vendedor,Tiene dudas sobre el estado del envio,Envío confiscado - debe contactarse con organismo (V),25
+2358605416,Pre_01-16Mar,Despacho Ventas y Publicaciones,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),11
+2358605416,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Costos de devolución,Costos - Costo de devolución cobrado al vendedor,9
+2358605416,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Pedimos revisión de la mediación,6
+2358605416,Pre_01-16Mar,Viaje del paquete - Vendedor,Tiene dudas sobre el estado del envio,Envío cancelado - informamos motivo al vendedor,5
+2358605416,Pre_01-16Mar,Viaje del paquete - Vendedor,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,4
+2358605416,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto defectuoso y mantenemos impacto,4
+2358605416,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones: Dudas Reversa: Número de devolución - Disponible en el detalle de la venta (V),3
+2358605416,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Bugs,(sem solucao),1
+2358605416,S1_17-23Mar,Viaje del paquete - Vendedor,Tiene dudas sobre el estado del envio,Envío confiscado - debe contactarse con organismo (V),8
+2358605416,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto defectuoso y mantenemos impacto,4
+2358605416,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Costos de devolución,Costos - Costo de devolución cobrado al vendedor,3
+2358605416,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Pedimos revisión de la mediación,2
+2358605416,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Bugs,(sem solucao),1
+2358605416,S1_17-23Mar,Despacho Ventas y Publicaciones,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),1
+2358605416,S1_17-23Mar,Viaje del paquete - Vendedor,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,1
+2358605416,S2_24-30Mar,Viaje del paquete - Vendedor,Tiene dudas sobre el estado del envio,Envío confiscado - debe contactarse con organismo (V),12
+2358605416,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto defectuoso y mantenemos impacto,5
+2358605416,S2_24-30Mar,Reversa,Quiere saber el motivo de inicio de la devolución,Devoluciones: informamos motivo - no bonificamos,4
+2358605416,S2_24-30Mar,Viaje del paquete - Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,4
+2358605416,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Pedimos revisión de la mediación,4
+2358605416,S2_24-30Mar,Viaje del paquete - Vendedor,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,2
+2358605416,S3_31Mar-06Abr,Reversa,Quiere consultar por una devolución en camino,Devolución demorada: pasaron 60 días - no bonificamos,7
+2358605416,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto defectuoso y mantenemos impacto,4
+2358605416,S3_31Mar-06Abr,Viaje del paquete - Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,4
+2358605416,S3_31Mar-06Abr,Viaje del paquete - Vendedor,Tiene dudas sobre el estado del envio,Envío confiscado - debe contactarse con organismo (V),3
+2358605416,S4_07-13Abr,Despacho Ventas y Publicaciones,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),6
+2358605416,S4_07-13Abr,Viaje del paquete - Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,5
+2358605416,S4_07-13Abr,Reversa,Quiere saber el motivo de inicio de la devolución,Devoluciones: informamos motivo - no bonificamos,4
+2358605416,S4_07-13Abr,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,2
+2358605416,S4_07-13Abr,Viaje del paquete - Vendedor,Tiene dudas sobre el estado del envio,Envío confiscado - debe contactarse con organismo (V),2
+2358605416,S4_07-13Abr,Reversa,Quiere consultar por una devolución en camino,Devolución demorada: pasaron 60 días - no bonificamos,1
+2358605416,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto defectuoso y mantenemos impacto,1
+2358605416,S5_14-16Abr,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,3
+2358605416,S5_14-16Abr,Reversa,Quiere consultar por una devolución en camino,Devolución demorada: pasaron 60 días - no bonificamos,2
+2358605416,S5_14-16Abr,Post Compra Funcionalidades Vendedor,Mediación cerrada,Mediación cerrada - Pedimos revisión de la mediación,1
+2358605416,S5_14-16Abr,Reversa,Quiere saber el motivo de inicio de la devolución,Devoluciones: informamos motivo - no bonificamos,1
+2358605416,S5_14-16Abr,Despacho Ventas y Publicaciones,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),1
+2590237123,Pre_01-16Mar,Reputación ME,Bugs,Reputación ME Ventas: Vendedor newbie - Excluimos,1
+2590237123,S1_17-23Mar,PR - Propiedad intelectual,Rollback,Propiedad Intelectual - Quitamos la moderación para reactivar la publicación (Rollback),8
+2590237123,S1_17-23Mar,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Publicación inactiva por infringir políticas de productos falsificados (Fakes),7
+2590237123,S1_17-23Mar,PR - Propiedad intelectual,Publicación activa,Consultas generales - La publicación se encuentra activa,4
+2590237123,S1_17-23Mar,PR - Propiedad intelectual,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),4
+2590237123,S1_17-23Mar,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Aprobamos factura y reactivamos la publicación,2
+2590237123,S1_17-23Mar,PR - Propiedad intelectual,Bugs,General Bugs - Esperando resolución de caso/bug (recontacto),2
+2590237123,S1_17-23Mar,Gestión de Publicación,Modificar,Modificar - Estado de la publicación y cómo cambiarlo,2
+2590237123,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,1
+2590237123,S1_17-23Mar,PR - Técnica prohibida,Publicación activa,Consultas generales - La publicación se encuentra activa,1
+2590237123,S1_17-23Mar,PR - Propiedad intelectual,Publicaciones Revisadas,"Propiedad Intelectual - Publicación revisada, mantenemos la baja",1
+2590237123,S1_17-23Mar,PR - Propiedad intelectual,Recontacto post derivacion a PF,Recontacto - Usuario no concuerda con nuestra respuesta,1
+2590237123,S1_17-23Mar,PR - Propiedad intelectual,Usuario Restringido,Usuario restringido - Suspensión temporal de la cuenta,1
+2590237123,S1_17-23Mar,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Factura inválida,1
+2590237123,S1_17-23Mar,PR - Técnica prohibida,Rollback,Técnica prohibida - Rollback (reactivamos publicación),1
+2590237123,S1_17-23Mar,PR - Propiedad intelectual,Held,Publicación pausada - Revisión HELD,1
+2590237123,S1_17-23Mar,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Publicación en revisión por producto de dominio sensible,1
+2590237123,S1_17-23Mar,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Debe editar la publicación por mención incorrecta a marca reconocida (Fakes),1
+2590237123,S1_17-23Mar,Reputación ME,Bugs,Reputación ME Ventas: Vendedor newbie - Excluimos,1
+2590237123,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,9
+2590237123,S2_24-30Mar,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Publicación inactiva por infringir políticas de productos falsificados (Fakes),8
+2590237123,S2_24-30Mar,PR - Propiedad intelectual,Fakes,"Propiedad Intelectual - Publicación moderada por reseñas, mensajes y/o reclamos de producto falso (Fakes)",6
+2590237123,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Mediación abierta,Mediación abierta - Consulta por reputación,5
+2590237123,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,3
+2590237123,S2_24-30Mar,PR - Propiedad intelectual,Publicaciones Revisadas,"Propiedad Intelectual - Publicación revisada, mantenemos la baja",2
+2590237123,S2_24-30Mar,Asignación del Contáctanos - Prustomer,Generales,[Auto] Acknowledgment,2
+2590237123,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Mediación abierta,Hay una MED abierta,2
+2590237123,S2_24-30Mar,Reputación,Generales,Consulta derivada - Pendiente de respuesta por equipo responsable,2
+2590237123,S2_24-30Mar,PR - Propiedad intelectual,Usuario Restringido,"Strike 1 - No aplicamos rollback, warning (seller judge)",2
+2590237123,S2_24-30Mar,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Aprobamos factura y reactivamos la publicación,2
+2590237123,S2_24-30Mar,PR - Propiedad intelectual,Recontacto post derivacion a PF,Recontacto - Usuario no concuerda con nuestra respuesta,1
+2590237123,S2_24-30Mar,PR - Propiedad intelectual,Publicación activa,Consultas generales - La publicación se encuentra activa,1
+2590237123,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Verdi MED,Mediación abierta con IA - Vendedor en desacuerdo con culpabilidad,1
+2590237123,S2_24-30Mar,PR - Técnica prohibida,Rollback,Técnica prohibida - Rollback (reactivamos publicación),1
+2590237123,S2_24-30Mar,Reputación,Cancelaciones,Analizamos reputación - Cancelación afecta la reputación y excluimos,1
+2590237123,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones: Dudas Reversa: Número de devolución -  Debe esperar a que se genere (V),1
+2590237123,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto diferente y mantenemos impacto,1
+2590237123,S2_24-30Mar,Reversa,Quiere saber el motivo de inicio de la devolución,Devoluciones: informamos motivo - no bonificamos,1
+2590237123,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Mediación abierta,Mediación abierta - Consulta por reputación,9
+2590237123,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,5
+2590237123,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,4
+2590237123,S3_31Mar-06Abr,PR - Propiedad intelectual,Rollback,Propiedad Intelectual - Quitamos la moderación para reactivar la publicación (Rollback),2
+2590237123,S3_31Mar-06Abr,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Pedimos factura (Fakes),2
+2590237123,S3_31Mar-06Abr,Reputación,Consultas informativas de Reputación,Criterios reputación - Cómo funciona la reputación,2
+2590237123,S3_31Mar-06Abr,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Publicación inactiva por infringir políticas de productos falsificados (Fakes),2
+2590237123,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Mediación abierta,Mediación abierta - Dudas sobre la devolución,2
+2590237123,S3_31Mar-06Abr,PR - Propiedad intelectual,Usuario Restringido,Usuario restringido - Suspensión permanente (strike 4),2
+2590237123,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,2
+2590237123,S3_31Mar-06Abr,PR - Propiedad intelectual,Usuario Restringido,"Strike 1 - No aplicamos rollback, warning (seller judge)",1
+2590237123,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Mediación abierta,Mediación abierta con IA - Vendedor desea más fotos o evidencias,1
+2590237123,S3_31Mar-06Abr,PR - Técnica prohibida,Rollback,Técnica prohibida - Rollback (reactivamos publicación),1
+2590237123,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Problemas para despachar: usuario despacha por fuera - pedimos comprobante,1
+2590237123,S3_31Mar-06Abr,PR - Técnica prohibida,Evasión,Técnica Prohibida - Evasión precio / relativa al precio,1
+2590237123,S3_31Mar-06Abr,PR - Propiedad intelectual,Fakes,Propiedad intelectual - Factura inválida,1
+2590237123,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Mediación abierta,Mediación abierta con IA - Vendedor en desacuerdo con culpabilidad,1
+2590237123,S3_31Mar-06Abr,Reputación ME,Bugs,Reputación ME Ventas: Vendedor newbie - Excluimos,1
+2590237123,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Mediación abierta,Hay una MED abierta,1
+2590237123,S3_31Mar-06Abr,PR - Propiedad intelectual,Publicación activa,Consultas generales - La publicación se encuentra activa,1
+2590237123,S3_31Mar-06Abr,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Publicación en revisión por producto de dominio sensible,1
+2590237123,S3_31Mar-06Abr,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Aprobamos factura y reactivamos la publicación,1
+2590237123,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Mediación abierta,Mediación abierta - Consulta por reputación,5
+2590237123,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo revisado,2
+2590237123,S4_07-13Abr,PR - Propiedad intelectual,Publicaciones Revisadas,"Propiedad Intelectual - Publicación revisada, mantenemos la baja",2
+2590237123,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Mediación abierta,Hay una MED abierta,1
+2590237123,S4_07-13Abr,PR - Propiedad intelectual,Fakes,Propiedad Intelectual - Publicación inactiva por infringir políticas de productos falsificados (Fakes),1
+2590237123,S4_07-13Abr,PR - Propiedad intelectual,Fakes,"Propiedad Intelectual - Publicación moderada por reseñas, mensajes y/o reclamos de producto falso (Fakes)",1
+2590237123,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,1
+2619999305,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,4
+2619999305,Pre_01-16Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación por producto sin stock y mantenemos impacto,3
+2619999305,Pre_01-16Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Problemas para despachar: usuario despacha por fuera - pedimos comprobante,3
+2619999305,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - nueva fecha limite (V),2
+2619999305,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,6
+2619999305,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),4
+2619999305,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - nueva fecha limite (V),4
+2619999305,S1_17-23Mar,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,3
+2619999305,S1_17-23Mar,Facturación,Generales Facturación,Facturación - General: Confirmamos operación o duda,3
+2619999305,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Verdi MED,Mediación cerrada con IA - Desacuerdo con la resolución,2
+2619999305,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,2
+2619999305,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,9
+2619999305,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - nueva fecha limite (V),5
+2619999305,S2_24-30Mar,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,5
+2619999305,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),5
+2619999305,S2_24-30Mar,Facturación,Generales Facturación,Facturación - General: Confirmamos operación o duda,4
+2619999305,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Verdi MED,Mediación cerrada con IA - Desacuerdo con la resolución,3
+2619999305,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,2
+2619999305,S2_24-30Mar,Viaje del paquete - Comprador,Necesita que le liberen el dinero,Envío cancelado - información sobre cancelación y reembolso (C),2
+2619999305,S2_24-30Mar,Despacho Ventas y Publicaciones,Generales,Pedido de datos - Solicitamos datos para gestión,1
+2619999305,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones: Dudas Reversa: Número de devolución - Disponible en el detalle de la venta (V),5
+2619999305,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),5
+2619999305,S3_31Mar-06Abr,Despacho Ventas y Publicaciones,Generales,Pedido de datos - Solicitamos datos para gestión,5
+2619999305,S3_31Mar-06Abr,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,4
+2619999305,S3_31Mar-06Abr,Facturación,Generales Facturación,Facturación - General: Confirmamos operación o duda,3
+2619999305,S3_31Mar-06Abr,Viaje del paquete - Comprador,Necesita que le liberen el dinero,Envío cancelado - información sobre cancelación y reembolso (C),3
+2619999305,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Verdi MED,Mediación cerrada con IA - Desacuerdo con la resolución,2
+2619999305,S3_31Mar-06Abr,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,2
+2619999305,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,2
+2619999305,S4_07-13Abr,Viaje del paquete - Comprador,Tiene dudas sobre el estado del envio,Reclama por PNR: indicamos estado del envío,7
+2619999305,S4_07-13Abr,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,6
+2619999305,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones: Dudas Reversa: Número de devolución - Disponible en el detalle de la venta (V),4
+2619999305,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),3
+2619999305,S4_07-13Abr,Despacho Ventas y Publicaciones,Generales,Pedido de datos - Solicitamos datos para gestión,3
+2619999305,S4_07-13Abr,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,2
+2619999305,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,2
+2619999305,S4_07-13Abr,Facturación,Generales Facturación,Facturación - General: Confirmamos operación o duda,1
+2619999305,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Verdi MED,Mediación cerrada con IA - Desacuerdo con la resolución,1
+2619999305,S4_07-13Abr,Viaje del paquete - Comprador,Necesita que le liberen el dinero,Envío cancelado - información sobre cancelación y reembolso (C),1
+2619999305,S5_14-16Abr,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,2
+2619999305,S5_14-16Abr,Reputación,Reclamos,Analizamos reputación - Reclamo no afecta la reputación,2
+2619999305,S5_14-16Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones: Dudas Reversa: Número de devolución - Disponible en el detalle de la venta (V),2
+2619999305,S5_14-16Abr,Despacho Ventas y Publicaciones,Generales,Pedido de datos - Solicitamos datos para gestión,2
+2619999305,S5_14-16Abr,Viaje del paquete - Comprador,Tiene dudas sobre el estado del envio,Reclama por PNR: indicamos estado del envío,2
+2619999305,S5_14-16Abr,Post Compra Funcionalidades Vendedor,Verdi MED,Mediación cerrada con IA - Desacuerdo con la resolución,1
+2664352051,Pre_01-16Mar,Reputación,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),23
+2664352051,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Dentro de la promesa de entrega (V),10
+2664352051,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones: Dudas Reversa: Número de devolución -  Debe esperar a que se genere (V),10
+2664352051,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Fuera de plazo de reclamo (V),9
+2664352051,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),9
+2664352051,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",8
+2664352051,Pre_01-16Mar,Viaje del paquete - Vendedor,Tiene dudas sobre el estado del envio,Envío cancelado - informamos motivo al vendedor,7
+2664352051,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Robada/Extraviada (V),7
+2664352051,Pre_01-16Mar,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,6
+2664352051,Pre_01-16Mar,Reputación,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,6
+2664352051,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - No sabe cómo funciona  / tiene dudas con el envío (V),6
+2664352051,Pre_01-16Mar,Viaje del paquete - Comprador,Tiene dudas sobre el estado del envio,Envío retenido: debe enviar documentación (C),5
+2664352051,Pre_01-16Mar,Despacho Ventas y Publicaciones,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),5
+2664352051,Pre_01-16Mar,Post Compra Funcionalidades Vendedor,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,4
+2664352051,S1_17-23Mar,Reputación,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),8
+2664352051,S1_17-23Mar,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,7
+2664352051,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),6
+2664352051,S1_17-23Mar,Reversa,Quiere saber el motivo de inicio de la devolución,Devoluciones: informamos motivo - no bonificamos,6
+2664352051,S1_17-23Mar,Reversa,Quiere consultar por una devolución en camino,Devolución: paquete confiscado - debe contactarse con organismo,4
+2664352051,S1_17-23Mar,Despacho Ventas y Publicaciones,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),4
+2664352051,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Robada/Extraviada (V),4
+2664352051,S1_17-23Mar,Viaje del paquete - Comprador,Tiene dudas sobre el estado del envio,Envío retenido: debe enviar documentación (C),3
+2664352051,S1_17-23Mar,Reputación,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,3
+2664352051,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - No sabe cómo funciona  / tiene dudas con el envío (V),3
+2664352051,S1_17-23Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,2
+2664352051,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,1
+2664352051,S1_17-23Mar,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",1
+2664352051,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones: Dudas Reversa: Número de devolución -  Debe esperar a que se genere (V),8
+2664352051,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",7
+2664352051,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),7
+2664352051,S2_24-30Mar,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,4
+2664352051,S2_24-30Mar,Reputación,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),4
+2664352051,S2_24-30Mar,Reversa,Quiere saber el motivo de inicio de la devolución,Devoluciones: informamos motivo - no bonificamos,3
+2664352051,S2_24-30Mar,Reversa,Quiere consultar por una devolución en camino,Devolución: paquete confiscado - debe contactarse con organismo,3
+2664352051,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Dentro de la promesa de entrega (V),3
+2664352051,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - No sabe cómo funciona  / tiene dudas con el envío (V),3
+2664352051,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,2
+2664352051,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Fuera de plazo de reclamo (V),2
+2664352051,S2_24-30Mar,Reputación,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,1
+2664352051,S2_24-30Mar,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Robada/Extraviada (V),1
+2664352051,S2_24-30Mar,Viaje del paquete - Comprador,Tiene dudas sobre el estado del envio,Envío retenido: debe enviar documentación (C),1
+2664352051,S2_24-30Mar,Reputación,Reclamos,Analizamos reputación - Reclamo afecta la reputación y excluimos,1
+2664352051,S3_31Mar-06Abr,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,10
+2664352051,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",9
+2664352051,S3_31Mar-06Abr,Reputación,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),8
+2664352051,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones: Dudas Reversa: Número de devolución -  Debe esperar a que se genere (V),6
+2664352051,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Fuera de plazo de reclamo (V),5
+2664352051,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),4
+2664352051,S3_31Mar-06Abr,Reversa,Generales,Pedido de datos - Solicitamos datos para gestión,4
+2664352051,S3_31Mar-06Abr,Reversa,Quiere saber el motivo de inicio de la devolución,Devoluciones: informamos motivo - no bonificamos,3
+2664352051,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Dentro de la promesa de entrega (V),3
+2664352051,S3_31Mar-06Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - No sabe cómo funciona  / tiene dudas con el envío (V),3
+2664352051,S3_31Mar-06Abr,Reversa,Quiere consultar por una devolución en camino,Devolución: paquete confiscado - debe contactarse con organismo,2
+2664352051,S3_31Mar-06Abr,Viaje del paquete - Vendedor,Tiene dudas sobre el estado del envio,Envío cancelado - informamos motivo al vendedor,1
+2664352051,S4_07-13Abr,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,9
+2664352051,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones: Dirección de devolución: Ya entregado (V),5
+2664352051,S4_07-13Abr,Viaje del paquete - Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,5
+2664352051,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Fuera de plazo de reclamo (V),5
+2664352051,S4_07-13Abr,Reversa,Quiere saber el motivo de inicio de la devolución,Devoluciones: informamos motivo - no bonificamos,5
+2664352051,S4_07-13Abr,Reversa,Generales,Pedido de datos - Solicitamos datos para gestión,4
+2664352051,S4_07-13Abr,Reputación,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),4
+2664352051,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",3
+2664352051,S4_07-13Abr,Reversa,Quiere consultar por una devolución en camino,Devolución: paquete confiscado - debe contactarse con organismo,2
+2664352051,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Dentro de la promesa de entrega (V),2
+2664352051,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,1
+2664352051,S5_14-16Abr,Viaje del paquete - Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,5
+2664352051,S5_14-16Abr,Reversa,Quiere consultar por una devolución en camino,En devolución: dentro de la promesa de entrega,4
+2664352051,S5_14-16Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Fuera de plazo de reclamo (V),4
+2664352051,S5_14-16Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones: Dirección de devolución: Ya entregado (V),3
+2664352051,S5_14-16Abr,Reputación,Bugs,General Bugs - Pedido de datos por posible error (OFFLINE),3
+2664352051,S5_14-16Abr,Reversa,Generales,Pedido de datos - Solicitamos datos para gestión,3
+2664352051,S5_14-16Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones - Dentro de la promesa de entrega (V),3
+2664352051,S5_14-16Abr,Viaje del paquete - Vendedor,Tiene dudas sobre el estado del envio,Envío cancelado - informamos motivo al vendedor,2
+2664352051,S5_14-16Abr,Post Compra Funcionalidades Vendedor,Devoluciones,"Devoluciones - Recibió devolución fallida, guiamos a cómo reclamar",2
+2664352051,S5_14-16Abr,Post Compra Funcionalidades Vendedor,Devoluciones,Devoluciones: Dudas Reversa: Número de devolución -  Debe esperar a que se genere (V),2
+2664352051,S5_14-16Abr,Viaje del paquete - Comprador,Generales,Pedido de datos - Solicitamos datos para gestión,2
+2664352051,S5_14-16Abr,Reversa,Quiere saber el motivo de inicio de la devolución,Devoluciones: informamos motivo - no bonificamos,1
+2664352051,S5_14-16Abr,Post Compra Funcionalidades Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,1
+3005130274,Pre_01-16Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,21
+3005130274,Pre_01-16Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,8
+3005130274,Pre_01-16Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Vendedor newbie - Excluimos,4
+3005130274,Pre_01-16Mar,Reputación ME,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,1
+3005130274,Pre_01-16Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Activar ME: Cómo activar el servicio en sus publicaciones,1
+3005130274,S1_17-23Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,9
+3005130274,S1_17-23Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,4
+3005130274,S1_17-23Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Activar ME: Cómo activar el servicio en sus publicaciones,2
+3005130274,S1_17-23Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Vendedor newbie - Excluimos,2
+3005130274,S1_17-23Mar,Reputación ME,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,2
+3005130274,S1_17-23Mar,Reputación,Generales,Pedido de datos - Solicitamos datos para gestión,1
+3005130274,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,17
+3005130274,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,6
+3005130274,S2_24-30Mar,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Activar ME: Cómo activar el servicio en sus publicaciones,4
+3005130274,S2_24-30Mar,Reputación,Generales,Pedido de datos - Solicitamos datos para gestión,3
+3005130274,S2_24-30Mar,Reputación ME,HT - Ventas,Reputación ME Ventas: Vendedor newbie - Excluimos,3
+3005130274,S2_24-30Mar,Reputación ME,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,2
+3005130274,S3_31Mar-06Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,5
+3005130274,S3_31Mar-06Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,3
+3005130274,S3_31Mar-06Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Vendedor newbie - Excluimos,1
+3005130274,S3_31Mar-06Abr,Reputación ME,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,1
+3005130274,S3_31Mar-06Abr,Reputación,Generales,Pedido de datos - Solicitamos datos para gestión,1
+3005130274,S4_07-13Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,2
+3005130274,S4_07-13Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,2
+3005130274,S4_07-13Abr,Post Compra Funcionalidades Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,1
+3005130274,S4_07-13Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Vendedor newbie - Excluimos,1
+3005130274,S4_07-13Abr,Reputación,Generales,Pedido de datos - Solicitamos datos para gestión,1
+3005130274,S5_14-16Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - Excluimos,11
+3005130274,S5_14-16Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Logística Places - No excluimos,5
+3005130274,S5_14-16Abr,Reputación,Generales,Pedido de datos - Solicitamos datos para gestión,3
+3005130274,S5_14-16Abr,Post Compra Funcionalidades Vendedor,Generales,Pedido de datos - Solicitamos datos para gestión,3
+3005130274,S5_14-16Abr,Reputación ME,HT - Ventas,Reputación ME Ventas: Vendedor newbie - Excluimos,3
+3005130274,S5_14-16Abr,Reputación ME,Bugs,General Contactos - Solicitud de datos y/o ampliación de consulta,2
+3005130274,S5_14-16Abr,Despacho Ventas y Publicaciones,Problemas para despachar un paquete/producto,Activar ME: Cómo activar el servicio en sus publicaciones,2

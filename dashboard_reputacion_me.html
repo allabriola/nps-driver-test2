@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Reputación ME | NPS Seller Dev BR</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(135deg, #ffe600 0%, #f5c800 100%);
+    padding: 28px 40px 24px;
+    border-bottom: 3px solid #e6b800;
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .header h1 {
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    letter-spacing: -0.3px;
+  }
+  .header .subtitle {
+    font-size: 0.85rem;
+    color: #333;
+    margin-top: 4px;
+  }
+  .badge {
+    background: #1a1a2e;
+    color: #ffe600;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  /* ── KPI strip ── */
+  .kpi-strip {
+    display: flex;
+    gap: 16px;
+    padding: 20px 40px;
+    flex-wrap: wrap;
+  }
+  .kpi {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px 24px;
+    flex: 1;
+    min-width: 160px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.07);
+    border-top: 4px solid transparent;
+  }
+  .kpi.s2 { border-top-color: #6c8ebf; }
+  .kpi.s1 { border-top-color: #d94f3d; }
+  .kpi.delta-neg { border-top-color: #e74c3c; }
+  .kpi.delta-vol { border-top-color: #f39c12; }
+  .kpi label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: #888;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .kpi .val {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .kpi .sub {
+    font-size: 0.72rem;
+    color: #888;
+    margin-top: 4px;
+  }
+  .kpi.s2 .val  { color: #6c8ebf; }
+  .kpi.s1 .val  { color: #d94f3d; }
+  .kpi.delta-neg .val { color: #e74c3c; }
+  .kpi.delta-vol .val { color: #f39c12; }
+
+  /* ── Charts area ── */
+  .charts {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    padding: 0 40px 40px;
+  }
+  @media(max-width: 860px) {
+    .charts { grid-template-columns: 1fr; }
+    .kpi-strip, .charts { padding-left: 16px; padding-right: 16px; }
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08);
+  }
+  .card h2 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 4px;
+  }
+  .card .card-sub {
+    font-size: 0.75rem;
+    color: #999;
+    margin-bottom: 20px;
+  }
+  .chart-wrap {
+    position: relative;
+    height: 360px;
+  }
+
+  /* ── Office delta table ── */
+  .delta-table {
+    margin-top: 20px;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 16px;
+  }
+  .delta-table h3 {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: #888;
+    margin-bottom: 10px;
+  }
+  .delta-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid #f9f9f9;
+    font-size: 0.82rem;
+  }
+  .delta-row:last-child { border-bottom: none; }
+  .delta-office {
+    font-weight: 700;
+    width: 42px;
+    color: #444;
+  }
+  .delta-bar-wrap {
+    flex: 1;
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    overflow: visible;
+    position: relative;
+  }
+  .delta-bar {
+    height: 6px;
+    border-radius: 3px;
+    position: absolute;
+    top: 0;
+  }
+  .delta-val {
+    width: 52px;
+    text-align: right;
+    font-weight: 700;
+  }
+  .neg { color: #e74c3c; }
+  .pos { color: #27ae60; }
+
+  /* ── Deep Dive ── */
+  .deep-dive {
+    padding: 0 40px 40px;
+  }
+  @media(max-width: 860px) { .deep-dive { padding: 0 16px 32px; } }
+
+  .dd-header {
+    margin-bottom: 24px;
+  }
+  .dd-header h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1a1a2e;
+  }
+  .dd-header p {
+    font-size: 0.75rem;
+    color: #999;
+    margin-top: 4px;
+  }
+
+  .dd-office {
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,.07);
+    margin-bottom: 20px;
+  }
+  .dd-office-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    gap: 12px;
+  }
+  .dd-office-header.kta { background: linear-gradient(90deg,#e8ecf4,#dde3ef); }
+  .dd-office-header.ate { background: linear-gradient(90deg,#fde8e6,#fad6d2); }
+  .dd-office-header.ctx { background: linear-gradient(90deg,#fef3e2,#feebd0); }
+
+  .dd-office-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #333;
+    flex-wrap: wrap;
+  }
+  .dd-badge {
+    background: #1a1a2e;
+    color: #ffe600;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 6px;
+  }
+  .dd-nps-delta {
+    font-size: 1rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+  .dd-nps-delta.neg { color: #e74c3c; }
+  .dd-nps-delta.pos { color: #27ae60; }
+
+  .dd-cdu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: #f0f0f0;
+  }
+  .dd-cdu-grid.single { grid-template-columns: 1fr; }
+
+  .dd-cdu-card {
+    background: #fff;
+    padding: 16px 20px;
+  }
+  .dd-cdu-name {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+  }
+  .dd-cdu-meta {
+    font-size: 0.7rem;
+    color: #aaa;
+    margin-bottom: 12px;
+  }
+  .dd-solucao-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .dd-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex: 1;
+  }
+  .dd-tag.red    { background: rgba(231,76,60,.12);  color: #c0392b; }
+  .dd-tag.orange { background: rgba(243,156,18,.12); color: #d68910; }
+  .dd-tag.yellow { background: rgba(241,196,15,.15); color: #b7950b; }
+  .dd-count {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #555;
+    white-space: nowrap;
+  }
+  .dd-verbatims {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .dd-verbatim {
+    font-size: 0.72rem;
+    color: #555;
+    font-style: italic;
+    background: #f9f9f9;
+    border-left: 3px solid #ddd;
+    padding: 5px 8px;
+    border-radius: 0 4px 4px 0;
+    line-height: 1.4;
+  }
+  .dd-verbatim.alert {
+    background: rgba(231,76,60,.05);
+    border-left-color: #e74c3c;
+    color: #444;
+  }
+
+  /* ── CDU overview ── */
+  .dd-section-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    color: #888;
+    margin-bottom: 12px;
+  }
+  .dd-cdu-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .dd-cdu-ov-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    position: relative;
+    overflow: hidden;
+  }
+  .dd-cdu-ov-card.main { border-left: 4px solid #6c8ebf; }
+  .dd-cdu-ov-label { font-size: 0.78rem; font-weight: 700; color: #333; }
+  .dd-cdu-ov-count { font-size: 1.5rem; font-weight: 800; color: #1a1a2e; margin: 4px 0 2px; line-height: 1; }
+  .dd-cdu-ov-sub   { font-size: 0.68rem; color: #aaa; }
+  .dd-cdu-ov-bar   { height: 3px; border-radius: 2px; margin-top: 10px; }
+
+  /* ── Sol grid ── */
+  .dd-sol-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .dd-sol-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    border-top: 3px solid #ddd;
+  }
+  .dd-sol-card.alert-card { border-top-color: #e74c3c; }
+  .dd-sol-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+  .dd-sol-name  { font-size: 0.78rem; font-weight: 700; color: #1a1a2e; flex: 1; }
+  .dd-sol-badge {
+    font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap;
+  }
+  .dd-sol-badge.red    { background: rgba(231,76,60,.12);  color: #c0392b; }
+  .dd-sol-badge.orange { background: rgba(243,156,18,.12); color: #d68910; }
+  .dd-sol-badge.yellow { background: rgba(241,196,15,.15); color: #b7950b; }
+  .dd-sol-badge.blue   { background: rgba(52,152,219,.1);  color: #1a7cb8; }
+  .dd-sol-offices { font-size: 0.68rem; color: #aaa; margin-bottom: 8px; }
+  .dd-sol-insight { font-size: 0.72rem; color: #555; line-height: 1.45; margin-bottom: 6px; }
+  .dd-sol-cases   { font-size: 0.65rem; color: #bbb; font-family: monospace; }
+
+  /* ── Transcript grid ── */
+  .dd-transcript-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .dd-trans-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  }
+  .dd-trans-card.critical { border-left: 4px solid #e74c3c; }
+  .dd-trans-card.medium   { border-left: 4px solid #f39c12; }
+  .dd-trans-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 10px 14px;
+    background: #fafafa;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .dd-trans-office {
+    font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; color: #fff;
+  }
+  .ate-tag { background: #d94f3d; }
+  .kta-tag { background: #6c8ebf; }
+  .ctx-tag { background: #f39c12; }
+  .dd-trans-case { font-size: 0.72rem; font-weight: 700; color: #333; }
+  .dd-trans-sol  { font-size: 0.68rem; color: #888; flex: 1; }
+  .dd-trans-flag { font-size: 0.67rem; font-weight: 700; color: #e74c3c; white-space: nowrap; }
+  .dd-trans-card.medium .dd-trans-flag { color: #f39c12; }
+  .dd-trans-body { padding: 12px 14px; }
+  .dd-trans-stat { font-size: 0.68rem; color: #aaa; margin-bottom: 8px; }
+  .dd-trans-line {
+    font-size: 0.71rem; line-height: 1.4; padding: 4px 8px; border-radius: 4px; margin-bottom: 4px;
+  }
+  .dd-trans-line.user { background: #f0f4ff; border-left: 2px solid #6c8ebf; }
+  .dd-trans-line.rep  { background: rgba(231,76,60,.05); border-left: 2px solid #e74c3c; }
+  .dd-trans-line em { font-style: italic; color: #333; }
+  .dd-trans-insight {
+    font-size: 0.71rem; color: #666; line-height: 1.45; margin-top: 8px;
+    padding-top: 8px; border-top: 1px solid #f0f0f0;
+  }
+
+  /* ── CDU impact panel + table ── */
+  .dd-cdu-impact-panel {
+    padding: 14px 20px 12px;
+    background: #fafafa;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .dd-impact-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+  }
+  .dd-impact-table thead tr {
+    background: #1a1a2e;
+    color: #ffe600;
+  }
+  .dd-impact-table thead th {
+    padding: 6px 16px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+  }
+  .dd-impact-table thead th:not(:first-child) { text-align: center; }
+  .dd-impact-table tbody tr { border-bottom: 1px solid #f0f0f0; }
+  .dd-impact-table tbody tr:hover { background: #f9f9f9; }
+  .dd-impact-table tbody tr.dominant td { font-weight: 700; color: #1a1a2e; }
+  .dd-impact-table tbody td {
+    padding: 7px 16px;
+    color: #444;
+  }
+  .dd-impact-table tbody td:not(:first-child) { text-align: center; }
+  .dd-impact-table tfoot tr {
+    background: #f5f5f5;
+    border-top: 2px solid #ddd;
+  }
+  .dd-impact-table tfoot td {
+    padding: 6px 16px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    color: #333;
+  }
+  .dd-impact-table tfoot td:not(:first-child) { text-align: center; }
+  .dd-impact-table tbody tr.low-vol td { color: #999; font-size: 0.73rem; }
+  .dd-impact-table .var-neg  { color: #c0392b; font-weight: 700; }
+  .dd-impact-table .var-pos  { color: #27ae60; font-weight: 700; }
+  .dd-impact-table .var-zero { color: #888; }
+  .dd-impact-table .var-na   { color: #bbb; }
+  .dd-impact-table .vol-note { font-size: 0.66rem; color: #aaa; font-weight: 400; }
+  /* S2/S1 column group separators */
+  .dd-impact-table th.grp-sep, .dd-impact-table td.grp-sep { border-left: 2px solid #ddd; }
+
+  /* ── CDU detail cards ── */
+  .dd-cdu-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: #f0f0f0;
+  }
+  .dd-cdu-detail-grid.single { grid-template-columns: 1fr; }
+  .dd-cdu-detail {
+    background: #fff;
+    padding: 16px 20px;
+  }
+  .dd-cdu-detail.dominant-cdu {
+    border-top: 3px solid #1a1a2e;
+  }
+  .dd-cdu-detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    gap: 8px;
+  }
+  .dd-cdu-detail-name {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #1a1a2e;
+  }
+  .dd-cdu-detail-count {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #888;
+    white-space: nowrap;
+  }
+  .dd-cdu-sol-list { display: flex; flex-direction: column; gap: 5px; }
+  .dd-sol-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dd-sol-pill {
+    font-size: 0.69rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    flex: 1;
+  }
+  .dd-sol-pill.red    { background: rgba(231,76,60,.12);  color: #c0392b; }
+  .dd-sol-pill.orange { background: rgba(243,156,18,.12); color: #d68910; }
+  .dd-sol-pill.yellow { background: rgba(241,196,15,.15); color: #9a7d0a; }
+  .dd-sol-pill.gray   { background: rgba(0,0,0,.05);      color: #888;    }
+  .dd-sol-n {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #333;
+    min-width: 18px;
+    text-align: right;
+  }
+
+  /* Resumo consolidado */
+  .dd-summary {
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.07);
+    margin-top: 8px;
+  }
+  .dd-summary h3 {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 16px;
+  }
+  .dd-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .dd-summary-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    align-items: flex-start;
+  }
+  .dd-summary-item.critical { background: rgba(231,76,60,.07);  border: 1px solid rgba(231,76,60,.2);  }
+  .dd-summary-item.high     { background: rgba(243,156,18,.07); border: 1px solid rgba(243,156,18,.2); }
+  .dd-summary-item.medium   { background: rgba(52,152,219,.06); border: 1px solid rgba(52,152,219,.2); }
+  .dd-summary-item.low      { background: rgba(100,100,100,.05);border: 1px solid rgba(0,0,0,.1);      }
+  .dd-sum-icon {
+    font-size: 1.2rem;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .dd-sum-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 4px;
+  }
+  .dd-sum-desc {
+    font-size: 0.71rem;
+    color: #555;
+    line-height: 1.45;
+  }
+  .dd-sum-offices {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #999;
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: 16px;
+    font-size: 0.7rem;
+    color: #bbb;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <h1>Reputación ME — NPS Seller Dev BR</h1>
+      <p class="subtitle">Variação semanal · Semana 30 Mar vs 06 Abr 2026 · Fonte: DD Mgmt General vs Target</p>
+    </div>
+    <span class="badge">SR_MANAGER: Priscila Tavares</span>
+  </div>
+</div>
+
+<!-- ── KPIs ── -->
+<div class="kpi-strip">
+  <div class="kpi s2">
+    <label>NPS — S2 (30/Mar)</label>
+    <div class="val">98,1</div>
+    <div class="sub">155 pesquisas · 3 equipes</div>
+  </div>
+  <div class="kpi s1">
+    <label>NPS — S1 (06/Abr)</label>
+    <div class="val">76,7</div>
+    <div class="sub">403 pesquisas · 3 equipes</div>
+  </div>
+  <div class="kpi delta-neg">
+    <label>Variação NPS</label>
+    <div class="val">-21,4 pts</div>
+    <div class="sub">Queda de 21,8%</div>
+  </div>
+  <div class="kpi delta-vol">
+    <label>Volume de Pesquisas</label>
+    <div class="val">+160%</div>
+    <div class="sub">248 pesquisas a mais</div>
+  </div>
+</div>
+
+<!-- ── CHARTS ── -->
+<div class="charts">
+
+  <!-- Gráfico 1: Variação Geral -->
+  <div class="card">
+    <h2>Variação de NPS Geral</h2>
+    <p class="card-sub">Semanas S2 × S1 · NPS = (promotores − detratores) / total pesquisas</p>
+    <div class="chart-wrap">
+      <canvas id="chartGeral"></canvas>
+    </div>
+  </div>
+
+  <!-- Gráfico 2: NPS por Office -->
+  <div class="card">
+    <h2>NPS por Office</h2>
+    <p class="card-sub">Comparativo S2 (30/Mar) × S1 (06/Abr) por escritório</p>
+    <div class="chart-wrap">
+      <canvas id="chartOffice"></canvas>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ── DEEP DIVE ── -->
+<div class="deep-dive">
+  <!-- ── VISÃO POR CDU ── -->
+  <div class="dd-section-title">Visão por CDU — 28 detratores Top 3 Offices</div>
+  <div class="dd-cdu-overview">
+    <div class="dd-cdu-ov-card main">
+      <div class="dd-cdu-ov-label">HT — Ventas</div>
+      <div class="dd-cdu-ov-count">24 casos</div>
+      <div class="dd-cdu-ov-sub">ATE (9) · CTX (3) · KTA (12)</div>
+      <div class="dd-cdu-ov-bar" style="width:85%;background:#6c8ebf"></div>
+    </div>
+    <div class="dd-cdu-ov-card">
+      <div class="dd-cdu-ov-label">Soporte MeLi</div>
+      <div class="dd-cdu-ov-count">2 casos</div>
+      <div class="dd-cdu-ov-sub">KTA · Info sobre empresa/eventos</div>
+      <div class="dd-cdu-ov-bar" style="width:14%;background:#f39c12"></div>
+    </div>
+    <div class="dd-cdu-ov-card">
+      <div class="dd-cdu-ov-label">HT — Colecta</div>
+      <div class="dd-cdu-ov-count">1 caso</div>
+      <div class="dd-cdu-ov-sub">CTX · Coleta XD Culpa MELI</div>
+      <div class="dd-cdu-ov-bar" style="width:7%;background:#e74c3c"></div>
+    </div>
+    <div class="dd-cdu-ov-card">
+      <div class="dd-cdu-ov-label">Bugs</div>
+      <div class="dd-cdu-ov-count">1 caso</div>
+      <div class="dd-cdu-ov-sub">KTA · Gestão manual resolvida</div>
+      <div class="dd-cdu-ov-bar" style="width:7%;background:#95a5a6"></div>
+    </div>
+  </div>
+
+  <!-- ── VISÃO POR CX_SOL_NAME ── -->
+  <div class="dd-section-title" style="margin-top:20px">Visão por Solução (CX_SOL_NAME) — CDU HT-Ventas · 24 casos</div>
+  <div class="dd-sol-grid">
+    <div class="dd-sol-card alert-card">
+      <div class="dd-sol-header">
+        <span class="dd-sol-name">Logística Places — NÃO Excluímos</span>
+        <span class="dd-sol-badge red">8 casos · 33%</span>
+      </div>
+      <div class="dd-sol-offices">ATE: 3 · KTA: 5 · CTX: 0</div>
+      <div class="dd-sol-insight">Causa estrutural — seller fica com impacto na reputação mesmo tendo problema logístico da Places. Agente não pode excluir. Gera frustração inevitável mas exige comunicação clara do <em>porquê</em> não é possível excluir.</div>
+      <div class="dd-sol-cases">Cases: 448717469 · 448908255 · 449920494 (ATE) · 449413826 · 449469260 · 449639374 · 449234419 (KTA) · 448934292 (ATE-XD)</div>
+    </div>
+    <div class="dd-sol-card">
+      <div class="dd-sol-header">
+        <span class="dd-sol-name">Vendedor Newbie — Excluímos</span>
+        <span class="dd-sol-badge orange">6 casos · 25%</span>
+      </div>
+      <div class="dd-sol-offices">ATE: 2 · KTA: 2 · CTX: 2</div>
+      <div class="dd-sol-insight">Impacto excluído, mas seller ainda avaliou negativamente. Padrão: NPS coletado durante o atendimento (antes da resolução) ou atendimento prolongado/confuso mesmo com desfecho positivo.</div>
+      <div class="dd-sol-cases">Cases: 448678187 · 448972819 (ATE) · 448819642 · 449190943 (KTA) · 448882112 · 449050649 (CTX)</div>
+    </div>
+    <div class="dd-sol-card">
+      <div class="dd-sol-header">
+        <span class="dd-sol-name">Logistica Places — Excluímos</span>
+        <span class="dd-sol-badge yellow">5 casos · 21%</span>
+      </div>
+      <div class="dd-sol-offices">ATE: 2 · KTA: 2 · CTX: 1</div>
+      <div class="dd-sol-insight">Impacto excluído, mas avaliação negativa. Sugere insatisfação com o processo em si (tempo de espera, múltiplas tentativas, comunicação do agente).</div>
+      <div class="dd-sol-cases">Cases: 448972036 · 449481392 (ATE) · 448959650 · 448961848 (KTA) · 449057914 (CTX)</div>
+    </div>
+    <div class="dd-sol-card">
+      <div class="dd-sol-header">
+        <span class="dd-sol-name">Envio Não Afeta o HT</span>
+        <span class="dd-sol-badge blue">3 casos · 13%</span>
+      </div>
+      <div class="dd-sol-offices">KTA: 3</div>
+      <div class="dd-sol-insight">Seller acredita que o envio está afetando o Health Threshold mas não está. Causa: falta de clareza na explicação da regra pelo agente — seller sai sem entender o motivo.</div>
+      <div class="dd-sol-cases">Cases: 448713097 · 448893143 · 449148301 (KTA/ATE)</div>
+    </div>
+  </div>
+
+  <!-- ── ACHADOS DAS TRANSCRIÇÕES ── -->
+  <div class="dd-section-title" style="margin-top:20px">Achados das Transcrições (BT_CX_TRANSCRIPT · SPEAKER_ROLE: USER + REP)</div>
+
+  <div class="dd-transcript-grid">
+
+    <div class="dd-trans-card critical">
+      <div class="dd-trans-header">
+        <span class="dd-trans-office ate-tag">ATE</span>
+        <span class="dd-trans-case">Case 448717469</span>
+        <span class="dd-trans-sol">Logística Places — Não excluímos</span>
+        <span class="dd-trans-flag">⚠ ENCERRAMENTO INDEVIDO</span>
+      </div>
+      <div class="dd-trans-body">
+        <div class="dd-trans-stat">85 mensagens · 36 USER / 49 REP</div>
+        <div class="dd-trans-line user">USER: <em>"Espera ahí."</em></div>
+        <div class="dd-trans-line rep">REP (último): <em>CDU.;revisar reputação · seguir informando · Visto com TL</em></div>
+        <div class="dd-trans-insight">Agente fechou o caso com notas internas enquanto o usuário aguardava. Não houve despedida. Impacto na reputação não foi excluído.</div>
+      </div>
+    </div>
+
+    <div class="dd-trans-card critical">
+      <div class="dd-trans-header">
+        <span class="dd-trans-office ate-tag">ATE</span>
+        <span class="dd-trans-case">Case 448934292</span>
+        <span class="dd-trans-sol">Cross Docking — Não excluímos</span>
+        <span class="dd-trans-flag">⚠ ENCERRAMENTO INDEVIDO</span>
+      </div>
+      <div class="dd-trans-body">
+        <div class="dd-trans-stat">485 mensagens · 306 USER / 179 REP — Caso mais longo da semana</div>
+        <div class="dd-trans-line user">USER: <em>"¿tá"</em> (confirmando, ainda ativo)</div>
+        <div class="dd-trans-line rep">REP (último): <em>CDU: User entra em contato referente a reputação afetada · Orientação passada: não retiramos o impacto · Visto com TL: N/A</em></div>
+        <div class="dd-trans-insight">Caso excepcional — 485 trocas sobre Coleta Cross Docking com culpa do MELI, impacto não excluído. Agente encerrou com CDU notes enquanto usuário ainda estava conversando.</div>
+      </div>
+    </div>
+
+    <div class="dd-trans-card critical">
+      <div class="dd-trans-header">
+        <span class="dd-trans-office ate-tag">ATE</span>
+        <span class="dd-trans-case">Case 448972819</span>
+        <span class="dd-trans-sol">Vendedor Newbie — Excluímos</span>
+        <span class="dd-trans-flag">⚠ REPROGRAMADO SEM RESOLUÇÃO</span>
+      </div>
+      <div class="dd-trans-body">
+        <div class="dd-trans-stat">19 mensagens · 7 USER / 12 REP</div>
+        <div class="dd-trans-line user">USER: <em>"Aparece nada de nada !!!"</em></div>
+        <div class="dd-trans-line rep">REP (último): <em>"Reprogramado caso N° 448972819. O caso foi reprogramado para o dia 8 de Abril 2026 às 17:00h"</em></div>
+        <div class="dd-trans-insight">Agente encerrou sem resolver — apenas reprogramou para outro dia. Usuário estava sem conseguir visualizar nada na plataforma. Caso reschedulado, não resolvido.</div>
+      </div>
+    </div>
+
+    <div class="dd-trans-card critical">
+      <div class="dd-trans-header">
+        <span class="dd-trans-office kta-tag">KTA</span>
+        <span class="dd-trans-case">Case 449190943</span>
+        <span class="dd-trans-sol">Vendedor Newbie — Excluímos</span>
+        <span class="dd-trans-flag">⚠ ENCERRAMENTO COM USER ATIVO</span>
+      </div>
+      <div class="dd-trans-body">
+        <div class="dd-trans-stat">109 mensagens · 49 USER / 60 REP</div>
+        <div class="dd-trans-line user">USER (último): <em>"¿Enviar por onde?"</em> — usuário ainda perguntando</div>
+        <div class="dd-trans-line rep">REP (último): <em>"¿Se tentou enviar?"</em> — agente ainda fazendo pergunta</div>
+        <div class="dd-trans-insight">Caso encerrado enquanto ambos ainda estavam ativos no diálogo. Agente fez pergunta, usuário respondeu com outra pergunta — e o caso foi fechado nesse ponto sem resolução.</div>
+      </div>
+    </div>
+
+    <div class="dd-trans-card medium">
+      <div class="dd-trans-header">
+        <span class="dd-trans-office kta-tag">KTA</span>
+        <span class="dd-trans-case">Case 448961848</span>
+        <span class="dd-trans-sol">Logistica Places — Excluímos</span>
+        <span class="dd-trans-flag">Alto volume · 343 msgs</span>
+      </div>
+      <div class="dd-trans-body">
+        <div class="dd-trans-stat">343 mensagens · 132 USER / 211 REP</div>
+        <div class="dd-trans-line user">USER: <em>"gracias, ¿tá bien?"</em></div>
+        <div class="dd-trans-line rep">REP (último): <em>CDU: Cliente com 3 vendas com impacto, só um retirei por conta do horário da venda para coleta</em></div>
+        <div class="dd-trans-insight">Caso longo — apenas 1 de 3 impactos foi excluído. Seller frustrado com a regra parcial. CDU notes como última mensagem — padrão de fechamento com notas.</div>
+      </div>
+    </div>
+
+    <div class="dd-trans-card medium">
+      <div class="dd-trans-header">
+        <span class="dd-trans-office ctx-tag">CTX</span>
+        <span class="dd-trans-case">Case 448206662</span>
+        <span class="dd-trans-sol">Coleta XD — Culpa MELI</span>
+        <span class="dd-trans-flag">Bot / IA Ineficiente</span>
+      </div>
+      <div class="dd-trans-body">
+        <div class="dd-trans-stat">35 mensagens · 16 USER / 19 REP</div>
+        <div class="dd-trans-line user">USER (NPS verbatim): <em>"A IA nunca resolve e quando transfere para o atendente, nunca é a pessoa certa, não passa resposta clara e fica transferindo."</em></div>
+        <div class="dd-trans-line rep">REP (último): <em>"Poxa, esperei o máximo que pude aqui, mas como somos um canal online, não podemos ficar sem interação por muito tempo."</em></div>
+        <div class="dd-trans-insight">CTX: Problema de coleta XD com culpa do MELI. IA transfere para agente errado sem contexto — usuário repete o problema a cada transferência. Agente encerra por timeout de inatividade.</div>
+      </div>
+    </div>
+
+  </div><!-- /dd-transcript-grid -->
+
+  <!-- ══ KTA ══ -->
+  <div class="dd-section-title" style="margin-top:20px">Análise por Office e CDU — Top 3 com Maior Queda</div>
+
+  <div class="dd-office">
+    <div class="dd-office-header kta">
+      <div class="dd-office-title">
+        <span class="dd-badge">KTA</span>
+        <span>15 detratores · NPS 92,6 → 62,6</span>
+      </div>
+      <div class="dd-nps-delta neg">▼ 30,0 pts</div>
+    </div>
+
+    <!-- CDU impact table -->
+    <div class="dd-cdu-impact-panel">
+      <table class="dd-impact-table">
+        <thead>
+          <tr>
+            <th>CDU</th>
+            <th class="grp-sep">S2 Pesq</th><th>S2 Det</th><th>S2 NPS</th>
+            <th class="grp-sep">S1 Pesq</th><th>S1 Det</th><th>S1 NPS</th>
+            <th class="grp-sep">Variação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="dominant">
+            <td>HT — Ventas</td>
+            <td class="grp-sep">25</td><td>1</td><td>92,0</td>
+            <td class="grp-sep">73</td><td>12</td><td>63,0</td>
+            <td class="grp-sep var-neg">▼ 29,0 pts</td>
+          </tr>
+          <tr>
+            <td>HT — Colecta</td>
+            <td class="grp-sep">2</td><td>0</td><td>100,0</td>
+            <td class="grp-sep">13</td><td>0</td><td>76,9</td>
+            <td class="grp-sep var-neg">▼ 23,1 pts</td>
+          </tr>
+          <tr class="low-vol">
+            <td>Soporte MeLi <span class="vol-note">só S1</span></td>
+            <td class="grp-sep">—</td><td>—</td><td>—</td>
+            <td class="grp-sep">6</td><td>2</td><td>33,3</td>
+            <td class="grp-sep var-na">—</td>
+          </tr>
+          <tr class="low-vol">
+            <td>Bugs <span class="vol-note">só S1</span></td>
+            <td class="grp-sep">—</td><td>—</td><td>—</td>
+            <td class="grp-sep">2</td><td>1</td><td>0,0</td>
+            <td class="grp-sep var-na">—</td>
+          </tr>
+          <tr class="low-vol">
+            <td>HT — Informativas <span class="vol-note">só S1</span></td>
+            <td class="grp-sep">—</td><td>—</td><td>—</td>
+            <td class="grp-sep">3</td><td>0</td><td>66,7</td>
+            <td class="grp-sep var-na">—</td>
+          </tr>
+          <tr class="low-vol">
+            <td>HT — Consultas generales <span class="vol-note">só S1</span></td>
+            <td class="grp-sep">—</td><td>—</td><td>—</td>
+            <td class="grp-sep">2</td><td>0</td><td>100,0</td>
+            <td class="grp-sep var-na">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Detalhe por CDU -->
+    <div class="dd-cdu-detail-grid">
+
+      <div class="dd-cdu-detail dominant-cdu">
+        <div class="dd-cdu-detail-header">
+          <span class="dd-cdu-detail-name">HT — Ventas</span>
+          <span class="dd-cdu-detail-count">12 detratores</span>
+        </div>
+        <div class="dd-cdu-sol-list">
+          <div class="dd-sol-row"><span class="dd-sol-pill red">Logística Places — Não excluímos</span><span class="dd-sol-n">4</span></div>
+          <div class="dd-sol-row"><span class="dd-sol-pill orange">Logistica Flex — Excluímos</span><span class="dd-sol-n">2</span></div>
+          <div class="dd-sol-row"><span class="dd-sol-pill orange">Vendedor Newbie — Excluímos</span><span class="dd-sol-n">2</span></div>
+          <div class="dd-sol-row"><span class="dd-sol-pill yellow">Envio não afeta HT</span><span class="dd-sol-n">2</span></div>
+          <div class="dd-sol-row"><span class="dd-sol-pill yellow">Logistica Places — Excluímos</span><span class="dd-sol-n">1</span></div>
+          <div class="dd-sol-row"><span class="dd-sol-pill gray">Gestão manual — Problema resolvido</span><span class="dd-sol-n">1</span></div>
+        </div>
+        <div class="dd-verbatims" style="margin-top:10px">
+          <div class="dd-verbatim alert">"Atendente não lê o que a gente fala, se faz de sonso só para encerrar logo o chamado" (449070724) ⚠ transcr.</div>
+          <div class="dd-verbatim alert">"Não finalizamos a conversa e mesmo assim terminou." (449234419) ⚠ transcr.</div>
+          <div class="dd-verbatim">"Estou a 3 dias p resolver meu problema e nada é resolvido, reputacao afetada" (449413826)</div>
+          <div class="dd-verbatim">"Me deixou esperando mais de uma hora e não resolveu a minha situação." (448713097)</div>
+        </div>
+      </div>
+
+      <div class="dd-cdu-detail">
+        <div class="dd-cdu-detail-header">
+          <span class="dd-cdu-detail-name">Soporte MeLi</span>
+          <span class="dd-cdu-detail-count">2 detratores</span>
+        </div>
+        <div class="dd-cdu-sol-list">
+          <div class="dd-sol-row"><span class="dd-sol-pill yellow">Suporte MeLi — Informações sobre empresa</span><span class="dd-sol-n">2</span></div>
+        </div>
+        <div class="dd-verbatims" style="margin-top:10px">
+          <div class="dd-verbatim">"Esta métrica do mercado livre apenas complica a vida do vendedor" (449461582)</div>
+          <div class="dd-verbatim">"Meu problema nao foi solucionado" (448914749)</div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /KTA -->
+
+  <!-- ══ ATE ══ -->
+  <div class="dd-office">
+    <div class="dd-office-header ate">
+      <div class="dd-office-title">
+        <span class="dd-badge">ATE</span>
+        <span>9 detratores · NPS 100,0 → 62,0 · Maior queda percentual</span>
+      </div>
+      <div class="dd-nps-delta neg">▼ 38,0 pts</div>
+    </div>
+
+    <div class="dd-cdu-impact-panel">
+      <table class="dd-impact-table">
+        <thead>
+          <tr>
+            <th>CDU</th>
+            <th class="grp-sep">S2 Pesq</th><th>S2 Det</th><th>S2 NPS</th>
+            <th class="grp-sep">S1 Pesq</th><th>S1 Det</th><th>S1 NPS</th>
+            <th class="grp-sep">Variação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="dominant">
+            <td>HT — Ventas</td>
+            <td class="grp-sep">38</td><td>0</td><td>100,0</td>
+            <td class="grp-sep">64</td><td>9</td><td>57,8</td>
+            <td class="grp-sep var-neg">▼ 42,2 pts</td>
+          </tr>
+          <tr>
+            <td>HT — Consultas generales</td>
+            <td class="grp-sep">2</td><td>0</td><td>100,0</td>
+            <td class="grp-sep">1</td><td>0</td><td>100,0</td>
+            <td class="grp-sep var-zero">0,0 pts</td>
+          </tr>
+          <tr>
+            <td>HT — Informativas</td>
+            <td class="grp-sep">2</td><td>0</td><td>100,0</td>
+            <td class="grp-sep">4</td><td>0</td><td>100,0</td>
+            <td class="grp-sep var-zero">0,0 pts</td>
+          </tr>
+          <tr class="low-vol">
+            <td>HT — Colecta <span class="vol-note">só S2</span></td>
+            <td class="grp-sep">2</td><td>0</td><td>100,0</td>
+            <td class="grp-sep">—</td><td>—</td><td>—</td>
+            <td class="grp-sep var-na">—</td>
+          </tr>
+          <tr class="low-vol">
+            <td>Bugs <span class="vol-note">só S1</span></td>
+            <td class="grp-sep">—</td><td>—</td><td>—</td>
+            <td class="grp-sep">2</td><td>0</td><td>100,0</td>
+            <td class="grp-sep var-na">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="dd-cdu-detail-grid single">
+      <div class="dd-cdu-detail dominant-cdu">
+        <div class="dd-cdu-detail-header">
+          <span class="dd-cdu-detail-name">HT — Ventas</span>
+          <span class="dd-cdu-detail-count">9 detratores · 100%</span>
+        </div>
+        <div class="dd-cdu-sol-list">
+          <div class="dd-sol-row"><span class="dd-sol-pill red">Logística Places — Não excluímos</span><span class="dd-sol-n">3</span></div>
+          <div class="dd-sol-row"><span class="dd-sol-pill red">Cross Docking — Não excluímos</span><span class="dd-sol-n">1</span></div>
+          <div class="dd-sol-row"><span class="dd-sol-pill orange">Vendedor Newbie — Excluímos</span><span class="dd-sol-n">2</span></div>
+          <div class="dd-sol-row"><span class="dd-sol-pill orange">Logistica Places — Excluímos</span><span class="dd-sol-n">2</span></div>
+          <div class="dd-sol-row"><span class="dd-sol-pill yellow">Envio não afeta HT</span><span class="dd-sol-n">1</span></div>
+        </div>
+        <div class="dd-verbatims" style="margin-top:10px">
+          <div class="dd-verbatim alert">"A ligação foi interrompida, não houve retorno por parte da atendente... meu problema não foi resolvido" (448717469) ⚠ transcr. 85 msgs</div>
+          <div class="dd-verbatim alert">"A pessoa simplesmente parou de responder, não finalizou o atendimento" (448908255) ⚠ transcr.</div>
+          <div class="dd-verbatim alert">"Conversa foi encerrada antes do problema ser resolvido" (448678187) ⚠ transcr.</div>
+          <div class="dd-verbatim">"Resolveram nada. Estou perdendo uma venda... emissão da DC-E." (448972819)</div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /ATE -->
+
+  <!-- ══ CTX ══ -->
+  <div class="dd-office">
+    <div class="dd-office-header ctx">
+      <div class="dd-office-title">
+        <span class="dd-badge">CTX</span>
+        <span>4 detratores · NPS 100,0 → 63,3</span>
+      </div>
+      <div class="dd-nps-delta neg">▼ 36,7 pts</div>
+    </div>
+
+    <div class="dd-cdu-impact-panel">
+      <table class="dd-impact-table">
+        <thead>
+          <tr>
+            <th>CDU</th>
+            <th class="grp-sep">S2 Pesq</th><th>S2 Det</th><th>S2 NPS</th>
+            <th class="grp-sep">S1 Pesq</th><th>S1 Det</th><th>S1 NPS</th>
+            <th class="grp-sep">Variação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="dominant">
+            <td>HT — Ventas</td>
+            <td class="grp-sep">10</td><td>0</td><td>100,0</td>
+            <td class="grp-sep">29</td><td>3</td><td>69,0</td>
+            <td class="grp-sep var-neg">▼ 31,0 pts</td>
+          </tr>
+          <tr class="low-vol">
+            <td>HT — Colecta <span class="vol-note">* 1 pesq/semana</span></td>
+            <td class="grp-sep">1</td><td>0</td><td>100,0</td>
+            <td class="grp-sep">1</td><td>1</td><td>-100,0</td>
+            <td class="grp-sep var-neg">▼ 200,0 pts*</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="dd-cdu-detail-grid">
+
+      <div class="dd-cdu-detail dominant-cdu">
+        <div class="dd-cdu-detail-header">
+          <span class="dd-cdu-detail-name">HT — Ventas</span>
+          <span class="dd-cdu-detail-count">3 detratores</span>
+        </div>
+        <div class="dd-cdu-sol-list">
+          <div class="dd-sol-row"><span class="dd-sol-pill orange">Vendedor Newbie — Excluímos</span><span class="dd-sol-n">2</span></div>
+          <div class="dd-sol-row"><span class="dd-sol-pill yellow">Logistica Places — Excluímos</span><span class="dd-sol-n">1</span></div>
+        </div>
+        <div class="dd-verbatims" style="margin-top:10px">
+          <div class="dd-verbatim">"Atendimento foi ótimo e bem explicativo. Já referente às vendas que não gera etiqueta de envio, ficou sem resolver." (448882112)</div>
+          <div class="dd-verbatim">"Pessimo atendimento ao vendedor" (449057914)</div>
+        </div>
+      </div>
+
+      <div class="dd-cdu-detail">
+        <div class="dd-cdu-detail-header">
+          <span class="dd-cdu-detail-name">HT — Colecta</span>
+          <span class="dd-cdu-detail-count">1 detrator</span>
+        </div>
+        <div class="dd-cdu-sol-list">
+          <div class="dd-sol-row"><span class="dd-sol-pill red">Coleta XD — Culpa MELI</span><span class="dd-sol-n">1</span></div>
+        </div>
+        <div class="dd-verbatims" style="margin-top:10px">
+          <div class="dd-verbatim alert">"A IA nunca resolve e quando transfere para o atendente, nunca é a pessoa certa, fica transferindo." (448206662) ⚠ transcr.</div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /CTX -->
+
+  <!-- Resumo consolidado -->
+  <div class="dd-summary">
+    <h3>Resumo Consolidado — Principais Causas de Queda</h3>
+    <div class="dd-summary-grid">
+      <div class="dd-summary-item critical">
+        <div class="dd-sum-icon">⚠</div>
+        <div>
+          <div class="dd-sum-title">Encerramento Indevido — Confirmado em Transcrição</div>
+          <div class="dd-sum-desc">4 casos com evidência direta: 448717469 e 448934292 (ATE), 448972819 (ATE — reprogramado), 449190943 (KTA). Agente fecha com CDU notes enquanto user ainda está ativo. Padrão novo em S1.</div>
+          <div class="dd-sum-offices">ATE · KTA · CDU: HT-Ventas</div>
+        </div>
+      </div>
+      <div class="dd-summary-item high">
+        <div class="dd-sum-icon">✕</div>
+        <div>
+          <div class="dd-sum-title">Logística Places — Impacto Não Excluído (8 casos)</div>
+          <div class="dd-sum-desc">Principal motivo de insatisfação — seller recebe impacto de reputação por erro da Places e o agente não pode excluir. Exige comunicação clara da regra. Sem ação de exclusão possível.</div>
+          <div class="dd-sum-offices">ATE (3) · KTA (5) · CX_SOL: Logística Places — Não excluímos</div>
+        </div>
+      </div>
+      <div class="dd-summary-item medium">
+        <div class="dd-sum-icon">✓</div>
+        <div>
+          <div class="dd-sum-title">Excluímos mas Seller Ainda Detratou (11 casos)</div>
+          <div class="dd-sum-desc">Impacto foi excluído (Newbie ou Places), mas NPS negativo. Indica que o processo em si (espera longa, múltiplas tentativas, tom do agente) gerou a insatisfação — não o desfecho.</div>
+          <div class="dd-sum-offices">ATE · KTA · CTX · CDU: HT-Ventas</div>
+        </div>
+      </div>
+      <div class="dd-summary-item low">
+        <div class="dd-sum-icon">🤖</div>
+        <div>
+          <div class="dd-sum-title">Bot / IA sem Contexto nas Transferências (CTX)</div>
+          <div class="dd-sum-desc">Confirmado em transcrição: IA transfere para agente errado sem passar contexto. Seller repete o problema a cada transferência. Agente encerra por timeout de inatividade.</div>
+          <div class="dd-sum-offices">CTX · CDU: HT-Colecta · Case 448206662</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /deep-dive -->
+
+<div class="footer">
+  Gerado em 13/04/2026 · Processo: Reputación ME · Filtro: Sellers BR · Fonte: DD Mgmt CSV + BT_CX_NPS_DETAIL
+</div>
+
+<script>
+/* ── DATA ── */
+const weeks = ['S2 · 30/Mar', 'S1 · 06/Abr'];
+
+const geralNPS  = [98.1, 76.7];
+const geralVol  = [155,  403];
+
+// Filtrado para 3 equipes: BR_Ventas + BR_Publicaciones + BR_ME (Longtail)
+const offices   = ['AEC', 'ATE', 'CTX', 'KTA'];
+const npsS2     = [98.6,  100.0, 100.0, 92.6];
+const npsS1     = [90.6,   62.0,  63.3,  62.6];
+const surveysS2 = [73,     44,    11,    27];
+const surveysS1 = [203,    71,    30,    99];
+
+/* ── PALETA ── */
+const colorS2   = 'rgba(108, 142, 191, 0.85)';
+const colorS2B  = 'rgba(108, 142, 191, 1)';
+const colorS1   = 'rgba(217, 79, 61, 0.85)';
+const colorS1B  = 'rgba(217, 79, 61, 1)';
+
+/* ── PLUGIN: rótulos nas barras (apenas barras, não linha) ── */
+const labelPlugin = {
+  id: 'barLabels',
+  afterDatasetsDraw(chart) {
+    const { ctx } = chart;
+    chart.data.datasets.forEach((ds, di) => {
+      const meta = chart.getDatasetMeta(di);
+      if (meta.hidden || meta.type !== 'bar') return;
+      meta.data.forEach((bar, i) => {
+        const val = ds.data[i];
+        if (val == null) return;
+        ctx.save();
+        ctx.font = 'bold 11px Segoe UI, system-ui, sans-serif';
+        ctx.fillStyle = '#333';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        ctx.fillText(val.toFixed(1), bar.x, bar.y - 3);
+        ctx.restore();
+      });
+    });
+  }
+};
+
+/* ── PLUGIN: badges de variação abaixo de cada office ── */
+const axisDeltaPlugin = {
+  id: 'axisDeltaBoxes',
+  afterDraw(chart) {
+    const { ctx, scales } = chart;
+    const xScale = scales.x;
+    if (!xScale) return;
+
+    const deltas = npsS1.map((v, i) => v - npsS2[i]);
+
+    deltas.forEach((delta, i) => {
+      const x      = xScale.getPixelForValue(i);
+      const y      = xScale.bottom + 30;
+      const isNeg  = delta < 0;
+      const color  = isNeg ? '#e74c3c' : '#27ae60';
+      const bgCol  = isNeg ? 'rgba(231,76,60,0.10)' : 'rgba(39,174,96,0.10)';
+      const text   = (delta > 0 ? '+' : '') + delta.toFixed(1) + ' pts';
+
+      ctx.save();
+      ctx.font = 'bold 10px Segoe UI, system-ui, sans-serif';
+      const tw = ctx.measureText(text).width;
+      const pad = 6, bw = tw + pad * 2, bh = 18, rx = 4;
+      const bx = x - bw / 2, by = y - bh / 2;
+
+      /* fundo */
+      ctx.fillStyle = bgCol;
+      ctx.beginPath();
+      ctx.moveTo(bx + rx, by);
+      ctx.lineTo(bx + bw - rx, by);
+      ctx.arcTo(bx + bw, by, bx + bw, by + rx, rx);
+      ctx.lineTo(bx + bw, by + bh - rx);
+      ctx.arcTo(bx + bw, by + bh, bx + bw - rx, by + bh, rx);
+      ctx.lineTo(bx + rx, by + bh);
+      ctx.arcTo(bx, by + bh, bx, by + bh - rx, rx);
+      ctx.lineTo(bx, by + rx);
+      ctx.arcTo(bx, by, bx + rx, by, rx);
+      ctx.closePath();
+      ctx.fill();
+
+      /* borda */
+      ctx.strokeStyle = color;
+      ctx.lineWidth   = 1.2;
+      ctx.stroke();
+
+      /* texto */
+      ctx.fillStyle    = color;
+      ctx.textAlign    = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, x, y);
+      ctx.restore();
+    });
+  }
+};
+
+/* ─────────────────────────────────────────
+   GRÁFICO 1 — Variação Geral
+───────────────────────────────────────── */
+new Chart(document.getElementById('chartGeral'), {
+  type: 'bar',
+  plugins: [labelPlugin],
+  data: {
+    labels: weeks,
+    datasets: [
+      {
+        label: 'NPS',
+        data: geralNPS,
+        backgroundColor: [colorS2, colorS1],
+        borderColor:      [colorS2B, colorS1B],
+        borderWidth: 1.5,
+        borderRadius: 8,
+        barPercentage: 0.55,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (ctx) => {
+            const i = ctx.dataIndex;
+            return [
+              ` NPS: ${ctx.raw.toFixed(1)}`,
+              ` Pesquisas: ${geralVol[i]}`
+            ];
+          }
+        }
+      }
+    },
+    scales: {
+      y: {
+        min: 0,
+        max: 100,
+        grid: { color: '#f0f0f0' },
+        ticks: {
+          callback: v => v,
+          font: { size: 11 }
+        },
+        title: {
+          display: true,
+          text: 'NPS (ponderado)',
+          font: { size: 11 },
+          color: '#999'
+        }
+      },
+      x: {
+        grid: { display: false },
+        ticks: { font: { size: 12, weight: '600' } }
+      }
+    }
+  }
+});
+
+/* ─────────────────────────────────────────
+   GRÁFICO 2 — NPS por Office
+───────────────────────────────────────── */
+const targets = [85.6, 84.8, 82.9, 83.4]; // AEC, ATE, CTX, KTA — 3 equipes Longtail
+
+new Chart(document.getElementById('chartOffice'), {
+  type: 'bar',
+  plugins: [labelPlugin, axisDeltaPlugin],
+  data: {
+    labels: offices,
+    datasets: [
+      {
+        label: 'S2 · 30/Mar',
+        data: npsS2,
+        backgroundColor: colorS2,
+        borderColor: colorS2B,
+        borderWidth: 1.5,
+        borderRadius: 6,
+        barPercentage: 0.75,
+        categoryPercentage: 0.65,
+        order: 1,
+      },
+      {
+        label: 'S1 · 06/Abr',
+        data: npsS1,
+        backgroundColor: colorS1,
+        borderColor: colorS1B,
+        borderWidth: 1.5,
+        borderRadius: 6,
+        barPercentage: 0.75,
+        categoryPercentage: 0.65,
+        order: 1,
+      },
+      {
+        type: 'line',
+        label: 'Target',
+        data: targets,
+        borderColor: '#f39c12',
+        backgroundColor: 'rgba(243,156,18,0.08)',
+        borderWidth: 2.5,
+        borderDash: [7, 4],
+        pointStyle: 'circle',
+        pointRadius: 6,
+        pointBorderWidth: 2.5,
+        pointBackgroundColor: '#fff',
+        pointBorderColor: '#f39c12',
+        fill: false,
+        tension: 0,
+        order: 0,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    layout: { padding: { bottom: 52 } },
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: {
+          font: { size: 12 },
+          boxWidth: 14,
+          padding: 16,
+          generateLabels(chart) {
+            const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+            // estilo especial para Target
+            labels.forEach(l => {
+              if (l.text === 'Target') {
+                l.lineDash = [7, 4];
+                l.strokeStyle = '#f39c12';
+                l.fillStyle   = 'transparent';
+              }
+            });
+            return labels;
+          }
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: (ctx) => {
+            if (ctx.datasetIndex === 2) return ` Target: ${ctx.raw.toFixed(1)}`;
+            const i   = ctx.dataIndex;
+            const vol = ctx.datasetIndex === 0 ? surveysS2[i] : surveysS1[i];
+            return [` NPS: ${ctx.raw.toFixed(1)}`, ` Pesquisas: ${vol}`];
+          }
+        }
+      }
+    },
+    scales: {
+      y: {
+        min: 0,
+        max: 115,
+        grid: { color: '#f0f0f0' },
+        ticks: { font: { size: 11 } },
+        title: {
+          display: true,
+          text: 'NPS',
+          font: { size: 11 },
+          color: '#999'
+        }
+      },
+      x: {
+        grid: { display: false },
+        ticks: { font: { size: 12, weight: '600' } }
+      }
+    }
+  }
+});
+
+</script>
+</body>
+</html>

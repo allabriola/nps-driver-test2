@@ -1,0 +1,167 @@
+Waiting on bqjob_r3d6b37d9ef292121_0000019dd4a600a8_1 ... (0s) Current status: RUNNING                                                                                      Waiting on bqjob_r3d6b37d9ef292121_0000019dd4a600a8_1 ... (1s) Current status: RUNNING                                                                                      Waiting on bqjob_r3d6b37d9ef292121_0000019dd4a600a8_1 ... (2s) Current status: RUNNING                                                                                      Waiting on bqjob_r3d6b37d9ef292121_0000019dd4a600a8_1 ... (4s) Current status: RUNNING                                                                                      Waiting on bqjob_r3d6b37d9ef292121_0000019dd4a600a8_1 ... (5s) Current status: RUNNING                                                                                      Waiting on bqjob_r3d6b37d9ef292121_0000019dd4a600a8_1 ... (6s) Current status: RUNNING                                                                                      Waiting on bqjob_r3d6b37d9ef292121_0000019dd4a600a8_1 ... (8s) Current status: RUNNING                                                                                      Waiting on bqjob_r3d6b37d9ef292121_0000019dd4a600a8_1 ... (8s) Current status: DONE   
+dim,driver,val,p,d,s
+P,CBT,CBT - ME Reputation,33,1,34
+P,CBT,CBT - Reputation,23,5,29
+P,CBT,CBT - Package journey,8,1,9
+P,CBT,CBT - Moderations,3,2,7
+P,CBT,CBT - Reverse,3,4,7
+P,CBT,"CBT - Dispatch, Sales and Listings",4,1,5
+P,CBT,CBT - Boosters,2,0,2
+P,CBT,CBT - Billing,0,1,1
+P,CBT,CBT - Publication Management,0,1,1
+P,CBT,CBT - Operational Management,1,0,1
+P,Experiencia Impositiva Mature,Emision de Nota Fiscal,2,0,4
+P,Experiencia Impositiva Meli Pro,Facturación,2,0,2
+P,Experiencia Impositiva Meli Pro,Emision de Nota Fiscal,1,0,1
+P,Experiencia Impositiva Seller Dev,Emision de Nota Fiscal,31,14,49
+P,Experiencia Impositiva Seller Dev,Facturación,19,9,31
+P,Experiencia Impositiva Seller Dev,Datos fiscales,7,0,8
+P,FBM-S Mature,FBM - Post Inbound,6,0,6
+P,FBM-S Mature,FBM - Pre Inbound,3,2,5
+P,FBM-S Mature,FBM - Retiro de Stock - Cx One,4,0,4
+P,FBM-S Mature,FBM - Inventario,2,2,4
+P,FBM-S Mature,FBM - Funcionalidades,1,0,1
+P,FBM-S Mature,FBM - Devoluciones,1,0,1
+P,FBM-S Meli Pro,FBM - Pre Inbound,5,0,5
+P,FBM-S Meli Pro,FBM - Retiro de Stock - Cx One,4,0,4
+P,FBM-S Meli Pro,FBM - Devoluciones,3,0,4
+P,FBM-S Meli Pro,FBM - Inventario,2,0,3
+P,FBM-S Meli Pro,FBM - Post Inbound,1,0,2
+P,FBM-S Meli Pro,FBM - Outbound,2,0,2
+P,FBM-S Seller Dev,FBM - Pre Inbound,38,12,51
+P,FBM-S Seller Dev,FBM - Inventario,16,8,25
+P,FBM-S Seller Dev,FBM - Post Inbound,13,5,20
+P,FBM-S Seller Dev,FBM - Retiro de Stock - Cx One,11,1,13
+P,FBM-S Seller Dev,FBM - Funcionalidades,6,3,9
+P,FBM-S Seller Dev,FBM - Outbound,1,0,2
+P,FBM-S Seller Dev,FBM - Devoluciones,0,0,1
+P,ME Vendedor Mature,Reputación ME,74,16,92
+P,ME Vendedor Mature,Despacho Ventas y Publicaciones,32,14,48
+P,ME Vendedor Mature,Reversa,20,2,22
+P,ME Vendedor Mature,Viaje del paquete - Vendedor,10,0,12
+P,ME Vendedor Mature,Gestiones Operativas,10,0,10
+P,ME Vendedor Mature,Viaje del paquete - Comprador,0,2,2
+P,ME Vendedor Meli Pro,Reputación ME,41,4,45
+P,ME Vendedor Meli Pro,Viaje del paquete - Vendedor,19,3,23
+P,ME Vendedor Meli Pro,Reversa,18,1,22
+P,ME Vendedor Meli Pro,Despacho Ventas y Publicaciones,17,1,18
+P,ME Vendedor Meli Pro,Gestiones Operativas,9,1,12
+P,ME Vendedor Seller Dev,Despacho Ventas y Publicaciones,402,80,538
+P,ME Vendedor Seller Dev,Reputación ME,440,26,484
+P,ME Vendedor Seller Dev,Gestiones Operativas,94,16,122
+P,ME Vendedor Seller Dev,Reversa,64,18,86
+P,ME Vendedor Seller Dev,Viaje del paquete - Vendedor,58,12,78
+P,Otros CV,KYC Services,61,5,70
+P,Otros CV,Asignación del contáctanos Buyers Post,32,12,45
+P,Otros CV,Apelaciones retorno buyer XDDS,5,18,24
+P,Otros CV,PNR - OP,13,7,20
+P,Otros CV,Viaje del paquete - Comprador,9,1,10
+P,Otros CV,Reputación ML Masivos,8,1,9
+P,Otros CV,Post Compra Funcionalidades CBT,8,0,8
+P,Otros CV,KYC seg360,5,1,6
+P,Otros CV,Reputación ME Masivos,1,4,5
+P,Otros CV,Apelaciones buyer XDDS,3,1,5
+P,Otros CV,Configuración de la cuenta,4,0,4
+P,Otros CV,CBT - Prohibited technique,3,1,4
+P,Otros CV,Problemas con acceso y factores,3,1,4
+P,Otros CV,Viaje del paquete - Vendedor,2,0,3
+P,Otros CV,Funcionalidades de tarjetas de Crédito,2,1,3
+P,Otros CV,Afiliados ML,1,2,3
+P,Otros CV,Problemas de seguridad,2,1,3
+P,Otros CV,Post Compra Funcionalidades Vendedor,0,2,2
+P,Otros CV,Caja vacía - MP,2,0,2
+P,Otros CV,CBT - Prohibited items,2,0,2
+P,Otros CV,Conect Car,1,0,2
+P,Otros CV,Chargeback Comprador,0,2,2
+P,Otros CV,Funcionalidades de Seguros - Payers,0,1,1
+P,Otros CV,Caja vacía - Flex,1,0,1
+P,Otros CV,Transferencias de dinero,1,0,1
+P,Otros CV,Tarjetas de crédito - Solicitud y Límites,0,1,1
+P,Otros CV,Acreditación de Pagos - Payers,0,1,1
+P,Otros CV,Calidad de foto Masivos,0,1,1
+P,Otros CV,Funcionalidades de tarjetas de Débito y Crédito,1,0,1
+P,Otros CV,Facturación,1,0,1
+P,Otros CV,Point - Como adquirir dispositivo,1,0,1
+P,Otros CV,CBT - Intellectual Property,1,0,1
+P,Otros CV,Consumer Credits - Solicitud y Límites,1,0,1
+P,Otros CV,PF - PNR - Vendedor,1,0,1
+P,Otros CV,Funcionalidades de Online Payments - Sellers,1,0,1
+P,Otros CV,Guardia Urbana,1,0,1
+P,Otros CV,Asignación del Contactanos MP Cards,0,1,1
+P,Otros CV,Tasas e Incentivos Sellers,1,0,1
+P,Otros CV,Seguros transaccional - Payers,0,1,1
+P,Otros CV,Registro,1,0,1
+P,Otros CV,Portabilidade salarial,1,0,1
+P,Otros CV,Restricciones,1,0,1
+P,Otros CV,Merchant Credits,0,1,1
+P,Otros CV,CBT - Photo quality,1,0,1
+P,Otros CV,PR - Técnica prohibida Masivos,0,1,1
+P,PCF Vendedor Mature,Post Compra Funcionalidades Vendedor,21,9,34
+P,PCF Vendedor Meli Pro,Post Compra Funcionalidades Vendedor,101,14,131
+P,PCF Vendedor Seller Dev,Post Compra Funcionalidades Vendedor,82,30,129
+P,PDD DS&XD - Vendedor,Arrepentimiento - XD,23,13,40
+P,PDD DS&XD - Vendedor,Arrepentimiento - DS,17,12,34
+P,PDD DS&XD - Vendedor,Defectuoso - DS,13,11,29
+P,PDD DS&XD - Vendedor,Defectuoso - XD,12,12,27
+P,PDD DS&XD - Vendedor,Incompleto - DS,13,5,20
+P,PDD DS&XD - Vendedor,Diferente - XD,9,9,18
+P,PDD DS&XD - Vendedor,Diferente - DS,10,5,17
+P,PDD DS&XD - Vendedor,Incompleto - XD,6,6,14
+P,PDD DS&XD - Vendedor,Caja Vacía - DS,6,2,8
+P,PDD DS&XD - Vendedor,Caja Vacía - XD,3,0,3
+P,PDD FBM - Vendedor,Defectuoso - FBM,6,11,19
+P,PDD FBM - Vendedor,Arrepentimiento - FBM,7,3,10
+P,PDD FBM - Vendedor,MED - PDD Low cost,7,1,9
+P,PDD FBM - Vendedor,Diferente - FBM,6,1,8
+P,PDD FBM - Vendedor,Asignación del Contáctanos PDD FBM,2,5,7
+P,PDD FBM - Vendedor,Incompleto - FBM,2,3,6
+P,PDD FBM - Vendedor,Caja Vacía - FBM,5,0,5
+P,PDD FBM - Vendedor,Diferente - Super - FBM,4,0,4
+P,PDD FBM - Vendedor,Incompleto - Super - FBM,1,1,3
+P,PDD FBM - Vendedor,Arrepentimiento - Super - FBM,1,0,1
+P,PDD FBM - Vendedor,Defectuoso - Super - FBM,1,0,1
+P,PDD FBM - Vendedor,Low Cost -  Dry,1,0,1
+P,PDD Fotos - Vendedor,PDD - Fotos,10,7,20
+P,"PDD MP,FLEX & CBT - Vendedor",Incompleto - Flex,3,2,5
+P,"PDD MP,FLEX & CBT - Vendedor",Arrepentimiento - Flex,2,1,3
+P,"PDD MP,FLEX & CBT - Vendedor",Defectuoso - Flex,1,2,3
+P,"PDD MP,FLEX & CBT - Vendedor",Diferente - MP,0,3,3
+P,"PDD MP,FLEX & CBT - Vendedor",Defectuoso - MP,2,1,3
+P,"PDD MP,FLEX & CBT - Vendedor",Arrepentimiento - MP,0,1,2
+P,PNR ME - Vendedor,PNR - Previo al despacho XD DS,46,25,76
+P,PNR ME - Vendedor,PNR - Low Cost,10,6,17
+P,PNR ME - Vendedor,PNR - Contradictorio XD DS FBM,4,4,8
+P,PNR ME - Vendedor,PNR - Contradictorio - Flex,2,2,4
+P,PNR ME - Vendedor,PNR - Previo al Despacho - Flex,0,2,2
+P,PNR MP - Vendedor,PNR - MP,27,24,54
+P,Partners,Drivers,489,76,626
+P,Partners,Places Kangu,78,9,93
+P,Post Venta Mature,Reputación,45,6,57
+P,Post Venta Mature,Anulación de Venta,1,0,1
+P,Post Venta Meli Pro,Reputación,149,1,152
+P,Post Venta Seller Dev,Reputación,171,16,201
+P,Post Venta Seller Dev,Anulación de Venta,6,2,8
+P,Publicaciones Mature,PR - Propiedad intelectual,9,1,11
+P,Publicaciones Mature,Gestión de Publicación,6,1,7
+P,Publicaciones Mature,PR - Artículos prohibidos,4,0,4
+P,Publicaciones Mature,Potenciar Ventas,3,0,3
+P,Publicaciones Mature,PR - Técnica prohibida,2,0,2
+P,Publicaciones Mature,Denuncia de usuario,0,1,1
+P,Publicaciones Mature,Antes de publicar,0,0,1
+P,Publicaciones Mature,Calidad de foto,1,0,1
+P,Publicaciones Meli Pro,PR - Técnica prohibida,41,1,42
+P,Publicaciones Meli Pro,PR - Propiedad intelectual,9,0,10
+P,Publicaciones Meli Pro,Gestión de Publicación,6,2,8
+P,Publicaciones Meli Pro,Potenciar Ventas,1,1,2
+P,Publicaciones Meli Pro,Antes de publicar,1,0,1
+P,Publicaciones Meli Pro,Calidad de foto,1,0,1
+P,Publicaciones Seller Dev,Afiliados ML,165,32,214
+P,Publicaciones Seller Dev,Gestión de Publicación,46,8,62
+P,Publicaciones Seller Dev,PR - Técnica prohibida,43,7,50
+P,Publicaciones Seller Dev,Potenciar Ventas,29,12,45
+P,Publicaciones Seller Dev,PR - Propiedad intelectual,38,3,43
+P,Publicaciones Seller Dev,Antes de publicar,34,1,38
+P,Publicaciones Seller Dev,PR - Artículos prohibidos,22,9,34
+P,Publicaciones Seller Dev,Denuncia de usuario,9,3,13
+P,Publicaciones Seller Dev,Calidad de foto,6,0,6
+P,Publicaciones Seller Dev,PR - Datos Personales,6,0,6

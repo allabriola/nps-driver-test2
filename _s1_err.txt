@@ -1,0 +1,4 @@
+'XD' não é reconhecido como um comando interno
+ou externo, um programa operável ou um arquivo em lotes.
+'CBT' não é reconhecido como um comando interno
+ou externo, um programa operável ou um arquivo em lotes.

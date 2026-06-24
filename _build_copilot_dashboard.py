@@ -136,27 +136,6 @@ for r in REPS:
 
 # ══════════════════════════════════════════════════════════════════════
 # TABELAS HTML
-# ── Tooltip helper ────────────────────────────────────────────────────
-TIPS = {
-    "Adoção%":     "% dos outgoings (respostas ao cliente) em que o rep efetivamente usou o Copilot. Denominador = Copilot habilitado; numerador = rep interagiu com o Copilot naquele outgoing.",
-    "NPS":         "NPS médio dos casos atendidos com Copilot. Promotor (+1), Passivo (0), Detrator (−1), exibido em %. Requer mínimo de 3 pesquisas para ser calculado.",
-    "TMO(s)":      "Tempo Médio de Operação em segundos nos casos onde o rep usou o Copilot (FLAG_COPILOT=1). Valores altos indicam atendimentos mais demorados.",
-    "Estilo Meli": "Nota de qualidade do QM (form Estilo Meli IA). Escala de 0 a 1 — avalia start contact, exploração, orientação e encerramento do atendimento.",
-    "Status Q4":   "Métricas em que o rep está no pior quartil (25% piores da equipe). Q4 NPS = NPS baixo | Q4 TMO = tempo alto | Q4 Estilo = nota QM baixa.",
-    "Métricas Q4": "Métricas em que o rep está no pior quartil (25% piores da equipe). Q4 NPS = NPS baixo | Q4 TMO = tempo alto | Q4 Estilo = nota QM baixa.",
-    "Adoção% (processo)": "% dos outgoings neste processo em que os reps usaram o Copilot.",
-}
-
-def th(label, tip_key=None, cls=""):
-    tip = TIPS.get(tip_key or label, "")
-    cls_attr = f' class="{cls}"' if cls else ""
-    if not tip:
-        return f"<th{cls_attr}>{label}</th>"
-    return (f'<th{cls_attr}>{label}'
-            f'<span class="th-tip-icon">?</span>'
-            f'<span class="th-tip-box">{tip}</span>'
-            f'</th>')
-
 # ══════════════════════════════════════════════════════════════════════
 def reps_table(reps_list, show_q4_only=False, extra_cols=True):
     """Gera <table> de reps com métricas."""
@@ -171,23 +150,22 @@ def reps_table(reps_list, show_q4_only=False, extra_cols=True):
         em_cls    = color_estilo(r.get("estilo_meli"), r["q4_estilo"])
         sen_cls   = "exp-badge" if r.get("senioridade") == "Expert" else "new-badge"
         rows += f"""<tr>
-          <td class="rep-name" data-office="{r['USER_OFFICE']}" data-canal="{r['USER_TEAM_CHANNEL']}" data-team="{r.get('USER_TEAM_NAME','')}">{r['USER_LDAP']}</td>
+          <td class="rep-name" data-office="{r['USER_OFFICE']}" data-canal="{r['USER_TEAM_CHANNEL']}">{r['USER_LDAP']}</td>
           <td><span class="{sen_cls}">{r.get('senioridade','N/D')}</span></td>
           <td>{r.get('USER_OFFICE','—')}</td>
           <td>{r.get('USER_TEAM_CHANNEL','—')}</td>
-          <td>{r.get('USER_TEAM_NAME','—')}</td>
           <td class="{adopt_cls}">{fmt(r.get('pct_adopcion'))}%</td>
           <td class="{nps_cls}">{fmt(r.get('nps_copilot'))}%</td>
           <td class="{tmo_cls}">{fmt(r.get('tmo_com_copilot'),0,'s')}</td>
           <td class="{em_cls}">{fmt(r.get('estilo_meli'))}</td>
           {'<td>' + badge_q4(r) + '</td>' if extra_cols else ''}
         </tr>"""
-    header_q4 = th("Status Q4") if extra_cols else ""
+    header_q4 = "<th>Status Q4</th>" if extra_cols else ""
     return f"""
     <table class="rt" data-table>
       <thead><tr>
-        <th class="left">Rep</th><th>Senioridade</th><th>Oficina</th><th>Canal</th><th>Equipe</th>
-        {th("Adoção%")}{th("NPS")}{th("TMO(s)")}{th("Estilo Meli")}{header_q4}
+        <th class="left">Rep</th><th>Senioridade</th><th>Oficina</th><th>Canal</th>
+        <th>Adoção%</th><th>NPS</th><th>TMO(s)</th><th>Estilo Meli</th>{header_q4}
       </tr></thead>
       <tbody>{rows}</tbody>
     </table>"""
@@ -311,13 +289,7 @@ def build_consultas_tab():
           </div>
           <div class="cat-bar-wrap"><div class="cat-bar" style="width:${{c.pct_estimado||0}}%"></div></div>
           <div class="cat-desc">${{c.descricao||''}}</div>
-          <div class="cat-ex">${{(c.exemplos||[]).map((e,ei)=>{{
-            const texto = typeof e === 'object' ? e.texto : e;
-            const cid   = typeof e === 'object' && e.case_id ? ` <span class="ex-case">Caso ${{e.case_id}}</span>` : '';
-            const tr    = typeof e === 'object' && e.transcript ? e.transcript : '';
-            const btn   = tr ? `<span class="ex-ver" onclick='openTranscript(${{JSON.stringify(tr)}}, ${{JSON.stringify(e.case_id||"")}})'>Ver conversa</span>` : '';
-            return `<div class="ex-item">"${{texto}}"${{cid}}${{btn}}</div>`;
-          }}).join('')}}</div>
+          <div class="cat-ex">${{(c.exemplos||[]).map(e=>`<div class="ex-item">"${{e}}"</div>`).join('')}}</div>
         </div>`).join('');
     }}
     document.addEventListener('DOMContentLoaded', renderCats);
@@ -338,9 +310,8 @@ def build_criticos_tab():
         adopt_cls = color_adopt(r.get("pct_adopcion"))
         sen_cls   = "exp-badge" if r.get("senioridade") == "Expert" else "new-badge"
         rows += f"""<tr>
-          <td class="rep-name" data-office="{r['USER_OFFICE']}" data-canal="{r['USER_TEAM_CHANNEL']}" data-team="{r.get('USER_TEAM_NAME','')}">{r['USER_LDAP']}</td>
+          <td class="rep-name" data-office="{r['USER_OFFICE']}" data-canal="{r['USER_TEAM_CHANNEL']}">{r['USER_LDAP']}</td>
           <td><span class="{sen_cls}">{r.get('senioridade','N/D')}</span></td>
-          <td>{r.get('USER_TEAM_NAME','—')}</td>
           <td class="{adopt_cls}">{fmt(r.get('pct_adopcion'))}%</td>
           <td>{fmt(r.get('nps_copilot'))}%</td>
           <td>{fmt(r.get('tmo_com_copilot'),0,'s')}</td>
@@ -358,9 +329,9 @@ def build_criticos_tab():
     </div>
     <table class="rt" data-table>
       <thead><tr>
-        <th class="left">Rep</th><th>Senioridade</th><th>Equipe</th>
-        {th("Adoção%")}{th("NPS")}{th("TMO(s)")}{th("Estilo Meli")}
-        {th("Métricas Q4")}<th>Oficina</th><th>Canal</th>
+        <th class="left">Rep</th><th>Senioridade</th><th>Adoção%</th>
+        <th>NPS</th><th>TMO(s)</th><th>Estilo Meli</th>
+        <th>Métricas Q4</th><th>Oficina</th><th>Canal</th>
       </tr></thead>
       <tbody>{rows}</tbody>
     </table>
@@ -371,10 +342,8 @@ def build_criticos_tab():
 # ══════════════════════════════════════════════════════════════════════
 offices  = sorted({r.get("USER_OFFICE","N/D") for r in REPS})
 canais   = sorted({r.get("USER_TEAM_CHANNEL","N/D") for r in REPS})
-teams    = sorted({r.get("USER_TEAM_NAME","N/D") for r in REPS})
 offices_opts  = '<option value="ALL">Todas as Oficinas</option>' + "".join(f'<option value="{o}">{o}</option>' for o in offices if o != "N/D")
 canais_opts   = '<option value="ALL">Todos os Canais</option>'   + "".join(f'<option value="{c}">{c}</option>' for c in canais  if c != "N/D")
-teams_opts    = '<option value="ALL">Todas as Equipes</option>'  + "".join(f'<option value="{t}">{t}</option>' for t in teams   if t != "N/D")
 
 today = date.today().strftime("%d/%m/%Y")
 
@@ -388,7 +357,6 @@ html = f"""<!DOCTYPE html>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>CX Copilot — Usabilidade dos Reps</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
 *{{margin:0;padding:0;box-sizing:border-box}}
 body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f7;color:#1a1a2e}}
@@ -435,35 +403,11 @@ table.rt tr:hover td{{filter:brightness(.97)}}
 .bdg.neu{{background:#f1f5f9;color:#64748b}}
 .exp-badge{{background:#dbeafe;color:#1d4ed8;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px}}
 .new-badge{{background:#f3e8ff;color:#7c3aed;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px}}
-th{{position:relative}}
-.th-tip-icon{{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:#94a3b8;color:#fff;font-size:9px;font-weight:700;margin-left:5px;cursor:help;vertical-align:middle;line-height:1}}
-.th-tip-box{{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#1e293b;color:#f1f5f9;font-size:12px;font-weight:400;line-height:1.5;padding:8px 12px;border-radius:7px;width:240px;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,.3);white-space:normal;text-align:left}}
-th:hover .th-tip-box{{display:block}}
 .section-lbl{{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin:20px 0 10px;padding-top:8px;border-top:1px solid #e2e8f0}}
 .cat-card{{background:white;border-radius:10px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}}
 .cat-header{{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}}
 .cat-name{{font-size:13px;font-weight:700;color:#1e293b}}
 .cat-pct{{font-size:13px;font-weight:800;color:#1d4ed8}}
-.ex-case{{display:inline-block;margin-left:6px;font-size:10px;font-weight:700;background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:4px;vertical-align:middle}}
-.ex-ver{{display:inline-block;margin-left:8px;font-size:10px;font-weight:600;color:#1d4ed8;cursor:pointer;text-decoration:underline;vertical-align:middle}}
-.ex-ver:hover{{color:#1e40af}}
-#tr-modal{{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center}}
-#tr-modal.open{{display:flex}}
-#tr-modal-box{{background:white;border-radius:12px;width:min(720px,92vw);max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.3)}}
-#tr-modal-header{{padding:16px 20px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center}}
-#tr-modal-title{{font-size:14px;font-weight:700;color:#1e293b}}
-#tr-modal-close{{cursor:pointer;font-size:20px;color:#94a3b8;line-height:1;padding:0 4px}}
-#tr-modal-close:hover{{color:#1e293b}}
-#tr-modal-body{{padding:16px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}}
-.chat-msg{{display:flex;flex-direction:column;max-width:80%}}
-.chat-msg.copilot{{align-self:flex-start}}
-.chat-msg.rep{{align-self:flex-end}}
-.chat-label{{font-size:10px;font-weight:700;margin-bottom:3px;padding:0 4px}}
-.chat-msg.copilot .chat-label{{color:#1d4ed8}}
-.chat-msg.rep .chat-label{{color:#6b7280;text-align:right}}
-.chat-bubble{{padding:10px 14px;border-radius:12px;font-size:12px;line-height:1.6;color:#1e293b;white-space:pre-wrap}}
-.chat-msg.copilot .chat-bubble{{background:#eff6ff;border:1px solid #bfdbfe;border-top-left-radius:2px}}
-.chat-msg.rep .chat-bubble{{background:#f1f5f9;border:1px solid #e2e8f0;border-top-right-radius:2px}}
 .cat-bar-wrap{{background:#e2e8f0;border-radius:4px;height:6px;margin-bottom:8px}}
 .cat-bar{{background:#1d4ed8;border-radius:4px;height:6px;transition:.3s}}
 .cat-desc{{font-size:11.5px;color:#64748b;margin-bottom:8px}}
@@ -481,23 +425,11 @@ th:hover .th-tip-box{{display:block}}
   </div>
 </div>
 
-<div id="tr-modal" onclick="if(event.target===this)closeTranscript()">
-  <div id="tr-modal-box">
-    <div id="tr-modal-header">
-      <span id="tr-modal-title">Conversa completa</span>
-      <span id="tr-modal-close" onclick="closeTranscript()">&#x2715;</span>
-    </div>
-    <div id="tr-modal-body"></div>
-  </div>
-</div>
-
 <div class="filter-bar">
   <label>Oficina:</label>
   <select id="f-office" onchange="applyFilters()">{offices_opts}</select>
   <label>Canal:</label>
   <select id="f-canal" onchange="applyFilters()">{canais_opts}</select>
-  <label>Equipe:</label>
-  <select id="f-team" onchange="applyFilters()">{teams_opts}</select>
   <span id="filter-count" style="font-size:11px;color:#94a3b8;margin-left:8px"></span>
 </div>
 
@@ -582,78 +514,22 @@ function setPtab(group, id, btn) {{
   btn.classList.add('active');
 }}
 
-// ── MODAL TRANSCRIÇÃO ─────────────────────────────────────────────────
-function parseTranscript(text) {{
-  const msgs = [];
-  let current = null;
-  const lines = text.split(String.fromCharCode(10));
-  const reLine = new RegExp('^(?:\\[[\\s\\S]*?\\]\\s*)?([A-Za-z][\\w ]{0,30}):\\s*(.+)');
-  for (let i = 0; i < lines.length; i++) {{
-    const line = lines[i].trim();
-    if (!line) continue;
-    const m = reLine.exec(line);
-    if (m) {{
-      const sp = m[1].trim().toLowerCase();
-      const content = m[2].trim();
-      const isCopilot = sp.indexOf('copilot') >= 0 || sp.indexOf('bot') >= 0 || sp.indexOf('assistant') >= 0;
-      const role  = isCopilot ? 'copilot' : 'rep';
-      const label = isCopilot ? '🤖 Copilot' : '👤 Rep';
-      if (current && current.role === role) {{
-        current.text += ' ' + content;
-      }} else {{
-        current = {{ role: role, label: label, text: content }};
-        msgs.push(current);
-      }}
-    }} else if (current) {{
-      current.text += ' ' + line;
-    }} else {{
-      current = {{ role: 'copilot', label: '🤖 Copilot', text: line }};
-      msgs.push(current);
-    }}
-  }}
-  return msgs;
-}}
-
-function esc(s) {{ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }}
-
-function openTranscript(text, caseId) {{
-  document.getElementById('tr-modal-title').textContent = caseId ? 'Conversa — Caso ' + caseId : 'Conversa completa';
-  const body = document.getElementById('tr-modal-body');
-  const msgs = parseTranscript(text);
-  if (!msgs.length) {{
-    body.innerHTML = '<p style="color:#94a3b8;font-size:12px">Transcrição não disponível.</p>';
-  }} else {{
-    body.innerHTML = msgs.map(function(m) {{
-      return '<div class="chat-msg ' + m.role + '"><div class="chat-label">' + m.label +
-             '</div><div class="chat-bubble">' + esc(m.text) + '</div></div>';
-    }}).join('');
-  }}
-  document.getElementById('tr-modal').classList.add('open');
-  body.scrollTop = 0;
-}}
-function closeTranscript() {{ document.getElementById('tr-modal').classList.remove('open'); }}
-document.addEventListener('keydown', function(e) {{ if (e.key === 'Escape') closeTranscript(); }});
-
 // ── FILTROS ───────────────────────────────────────────────────────────
 function applyFilters() {{
   const office = document.getElementById('f-office').value;
   const canal  = document.getElementById('f-canal').value;
-  const team   = document.getElementById('f-team').value;
   let vis = 0, tot = 0;
   document.querySelectorAll('table[data-table] tbody tr').forEach(tr => {{
     const td = tr.querySelector('td[data-office]');
     if (!td) {{ tr.classList.remove('hidden'); return; }}
     const ro = td.dataset.office || '';
     const rc = td.dataset.canal  || '';
-    const rt = td.dataset.team   || '';
-    const show = (office === 'ALL' || ro === office)
-              && (canal  === 'ALL' || rc === canal)
-              && (team   === 'ALL' || rt === team);
+    const show = (office === 'ALL' || ro === office) && (canal === 'ALL' || rc === canal);
     tr.classList.toggle('hidden', !show);
     tot++; if (show) vis++;
   }});
   const el = document.getElementById('filter-count');
-  if (office !== 'ALL' || canal !== 'ALL' || team !== 'ALL') el.textContent = `${{vis}} de ${{tot}} reps visíveis`;
+  if (office !== 'ALL' || canal !== 'ALL') el.textContent = `${{vis}} de ${{tot}} reps visíveis`;
   else el.textContent = '';
 }}
 
@@ -676,17 +552,7 @@ window.addEventListener('DOMContentLoaded', () => {{
         borderRadius: 5
       }}]
     }},
-    options: {{
-      plugins: {{
-        legend: {{ display: false }},
-        datalabels: {{
-          anchor: 'center', align: 'center',
-          color: '#fff', font: {{ weight: 'bold', size: 13 }},
-          formatter: v => v
-        }}
-      }},
-      scales: {{ y: {{ beginAtZero: true, ticks: {{ precision: 0 }} }} }}
-    }}
+    options: {{ plugins: {{ legend: {{ display: false }} }}, scales: {{ y: {{ beginAtZero: true, ticks: {{ precision: 0 }} }} }} }}
   }});
 
   new Chart(document.getElementById('ch-sen'), {{
@@ -701,14 +567,7 @@ window.addEventListener('DOMContentLoaded', () => {{
       }}]
     }},
     options: {{
-      plugins: {{
-        legend: {{ display: false }},
-        datalabels: {{
-          anchor: 'center', align: 'center',
-          color: '#fff', font: {{ weight: 'bold', size: 13 }},
-          formatter: v => v + '%'
-        }}
-      }},
+      plugins: {{ legend: {{ display: false }} }},
       scales: {{ y: {{ beginAtZero: true, max: 100, ticks: {{ callback: v => v+'%' }} }} }}
     }}
   }});

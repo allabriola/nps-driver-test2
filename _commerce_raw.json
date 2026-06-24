@@ -1,0 +1,1257 @@
+{
+  "ME Vendedor Seller Dev": {
+    "detractors": [
+      {
+        "cdu": "Tiene problemas con la etiqueta de su envío",
+        "sol": "Etiqueta não disponível: aguardar liberação da NF",
+        "comment": "Não resolveu mas me ajudou",
+        "nps": 6,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Tiene dudas generales sobre el despacho",
+        "sol": "Entrega sem Mercado Envios - Como funciona?",
+        "comment": "Esse IA não funciona, o mercado livre não gera etiqueta correta e só dá transtorno ao vendedor",
+        "nps": 0,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Quiere consultar por una devolución en camino",
+        "sol": "Devolução demorada: indicamos data limite",
+        "comment": "Demora no atendimento WhatsApp e numca resolvem nada",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Tiene dudas generales sobre el despacho",
+        "sol": "Regras ME: dimensões e categorias aceitas",
+        "comment": "Muitas questões são resolvidas com IA , fica complicado obter uma resposta mais acertiva. ",
+        "nps": 6,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Gestión Logística",
+        "sol": "Gestão logística: deve aguardar ativação mensal",
+        "comment": "Estou tentando resolver um problema desde janeiro e os atendents nao resolve ��",
+        "nps": 4,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Reclama por el costo de envío",
+        "sol": "Envio pelo V: alteramos medidas",
+        "comment": "O atendente no final da ligação desligou na minha cara e não retornou ,sendo que tinha outros assuntos problemas a resolver ..",
+        "nps": 4,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Temporal",
+        "sol": "Temporal - Declaração de Conteúdo Eletrônica (DCe) para sell",
+        "comment": "Não houve solução do problema ",
+        "nps": 6,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Quiere consultar por una devolución en camino",
+        "sol": "Devolução demorada: passaram 60 dias - não bonificamos",
+        "comment": "Ate agora nao tive resultado so mi transferem pra otro pessoal que vai resolve e nada",
+        "nps": 1,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Reclama por el costo de envío",
+        "sol": "Envio pelo V: não alteramos medidas",
+        "comment": "Tem acontecido erros. Fretes calculados erradamente . Demora na liberação das etiquetas . Infelizmente o serviço do MercadoLivre piorou bastante ",
+        "nps": 5,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Tiene dudas generales sobre el despacho",
+        "sol": "Usar ME: como despachar seus pacotes",
+        "comment": "Não resolveram meu problema ",
+        "nps": 1,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Reclama por el costo de envío",
+        "sol": "Envio pelo V: indicamos como carregar as dimensões",
+        "comment": "Mercado livre está muito cheio de regras, pouca abertura p pequenos vendedores por conta de catálogo c marca própria dos grandes vendedores e dificuldades p falar c atendente ",
+        "nps": 6,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Colecta",
+        "sol": "Coleta: tudo sobre o serviço",
+        "comment": "a minha pergunta ja tinha sido feita, se tem que encerrar por falta de interação, encerra. Mas coloca a resposta do que perguntei.",
+        "nps": 1,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "HT - Ventas",
+        "sol": "Reputação ME Vendas: Envio não afeta o HT",
+        "comment": "Inacreditável !!! Ninguém consegue resolver o problema … eu solicito uma coisa e recebo uma resposta sobre outro assunto que não tem absolutamente nada relacionado ao que está acontecendo ! ",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "HT - Informativas",
+        "sol": "Reputação ME Informativas: Tudo sobre o destaque de publicaç",
+        "comment": "Atendentes ficam enrolando e não sabem responder objetivamente",
+        "nps": 0,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "HT - Ventas",
+        "sol": "Reputação ME Vendas: Logística Places - Não excluímos",
+        "comment": "O atendente não ajudou a solucinar de forma positiva",
+        "nps": 2,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Reclama por el costo de envío",
+        "sol": "Envio pelo V: não alteramos medidas",
+        "comment": "Respondi pontualmente e me mandam mensagem cancelando o atendimento sendo quebeu respondi todas as vezes !!!",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "HT - Ventas",
+        "sol": "Reputação ME Vendas: Logistica Flex - Não excluimos",
+        "comment": "Os sellers fazem de tudo para fazer as coisas conforme o ML exige, além de pagar taxas abusvias, e por motivos que não estao em nosso controle, nossas contas são afetadas.",
+        "nps": 3,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Tiene problemas con la etiqueta de su envío",
+        "sol": "Etiqueta não vencida: regeneramos",
+        "comment": "Mercado livre ficou pessimo.",
+        "nps": 2,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Quiere consultar por una devolución en camino",
+        "sol": "Devolução: paquete confiscado - deve entrar em contato com o",
+        "comment": "Não resolveu meu problema ",
+        "nps": 1,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Tiene problemas con la etiqueta de su envío",
+        "sol": "Etiqueta não disponível: aguardar liberação da NF",
+        "comment": "É complicado, passei a tarde e a noite inteira ontem tentando resolver um problema que vcs mesmo criaram, ficava mudando de atendente toda hora. Aí de madrugada quando eu achei que tinha resolvido sozinho, hoje entra um outro atendente, me fala que eu tenho que emitir outro documento e ainda me pede",
+        "nps": 1,
+        "senior": "NEWBIE"
+      }
+    ],
+    "promoters": [
+      {
+        "cdu": "Temporal",
+        "sol": "Temporal - Declaração de Conteúdo Eletrônica (DCe) para sell",
+        "comment": "Atendimento solícito por parta da atendente Ronsangela. Ótima experiência e conclusão do problema. ",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Quiere consultar por una devolución en camino",
+        "sol": "Devolução demorada: cobrimos o vendedor",
+        "comment": "Atenção e resolução eficiente! Recomendo ",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Tiene dudas sobre el estado del envio",
+        "sol": "Envio cancelado - informamos motivo ao vendedor",
+        "comment": "Houve uma situação que pode ser solociobada vom o atendimento pelo whatsapp e tudo ficou resolvido rapidamente, sem stress para mim ou para o comprador.",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Tiene problemas con la etiqueta de su envío",
+        "sol": "Etiqueta não disponível: aguardar liberação da NF",
+        "comment": "Super atencioso educado com muita paciência, porem nao conseguiu resolver meu problema ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Bugs",
+        "sol": "Gestão manual - Problema resolvido",
+        "comment": "Eu iniciei a abertura do chamado já com uma expectativa que me daria muito trabalho resolver a situação, mas foi ao contrário, a pessoa que me atendeu foi rápida e mostrou total interesse em ajudar a resolver o problema. Estou muito satisfeita e contente por essa facilidade.",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "HT - Ventas",
+        "sol": "Reputação ME Vendas: Logistica Places - Excluimos",
+        "comment": "Atendimento muito bom.",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Tiene dudas sobre el estado del envio",
+        "sol": "Envio cancelado - informamos motivo ao vendedor",
+        "comment": "A anaFlávia foi muito atenciosa e me tirou todas as dúvidas ",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Temporal",
+        "sol": "Temporal - Declaração de Conteúdo Eletrônica (DCe) para sell",
+        "comment": "Excelente atendimento. Rápido e eficaz. Me ajudou bastante, obrigada.",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Temporal",
+        "sol": "Temporal - Declaração de Conteúdo Eletrônica (DCe) para sell",
+        "comment": "Foi ótima, resolveu meu problema comm paciência e cordialidade.",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Problemas para despachar un paquete/producto",
+        "sol": "Desativar ME: desativamos",
+        "comment": "Fui muito bem orientado pelas meninas do ML, acho que nunca tinha sido tão bem atendido",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Problemas para despachar un paquete/producto",
+        "sol": "Desativar ME: desativamos",
+        "comment": "Atendimento muito rapido, e bom !",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Quiere actualizar el estado de su envío",
+        "sol": "Envio - atualizar estado para entregue",
+        "comment": "Atendimento muito rápido e objetivo ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Temporal",
+        "sol": "Temporal - Declaração de Conteúdo Eletrônica (DCe) para sell",
+        "comment": "Atendimento excelente e rápido ",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Bugs",
+        "sol": "Gestão manual - Problema resolvido",
+        "comment": "O mercado livre está passando por uma instabilidade e não estou conseguindo gerar as Nfe. Estou aguardando resolverem. Ótimo atendimento HUMANO",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Tiene problemas con la etiqueta de su envío",
+        "sol": "Etiqueta disponível: já impressa",
+        "comment": "Muito bom atendimento",
+        "nps": 10,
+        "senior": "NEWBIE"
+      }
+    ]
+  },
+  "Partners": {
+    "detractors": [
+      {
+        "cdu": "Quiere saber porque no le pagaron una ruta",
+        "sol": "ME Extra: rota cancelada por operações",
+        "comment": "O solicitante fica refém do processo do ML para ter sua solicitação atendida, sem processo claro, resposta objetiva ou acesso ao resultado de sua solicitação ",
+        "nps": 6,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Quiere saber como funciona Envíos Extra",
+        "sol": "ME Extra: consulta por desafios",
+        "comment": "Não resolveram o meu problema passou por 3 atendimentos e encerraram sem resolver. PESSIMOOIIII",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Pago de ruta",
+        "sol": "ME Extra: pagamento não realizado",
+        "comment": "Não resolveu meu caso",
+        "nps": 6,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Tiene problemas durante la creacion de la cuenta",
+        "sol": "ME Extra: problemas com CNPJ",
+        "comment": "Sobre o atendimento foi ótimo sem reclamações o problema é o prazo que vocês dão para resolver uma coisa simples ",
+        "nps": 4,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Tiene un inconviente con sus metricas de Nivel de Lealtad",
+        "sol": "ME Extra: motorista reclama sobre suas metricas",
+        "comment": "Não resolveu meu problema, estou no prejuízo por um erro que que é de vcs/agência ",
+        "nps": 0,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Quiere saber porque no le pagaron una ruta",
+        "sol": "ME Extra: pagamento dentro do prazo",
+        "comment": "Como cliente não tem o que reclamar mas como parceiro drive Platinum não estou contente pois a atualização do app envios extra apenas atrapalhou nosso trabalho e em relação aos feriados está tendo desconto nas métricas que não deveriam ter tido dificultando se manter no nível ",
+        "nps": 5,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Soporte MeLi",
+        "sol": "Suporte MeLi - Informações sobre eventos ou sobre a empresa",
+        "comment": "Mercado pago ta uma merdaaaa, atendimento exelente, mas a empresa ta uma merda ",
+        "nps": 2,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Tiene un inconviente con sus metricas de Nivel de Lealtad",
+        "sol": "ME Extra: motorista reclama sobre suas metricas",
+        "comment": "MEUS DADOS SOBRE MINHAS ENTREGAS NO ENVIO EXTRA ESTÃO INCORRETOS. NÃO CONDIZEM COM A QUALIDADE DO MEU TRABALHO. ",
+        "nps": 6,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Quiere saber como funciona Envíos Extra",
+        "sol": "ME Extra: motorista quer saber sobre seu nível",
+        "comment": "Quando e para resolver problemas dos motoristas dos envios extras, e horrivel o atendimento",
+        "nps": 5,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Quiere saber porque no recibe rutas",
+        "sol": "ME Extra: oferta de rotas",
+        "comment": "Ótimo atendimento estou satisfeito  tirei minhas dúvidas fui muito bem atendido ",
+        "nps": 2,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Cuenta pausada o bloqueada",
+        "sol": "ME extra: não cumpre requisitos para ser motorista",
+        "comment": "O atendimento é um descaso total. ",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Soporte MeLi",
+        "sol": "Suporte MeLi - Informações sobre eventos ou sobre a empresa",
+        "comment": "Não tive nenhuma posição ",
+        "nps": 1,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Quiere saber porque no le pagaron una ruta",
+        "sol": "ME Extra: rota cancelada por operações",
+        "comment": "Infelizmente sempre que necessário o suporte demora a retornar contato e nunca com uma posiçao positiva. Como sempre uma desordem e querem sempre jogar a culpa em nós, sendo que sempre o erro parte deles. Por esse e outros motivos nao indico a ninguem. ",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Tiene problemas al recibir/entregar paquetes",
+        "sol": "ME Places: Solicitações de coleta extra",
+        "comment": "PRECISAMOS DE MAIS ATENÇÃO E MAIS TEMPO DISPONIBILIZADO APRA ATENDIMENTO DA AGÊNCIA, TEMOS DIVERSOS PROBLEMAS QUE NÃO TEMOS COMO RELATAR PARA ALGUÉM, JA QUE SEMPRE QUE MUDA O SUPERVISOR DA ÁREA, ESSE NÃO DEMORA NEM 2 MESES E JA MUDA NOVAMENTE. HOJE MESMO (29/04), EU NÃO SEI PARA QUE DEVO REPORTAR OS",
+        "nps": 2,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Quiere reclamar por inconvenientes en el recorrido o en el service center",
+        "sol": "ME Extra: reclamação do Service Center",
+        "comment": "Nunca podem e nem conseguem resolver nada. Empresa e plataforma cheia de erros que lesa os compradores e entregadores. O mercado livre não tem respeito por ninguém. ",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Quiere saber como funciona Envíos Extra",
+        "sol": "ME Extra: como recebo o pagamento?",
+        "comment": "Nao resolveu meu problema ",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Quiere reclamar por inconvenientes en el recorrido o en el service center",
+        "sol": "ME Extra: baixa do pacote devolvido",
+        "comment": "Atendimento não resolveu o problema sdr rota cancelada,não foi feita a leitura do QR código e não deram explicação de cancelamento de rota ,e falaram nao e iriam pagar o 40% ,tive que cancelar a rota mesmo estando no local ,atendimento do representante da loja responsável péssimo ",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Tiene problemas durante la creacion de la cuenta",
+        "sol": "ME Extra: problemas com CNPJ",
+        "comment": "Muito demorada o atendimento ",
+        "nps": 5,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Quiere saber porqué se inactivó su cuenta",
+        "sol": "ME Extra: conta pausada por Digital Account Inabilitada",
+        "comment": "Meu problema não chegou nem perto de ser resolvido ",
+        "nps": 0,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Quiere saber porque no le pagaron una ruta",
+        "sol": "ME Extra: pagamento dentro do prazo",
+        "comment": "Ainda não foi resolvido o problema ",
+        "nps": 5,
+        "senior": "NEWBIE"
+      }
+    ],
+    "promoters": [
+      {
+        "cdu": "Quiere saber porqué se inactivó su cuenta",
+        "sol": "ME Extra: conta pausada por Digital Account Inabilitada",
+        "comment": "Atenciosa me ajudou na minha solicitação ",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Quiere saber porqué se inactivó su cuenta",
+        "sol": "ME Extra: motorista ativo",
+        "comment": "Muito bom o atendimento ",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Bugs",
+        "sol": "Geral Bugs - Resposta IM",
+        "comment": "Muito bom atendimento super profissional está de parabéns ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Quiere reclamar por inconvenientes en el recorrido o en el service center",
+        "sol": "ME Extra: baixa do pacote devolvido",
+        "comment": "Atendimento perfeito , dúvida sanada em minutos.",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Quiere saber porqué se inactivó su cuenta",
+        "sol": "ME Extra: pausado - Atualização de dados fiscais",
+        "comment": "Mostrou enterese em ajudar",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Quiere saber como funciona Envíos Extra",
+        "sol": "ME Extra: como ativar o serviço?",
+        "comment": "Pelo o atendimento c a consultora foi muito bom!. Através de mensagem muito ruim?. Porque eu queria explicar uma coisa?,falava outra coisa totalmente diferente?zero. Se eu quisesse bloquear o cartão por uma coisa p fato grave? não resolvia nada!. Vcs tem que procura um meio mais rápido p o cliente r",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Quiere saber como funciona Envíos Extra",
+        "sol": "ME Extra: como recebo o pagamento?",
+        "comment": "Atendimento super bom a atendente super educada me ajudou muito",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Quiere saber porque no le pagaron una ruta",
+        "sol": "ME Extra: pagamento dentro do prazo",
+        "comment": "muito bom esse último atendimento",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Quiere saber como funciona Envíos Extra",
+        "sol": "ME Extra: consulta por desafios",
+        "comment": "Atendimento rápido , prático e de confiança. Solicitou somente os dados essências para comprovação de minha contestação e rapidamente me dêu um retorno. Humano competente e responsável, como tem que ser . ",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Soporte MeLi",
+        "sol": "Suporte MeLi - Informações sobre eventos ou sobre a empresa",
+        "comment": "O atendimento esta cada dia melhor. Mas msm assim ainda nao vonsegui resolver meu problema",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Quiere saber porque no recibe rutas",
+        "sol": "ME Extra: oferta de rotas",
+        "comment": "A atendente super atenciosa, experiência muito boa ",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Quiere saber porque no recibe rutas",
+        "sol": "ME Extra: oferta de rotas",
+        "comment": "Rapido e claro o atendimento ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Quiere saber como funciona Envíos Extra",
+        "sol": "ME Extra: como ativar o serviço?",
+        "comment": "Atendimento excelente ",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Tiene problemas durante la creacion de la cuenta",
+        "sol": "ME Extra: veículo não permitido",
+        "comment": "Atendimento muito bom!! ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Tiene un inconviente con sus metricas de Nivel de Lealtad",
+        "sol": "ME Extra: problemas com meu nível",
+        "comment": "Quero solução meu problema sou Platinum, está ali prata",
+        "nps": 10,
+        "senior": "EXPERT"
+      }
+    ]
+  },
+  "Publicaciones Seller Dev": {
+    "detractors": [
+      {
+        "cdu": "Métricas y comisiones",
+        "sol": "Afiliados - Funcionamento das comissões",
+        "comment": "Estou como afiliado e minhas porcentagens não entraram e alegaram que eram pessoas que estavam na minha lista de contatos e por isso, não foi computado.Se eu fiz as indicações das compras, seria justo eu receber por elas, pois não fiz isso nas regras.",
+        "nps": 3,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Métricas y comisiones",
+        "sol": "Afiliados - Painel de Métricas",
+        "comment": "Gleice ótima atendente ,só isso mesmo ",
+        "nps": 6,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Posicionamiento",
+        "sol": "Posicionamento - Comprador newbie não vê um anúncio",
+        "comment": "Não fizeram questão de resolver meu problema e me enrolaram ",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Métricas y comisiones",
+        "sol": "Afiliados - Funcionamento das comissões",
+        "comment": "Simplesmente não resolvem o problema. Respondem os questionamentos com redundância e o problema nunca é selecionado de fato. Chegar ser ridícula as resposta tais como:\"não conseguimos localizar o número do pedido\".",
+        "nps": 1,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Denuncia Spoof",
+        "sol": "Denúncia - Denúncia de Spoof",
+        "comment": "Entrava e saia atendente sem me dar respostas claras, instruções corretas, realmente um dos piorea atendimentos que ja tive. O último atendente foi ótimo, mas as duas primaras que vieram, foram pessimas nao me atenderam nada bem, em especial Jenifer! Não respondiabo que eu pergntava, não tinha uma c",
+        "nps": 1,
+        "senior": "UNAVAILABLE"
+      },
+      {
+        "cdu": "Moderaciones para KITS virtuales",
+        "sol": "Moderação de KITS – Kit moderado por problemas nos component",
+        "comment": "Me deixou aguardando e não terminou o atendimento.",
+        "nps": 3,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Métricas y comisiones",
+        "sol": "Afiliados - Funcionamento das comissões",
+        "comment": "não recebi a solução ainda",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Clips",
+        "sol": "Potencializador (Clips) - Como funciona",
+        "comment": "Ja perdi duas vendas por conta das politicas de privacidade do mercado livre e hoje perdi mais uma ",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Métricas y comisiones",
+        "sol": "Afiliados - Funcionamento das comissões",
+        "comment": "Não teve nenhuma preocupação em verificar as informações passadas, fiz contato sobre o mesmo assunto duas vezes e deram como resolvido, mas não foi.",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Bugs",
+        "sol": "Geral Bugs - Resposta Consulta BM",
+        "comment": "infelizmente eu estava pensando em investir em vendas como afiliados para o mercado livre mas infelizmente depois da última experiência que tiver vou continuar trabalhando somente com meu trabalho pessoal já que é bastante complicado conseguir gerar levante através da venda por afiliados no mercado ",
+        "nps": 0,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Configuración y funcionalidades",
+        "sol": "Afiliados - Funcionalidades para recomendar anúncios",
+        "comment": "Fui bem atendida pela Talita, porém não reverteram a confusão ainda e o programa de afiliados tem muitos empecilhos (produtos não comissionáveis, venda não repassada, valores de repasse que não batem, prazo de cookie, canal de divulgação restrito)",
+        "nps": 6,
+        "senior": "TRAINING"
+      },
+      {
+        "cdu": "Rollback",
+        "sol": "Técnica proibida - Rollback (reativamos o anúncio)",
+        "comment": "Prezados, formalizo minha profunda insatisfação com a ineficiência do atendimento interno. É inaceitável lidar com um suporte tão robotizado, onde a equipe demonstra total ausência de raciocínio analítico e autonomia. Os colaboradores limitam-se a recitar o regimento interno de forma cega e engessad",
+        "nps": 0,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Métricas y comisiones",
+        "sol": "Afiliados - Funcionamento das comissões",
+        "comment": "Achei a regra de indicacao sem sentido.Como assim nao posso indicar links para familiares e amigos? ..",
+        "nps": 5,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Publicar",
+        "sol": "Anunciar - Como Anunciar um produto",
+        "comment": "Fiquei com varias duvidas , gostaria de um contato telefonico  , tive que pausar meu anuncio ",
+        "nps": 4,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Activar/desactivar",
+        "sol": "Afiliados - Não quer participar do programa",
+        "comment": "Ativei um programa de afiliados. Nao teve venda nenhuma dos meus produtos. Agora é impossível cancelar essa campanha, e ninguém soube ajudar.",
+        "nps": 0,
+        "senior": "TRAINING"
+      },
+      {
+        "cdu": "Métricas y comisiones",
+        "sol": "Afiliados - Funcionamento das comissões",
+        "comment": "Preciso de resolução no meu caso",
+        "nps": 3,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Integradores",
+        "sol": "Integrador / Partners - Para que serve e como fazer",
+        "comment": "Só trazem mais problemas e mais trabalho, o foco do antendimento é fazer o vendedor trabalhar mais, ficar tirando prints e descrevendo passo a passo do que fez, solução que é bom não vem.",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Métricas y comisiones",
+        "sol": "Afiliados - Funcionamento das comissões",
+        "comment": "Meu problema não foi resolvido ainda e os atendentes só respondem com frases prontas como se fossem robôs ",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Activar/desactivar",
+        "sol": "Afiliados - Configuração do perfil (Nome, fotos, URL e descr",
+        "comment": "Eu não resolvi o meu problema, discordo totalmente sobre o cancelamento da comissão das 14 lanternas que vendi. Eu divulgo os links nos grupos, no privado das pessoas, e tbm no meu status, pq a maioria não quer entrar em grupos. Fica complicado vender pra vcs com essas regras. Trabalhar de graça?? C",
+        "nps": 0,
+        "senior": "TRAINING"
+      },
+      {
+        "cdu": "Rollback",
+        "sol": "Propriedade Intelectual – Retiramos a moderação para reativa",
+        "comment": "O Mercado Livre bloqueou indevidamente minha resposta de uma pergunta do cliente, inviabilizando um provável negócio e receita pela venda. ",
+        "nps": 5,
+        "senior": "NEWBIE"
+      }
+    ],
+    "promoters": [
+      {
+        "cdu": "Métricas y comisiones",
+        "sol": "Afiliados - Funcionamento das comissões",
+        "comment": "Minha pergunta foi resolvida e muito atenciosos",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Métricas y comisiones",
+        "sol": "Afiliados - Painel de Métricas",
+        "comment": "Atendimento excelente, sempre deixa tudo muito bem claro ",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Mal categorizado",
+        "sol": "Técnica Proibida - Recategorizamos anúncio",
+        "comment": "muito agil e inteligente",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Activar/desactivar",
+        "sol": "Afiliados - Configuração do perfil (Nome, fotos, URL e descr",
+        "comment": "Fui muito bem atendida .Super indico !Deus abençoe ����",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Rollback",
+        "sol": "Artigo proibido - Rollback (reativamos o anúncio)",
+        "comment": "Tive um bom atendimento! ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Publicación activa",
+        "sol": "Consultas gerais – O anúncio está ativo",
+        "comment": "Excelente atendimento do Matheus ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Usuario Restringido",
+        "sol": "Usuário restringido - Finalizou a suspensão e a conta está a",
+        "comment": "A Ju foi excepcional em seu atendimento. Muito prestativa e atenciosa.",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Métricas y comisiones",
+        "sol": "Afiliados - Funcionamento das comissões",
+        "comment": "Um excelente e rápido atendimento ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Modificar",
+        "sol": "Modificar - Modificar características principais, secundária",
+        "comment": "Execelente atendimento! Atendente prestativa e competente ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Métricas y comisiones",
+        "sol": "Afiliados - Funcionamento das comissões",
+        "comment": "Tirei todas as dúvidas e fui muito bem atendido. ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "TBD",
+        "sol": "Técnica Proibida – Publica com ME2 mas depois diz que não te",
+        "comment": "Deixando claro que o atendimento com oa atendentes é otimo mas com esta IA de vcs é pessimo. O atendimento virtual sempre foi horrivel pois esta IA inconsistencia artificial responde tudo errado e evazivamente",
+        "nps": 10,
+        "senior": "UNAVAILABLE"
+      },
+      {
+        "cdu": "Publicar",
+        "sol": "Anunciar - Como Anunciar um produto",
+        "comment": "Em relação à equipe que me atendeu foi muito bem tratado e eu agradeço a atenção e a pessoa que me atendeu me atendeu muito bem que Deus abençoe a todos nós eu aguardo o retorno",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Métricas y comisiones",
+        "sol": "Afiliados - Funcionamento das comissões",
+        "comment": "Pessoal prestativo, me ajudou bastante ",
+        "nps": 9,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Métricas y comisiones",
+        "sol": "Afiliados - Funcionamento das comissões",
+        "comment": "Bastante cortesia, porém ainda leva um certo tempo para cada resposta, se fosse um pouco mais rápido ajudaria, no em tanto em linhas gerais fui atendido satisfatóriamente",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Posicionamiento",
+        "sol": "Potencializador (Posicionamento) - Anúncio está nas listagen",
+        "comment": "Respondeu bem as minhas dúvidas",
+        "nps": 10,
+        "senior": "TRAINING"
+      }
+    ]
+  },
+  "Post Venta Seller Dev": {
+    "detractors": [
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação afeta a reputação e excluí",
+        "comment": "Estou aguardando ajuda ainda, por isso a nota 5. 👍",
+        "nps": 5,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Consultas informativas de Reputación",
+        "sol": "Programa Decolagem - Como funciona o programa",
+        "comment": "alem de passar por 8 atendentes ninguem resolve e so me falam coisas que ja sei umA PORCARIA. . Assunto: Reclamação Formal - Contratação Indevida \"Programa Decola\" - Pedido de Estorno Imediato (Protocolo anterior: 454062255 e 454075316. À equipe de suporte do Mercado Livre / Mercado Pago,. Eu, Adria",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação afeta a reputação por prod",
+        "comment": "Pessimo atendimento. Incoerentes. Falam uma coisa pela plataforma e depois fazem. Nao deram nenhum valor paraum usiario ha mais de 20 anos. Decepcao. Isso resume ",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação afeta a reputação e excluí",
+        "comment": "atendimento sem transparência com o vendedor ",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação afeta a reputação por prod",
+        "comment": "Pessimo atendimento e nenhum respaldo para o vendedor ",
+        "nps": 0,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação revisada",
+        "comment": "15 tentativas e nenhum resposta ",
+        "nps": 0,
+        "senior": "UNAVAILABLE"
+      },
+      {
+        "cdu": "Consultas informativas de Reputación",
+        "sol": "Experiência de compra - Status do anúncio",
+        "comment": "Demora no atendimento, não é objetivo, nunca resolve nada.",
+        "nps": 2,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação revisada",
+        "comment": "Fechou o chat sem resolver meu problema ",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Consultas informativas de Reputación",
+        "sol": "Experiência de compra - Status do anúncio",
+        "comment": "Difícil pois foi jogado para várias pessoas e não me passaram uma posição.Hoje que tive uma resposta de esperar, mas o problema ainda continua.. pois me pediram para aguardar ",
+        "nps": 4,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação afeta a reputação e excluí",
+        "comment": "infelizmente fiz a entrega fiz a confirmação no app, mas o mercadolivre nao identificou e me prejudicou minha conta com o atraso, sendo assim nao tive uma boa experiencia, mesmo porque a dificuldade de resolver esse problema gerado pelo proprio app",
+        "nps": 5,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação afeta a reputação por prod",
+        "comment": "Atenndimento horrivel.",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Cancelaciones",
+        "sol": "Analisamos reputação - Cancelamento afeta a reputação e excl",
+        "comment": "A minha reputação ainda não melhorou.",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Consultas informativas de Reputación",
+        "sol": "Removing Bad Seller - Status da conta",
+        "comment": "Fui bloqueado por culpa de instabilidade da plataforma, não por minha culpa, atrasei o envio porque a plataforma não emitia a etiqueta de envio ",
+        "nps": 0,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Cancelaciones",
+        "sol": "Analisamos reputação - Cancelamento afeta a reputação e excl",
+        "comment": "O atendimento está deixando a desejar e a resolução do caso está sendo lenta e confusa. Estou insatisfeito com o suporte até o momento.",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação afeta a reputação por prod",
+        "comment": "Cliente fez uma reclamação improcedente, e o mercado livre não reconhece que o cliente reclamou do produto sem ter razão. Fiz várias tratativas para rever situação e não foi possível por falta de conhecimento dos atendentes e do atendimento pelo computador IA",
+        "nps": 3,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Consultas informativas de Reputación",
+        "sol": "Removing Bad Seller - Status da conta",
+        "comment": "Péssimo mais de 3 horas no telefone, não resolveram meu problema, dias depois recebo uma mensagem que minha conta estava restrita pra emitir boletos, porque a reputação estaria vermelha no mercado livre, eu não vendo nada no mercado livre apenas utilizo a plataforma do mercado pago, estou sem poder ",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Mediación abierta",
+        "sol": "Mediação aberta - Consulta sobre a reputação",
+        "comment": "Meu problema não foi resolvido",
+        "nps": 0,
+        "senior": "TRAINING"
+      },
+      {
+        "cdu": "Cancelaciones",
+        "sol": "Analisamos reputação - Cancelamento afeta a reputação e excl",
+        "comment": "Deixei de vender por conta de um erro que não é meu, quando erro minha reputação cai, e nesse caso?. O comprador vai, com certeza, avaliar mal, novamente sou penalizado por algo que foge ao meu controle, aguardo que alguém, não robô, entre em contato comigo, muito obrigado pela atenção.",
+        "nps": 3,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Consultas informativas de Reputación",
+        "sol": "Programa Decolagem - Como funciona o programa",
+        "comment": "Estou com problemas na minha conta de vendedora e ninguém resolve, já chamei o suporte várias vezes! Bem complicado. ",
+        "nps": 6,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação afeta a reputação por prod",
+        "comment": "NÃO RESOLVEU MEU PROBLEMA",
+        "nps": 6,
+        "senior": "NEWBIE"
+      }
+    ],
+    "promoters": [
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação não afeta a reputação",
+        "comment": "Tenho uma ótimo relacionamento com vcs,  seu marktplace é muito bom de fácil acesso e com valorização aos vendedores.  ������",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Cancelaciones",
+        "sol": "Analisamos reputação - Cancelamento não afeta a reputação",
+        "comment": "Muito bom atendimento parabéns ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Cancelaciones",
+        "sol": "Analisamos reputação - Cancelamento revisado",
+        "comment": "Fui muito bem atendido pelo Clebson. Não sei se era um operador bom! ou um IA boa. MAs o atendimento foi otimo",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação afeta a reputação e excluí",
+        "comment": "A atende Ana Beatriz foi muito prestativa, rapida e objetiva, e muito educada!",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação afeta a reputação e excluí",
+        "comment": "Atendimento muito prestativo.",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Cancelaciones",
+        "sol": "Analisamos reputação - Cancelamento afeta a reputação e excl",
+        "comment": "Apesar dos problemas do sistema o atendente foi ótimo. Marcio Henrique o nome dele. Obrihado",
+        "nps": 9,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação afeta a reputação e excluí",
+        "comment": "Rapido e eficaz como deve ser ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação não afeta a reputação",
+        "comment": "Ajudou completamente com meu problema de forma muito educada",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Auto: Critérios reclamações - não impacta porque comprador s",
+        "comment": "A atendente me deu um ótimo atendimento ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Cancelaciones",
+        "sol": "Analisamos reputação - Cancelamento não afeta a reputação",
+        "comment": "Foi rapido  e pratico ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação afeta a reputação e excluí",
+        "comment": "Atendente muito educado e receptivo,  ouviu o meu problema analisou e concluiu com a solução. ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação afeta a reputação por prod",
+        "comment": "Pessoal  profissionais , e bem paciente ",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Cancelaciones",
+        "sol": "Analisamos reputação - Cancelamento afeta a reputação e excl",
+        "comment": "Excelente atendimento",
+        "nps": 10,
+        "senior": "UNAVAILABLE"
+      },
+      {
+        "cdu": "Cancelaciones",
+        "sol": "Analisamos reputação - Cancelamento afeta a reputação e excl",
+        "comment": "A atendente foi muito prestativa e me ajudou",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação afeta a reputação e excluí",
+        "comment": "Agradeço pela atenção e compreensão sobre a situação,  consegui resolver facilmente ",
+        "nps": 10,
+        "senior": "EXPERT"
+      }
+    ]
+  },
+  "PCF Vendedor Seller Dev": {
+    "detractors": [
+      {
+        "cdu": "Generales",
+        "sol": "Geral Contatos – Quem deve nos contatar é a contraparte",
+        "comment": "Totalmente insatisfeito com td",
+        "nps": 0,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Mediación cerrada",
+        "sol": "Mediação encerrada com IA – Desacordo com a resolução",
+        "comment": "A mensagem enviada foi simpatica e bem apresentada, porém citou que não condiz com código de defesa do consumidor. ",
+        "nps": 2,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Mediación abierta",
+        "sol": "V pede informações sobre mediação em andamento",
+        "comment": "Nada é resolvido quando estamos sem retomo de uma mediação com o prazo de retorno já expirado",
+        "nps": 0,
+        "senior": "UNAVAILABLE"
+      },
+      {
+        "cdu": "Generales",
+        "sol": "Consulta derivada - Compartilhamos resposta da equipe respon",
+        "comment": "Taxa absurda e ainda fica com o dinheiro do cliente retido. ",
+        "nps": 0,
+        "senior": "UNAVAILABLE"
+      },
+      {
+        "cdu": "Mediación abierta",
+        "sol": "Mediação aberta com IA – Vendedor em desacordo com a culpabi",
+        "comment": "O cliente quer devolver o produto, e por escolher errado na tratativa de devolução, nossa reputação foi prejudicada. O sistema de vocês penaliza o vendedor a todo momento.",
+        "nps": 0,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Antes del reclamo",
+        "sol": "Como ajudar o comprador (V)",
+        "comment": "Estou com problemas com a compra que realizei, o vendedor alega que não tem estoque... O anúncio continua ativo e com valor maior. Artigo 35 do CDC deixa bem claro que não sou obrigado a aceitar a devolução do dinheiro ",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Mediación abierta",
+        "sol": "Não pode enviar mensagens - Reclamação / Mediação aberta (V)",
+        "comment": "Muita demora para se quer me informarem algo concreto sobre um problema que não me pertence e sim à logística de devolução de um produto. Ninguém consegue me passar alguma informação concreta e objetiva. Me falam apenas para aguardar. ",
+        "nps": 3,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Mediación abierta",
+        "sol": "Não pode enviar mensagens - Reclamação / Mediação aberta (V)",
+        "comment": "Nem parece que conversei com um humano, horrivel a experiencia.Pior que falar com a IA.",
+        "nps": 0,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Devoluciones",
+        "sol": "Devoluções: Dúvida reversa: gerando código de devolução (V)",
+        "comment": "40 minutos tentando contato e nada foi resolvido",
+        "nps": 0,
+        "senior": "TRAINING"
+      },
+      {
+        "cdu": "Costos de devolución",
+        "sol": "Custos - Custo de devolução cobrado do vendedor",
+        "comment": "Péssimo atendimento personalizado ",
+        "nps": 1,
+        "senior": "TRAINING"
+      },
+      {
+        "cdu": "Mediación cerrada",
+        "sol": "Mediação encerrada com IA – Desacordo com a resolução",
+        "comment": "Toda hora vcs falam uma coisa diferente e não resolve a situação, sempre gerando prejuízo para os vendedores.",
+        "nps": 0,
+        "senior": "TRAINING"
+      },
+      {
+        "cdu": "Devoluciones",
+        "sol": "Devoluções - Recebeu produto com problemas - fora do prazo (",
+        "comment": "O atendente encerrou a conversa sem me ajudar no caso, foi como se tivesse \"desligado o telefone da minha cara\", foi péssimo, não recomendo de maneira nenhuma. E o meu problema não foi solucionado!",
+        "nps": 0,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Bugs",
+        "sol": "Geral Bugs - Resposta IM",
+        "comment": "Atendimento virtual orientou errado prejudicando a negociação com o comprador. Em seguida, atendimento humano repetindo a mesma orientação errônea, transferência de um atendente para outro, demora em espera, nada de se assumir responsabildade, compensando com urgencia e prioridade, sendo empurrada a",
+        "nps": 5,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Mediación abierta",
+        "sol": "Mediação aberta com IA – Outros erros não mapeados",
+        "comment": "Não foi resolvido o meu problema, não consegui falar com ninguém serumano por ligação, para explicar o que aconteceu. ",
+        "nps": 0,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Mediación abierta",
+        "sol": "Mediação aberta com IA – Vendedor em desacordo com a culpabi",
+        "comment": "O atendimento é completamente travado, o atendente não tem poderes pra ajudar em nada. Eu paguei mais de 21 mil reais por uma lavadora e secadora na loja oficial da Samsung do mercado livre em começo de Março, não foi entregue, já tentei contato com o mercado livre por vários canais do aplicativo, s",
+        "nps": 1,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Devoluciones",
+        "sol": "Devoluções: Não entregue, há mais de 30 dias",
+        "comment": "Meu problema nao foi solucionado. E nao ha nada que possa ser feito segundo a atendente. ",
+        "nps": 0,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Devoluciones",
+        "sol": "Devoluções - Não recebeu o pacote, pode iniciar a mediação",
+        "comment": "problema nao foi resolvido",
+        "nps": 3,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Mediación abierta",
+        "sol": "Mediação aberta com IA – Vendedor em desacordo com a culpabi",
+        "comment": "A atendente no fim da ligação reclamou sobre a ligação e deu para ouvir nitidamente oq ela disse! MAS QUE INFERNO DE LIGACAO! ",
+        "nps": 0,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Mediación abierta",
+        "sol": "Mediação aberta - Dúvidas sobre a devolução",
+        "comment": "Demorou demais para responder muito muito mesmo e não resolveu o problema",
+        "nps": 1,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Devoluciones",
+        "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como",
+        "comment": "O atendimento pela IA é ruim e desgastante. O tempo de espera até ser atendido é muito longo. A solução proposta pela atendente não foi satisfatória, pois já está claro que o produto constará como extraviado. O único ponto positivo foi a educação da atendente que passou as informações com clareza, b",
+        "nps": 4,
+        "senior": "EXPERT"
+      }
+    ],
+    "promoters": [
+      {
+        "cdu": "Devoluciones",
+        "sol": "Devoluções - C devolveu mais de um produto na mesma etiqueta",
+        "comment": "Os atendente são sempre atenciosos e cordiais.",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Mediación abierta",
+        "sol": "Mediação aberta - Consulta sobre a reputação",
+        "comment": "Sou um vendedor novo no mercado livre, tenho infelizmente aprendido no erro, tento de todas as maneiras melhorar o atendimento e tenho encontrado na plataforma do mercado livre ajuda nesse processo, tenho muita gratidão pela plataforma do mercado livre, que trouxe esperança de um futuro brilhante, p",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Mediación abierta",
+        "sol": "Mediação aberta com IA – Vendedor em desacordo com a culpabi",
+        "comment": "Foi boa. Atendende educada, soube sanar a duvida. ",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Costos de devolución",
+        "sol": "Custos - Estorno do custos por tipificação errada",
+        "comment": "Foi rapido e resplveu meu problemas com clareza, avistou o erro e corrigiu ��",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Mediación abierta",
+        "sol": "Mediação aberta - Dúvidas sobre a devolução",
+        "comment": "Foi boa, me atenderam super bem e resolveram meu problema",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Devoluciones",
+        "sol": "Devoluções - Dentro da promessa de entrega",
+        "comment": "Atendimento Hoje muito satisfatório, de pronto fui atendido após solicitação. ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Devoluciones",
+        "sol": "Devoluções - V quer saber como funciona devolução de dinheir",
+        "comment": "Allana foi muito atenciosa comigo. ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Devoluciones",
+        "sol": "Devoluções: Dúvida reversa: gerando código de devolução (V)",
+        "comment": "Me informou e teve o tempo necessario",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Mediación abierta",
+        "sol": "V pede informações sobre mediação em andamento",
+        "comment": "Mesmo que a situação ainda não tenha sido totalmente resolvida, a atendente foi muito atenciosa e conseguiu me auxiliar de forma clara, me dando um bom direcionamento sobre como seguir com o caso.",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Mediación abierta",
+        "sol": "Mediação aberta - Consulta sobre a reputação",
+        "comment": "Atendente muito atenciosa",
+        "nps": 10,
+        "senior": "EXPERT"
+      },
+      {
+        "cdu": "Mediación abierta",
+        "sol": "Mediação aberta - Consulta sobre a reputação",
+        "comment": "Mercado livre sempre atende nossas demandas. ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Devoluciones",
+        "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como",
+        "comment": "Trabalhamos com o mercado livre há anos e sempre tivemos ótimos resultados e resoluções de problemas.",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Mediación abierta",
+        "sol": "Mediação aberta - Dúvidas sobre a devolução",
+        "comment": "Louise foi muito prestativa ",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Mediación abierta",
+        "sol": "Mediação aberta - Dúvidas sobre a devolução",
+        "comment": "Atendente muito atenciosa e cordial",
+        "nps": 10,
+        "senior": "NEWBIE"
+      },
+      {
+        "cdu": "Devoluciones",
+        "sol": "Devoluções - Recebeu produto com problemas - fora do prazo (",
+        "comment": "Muita Educada e cordial",
+        "nps": 10,
+        "senior": "NEWBIE"
+      }
+    ]
+  }
+}

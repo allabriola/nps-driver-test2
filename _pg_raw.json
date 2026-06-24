@@ -1,0 +1,5051 @@
+[
+  {
+    "periodo": "S1_new",
+    "proc": "Acreditación de Pagos - Payers",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 5,
+    "d": 4,
+    "s": 10
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Anulación de Pagos - Payers",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 2,
+    "d": 1,
+    "s": 3
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "CDB Investments",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 7,
+    "d": 6,
+    "s": 15
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Chargeback Comprador",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 3,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Consultas y Problemas con Pagos - Payers",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 4,
+    "d": 1,
+    "s": 5
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Criptomonedas",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 5,
+    "d": 3,
+    "s": 8
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Fondos Investments",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 3,
+    "d": 2,
+    "s": 5
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades de Seguros - Payers",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 3,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades de la Wallet",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 5,
+    "d": 0,
+    "s": 6
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades do Open Finance",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 3,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades generales de MP - Payers",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 5,
+    "d": 0,
+    "s": 5
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "LCI/LCA investments",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 2,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Portabilidade salarial",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 26,
+    "d": 4,
+    "s": 33
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Post_Compra_Funcionalidades_MP_Comprador",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Problemas de seguridad",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 16,
+    "d": 8,
+    "s": 30
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Rendimientos en cuenta",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 12,
+    "d": 0,
+    "s": 13
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reservas",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 8,
+    "d": 0,
+    "s": 9
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Seguros transaccional - Payers",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 10,
+    "d": 4,
+    "s": 14
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Transferencias de dinero",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 15,
+    "d": 6,
+    "s": 24
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Acreditación de Pagos - Payers",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 5,
+    "d": 2,
+    "s": 7
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Anulación de Pagos - Payers",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 5,
+    "d": 0,
+    "s": 8
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Chargeback Comprador",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 3,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Consultas y Problemas con Pagos - Payers",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 5,
+    "d": 1,
+    "s": 7
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades de Seguros - Payers",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 1,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades de la Wallet",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 10,
+    "d": 4,
+    "s": 15
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades generales de MP - Payers",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 6,
+    "d": 2,
+    "s": 9
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Gestión de llaves - PIX",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 3,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Post_Compra_Funcionalidades_MP_Comprador",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Problemas de seguridad",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 39,
+    "d": 15,
+    "s": 62
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Seguros transaccional - Payers",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 8,
+    "d": 5,
+    "s": 15
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Transferencias de dinero",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 28,
+    "d": 0,
+    "s": 30
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Chargeback Comprador",
+    "pg": "Base MP",
+    "level": "Banking",
+    "p": 6,
+    "d": 1,
+    "s": 7
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Entrada y salida de dinero físico",
+    "pg": "Base MP",
+    "level": "Banking",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Gestión de llaves - PIX",
+    "pg": "Base MP",
+    "level": "Banking",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Problemas de seguridad",
+    "pg": "Base MP",
+    "level": "Banking",
+    "p": 36,
+    "d": 11,
+    "s": 50
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Transferencias de dinero",
+    "pg": "Base MP",
+    "level": "Banking",
+    "p": 19,
+    "d": 4,
+    "s": 24
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Acreditacion del cobro",
+    "pg": "Big Sellers",
+    "level": "Big Sellers",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Anulacion de cobros",
+    "pg": "Big Sellers",
+    "level": "Big Sellers",
+    "p": 3,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Anulaciones Top OFF",
+    "pg": "Big Sellers",
+    "level": "Big Sellers",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Excepciones Funcionales Top Sellers",
+    "pg": "Big Sellers",
+    "level": "Big Sellers",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Extractos y Reportes",
+    "pg": "Big Sellers",
+    "level": "Big Sellers",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades de Online Payments - Sellers",
+    "pg": "Big Sellers",
+    "level": "Big Sellers",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Point - Mantenimiento del dispositivo",
+    "pg": "Big Sellers",
+    "level": "Big Sellers",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Acreditacion del cobro",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 3,
+    "d": 0,
+    "s": 4
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Acreditaciones Top OFF",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 0,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Chargeback vendedor",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 1,
+    "d": 1,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Configuración de la cuenta",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 5,
+    "d": 0,
+    "s": 5
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Extractos y Reportes",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 6,
+    "d": 0,
+    "s": 6
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades Seller Wallet",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 1,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades de Online Payments - Sellers",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades de la Wallet",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades de tarjetas de Crédito",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 7,
+    "d": 0,
+    "s": 8
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades de tarjetas de Débito y Crédito",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades de tarjetas de débito",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades generales MP - Sellers",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Gestión de llaves - PIX",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Merchant Credits",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 7,
+    "d": 2,
+    "s": 10
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Merchant Credits - Solicitud y Límites",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 24,
+    "d": 3,
+    "s": 27
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Mi dinero",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 2,
+    "d": 0,
+    "s": 4
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Point - Como adquirir dispositivo",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 2,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Point - Como usar dispositivo",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 7,
+    "d": 0,
+    "s": 7
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Point - Logística",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 4,
+    "d": 0,
+    "s": 4
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Point - Mantenimiento del dispositivo",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 36,
+    "d": 1,
+    "s": 41
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Problemas con pagos - Cards",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 4,
+    "d": 1,
+    "s": 5
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Restricciones",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 2,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Tarjetas de crédito - Solicitud y Límites",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 8,
+    "d": 5,
+    "s": 13
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Tasas e Incentivos Sellers",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 8,
+    "d": 4,
+    "s": 15
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Calidad de foto",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Despacho Ventas y Publicaciones",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Gestiones Operativas",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Gestión de Publicación",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 2,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "PR - Propiedad intelectual",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "PR - Técnica prohibida",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 19,
+    "d": 0,
+    "s": 19
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Post Compra Funcionalidades Vendedor",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 14,
+    "d": 1,
+    "s": 16
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Potenciar Ventas",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reputación",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 41,
+    "d": 0,
+    "s": 44
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reputación ME",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 10,
+    "d": 0,
+    "s": 10
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reputación ML Masivos",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reversa",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 4,
+    "d": 0,
+    "s": 5
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Viaje del paquete - Vendedor",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 3,
+    "d": 1,
+    "s": 4
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Arrepentimiento - FBM",
+    "pg": "OUV",
+    "level": "Canais Consumeristas",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Defectuoso - XD",
+    "pg": "OUV",
+    "level": "Canais Consumeristas",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Privacidad de datos - LGPD",
+    "pg": "OUV",
+    "level": "Canais Regulatórios",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Restricciones",
+    "pg": "OUV",
+    "level": "Canais Regulatórios",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Cancelación de cuenta",
+    "pg": "SAC",
+    "level": "Canais Regulatórios",
+    "p": 14,
+    "d": 1,
+    "s": 16
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Chargeback Comprador",
+    "pg": "SAC",
+    "level": "Canais Regulatórios",
+    "p": 3,
+    "d": 1,
+    "s": 4
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Point - Mantenimiento del dispositivo",
+    "pg": "SAC",
+    "level": "Canais Regulatórios",
+    "p": 32,
+    "d": 4,
+    "s": 38
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Problemas con acceso y factores",
+    "pg": "SAC",
+    "level": "Canais Regulatórios",
+    "p": 73,
+    "d": 5,
+    "s": 83
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Problemas con pagos - Cards",
+    "pg": "SAC",
+    "level": "Canais Regulatórios",
+    "p": 22,
+    "d": 3,
+    "s": 27
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Problemas de seguridad",
+    "pg": "SAC",
+    "level": "Canais Regulatórios",
+    "p": 72,
+    "d": 19,
+    "s": 97
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Restricciones",
+    "pg": "SAC",
+    "level": "Canais Regulatórios",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Diferente - DS",
+    "pg": "CAP",
+    "level": "Canais Reputacionais",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Posterior a la Entrega",
+    "pg": "CAP",
+    "level": "Canais Reputacionais",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Jornada de la entrega",
+    "pg": "OUV",
+    "level": "Canais Reputacionais",
+    "p": 1,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Posterior a la Entrega",
+    "pg": "OUV",
+    "level": "Canais Reputacionais",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Costos de envío - Comprador",
+    "pg": "Buyer Compra",
+    "level": "Comprador",
+    "p": 2,
+    "d": 3,
+    "s": 5
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Estado del pago de una compra - Buyer",
+    "pg": "Buyer Compra",
+    "level": "Comprador",
+    "p": 4,
+    "d": 6,
+    "s": 12
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Jornada de la entrega",
+    "pg": "Buyer Compra",
+    "level": "Comprador",
+    "p": 2,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Loyalty",
+    "pg": "Buyer Compra",
+    "level": "Comprador",
+    "p": 45,
+    "d": 20,
+    "s": 70
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Posterior a la Entrega",
+    "pg": "Buyer Compra",
+    "level": "Comprador",
+    "p": 47,
+    "d": 22,
+    "s": 73
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Pre Compra",
+    "pg": "Buyer Compra",
+    "level": "Comprador",
+    "p": 42,
+    "d": 18,
+    "s": 64
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Viaje del paquete - Comprador",
+    "pg": "Buyer Compra",
+    "level": "Comprador",
+    "p": 95,
+    "d": 26,
+    "s": 136
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Apelaciones  - Retorno Buyer",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Apelaciones Buyer",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 4,
+    "d": 3,
+    "s": 7
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Arrepentimiento - 1P&PL",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 15,
+    "d": 2,
+    "s": 18
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Arrepentimiento - CBT",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 25,
+    "d": 2,
+    "s": 31
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Arrepentimiento - DS",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 17,
+    "d": 4,
+    "s": 21
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Arrepentimiento - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 47,
+    "d": 14,
+    "s": 63
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Arrepentimiento - Flex",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Arrepentimiento - MP",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 9,
+    "d": 2,
+    "s": 13
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Arrepentimiento - Super - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 5,
+    "d": 0,
+    "s": 5
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Arrepentimiento - XD",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 75,
+    "d": 13,
+    "s": 95
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Asignación del Contáctanos PDD FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 1,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Asignación del contáctanos Buyers Pre",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Caja Vacía - 1P&PL",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 8,
+    "d": 0,
+    "s": 8
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Caja Vacía - CBT",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 5,
+    "d": 0,
+    "s": 6
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Caja Vacía - DS",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 4,
+    "d": 0,
+    "s": 4
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Caja Vacía - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 9,
+    "d": 2,
+    "s": 13
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Caja Vacía - XD",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 12,
+    "d": 2,
+    "s": 15
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Caja vacía - Flex",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Caja vacía - Super - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Defectuoso - 1P&PL",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 83,
+    "d": 5,
+    "s": 91
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Defectuoso - CBT",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 10,
+    "d": 1,
+    "s": 11
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Defectuoso - DS",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 8,
+    "d": 5,
+    "s": 14
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Defectuoso - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 52,
+    "d": 14,
+    "s": 68
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Defectuoso - Flex",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 6,
+    "d": 1,
+    "s": 8
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Defectuoso - MP",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 17,
+    "d": 8,
+    "s": 29
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Defectuoso - Super - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 6,
+    "d": 2,
+    "s": 8
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Defectuoso - XD",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 50,
+    "d": 15,
+    "s": 67
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Diferente - 1P&PL",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 7,
+    "d": 1,
+    "s": 8
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Diferente - CBT",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 30,
+    "d": 3,
+    "s": 34
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Diferente - DS",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 13,
+    "d": 6,
+    "s": 19
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Diferente - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 38,
+    "d": 15,
+    "s": 59
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Diferente - Flex",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Diferente - MP",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 6,
+    "d": 0,
+    "s": 6
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Diferente - Super - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 5,
+    "d": 0,
+    "s": 6
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Diferente - XD",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 44,
+    "d": 18,
+    "s": 67
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Estado del pago de una compra - Buyer",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 45,
+    "d": 14,
+    "s": 63
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Incompleto - 1P&PL",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 26,
+    "d": 2,
+    "s": 28
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Incompleto - CBT",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 3,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Incompleto - DS",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 6,
+    "d": 4,
+    "s": 10
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Incompleto - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 27,
+    "d": 9,
+    "s": 42
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Incompleto - Flex",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 9,
+    "d": 1,
+    "s": 10
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Incompleto - MP",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 5,
+    "d": 1,
+    "s": 7
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Incompleto - Super - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 5,
+    "d": 1,
+    "s": 8
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Incompleto - XD",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 70,
+    "d": 18,
+    "s": 101
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Loyalty",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 3,
+    "d": 1,
+    "s": 4
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "MED - PDD Low cost",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 6,
+    "d": 0,
+    "s": 6
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "MED - Recontacto - Parciales",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Posterior a la Entrega",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 372,
+    "d": 128,
+    "s": 567
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Pre Compra",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 5,
+    "d": 0,
+    "s": 5
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Viaje del paquete - Comprador",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 14,
+    "d": 7,
+    "s": 22
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Estado del pago de una compra - Buyer",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 11,
+    "d": 11,
+    "s": 23
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Incompleto - FBM",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Jornada de la entrega",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 9,
+    "d": 6,
+    "s": 18
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "PNR - Contradictorio - Flex",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 7,
+    "d": 2,
+    "s": 9
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "PNR - Contradictorio XD DS FBM",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 14,
+    "d": 6,
+    "s": 22
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "PNR - Default - Mediaciones",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "PNR - MP",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 85,
+    "d": 22,
+    "s": 119
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "PNR - OP",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 8,
+    "d": 2,
+    "s": 10
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "PNR - Previo al despacho FBM & 1P&PL",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 2,
+    "d": 2,
+    "s": 4
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "PNR - Previo al despacho XD DS",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 9,
+    "d": 7,
+    "s": 17
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Posterior a la Entrega",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 331,
+    "d": 109,
+    "s": 502
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reversa",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Viaje del paquete - Comprador",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 577,
+    "d": 158,
+    "s": 821
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Problemas con acceso y factores",
+    "pg": "Contas security",
+    "level": "Contas",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Asignación del Contactanos MP Cards",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 0,
+    "d": 2,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Consumer Credits",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 161,
+    "d": 21,
+    "s": 196
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Consumer Credits - Solicitud y Límites",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 69,
+    "d": 17,
+    "s": 97
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Financiamiento de vehículos - Prendarios",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 10,
+    "d": 0,
+    "s": 11
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades de tarjetas de Crédito",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 226,
+    "d": 59,
+    "s": 321
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades de tarjetas de Débito y Crédito",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 48,
+    "d": 3,
+    "s": 54
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades de tarjetas de débito",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 22,
+    "d": 5,
+    "s": 28
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Merchant Credits",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 17,
+    "d": 4,
+    "s": 24
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Merchant Credits - Solicitud y Límites",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 72,
+    "d": 9,
+    "s": 90
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Problemas con extracciones - Cards",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Problemas con pagos - Cards",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 191,
+    "d": 48,
+    "s": 261
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Tarjetas de crédito - Solicitud y Límites",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 167,
+    "d": 28,
+    "s": 217
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades de tarjetas de Crédito",
+    "pg": "MP Credits",
+    "level": "Crédito",
+    "p": 1,
+    "d": 2,
+    "s": 3
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "FBM - Devoluciones",
+    "pg": "FBM Seller Premium",
+    "level": "FBM Seller",
+    "p": 2,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "FBM - Funcionalidades",
+    "pg": "FBM Seller Premium",
+    "level": "FBM Seller",
+    "p": 7,
+    "d": 0,
+    "s": 7
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "FBM - Inventario",
+    "pg": "FBM Seller Premium",
+    "level": "FBM Seller",
+    "p": 6,
+    "d": 1,
+    "s": 7
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "FBM - Post Inbound",
+    "pg": "FBM Seller Premium",
+    "level": "FBM Seller",
+    "p": 2,
+    "d": 2,
+    "s": 6
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "FBM - Pre Inbound",
+    "pg": "FBM Seller Premium",
+    "level": "FBM Seller",
+    "p": 16,
+    "d": 7,
+    "s": 25
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "FBM - Retiro de Stock - Cx One",
+    "pg": "FBM Seller Premium",
+    "level": "FBM Seller",
+    "p": 7,
+    "d": 1,
+    "s": 8
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Post Compra Funcionalidades Vendedor",
+    "pg": "FBM Seller Premium",
+    "level": "FBM Seller",
+    "p": 15,
+    "d": 0,
+    "s": 16
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "KYC Services",
+    "pg": "NO_MATCH",
+    "level": "NO_MATCH",
+    "p": 14,
+    "d": 0,
+    "s": 15
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Prendarios Cobranzas",
+    "pg": "NO_MATCH",
+    "level": "NO_MATCH",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Cancelación de cuenta",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 35,
+    "d": 13,
+    "s": 51
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Chargeback Comprador",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 20,
+    "d": 12,
+    "s": 34
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Configuración de la cuenta",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 47,
+    "d": 6,
+    "s": 57
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Entrada y salida de dinero físico",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 4,
+    "d": 1,
+    "s": 5
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Gestión de llaves - PIX",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 7,
+    "d": 1,
+    "s": 9
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "KYC seg360",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 109,
+    "d": 29,
+    "s": 152
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Problemas con acceso y factores",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 110,
+    "d": 15,
+    "s": 130
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Problemas de seguridad",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 143,
+    "d": 28,
+    "s": 201
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Registro",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 18,
+    "d": 0,
+    "s": 19
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Relaciones entre cuentas",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 12,
+    "d": 2,
+    "s": 16
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Restricciones",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 78,
+    "d": 21,
+    "s": 109
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Transferencias de dinero",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 62,
+    "d": 17,
+    "s": 84
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Acreditacion del cobro",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 19,
+    "d": 4,
+    "s": 27
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Anulacion de cobros",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 3,
+    "d": 1,
+    "s": 5
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Chargeback vendedor",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 2,
+    "d": 3,
+    "s": 6
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Entrada y salida de dinero físico",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 5,
+    "d": 0,
+    "s": 5
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Extractos y Reportes",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 16,
+    "d": 2,
+    "s": 21
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades Point TAP",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 4,
+    "d": 0,
+    "s": 5
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades Seller Wallet",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 1,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades de Online Payments - Sellers",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 1,
+    "d": 2,
+    "s": 4
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Funcionalidades generales MP - Sellers",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 7,
+    "d": 2,
+    "s": 9
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Gestión de llaves - PIX",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Mi dinero",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 30,
+    "d": 7,
+    "s": 38
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Point - Como adquirir dispositivo",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 16,
+    "d": 1,
+    "s": 17
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Point - Como usar dispositivo",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 44,
+    "d": 1,
+    "s": 48
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Point - Logística",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 33,
+    "d": 4,
+    "s": 39
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Point - Mantenimiento del dispositivo",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 68,
+    "d": 6,
+    "s": 80
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Point - Resellers",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Problemas con pagos - Cards",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Sistema de gestión MP",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 6,
+    "d": 1,
+    "s": 7
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Tasas e Incentivos Sellers",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 47,
+    "d": 5,
+    "s": 58
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Transferencias de dinero",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 35,
+    "d": 7,
+    "s": 46
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Costos de envío - Comprador",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Despacho Ventas y Publicaciones",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 127,
+    "d": 7,
+    "s": 141
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Drivers",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 224,
+    "d": 33,
+    "s": 289
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Gestiones Operativas",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 16,
+    "d": 1,
+    "s": 18
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Jornada de la entrega",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 1,
+    "d": 4,
+    "s": 5
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Places Kangu",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 29,
+    "d": 1,
+    "s": 33
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Post Compra Funcionalidades Vendedor",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 7,
+    "d": 4,
+    "s": 13
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reputación",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 27,
+    "d": 1,
+    "s": 36
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reputación ME",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 36,
+    "d": 2,
+    "s": 39
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reversa",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 20,
+    "d": 4,
+    "s": 28
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Viaje del paquete - Comprador",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 133,
+    "d": 68,
+    "s": 223
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Viaje del paquete - Vendedor",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 7,
+    "d": 1,
+    "s": 9
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Despacho Ventas y Publicaciones",
+    "pg": "ME Sellers Mature",
+    "level": "Vendedor",
+    "p": 1,
+    "d": 1,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Gestiones Operativas",
+    "pg": "ME Sellers Mature",
+    "level": "Vendedor",
+    "p": 1,
+    "d": 1,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reputación",
+    "pg": "ME Sellers Mature",
+    "level": "Vendedor",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reputación ME",
+    "pg": "ME Sellers Mature",
+    "level": "Vendedor",
+    "p": 4,
+    "d": 0,
+    "s": 4
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reversa",
+    "pg": "ME Sellers Mature",
+    "level": "Vendedor",
+    "p": 3,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Antes de publicar",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 10,
+    "d": 1,
+    "s": 14
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Calidad de foto",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 11,
+    "d": 2,
+    "s": 15
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Gestión de Publicación",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 16,
+    "d": 4,
+    "s": 21
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "PR - Artículos prohibidos",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 9,
+    "d": 3,
+    "s": 16
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "PR - Datos Personales",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 4,
+    "d": 0,
+    "s": 4
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "PR - Propiedad intelectual",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 11,
+    "d": 7,
+    "s": 20
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "PR - Técnica prohibida",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 17,
+    "d": 2,
+    "s": 21
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Potenciar Ventas",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 8,
+    "d": 4,
+    "s": 12
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reputación",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 21,
+    "d": 1,
+    "s": 24
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reputación ME",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 18,
+    "d": 2,
+    "s": 23
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Gestión de Publicación",
+    "pg": "Publicaciones Sellers Mature",
+    "level": "Vendedor",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Potenciar Ventas",
+    "pg": "Publicaciones Sellers Mature",
+    "level": "Vendedor",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reputación",
+    "pg": "Publicaciones Sellers Mature",
+    "level": "Vendedor",
+    "p": 3,
+    "d": 2,
+    "s": 5
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reputación ME",
+    "pg": "Publicaciones Sellers Mature",
+    "level": "Vendedor",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Afiliados ML",
+    "pg": "Ventas Sellers Longtail",
+    "level": "Vendedor",
+    "p": 113,
+    "d": 16,
+    "s": 142
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Datos fiscales",
+    "pg": "Ventas Sellers Longtail",
+    "level": "Vendedor",
+    "p": 1,
+    "d": 1,
+    "s": 2
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Denuncia de usuario",
+    "pg": "Ventas Sellers Longtail",
+    "level": "Vendedor",
+    "p": 5,
+    "d": 1,
+    "s": 6
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Emision de Nota Fiscal",
+    "pg": "Ventas Sellers Longtail",
+    "level": "Vendedor",
+    "p": 10,
+    "d": 4,
+    "s": 15
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Facturación",
+    "pg": "Ventas Sellers Longtail",
+    "level": "Vendedor",
+    "p": 5,
+    "d": 4,
+    "s": 9
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Post Compra Funcionalidades Vendedor",
+    "pg": "Ventas Sellers Longtail",
+    "level": "Vendedor",
+    "p": 20,
+    "d": 5,
+    "s": 29
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reputación",
+    "pg": "Ventas Sellers Longtail",
+    "level": "Vendedor",
+    "p": 25,
+    "d": 2,
+    "s": 29
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reputación ME",
+    "pg": "Ventas Sellers Longtail",
+    "level": "Vendedor",
+    "p": 33,
+    "d": 0,
+    "s": 36
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Post Compra Funcionalidades Vendedor",
+    "pg": "Ventas Sellers Mature",
+    "level": "Vendedor",
+    "p": 3,
+    "d": 2,
+    "s": 5
+  },
+  {
+    "periodo": "S1_new",
+    "proc": "Reputación",
+    "pg": "Ventas Sellers Mature",
+    "level": "Vendedor",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Acreditación de Pagos - Payers",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 12,
+    "d": 2,
+    "s": 15
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Anulación de Pagos - Payers",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 1,
+    "d": 5,
+    "s": 9
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Asignación del Contactanos  MP Pagos",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "CDB Investments",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 12,
+    "d": 5,
+    "s": 18
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Chargeback Comprador",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 2,
+    "d": 3,
+    "s": 6
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Consultas y Problemas con Pagos - Payers",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 7,
+    "d": 0,
+    "s": 7
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Criptomonedas",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 3,
+    "d": 0,
+    "s": 4
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Entrada y salida de dinero físico",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Fondos Investments",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 5,
+    "d": 1,
+    "s": 7
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades de Seguros - Payers",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 9,
+    "d": 0,
+    "s": 10
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades de la Wallet",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 17,
+    "d": 1,
+    "s": 19
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades do Open Finance",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 1,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades generales de MP - Payers",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 5,
+    "d": 0,
+    "s": 5
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "LCI/LCA investments",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 3,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Portabilidade salarial",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 31,
+    "d": 4,
+    "s": 40
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Post_Compra_Funcionalidades_MP_Comprador",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 3,
+    "d": 1,
+    "s": 4
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Problemas de seguridad",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 33,
+    "d": 11,
+    "s": 49
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Rendimientos en cuenta",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 8,
+    "d": 3,
+    "s": 12
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reservas",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 2,
+    "d": 4,
+    "s": 6
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Seguros transaccional - Payers",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 15,
+    "d": 9,
+    "s": 25
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Transferencias de dinero",
+    "pg": "Banking MP",
+    "level": "Banking",
+    "p": 17,
+    "d": 2,
+    "s": 23
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Acreditación de Pagos - Payers",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 10,
+    "d": 0,
+    "s": 11
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Anulación de Pagos - Payers",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 2,
+    "d": 2,
+    "s": 4
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Chargeback Comprador",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 5,
+    "d": 2,
+    "s": 9
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Consultas y Problemas con Pagos - Payers",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 1,
+    "d": 1,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Entrada y salida de dinero físico",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades de Seguros - Payers",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 4,
+    "d": 1,
+    "s": 6
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades de la Wallet",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 10,
+    "d": 4,
+    "s": 15
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades generales de MP - Payers",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 3,
+    "d": 5,
+    "s": 9
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Gestión de llaves - PIX",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 1,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Post_Compra_Funcionalidades_MP_Comprador",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 2,
+    "d": 2,
+    "s": 4
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Problemas de seguridad",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 46,
+    "d": 21,
+    "s": 73
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Seguros transaccional - Payers",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 19,
+    "d": 6,
+    "s": 26
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Transferencias de dinero",
+    "pg": "Banking Payments MP",
+    "level": "Banking",
+    "p": 27,
+    "d": 3,
+    "s": 32
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Chargeback Comprador",
+    "pg": "Base MP",
+    "level": "Banking",
+    "p": 1,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Entrada y salida de dinero físico",
+    "pg": "Base MP",
+    "level": "Banking",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Gestión de llaves - PIX",
+    "pg": "Base MP",
+    "level": "Banking",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Problemas de seguridad",
+    "pg": "Base MP",
+    "level": "Banking",
+    "p": 22,
+    "d": 5,
+    "s": 31
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Transferencias de dinero",
+    "pg": "Base MP",
+    "level": "Banking",
+    "p": 5,
+    "d": 1,
+    "s": 8
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Acreditacion del cobro",
+    "pg": "Big Sellers",
+    "level": "Big Sellers",
+    "p": 2,
+    "d": 1,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Anulacion de cobros",
+    "pg": "Big Sellers",
+    "level": "Big Sellers",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Anulaciones Top OFF",
+    "pg": "Big Sellers",
+    "level": "Big Sellers",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Chargeback vendedor",
+    "pg": "Big Sellers",
+    "level": "Big Sellers",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Excepciones Funcionales Top Sellers",
+    "pg": "Big Sellers",
+    "level": "Big Sellers",
+    "p": 0,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades generales MP - Sellers",
+    "pg": "Big Sellers",
+    "level": "Big Sellers",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Acreditacion del cobro",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 5,
+    "d": 2,
+    "s": 7
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Acreditación de Pagos - Payers",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Anulacion de cobros",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 2,
+    "d": 1,
+    "s": 4
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Anulaciones Top OFF",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 0,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Chargeback vendedor",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 5,
+    "d": 2,
+    "s": 7
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Configuración de la cuenta",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 6,
+    "d": 0,
+    "s": 6
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Entrada y salida de dinero físico",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Extractos y Reportes",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 8,
+    "d": 1,
+    "s": 10
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades de Online Payments - Sellers",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 3,
+    "d": 1,
+    "s": 5
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades de tarjetas de Crédito",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 12,
+    "d": 0,
+    "s": 13
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades de tarjetas de Débito y Crédito",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 6,
+    "d": 0,
+    "s": 6
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades de tarjetas de débito",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades generales MP - Sellers",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Gestión de llaves - PIX",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 3,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "KYC seg360",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 3,
+    "d": 1,
+    "s": 4
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Merchant Credits",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 14,
+    "d": 0,
+    "s": 15
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Merchant Credits - Solicitud y Límites",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 42,
+    "d": 8,
+    "s": 51
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Mi dinero",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 4,
+    "d": 1,
+    "s": 5
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Point - Como adquirir dispositivo",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Point - Como usar dispositivo",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 16,
+    "d": 1,
+    "s": 19
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Point - Logística",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 6,
+    "d": 1,
+    "s": 7
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Point - Mantenimiento del dispositivo",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 53,
+    "d": 1,
+    "s": 61
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Point - Resellers",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Problemas con pagos - Cards",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 3,
+    "d": 0,
+    "s": 4
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Problemas de seguridad",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Restricciones",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 4,
+    "d": 1,
+    "s": 6
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Tarjetas de crédito - Solicitud y Límites",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 10,
+    "d": 3,
+    "s": 15
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Tasas e Incentivos Sellers",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 13,
+    "d": 1,
+    "s": 15
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Transferencias de dinero",
+    "pg": "Top Off",
+    "level": "CE Top Off",
+    "p": 2,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Despacho Ventas y Publicaciones",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 17,
+    "d": 2,
+    "s": 19
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Gestiones Operativas",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 4,
+    "d": 1,
+    "s": 5
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Gestión de Publicación",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 4,
+    "d": 1,
+    "s": 5
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PR - Artículos prohibidos",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PR - Datos Personales",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PR - Propiedad intelectual",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 4,
+    "d": 0,
+    "s": 4
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PR - Técnica prohibida",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 40,
+    "d": 1,
+    "s": 41
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Post Compra Funcionalidades Vendedor",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 44,
+    "d": 6,
+    "s": 55
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Potenciar Ventas",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 3,
+    "d": 1,
+    "s": 4
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reputación",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 79,
+    "d": 7,
+    "s": 91
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reputación ME",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 27,
+    "d": 1,
+    "s": 32
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reputación ML Masivos",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 5,
+    "d": 0,
+    "s": 5
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reversa",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 25,
+    "d": 0,
+    "s": 26
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Viaje del paquete - Vendedor",
+    "pg": "Top On",
+    "level": "CE Top On",
+    "p": 11,
+    "d": 0,
+    "s": 11
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Defectuoso - 1P&PL",
+    "pg": "OUV",
+    "level": "Canais Consumeristas",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Problemas con acceso y factores",
+    "pg": "OUV",
+    "level": "Canais Regulatórios",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Seguros transaccional - Payers",
+    "pg": "OUV",
+    "level": "Canais Regulatórios",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Cancelación de cuenta",
+    "pg": "SAC",
+    "level": "Canais Regulatórios",
+    "p": 6,
+    "d": 7,
+    "s": 15
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Chargeback Comprador",
+    "pg": "SAC",
+    "level": "Canais Regulatórios",
+    "p": 1,
+    "d": 1,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Configuración de la cuenta",
+    "pg": "SAC",
+    "level": "Canais Regulatórios",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Point - Mantenimiento del dispositivo",
+    "pg": "SAC",
+    "level": "Canais Regulatórios",
+    "p": 47,
+    "d": 4,
+    "s": 56
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Problemas con acceso y factores",
+    "pg": "SAC",
+    "level": "Canais Regulatórios",
+    "p": 98,
+    "d": 6,
+    "s": 108
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Problemas con pagos - Cards",
+    "pg": "SAC",
+    "level": "Canais Regulatórios",
+    "p": 16,
+    "d": 6,
+    "s": 23
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Problemas de seguridad",
+    "pg": "SAC",
+    "level": "Canais Regulatórios",
+    "p": 84,
+    "d": 18,
+    "s": 107
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Registro",
+    "pg": "SAC",
+    "level": "Canais Regulatórios",
+    "p": 5,
+    "d": 2,
+    "s": 8
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Restricciones",
+    "pg": "SAC",
+    "level": "Canais Regulatórios",
+    "p": 1,
+    "d": 2,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Despacho Ventas y Publicaciones",
+    "pg": "CAP",
+    "level": "Canais Reputacionais",
+    "p": 1,
+    "d": 1,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Posterior a la Entrega",
+    "pg": "CAP",
+    "level": "Canais Reputacionais",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Posterior a la Entrega",
+    "pg": "OUV",
+    "level": "Canais Reputacionais",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "SHS - MED - Funcionalidades",
+    "pg": "OUV",
+    "level": "Canais Reputacionais",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Arrepentimiento - XD",
+    "pg": "Reclame Aqui",
+    "level": "Canais Reputacionais",
+    "p": 0,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Diferente - XD",
+    "pg": "Reclame Aqui",
+    "level": "Canais Reputacionais",
+    "p": 0,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Estado del pago de una compra - Buyer",
+    "pg": "Reclame Aqui",
+    "level": "Canais Reputacionais",
+    "p": 0,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Facturación",
+    "pg": "Reclame Aqui",
+    "level": "Canais Reputacionais",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Moderación RA",
+    "pg": "Reclame Aqui",
+    "level": "Canais Reputacionais",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Restricciones",
+    "pg": "Reclame Aqui",
+    "level": "Canais Reputacionais",
+    "p": 0,
+    "d": 3,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Costos de envío - Comprador",
+    "pg": "Buyer Compra",
+    "level": "Comprador",
+    "p": 3,
+    "d": 0,
+    "s": 4
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Estado del pago de una compra - Buyer",
+    "pg": "Buyer Compra",
+    "level": "Comprador",
+    "p": 10,
+    "d": 6,
+    "s": 18
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Jornada de la entrega",
+    "pg": "Buyer Compra",
+    "level": "Comprador",
+    "p": 3,
+    "d": 1,
+    "s": 5
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Loyalty",
+    "pg": "Buyer Compra",
+    "level": "Comprador",
+    "p": 28,
+    "d": 13,
+    "s": 51
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Posterior a la Entrega",
+    "pg": "Buyer Compra",
+    "level": "Comprador",
+    "p": 48,
+    "d": 23,
+    "s": 88
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Pre Compra",
+    "pg": "Buyer Compra",
+    "level": "Comprador",
+    "p": 45,
+    "d": 13,
+    "s": 59
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Viaje del paquete - Comprador",
+    "pg": "Buyer Compra",
+    "level": "Comprador",
+    "p": 88,
+    "d": 28,
+    "s": 145
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Apelaciones  - Retorno Buyer",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Apelaciones Buyer",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 3,
+    "d": 6,
+    "s": 9
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Apelaciones buyer XDDS",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 1,
+    "d": 2,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Arrepentimiento - 1P&PL",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 30,
+    "d": 2,
+    "s": 33
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Arrepentimiento - CBT",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 26,
+    "d": 1,
+    "s": 29
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Arrepentimiento - DS",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 25,
+    "d": 8,
+    "s": 35
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Arrepentimiento - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 68,
+    "d": 14,
+    "s": 98
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Arrepentimiento - Flex",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 7,
+    "d": 0,
+    "s": 8
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Arrepentimiento - MP",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 31,
+    "d": 6,
+    "s": 40
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Arrepentimiento - Super - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 6,
+    "d": 1,
+    "s": 7
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Arrepentimiento - XD",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 163,
+    "d": 27,
+    "s": 203
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Asignación del Contáctanos PDD FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 1,
+    "d": 1,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Caja Vacía - 1P&PL",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 5,
+    "d": 0,
+    "s": 5
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Caja Vacía - CBT",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 5,
+    "d": 0,
+    "s": 6
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Caja Vacía - DS",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 6,
+    "d": 2,
+    "s": 8
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Caja Vacía - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 8,
+    "d": 0,
+    "s": 8
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Caja Vacía - XD",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 15,
+    "d": 3,
+    "s": 20
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Caja vacía - Flex",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Caja vacía - MP",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 1,
+    "d": 1,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Caja vacía - Super - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Defectuoso - 1P&PL",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 91,
+    "d": 8,
+    "s": 105
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Defectuoso - CBT",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 15,
+    "d": 0,
+    "s": 15
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Defectuoso - DS",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 24,
+    "d": 5,
+    "s": 29
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Defectuoso - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 62,
+    "d": 4,
+    "s": 70
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Defectuoso - Flex",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 14,
+    "d": 4,
+    "s": 18
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Defectuoso - MP",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 24,
+    "d": 12,
+    "s": 42
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Defectuoso - Super - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 9,
+    "d": 3,
+    "s": 12
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Defectuoso - XD",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 35,
+    "d": 15,
+    "s": 56
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Diferente - 1P&PL",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 13,
+    "d": 2,
+    "s": 15
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Diferente - CBT",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 27,
+    "d": 2,
+    "s": 32
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Diferente - DS",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 21,
+    "d": 3,
+    "s": 26
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Diferente - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 34,
+    "d": 11,
+    "s": 49
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Diferente - Flex",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 7,
+    "d": 3,
+    "s": 10
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Diferente - MP",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 9,
+    "d": 3,
+    "s": 14
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Diferente - Super - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 6,
+    "d": 3,
+    "s": 10
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Diferente - XD",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 101,
+    "d": 26,
+    "s": 135
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Estado del pago de una compra - Buyer",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 51,
+    "d": 12,
+    "s": 66
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Incompleto - 1P&PL",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 30,
+    "d": 2,
+    "s": 36
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Incompleto - CBT",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 4,
+    "d": 2,
+    "s": 6
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Incompleto - DS",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 18,
+    "d": 3,
+    "s": 22
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Incompleto - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 16,
+    "d": 4,
+    "s": 23
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Incompleto - Flex",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 10,
+    "d": 2,
+    "s": 13
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Incompleto - MP",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 5,
+    "d": 3,
+    "s": 9
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Incompleto - Super - FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 12,
+    "d": 5,
+    "s": 20
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Incompleto - XD",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 64,
+    "d": 18,
+    "s": 86
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Jornada de la entrega",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 0,
+    "d": 2,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Loyalty",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 4,
+    "d": 2,
+    "s": 6
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "MED - PDD Low cost",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 2,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PDD - Fotos",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PNR - Contradictorio XD DS FBM",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Posterior a la Entrega",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 331,
+    "d": 149,
+    "s": 577
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Pre Compra",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 4,
+    "d": 2,
+    "s": 7
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Viaje del paquete - Comprador",
+    "pg": "Buyer Post Entrega",
+    "level": "Comprador",
+    "p": 19,
+    "d": 8,
+    "s": 30
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Asignación del contáctanos Buyers Post",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Estado del pago de una compra - Buyer",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 10,
+    "d": 6,
+    "s": 18
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Incompleto - XD",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 0,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Jornada de la entrega",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 15,
+    "d": 2,
+    "s": 24
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PNR - Contradictorio - CBT",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 1,
+    "d": 1,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PNR - Contradictorio - Flex",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 7,
+    "d": 1,
+    "s": 9
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PNR - Contradictorio XD DS FBM",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 38,
+    "d": 7,
+    "s": 46
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PNR - MP",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 131,
+    "d": 30,
+    "s": 187
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PNR - OP",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 19,
+    "d": 7,
+    "s": 26
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PNR - Previo al despacho - CBT",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PNR - Previo al despacho FBM & 1P&PL",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 2,
+    "d": 1,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PNR - Previo al despacho XD DS",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 20,
+    "d": 9,
+    "s": 30
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Posterior a la Entrega",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 512,
+    "d": 185,
+    "s": 776
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reputación ME",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reversa",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Viaje del paquete - Comprador",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 605,
+    "d": 113,
+    "s": 818
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Viaje del paquete - Vendedor",
+    "pg": "Buyers Pre Entrega",
+    "level": "Comprador",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Asignación del Contactanos MP Cards",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 2,
+    "d": 1,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Consumer Credits",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 195,
+    "d": 40,
+    "s": 252
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Consumer Credits - Solicitud y Límites",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 57,
+    "d": 27,
+    "s": 90
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Financiamiento de vehículos - Prendarios",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 16,
+    "d": 6,
+    "s": 23
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades de tarjetas de Crédito",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 224,
+    "d": 60,
+    "s": 317
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades de tarjetas de Débito y Crédito",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 62,
+    "d": 7,
+    "s": 76
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades de tarjetas de débito",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 28,
+    "d": 4,
+    "s": 33
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Merchant Credits",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 31,
+    "d": 10,
+    "s": 44
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Merchant Credits - Solicitud y Límites",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 55,
+    "d": 8,
+    "s": 66
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Problemas con pagos - Cards",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 212,
+    "d": 37,
+    "s": 285
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Tarjetas de crédito - Solicitud y Límites",
+    "pg": "Credits MP",
+    "level": "Credits",
+    "p": 178,
+    "d": 29,
+    "s": 229
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Consumer Credits",
+    "pg": "MP Credits",
+    "level": "Crédito",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Merchant Credits",
+    "pg": "MP Credits",
+    "level": "Crédito",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "FBM - Devoluciones",
+    "pg": "FBM Seller Premium",
+    "level": "FBM Seller",
+    "p": 3,
+    "d": 1,
+    "s": 4
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "FBM - Funcionalidades",
+    "pg": "FBM Seller Premium",
+    "level": "FBM Seller",
+    "p": 4,
+    "d": 2,
+    "s": 6
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "FBM - Inventario",
+    "pg": "FBM Seller Premium",
+    "level": "FBM Seller",
+    "p": 13,
+    "d": 4,
+    "s": 17
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "FBM - Post Inbound",
+    "pg": "FBM Seller Premium",
+    "level": "FBM Seller",
+    "p": 12,
+    "d": 0,
+    "s": 13
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "FBM - Pre Inbound",
+    "pg": "FBM Seller Premium",
+    "level": "FBM Seller",
+    "p": 27,
+    "d": 6,
+    "s": 37
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "FBM - Retiro de Stock - Cx One",
+    "pg": "FBM Seller Premium",
+    "level": "FBM Seller",
+    "p": 6,
+    "d": 3,
+    "s": 10
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Post Compra Funcionalidades Vendedor",
+    "pg": "FBM Seller Premium",
+    "level": "FBM Seller",
+    "p": 28,
+    "d": 5,
+    "s": 35
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Consumer Credits - Solicitud y Límites",
+    "pg": "NO_MATCH",
+    "level": "NO_MATCH",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Financiamiento de vehículos - Prendarios",
+    "pg": "NO_MATCH",
+    "level": "NO_MATCH",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades de tarjetas de débito",
+    "pg": "NO_MATCH",
+    "level": "NO_MATCH",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "KYC Services",
+    "pg": "NO_MATCH",
+    "level": "NO_MATCH",
+    "p": 51,
+    "d": 3,
+    "s": 63
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "ML | SHS - Soluções Genéricas",
+    "pg": "NO_MATCH",
+    "level": "NO_MATCH",
+    "p": 0,
+    "d": 2,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Tarjetas de crédito - Solicitud y Límites",
+    "pg": "NO_MATCH",
+    "level": "NO_MATCH",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Cancelación de cuenta",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 33,
+    "d": 4,
+    "s": 43
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Chargeback Comprador",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 16,
+    "d": 6,
+    "s": 25
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Configuración de la cuenta",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 52,
+    "d": 10,
+    "s": 68
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Entrada y salida de dinero físico",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 1,
+    "d": 2,
+    "s": 5
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Gestión de llaves - PIX",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 7,
+    "d": 1,
+    "s": 8
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "KYC seg360",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 162,
+    "d": 40,
+    "s": 229
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Problemas con acceso y factores",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 118,
+    "d": 11,
+    "s": 139
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Problemas de seguridad",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 134,
+    "d": 25,
+    "s": 172
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Registro",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 18,
+    "d": 1,
+    "s": 21
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Relaciones entre cuentas",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 8,
+    "d": 1,
+    "s": 11
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Restricciones",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 130,
+    "d": 24,
+    "s": 179
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Transferencias de dinero",
+    "pg": "Security MP",
+    "level": "Security",
+    "p": 65,
+    "d": 12,
+    "s": 80
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Acreditacion del cobro",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 23,
+    "d": 12,
+    "s": 38
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Anulacion de cobros",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 6,
+    "d": 2,
+    "s": 8
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Asignación del Contáctanos - Top Off",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 2,
+    "d": 1,
+    "s": 4
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Chargeback vendedor",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 12,
+    "d": 5,
+    "s": 17
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Entrada y salida de dinero físico",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 2,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Extractos y Reportes",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 24,
+    "d": 3,
+    "s": 33
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades Point TAP",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades Seller Wallet",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 5,
+    "d": 0,
+    "s": 5
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades de Online Payments - Sellers",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 8,
+    "d": 0,
+    "s": 10
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Funcionalidades generales MP - Sellers",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 11,
+    "d": 0,
+    "s": 13
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Gestión de llaves - PIX",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 5,
+    "d": 2,
+    "s": 9
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Mi dinero",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 55,
+    "d": 12,
+    "s": 75
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PR - Técnica prohibida",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 0,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Point - Como adquirir dispositivo",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 19,
+    "d": 2,
+    "s": 21
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Point - Como usar dispositivo",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 69,
+    "d": 3,
+    "s": 77
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Point - Logística",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 41,
+    "d": 8,
+    "s": 54
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Point - Mantenimiento del dispositivo",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 99,
+    "d": 14,
+    "s": 126
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Point - Resellers",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 2,
+    "d": 1,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Post_Compra_Funcionalidades_MP_Vendedor",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Sistema de gestión MP",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 7,
+    "d": 1,
+    "s": 9
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Tasas e Incentivos Sellers",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 45,
+    "d": 11,
+    "s": 62
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Transferencias de dinero",
+    "pg": "Sellers MP",
+    "level": "Sellers",
+    "p": 34,
+    "d": 6,
+    "s": 43
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Anulación de Venta",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Despacho Ventas y Publicaciones",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 148,
+    "d": 29,
+    "s": 203
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Drivers",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 258,
+    "d": 56,
+    "s": 341
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Gestiones Operativas",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 28,
+    "d": 5,
+    "s": 36
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Jornada de la entrega",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 3,
+    "d": 1,
+    "s": 4
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Places Kangu",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 43,
+    "d": 8,
+    "s": 59
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Post Compra Funcionalidades Vendedor",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 26,
+    "d": 7,
+    "s": 36
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Posterior a la Entrega",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reputación",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 42,
+    "d": 6,
+    "s": 53
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reputación ME",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 54,
+    "d": 6,
+    "s": 66
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reversa",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 29,
+    "d": 5,
+    "s": 34
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Viaje del paquete - Comprador",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 141,
+    "d": 53,
+    "s": 219
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Viaje del paquete - Vendedor",
+    "pg": "ME Sellers Longtail",
+    "level": "Vendedor",
+    "p": 18,
+    "d": 2,
+    "s": 22
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Despacho Ventas y Publicaciones",
+    "pg": "ME Sellers Mature",
+    "level": "Vendedor",
+    "p": 3,
+    "d": 2,
+    "s": 5
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Gestiones Operativas",
+    "pg": "ME Sellers Mature",
+    "level": "Vendedor",
+    "p": 1,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reputación",
+    "pg": "ME Sellers Mature",
+    "level": "Vendedor",
+    "p": 11,
+    "d": 1,
+    "s": 14
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reputación ME",
+    "pg": "ME Sellers Mature",
+    "level": "Vendedor",
+    "p": 2,
+    "d": 2,
+    "s": 5
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reversa",
+    "pg": "ME Sellers Mature",
+    "level": "Vendedor",
+    "p": 0,
+    "d": 2,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Viaje del paquete - Vendedor",
+    "pg": "ME Sellers Mature",
+    "level": "Vendedor",
+    "p": 2,
+    "d": 0,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Afiliados ML",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 0,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Antes de publicar",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 22,
+    "d": 2,
+    "s": 25
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Calidad de foto",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 1,
+    "d": 1,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Denuncia de usuario",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Gestión de Publicación",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 19,
+    "d": 8,
+    "s": 32
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PR - Artículos prohibidos",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 12,
+    "d": 2,
+    "s": 14
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PR - Datos Personales",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 1,
+    "d": 1,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PR - Propiedad intelectual",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 19,
+    "d": 3,
+    "s": 23
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PR - Técnica prohibida",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 28,
+    "d": 4,
+    "s": 34
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Potenciar Ventas",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 11,
+    "d": 4,
+    "s": 21
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reputación",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 41,
+    "d": 6,
+    "s": 50
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reputación ME",
+    "pg": "Publicaciones Sellers Longtail",
+    "level": "Vendedor",
+    "p": 25,
+    "d": 3,
+    "s": 32
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Gestión de Publicación",
+    "pg": "Publicaciones Sellers Mature",
+    "level": "Vendedor",
+    "p": 3,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PR - Propiedad intelectual",
+    "pg": "Publicaciones Sellers Mature",
+    "level": "Vendedor",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PR - Técnica prohibida",
+    "pg": "Publicaciones Sellers Mature",
+    "level": "Vendedor",
+    "p": 1,
+    "d": 1,
+    "s": 2
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Potenciar Ventas",
+    "pg": "Publicaciones Sellers Mature",
+    "level": "Vendedor",
+    "p": 3,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reputación",
+    "pg": "Publicaciones Sellers Mature",
+    "level": "Vendedor",
+    "p": 6,
+    "d": 1,
+    "s": 10
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reputación ME",
+    "pg": "Publicaciones Sellers Mature",
+    "level": "Vendedor",
+    "p": 6,
+    "d": 0,
+    "s": 7
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Despacho Ventas y Publicaciones Masivos",
+    "pg": "Vendedor ML Rep",
+    "level": "Vendedor",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PR - Técnica prohibida Masivos",
+    "pg": "Vendedor ML Rep",
+    "level": "Vendedor",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reputación ME Masivos",
+    "pg": "Vendedor ML Rep",
+    "level": "Vendedor",
+    "p": 0,
+    "d": 3,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reputación ML Masivos",
+    "pg": "Vendedor ML Rep",
+    "level": "Vendedor",
+    "p": 1,
+    "d": 0,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "PR - Técnica prohibida",
+    "pg": "Vendedor Pre Venta",
+    "level": "Vendedor",
+    "p": 0,
+    "d": 1,
+    "s": 1
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Afiliados ML",
+    "pg": "Ventas Sellers Longtail",
+    "level": "Vendedor",
+    "p": 88,
+    "d": 19,
+    "s": 118
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Anulación de Venta",
+    "pg": "Ventas Sellers Longtail",
+    "level": "Vendedor",
+    "p": 3,
+    "d": 0,
+    "s": 3
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Datos fiscales",
+    "pg": "Ventas Sellers Longtail",
+    "level": "Vendedor",
+    "p": 3,
+    "d": 0,
+    "s": 5
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Denuncia de usuario",
+    "pg": "Ventas Sellers Longtail",
+    "level": "Vendedor",
+    "p": 3,
+    "d": 2,
+    "s": 5
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Emision de Nota Fiscal",
+    "pg": "Ventas Sellers Longtail",
+    "level": "Vendedor",
+    "p": 27,
+    "d": 1,
+    "s": 30
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Facturación",
+    "pg": "Ventas Sellers Longtail",
+    "level": "Vendedor",
+    "p": 17,
+    "d": 5,
+    "s": 23
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Post Compra Funcionalidades Vendedor",
+    "pg": "Ventas Sellers Longtail",
+    "level": "Vendedor",
+    "p": 30,
+    "d": 12,
+    "s": 46
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reputación",
+    "pg": "Ventas Sellers Longtail",
+    "level": "Vendedor",
+    "p": 43,
+    "d": 7,
+    "s": 55
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reputación ME",
+    "pg": "Ventas Sellers Longtail",
+    "level": "Vendedor",
+    "p": 56,
+    "d": 1,
+    "s": 59
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Post Compra Funcionalidades Vendedor",
+    "pg": "Ventas Sellers Mature",
+    "level": "Vendedor",
+    "p": 8,
+    "d": 2,
+    "s": 11
+  },
+  {
+    "periodo": "VIG_old",
+    "proc": "Reputación",
+    "pg": "Ventas Sellers Mature",
+    "level": "Vendedor",
+    "p": 6,
+    "d": 1,
+    "s": 7
+  }
+]

@@ -1,0 +1,2 @@
+﻿@echo off
+bq query --nouse_legacy_sql --format=csv "SELECT PRO_PROCESS_NAME, SUM(PROMOTER) AS promoters, SUM(DETRACTOR) AS detractors, COUNT(*) AS surveys FROM `meli-bi-data.WHOWNER.DM_CX_NPS_Y20_DETAIL` WHERE SIT_SITE_ID = 'MLB' AND SURVEY_CENTER = 'BR' AND SURVEY_DATE_SURVEY BETWEEN '2026-04-27' AND '2026-05-03' AND PRO_PROCESS_NAME IN ('CBT','Experiencia Impositiva Mature') GROUP BY PRO_PROCESS_NAME ORDER BY PRO_PROCESS_NAME" > "C:\claudinho\_test_result.txt"

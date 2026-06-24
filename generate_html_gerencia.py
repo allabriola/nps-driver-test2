@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 NPS Gerência Sellers BR — Dashboard Gerencial
@@ -2384,7 +2384,7 @@ document.getElementById('tab-fechada').classList.add('active');
 </body>
 </html>"""
 
-OUTPUT = r"c:\Users\allabriola\PROJETO CLAUDINHO\nps_gerencia_sellers_br.html"
+OUTPUT = r"C:\claudinho\nps_gerencia_sellers_br.html"
 with open(OUTPUT, "w", encoding="utf-8") as f:
     f.write(html)
 

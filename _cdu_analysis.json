@@ -1,0 +1,332 @@
+{
+  "ME Vendedor Seller Dev": {
+    "mom_worst": [
+      {
+        "cdu": "Problemas para despachar un paquete/producto",
+        "sol": "Desativar ME: desativamos",
+        "p": 44,
+        "d": 6,
+        "s": 54,
+        "nps": 70.37,
+        "nps_m2": 85.29,
+        "delta": -14.92
+      },
+      {
+        "cdu": "Reclama por el costo de envío",
+        "sol": "Envio pelo V: não alteramos medidas",
+        "p": 28,
+        "d": 22,
+        "s": 58,
+        "nps": 10.34,
+        "nps_m2": 18.84,
+        "delta": -8.5
+      },
+      {
+        "cdu": "Tiene dudas generales sobre el despacho",
+        "sol": "Entrega sem Mercado Envios - Como funciona?",
+        "p": 38,
+        "d": 5,
+        "s": 45,
+        "nps": 73.33,
+        "nps_m2": 81.4,
+        "delta": -8.07
+      }
+    ],
+    "mom_best": [
+      {
+        "cdu": "HT - Ventas",
+        "sol": "Reputação ME Vendas: Logística Places - Não excluímos",
+        "p": 30,
+        "d": 14,
+        "s": 46,
+        "nps": 34.78,
+        "nps_m2": -13.21,
+        "delta": 47.99
+      },
+      {
+        "cdu": "Quiere consultar por una devolución en camino",
+        "sol": "Devolução demorada: passaram 60 dias - não bonificamos",
+        "p": 10,
+        "d": 12,
+        "s": 24,
+        "nps": -8.33,
+        "nps_m2": -46.51,
+        "delta": 38.18
+      },
+      {
+        "cdu": "Quiere saber el motivo de inicio de la devolución",
+        "sol": "Devoluções: informamos motivo - não bonificamos",
+        "p": 20,
+        "d": 7,
+        "s": 30,
+        "nps": 43.33,
+        "nps_m2": 13.04,
+        "delta": 30.29
+      }
+    ]
+  },
+  "Partners": {
+    "mom_worst": [
+      {
+        "cdu": "Pago de ruta",
+        "sol": "ME Extra: pagamento não realizado",
+        "p": 9,
+        "d": 5,
+        "s": 15,
+        "nps": 26.67,
+        "nps_m2": 86.67,
+        "delta": -60.0
+      },
+      {
+        "cdu": "Quiere saber como funciona Envíos Extra",
+        "sol": "ME Extra: informações sobre rotas",
+        "p": 12,
+        "d": 3,
+        "s": 16,
+        "nps": 56.25,
+        "nps_m2": 100.0,
+        "delta": -43.75
+      },
+      {
+        "cdu": "Quiere gestionar su cuenta",
+        "sol": "ME Places: Atualização de dados no aplicativo",
+        "p": 15,
+        "d": 3,
+        "s": 18,
+        "nps": 66.67,
+        "nps_m2": 83.33,
+        "delta": -16.66
+      }
+    ],
+    "mom_best": [
+      {
+        "cdu": "Tiene problemas al recibir/entregar paquetes",
+        "sol": "ME Places: Situação atual do seu Place",
+        "p": 21,
+        "d": 0,
+        "s": 23,
+        "nps": 91.3,
+        "nps_m2": 55.56,
+        "delta": 35.74
+      },
+      {
+        "cdu": "Oferta de rutas",
+        "sol": "ME Extra: quanto tempo dura uma rota de entrega",
+        "p": 43,
+        "d": 4,
+        "s": 50,
+        "nps": 78.0,
+        "nps_m2": 53.85,
+        "delta": 24.15
+      },
+      {
+        "cdu": "Quiere reclamar por inconvenientes en el recorrido o en el service center",
+        "sol": "ME Extra: reclamação do Service Center",
+        "p": 57,
+        "d": 7,
+        "s": 72,
+        "nps": 69.44,
+        "nps_m2": 50.0,
+        "delta": 19.44
+      }
+    ]
+  },
+  "Publicaciones Seller Dev": {
+    "mom_worst": [
+      {
+        "cdu": "Clips",
+        "sol": "Potencializador (Clips) - Como funciona",
+        "p": 12,
+        "d": 6,
+        "s": 20,
+        "nps": 30.0,
+        "nps_m2": 82.86,
+        "delta": -52.86
+      },
+      {
+        "cdu": "Denuncia Página falsa",
+        "sol": "Denúncias - Página falsa - Explicação e como reportar tentativa de fraude",
+        "p": 18,
+        "d": 9,
+        "s": 28,
+        "nps": 32.14,
+        "nps_m2": 78.26,
+        "delta": -46.12
+      },
+      {
+        "cdu": "Posicionamiento",
+        "sol": "Potencializador (Posicionamento) - Anúncio está nas listagens e explicamos como melhorar a exposição",
+        "p": 10,
+        "d": 3,
+        "s": 16,
+        "nps": 43.75,
+        "nps_m2": 73.33,
+        "delta": -29.58
+      }
+    ],
+    "mom_best": [
+      {
+        "cdu": "Modificar",
+        "sol": "Funcionalidade Preço por variação: Vantagens, posicionamento e participação",
+        "p": 29,
+        "d": 4,
+        "s": 39,
+        "nps": 64.1,
+        "nps_m2": 25.0,
+        "delta": 39.1
+      },
+      {
+        "cdu": "Denuncia a un comprador",
+        "sol": "Denunciar - Mensagens, perguntas, respostas, publicações ou opiniões",
+        "p": 12,
+        "d": 2,
+        "s": 15,
+        "nps": 66.67,
+        "nps_m2": 31.25,
+        "delta": 35.42
+      },
+      {
+        "cdu": "Posicionamiento",
+        "sol": "Potencializador (Posicionamento) - Como melhorar minha competitividade",
+        "p": 17,
+        "d": 1,
+        "s": 20,
+        "nps": 80.0,
+        "nps_m2": 46.43,
+        "delta": 33.57
+      }
+    ]
+  },
+  "Post Venta Seller Dev": {
+    "mom_worst": [
+      {
+        "cdu": "Consultas informativas de Reputación",
+        "sol": "Critérios de reputação - Como ser Loja Oficial",
+        "p": 14,
+        "d": 3,
+        "s": 19,
+        "nps": 57.89,
+        "nps_m2": 84.62,
+        "delta": -26.73
+      },
+      {
+        "cdu": "Consultas informativas de Reputación",
+        "sol": "Programa Decolagem - Como funciona o programa",
+        "p": 18,
+        "d": 4,
+        "s": 26,
+        "nps": 53.85,
+        "nps_m2": 61.9,
+        "delta": -8.05
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação afeta a reputação por produto não recebido e mantemos o impacto",
+        "p": 18,
+        "d": 9,
+        "s": 30,
+        "nps": 30.0,
+        "nps_m2": 37.04,
+        "delta": -7.04
+      }
+    ],
+    "mom_best": [
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação revisada",
+        "p": 46,
+        "d": 12,
+        "s": 61,
+        "nps": 55.74,
+        "nps_m2": 13.24,
+        "delta": 42.5
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação afeta a reputação por produto defeituoso e mantemos o impacto",
+        "p": 17,
+        "d": 7,
+        "s": 26,
+        "nps": 38.46,
+        "nps_m2": 0.0,
+        "delta": 38.46
+      },
+      {
+        "cdu": "Reclamos",
+        "sol": "Analisamos reputação - Reclamação afeta a reputação por produto diferente e mantemos o impacto",
+        "p": 33,
+        "d": 20,
+        "s": 57,
+        "nps": 22.81,
+        "nps_m2": -7.46,
+        "delta": 30.27
+      }
+    ]
+  },
+  "PCF Vendedor Seller Dev": {
+    "mom_worst": [
+      {
+        "cdu": "Devoluciones",
+        "sol": "Devoluções - Dentro da promessa de entrega",
+        "p": 14,
+        "d": 9,
+        "s": 23,
+        "nps": 21.74,
+        "nps_m2": 69.23,
+        "delta": -47.49
+      },
+      {
+        "cdu": "Antes del reclamo",
+        "sol": "Como abrir uma reclamação - Informamos ao V que vamos iniciar a reclamação em nome do C (V)",
+        "p": 19,
+        "d": 2,
+        "s": 24,
+        "nps": 70.83,
+        "nps_m2": 78.95,
+        "delta": -8.12
+      },
+      {
+        "cdu": "Devoluciones",
+        "sol": "Devoluções: Dúvida reversa: gerando código de devolução (V)",
+        "p": 17,
+        "d": 7,
+        "s": 27,
+        "nps": 37.04,
+        "nps_m2": 43.75,
+        "delta": -6.71
+      }
+    ],
+    "mom_best": [
+      {
+        "cdu": "Mediación cerrada",
+        "sol": "Mediação encerrada - Produto danificado ou com o mesmo dano relatado pelo C",
+        "p": 21,
+        "d": 8,
+        "s": 32,
+        "nps": 40.62,
+        "nps_m2": 0.0,
+        "delta": 40.62
+      },
+      {
+        "cdu": "Devoluciones",
+        "sol": "Devoluções - Não recebeu o pacote, pode iniciar a mediação",
+        "p": 10,
+        "d": 5,
+        "s": 16,
+        "nps": 31.25,
+        "nps_m2": 0.0,
+        "delta": 31.25
+      },
+      {
+        "cdu": "Reclamo abierto",
+        "sol": "Reclamação aberta - Dúvidas sobre a devolução",
+        "p": 18,
+        "d": 3,
+        "s": 26,
+        "nps": 57.69,
+        "nps_m2": 30.3,
+        "delta": 27.39
+      }
+    ]
+  }
+}

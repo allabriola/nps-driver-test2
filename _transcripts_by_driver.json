@@ -1,0 +1,1534 @@
+{
+  "ME Vendedor Seller Dev": {
+    "queda": {
+      "cdu": "Problemas para despachar un paquete/producto",
+      "sol": "Desativar ME",
+      "n_cases": 12,
+      "n_promotores": 9,
+      "n_detratores": 3,
+      "cases": [
+        {
+          "cid": "452931691",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Problemas para despachar un paquete/producto",
+          "sol": "Desativar ME: desativamos",
+          "transcript": "[USER] falar com atendente\n[REP] - para eu te direcionar para um **atendente**, preciso entender **qual e a sua duvida ou problema**. - me conte, por favor, **o que esta acontecendo** (ex.: **venda**, **envio**, **cobrança**, **publicação**, **reputação**, **conta**) e, se tiver, envie tambem o **id do pedido ou do anuncio**.\n[USER] mudar forma de envios\n[REP] - para **mudar a forma de envios** (especialmente **envios flex**), ajuste pelas **preferências do flex**: acesse as %url e altere **horarios** e a opção de **envio no mesmo dia** (ativar/desativar). - **atenção:** essas mudanças **valem para os anuncios com flex ativado** e podem **impactar a expos\n[USER] alterar forma de envios para produto acima de%priceg\n[REP] - para um produto com **mais de%priceg**, você **não consegue usar os envios tradicionais do mercado livre**, porque o **limite maximo e%priceg**. - nesse caso, a alternativa e **combinar o envio fora da plataforma** diretamente com a pessoa compradora e **assumir/definir os custos** dessa entrega. "
+        },
+        {
+          "cid": "453527925",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Problemas para despachar un paquete/producto",
+          "sol": "Desativar ME: desativamos",
+          "transcript": "[USER] nao consigo acessar a opção na hora de vender de combinar a entrega com o comprador em dois anuncios\n[REP] essa opção (“**combinar a entrega com o comprador**”) não fica disponivel em todos os anuncios. em muitos casos o mercado livre **obriga usar o mercado envios** (no seu caso, você esta com logistica de *postagem/drop off* ativa), então o campo para combinar a entrega simplesmente não aparece. para e\n[USER] %num %phone estou utilizando criar anuncio e pelo computador\n[REP] nos dois anuncios (%num e %phone) o frete esta configurado como **mercado envios (postagem/drop off)** e com **frete gratis obrigatorio**. nesse modelo, a opção **“combinar a entrega com o comprador” não fica disponivel** na criação do anuncio. o que você consegue usar nesses anuncios hoje e: - **en\n[USER] preciso combinar com o comprador pois o produto e muito grande para o mercado envios\n[REP] entendi. mesmo sendo grande, **não da para ativar “combinar a entrega com o comprador” nesses anuncios**: eles ficam em **mercado envios (postagem)**, e por isso essa opção não aparece na criação. a boa noticia e que, para esses %num anuncios, o mercado livre **permite despachar por fora do mercado "
+        },
+        {
+          "cid": "453816288",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Problemas para despachar un paquete/producto",
+          "sol": "Desativar ME: desativamos",
+          "transcript": "[USER] preciso de ajuda com um anuncio\n[REP] claro, waddy. qual e o problema com o anuncio: ele foi **pausado/removido**, não da para **publicar/editar**, ou aparece alguma **mensagem de erro**? se você me enviar o **link do anuncio** ou o **codigo do item (mlb...)** e, se tiver, um **print da mensagem**, eu verifico aqui e te digo o que fazer\n[USER] %url\n[REP] verifiquei seu anuncio e ele esta **ativo/publicado** (o do “rolo compactador…”). o que exatamente esta acontecendo do seu lado: você não consegue **editar**, o anuncio aparece **pausado**, ou o problema e com **frete/preço/visibilidade**? se puder, me diga o que você tentou fazer e qual mensagem ap\n[USER] gostaria de colocar o frete a combinar com o cliente\n[REP] nesse anuncio não da para deixar **frete a combinar** como opção padrão: ele esta com **mercado envios** (e com **frete gratis obrigatorio**), então o frete e calculado e mostrado automaticamente para o comprador. o que você pode fazer: - se a ideia for combinar a entrega, use **retirada em mãos** ("
+        },
+        {
+          "cid": "452906631",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Problemas para despachar un paquete/producto",
+          "sol": "Desativar ME: desativamos",
+          "transcript": "[USER] quero alterar o anuncio mlb4344959861 para entrega a combinar\n[REP] no momento, **não vai dar para alterar** o anuncio **mlb4344959861** para “entrega a combinar”, porque sua conta esta com restrição que **bloqueia a modificação de anuncios**. quando a conta esta liberada, a mudança e feita em **[anuncios](%url =%num =default)** → abrir o anuncio → **modificar** → *\n[USER] estava inativo, agora ativei\n[USER] so aparece essas opções, mas quero a entrega a combinar\n[REP] ativar o anuncio não libera a edição: sua conta ainda esta com restrição que **bloqueia modificar anuncios** (inclusive individuais e em massa), então não vai dar para mudar para “entrega a combinar” agora. pra eu te orientar no caminho certo, me diga **qual mensagem aparece** quando você tenta edit\n[REP] pelo que aparece na sua tela e pelo contexto do anuncio **mlb4344959861** (produto comum, não classificado), a opção **“entrega a combinar” não fica disponivel**: nessa categoria o mercado livre mantem **mercado envios** (e, se você habilitar, **flex**) como formas de entrega. ou seja, **não da para"
+        },
+        {
+          "cid": "453839888",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Problemas para despachar un paquete/producto",
+          "sol": "Desativar ME: desativamos",
+          "transcript": "[USER] sim, conversar agora\n[REP] boa noite, rubens, tudo bem? me chamo ibera, sou representante do mercado livre e vou dar continuidade ao seu atendimento.💛\n[USER] boa\n[USER] podemos tratar do problema ?\n[USER] ibena, vamos conversar ou não ?\n[USER] *ibera"
+        },
+        {
+          "cid": "453025172",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Problemas para despachar un paquete/producto",
+          "sol": "Desativar ME: desativamos",
+          "transcript": "[REP] ola, pedro! 👋 com o **programa decola você vai vender mais rapido e conquistar reputação desde o inicio**. 🚀 deixe uma garantia de **r$%num para alcançar a cor verde-claro e desbloquear todos os beneficios**. %url =seller_assistant =true _id=ml_newbie_warranty_hunting _hash=mzu3njy2nja1ntbsrunptu1ft\n[USER] eu preciso retirar frete por mercadolivre, o produto e muito pesado, como eu faço?\n[REP] para “retirar o frete do mercado livre” porque o produto e muito pesado, você tem **%num caminhos** (depende se a venda ja foi feita): %num. **se a venda ja aconteceu** - você pode **cancelar a venda**, **corrigir peso e dimensões no anuncio** e pedir para a pessoa **comprar novamente**. - alternati\n[USER] nao aparece esta opçao na edição do meu item.\n[REP] o motivo de não aparecer a opção e que **eu ainda preciso do id do seu anuncio** para verificar **quais campos estão bloqueados** e por quê. - **me envie o item_id** (ex.: **mlb1234567890**) ou o **link do anuncio**. enquanto isso, o ajuste de frete para produto pesado normalmente e feito editando *\n[USER] não tem embalagem de envio"
+        },
+        {
+          "cid": "453481812",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Problemas para despachar un paquete/producto",
+          "sol": "Desativar ME: desativamos",
+          "transcript": "[REP] para eu te orientar certinho, preciso entender uma coisa: **ja teve venda desse anuncio** (apareceu um envio/etiqueta para postar), ou e so na configuração do anuncio que esta pedindo envio? me manda, por favor: - o **numero do anuncio** (id do item), e - se ja vendeu, tambem o **numero da venda/env\n[USER] fiz um anuncio e ele e digital porem esta pedido para enviar, acho que fiz ele errado cmo posso resolver isso?\n[REP] entendi: essa venda gerou um envio (etiqueta) para um item digital e o pedido ficou como **pronto para enviar**, com **pendência de nota**. como o comprador ja confirmou por mensagem que recebeu o arquivo, o ideal e o suporte ajustar/cancelar esse envio corretamente para não te prejudicar. acesse po\n[USER] %num%phone\n[REP] no seu anuncio **%num** ele esta configurado como **produto fisico**, com mercado envios ativo e medidas/peso cadastrados. por isso o sistema sempre vai gerar envio. o que da para fazer: - **para esta venda que ja gerou envio:** use o link que te passei do suporte para corrigirem/cancelarem o envio,\n[USER] %num"
+        },
+        {
+          "cid": "453557334",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Problemas para despachar un paquete/producto",
+          "sol": "Desativar ME: desativamos",
+          "transcript": "[USER] boa noite tenho um problema com mercado de envios no meu anuncio novo\n[REP] boa noite, thiago. para eu conseguir te ajudar com o **mercado envios** no seu anuncio novo, me diz exatamente o que esta acontecendo? se puder, envie: - o **numero do anuncio** (id do anuncio) - o **erro/mensagem** que aparece (ou um print) - em qual etapa acontece: **criando o anuncio**, **ativand\n[USER] desativar mercado de envios\n[REP] entendi. você quer **desativar o mercado envios** em qual situação? %num) **no anuncio (para futuras vendas)**, para não oferecer mercado envios; ou %num) **numa venda ja feita**, para **cancelar a etiqueta** e enviar por conta? me responda com **%num ou %num** e, se tiver, envie o **id do anuncio**\n[USER] você não resolve merda nenhuma preciso falar com um atendente!!\n[REP] entendo sua irritação. eu consigo te encaminhar do jeito certo, mas antes preciso so de **uma informação** pra não cair no atendimento errado: você quer desativar o mercado envios **no anuncio (futuras vendas)** ou **numa venda ja feita (cancelar a etiqueta)**?"
+        },
+        {
+          "cid": "453686507",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Problemas para despachar un paquete/producto",
+          "sol": "Desativar ME: desativamos",
+          "transcript": "[USER] preciso colocar o anuncio %num para combine entrega\n[REP] no momento você não vai conseguir colocar o anuncio **%num** como “combinar entrega”, porque sua conta esta com bloqueio para **vender e editar anuncios** e precisa validar a identidade. faça a validação por aqui: [validar identidade](%url =https%3a%2f%2f%url depois disso, você consegue voltar a edi\n[USER] falar com atendente de verdade, uma pessoa\n[REP] entendo — para eu te colocar com a pessoa certa, me diz so isto: você quer um atendente porque **não consegue fazer a validação de identidade** (o link não abre/erro na etapa), ou porque **discorda do bloqueio**? se você me disser qual erro aparece (ou mandar um print), eu ja sigo com a solução.\n[USER] quero falar com o atendente, agora\n[REP] para eu te direcionar para um atendente **agora**, preciso de %num informação: qual e o motivo do contato? so responde com uma destas opções: %num) **validação de identidade** (erro no link/na selfie/no documento) %num) **bloqueio da conta** (quero revisão/entender o motivo)"
+        },
+        {
+          "cid": "453394059",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Problemas para despachar un paquete/producto",
+          "sol": "Desativar ME: desativamos",
+          "transcript": "[USER] essa venda e enviada por email, pois se trata de um projeto em pdf\n[REP] ola, boa tarde! eu me chamo angelica e faço parte da equipe do mercado livre💛✨\n[USER] ja fiz outras %num vendas, e enviei por email, mas essa mudou o sistema e não sei o que fazer, o comprador tbm não me forneceu ainda o e-mail\n[USER] boa tarde\n[REP] hmm, entendo\n[REP] e sinto muito por esse transtorno, marcel"
+        },
+        {
+          "cid": "453145612",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Problemas para despachar un paquete/producto",
+          "sol": "Desativar ME: desativamos",
+          "transcript": "[USER] preciso encerrar um atendimento anterior, que esta ainda em aberto, e ninguem responde para encerrar\n[REP] para eu te ajudar a **encerrar** isso, preciso entender que tipo de atendimento esta em aberto: você esta falando de uma **reclamação (mediação)** de uma venda/compra ou de um **protocolo de atendimento do suporte**? - se for **suporte**: me envie o **numero do protocolo/id do atendimento** (ou um p\n[USER] e um suporte no whatsapp, vou te enviar o id do protocolo\n[REP] perfeito — pode enviar aqui o **id do protocolo** (so os numeros). se você tiver, mande tambem um print da conversa onde aparece o status “em aberto” para eu direcionar certinho.\n[USER] %num\n[REP] ja localizei seu protocolo e deixei o caminho para você **encerrar/atualizar** com o time responsavel. acesse: [continuar atendimento do protocolo %num](%url _id=%num _id=%num)"
+        },
+        {
+          "cid": "452911477",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Problemas para despachar un paquete/producto",
+          "sol": "Desativar ME: desativamos",
+          "transcript": "[USER] no anuncio %num nao consigo colocar pesos e medidas, o peso ultrapassa o mercado envios, so posso enviar via transportadora\n[REP] no anuncio **mlb4636936285**, no momento você **não consegue editar pesos e medidas pela tela** (a edição não esta habilitada para autoatendimento nesse anuncio). sobre enviar **so por transportadora**: esse item esta **elegivel para envio fora do mercado envios**, mas para a gente liberar/cancelar \n[USER] ajustar o anuncio para futuras vendas\n[REP] perfeito — para ajustar esse anuncio para futuras vendas, preciso das **medidas reais do pacote**: - **comprimento (cm)**: - **largura (cm)**: - **altura (cm)**: - **peso (g)**: pode mandar no formato: `comprimento: %num, largura: %num, altura: %num, peso: %num`.\n[USER] comprimento: %num, largura: %num altura: %num, peso: %num\n[REP] não consegui atualizar: o sistema recusou porque o **peso (%num.%num g)** não bate com o esperado para esse tipo de produto. me confirma o **peso correto em gramas** (ex.: %num =%priceg; %num =%priceg) e, se possivel, diga se essas medidas são do **produto embalado para envio**."
+        }
+      ]
+    },
+    "alta": {
+      "cdu": "Reclama por el costo de envío",
+      "sol": "Envio pelo V",
+      "n_cases": 25,
+      "n_promotores": 18,
+      "n_detratores": 2,
+      "cases": [
+        {
+          "cid": "453794064",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: explicamos os benefícios de usar ME",
+          "transcript": "[USER] sim, conversar agora\n[REP] ola, boa tarde, fernando. tudo bem? me chamo marcia, sou representante do mercado livre e vou realizar seu atendimento hoje sobre duvidas em relação a sua etiqueta. que possamos iniciar uma semana abençoada.  prazer! 🤝\n[USER] boa\n[USER] boa tarde\n[USER] poderia me auxiliar em uma venda que esta bloqueado oa declaração de conteudo\n[REP] fernando, espero que esteja tudo tranquilo na sua vida💙 me fala qual informação aparece quando você tenta emitir a dce?"
+        },
+        {
+          "cid": "453009186",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: categorias especiais",
+          "transcript": "[USER] como faço pra alterar o peso e medidas do meu produto pos venda?\n[REP] depois que a venda ja foi feita, **não da para alterar peso e medidas daquele envio** (a etiqueta ja foi gerada com as informações usadas no calculo). o que você pode fazer e: - **para evitar nas proximas vendas:** atualizar as medidas do **anuncio**. me diga o **id do anuncio (mlb…)** que eu verifi\n[USER] venda %num\n[REP] na venda **%num** (cadeira mlb4617759887), o envio ainda esta **pronto para enviar**, mas **não da para alterar peso e medidas dessa etiqueta** depois da venda — essas medidas valem so para **proximas vendas**, ajustando o anuncio. se você quiser que eu tente **atualizar as medidas do anuncio** por \n[USER] comprimento %num,largura %num ,altura %num,peso 17680g\n[REP] tentei atualizar as medidas do anuncio **mlb4617759887** com %num × %num × %num cm e %num.%num g, mas sua conta **não tem permissão** para alterar peso e dimensões desse produto, então não consigo concluir o ajuste por aqui. você pode falar com o suporte para revisarem/liberarem essa alteração: [fal"
+        },
+        {
+          "cid": "454047446",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: categorias especiais",
+          "transcript": "[USER] sim, conversar agora\n[REP] ola ! bom dia! me chamo vinicius, faço parte da equipe do mercado livre, tudo bem?\n[REP] falo com o edmilson ?\n[REP] esta comigo ?\n[USER] isso\n[USER] na venda %num%phone (pagamento aprovado), o status esta ‘pronto para emitir dc-e’, mas ao tocar em ‘emitir dc-e’ no app e tambem no detalhe da venda via webview, não abre nada; preciso destravar a emissão da dc-e para liberar a etiqueta de envio"
+        },
+        {
+          "cid": "453247798",
+          "nps": 0,
+          "tipo": "passivo",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: explicamos os benefícios de usar ME",
+          "transcript": "[USER] correio recusou o envio devido a encomenda ser grande\n[REP] bruno, para eu te orientar certinho, preciso identificar a venda/etiqueta. me manda **um destes dados** da venda (qual você tiver): **id do envio (shipment)**, **id do pedido/pacote**, ou o **codigo de rastreio** — e, se puder, tambem as **medidas do pacote (c x l x a em cm) e peso (g)** que você le\n[USER] %num%phone\n[REP] para esse envio **%num%phone** a etiqueta esta **pronta para postar**, mas como os correios recusaram por **tamanho**, da para você **enviar por uma transportadora por fora**. o que acontece nessa venda: - você **pode despachar por fora**, mas a **etiqueta do mercado envios so pode ser cancelada dep\n[USER] %num cm de comprimento, %num cm de largura e %num cm de altura.%priceilos\n[REP] com essas medidas (**%num x %num x %num cm** e **%num.%num g**), o pacote **passa do limite aceito** (excede no comprimento e no peso), então a recusa dos correios faz sentido. texto para você mandar ao comprador no chat (copiar e colar): > oi! os correios recusaram a postagem porque o pacote excede"
+        },
+        {
+          "cid": "452991632",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: alteramos medidas",
+          "transcript": "[USER] tenho um anuncio onde o valor do frete e %num,%num e o mercado livre esta cobrando %num,%num , são vendas agencia ... quero falar com um atendente humano\n[REP] entendi — em vendas **agência**, o valor que aparece no anuncio pode não ser exatamente o mesmo que e **cobrado no envio**, porque o valor final depende do **envio gerado na venda** (peso/dimensões cadastrados, agência usada e regras do frete naquele envio). para eu conferir o seu caso com dados rea\n[USER] não concordo e não aceito, quero falar com um atendente humano por favor\n[REP] nessa venda por **agência**, o frete que foi cobrado ao seu saldo foi **r$ %num,%num** porque o custo do envio dessa remessa saiu de **r$ %num,%num** e você teve **r$ %num,%num** de desconto, fechando em **r$ %num,%num**. o valor **r$ %num,%num** que aparece no anuncio e uma **estimativa** e pode mu\n[REP] claro. acesse por aqui para falar com um atendente humano: [falar com atendimento](%url _id=%num _id=%num)\n[REP] hola, buenas tardes. me llamo rafaela, representante del mercado livre, con quien yo hablo."
+        },
+        {
+          "cid": "452936896",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: indicamos como carregar as dimensões",
+          "transcript": "[USER] no dia %num/%num, recebi uma notificação de irregularidade referente ao envio do produto {%num}, em que declarei as medidas %num x %num x %num cm, porem o sistema registrou %num x %num x %num cm. abri contestação no mesmo dia, dentro do prazo informado, mas ate o momento não obtive retorno, mesmo ap\n[REP] consegui identificar os %num envios e os anuncios vinculados: - no item **mlb5892292358** (pedido %num), as medidas que estão valendo hoje vêm de **medição verificada** e, por isso, **não da para alterar por autoatendimento**. - no item **mlb5892292362** (pedido %num%phone), as medidas estão como **\n[USER] sim, conversar agora\n[REP] ola! me chamo vanessa, sou representante do mercado livre. tudo bem?estou à disposição para te ajudar no que precisar. 💛🚚\n[USER] bom dia, vanessa! tudo bem?\n[USER] estou entrando em contato sobre duas irregularidades de medidas nos meus envios: • pedido %num declarei 44x62x2 cm e foi registrado como 44x62x11 cm • pedido %num%phone declarei 44x62x2 cm e foi registrado como 39x44x4 cm"
+        },
+        {
+          "cid": "453735354",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: não alteramos medidas",
+          "transcript": "[REP] para eu ver por que seu anuncio não aparece na opção de **peso e dimensões**, preciso que você me diga o **id do anuncio** (ex.: mlb1234567890) ou envie o link dele. você esta tentando ajustar isso por onde: em **anuncios > (%num pontinhos) > modificar/editar**, ou em alguma tela de **mercado envios\n[REP] perfeito. nessa tela, o anuncio so aparece se eu conseguir identificar qual e ele. me manda, por favor, o **id do anuncio (mlb...)** ou o **link** do anuncio. se puder, diga tambem se ele e **full** (estoque no mercado livre) ou se você mesmo envia.\n[USER] meu anuncio não aparece para colocar o peso nem as dimençoes do meu produto\n[REP] encontrei o seu anuncio, e ele **não aparece para editar peso e dimensões porque sua conta esta sem permissão para essa alteração no momento**. o que da para fazer agora: - confirme se você esta logado **na mesma conta** dona do anuncio (a que publica esse item); - se estiver na conta certa e mesmo \n[USER] modificar e editar\n[USER] %num"
+        },
+        {
+          "cid": "453709511",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: categorias especiais",
+          "transcript": "[USER] eu coloquei o peso errado na pesa como alterar\n[REP] patricia, da para ajustar, mas preciso entender onde você colocou o peso errado: e o **peso do anuncio** (para as proximas vendas) ou o **peso do pacote de uma venda que ja gerou etiqueta**? se você me mandar o **link ou id do anuncio** (ou o **id do envio/etiqueta** dessa venda), eu verifico aqui o\n[USER] peso do pacote de uma venda que gerou etiqueta errada\n[REP] nesse caso, não da para **editar o peso** de uma etiqueta ja gerada. o que da para fazer e **gerar uma nova etiqueta** (regenerar) e usar a nova na postagem — desde que o envio ainda não tenha sido despachado. me envie o **id do envio (shipment)** dessa venda (ou um print da tela da venda onde apare\n[USER] gerar uma nova etiqueta com peso urgente pois o correio fecha as %hour\n[REP] consigo gerar uma **nova etiqueta agora**, mas preciso do **id do envio (shipment)** (são **%num numeros**, ex.: 45xxxxxxxxx). pode me mandar esse numero aqui?"
+        },
+        {
+          "cid": "454015918",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: não alteramos medidas",
+          "transcript": "[USER] não estou conseguindo imprimir a etiqueta de envios\n[REP] adalto, para eu destravar isso eu preciso do **id do envio (shipment)** ou do **numero da venda/pacote** dessa etiqueta. enquanto isso, tenta assim (geralmente resolve quando e falha de impressão): - va em **vendas > a enviar** > abra a venda > **baixar etiqueta em pdf** e imprima pelo pdf (em vez d\n[USER] %num%phone\n[REP] para esse pacote, a etiqueta ainda não libera porque o envio esta com **“nota fiscal pendente”**. enquanto a nf não for emitida, a etiqueta não fica disponivel. o que fazer agora: - em **vendas > a enviar**, abra a venda e veja a opção de **emitir/enviar a nota fiscal** (ou concluir a emissão no seu\n[USER] não aparece a nota fiscal\n[REP] nesse envio, a etiqueta esta travada porque esta como **“nota fiscal pendente”** — e se a opção de nf **nem aparece**, normalmente e porque a emissão não ficou habilitada/visivel nessa venda (ou houve falha na geração). faz assim: - no app/site: **vendas > a enviar > abra a venda > mais ações (⋯)** "
+        },
+        {
+          "cid": "453514900",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: alteramos medidas",
+          "transcript": "[USER] sim, conversar agora\n[USER] a venda %num apareceu %num×%num×%num cm (%priceg) no custo do envio, mas o pacote real e %num×%num×%num cm (%priceg). 📦🧾\n[REP] ola! sou o pedro, representante do mercado livre e notei que deseja revisão no seu custo de envio da venda %num vi que estou em contato com a equipe organizei store\n[REP] qual seu nome?\n[USER] jefferson\n[USER] image"
+        },
+        {
+          "cid": "453389491",
+          "nps": 0,
+          "tipo": "passivo",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: alteramos medidas",
+          "transcript": "[USER] a venda %num me gerou prejuizo ao cobrar o frete de mim, eu gostaria de entender o por que ja que o anuncio em questão se trata de um anuncio com frete pago pelo comprador e tambem não passa do valor exigido para eu pagar o frete, eu gostaria de uma explicação para a cobrança do frete nessa questão \n[REP] na sua venda **%num**, o frete não foi %num% “pago pelo comprador” porque, nessa compra, o comprador ficou com **frete gratis** (pagou **r$ %num,%num**) e o custo do envio foi **dividido**: você arcou com **r$ %num,%num** do frete. o que explica essa cobrança, pelo que aparece no envio: - o custo to\n[USER] não mas idependente das dimensões do produto, quando eu opto por não dar o frete gratis para o comprador, eu estou informando ao mercado livre que minha precificação não esta esse valor devido, ou seja, quando vocês me cobram sem avisar nada eu saio no prejuizo, eu não estou vendendo na plataforma p\n[REP] entendo sua frustração — quando você **não ativa frete gratis**, a expectativa e o comprador pagar o envio. so que nesta venda especifica aconteceu o seguinte: o comprador ficou com **frete gratis (pagou r$ %num,%num)** e o envio foi **cofinanciado**, então uma parte do custo acabou ficando para voc\n[USER] detalhe da venda envios tarifa do mercado envios (por sua conta) %num,%num aqui mostra que apenas eu paguei o frete se querem dar frete gratis ao comprador devem dar por conta de vocês ja que eu optei por não dar, esse produto mal tem margem, vocês me quebram assim!\n[REP] no detalhe da venda aparece “**por sua conta**” porque, nessa compra, o comprador ficou com **frete gratis (pagou r$ %num,%num)** e o envio foi **cofinanciado** — então o sistema lança so a **parte do vendedor** como “tarifa do mercado envios”, que foi **r$ %num,%num** (não quer dizer que você escol"
+        },
+        {
+          "cid": "453964694",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: alteramos medidas",
+          "transcript": "[USER] ola, no momento não estou disponivel (encontro de lideres). estamos no fechamento do ciclo %num fechamento do ciclo %num/%num\n[USER] sim, conversar agora\n[REP] ola rafael , boa tarde! muito prazer, meu nome e  nathalia, representante do mercado pago 💙 e vou te atender hoje🤝!\n[REP] vi aqui que você ja tinha começado a falar com a nossa assistente virtual que   informa que no pedido %num o comprador pagou r$ %num,%num (%num unidades), mas no mercado pago aparece apenas r$ %num,%num , correto? quer me contar um pouquinho mais pra eu poder te ajudar da melhor forma? 💙\n[USER] vc pode ouvir audio?\n[REP] não esta aparecendo para mim, pode me enviara novamente ?"
+        },
+        {
+          "cid": "453749944",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: alteramos medidas",
+          "transcript": "[USER] boa tarde\n[REP] boa tarde! como posso te ajudar hoje no mercado livre? se puder, me diga em poucas palavras o que aconteceu (ex.: envio, pagamento, anuncio pausado, reclamação) e, se tiver, o numero do pedido/anuncio.\n[USER] aumentaram o valor do frete do meu anuncio, o valor do frete não e esse que estão atualizando no painel %num\n[REP] no seu anuncio **%num**, o frete e calculado pelas **medidas e peso cadastrados** e, neste momento, essa publicação **não permite ajustar** essas medidas por aqui — por isso o valor pode ter sido recalculado e aparecer diferente no painel. para eu tentar revisar/corrigir o calculo, me informe as **m\n[USER] esta calculado errado\n[REP] entendo. para eu confirmar onde esta a divergência, me passe as **medidas do pacote pronto para envio** (comprimento, largura, altura em cm) e o **peso em g** (se vai em %num volume). se tiver variações com embalagens diferentes, diga qual variação você esta usando."
+        },
+        {
+          "cid": "452910755",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: explicamos os benefícios de usar ME",
+          "transcript": "[USER] ola quero transportar em carretas para o mercado livre\n[REP] evaristo, você quer transportar **o quê** em carretas no mercado livre: suas **vendas como vendedor** (envio de pedidos) ou uma **compra sua** (entrega/retirada de um item grande)? me diga so isso e, se ja existir uma operação, envie tambem o **id do pedido/compra** ou o **codigo de rastreio** para \n[USER] envios\n[REP] no mercado envios, **não da para escolher “carreta”** como modalidade de envio. se a sua venda for **grande/pesada** e não couber nos limites do mercado envios, pode existir a opção de **despachar por transportadora por fora** (inclusive carreta), mas isso so da para confirmar com base **numa venda \n[USER] falar com um atendente\n[REP] claro — você pode falar com um atendente por aqui: [falar com um atendente](meli://cx/help?url=https%3a%2f%2f%url"
+        },
+        {
+          "cid": "453502416",
+          "nps": 0,
+          "tipo": "passivo",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: cálculo por unidade",
+          "transcript": "[USER] como faço para alterar o peso de um kit que vendo no catalogo?\n[REP] para eu te dizer o caminho certo (e ja verificar se da para editar), me manda o **link ou id do anuncio** do kit. em anuncios de **catalogo**, o peso usado no frete vem das **dimensões/peso do pacote** do anuncio e pode acontecer de: - dar para ajustar em **anuncios > selecionar o anuncio > editar >\n[USER] %num - os envios são via correios e envios flex. tentei postar hoje nos correios, porem a atendente me informou que o peso que consta na etiqueta esta incorreto.\n[REP] no seu anuncio **mlb4617511209**, o peso/dimensões do pacote que estão cadastrados hoje são **%num × %num × %num cm** e **%num g**. como você vende esse kit e os correios recusaram por **peso incorreto na etiqueta**, da para tratar em %num frentes: %num) **para corrigir o cadastro do anuncio (proxim\n[USER] %num) medidas 33x33x10 com peso de 500g\n[REP] pronto: ja atualizei o anuncio **%num** para **%num × %num × %num cm** e **%num g**. a partir das **proximas vendas**, as etiquetas vão considerar essas medidas. para eu te ajudar com a **venda de hoje** (etiqueta que os correios recusaram), me envie o **id do envio (shipment)** ou do **pedido/pacot"
+        },
+        {
+          "cid": "453973164",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: categorias especiais",
+          "transcript": "[USER] sim, conversar agora\n[REP] boa tarde, tudo bem? 💛🙂me chamo fatima, sou representante do mercado livre e estarei te acompanhando hoje para garantir que sua experiência seja a melhor possivel e te ajudar. vi que gostaria de falar sobre a venda %num  seria isso mesmo?com quem eu tenho o prazer de falar, por favor? quero te atend\n[USER] boa terde\n[USER] me chamo magno\n[USER] tô com dificuldade de emitir a etiqueta da venda do meu produto\n[USER] no começo tava dando erro na receita federal para emitir a nota agora ta dizendo que a nota foi vencida sendo que nem foi gerada a nota"
+        },
+        {
+          "cid": "453263456",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: indicamos como carregar as dimensões",
+          "transcript": "[USER] gostaria de liberar o places, ja estou com o full liberado. porem nem todos os produtos vou mandar, e hj dependo do correio que me faz perder muito a competitividade, o frete e o dobro e ainda chega a levar %num dias\n[REP] davi, pelo que aparece na sua conta, você **ja esta habilitado para drop off** (pontos de postagem/places) — ou seja, você não precisa depender so dos correios para despachar. para usar no dia a dia: em cada venda, gere a **etiqueta do mercado envios** e leve o pacote a um **ponto de postagem creden\n[USER] onde vejo isso?\n[REP] você vê isso **na hora de postar cada venda**, depois que gera a etiqueta do mercado envios: %num) va em **vendas** (minhas vendas) %num) abra uma venda **para enviar** → toque em **imprimir etiqueta** (ou **ver etiqueta**) %num) na tela do envio, procure a opção de **ver o local de postagem / ponto\n[USER] hj qual seria o valor do frete gratis para um produto de 150g que custa%price?\n[REP] para o comprador, no mercado livre o **frete gratis pode aparecer a partir de r$ %num** (em produtos elegiveis). então, num produto de **r$ %num**, o frete pode sair gratis para o comprador — mas isso **depende do anuncio e do endereço/cep**. ja o **quanto você paga** (sua parte do frete) eu so cons"
+        },
+        {
+          "cid": "452889991",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: explicamos os benefícios de usar ME",
+          "transcript": "[USER] estou com dois anuncios com o preço errado de frete gratis\n[REP] maria de lourdes, consigo te ajudar — mas preciso identificar quais são esses %num anuncios. me envia os **ids dos anuncios** (ex.: mlb1234567890) e me diz o que esta “errado” no frete gratis: ele aparece **ativo quando não deveria**, ou o mercado livre esta **cobrando de você um valor diferente** d\n[USER] %phone\n[REP] nesse anuncio (mlb%phone), o frete esta sendo calculado com dimensões **estimadas** (fonte não verificada) e isso pode deixar o valor do frete gratis diferente do esperado. para eu corrigir certinho: %num) qual e o **outro anuncio** (id)? %num) o problema e o frete gratis **para o comprador** (apare\n[USER] %phone\n[REP] no segundo anuncio (mlb%phone) acontece a mesma coisa: as medidas estão **estimadas** (não verificadas), e isso pode distorcer o valor do frete gratis. me diga, por favor: %num) o que esta errado: o frete gratis **para o comprador** (aparece/não aparece) ou o **custo que você paga**? %num) as dimens"
+        },
+        {
+          "cid": "453312939",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: alteramos medidas",
+          "transcript": "[USER] sim, conversar agora\n[USER] ok\n[REP] ola, boa noite, tudo bem? me chamo suelen sou representante do mercado livre e estou à disposição para te ajudar com o seu atendimento hoje! 🚛💛\n[REP] notei que deseja falar sobre o calculo do custo de envio na venda %num, correto? entendo sua solicitação de auxilio em relação a essa cobrança e saiba que estou aqui para ajudar.\n[USER] boa noite, gostaria de pedir a analise dos valores cobrados de alguns pedidos que são com mais de %num item. %num ventosas leves cobrado $%num,%num , %num %num cortiças 900g $%num,%num , %num %num cortiças%priceg cobrado $%num,%num\n[USER] quando coloco os pesos são do total do pacote. e não de cada item."
+        },
+        {
+          "cid": "453490320",
+          "nps": 0,
+          "tipo": "passivo",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: categorias especiais",
+          "transcript": "[USER] fui despachar a venda o correio recusou devido o peso na etiqueta não condiz com realidade do objeto.\n[REP] entendi, antônio. quando o peso da etiqueta não bate com o pacote, a postagem pode mesmo ser recusada. para eu te orientar do jeito certo, me diz so uma coisa: essa etiqueta e do mercado livre e você quer corrigir o envio ou saber como refazer a etiqueta?\n[USER] precisa refazer a etiqueta e colocar o peso certo.\n[REP] entendi. eu não consegui validar por aqui um fluxo seguro para refazer essa etiqueta com novo peso. o que eu consegui confirmar e que, para evitar nova recusa, vale revisar o cadastro de endereço de envio e as orientações de embalagem do mercado livre antes de gerar um novo despacho: - [preferências\n[USER] na etiqueta da minha venda consta o peso de%priceg, porem o produto pesa%priceg\n[REP] com essa diferença de%priceg para%priceg, a recusa na postagem faz sentido. o que eu consegui confirmar no seu caso e: - eu não tenho um fluxo validado aqui para editar o peso dessa etiqueta ja emitida; - para evitar nova recusa, vale revisar a embalagem e os dados de envio antes de tentar gerar um "
+        },
+        {
+          "cid": "454042815",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: categorias especiais",
+          "transcript": "[USER] sim, conversar agora\n[USER] gostaria de saber porque vcs cancelaram a venda %num\n[USER] cadastrei o produto corretamente, não recebi nenhuma notificação de irregularidades e agora depois que a cliente efetuou a compra vcs fizeram o cancelamento alegando irregularidade\n[REP] ola ! bom dia! me chamo vinicius, faço parte da equipe do mercado livre, tudo bem?\n[REP] para facilitar o atendimento com quem falo ?\n[USER] deija"
+        },
+        {
+          "cid": "453550769",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: recobro incorreto, bonificamos",
+          "transcript": "[USER] receber os valores do frete que estao cobrando errado d\n[REP] entendi, casa. para eu verificar e te ajudar a **receber o valor do frete cobrado errado**, preciso que você me diga qual caso e: - foi em uma **venda especifica**? me envie o **id do envio (shipment, %num digitos)** ou o **id do pedido/pacote**. - ou o frete esta saindo errado por causa das **medid\n[USER] %num falar com um humano\n[REP] no pacote dessa venda, o frete cobrado pra você foi **r$ %num,%num** e ele esta sendo calculado pelas **medidas/peso cadastrados no anuncio** (%num × %num × %num cm; %num.%num g). se esses dados estão errados, eu consigo **revisar o calculo ajustando as medidas do anuncio** (isso impacta principalme\n[USER] o valor que tinha que me cobra e %num,%num\n[REP] hoje o frete dessa venda ficou em **r$ %num,%num** porque ele e calculado pelas **medidas e peso** cadastrados no anuncio. neste envio especifico, o pacote ja foi **coletado**. então não da para recalcular/ajustar o valor agora so porque você esperava **r$ %num,%num** — para mudar o calculo, precisa"
+        },
+        {
+          "cid": "452917800",
+          "nps": 0,
+          "tipo": "passivo",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: alteramos medidas",
+          "transcript": "[USER] falar com um atendente sobre medidas de produto\n[REP] para eu te direcionar certo: você quer falar sobre **medidas (peso/dimensões) de um produto anunciado por você** ou sobre **medidas de um produto que você comprou**? se for anuncio, me envie o **link do anuncio ou o id do item** (ex.: mlb123456789).\n[USER] %url\n[REP] nesse anuncio, as medidas cadastradas hoje estão como **%num × %num × %num cm** e **%num.%num g**. no seu acesso, não aparece permissão para editar essas medidas direto pelo anuncio. você e o **vendedor (dono da conta que anuncia)** e quer corrigir as medidas/peso? se sim, me passe as medidas corret\n[USER] sou o dono da conta. as medidas do produto são 28x52x80cm e 18500g\n[REP] tentei atualizar as medidas para **%num × %num × %num cm** e **%num.%num g**, mas sua conta esta **sem permissão** para alterar as medidas/peso desse anuncio por aqui. para um atendente verificar e ajustar isso com você, acesse: [falar com um atendente](%url _id=%num _id=%num)"
+        },
+        {
+          "cid": "453801624",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: categorias especiais",
+          "transcript": "[USER] estou com problemas no envio da venda\n[REP] gabriel, pode me dizer **qual e o problema exatamente no envio** (erro ao imprimir etiqueta, correios recusando a postagem, etiqueta vencida, falta de documento, ou o envio não atualiza)? vi um alerta que pode ser o seu caso: se você vai postar **pelos correios sem nf**, agora e obrigatorio emitir e\n[USER] correios recusando postagem\n[REP] entendi. os correios informaram **o motivo da recusa** (por exemplo, falta de **dc-e**, pacote **acima do limite**, ou **problema na etiqueta**)? se você me enviar o **id do envio (shipment)** ou o **codigo de rastreio**, eu verifico aqui e te digo o que fazer para liberar essa postagem.\n[USER] pacote acimda do limite\n[REP] certo — quando o pacote fica acima do limite, em alguns casos da para **autorizar envio por outra transportadora** (fora do mercado envios), mas eu preciso localizar a sua venda. me envie, por favor: %num) o **id do envio (shipment)** ou o **codigo de rastreio** %num) as **medidas do pacote**: compr"
+        },
+        {
+          "cid": "453684715",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclama por el costo de envío",
+          "sol": "Envio pelo V: categorias especiais",
+          "transcript": "[USER] sim, conversar agora\n[USER] não aparece emitir a declaração de conteudo pra mim\n[REP] ola ! bom dia! me chamo vinicius, faço parte da equipe do mercado livre, tudo bem?\n[REP] para facilitar o atendimento com quem falo ?\n[USER] egle bozzolan gueller\n[REP] muito prazer!"
+        }
+      ]
+    }
+  },
+  "Partners": {
+    "queda": {
+      "cdu": "Tiene problemas durante la creacion de la cuenta",
+      "sol": "ME Extra: conflito",
+      "n_cases": 12,
+      "n_promotores": 8,
+      "n_detratores": 4,
+      "cases": [
+        {
+          "cid": "453493293",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: conflito de serviços prestados",
+          "transcript": "[USER] infelizmente, eu acabei cadastrando meu veiculo e minha habilitação na conta da minha esposa, e minha conta quando eu fui abrir meu mei, tudo certinho, e fui me cadastrar no mercado extra, ta dando bloqueada. eu queria regularizar essa situação.\n[REP] vi aqui que sua conta esta com uma restrição que esta bloqueando o acesso/login ao mercado pago, e isso pode impedir seu cadastro no mercado extra. como você cadastrou cnh e veiculo na conta da sua esposa, o time de suporte precisa revisar e orientar a regularização (transferência/validação dos dado\n[USER] ¿alo?\n[REP] ¿alo, buenas tardes. mi nombre es gabriel. estoy aqui del mercado livre, mercado pago.\n[REP] ¿falo con marley?\n[USER] el es que esta hablando."
+        },
+        {
+          "cid": "453472164",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: conflito de serviços prestados",
+          "transcript": "[USER] quero fala com atendente humano\n[REP] ednaldo, eu posso te direcionar para o time certo, mas preciso de um minimo de contexto: qual e o assunto e o que aconteceu? (ex.: compra que não chegou, reembolso, pagamento/cobrança, conta bloqueada/segurança).\n[USER] não consigo fazer cadastro no envio extra\n[REP] entendi. para eu te ajudar a destravar o cadastro no **envio extra**, me diga: %num) em que etapa trava (entrar/confirmar telefone/enviar documento/criar senha)? %num) qual mensagem de erro aparece (ou manda um print da tela)? %num) você esta tentando pelo app android ou pelo navegador?\n[USER] pelo aplicativo\n[REP] pelo print, o app não deixa continuar porque seu cpf/e-mail ainda consta como **motorista de uma empresa terceira que presta serviço ao mercado livre**. enquanto isso estiver ativo, o cadastro no envios extra fica bloqueado. o que fazer: - peça para a **empresa que te contratou** dar baixa/encerrar "
+        },
+        {
+          "cid": "454063873",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: conflito de serviços prestados",
+          "transcript": "[USER] não consigo fazer um novo cadastro no envios extras\n[REP] pelo print, o app esta barrando o cadastro no **envios extra** porque o sistema identifica que você ainda consta como motorista de uma empresa terceira que presta serviço ao mercado livre. nessa situação, so da para tentar de novo **%num mês depois** que essa empresa der baixa do seu cadastro na bas\n[USER] %email\n[REP] perfeito: no seu usuario logado agora (%email) não aparece nenhuma outra conta vinculada e tambem não existe uma conta do **envios extra** associada ainda. como o app esta bloqueando por você constar como motorista de empresa terceira, a unica saida e a **empresa dar baixa do seu cadastro** e você t\n[USER] ja tem mais de um mês que dei baixa como entro em contato com essa empresa para eles da baixa no sistema deles para que eu possa fazer um novo cadastro?\n[REP] entendo — esse contato **não e feito pelo mercado livre**: quem precisa dar baixa e a **transportadora/empresa** em que você trabalhava (a que te contratou), pelos canais dela (rh, base/central, suporte do app deles). como você ja passou de %num mês e o bloqueio continua, da para pedir revisão com o"
+        },
+        {
+          "cid": "454085935",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: conflito de serviços prestados",
+          "transcript": "[USER] boa tarde\n[REP] boa tarde, fabiana. como posso te ajudar?\n[USER] quero saber como esta minha conta nos envios extra\n[REP] não consegui localizar com segurança o que você chama de “envios extra”. você esta falando de algum recurso do mercado livre, de entregas/envios, ou apareceu esse nome em alguma tela? se quiser, me manda uma captura ou me diz onde isso aparece que eu verifico com você.\n[USER] sou entregadora dos envios extra\n[REP] fabiana, pela sua conta aqui ela esta normal: não ha bloqueios nem restrições ativas no momento. tambem vi que seus metodos de acesso estão disponiveis e não aparece nenhuma pendência geral na conta. se a sua duvida for sobre o status dentro do programa envios extra em si, eu não consigo ver esse pa"
+        },
+        {
+          "cid": "453688310",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: conflito de serviços prestados",
+          "transcript": "[USER] estou com problemas no meu cadastro do envio extra\n[REP] ronivan, verifiquei aqui e **este usuario não tem uma conta de mercado envios extra (motorista) associada**, por isso não consigo ver nem corrigir o cadastro por esse login. você esta tentando se cadastrar como motorista do envios extra ou ja tem uma conta em **outro e-mail/usuario**? diga tambem **\n[USER] veiculo\n[REP] entendi: o problema e no **cadastro do veiculo** no envios extra. o que exatamente acontece quando você tenta cadastrar o veiculo: da **erro**, fica **em analise**, ou aparece **reprovado**? se puder, envie um print e diga tambem **placa (somente os %num primeiros caracteres)** e qual documento você\n[USER] diz que esta vinculado a outra conta\n[REP] esse aviso aparece porque **um mesmo veiculo/placa so pode ficar cadastrado em %num conta do envios extra**. aqui consta que você tem outra conta vinculada: **%email**. tente entrar por ela e continuar o cadastro: [acessar essa conta](meli://login?user=balbinoladislau%40gmail.com _type=assisted_help"
+        },
+        {
+          "cid": "454009979",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: conflito de serviços prestados",
+          "transcript": "[USER] não consigo entrar no app envios extra\n[REP] entendi, edmilson. no momento não ha instabilidade geral para esse caso. quando você tenta entrar no envios extra, o que acontece exatamente: o app não abre, fica carregando, aparece mensagem de erro ou ele volta para a tela inicial? se puder, me manda tambem o texto do erro ou um print.\n[REP] edmilson, isso não e falha de login do app. pela mensagem da tela, seu acesso ao envios extra esta bloqueado porque você ainda consta como motorista de uma empresa terceirizada que presta serviço ao mercado livre. o que vale no seu caso: - você so consegue tentar de novo %num mês depois que essa emp\n[USER] nunca trabalhei como motorista\n[REP] entendi. nesse caso, a mensagem indica que ha um vinculo cadastrado indevidamente para o seu cpf ou para a conta usada no envios extra. faz este teste agora: - se o e-mail que aparece na tela não e o seu, toque em **“não sou...”** e entre com a conta correta; - se a conta esta certa, então o bloquei\n[USER] sim"
+        },
+        {
+          "cid": "453190372",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: conflito de serviços prestados",
+          "transcript": "[USER] sim, conversar agora\n[USER] ????\n[REP] ola, bom dia, tudo bem? me chamo bianca, sou representante do mercado livre e vou te auxiliar hoje.\n[REP] falo com fabio?\n[USER] bom dia\n[USER] sim"
+        },
+        {
+          "cid": "452953285",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: conflito de serviços prestados",
+          "transcript": "[USER] preciso falar com o atendente\n[REP] claro, luan. me diz rapidinho sobre o que e o atendimento que você precisa (ex.: conta, pix, cartão, pagamento) que eu ja vejo aqui e, se não der para resolver por aqui, te encaminho do jeito certo.\n[USER] mercado envios extra\n[REP] entendi. para mercado envios extra, o melhor caminho aqui e falar direto com um atendente por este acesso: [falar com um atendente](mercadopago://cx/help?url=https%3a%2f%2f%url esse link fica disponivel por %num horas.\n[USER] sim, conversar agora\n[REP] bom dia, luan! sou mille, do mercado livre, e e um prazer te atender.  tudo bem com você? 💛"
+        },
+        {
+          "cid": "453127916",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: conflito de serviços prestados",
+          "transcript": "[USER] problemas com cadastro de entregador\n[REP] thiago, para eu te ajudar: você esta tentando se cadastrar como **entregador** em qual serviço do mercado livre/mercado pago (ex.: mercado envios/flex), e em que etapa trava? se puder, me diga tambem o que aparece na tela (mensagem de erro) e envie um print.\n[REP] pelo print, o app esta te barrando porque você ainda aparece como **motorista vinculado a uma empresa parceira** que presta serviço ao mercado livre. enquanto esse vinculo existir na base dessa empresa, não da para entrar no envios extra. o que fazer: - se você ja saiu dessa empresa, peça para ela *\n[REP] essa segunda tela e so um checklist do **mercado pago** (e-mail igual ao do cadastro no envios extra, sem pendências e **chave pix ativa**). no seu caso, porem, o bloqueio do primeiro print e de **elegibilidade**: você ainda esta registrado como motorista de uma empresa terceira que presta serviço a\n[USER] não, nunca trabalhei\n[REP] se você **nunca trabalhou** como motorista de empresa parceira, essa mensagem costuma indicar um **vinculo indevido no seu cpf** (ou cadastro feito com outro login). antes de acionar a analise, faz so estes %num checks: - tenta o cadastro usando este login: [entrar com %email](meli://login?user=thia"
+        },
+        {
+          "cid": "452887051",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: conflito de serviços prestados",
+          "transcript": "[REP] boa noite, jose! como posso te ajudar? 😊\n[REP] identificamos um problema com sua conta. você devera entrar em contato com o suporte para continuar com o processo de cadastro.\n[USER] como faço isso?\n[REP] para falar com a gente, acesse \"ajuda\" no app ou site do mercado livre e clique em \"fale conosco\". la, você escolhe como prefere ser atendido: por e-mail, whatsapp ou ligação.\n[USER] pode me mandar a opção fale com nosco\n[REP] claro! e so clicar aqui para continuar o atendimento: meli://cx/help?url=https%3a%2f%2f%url esta conversa esta sendo encerrada, mas pode contar com a nossa equipe para te ajudar! 😊"
+        },
+        {
+          "cid": "453182191",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: conflito de serviços prestados",
+          "transcript": "[USER] quero falar com atendente do envios extra,não consigo acessar minha conta\n[REP] jose, vi que sua conta esta com **restrição de acesso ao login (mercado pago)**, por isso você não consegue entrar agora. tente assim: %num) na tela de login, identifique sua conta (e-mail/telefone) e toque em **“não consigo entrar”** / **“e comigo, mas não sou reconhecido”** para iniciar a **recupe\n[USER] a conta que eu quero entrar e do envios extra\n[REP] entendi. no seu acesso atual **não aparece nenhuma conta vinculada do mercado envios extra** (envios extra) — por isso você não consegue entrar nela por aqui. o que da para fazer agora: - tente trocar para a conta do envios extra por este acesso: [acessar com outro e-mail](meli://login?user=j.clever\n[USER] %email\n[REP] certo, cleverton. como essa conta do envios extra (%email) não esta associada ao acesso em que você esta agora, vou te encaminhar para um atendente para validarem e ajudarem a recuperar o acesso. va por aqui: [falar com um atendente](%url _id=%num _id=%num)"
+        },
+        {
+          "cid": "452221901",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: conflito de serviços prestados",
+          "transcript": "[USER] eu cancelei uma conta que eu tinha feito no mercado livre e iniciei o cadastro no envio extra. so que bugou tudo no cadastro e eu cancelei a conta no mercado livre e o registro no envio extra. eu achei que o bug tinha dado porque depois vi que tinha ja uma conta no meu cpf então eu cancelei a nova q\n[REP] tiago, pelo que aparece na sua conta, no momento esta **bloqueado o acesso ao mercado pago** (isso costuma impedir o cadastro no **envios extra**). o que fazer agora: %num) tenta **entrar no mercado pago** com a conta do cpf que você manteve e completa as validações que aparecerem (reconhecimento fa\n[USER] aparece assim. eu arrumei a conta antiga do e-mail antigo que eu tinha e fiz reconheci facial e tudo ai quando fui fazer o cadastro no envio extra apareceu esta mensagem do print\n[REP] pelo print, o bloqueio não e por bug: o sistema identificou que seu cpf ainda consta como **motorista de uma empresa terceira** que presta serviços ao mercado livre. nessa situação, o cadastro no **envios extra** fica indisponivel e so libera **%num mês depois** de a empresa dar baixa dos seus dados\n[USER] não não tenho vinculo com nenhuma empresa trasportadora. como eu disse eu tinha criado um email para fazer o cadastro nos envios extras e esse email não foi pra frente nos envios extras ficou extremamente bufado ai eulembrei que tinha uma conta antiga e cancelei a conta do email novo no mercado livr\n[REP] entendi, tiago. como você **não tem vinculo com transportadora** e a conta antiga do e-mail novo foi **cancelada** (e não da mais para acessar), esse bloqueio precisa de **ajuste manual** para desvincular seu cpf do cadastro anterior do envios extra. vai em [falar com o suporte](meli://cx/help?url=h"
+        }
+      ]
+    },
+    "alta": {
+      "cdu": "Tiene problemas durante la creacion de la cuenta",
+      "sol": "ME Extra: consulta",
+      "n_cases": 12,
+      "n_promotores": 11,
+      "n_detratores": 0,
+      "cases": [
+        {
+          "cid": "453471984",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: consulta sobre carga de documentação",
+          "transcript": "[USER] estou com problema para me cadastrar no envios extra\n[REP] pelo que aparece na sua conta, seu cadastro no **envios extra** esta **pendente** porque a **documentação do veiculo** ainda precisa ser enviada ou validada. no app do envios extra, volte na etapa de **documentos** e: - reenvie os arquivos com boa qualidade (foto nitida, sem cortes/reflexos; se acei\n[USER] ja enviei e continua recusando, foto super nitida\n[REP] entendi, gustavo. aqui ainda consta como **pendente de envio/validação** da documentação do veiculo, então precisamos focar no **motivo da recusa** que o app mostra. para eu te orientar certinho, me diz: %num) qual documento esta sendo recusado (crlv/documento do veiculo, cnh ou seguro)? %num) qual \n[USER] me diz vc, e cnh ou crlv ? ta confuso\n[REP] eu não consigo ver daqui **qual** (cnh ou crlv) o app esta recusando — isso so aparece no detalhe da etapa **documentos** do envios extra. no app, entra em **cadastro > documentos** e toca no card de cada item (cnh / documento do veiculo–crlv / seguro): o que estiver com **“recusado”** vai mostrar o"
+        },
+        {
+          "cid": "454148806",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: consulta sobre carga de documentação",
+          "transcript": "[REP] hola, buen dia.\n[USER] buen dia.\n[REP] me llamo ana, soy representante del mercado livre y falo con luis alberto.\n[USER] eso.\n[REP] ¿tudo bien luis alberto? desejo tratar referente al mercado indigena extra.\n[USER] si."
+        },
+        {
+          "cid": "454040103",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: consulta sobre carga de documentação",
+          "transcript": "[USER] ponto de entrega\n[REP] stephane, você esta falando de **ponto de entrega para retirar uma compra** (agência/locker) ou de **ponto de entrega para fazer uma devolução**? se puder, me diga tambem qual e o **produto/compra** (ou envie o **id do envio** que aparece no rastreio) para eu te orientar no lugar certo.\n[USER] como me tornar\n[REP] você quer se tornar **ponto de entrega/retirada do mercado livre** (para receber e entregar pacotes na sua loja) ou esta perguntando **como escolher um ponto de entrega** para uma compra/devolução sua?\n[USER] quero me tornar ponto de entrega e retirada\n[REP] para se tornar **ponto de entrega e retirada** (ponto parceiro), o cadastro/avaliação e feito com o time responsavel por credenciamento. va em [falar com o mercado livre](meli://cx/help?url=https%3a%2f%2f%url e informe que você quer ser **ponto de entrega e retirada**, com sua cidade/bairro e o tipo"
+        },
+        {
+          "cid": "454058838",
+          "nps": 0,
+          "tipo": "passivo",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: consulta sobre carga de documentação",
+          "transcript": "[REP] hola. buenas tardes, fernanda.\n[USER] buenas tardes.\n[REP] soy fernanda?\n[USER] si.\n[REP] hola, fernanda.\n[USER] hola."
+        },
+        {
+          "cid": "453388847",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: consulta sobre carga de documentação",
+          "transcript": "[USER] não estou conseguindo realizar meu cadastro no envios extra para começar a entregar pacotes\n[REP] joelson, verifiquei aqui e seu cadastro no **envios extra** esta **pendente de ativação** porque a **documentação do veiculo** ainda esta faltando enviar ou validar. o que fazer agora: - abra o app do envios extra e va na etapa de **documentos**. - envie novamente fotos/arquivos **bem nitidos e comp\n[USER] não validação de identidade, mando a foto da cnh e da que não esta legivel, porem ja tentei de varias formas, e mesmo assim diz q não esta legivel\n[REP] entendi — quando aparece “não esta legivel”, normalmente e por **foco/iluminação/reflexo** ou porque o app detecta que **não e o documento original**. tenta assim (na ordem): - foto da cnh em uma **mesa**, com **fundo liso escuro**, bem **iluminado** (sem flash) e **sem sombra**. - enquadra a cnh **\n[USER] aparece a opção de pdf, porem diz que tenho que adicionar %num arquivos e o pdf da cnh digital e apenas %num arquivo\n[REP] isso de pedir **%num arquivos** costuma ser porque o sistema quer o documento em **frente e verso** (%num envios separados). você pode resolver de um destes jeitos: - **gerar %num pdfs**: um so com a **frente** da cnh e outro so com o **verso** (mesmo que venha num pdf de %num paginas, separa em doi"
+        },
+        {
+          "cid": "454146197",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: consulta sobre carga de documentação",
+          "transcript": "[USER] sim, conversar agora\n[REP] ola josuel, bom dia! sou a marina representante do mercado livre 🚚sera um prazer te atender, estou aqui para te auxiliar.\n[USER] ola marina bom dia\n[USER] eu tô tentando adicionar minha habilitação e não estou conseguindo\n[USER] aparece dizendo que eu preciso enviar duas fotos so que eu ja enviei de todo jeito e não vai\n[REP] esta mandando as fotos em qual formato?"
+        },
+        {
+          "cid": "453925791",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: consulta sobre carga de documentação",
+          "transcript": "[USER] estou fazendo cadastro no envios extra mas n consigo colocar a conta bancaria\n[REP] jaime, aqui aparece que **não existe uma conta do envios extra associada a este usuario**. por isso, não consigo ver/ajustar o cadastro da conta bancaria por aqui. para eu te orientar certinho: %num) confirma se você esta logado **na mesma conta** do mercado livre em que você iniciou o cadastro do e\n[USER] falar com atendente\n[REP] consigo te ajudar, mas preciso de um minimo de contexto para direcionar certo. você quer falar com atendente por causa de qual problema, exatamente: **não aparece a opção de conta bancaria**, da **mensagem de erro**, ou você esta **em outra conta** no app? (se puder, manda um print da tela/erro).\n[USER] apa12-hi9ada5zxo64\n[REP] esse codigo **apa12-hi9ada5zxo64** não consta na base de erros (pode estar incompleto ou não ser o codigo principal). você consegue me mandar: - **print** da tela onde aparece o erro (pra eu ver a mensagem completa), e - em qual etapa acontece: ao **salvar dados bancarios**, ao **validar cpf**, ou a"
+        },
+        {
+          "cid": "453007396",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: consulta sobre carga de documentação",
+          "transcript": "[USER] sim, conversar agora\n[USER] image\n[USER] como faço\n[REP] ola, boa tarde leila! ☀️ sou carolina, representante do mercado livre 🌼, mas pode me chamar de carol caso queira, e darei continuidade ao seu atendimento, tudo bem?\n[REP] leila, você esta em nosso atendimento?\n[USER] oi"
+        },
+        {
+          "cid": "453996630",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: consulta sobre carga de documentação",
+          "transcript": "[USER] sim, conversar agora\n[REP] ola, boa noite, tudo bem? me chamo leticia, sou representante do mercado livre e vou seguir com seu atendimento. falo com lucineide?\n[USER] sim.\n[REP] muito prazer, lucineide, como posso te ajudar hoje?\n[USER] validação de identidade\n[REP] certo, consegue me explicar melhor o que esta acontecendo com sua validação de identidade?"
+        },
+        {
+          "cid": "453202040",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: consulta sobre carga de documentação",
+          "transcript": "[USER] falar com um atendente\n[REP] oi, jose. para eu te encaminhar para o time certo, me diz em uma frase o que você precisa resolver e em qual app (mercado livre ou mercado pago)? exemplos (so para orientar): não consigo **entrar na conta**, não consigo **mandar mensagens**, ou tenho problema com **compra/pagamento/envio**.\n[USER] mercado livre\n[REP] para falar com um atendente no mercado livre, acesse: [falar com o suporte](meli://cx/help?url=https%3a%2f%2f%url se puder, me diga tambem o que exatamente você não consegue fazer (entrar na conta, mandar mensagem, comprar, etc.) para eu te orientar por aqui.\n[USER] terminal meu cadastro para entregaa\n[REP] pelo que aparece aqui, seu cadastro de **entregador (envios extra)** esta **pendente** porque falta **enviar/validar a documentação do veiculo**. no app, va na area de entregas/envios extra e faça o upload (bem legivel) destes documentos: - **cnh** - **documento do veiculo** (com a placa) - **seguro"
+        },
+        {
+          "cid": "453486199",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: consulta sobre carga de documentação",
+          "transcript": "[USER] boa tarde,não consigo validar minha cnh\n[REP] jean, vi aqui que sua conta de **motorista (envios extra)** esta **pendente** porque a **documentação do veiculo** ainda esta faltando ou em validação — por isso a validação da cnh pode não avançar. o que fazer: - abra o app e va na area de **cadastro/documentos do motorista** e **envie novamente** \n[USER] aparece que a cnh não esta legivel,mas ja enviei diversas vezes,inclusive em pdf\n[REP] entendi. quando aparece **cnh não legivel**, normalmente e porque o arquivo esta com baixa resolução, corte, reflexo ou compressão (mesmo em pdf). tenta assim: - se for foto: faça em **boa luz**, sem flash/reflexo, com a cnh **inteira** aparecendo e bem alinhada; evite “modo documento” que borra; li\n[REP] pelo print, o erro esta na **foto/arquivo da cnh** (antes da selfie). para destravar, faz esses testes (são os que mais resolvem quando insiste em “não legivel”): - envie a **cnh digital (cdt) em pdf original** (baixada novamente no app carteira digital de trânsito). evite pdf gerado a partir de fot\n[USER] estou fazendo pelo app envios extra"
+        },
+        {
+          "cid": "453344403",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Tiene problemas durante la creacion de la cuenta",
+          "sol": "ME Extra: consulta sobre carga de documentação",
+          "transcript": "[USER] com quem posso falar sobre cadastro de documentos na mercado livre envios extra?\n[REP] chayene, pelo que aparece aqui, sua conta de **motorista do envios extra** esta **pendente** porque a **documentação do veiculo** ainda esta faltando ou em validação. para resolver, o contato e pelo **proprio app do envios extra** (e por la que você envia/reenviam os documentos e acompanha a analise\n[USER] cnh nova\n[REP] para cadastrar sua **cnh nova** no envios extra, a atualização e feita **no proprio app** e, em geral, so fica liberada quando a analise dos documentos atuais **termina** (aprovados ou recusados). se a sua cnh estiver **pendente** ou **reprovada**, você pode **reenviar** uma foto/arquivo bem legivel\n[USER] recusada\n[REP] se a **cnh foi recusada**, o proximo passo e **reenviar** no app do envios extra com um arquivo bem nitido e completo: - refaça o envio usando **foto bem iluminada**, sem cortes, sem reflexo e com **todos os dados legiveis** (frente e verso, se o app pedir). - confirme se a cnh esta **valida** e se "
+        }
+      ]
+    }
+  },
+  "Publicaciones Seller Dev": {
+    "queda": {
+      "cdu": "Configuración y funcionalidades",
+      "sol": "Afiliados - Programa de criadores",
+      "n_cases": 13,
+      "n_promotores": 9,
+      "n_detratores": 3,
+      "cases": [
+        {
+          "cid": "453514977",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Configuración y funcionalidades",
+          "sol": "Afiliados - Programa de criadores de conteúdo em vídeos curtos",
+          "transcript": "[USER] quero falar vom alguem?\n[REP] para eu te direcionar corretamente, me diga **com um pouco mais de detalhe** qual e a sua **duvida ou problema**: - e sobre **vendas**, **envios**, **publicações**, **cobranças/faturas**, **reputação** ou **reclamações/devoluções**? - se tiver, envie tambem o **numero da venda (pack id)** ou o **cod\n[USER] campanhas de videos\n[REP] - **“campanhas de videos” no mercado livre** funcionam via **clips**: videos curtos para mostrar o produto em uso e **aumentar a visibilidade** das suas publicações (podem aparecer em areas como pagina inicial, na propria publicação, mercado play e na area de clips). - no seu caso, **no momento você\n[USER] para eu ter acesso às campanhas, tenho que fazer isso ai?\n[REP] - **sim**: para ter acesso às **campanhas de videos (clips)** você precisa cumprir os **requisitos de elegibilidade**. - no seu caso, o bloqueio e que você **ainda não tem cor de reputação**, e o **clips exige reputação** para liberar o acesso. **como destravar:** %num. comece a vender para construi"
+        },
+        {
+          "cid": "453031482",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Configuración y funcionalidades",
+          "sol": "Afiliados - Programa de criadores de conteúdo em vídeos curtos",
+          "transcript": "[USER] ola tudo bem\n[REP] ola, janiele! tudo bem e com você? como posso te ajudar hoje no mercado livre ou mercado pago?\n[USER] mercado livre criador\n[REP] você quer dizer **criador de conta** (criar uma conta no mercado livre) ou **mercado livre criadores** (programa para criadores/afiliados divulgar produtos e ganhar comissão)?\n[USER] gostei um video pro mercado livre no tiktok e no instagram e esse video eles aprovo no tiktok e não aprovo no instagram sendo que e o mesmo video , quero sabe o motivo\n[REP] se for **aprovação do instagram** (reels/ads), isso e uma regra da propria meta — o mercado livre não consegue ver o motivo nem aprovar por aqui. agora, se você esta falando de **video (“clip”) dentro do mercado livre** que foi recusado, os motivos mais comuns são: video com **informações de contato"
+        },
+        {
+          "cid": "453711187",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Configuración y funcionalidades",
+          "sol": "Afiliados - Programa de criadores de conteúdo em vídeos curtos",
+          "transcript": "[USER] falar com atendente\n[REP] oi, francielen. para eu te direcionar ao atendente certo, me diz rapidamente qual e o assunto e o que esta acontecendo (ex.: compra não chegou, reembolso, conta bloqueada, pagamento/cartão, erro no app). se preferir, pode mandar print ou audio.\n[USER] videos da campanha de videos que não apareceram\n[REP] se os videos da **campanha de videos** não apareceram, geralmente e porque ainda estão em **moderação** ou foram **recusados** por algum criterio (qualidade, duração minima de 12s, formato vertical, produto com reputação verde, etc.). %num) acesse [clips](meli://webview/?webkit-engine=%num =https%3a\n[USER] ele não aparece la, ontem teve uma instabilidade no app e acho que deu algum problema\n[REP] entendi. se ele **não aparece nem como “em revisão”** em [clips](meli://webview/?webkit-engine=%num =https%3a%2f%2f%url normalmente e porque o envio **não chegou a ser concluido** (a instabilidade pode ter interrompido antes de registrar). para confirmar: - veja tambem pela lista de **anuncios** se "
+        },
+        {
+          "cid": "453579819",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Configuración y funcionalidades",
+          "sol": "Afiliados - Programa de criadores de conteúdo em vídeos curtos",
+          "transcript": "[USER] eu entrei pro programa de criadores do mercado livre, coloquei minhas duas redes sociais com mais de%price de seguidores e aparentemente tinha sido aprovada, mas eu so estava aguardando as campanhas, agora entrei la de novo, todas as redes sociais foram removidas e eu não consigo mais logar elas de \n[REP] poxa, kamille, entendi a frustração — ver as redes sumirem e ficar %num mês sem conseguir conectar de novo realmente não e normal. verifiquei e não encontrei uma instabilidade geral ativa ligada ao programa de criadores ou à reconexão das redes. tambem não achei uma orientação especifica para esse c\n[USER] como posso resolver isso com uma pessoa fisica?\n[REP] da para falar com uma pessoa por este link: [falar com o suporte](mercadopago://cx/help?url=https%3a%2f%2f%url ele e pessoal, vale por %num horas e ja leva você para o atendimento mais adequado sobre esse caso.\n[USER] sim, conversar agora\n[REP] ola kamille, tudo bem?! e um prazer te atender hoje.me chamo kaio, sou representante do mercado livre, e irei seguir com o seu atendimento agora mesmo! 💛"
+        },
+        {
+          "cid": "452898067",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Configuración y funcionalidades",
+          "sol": "Afiliados - Programa de criadores de conteúdo em vídeos curtos",
+          "transcript": "[USER] falar com atendente no whatsapp\n[REP] para eu te direcionar da melhor forma, me conte **qual e a duvida ou problema** que você quer resolver (ex.: **envio**, **pagamento**, **cobrança**, **anuncio**, **reclamação/devolução**, **conta**).\n[USER] programa criadores de conteudo\n[REP] o **programa de criadores de conteudo** permite que usuarios **selecionados pelo mercado livre** criem conteudo para **promover produtos**. no momento, você **não consegue acessar** porque faltam estes requisitos: - **ser selecionado(a) pelo mercado livre** - **ter pelo menos %num.%num seguidores** \n[USER] eu quero falar com atendente\n[REP] vamos te conectar com alguem do nosso time para te ajudar. por favor, toque em **meli://cx/help?url=https%3a%2f%2f%url para escolher como prefere se comunicar."
+        },
+        {
+          "cid": "454115313",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Configuración y funcionalidades",
+          "sol": "Afiliados - Programa de criadores de conteúdo em vídeos curtos",
+          "transcript": "[USER] como saber se eu ja estou qualificada para participar de campanhas de videos como afiliada e criadora do mercado livre? antigamente eu abria a pagina e aparecia que estava numa lista de espera pois tem muitas inscrições no momento, depois apareceu q eu fui rejeitada, ai depois apareceu q eu tinha q \n[REP] - **como saber se você esta qualificada:** hoje, em geral, você precisa ter **+ de %num.%num seguidores no instagram ou tiktok**, estar **aprovada como afiliada** e passar por uma **avaliação de conteudo/qualidade** do perfil. - **por que pode não aparecer nenhuma campanha (mesmo com as contas conec\n[USER] não estou falando desse tipo de qualificação! ate pq eu ja preencho os requisitos de seguidores e etc, quero saber como eu sei se fui aprovada ou não para criar campainhas de video!\n[REP] - **onde ver se você foi aprovada/reprovada:** isso aparece no **status** dentro da **tabela/detalhe das suas campanhas**. - **o que cada status significa:** - **aprovado**: você esta liberada e a campanha/anuncio fica ativo. - **em revisão**: sua campanha/anuncio esta em analise (pode levar ate **%\n[USER] no seu caso (aparece “pode criar”, mas não mostra campanhas): pode ser que você esteja liberada para criar, mas ainda não tenha nenhuma campanha criada (por isso o filtro fica vazio), ou que não exista campanha disponivel no momento eu acho q e esse o meu caso. deixa eu te mandar um print de como es\n[REP] - **pode mandar o print aqui mesmo**: envie a captura da tela onde aparece **“pode criar”** e a area do **filtro** (ex.: “todas / ativas”) 👍 - para eu conseguir confirmar se e so **ausência de campanhas** ou alguma **pendência**, o print precisa mostrar: - o **aviso/status** (ex.: em analise, reprov"
+        },
+        {
+          "cid": "453013036",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Configuración y funcionalidades",
+          "sol": "Afiliados - Programa de criadores de conteúdo em vídeos curtos",
+          "transcript": "[USER] ola chat ,estou com um problema ,não sei se fui aceita no programa ,quando eu entro na central de criadores e campanhas ,aparece essa pagina pra mim ,porem não tem nenhuma campanha ,poderia me ajudar?\n[REP] pela tela que você mandou, o acesso à central de criadores esta ativo, mas **no momento não ha campanhas disponiveis para o seu perfil** (por isso aparece “em breve, mais campanhas disponiveis”). para garantir que esta tudo certo com a sua participação: - toque em **configurar redes sociais** e conf\n[USER] ja faz quase %num ano\n[REP] mesmo com quase %num ano no programa, essa tela pode aparecer quando **não existe nenhuma campanha de videos ativa/disponivel** para o seu perfil naquele momento (e não e por bloqueio da conta — não ha restrições ativas no seu cadastro). pra eu confirmar o que esta faltando no seu caso, me diga so u\n[USER] portal de afiliados pagina não existe\n[REP] se aparece “pagina não existe”, geralmente e porque o link esta abrindo **fora do app** (ex.: no safari) ou o app esta desatualizado. tenta assim: - abra **pelo app do mercado livre** (não pelo safari) e va em **mais > afiliados/central de criadores**. - ou acesse direto no navegador por este endere"
+        },
+        {
+          "cid": "453568174",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Configuración y funcionalidades",
+          "sol": "Afiliados - Programa de criadores de conteúdo em vídeos curtos",
+          "transcript": "[USER] estava participando de campanhas de video, agora minhas redes desconectaram e não consigo conectar novamente, fica dando erro.\n[REP] isso costuma acontecer quando a vinculação da rede social expira ou a conta fica com alguma configuração que impede a autenticação (perfil privado, permissões, login em outro app, 2fa). tenta assim: %num) vai pelo portal do programa e tenta **conectar de novo** por la: [gerenciar programa de afiliad\n[USER] as %num aparecem e nao aparece nada ao clicar para adiciomar\n[REP] entendi: os icones do instagram e tiktok aparecem, mas ao tocar em **adicionar/conectar** não abre nada (fica “sem ação”). como não ha falha geral registrada, isso costuma ser travamento do webview/navegador ou bloqueio do pop-up de autorização. tenta nesta ordem: %num) atualiza **mercado livre**, *\n[USER] aparece nada\n[REP] se não aparece absolutamente nada ao tocar em **adicionar**, faz mais estes %num checks no android (eles costumam ser a causa quando o fluxo de login não abre): - play store > atualiza e confirma que o **android system webview** esta **ativado** (não desativado) e atualizado; se estiver desativado, "
+        },
+        {
+          "cid": "453187457",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Configuración y funcionalidades",
+          "sol": "Afiliados - Programa de criadores de conteúdo em vídeos curtos",
+          "transcript": "[USER] falar com atendente\n[REP] consigo te ajudar por aqui, mas preciso de um pouco de contexto para te direcionar certo. qual e o problema e onde acontece: **mercado livre** (compra/envio/devolução) ou **mercado pago** (pagamento/transferência/cartão)? se puder, diga tambem algum **numero do pedido/pagamento** ou envie um **print\n[USER] falar com atendente\n[REP] para eu te colocar com o atendente certo, me diz em %num frase qual e o assunto: e **compra/envio/devolução** ou **pagamento/transferência/cartão**? se tiver, manda tambem o **numero do pedido ou do pagamento**.\n[USER] afiliado\n[REP] você consegue resolver a maioria das coisas do **programa afiliados e criadores** por aqui: - acesse **afiliados e criadores** no app: perfil (menu) → **afiliados e criadores**. - para ver **pagamentos/ganhos**, va em [receita de afiliados e criadores](%url qual e o seu problema: **pagamento não cai"
+        },
+        {
+          "cid": "453448917",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Configuración y funcionalidades",
+          "sol": "Afiliados - Programa de criadores de conteúdo em vídeos curtos",
+          "transcript": "[USER] video recusada da campanha de influenciadores mas que segue todas as diretrizes\n[REP] dayanna, mesmo seguindo as diretrizes, um video pode ser recusado pela **moderação** por algum ponto de qualidade, do produto, do conteudo ou tecnico (ex.: duração < 12s, resolução abaixo de 1080x1920, produto não aparece como foco, produto/link não coincide com a campanha, promessas/comparações, id\n[USER] video postado no instagram, mas o video tem sim na narração a mensão do mercado livre, tanto que que o mesmo video no tiktok foi aceito\n[REP] pelo print, a recusa foi por este criterio: **o video tem narração, mas o “mercado livre” não foi identificado na fala** (so no texto). mesmo que você diga, às vezes a moderação automatica não reconhece por causa de volume baixo, musica por cima, dicção rapida ou a palavra fora de destaque. para apr\n[USER] %url\n[REP] não consigo abrir esse link do instagram daqui para verificar o audio diretamente. pelo motivo de recusa que aparece no seu painel, a moderação **não identificou “mercado livre” na narração**. o caminho mais rapido e **ajustar e reenviar** o video com a frase “mercado livre” bem clara (sem musica/ru"
+        },
+        {
+          "cid": "453194232",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Configuración y funcionalidades",
+          "sol": "Afiliados - Programa de criadores de conteúdo em vídeos curtos",
+          "transcript": "[USER] ola, gostaria de receber campanhas. ja vinculei minhas redes sociais\n[REP] - para **receber campanhas** e **atrair novos seguidores**, você pode **ativar a campanha que destaca sua pagina** na seção **“lojas que sigo”** e nas **paginas de produto**. - essa ação ajuda a **conectar sua loja com mais compradores** e **transforma-los em seguidores**. - você consegue **gerencia\n[USER] quero receber a campanha do dia das mães\n[REP] %num. acesse **%url %num. selecione a **campanha do dia das mães**. %num. **baixe a planilha de ofertas**. %num. preencha com os **codigos dos anuncios** e os **preços com desconto** (desconto minimo de **%num%**). %num. **envie a planilha** pelo proprio site. - os **preços promocionais** ficam ativ\n[USER] falar com atendente\n[REP] - para eu te direcionar ao **atendimento humano**, me diga **qual e a duvida ou problema** (ex.: campanha do dia das mães, envio da planilha, erro ao participar, etc.). - se puder, informe tambem **onde aparece o erro** (app ou site) e **qual mensagem** aparece na tela."
+        },
+        {
+          "cid": "453997094",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Configuración y funcionalidades",
+          "sol": "Afiliados - Programa de criadores de conteúdo em vídeos curtos",
+          "transcript": "[USER] falar com atendente\n[REP] kezia, eu consigo te ajudar por aqui, mas preciso de um pouco de contexto para te encaminhar corretamente. sobre o que e o seu pedido? (ex.: compra/entrega, pagamento/estorno, conta/acesso, cupom, assinatura meli+).\n[USER] duvidas sobre uma campanha de video da qual estou participando\n[REP] consigo te ajudar, kezia. essa campanha de video e a de **clips** (compartilhar um video para ganhar cupom) ou e outra campanha? se for a de **clips**, em geral funciona assim: você precisa compartilhar %num clip com **pelo menos %num pessoas** que tenham conta ativa no mercado livre; essas %num pes\n[USER] eclipse e a campanha de criadores de video do mercado livre.\n[REP] entendi, obrigada por explicar. eu não encontrei aqui as regras especificas da campanha **eclipse** (criadores de video) para te responder com segurança. para eu te orientar do jeito certo: tua duvida e sobre **pagamento/repasse**, **regras para participar** (aprovação/moderação) ou **onde ver desem"
+        },
+        {
+          "cid": "453524806",
+          "nps": 0,
+          "tipo": "passivo",
+          "cdu": "Configuración y funcionalidades",
+          "sol": "Afiliados - Programa de criadores de conteúdo em vídeos curtos",
+          "transcript": "[REP] buenas tardes, ¿quien puedo ayudar?\n[USER] buenas tardes, mi nombre es roberta, ¿con quien yo hablo?\n[REP] bien, roberta, es cris laine, ¿quien puedo ayudar?\n[USER] o cris laine, yo soy criadora de contenido del programa mercado livre\n[USER] y yo tengo dos videos, un que yo posteis en el tiktok\n[USER] y un que yo posteis en el instagram, en la campana del dia de las mães"
+        }
+      ]
+    },
+    "alta": {
+      "cdu": "Activar/desactivar",
+      "sol": "Afiliados - Como ativar",
+      "n_cases": 14,
+      "n_promotores": 13,
+      "n_detratores": 1,
+      "cases": [
+        {
+          "cid": "454113039",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Activar/desactivar",
+          "sol": "Afiliados - Como ativar",
+          "transcript": "[USER] fala com atendente\n[REP] gilmara, eu posso te encaminhar para um atendente, mas preciso de um **minimo de contexto** para direcionar certo. qual e o problema e em qual serviço: **mercado pago** (pix, cartão, saldo), **mercado livre** (compra, entrega, devolução) ou **conta/acesso**? se puder, diga tambem se aparece alguma m\n[USER] vendas\n[REP] você quer ajuda com **vendas** em que sentido: não esta conseguindo **ver as vendas**, o **dinheiro não caiu**, ou tem alguma **reclamação/cancelamento** em uma venda? se for para acessar agora, va em [vendas](meli://webview/?url=https%3a%2f%2f%url\n[USER] direciona a atendente\n[REP] pelo que aparece no seu cadastro de vendedora, sua conta ainda esta **sem vendas concluidas**. por isso, na tela de vendas pode não aparecer nada. se você esta esperando uma venda especifica, me diga o **numero do pedido/pagamento** ou envie um print da tela de vendas para eu localizar e te orientar"
+        },
+        {
+          "cid": "452970518",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Activar/desactivar",
+          "sol": "Afiliados - Como ativar",
+          "transcript": "[USER] minhas vendas do programa afiliados esta sumindo\n[USER] falar com atendente\n[REP] rafael, vou te ajudar a entender isso. no momento não ha instabilidade geral nem bloqueios na sua conta, então o mais comum e ser **filtro/atraso de atualização** no painel do programa. você esta vendo as vendas sumirem **onde**: no portal de afiliados (relatorios/comissões) ou no “minhas vendas” do\n[USER] minhas vendas do programa afiliados esta sumindo\n[REP] consigo te encaminhar, mas preciso de um minimo de contexto para ir pro time certo. as vendas que estão sumindo são do **portal de afiliados (comissões/relatorios)** ou do **minhas vendas** do mercado livre? e desde quando isso acontece (hoje/ontem ou ja faz dias)?\n[USER] sim"
+        },
+        {
+          "cid": "454200074",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Activar/desactivar",
+          "sol": "Afiliados - Como ativar",
+          "transcript": "[REP] ola boa noite. como vai, tudo bem? me chamo lilian,  sou representante do mercado livre e vou seguir com seu atendimento , com quem eu falo?vi que esta com problemas com algumas vendas,em que posso te auxiliar?.😃\n[USER] não estou com problema com venda\n[USER] quero tentar parceria com mercado livre\n[REP] entendo , no caso ser afiliada?\n[USER] como influêncer\n[USER] boa noite estou bem e você ?"
+        },
+        {
+          "cid": "453419404",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Activar/desactivar",
+          "sol": "Afiliados - Como ativar",
+          "transcript": "[USER] como se tornar afiliado mercado livre\n[REP] neyde, para receber o passo a passo oficial e o link certo para se cadastrar como afiliada, te encaminho para o suporte do mercado livre: acesse: [falar com o suporte sobre afiliados](meli://cx/help?url=https%3a%2f%2f%url\n[USER] obrigada\n[REP] de nada, neyde. se quiser, me diga onde você vai divulgar (site, instagram, youtube) que eu te ajudo a entender qual formato costuma funcionar melhor dentro do mercado livre.\n[USER] sim, conversar agora\n[USER] instagram"
+        },
+        {
+          "cid": "453974257",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Activar/desactivar",
+          "sol": "Afiliados - Como ativar",
+          "transcript": "[USER] como fazer pra ser um filiado no mercado pago\n[REP] para ser **afiliado** (programa de afiliados do mercado livre), acesse o portal e faça seu cadastro: va em [afiliados](meli://webview?url=https%3a%2f%2f%url e siga as instruções na tela. se aparecer um aviso de **tarefas pendentes** (validação de identidade ou dados fiscais), entre nesse mesmo porta\n[USER] onde cliko no app\n[REP] no app do mercado livre: %num) abra o app e toque em **menu** (☰) %num) toque em **mais serviços** (ou **serviços**) %num) procure **afiliados** e toque para entrar %num) dentro do portal, toque em **cadastrar / começar** (e, se aparecer, **completar tarefas**) se você não estiver achando “afiliados\n[USER] não estou conseguindo\n[REP] entendi. hoje sua conta esta com **restrições de acesso** (inclusive para entrar no mercado pago e usar algumas funções do mercado livre). por isso o portal de afiliados pode não aparecer ou não abrir no app. faz assim para eu te orientar do jeito certo: quando você tenta entrar, **o que acontece**?"
+        },
+        {
+          "cid": "453483582",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Activar/desactivar",
+          "sol": "Afiliados - Como ativar",
+          "transcript": "[USER] ola\n[REP] ola, thayslane! como posso te ajudar no mercado livre hoje?\n[USER] queria saber como funciona pra ser afiliado\n[REP] no mercado livre, “afiliado” costuma ser quem divulga links de produtos/ofertas e pode ganhar comissão quando alguem compra por esse link (dependendo do programa/campanha vigente). pra eu te explicar certinho **como entrar e quais são os requisitos**, me diz so uma coisa: você quer ser afiliada para\n[USER] divulgar\n[REP] para divulgar produtos como afiliada no mercado livre, você entra no **programa de afiliados**, cria seu perfil e passa a compartilhar links; quando alguem compra pelo seu link, você pode receber comissão (conforme as regras do programa). **requisitos para participar (brasil):** - ter uma conta **at"
+        },
+        {
+          "cid": "453270258",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Activar/desactivar",
+          "sol": "Afiliados - Como ativar",
+          "transcript": "[USER] quero voltar fazer parte de afiliado\n[REP] cassia, posso te ajudar, mas preciso confirmar qual “afiliado” você quer voltar a ser: você esta falando do **programa de afiliados** (divulgar links e ganhar comissão) ou de **meli+** (assinatura com beneficios)? me diga tambem o que acontece quando você tenta entrar/reativar (aparece alguma mensag\n[USER] divulgar link eu cancelei por engano\n[REP] cassia, se você **cancelou a conta do programa de afiliados e criadores**, essa ação e **definitiva** e **não da para se registrar novamente** no programa. so para eu te orientar certo: você cancelou dentro da area do programa (opção “cancelar conta”), ou apenas parou de usar/gerar links? enquanto i\n[USER] eu cancelei mesmo mais porq não pode voltar\n[REP] porque, pelas regras do **programa de afiliados e criadores**, ao **cancelar a conta do programa** você confirma uma saida **definitiva**: a participação e encerrada e o sistema **não permite novo cadastro** depois disso. o que ainda pode acontecer apos o cancelamento: - se houver **pagamentos pende"
+        },
+        {
+          "cid": "453101868",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Activar/desactivar",
+          "sol": "Afiliados - Como ativar",
+          "transcript": "[USER] afiliados\n[REP] thiago, você quer saber sobre o **programa de afiliados** do mercado livre (para divulgar produtos e ganhar comissão)? ele funciona assim: você compartilha links de produtos elegiveis nos seus canais e pode ganhar comissões quando houver vendas elegiveis. para ver como participar e acessar a pagina \n[USER] tem como arrumar os afiliados para mim\n[REP] pelo print, essa mensagem aparece quando a conta **ja saiu/cancelou** o programa de afiliados e criadores — e, nesse caso, **não da para se registrar novamente** (e irreversivel). se você **não** pediu esse cancelamento ou acha que foi um erro, da para falar com o suporte por aqui: [falar com o supo\n[USER] image\n[REP] ola, boa noite, thiago! sou a jamile, representante do mercado pago, e cuidarei do seu atendimento 💙  analisei seu historico e entendo que você precisa de auxilio com o programa de afiliados, correto?"
+        },
+        {
+          "cid": "453821605",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Activar/desactivar",
+          "sol": "Afiliados - Como ativar",
+          "transcript": "[USER] como recuperar acesso e vender pelo mercado de afiliado\n[REP] ingrid, para **recuperar o acesso** à sua conta, tente entrar normalmente e, na etapa de verificação, toque em **“não consigo entrar”** (ou **“e minha conta, mas não me reconhece”**) para fazer a recuperação e trocar/confirmar seus metodos de verificação. se você ainda estiver logada em algum aparel\n[USER] fui banida por não enviar os dados a tempo, como recuperar?\n[REP] entendi, ingrid. se o bloqueio foi por **não enviar dados no prazo**, a recuperação normalmente so acontece pelo fluxo de **recuperação de acesso/validação** no login. %num) no app do mercado livre, toque em **entrar** e avance ate a tela de verificação. %num) se aparecer a mensagem de bloqueio, toq\n[USER] aparece essa imagem\n[REP] pela imagem, sua conta do **programa de afiliados** foi suspensa porque você **não validou a identidade**. para recuperar, o caminho e fazer essa validação pelo proprio portal de afiliados: - acesse [afiliados](meli://webview?url=https%3a%2f%2f%url - toque em **“completar tarefas”** (ou equivalente)"
+        },
+        {
+          "cid": "453837581",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Activar/desactivar",
+          "sol": "Afiliados - Como ativar",
+          "transcript": "[USER] quero falar sobre minhas comissoes\n[REP] para eu te ajudar com **comissões**, preciso entender de qual tipo você esta falando: você quer ver as **taxas/comissões cobradas pelo mercado livre nas suas vendas** (faturamento), ou as **comissões de afiliado**? me diga tambem se e sobre **uma venda especifica** (se sim, informe o id do pedido/pa\n[USER] comissoes de afiliado\n[REP] as **comissões de afiliado** são geradas quando uma venda acontece a partir do seu link/id de afiliado. elas podem ficar **pendentes** por um periodo de verificação e, quando você atinge o **valor minimo**, o pagamento e feito no seu **mercado pago** (em geral, depois de cerca de **%num meses**). pa\n[USER] foi cancelada injustamente\n[REP] entendo — para avaliar se foi mesmo injusto, primeiro precisamos ver **o motivo do cancelamento** que aparece no seu painel de afiliados, porque a comissão pode ser cancelada quando a compra fica “fora dos termos” (por exemplo: devolução/cancelamento da compra, troca de dispositivo/navegador e a ven"
+        },
+        {
+          "cid": "453234094",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Activar/desactivar",
+          "sol": "Afiliados - Como ativar",
+          "transcript": "[USER] sim, conversar agora\n[USER] pedi para a ia criar a mensagem para você entender o caso\n[USER] ola! sou vendedor novo e estou elegivel ao programa decola, mas ainda não recebi o convite para participar. minha conta foi criada em %num/%num por volta de %hour e o inicio como vendedor consta em %num/%num às %hour (brt). meus anuncios ja estão ativos ha mais de %num horas e estou sem vendas ate a\n[REP] ola, michael. boa tarde. tudo bem? me chamo flaviano, representante do mercado livre, e irei seguir com o seu atendimento.💛\n[REP] sera um prazer te atender. vi que você gostaria de falar sobre regras do programa decola e estou à disposição para auxiliar. poderia me confirmar se esta correto?\n[USER] isso"
+        },
+        {
+          "cid": "454061839",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Activar/desactivar",
+          "sol": "Afiliados - Como ativar",
+          "transcript": "[USER] porque não posso entrar no programa de afiliados?\n[REP] ludimila, no veo ninguna **restriccion** en tu cuenta ahora, asi que lo mas comun es que el bloqueo sea por el propio flujo del programa (por ejemplo, **validacion pendiente** de identidad o datos fiscales, o que estes intentando generar links en un producto/categoria **no elegible**). entra por aca\n[USER] em português por favor\n[REP] ludimila, claro. no momento, não aparece nenhuma **restrição** na sua conta. então, quando a pessoa não consegue entrar no programa de afiliados, os motivos mais comuns são: - existir alguma **validação pendente** (identidade e/ou dados fiscais) dentro do portal; ou - você estar tentando gerar link \n[USER] gostaria de saber porque não posso ser afiliado?\n[REP] hoje eu não vejo nenhuma **restrição** na sua conta, então o motivo costuma estar dentro do proprio portal de afiliados, principalmente por **validação pendente** (identidade e/ou dados fiscais) ou por não aparecerem opções de afiliação para o que você esta tentando divulgar. entra por aqui e verifi"
+        },
+        {
+          "cid": "453582080",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Activar/desactivar",
+          "sol": "Afiliados - Como ativar",
+          "transcript": "[USER] por que o meu cadastro foi recusado?\n[REP] emanuele, seu **cadastro/conta esta com restrições** no mercado livre/mercado pago (isso pode fazer o cadastro aparecer como recusado). no momento, o sistema não esta conseguindo mostrar o **motivo oficial** e os passos de regularização. para um atendente verificar e te orientar, acesse: [falar com \n[USER] sim, conversar agora\n[REP] boa noite, emanuele, tudo bem? me chamo yudi, sou representante do mercado pago e estou aqui para te ajudar, ok?\n[REP] vi aqui que disse que seu cadastro foi recusado. poderia me dar mais detalhes do que esta acontecendo ?\n[REP] ola, ainda esta aqui? 👀"
+        },
+        {
+          "cid": "453917138",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Activar/desactivar",
+          "sol": "Afiliados - Como ativar",
+          "transcript": "[USER] %num - duvidas sobre saques, transferências pix e investimentos\n[USER] cancelamento de pix que era pra ser pago hoje\n[REP] bom dia, tami ! sou daiane representante do mercado pago. tudo bem? 💙💛\n[USER] sim\n[USER] e vc\n[REP] entendo sua preocupação, estamos aqui para encontrar uma solução."
+        }
+      ]
+    }
+  },
+  "Post Venta Seller Dev": {
+    "queda": {
+      "cdu": "Reclamos",
+      "sol": "Analisamos reputação - Reclamação não afeta",
+      "n_cases": 25,
+      "n_promotores": 23,
+      "n_detratores": 2,
+      "cases": [
+        {
+          "cid": "454115925",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação não afeta a reputação",
+          "transcript": "[USER] sim, conversar agora\n[REP] ola, boa noite! 😊me chamo micaelle, mas fique à vontade para me chamar de mica se preferir. sou representante do mercado livre e darei continuidade ao seu atendimento. tudo bem? com quem eu falo por gentileza?\n[USER] ola boa noite micaelle tudo sim e você? evelin\n[REP] estou bem evelin, obrigado por perguntar\n[REP] consegue me da mais detalhe da sua duvida?\n[USER] claro quero entender o que ocorreu para eu pagar a devolução da reclamação ja que o dano não foi causado pela minha empresa de acordo com as imagens enviadas para analise que minha expedição tira antes do envio"
+        },
+        {
+          "cid": "453591066",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] a venda aparece com combinar entrega. mas, o frete flex e opção relacionada esta desativada. como prosseguir?\n[REP] quando a venda aparece como **“combinar entrega”**, ela não esta entrando no fluxo do **envios flex** (nem do mercado envios) — por isso as opções de flex ficam desativadas nessa venda. para prosseguir, você tem dois caminhos: - **para essa venda atual:** você precisa **combinar e fazer a entrega po\n[USER] %num cep %num id do anuncio\n[REP] no seu cadastro, o **envios flex não esta habilitado** (sua conta esta so com **agência/drop off** ativo). por isso, quando a venda cai como **“combinar entrega”**, as opções de flex ficam desativadas e não da para “migrar” essa venda para flex. o que fazer: - **para ativar o flex para as proximas v\n[USER] %num\n[REP] para a venda do pagamento **%num** (anuncio **%num**), não foi gerado um envio/etiqueta (por isso não existe codigo de rastreio valido) e, na sua conta, o **flex não esta habilitado** — então essa venda fica mesmo como **combinar entrega**. como esse caso precisa de validação/ajuste do nosso time (p"
+        },
+        {
+          "cid": "453720981",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação revisada",
+          "transcript": "[REP] ola alice, bom dia!sera um prazer atendê-los, me chamo rafael, sou representante do mercado livre.tudo bem com você? 😉\n[USER] ola rafael! tudo bem sim e com vc?\n[REP] ah que bom, fico feliz que você esteja bem! 💛eu estou bem tambem, muito obrigado por perguntar. 💙\n[REP] vi que você nos acionou com o tema de pos compra, me conta como eu posso ajudar.\n[USER] isso, este cliente eu tentei conversar e explicar porem não tivemos sucesso.\n[REP] me passa qual e a venda que você precisa de auxilio, por favor."
+        },
+        {
+          "cid": "453771294",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[REP] ola natalia, boa tarde! meu nome e raquel, sou representante do mercado livre e estou aqui para te auxiliar da melhor forma possivel! tudo bem com você?\n[USER] boa tarde raquel\n[USER] tudo bem ?\n[REP] estou bem, obrigada por perguntar 😃\n[USER] raquel, por gentileza preciso de ajuda com a remoção do impacto de algumas vend as\n[REP] natalia, entendo perfeitamente sua necessidade de ajuda com a remoção do impacto de algumas vendas. pode ficar tranquila que vamos analisar cada uma delas e verificar o que podemos fazer para te auxiliar da melhor forma possivel."
+        },
+        {
+          "cid": "453561336",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] sim, conversar agora\n[USER] ok\n[USER] no meu anuncio nao coloco marcar por ser generica, nao concordo com o cliente pq deixou bem clara a marca\n[REP] ola, tudo bem? 😊meu nome e evandro, sou representante do mercado livre e vou dar continuidade ao seu atendimento. estou por aqui para te ajudar no que precisar 🤝✨me conta: como posso te ajudar hoje? 💬📦\n[USER] tive uma devolução pelo cliente alegar que a marca do produto nao e original\n[USER] mas no anuncio esta como marca generica"
+        },
+        {
+          "cid": "453526106",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] boa tarde, tudo bem?\n[REP] ola, boa tarde! e um prazer te atender hoje! me chamo rita. sou representante do mercado livre e vou te ajudar nesse atendimento! falo com quem da equipe linea?\n[USER] estamos com problemas na reputação. somos meli pro e infelizmente não estamos conseguindo nem usufruir por conta da reputação\n[USER] sendo assim rita, posso te enviar os casos para você avaliar.\n[USER] precisamos contestar\n[USER] me ajuda por favor"
+        },
+        {
+          "cid": "452985634",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[REP] ola, equipe tonielque! boa tarde, sou a samara, representante do mercado livre, com quem eu falo?\n[USER] bom dia!fala com ellen, tudo bem?\n[REP] bom dia, tudo bem sim e você, ellen? pode me chamar de karollainy, vou seguir com seu atendimento aqui no mercado livre.\n[USER] ok obrigada!\n[REP] vi que nos contata por reputação, te ajudo com esse tema, mesmo?\n[USER] eu gostaria apenas que me enviasse o relatorio das reclamações, na qual esta afetando %num,%num%. poderia me enviar via excel no email: %email?"
+        },
+        {
+          "cid": "453700629",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[REP] ola, bom dia, sou a erica, sou representante do mercado livre, estarei te auxiliando nesse atendimento. 🤝\n[REP] muito prazer, jean, como posso te auxiliar hoje? 🥰\n[USER] bom dia, erica. preciso de ajuda com esta venda: %num solicito a restituição do valor cobrado pela devolução do produto, pois se trata de um equivoco por parte do comprador.\n[REP] certo, irei verificar as informações em sistema e ja voltamos a nos falar, se precisar de algo e so me chamar pois vou estar por aqui!\n[USER] tudo bem, obrigado\n[REP] obrigada por aguardar, jean."
+        },
+        {
+          "cid": "453780398",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[REP] boa tarde karina, tudo bem? sou o gabriel, represento o mercado livre e vou cuidar do seu atendimento.e um prazer falar contigo novamente 🙂\n[REP] deseja tratar sobre reputação ?\n[USER] oie\n[USER] kkkk\n[USER] de novo, desculpaas.\n[USER] mas como me informaram que e apenas %num vendas por protocolo"
+        },
+        {
+          "cid": "453203305",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] oii\n[USER] ok\n[USER] boa tarde leandra, espero que esteja bem!\n[REP] boa tarde, me chamo leandra, representante do mercado livre e seguirei com o seu atendimento. falo com ana da baitashop?\n[REP] vou bem sim, espero que você tambem! 😃\n[USER] leandra um cliente abriu uma reclamação dizendo que o produto que neviamos não era o mesmo do anuncio, porem eles são identicos.. em nosso anuncio colocamos ate videos do prodito pra não ter erro"
+        },
+        {
+          "cid": "452939830",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[REP] ola, nebula! **o que você achou da ajuda que dei ate agora?** 🤔 sua opinião e valiosa para eu poder apoiar melhor o crescimento do seu negocio. vai levar so um momento.\n[USER] chat preciso fala com atendimento humano\n[REP] vamos a conectarte com um membro do nosso time para que você receba um atendimento personalizado. por favor, clique em %url =e691cc84-62c5-4ae3-9b0e-c1cf7b226492 e escolha a forma de contato que você prefere.\n[USER] sim, conversar agora\n[REP] ola, bom dia, tudo bem?! eu sou o edson, representante do mercado livre, e irei seguir com o seu atendimento. 💛\n[REP] com quem eu falo, por gentileza?"
+        },
+        {
+          "cid": "453405527",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] sim, conversar agora\n[REP] ola, sou o joaquim, representante do mercado livre. estou aqui para te auxiliar e, acima de tudo garantir que sua experiência conosco seja a melhor possivel.💛\n[REP] esta online comigo?\n[USER] sim\n[REP] antes de continuarmos, como posso te chamar por gentileza?\n[USER] pode me chamar de marcus, joaquim"
+        },
+        {
+          "cid": "453499517",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] bom dia\n[USER] boa tarde\n[USER] me chamo thais, poderia me ajudar com a remoção de impacto?\n[USER] #2000015810004592prazo de entrega %num/%num, cliente ausente %num/%num.\n[REP] 💛boa tarde thais da loja moveis esplanada ltda, me chamo denise, sou representante do mercado livre, e sera um prazer auxilia - lo com tema de reputação a qual precisa de ajuda com impactos nas vendas..\n[USER] image"
+        },
+        {
+          "cid": "452895550",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[REP] bom dia, com quem da multimoveis industria de moveis eu falo? aqui e a nayra do mercado livre, vi que precisa de ajuda com reputação e estou aqui para ajuda-los. 💛\n[USER] ola, bom dia!\n[REP] bom dia, com quem da multimoveis industria de moveis eu falo?aqui e a nayra do mercado livre, vi que precisa de ajuda com reputação e estou aqui para ajuda-los. 💛\n[USER] boa tarde! tudo bem?\n[REP] boa tarde patricia, sou o kayck e vou dar continuidadeestou bem e você?\n[USER] estou bem!"
+        },
+        {
+          "cid": "453159163",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] sim, conversar agora\n[USER] oi, tudo bem? sou thays, gestora de atendimento da espelho briel design. 😊 -\n[USER] bom diaaaaaaaaaaaaaaaaaaaaaaaaa\n[USER] venda %num %num mar %hour\n[USER] o cliente realizou a compra selecionando a opção retirar em loja em votorantim interior de são paulo . no entanto, o comprador esta localizado em outra cidade , o que impossibilita a retirada em são paulo, conforme compra do cliente no ato da compra e selecionado pelo mesmo ao comprar no anuncio. de\n[USER] image"
+        },
+        {
+          "cid": "453014535",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] boa tarde\n[USER] me chamo thais, poderia me ajudar com a remoção de impacto?\n[USER] #2000015897282782produto avariado por tempo de uso%num%phoneproduto enviado corretamente, no anuncio consta ser desmontavel\n[USER] image\n[REP] 💛boa tarde thais da loja  moveis esplanada ltda, me chamo denise, sou representante do mercado livre, e sera um prazer auxilia - lo com tema de reputação a qual precisa de ajuda com %num vendas.\n[REP] tudo bem contigo hoje?"
+        },
+        {
+          "cid": "453686732",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] sim, conversar agora\n[USER] ok\n[REP] oi bom dia!  sou william, e faço parte do suporte do mercado livre! irei seguir com seu atendimento. como se chama? 💛\n[USER] oi william, tudo bem?\n[USER] mota - coordenador: me chamo mota\n[REP] tudo sim, obrigado por perguntar!"
+        },
+        {
+          "cid": "453426421",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[REP] bom dia! eu sou a paula, do mercado livre, vou seguir com seu atendimento hoje. com quem da equipe esplanada eu falo?\n[USER] bom dia\n[USER] me chamo thais, poderia me ajudar com a remoção de impacto?\n[USER] %num%phone prazo de entrega %num/%num, recebimento recusado %num/%num.\n[USER] %num  o box foi entregue corretamente, na descrição fala desmontavel\n[USER] #2000012563425587prazo de entrega %num/%num, ocorrência: condominio com restrição de horario %num/%num."
+        },
+        {
+          "cid": "452967180",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] ola, boa tarde, tudo bem com você?\n[USER] me chamo kauan, poderia me ajudar em algumas vendas que estão impactando a minha reputação?\n[USER] %num%phone000015710334350200001%phone200001573919%phone%phone\n[REP] boa tarde, kauan. me chamo sthefany, sou representante do mercado livre e estou aqui para te ajudar no que precisar. pode contar comigo durante todo o atendimento. 💛🤝\n[REP] como você esta no dia de hoje?\n[REP] estou vendo aqui que precisa de ajuda com reputação e ja me enviou %num vendas, maravilha"
+        },
+        {
+          "cid": "452965164",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação revisada",
+          "transcript": "[USER] falar com um atendente\n[REP] para eu te direcionar para o atendente certo (e ja tentar resolver por aqui), me diga em %num frase qual e o problema e, se tiver, envie o numero do pedido/venda/envio ou do chamado.\n[USER] falar com um atendente\n[REP] consigo chamar um atendente, mas preciso de um minimo de contexto para não te encaminhar para a area errada. o que aconteceu e em qual parte: **venda/envio/pagamento/reputação/anuncio/conta**? (se tiver, mande tambem o id do pedido, envio ou pagamento.)\n[USER] falar com um atendente\n[REP] eu te ajudo a chegar no atendente certo, mas preciso que você diga **qual e o assunto** em poucas palavras (ex.: “pagamento não caiu”, “etiqueta não imprime”, “anuncio pausado”, “conta restrita”). qual e?"
+        },
+        {
+          "cid": "453481148",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação por produto incompatível e mantemos o impacto",
+          "transcript": "[USER] ainda preciso de ajuda\n[USER] ok\n[REP] ola, boa tarde ! aqui e  a vanessa, sou representante do mercado livre  e mercado pago e irei te auxiliar hoje, muito prazer time frio\n[REP] com quem eu falo ?\n[USER] julia\n[USER] quero tratar sobre a devolução de uma venda"
+        },
+        {
+          "cid": "453428503",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] sim, conversar agora\n[REP] ola marcia, boa tarde, tudo bem?! me chamo francisco, sou representante do mercado livre e estarei à sua disposição. 💛\n[USER] bom dia francisco\n[USER] minha venda foi cancelada pelo comprador e esta afetando minha reputação. não entendi porque\n[USER] estava aguardando a etiqueta ser liberada para enviar o produto.\n[REP] entendi, e uma pena mesmo que essa venda tenha sido cancelada, verifiquei aqui e ela foi cancelada pelo comprador mesmo, alegando que ainda não recebeu o produto."
+        },
+        {
+          "cid": "453685639",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[REP] ola, flavia! tudo bem? me chamo victor, faço parte do time mercado livre, e irei te auxiliar hoje. 😉💖\n[USER] bom dia victor, espero que esteja bem.\n[REP] vou bem sim e você, como esta?\n[USER] que otimo, estou bem tambem, obrigada por perguntar.\n[USER] por gentileza preciso de ajuda com a remoção do impacto de algumas vendas.\n[REP] fico feliz que esteja bem, flavia! 💛"
+        },
+        {
+          "cid": "453004171",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[REP] recipient: %email. email: ola ana correia e time zebrands comercial ltda..espero que estejam todos bem!💛agradeço por ter compatilhado conosco o ocorrido, informo que sempre quando vamos analisar vendas com impatos por reclamações ou cancelamentos levamos em conta toda a experiencia de compra do clie"
+        },
+        {
+          "cid": "452998622",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] sim, conversar agora\n[REP] me chamo talita, sou representante do mercado livre e vou seguir te assessorando a partir de agora. pode contar comigo!por favor, com qual colaborador da jano estou falando?\n[USER] boa tarde, desculpe a demora\n[USER] me chamo bruno, tudo bem talita ? belo nome alias rsrs.\n[USER] então, estou entrando em contato referente a um problema de impacto na minha reputação na venda %num\n[USER] esse e uma situação um pouco curiosa por questão do erro não vir por parte do cliente, mas ele literalmente deixou a problema de que comprou errado rsrs. ele efetuou a compra de um sensor de pedal de embreagem conosco, para o linia mesmo... mas acho que ele não se atentou que o carro dele não tem pe"
+        }
+      ]
+    },
+    "alta": {
+      "cdu": "Reclamos",
+      "sol": "Analisamos reputação - Reclamação afeta",
+      "n_cases": 25,
+      "n_promotores": 21,
+      "n_detratores": 2,
+      "cases": [
+        {
+          "cid": "453677461",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação por produto diferente e mantemos o impacto",
+          "transcript": "[REP] ola, bom dia! sou a thaiane do mercado livre e seguirei com seu atendimento. tudo bem contigo?\n[REP] com quem eu falo da empresa maria trajano, por gentileza?\n[USER] bom dia tudo bem? me chamo victor\n[REP] oi, victor, tudo bom e contigo?\n[USER] estou bem obrigado por perguntar\n[REP] maravilha! e como posso te auxiliar hoje?"
+        },
+        {
+          "cid": "453455874",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] falar com atendente\n[REP] oi, loja. para eu te direcionar para o atendente certo, me diz em uma frase qual e o problema e, se tiver, envia o numero do pedido/venda, pagamento ou envio.\n[USER] %num\n[REP] nessa venda houve uma reclamação por cor/tamanho diferente, e ela ja foi **encerrada a favor do comprador**. a devolução passou por revisão e foi marcada como **sem condições de revenda** (caixa original danificada) e o pacote de retorno **ja consta como entregue para você**. se você discordar dessa\n[USER] falar somente com atendente\n[REP] entendi. nessa reclamação, alem de apelar, você tambem tem a opção de **abrir uma contestação** direto por ela: **minhas vendas** → abra a reclamação dessa venda → escolha **abrir contestação** e anexe as evidências. se você ainda assim quiser falar so com um atendente, me confirma: e sobre **essa v"
+        },
+        {
+          "cid": "453014841",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] ola, boa tarde, tudo bem com você?\n[USER] me chamo kauan, poderia me ajudar em algumas vendas que estão impactando a minha reputação?\n[USER] %num%phone200001%phone2000015%phone00001579%phone001%phone\n[REP] boa tarde, kauan! eu sou a ana do mercado livre e vou ajudar você com a reputação, ja que entendo o quão importante e e como isso afeta o desempenho da conta.fora esses impactos, tudo bem?\n[USER] esta sim\n[REP] fico feliz que esteja bem!"
+        },
+        {
+          "cid": "453719951",
+          "nps": 0,
+          "tipo": "passivo",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[REP] ola rahn, bom dia! meu nome e raquel, sou representante do mercado livre e estou aqui para te auxiliar da melhor forma possivel! tudo bem com você?\n[USER] ola, tudo bem? me chamo leticia\n[USER] estou bem e você?\n[REP] estou bem leticia, obrigada por perguntar 😃\n[USER] preciso de ajuda com uma venda\n[USER] o comprador comprou mesmo sabendo da incompatibilidade, e não posso aguardar mais com essa venda"
+        },
+        {
+          "cid": "453313247",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[REP] ola, celso! 👋 ajustando seus preços, você pode **competir melhor e aumentar suas vendas** rapidamente. 🔝 você tem **%num publicações com preços acima do mercado**, como pegador de salada grande sq aço inox 29cm prateado kit %num unidades e amolador afiador de facas %num opções de afiar profissional \n[REP] ola, celso! 👋 melhore suas metricas no full para **conseguir espaço estendido.** 📦 para isso, **alcance %num pontos de desempenho** ate %num de abril. %url\n[USER] gostaria de saber sobre a a reclamação do comprador\n[REP] para eu te informar **o status e os detalhes da reclamação do comprador**, preciso do **numero do pedido** (ou do **envio**) dessa venda. com esse dado, eu confirmo em **pos-venda** o motivo, prazos e proximos passos. enquanto isso, para reduzir novas reclamações, vale revisar estas %url **me envie \n[USER] %num\n[REP] **pedido %num — detalhes da reclamação (mediação)** - **aberta em:** **%date** (motivo: comprador informou que o produto **não correspondia às caracteristicas anunciadas**). - **encerrada a favor do comprador:** motivo **“item devolvido”**. - **status atual:** **fechada** e o **pagamento ja foi esto"
+        },
+        {
+          "cid": "453006632",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] sim, conversar agora\n[REP] boa tarde! sou camila, representante do mercado livre. e um prazer falar com você! como vai?  vi nas mensagens anteriores que gostaria de ajuda em relação analise da venda %num por impacto de reclamação, seria sobre isso mesmo? estou aqui para te auxiliar hoje, não se preocupe. falo com elaine, da e\n[USER] boa tarde camila, sim fala com elaine. prazer\n[USER] sim, seria sobre a reputação dessa venda\n[USER] o produto enviado esta correto e conforme o anuncio. a aplicação informada e para dafra citycom s 300i ate %num, alem de não ser compativel com modelos com abs. a moto do comprador e %num, portanto fora das especificações. trata-se de erro de aplicação por escolha do comprador e não de envio ou anun\n[USER] porem ele não retornou."
+        },
+        {
+          "cid": "452920207",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação por produto não recebido e mantemos o impacto",
+          "transcript": "[USER] ola, bom dia. tudo bem?\n[USER] aqui e a kharine da wehouse\n[USER] gostaria de solicitar remoção de impacto por gentileza\n[USER] %num - pedido cancelado passou a impactar.\n[USER] %num - cliente recebeu o produto na cor correta, solicito remoção.\n[USER] %num - conforme retorno do cliente, o mesmo ja localizou o encosto, o problema foi resolvido"
+        },
+        {
+          "cid": "453685015",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] ola, bom dia, tudo bem?me chamo deivson, tudo bem?\n[REP] ola, bom dia deivson. seja bem-vindo ao nosso chat. meu nome e angela, sou representante do mercado livre e estou aqui para te ajudar no que precisar.😃como você esta?\n[USER] ola, tudo bem.muito prazer angela.\n[REP] eu estou bem, agradeço por perguntar!\n[REP] o prazer e meu deivson, agradeço pelo seu contato.\n[REP] vi que entrou em contato referente a funcionalidades, como posso te auxiliar?"
+        },
+        {
+          "cid": "453465711",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] sim, conversar agora\n[REP] ola, equipe digital cgr.​me chamo caique, sou representante do mercado livre, recebi sua solicitação e estou disponivel para te ajudar. 😀👍​antes de seguir com o atendimento, como posso chama-lo?\n[USER] boa tarde caique, tudo bem ? me chamo erick\n[REP] erick, como consigo te ajudar hoje?\n[USER] a venda %num esta impactando meu indicador, o cliente realizou o cancelamento da compra. se trata de uma peça que ultrapassa o limite de dimensões permitido pelos correios, ofereci ao comprador o envio por fora por outra transportadora, mas ele se recusou a arcar com o frete. expliquei que nessa sit\n[REP] entendi, verifiquei o impacto e revisei a venda… e ja realizei a remoção do impacto nessa venda"
+        },
+        {
+          "cid": "453729702",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação por produto não recebido e mantemos o impacto",
+          "transcript": "[USER] sim, conversar agora\n[REP] ola equipe laudin store, me chamo wallyson sou representante do mercado livre, vi que precisa de apoio com a sua reputação e sera um prazer te ajudar hoje.\n[REP] com quem eu falo?\n[USER] ola. me chamo celso.\n[USER] peço exclusão da reputação nas seguintes vendas: %num%phone - envio atrasado. %num - venda cancelada pelo cliente. %num%phone - cliente alegou que consta como entregue, mas não recebeu o produto. nesses casos indicamos entrar com uma chamada com o ml, mas a conversa foi desabilitada antes de indicar\n[REP] ola celso, tudo bem com você?"
+        },
+        {
+          "cid": "452960646",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] preciso falar com o chat de atendimento humano, para retirar impacto da reputação em vendas.\n[REP] consigo te ajudar por aqui, mas preciso de um dado para localizar as vendas e ver se da para **retirar o impacto na reputação**. me envie o **id do pacote (pack)** ou **id do envio (shipment)** das vendas que você quer ajustar e diga qual foi o motivo (atraso na entrega, cancelamento, devolução, pro\n[USER] preciso falar com o chat de atendimento humano\n[REP] para eu te direcionar ao atendimento humano certo, me diz em %num linha qual e o problema e me passa **um id** relacionado (pode ser **id do pacote/pack**, **id do envio/shipment** ou **id do pedido**). ex.: “quero retirar impacto por atraso no flex” + id do pack/envio.\n[USER] preciso tirar o impacto da reputação, no chat com atendimento humano\n[REP] entendi. para eu conseguir verificar se da para tirar o impacto (e ja aplicar, quando for possivel), preciso que você me envie **pelo menos %num id** da venda afetada: **pack (pacote)** ou **shipment (envio)**. você consegue copiar e colar aqui esse numero?"
+        },
+        {
+          "cid": "453411413",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação revisada",
+          "transcript": "[USER] eu preciso de ajuda com uma devolução\n[REP] consigo te ajudar, jefferson. aqui aparece **uma devolução em andamento** (aberta em **%num de abril**), com status de **devolução ja enviada**. para eu orientar certinho, me diz: e essa devolução ou e outra? se puder, envie o **numero da reclamação** ou do **pedido** (ou um print da tela da devoluç\n[USER] %num\n[REP] no pedido **%num** não ha devolução ativa: ha **uma reclamação aberta** (%num de abril) e ela esta em **disputa pos-entrega**. para este caso, a opção disponivel pra você agora e **enviar mensagem ao mediador** dentro da reclamação. entre em **vendas > reclamações**, abra a reclamação desse pedido e\n[USER] eu quero falar com um atendente humano\n[REP] entendo, jefferson. antes de te encaminhar, preciso so de %num detalhe para direcionar certo: nessa reclamação do pedido **%num**, qual e o seu objetivo — **contestar** (provar que esta funcionando/foi entregue certo) ou **aceitar** (combinar devolução/reembolso)? me responda isso em uma frase e eu "
+        },
+        {
+          "cid": "453704374",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] sim, conversar agora\n[REP] ola, bom dia, andreia. meu nome e renata, sou representante do mercado livre e estou à disposição para te ajudar. 🌻pode me contar mais detalhes do motivo do seu contato?🙂🚛💛\n[USER] oi renata, bom dia! tudo bem?\n[USER] obrigado por me atender\n[USER] vou tentar ser pratica e resumir pra você: um cliente realizou uma compra no dia %num de abril de %num com entrega programada para dia %num de abril (hoje).\n[USER] ao processar as vendas com entrega para hoje, meu erp imprimiu tudo normalmente exceto essa venda. fui verificar e percebi que o comprador havia cancelado a compra e aberto uma reclamação por não ter recebido a compra."
+        },
+        {
+          "cid": "452944071",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] sim, conversar agora\n[REP] ola ellen, bom dia, tudo bem?! sou israelly representante do mercado livre, e irei seguir com o seu atendimento. 💛\n[USER] ola bom dia\n[USER] estou com problemas com essa venda %num, o cliente efetuou a comprs\n[REP] obrigada pelas informações\n[REP] poderia aguardar um momento por gentileza"
+        },
+        {
+          "cid": "453159163",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] sim, conversar agora\n[USER] oi, tudo bem? sou thays, gestora de atendimento da espelho briel design. 😊 -\n[USER] bom diaaaaaaaaaaaaaaaaaaaaaaaaa\n[USER] venda %num %num mar %hour\n[USER] o cliente realizou a compra selecionando a opção retirar em loja em votorantim interior de são paulo . no entanto, o comprador esta localizado em outra cidade , o que impossibilita a retirada em são paulo, conforme compra do cliente no ato da compra e selecionado pelo mesmo ao comprar no anuncio. de\n[USER] image"
+        },
+        {
+          "cid": "453774305",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] boa tarde, tarek! como você esta? aqui e a carol\n[USER] quanto tempo ne!?\n[REP] boa tarde! tudo bem com você carol? sou o tarek, representante aqui do mercado livre e vou te ajudar💛\n[REP] verdade, você sumiu\n[REP] estava de ferias?\n[USER] vou entrar de ferias na semana que vem, estava fazendo outras coisas por aqui"
+        },
+        {
+          "cid": "453149800",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação por produto não recebido e mantemos o impacto",
+          "transcript": "[USER] sim, conversar agora\n[USER] ok, obrigada\n[REP] ola, tudo bem?! e um prazer te atender hoje.me chamo kauan sou representante do mercado livre ,como posso lhe chamar ?, e irei seguir com o seu atendimento agora mesmo! 💛\n[USER] tudo bem kauan? gostaria que retirassem o impacto dessa venda %num, pois a mesma foi enviada pelo full e temos a plena convicção que não enviamos produtos nesse estado que demonstra o comprador. mesmo que houvesse o erro, não poderia ter sido enviado nessas condições.\n[REP] pode me detalhar por favor\n[USER] o cliente informa que o produto chegou sem a capa protetora do cabo"
+        },
+        {
+          "cid": "452995027",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação revisada",
+          "transcript": "[USER] ola, boa tarde!\n[REP] boa tarde, patricia! sou a ana do mercado livre e vou fazer seu atendimento!tudo bem contigo?\n[USER] tudo bem e você?\n[USER] tenho alguns pedidos impactando indevidamente no meu indicador, pode verificar?\n[USER] %num - cliente informou que localizou os pes faltantes, erro do cliente.%num - cliente informou o endereço incorreto no momento da compra, não pode impactar.%num - conforme informado pro cliente no atendimento, foi erro de montagem da cliente.\n[USER] %num - cliente recebeu corretamente, conforme informado no atendimento ;infelizmente por regras do inmetro não e mais permitido o envio das peças para tapa furos pois compromete a segurança da criança em caso de engolimento destas peças que podem facilmente ser removidas do movel. ;"
+        },
+        {
+          "cid": "453788439",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] continuar conversa anterior\n[REP] ola! eu não tenho acesso ao conteudo da conversa anterior aqui. você quer continuar sobre **qual assunto** (ex.: envio/etiqueta, reclamação, pagamento, anuncio, reputação)? se for sobre uma operação especifica, me diga tambem **o id do pedido/pacote/envio** ou o **codigo de rastreio** para eu locali\n[USER] venda %num fui informada pelo atendimento de ia que o cliente não conseguia concluir o procedimento de inflar de acordo com as instruções e depois que ele devolveu recebi mensagem de que havia marcas de uso na revisão .\n[REP] na venda **%num**, a devolução foi **reprovada na revisão** porque o produto chegou com **marcas de uso**. por isso, a reclamação foi **encerrada a favor do comprador** em **%num de abril** (decisão baseada na analise do centro de revisão). o que você pode fazer agora: - va em **minhas vendas > %num\n[USER] tem a opção preciso de ajuda . posso falar com um atendente ? recebi o produto de volta em perfeitas condições e inflando dentro do procedimento do manual ficou do diâmetro correto. tenho as fotos e %num video .\n[REP] sim — pelo caminho **“preciso de ajuda”** você consegue falar com o suporte dentro dessa reclamação. faça assim: - acesse **minhas vendas > %num > reclamação** e toque em **preciso de ajuda**. - selecione a opção relacionada a **revisão/devolução** e **anexe as fotos e o video** (mostrando o produto"
+        },
+        {
+          "cid": "453226733",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] bom dia!\n[REP] bom dia! tudo bem com você andre? sou o tarek, representante aqui do mercado livre e vou te ajudar💛\n[USER] oi\n[REP] boa tarde! sou a stephany representante do mercado livre e vou seguir com seu chamado.\n[USER] %num - transportadora não conseguiu realizar entrega, dinheiro devolvido. pode remover impacto ?%num%phone cliente que solicitou o cancelamento. pode remover impacto ?%num%phone envio realizado. pode remover impacto ?%num%phone envio realizado. pode remover imp\n[REP] falo com o andre do time hipervarejo?"
+        },
+        {
+          "cid": "452895870",
+          "nps": 0,
+          "tipo": "passivo",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação não afeta a reputação",
+          "transcript": "[USER] quero falar com um atendente humano\n[REP] gustavo, eu posso te encaminhar para um atendente humano, mas antes preciso que você me diga **sobre o que e o problema**. e sobre o quê? (ex.: envio/etiqueta, pagamento/repasse, anuncio/moderação ou uma venda especifica). se tiver, me mande tambem o **numero do pedido/venda** ou **id do envio**.\n[USER] venda %num o comprador agiu de ma fe, eu nao receberei o valor da minha venda e ficarei sem o produto\n[REP] vi aqui que essa venda teve uma **reclamação encerrada a favor do comprador** (problema de embalagem/dano) e, no momento, **não ha devolução/coleta vinculada** e **não existe ação disponivel** para você dentro da propria reclamação. nesse caso, o caminho e falar com um atendente para revisar o caso \n[USER] sim, conversar agora\n[USER] ok"
+        },
+        {
+          "cid": "452967180",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] ola, boa tarde, tudo bem com você?\n[USER] me chamo kauan, poderia me ajudar em algumas vendas que estão impactando a minha reputação?\n[USER] %num%phone000015710334350200001%phone200001573919%phone%phone\n[REP] boa tarde, kauan. me chamo sthefany, sou representante do mercado livre e estou aqui para te ajudar no que precisar. pode contar comigo durante todo o atendimento. 💛🤝\n[REP] como você esta no dia de hoje?\n[REP] estou vendo aqui que precisa de ajuda com reputação e ja me enviou %num vendas, maravilha"
+        },
+        {
+          "cid": "454115925",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação não afeta a reputação",
+          "transcript": "[USER] sim, conversar agora\n[REP] ola, boa noite! 😊me chamo micaelle, mas fique à vontade para me chamar de mica se preferir. sou representante do mercado livre e darei continuidade ao seu atendimento. tudo bem? com quem eu falo por gentileza?\n[USER] ola boa noite micaelle tudo sim e você? evelin\n[REP] estou bem evelin, obrigado por perguntar\n[REP] consegue me da mais detalhe da sua duvida?\n[USER] claro quero entender o que ocorreu para eu pagar a devolução da reclamação ja que o dano não foi causado pela minha empresa de acordo com as imagens enviadas para analise que minha expedição tira antes do envio"
+        },
+        {
+          "cid": "454084936",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] sim, conversar agora\n[USER] ok aguardando\n[REP] boa tarde, felipe. tudo bem? meu nome e, ester. sou representante do mercado livre e estou aqui para lhe auxiliar da melhor forma possivel. 💛\n[REP] vi que você entrou em contato referente a liberação para disputar catalogo\n[REP] esta ai?\n[USER] boa tarde ester, tudo bem ?"
+        },
+        {
+          "cid": "453188516",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Reclamos",
+          "sol": "Analisamos reputação - Reclamação afeta a reputação e excluímos",
+          "transcript": "[USER] preciso de ajuda com a reputação de %num vendas que foram impactadas e não concordo\n[REP] guilherme, consigo te ajudar a revisar e, se for o caso, pedir a exclusão do impacto — mas preciso identificar quais são essas %num vendas. me mande, por favor, **o id do pedido ou do pacote (pack)** de cada uma (ou o **id do envio**). se preferir, pode enviar tambem o **numero de rastreio**. e so p\n[USER] são %num: %num ; %num ; %num%phone\n[REP] pronto — analisei as %num e ja consegui **excluir o impacto na sua reputação em %num delas**: - **%num**: impacto **removido** (reclamação sobre voltagem; ficou claro que o item enviado batia com o anunciado/selecionado). - **%num%phone**: impacto **removido** (o comprador pediu cancelamento porque \n[USER] tenho imagens que comprova o produto enviado corretamente\n[REP] como essa reclamação ja esta **encerrada** e, no autoatendimento, **não ha ações disponiveis** para revisar, o caminho e pedir **revisão manual** anexando suas imagens. va em [solicitar revisão com um atendente](%url _id=%num _id=%num) e envie as fotos que comprovem as medidas/variação do produto (d"
+        }
+      ]
+    }
+  },
+  "PCF Vendedor Seller Dev": {
+    "queda": {
+      "cdu": "Mediación abierta",
+      "sol": "Mediação aberta com IA",
+      "n_cases": 19,
+      "n_promotores": 13,
+      "n_detratores": 5,
+      "cases": [
+        {
+          "cid": "453517272",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Vendedor em desacordo com a culpabilidade",
+          "transcript": "[REP] ola, ana! meu nome e viviane, sou representante do mercado livre e estou à disposição para te ajudar.\n[USER] ola aline, boa tarde! tudo bem?\n[USER] estamos em contato com um assistente de ia da mediação pos-vendas. o pedido full foi entregue ao cliente, porem houve erro na separação: uma peça foi duplicada e faltou %num travessa da cadeira. desejamos enviar a peça faltante via assistência tecnica. podem liberar a opção para envio?\n[USER] %num%phone\n[USER] image\n[USER] perdão viviane!"
+        },
+        {
+          "cid": "453796466",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Vendedor em desacordo com a culpabilidade",
+          "transcript": "[REP] entendo — eu te ajudo a chegar no atendimento certo, mas preciso de um **minimo de contexto**. qual e o motivo do contato? (ex.: problema com uma venda/envio, pagamento, conta/restrição, anuncio pausado, nota fiscal) se você tiver algum numero de pedido/venda, pode me enviar tambem.\n[USER] preciso falar com atendente\n[REP] certo — para eu localizar essa venda e ja te dizer o que da para fazer, me envia **um identificador** dela (pode ser o nº do pedido, pagamento, envio, pacote ou o codigo de rastreio) e resume em %num frase qual e o problema (ex.: não consigo imprimir etiqueta, comprador abriu reclamação, pagamento n\n[USER] estou com problema com uma venda e preciso falar com um atendente\n[REP] encontrei a venda: **%num peças disco corte aço inox 7pol esmerilhadeira starrett** (pago via pix) e ha uma **reclamação aberta em %num de abril** por **produto com problema**. o envio consta como **entregue**. para resolver agora: - va em **minha conta > pos-venda (reclamações)**, abra essa venda e\n[USER] %num"
+        },
+        {
+          "cid": "452947393",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Vendedor em desacordo com a culpabilidade",
+          "transcript": "[USER] boa tarde raquel, tudo bem?\n[REP] ola lidia, bom dia! meu nome e raquel, sou representante do mercado livre e estou aqui para te auxiliar da melhor forma possivel! tudo bem com você?\n[USER] pode me ajudar?\n[REP] estou bem, obrigada por perguntar 😃\n[USER] tudo, obrigada por perguntar, ^ ^\n[REP] claro lidia, com certeza posso te ajudar! me conta o que aconteceu para que eu possa entender melhor e te auxiliar da melhor forma possivel."
+        },
+        {
+          "cid": "453432597",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Vendedor em desacordo com a culpabilidade",
+          "transcript": "[USER] preciso conversar com um atendente\n[REP] soma saude, eu te ajudo — mas preciso de um pouco de contexto pra encaminhar pro time certo. qual e o assunto do atendimento e o que esta acontecendo agora? (ex.: problema com **pagamento**, **envio/venda**, **reputação**, **anuncio bloqueado**, **conta/restrição**). se você tiver algum numero de pe\n[USER] %num\n[REP] encontrei o pedido **bold whey chocolate ao leite refil 900g** desse pacote: existe uma **reclamação aberta por devolução** (motivo: produto não corresponde ao tamanho/sabor/marca escolhidos) e esta **pendente sua resposta na mediação** com prazo ate **%num de abril**. o que você pode fazer agora: -\n[USER] com uma mediação dessa venda\n[REP] certo — essa venda esta com uma **mediação aberta** na reclamação de devolução, e hoje a unica ação obrigatoria disponivel e **enviar mensagem ao mediador** ate **%num de abril**. o que fazer agora: - acesse **minha conta > pos-venda** e busque o pedido **%num**. - entre na reclamação e toque em **r"
+        },
+        {
+          "cid": "453209080",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Vendedor em desacordo com a culpabilidade",
+          "transcript": "[USER] fiz uma venda. o comprador reclamou do produto e pediu devolução. o mercado livre me deu a opção aceitar a devolução ou devolver parte do valor ao comprador. porem so depois de aceitar a proposta me apareceu que era %num% do valor da peça. e agora eu quero que seja feita a devolução do meu produto. \n[REP] jessica, verifiquei sua reclamação dessa venda e, no momento, **não esta disponivel** a opção de mudar para devolução pelo fluxo automatico: a unica ação liberada agora e **enviar mensagem na reclamação** (mediação/atendimento do mercado livre). o que você pode fazer agora: - entre na **reclamação**\n[REP] pelo seu print, a proposta de **reembolso parcial de %num% ja foi registrada** na reclamação e, por isso, o app não mostra mais a opção de “devolução” nesse momento. para tentar mudar para **devolução do produto**, o caminho e: - abra a reclamação dessa venda e toque em **enviar mensagem**. - escrev\n[USER] ainda esta aguardando resposta\n[REP] otimo — como ainda esta **aguardando resposta**, da tempo de pedir a troca para **devolução** pela propria reclamação. faça assim no chat da reclamação: %num) toque no campo para digitar e envie esta mensagem (copie e cole): > ola! eu aceitei a proposta sem ver que o valor era %num%. eu **não concor\n[USER] quero ser enviada ao suporte"
+        },
+        {
+          "cid": "452905034",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Vendedor em desacordo com a culpabilidade",
+          "transcript": "[USER] preciso de uma atualização do protocolo de reclamação %num\n[REP] não encontrei nenhuma **reclamação (mediação)** vinculada à sua conta com o numero **%num**. esse “protocolo” e de qual tipo? - se for **reclamação de compra/venda** (disputa com comprador): me envie o **numero do pedido/pacote** ou **id do envio**. - se for **protocolo de atendimento** do suporte: \n[USER] gostaria de dar sequência a esse atendimento\n[REP] para dar sequência com um atendente, acesse: [continuar atendimento](meli://cx/help?url=https%3a%2f%2f%url se puder, no atendimento informe tambem o **numero do pedido/pacote** relacionado ao atraso e estorno para eles localizarem mais rapido.\n[REP] hola, buen dia. soy alessandra, representante del mercado livre.\n[REP] falo con alexandre."
+        },
+        {
+          "cid": "453451502",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Outros erros não mapeados",
+          "transcript": "[USER] bom dia!\n[REP] bom dia, leonardo! como posso te ajudar hoje no mercado livre?\n[USER] preciso falar com um atendente\n[REP] entendo. para eu te direcionar para o time certo, me diz em uma frase qual e o assunto e o que esta acontecendo (ex.: venda/envio, pagamento/repasse, conta/acesso, anuncio/moderação).\n[USER] reclamações\n[REP] leonardo, vi que você tem **%num reclamação aberta** no momento (com mediação do mercado livre) e o restante esta **encerrado**. para eu te ajudar nessa reclamação agora, me envie o **numero da reclamação** ou o **numero da venda** (começa com %num) e me diga o que você quer fazer: **responder**, **"
+        },
+        {
+          "cid": "453287745",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Vendedor em desacordo com a culpabilidade",
+          "transcript": "[USER] boa noite, não concordo com a reclamação e reputação afetada. gostaria de falar com atendente\n[REP] boa noite, rafael. encontrei varias reclamações recentes na sua conta — inclusive uma **aberta em %num de abril** (com devolução gerada) e outra **encerrada em %num de abril** (com devolução concluida) — e eu preciso saber **qual delas** e a que você não concorda e que afetou sua reputação. você pod\n[USER] falar com humano\n[REP] eu consigo te direcionar, mas preciso do **minimo** para encaminhar certo: qual e o **id da reclamação** ou o **numero do pedido** que você quer contestar?\n[USER] falar com atendente\n[REP] para te passar com um atendente, me confirma **qual caso** e: - **reclamação %num** (aberta em %num de abril – devolução gerada), ou - **reclamação %num** (encerrada em %num de abril – devolução concluida)? responde so com o numero."
+        },
+        {
+          "cid": "453451107",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Vendedor em desacordo com a culpabilidade",
+          "transcript": "[REP] hola, soy silene, representante de mercado livre, y estoy hablando con el responsable\n[REP] de la cuenta de la tambicara de autopestos, ¿es eso mismo?\n[USER] eso, con quien yo falo, perdon, que corto bastante la ligacion.\n[REP] imagina, soy silene, aqui de mercado livre, ¿tuo bien?\n[USER] silene, ¿tuo bien, silene? se habla con el victor.\n[REP] hola, victor, ¿tuo bien con usted?"
+        },
+        {
+          "cid": "452942743",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Outros erros não mapeados",
+          "transcript": "[USER] preciso resolver um problema no qual afetou a reputação\n[REP] entendi — para eu verificar o que **afetou sua reputação** e ver se da para corrigir/excluir o impacto, me diga qual foi o caso: você consegue me passar o **id da venda/pacote/envio** (ou o **codigo de rastreio**) que gerou o problema? se não tiver, diga a **data** e o que aconteceu (ex.: **atraso n\n[USER] venda %num %num\n[REP] na venda do pacote **%num**, o envio foi pela **agência do mercado livre** e, mesmo com atraso na entrega, **esse atraso não conta na sua reputação**. o que esta impactando sua reputação e uma **reclamação com devolução** aberta nessa venda (motivo: **item incompativel com o veiculo**). nesse cenari\n[USER] fala com especialista\n[REP] consigo te orientar por aqui e, neste momento, a unica ação disponivel nessa reclamação e **enviar mensagem ao mediador**. se você me disser quais provas você tem (ex.: **codigo da pastilha/oem**, **tabela de aplicação**, **medidas**, **foto da embalagem**) e qual **modelo do corsa** o comprador inf"
+        },
+        {
+          "cid": "453705834",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Outros erros não mapeados",
+          "transcript": "[USER] estou com minha reputação afetada , ja ofereci devolução ao cliente mas o sistema não reconheceu .\n[REP] entendi — para o sistema “reconhecer” e parar de afetar sua reputação, normalmente o **reembolso/devolução precisa ser feito pela propria reclamação (pos-venda)** dentro do prazo, não so combinado por mensagem. para eu verificar o seu caso e orientar o passo certo, me envie **o numero da venda** (ou\n[USER] foi por problema no produto, segue n da venda %num\n[REP] encontrei a venda: existe uma **reclamação aberta por “produto não funcionando”** e, por isso, o sistema so “reconhece” a solução se você finalizar **dentro da propria reclamação** (não apenas por mensagens). o que fazer agora (ate **%num de abril, %hour**): - acesse **[pos-venda](%url e procure pel\n[USER] eu ja ofereci devolução ao cliente ontem\n[REP] entendo — o ponto e que **oferecer por mensagem não ativa a devolução no sistema** quando a reclamação ja esta nesse estagio. no seu caso, a reclamação esta pedindo uma ação obrigatoria: **enviar uma mensagem na conversa da reclamação para o mediador** ate **%num de abril, %hour** dizendo que você *"
+        },
+        {
+          "cid": "453157020",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Vendedor deseja mais fotos ou evidências",
+          "transcript": "[REP] hola, soy andre, representante del mercado livre. ¿falo con la mirella?\n[USER] si, andre, soy yo misma.\n[REP] ¿todo bien con la mirella?\n[REP] todo bien, gracias por preguntar. ¿en que puedo ayudarla hoy, mirella?\n[USER] entonces, el cliente aqui abrio una reclamacion porque compro dos subulfers de jbl\n[USER] y le alego que recibio otra marca llamada hard power."
+        },
+        {
+          "cid": "453674204",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Vendedor deseja mais fotos ou evidências",
+          "transcript": "[USER] bom dia. então estou com um problema em uma devolução feita, onde consta que na mediação eles me responderão antes do dia %num/%num (vamos entrar em contato com você antes de quinta-feira, %num de abri). mas ate agora não chegou nenhuma mensagem\n[REP] ricardo, eu localizei a reclamação dessa devolução: ela ainda esta **aberta** e o pacote de retorno consta como **entregue em %num de abril**. o prazo previsto de resposta era ate **%num de abril**, então ja passou — pode acontecer de a analise atrasar e, nesse caso, o melhor caminho e falar direto \n[USER] não tem como, me deixe falar com um atendente\n[REP] entendo, ricardo — mas antes eu preciso de um minimo de contexto para direcionar certo (senão o atendimento pode cair no time errado e atrasar mais). nessa devolução, o sistema mostra que você **pode “enviar mensagem ao mediador”** na reclamação. você esta com qual dificuldade exatamente? você conse\n[USER] eu não consigo enviar mensagens ao mediador, você não lembra das nossas conversas?\n[REP] entendi, ricardo. como você não esta conseguindo **enviar mensagem ao mediador** pela reclamação, vou te direcionar para um atendente. va em [falar com um atendente](%url _id=%num _id=%num)."
+        },
+        {
+          "cid": "453715833",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Vendedor em desacordo com a culpabilidade",
+          "transcript": "[USER] ola, gostariamos de apresentar nossa manifestação sobre o caso. apos analise, constatamos que o produto enviado esta em perfeito funcionamento, não apresentando qualquer defeito. o ocorrido se deu por um equivoco no momento da compra, pois a cliente adquiriu um modelo de painel incompativel com a ma\n[REP] entendi — quando o produto esta funcionando e o problema e **incompatibilidade/compra por engano**, o caminho correto normalmente e **devolução por arrependimento**, se ainda estiver dentro do prazo e se a compra mostrar a opção de devolução. para eu te orientar no seu caso especifico, me diga por f\n[USER] venda %num\n[REP] na venda informada, ja existe uma **reclamação aberta** por “não funciona”, e a compra ja foi **entregue**. nesse cenario: - **cancelamento não esta disponivel** (porque ja foi entregue). - esta **disponivel a devolução** para o comprador solicitar **ate %num de maio**. - tambem esta **disponivel re\n[USER] e a questão que vai afetar a minha reputação?\n[REP] no seu caso, **sim: essa reclamação pode afetar sua reputação** (metrica de reclamações) e **não foi possivel excluir o impacto**. o motivo e que a reclamação foi aberta como produto não funcionando/incompativel e, pela analise do caso, a compra teve expectativa de compatibilidade com base nas infor"
+        },
+        {
+          "cid": "453736092",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Outros erros não mapeados",
+          "transcript": "[USER] essa venda %num\n[USER] quero falar com um atendete sobre ela\n[REP] na venda **%num** (pedal passador de cifras®), o envio **consta como entregue** e o pagamento de **r$ %num,%num** esta **retido por uma mediação/reclamação em andamento**. o comprador abriu uma **reclamação em %num de abril** por **“diferente do anunciado”**. enquanto essa reclamação não for encerra\n[REP] da para resolver por aqui antes: nessa reclamação, a ação obrigatoria agora e **enviar uma mensagem ao mediador** ate **%num de abril, %hour**. e o comprador **ainda não enviou fotos/anexos**. me diga o texto que aparece para você no campo de mensagem (ou cole aqui o que o comprador escreveu) que eu\n[USER] ja mandei no assistente\n[REP] entendi. como a reclamação **ainda esta aberta** e o pagamento segue **retido**, vou te direcionar para um atendente ver o historico e os proximos passos dessa mediação. acesse por aqui: [falar com um atendente](%url _id=%num _id=%num)"
+        },
+        {
+          "cid": "454201655",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Outros erros não mapeados",
+          "transcript": "[USER] boa noite! tentamos enviar pelo campo onde esta tendo a mediação da venda %num mas não conseguimos. enviamos um produto errado e gostariamos de uma outra solução alem da que ja esta em andamento. caso seja viavel para os senhores do meli e para a d. cristiane silva, devolvemos o dinheiro para ela se\n[REP] vi aqui que ha uma reclamação aberta por **produto diferente do anunciado** e, no momento, a ação disponivel para você e **enviar mensagem para a mediação** (prazo ate **%num de maio, %hour**). enquanto a mediação esta aberta, a conversa direta com a compradora pode ficar limitada — o canal correto \n[USER] não estamos conseguindo enviar essa mensagem no campo da mediação. não tem o botão de enviar! veja da possibilidade de reembolsar nos e a cliente ficar com produto. obrigado!\n[REP] pelo que consta aqui, essa venda **permite reembolso** e a solução de **reembolsar e a cliente ficar com o produto** e possivel — desde que você faça o reembolso **dentro da propria reclamação** (isso vira um acordo; depois o caso pode ser **encerrado automaticamente** e não da para reabrir). como f\n[REP] como foi sua experiência com o assistente? (responda com uma nota de %num a %num)\n[USER] não conseguimos em nenhuma das duas opções (aplicativo e no site)."
+        },
+        {
+          "cid": "453482148",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Vendedor deseja mais fotos ou evidências",
+          "transcript": "[USER] sim, conversar agora\n[USER] image\n[REP] ola 🙋caio    , tudo bem?sou ruanna representante do mercado livre!💙💛\n[USER] boa tarde ruanna\n[USER] image\n[USER] tudo bem, boa tarde. a opção de reportar um problema, que essa mercadoria a gente foi, a pessoa devolveu e chegou totalmente danificado pelos correios. ai queria canexar o produto todo danificado, as fotos, não sei se precisa ou não, porem toda vez que eu parto em reportar um problema ele não prosse"
+        },
+        {
+          "cid": "453695455",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Vendedor em desacordo com a culpabilidade",
+          "transcript": "[USER] bom dia! espero que esteja bem.estou com problemas para atender uma reclamação da venda 2000012470119437o cliente reportou que faltou um item no pedido, e abriu %num reclamações, mas apenas %num faltou.realizamos o reembolso do item faltante em uma das reclamações, mas não consigo finalizar a outra.\n[REP] ola, bom dia!💕 boas vindas ao atendimento mercado livre. me chamo iago e vou seguir te atendendo. como posso te chamar?\n[USER] bom dia, iago! sou alberto\n[REP] vou checar aqui em nosso sistema sobre a venda %num e ja ja te retorno, ok alberto?\n[USER] combinado, iago! agradeço\n[REP] vi aqui que o assistente virtual te informou que pode enviar a mensagem ao comprador confirmando o reembolso"
+        },
+        {
+          "cid": "453135381",
+          "nps": 0,
+          "tipo": "passivo",
+          "cdu": "Mediación abierta",
+          "sol": "Mediação aberta com IA – Quer oferecer reembolso parcial",
+          "transcript": "[USER] quero falar com um atendente querendo ajuda em uma reclamação na minha venda %num, onde o cliente comprou %num unidades de um produto, chegaram %num e ele quer reembolso das %num\n[REP] gustavo, ja identifiquei a reclamação da venda **%num** por **item faltando** (o comprador disse que recebeu %num de %num) e ela esta **aberta**, com prazo para você **responder ate %num de abril, %hour**. no momento, a ação disponivel para você e **enviar uma mensagem na mediação** (e obrigatorio).\n[USER] não, quero falar com um atendente. as resoluções da mediação são injustas e não fazem sentido\n[REP] entendi — e, nesse caso, da para agir para tentar reverter a direção da reclamação antes do prazo. pelo que verifiquei, a reclamação e por **item faltando**, esta **aberta**, **não ha devolução iniciada** e o comprador **ainda não enviou evidências** na reclamação. ate **%num de abril, %hour**, o ca\n[USER] sim\n[REP] va em [falar com um atendente](%url _id=%num _id=%num) para analisarem a reclamação dessa venda e te orientarem nos proximos passos."
+        }
+      ]
+    },
+    "alta": {
+      "cdu": "Devoluciones",
+      "sol": "Devolução - Recebeu devolução fallida",
+      "n_cases": 22,
+      "n_promotores": 20,
+      "n_detratores": 2,
+      "cases": [
+        {
+          "cid": "453007669",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[REP] ola! 👋 ative o 'chega hoje' para **entregar seus produtos no prazo e aumentar suas vendas rapidamente**. 🚚 seu anuncio oleo fluido de corte integral rosqueamento biolub 500ml ja teve **%num vendas**, e garantir entrega rapida pode atrair ainda mais compradores. ir para oferecer flex\n[USER] eu abri um chamado referente a devolução da venda %num, eu expliquei que o produto chegou avariado com o bico amassado, porem aparentemente o responsavel não entendeu e somente devolveu o dinheiro ao comprado possivelmente eu iria arcar com o prejuizo, poderia confirmar para mim o desfecho?\n[REP] **desfecho oficial da devolução da venda %num (oleo %num hidraulico… 5l):** - o caso foi **encerrado a favor do comprador**, pois o item foi devolvido. - motivo informado pelo comprador: **“minha compra chegou em boas condições, mas eu não a quero mais.”** - o **frete da devolução foi cobrado de voc\n[USER] eu ja solicitei e foi o que ocorreu, preciso entrar em contato com o suporte.\n[REP] vamos te colocar em contato com o suporte oficial. - clique em %url =6b566718-%num-44f5-ad71-a62042ed5e93 e escolha a forma de atendimento.\n[USER] sim, conversar agora"
+        },
+        {
+          "cid": "452907499",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] ola, bom dia!\n[REP] bom dia, me chamo lays, sou atendente do mercado livre 💛  como posso te chamar?\n[USER] bom dia, lays! eu sou a ana gomes\n[USER] muito prazer\n[USER] %num - esse pedido não foi entregue ao cliente, o mesmo consta em rota de devolução ao nosso estoque desde o dia %date, porem sem informações sobre o retorno.\n[USER] foi aberto o chat exclusivo - %num, informando que o produto estava em devolução ate o dia %date, porem não tivemos o retorno do produto"
+        },
+        {
+          "cid": "453256026",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] boa tarde, tudo bem? sou a priscila, representante midea.\n[USER] precisamos de auxilio em relação a essa venda: %num\n[USER] a mediação seguiu um processo incorreto orientando o cliente a enviar um microondas via correios.\n[USER] e encerrou a mediação com o valor para o cliente dizendo que não repondemos no prazo, sendo que sim, respondemos.\n[USER] precismaos que verifiquem, por gentileza.\n[USER] *precisamos"
+        },
+        {
+          "cid": "452925471",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] recebi uma compra que não pedi, como faço quero falar com atendente\n[REP] entendo, luiza. para eu te ajudar a resolver mais rapido, me diz **qual produto** você recebeu e **em que dia** ele chegou (se puder, manda uma foto da etiqueta da caixa com o nome do produto/endereço, cobrindo dados sensiveis). pelo seu historico recente, ha compras entregues em **%num de abril** e\n[USER] chegou uma pipoqueira e não comprei, estou aguardando outros produtos mas isso não\n[REP] entendi. no seu historico recente de **minhas compras**, não aparece nenhuma compra de **pipoqueira**, então isso costuma ser uma destas situações: **entrega trocada/errada** ou **alguem usou sua conta**. %num) confere pra mim: na etiqueta da caixa esta **seu nome e seu endereço**? e aparece “mercad\n[USER] quero falar com atendente\n[REP] você pode falar com um atendente por aqui: [falar com atendimento](%url _id=%num _id=%num)"
+        },
+        {
+          "cid": "453440569",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] não temos retorno da mediação da venda %num%phone\n[USER] falar com atendente\n[REP] na venda **%num%phone** ha uma reclamação aberta por “produto diferente (cor/tamanho/modelo)” e, no momento, ela aparece **sem acompanhamento ativo de um representante** (sem mediação humana em andamento). a ultima atualização foi em **%num de abril**. o que você pode fazer agora: - va em **vendas >\n[USER] falar com atendente\n[REP] entendo. nesta reclamação, ainda **não ha devolução iniciada** e o comprador **não enviou evidências** (nenhuma foto/video anexado ate agora). o produto da venda e “kit %num luminarias espeto de jardim luminatti led 7w…”. para destravar a mediação pelo proprio caso, o caminho disponivel agora e: - a\n[REP] você pode falar com um atendente por aqui: [falar com um atendente](%url _id=%num _id=%num)"
+        },
+        {
+          "cid": "453217666",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] boa tarde\n[REP] boa tarde, falo com julia? 😊sou a milena, do mercado livre e seguirei com o seu atendimento.\n[USER] boa tarde milena, sim!\n[REP] prazer, tudo bem?\n[USER] estou com um problema em uma compra que o cliente ia devolver apenas uma unidade de um kit de tapete automotivo que foi enviado errado, apos a chegada do produto ao nosso centro de distribuição iramos enviar o correto, mas o mercado libre reembolsou o cliente com o valor integral\n[REP] poxa, eu sinto muito por este ocorrido que teve na devolução do produto, julia."
+        },
+        {
+          "cid": "453166272",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] tive uma reclamação encerrada antes do praso\n[REP] vi aqui que você tem varias reclamações **encerradas** recentemente, e algumas ainda aparecem como **recontactaveis** (com prazo para reabrir), então preciso so identificar qual e a sua. qual foi a reclamação que encerrou antes do prazo? me mande **o numero da reclamação** (ex.: %num) ou **o numero \n[USER] %num\n[REP] no pedido que você informou, a reclamação vinculada e a **%num** e ela esta como **devolução encerrada** (revisão concluida em **%num de abril**). para vendedor, no momento consta **sem opção de ação** (não aparece reabrir/recorrer pelo fluxo). como pelo sistema não da para fazer nada por aqui, o pr\n[USER] sim, conversar agora\n[REP] ola, colaborador superstar motopecas pirapora l, bom dia! tudo bem com você? sou o vitor, representante do mercado livre e sigo agora com seu atendimento 💙. como você se chama, por gentileza?"
+        },
+        {
+          "cid": "453672334",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] sim, conversar agora\n[REP] bom dia, tudo bem?me chamo bia, representante do mercado livre, e vou te acompanhar neste atendimento. 🚚💛\n[REP] so para eu te atender da melhor forma, como você prefere que eu te chame?\n[USER] ola bom dia tudo bem?\n[USER] me chamo edna, sou vendedora da mt personalizados, faço vendas em plataforma como mercado livre e shopee\n[REP] estou bem, obrigada por perguntar!"
+        },
+        {
+          "cid": "453151633",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] bom dia!tudo bem?\n[REP] bom dia gabriel!\n[REP] me chamo jonatas sou representante do mercado livre brasil e vou seguir te auxiliando 💛\n[REP] tudo bem sim, obrigado\n[REP] 😉\n[REP] em que posso te auxiliar ?"
+        },
+        {
+          "cid": "452977702",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] recebemos o pacote errado o pacote nem chegou a ser entregue ao cliente provavelmente colaram a etiqueta errada\n[REP] ola! sou yasmin, faço parte da equipe do mercado livre e vou te atender hoje! 🤝\n[REP] vi que estou em contato com a conta l m alimentos. com quem eu falo, por gentileza?\n[USER] adrieli\n[REP] adrieli, muito prazer e boa tarde!\n[REP] vi que precisa de ajuda com uma devolução que recebeu de outro produto, ne?"
+        },
+        {
+          "cid": "452900833",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[REP] ola! 👋 com preços mais competitivos, você pode **aumentar suas vendas e se destacar no mercado**. 🎯 você tem **%num anuncios com preços altos**, como \"tinta imperparede impermealizante bautech cores %num%price g.\" e \"tinta emborrachada impermeabilizante%priceg cores bautech\". avalie a concorrência e\n[USER] preciso falar com um atendente sobre varias vendas devolvidas queforam abertas , preciso do reembolso\n[REP] vamos te conectar com uma pessoa do nosso time para te ajudar com **as devoluções e o reembolso**. - clique em **%url =8c0637ea-6f47-%num-95fb-becb02c7f3d9** e escolha a forma de atendimento que você prefere.\n[USER] sim, conversar agora\n[REP] ola, equipe lw comercio de tintas e acesso, bom dia! tudo bem? espero que sim!sou o augusto, do mercado livre 💛, e darei continuidade ao seu atendimento 😉! para que possamos manter uma comunicação melhor, como posso chama-lo?\n[REP] no que posso te ajudar hoje?"
+        },
+        {
+          "cid": "452894048",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[REP] ola! 👋 com um video no seu anuncio, você pode **atrair mais compradores e destacar seus produtos facilmente**. 📹 você tem **%num anuncio ativo**. experimente criar um video para o %url e chame a atenção de novos clientes. %url id=clips_task =seller_assistant =true _id=ml_shorts_modify_item _hash=nzm\n[USER] falar com atendente\n[REP] para eu te direcionar ao atendimento, preciso que você me diga **qual e o assunto** e **o que esta acontecendo**. - e sobre **vendas/pos-venda** (devolução, reclamação, mediação)? - e sobre **envios**? - e sobre **publicações**? - e sobre **cobranças/faturamento**? se puder, envie tambem o **numero \n[USER] devolução %num\n[REP] a devolução do pack **%num** (produto **“oculos optpro | hexpro lente cinza”**) **ja foi concluida**: - você **recebeu a devolução em %date**. - o **pagamento foi reembolsado** ao comprador. - este caso **não prejudicou sua reputação**. - houve **mediação** e o mercado livre **encerrou a favor do co\n[USER] falar com atendente"
+        },
+        {
+          "cid": "453063965",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] %num\n[REP] vinicyus, encontrei o pacote **%num**: venda de **%num de março**, item **“mascara protetor facial transparente…”**, valor **r$ %num,%num**, pagamento por **credito do consumidor**, envio **%num%phone**. o que você precisa ver ou resolver nessa venda (rastreamento do envio, etiqueta, cancelamento, p\n[USER] produto foi devolvido danificado\n[REP] no pedido **não consta devolução nem reclamação aberta** ate agora. se você recebeu o produto de volta por uma devolução do mercado livre, o caminho e **reportar problema na devolução** na propria venda (geralmente fica disponivel por pouco tempo apos o recebimento). faça assim: **minhas vendas → se\n[USER] não abre a opção de reclamar aonde você indicou\n[REP] pelo rastreio dessa venda, o envio **não foi entregue** e consta como **devolvido ao armazem** (não aparece como devolução entregue pra você). por isso a opção **“informar um problema”** não fica disponivel. como você ja esta com o produto em mãos e ha divergência com o status, o proximo passo e fal"
+        },
+        {
+          "cid": "452976634",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] boa tarde!tudo bem?meu nome e bianca\n[REP] ola, boa tarde bianca! 😊 eu sou a isa, sou representante do mercado livre, estou aqui para te ajudar, vou dar sequência ao seu atendimento! 💛\n[REP] como eu posso te ajudar?\n[USER] preciso da ajuda com uma devolução que chegou danificada\n[REP] certo, essa devolução seria de uma venda? ou retiro de estoque?\n[USER] foi uma retirada"
+        },
+        {
+          "cid": "452995995",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] ola, boa tarde, tudo bem?poderia me ajudar na venda %num a mesma esta constando foi entregue para mim, porem não foi. como podemos resolver essa questão ? prazer henrique\n[USER] image\n[USER] falei com o pessoal aqui e não recebeu\n[REP] ola, boa tarde! meu nome e raquel, sou representante do mercado livre e estou aqui para te auxiliar da melhor forma possivel! tudo bem com você?\n[USER] tudo otimo e você?\n[REP] estou bem, obrigada por perguntar 😃"
+        },
+        {
+          "cid": "453271441",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] devolução com problema\n[REP] encontrei uma devolução ligada a uma reclamação **encerrada em %num de abril** (motivo: incompativel com veiculo), com status de **devolução entregue** e atualização em **%num de abril**. e essa devolução com problema? se não for, me diga **o numero da reclamação** ou **o pedido**, e o que esta acon\n[USER] %num\n[REP] para o pedido **%num**, a devolução **ja foi entregue** (%num de abril) no **centro de distribuição do mercado livre** e a **analise foi concluida com sucesso** (%num de abril): o produto foi **aceito** e o destino esta como **devolver para você (vendedor)**. o frete de devolução (**r$ %num,%num**) \n[USER] veio com muitas avarias sem condições de uso por ser peça mecânica\n[REP] entendi, fabio. nesse caso, o caminho e **informar problema na devolução** o quanto antes (normalmente da para fazer isso em ate **%num dias uteis** depois que você recebe o item). faça assim no app/site: - va em **minhas vendas** → abra a venda **%num** - entre em **devolução** → **ja revisei** → *"
+        },
+        {
+          "cid": "453522455",
+          "nps": -1,
+          "tipo": "detrator",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] falar com atendimento\n[REP] oi, marcus. eu te ajudo por aqui, mas preciso de um pouco de contexto para encaminhar certo: qual e o assunto do atendimento e, se for sobre uma venda/compra, qual o **numero do pedido, envio ou reclamação**? (ex.: problema com envio, repasse/pagamento, devolução, anuncio pausado)\n[USER] %num\n[REP] não consegui localizar esse **%num** na sua conta de vendedor (não aparece como venda nem como reclamação). pode me confirmar qual e o identificador correto e de onde você copiou? - **venda/pedido (pack)** normalmente tem **%num digitos** (ex.: %num…) - **envio** tem **%num digitos** - **reclamação*\n[USER] %num\n[REP] encontrei a venda **%num** (envio **%num%phone**) e a reclamação **%num**. - a reclamação foi **encerrada hoje (%num de abril)** com motivo **“item devolvido”**. - a **devolução** (envio de retorno **%num%phone**) ainda **não foi entregue** para você: esta **voltando para o remetente** (ultima atual"
+        },
+        {
+          "cid": "453697832",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[REP] ola, bom dia! tudo bem mylenna? 😊\n[REP] sou any, do mercado livre e irei te auxiliar hoje.\n[USER] bom dia\n[REP] como vai mylenna?\n[USER] eu vou bem e voce?\n[REP] fico feliz!  🙂 vou muito bem, grata por perguntar, e um prazer falar com você!"
+        },
+        {
+          "cid": "453245159",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] não consegui anexar as fotos e texto completo na mediação da venda %num. quero falar com um atendente urgente, pois posso ficar no prejuizo.\n[REP] sonia, vi que essa venda esta com uma **reclamação aberta** ligada a devolução, com prazo ate **%num de abril, %hour** para andamento. no momento, a ação disponivel para você e **enviar mensagem na mediação** e anexar informações por la. para tentar anexar as fotos e o texto: - acesse **minha conta \n[REP] entendi, sonia — como a devolução esta **em mediação aguardando resposta do mercado livre**, o unico jeito de enviar as fotos e **pela propria conversa da mediação** (enquanto ela estiver aberta). para conseguir anexar, tente nesta ordem (no computador): - abra a mediação por **minha conta > pos-ven\n[USER] devolução emmediação aguardando resposta do mercado livre. preciso anexar as fotos\n[USER] o botão não fica azul para eu enviar as fotos\n[REP] sonia, quando o botão não fica azul, geralmente e porque **nenhum arquivo foi carregado** (ou ainda esta carregando) ou falta **preencher o campo de mensagem**. tente assim, bem direto: - escreva %num linha no texto da mediação (ex.: “segue evidência em fotos.”). - anexe **%num foto jpg/png** por ve"
+        },
+        {
+          "cid": "453434958",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] sim, conversar agora\n[REP] ola, bom dia lucas! meu nome e diego e sou seu representante do mercado livre. tudo bem por ai? estou aqui para te auxiliar com seu atendimento! 😊🚛💛\n[USER] bom dia diego\n[USER] tudo bem e você?\n[REP] tudo otimo, como posso ajudar? 🙂\n[USER] vamos la diego. vendi um produto (painel de moto usado) e antes do envio ja havia testado e estava tudo correto, porem, acho que durante o transporte houve um problema no envio que danificou a tela do produto. o comprador me informou e solicitou a devolução, porem, estão cobrando de mim o valor inte"
+        },
+        {
+          "cid": "452930255",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] ola cliquei errado na hora que estava fazendo devolução era para abrir uma disputa mas cliquei no chegou com esperado\n[REP] - **não da para alterar a opção escolhida** depois que a devolução foi iniciada. - para seguir com a contestação, **abra um problema/disputa na propria venda**: em **“reportar um problema”**, explique que marcou a opção errada e inclua **evidências** (fotos/videos do produto e da embalagem). - para \n[USER] falar com atendente\n[REP] te vamos a conectar com uma pessoa do nosso time para te ajudar. - clique em **%url =faeae27f-3ca9-46e6-992a-57c82b9c277a** e escolha a forma de atendimento que você prefere.\n[USER] sim, conversar agora\n[USER] ola apertei u botão errado na hora que estava fazendo uma devolução era para abrir uma disputa e acabei confirmando a entrega de produto gostaria de saber se tem como reabrir a disputa"
+        },
+        {
+          "cid": "453753145",
+          "nps": 1,
+          "tipo": "promotor",
+          "cdu": "Devoluciones",
+          "sol": "Devolução - Recebeu devolução fallida, orientamos sobre como iniciar reclamação",
+          "transcript": "[USER] boa tarde, me chamo julia. gostaria de falar sobre o pedido %num%phone\n[REP] ola, sou a mayara do mercado livre e vou te ajudar nesse atendimento.\n[REP] julia como vai tudo bem? boa tarde.\n[USER] ola mayara\n[USER] recebemos a nf %num,  cliente comprou o item %num - azeite de oliva tipo unico portugal vidro 500ml andorinha, porem retornou  itens que não comercializamos\n[USER] segue fotos"
+        }
+      ]
+    }
+  }
+}

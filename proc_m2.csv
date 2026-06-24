@@ -1,0 +1,168 @@
+driver,process,promoters,detractors,surveys
+Experiencia Impositiva Mature,Emision de Nota Fiscal,24,12,42
+Experiencia Impositiva Mature,Facturación,20,8,29
+Experiencia Impositiva Mature,Datos fiscales,1,0,1
+Experiencia Impositiva Meli Pro,Facturación,4,3,8
+Experiencia Impositiva Meli Pro,Emision de Nota Fiscal,4,1,5
+Experiencia Impositiva Seller Dev,Facturación,144,75,242
+Experiencia Impositiva Seller Dev,Emision de Nota Fiscal,129,26,177
+Experiencia Impositiva Seller Dev,Datos fiscales,39,7,50
+FBM-S Mature,FBM - Inventario,32,18,60
+FBM-S Mature,FBM - Pre Inbound,36,12,59
+FBM-S Mature,FBM - Post Inbound,24,5,31
+FBM-S Mature,FBM - Retiro de Stock - Cx One,20,5,30
+FBM-S Mature,FBM - Funcionalidades,7,4,11
+FBM-S Mature,FBM - Devoluciones,9,1,10
+FBM-S Mature,FBM - Outbound,1,0,1
+FBM-S Mature,Asignación del Contáctanos FBM,1,0,1
+FBM-S Meli Pro,FBM - Pre Inbound,4,1,7
+FBM-S Meli Pro,FBM - Post Inbound,1,2,4
+FBM-S Meli Pro,FBM - Devoluciones,1,2,3
+FBM-S Meli Pro,FBM - Inventario,1,2,3
+FBM-S Meli Pro,FBM - Funcionalidades,2,0,2
+FBM-S Meli Pro,FBM - Retiro de Stock - Cx One,1,1,2
+FBM-S Meli Pro,FBM - Outbound,1,0,1
+FBM-S Seller Dev,FBM - Pre Inbound,126,38,188
+FBM-S Seller Dev,FBM - Inventario,74,28,110
+FBM-S Seller Dev,FBM - Post Inbound,57,21,84
+FBM-S Seller Dev,FBM - Retiro de Stock - Cx One,51,19,76
+FBM-S Seller Dev,FBM - Funcionalidades,20,14,38
+FBM-S Seller Dev,FBM - Devoluciones,13,3,19
+FBM-S Seller Dev,FBM - Outbound,6,2,9
+ME Vendedor Mature,Reputación ME,604,80,756
+ME Vendedor Mature,Despacho Ventas y Publicaciones,416,110,614
+ME Vendedor Mature,Reversa,322,66,420
+ME Vendedor Mature,Gestiones Operativas,196,54,298
+ME Vendedor Mature,Viaje del paquete - Vendedor,74,4,90
+ME Vendedor Mature,Viaje del paquete - Comprador,4,0,4
+ME Vendedor Mature,Suspensiones ME,2,0,2
+ME Vendedor Meli Pro,Reputación ME,29,5,35
+ME Vendedor Meli Pro,Despacho Ventas y Publicaciones,7,3,13
+ME Vendedor Meli Pro,Reversa,11,1,12
+ME Vendedor Meli Pro,Gestiones Operativas,7,1,8
+ME Vendedor Meli Pro,Viaje del paquete - Vendedor,6,0,7
+ME Vendedor Seller Dev,Reputación ME,2080,148,2402
+ME Vendedor Seller Dev,Despacho Ventas y Publicaciones,1520,360,2062
+ME Vendedor Seller Dev,Gestiones Operativas,546,74,692
+ME Vendedor Seller Dev,Reversa,468,128,668
+ME Vendedor Seller Dev,Viaje del paquete - Vendedor,344,42,438
+ME Vendedor Seller Dev,Suspensiones ME,0,2,4
+Otros CV,KYC Services,460,17,517
+Otros CV,Viaje del paquete - Comprador,79,22,115
+Otros CV,Costos de envío - Comprador,25,12,40
+Otros CV,Apelaciones retorno buyer XDDS,7,25,33
+Otros CV,Problemas de seguridad,13,14,31
+Otros CV,Viaje del paquete - Vendedor,20,9,30
+Otros CV,Problemas con acceso y factores,17,1,21
+Otros CV,Caja vacía - Flex,9,6,18
+Otros CV,KYC seg360,10,7,18
+Otros CV,Tarjetas de crédito - Solicitud y Límites,11,2,15
+Otros CV,Configuración de la cuenta,10,3,14
+Otros CV,Restricciones,5,7,14
+Otros CV,Post Compra Funcionalidades CBT,7,4,13
+Otros CV,CBT - Prohibited items,10,2,12
+Otros CV,Problemas con pagos - Cards,7,3,12
+Otros CV,Consumer Credits,9,3,12
+Otros CV,Reputación ME Masivos,1,10,11
+Otros CV,Asignación del contáctanos Buyers Post,9,0,10
+Otros CV,Funcionalidades de tarjetas de Crédito,6,3,10
+Otros CV,Cancelación de cuenta,5,1,7
+Otros CV,Afiliados ML,4,2,6
+Otros CV,Posterior a la Entrega,4,2,6
+Otros CV,Seguros transaccional - Payers,6,0,6
+Otros CV,Reputación ML Masivos,4,2,6
+Otros CV,Caja vacía - MP,5,0,5
+Otros CV,CBT - Intellectual Property,4,1,5
+Otros CV,Apelaciones buyer XDDS,1,4,5
+Otros CV,Consumer Credits - Solicitud y Límites,4,0,5
+Otros CV,Post_Compra_Funcionalidades_MP_Comprador,3,2,5
+Otros CV,Transferencias de dinero,3,0,4
+Otros CV,Reembolso de la compra MP,3,1,4
+Otros CV,PR - Técnica prohibida Masivos,1,3,4
+Otros CV,Chargeback Comprador,2,1,3
+Otros CV,Tasas e Incentivos Sellers,3,0,3
+Otros CV,Registro,1,0,3
+Otros CV,Anulación de Pagos - Payers,0,2,3
+Otros CV,Extractos y Reportes,3,0,3
+Otros CV,Antes de publicar,1,0,3
+Otros CV,Asignación del contáctanos Mature Ventas,2,1,3
+Otros CV,Gestiones Operativas,2,0,3
+Otros CV,Funcionalidades de Seguros - Payers,1,1,2
+Otros CV,Guardia Urbana,2,0,2
+Otros CV,Funcionalidades de tarjetas de Débito y Crédito,2,0,2
+Otros CV,CBT - Prohibited technique,1,0,2
+Otros CV,Relaciones entre cuentas,1,1,2
+Otros CV,Asignación del Contactanos Cuenta Marketplace,1,1,2
+Otros CV,Reputación,1,1,2
+Otros CV,PF - PNR-C - Vendedor,1,1,2
+Otros CV,PR - Artículos prohibidos,0,2,2
+Otros CV,PR - Técnica prohibida,1,0,1
+Otros CV,Rendimientos en cuenta,0,0,1
+Otros CV,FBM - Inventario - Masivo,0,1,1
+Otros CV,PR - Propiedad intelectual,0,1,1
+Otros CV,Emision de Nota Fiscal,1,0,1
+Otros CV,Acreditacion del cobro,0,1,1
+Otros CV,Funcionalidades generales MP - Sellers,1,0,1
+Otros CV,Jornada de la entrega,0,1,1
+Otros CV,Merchant Credits,1,0,1
+Otros CV,Mi dinero,1,0,1
+Otros CV,Post Compra Funcionalidades Vendedor,0,1,1
+Otros CV,Asignación del Contáctanos - Top Off,0,1,1
+Otros CV,Facturación,0,1,1
+Otros CV,ML | SHS - Soluções Genéricas,1,0,1
+Otros CV,Calidad de foto Masivos,0,1,1
+Otros CV,FBM - Devoluciones - Masivo,1,0,1
+Otros CV,SHS - MED - Funcionalidades,1,0,1
+Otros CV,Consultas y Problemas con Pagos - Payers,0,1,1
+Otros CV,Despacho Ventas y Publicaciones Masivos,0,1,1
+Otros CV,Point - Logística,1,0,1
+Otros CV,Funcionalidades de la Wallet,1,0,1
+Otros CV,Asignación del contáctanos Buyers Pre,0,0,1
+Otros CV,Potenciar Ventas,0,1,1
+Otros CV,Denuncia de usuario,1,0,1
+Otros CV,Asignación del Contáctanos PNRMP,1,0,1
+Otros CV,Datos fiscales,0,1,1
+Otros CV,Point - Como adquirir dispositivo,1,0,1
+Otros CV,Privacidad de datos - LGPD,0,1,1
+Otros CV,Financiamiento de vehículos - Prendarios,1,0,1
+Otros CV,Fondos Investments,0,1,1
+Otros CV,CDB Investments,0,1,1
+PCF Vendedor Mature,Post Compra Funcionalidades Vendedor,332,85,467
+PCF Vendedor Meli Pro,Post Compra Funcionalidades Vendedor,32,8,44
+PCF Vendedor Seller Dev,Post Compra Funcionalidades Vendedor,536,166,790
+Partners,Drivers,1797,278,2277
+Partners,Places Kangu,431,59,529
+Post Venta Mature,Reputación,390,75,516
+Post Venta Mature,Anulación de Venta,2,1,4
+Post Venta Meli Pro,Reputación,69,9,79
+Post Venta Meli Pro,Anulación de Venta,1,1,2
+Post Venta Seller Dev,Reputación,899,167,1140
+Post Venta Seller Dev,Anulación de Venta,30,11,46
+Publicaciones Mature,PR - Técnica prohibida,76,8,96
+Publicaciones Mature,PR - Propiedad intelectual,60,10,76
+Publicaciones Mature,Gestión de Publicación,48,16,72
+Publicaciones Mature,Potenciar Ventas,37,9,54
+Publicaciones Mature,PR - Artículos prohibidos,15,1,16
+Publicaciones Mature,Calidad de foto,10,1,13
+Publicaciones Mature,Antes de publicar,5,3,8
+Publicaciones Mature,Denuncia de usuario,2,3,5
+Publicaciones Mature,Afiliados ML,3,0,3
+Publicaciones Mature,PR - Datos Personales,2,0,2
+Publicaciones Meli Pro,PR - Técnica prohibida,6,0,6
+Publicaciones Meli Pro,Gestión de Publicación,2,3,6
+Publicaciones Meli Pro,Potenciar Ventas,2,4,6
+Publicaciones Meli Pro,PR - Propiedad intelectual,3,0,3
+Publicaciones Meli Pro,Calidad de foto,2,0,2
+Publicaciones Meli Pro,PR - Artículos prohibidos,2,0,2
+Publicaciones Meli Pro,Antes de publicar,1,0,1
+Publicaciones Seller Dev,Afiliados ML,1362,180,1687
+Publicaciones Seller Dev,PR - Técnica prohibida,235,25,286
+Publicaciones Seller Dev,Gestión de Publicación,213,39,284
+Publicaciones Seller Dev,Antes de publicar,219,19,267
+Publicaciones Seller Dev,Potenciar Ventas,196,43,265
+Publicaciones Seller Dev,PR - Propiedad intelectual,198,25,235
+Publicaciones Seller Dev,PR - Artículos prohibidos,77,25,113
+Publicaciones Seller Dev,Denuncia de usuario,85,12,109
+Publicaciones Seller Dev,Calidad de foto,43,2,47
+Publicaciones Seller Dev,PR - Datos Personales,11,4,15
+Publicaciones Seller Dev,Asignación del Contáctanos - Prustomer,0,0,1

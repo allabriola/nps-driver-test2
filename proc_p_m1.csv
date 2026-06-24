@@ -1,0 +1,224 @@
+dim,driver,val,p,d,s
+P,CBT,CBT - ME Reputation,139,2,141
+P,CBT,CBT - Reputation,97,22,123
+P,CBT,CBT - Package journey,30,4,34
+P,CBT,CBT - Moderations,16,3,21
+P,CBT,CBT - Reverse,8,9,17
+P,CBT,"CBT - Dispatch, Sales and Listings",15,2,17
+P,CBT,CBT - Publication Management,7,2,9
+P,CBT,CBT - Boosters,7,1,8
+P,CBT,CBT - Operational Management,5,3,8
+P,CBT,CBT - Billing,3,2,5
+P,Experiencia Impositiva Mature,Emision de Nota Fiscal,20,6,30
+P,Experiencia Impositiva Mature,Facturaci�n,5,1,6
+P,Experiencia Impositiva Mature,Datos fiscales,1,0,2
+P,Experiencia Impositiva Meli Pro,Emision de Nota Fiscal,7,1,9
+P,Experiencia Impositiva Meli Pro,Facturaci�n,6,1,8
+P,Experiencia Impositiva Seller Dev,Emision de Nota Fiscal,227,60,316
+P,Experiencia Impositiva Seller Dev,Facturaci�n,120,41,181
+P,Experiencia Impositiva Seller Dev,Datos fiscales,35,7,47
+P,FBM-S Mature,FBM - Pre Inbound,33,9,47
+P,FBM-S Mature,FBM - Inventario,18,9,29
+P,FBM-S Mature,FBM - Retiro de Stock - Cx One,17,4,23
+P,FBM-S Mature,FBM - Post Inbound,16,5,21
+P,FBM-S Mature,FBM - Funcionalidades,5,0,5
+P,FBM-S Mature,FBM - Devoluciones,4,0,4
+P,FBM-S Meli Pro,FBM - Inventario,13,3,17
+P,FBM-S Meli Pro,FBM - Pre Inbound,13,1,15
+P,FBM-S Meli Pro,FBM - Devoluciones,6,3,10
+P,FBM-S Meli Pro,FBM - Retiro de Stock - Cx One,8,1,10
+P,FBM-S Meli Pro,FBM - Post Inbound,3,1,5
+P,FBM-S Meli Pro,FBM - Funcionalidades,3,0,3
+P,FBM-S Meli Pro,FBM - Outbound,2,0,2
+P,FBM-S Seller Dev,FBM - Pre Inbound,125,46,184
+P,FBM-S Seller Dev,FBM - Inventario,58,23,90
+P,FBM-S Seller Dev,FBM - Post Inbound,61,17,85
+P,FBM-S Seller Dev,FBM - Retiro de Stock - Cx One,34,7,47
+P,FBM-S Seller Dev,FBM - Funcionalidades,21,8,32
+P,FBM-S Seller Dev,FBM - Devoluciones,9,3,14
+P,FBM-S Seller Dev,FBM - Outbound,3,1,5
+P,FBM-S Seller Dev,Asignaci�n del Cont�ctanos FBM,1,0,1
+P,ME Vendedor Mature,Reputaci�n ME,428,74,524
+P,ME Vendedor Mature,Despacho Ventas y Publicaciones,244,64,330
+P,ME Vendedor Mature,Reversa,128,24,164
+P,ME Vendedor Mature,Gestiones Operativas,100,22,140
+P,ME Vendedor Mature,Viaje del paquete - Vendedor,50,6,66
+P,ME Vendedor Mature,Viaje del paquete - Comprador,2,6,8
+P,ME Vendedor Mature,Suspensiones ME,0,2,2
+P,ME Vendedor Meli Pro,Reputaci�n ME,104,8,116
+P,ME Vendedor Meli Pro,Reversa,61,5,71
+P,ME Vendedor Meli Pro,Despacho Ventas y Publicaciones,51,5,56
+P,ME Vendedor Meli Pro,Viaje del paquete - Vendedor,47,4,52
+P,ME Vendedor Meli Pro,Gestiones Operativas,22,3,27
+P,ME Vendedor Seller Dev,Despacho Ventas y Publicaciones,2056,406,2754
+P,ME Vendedor Seller Dev,Reputaci�n ME,1962,128,2226
+P,ME Vendedor Seller Dev,Gestiones Operativas,384,68,502
+P,ME Vendedor Seller Dev,Reversa,324,66,428
+P,ME Vendedor Seller Dev,Viaje del paquete - Vendedor,204,38,284
+P,ME Vendedor Seller Dev,Suspensiones ME,2,0,2
+P,Otros CV,KYC Services,330,16,373
+P,Otros CV,Asignaci�n del cont�ctanos Buyers Post,48,24,76
+P,Otros CV,Apelaciones retorno buyer XDDS,17,53,74
+P,Otros CV,Viaje del paquete - Comprador,51,16,70
+P,Otros CV,PNR - OP,18,8,26
+P,Otros CV,Reputaci�n ML Masivos,18,3,22
+P,Otros CV,Caja vac�a - Flex,11,6,20
+P,Otros CV,Post Compra Funcionalidades CBT,16,4,20
+P,Otros CV,Problemas de seguridad,7,11,19
+P,Otros CV,Problemas con acceso y factores,14,2,17
+P,Otros CV,Reputaci�n ME Masivos,6,9,16
+P,Otros CV,Apelaciones buyer XDDS,8,7,16
+P,Otros CV,KYC seg360,12,1,14
+P,Otros CV,CBT - Prohibited technique,11,1,12
+P,Otros CV,Configuraci�n de la cuenta,8,1,12
+P,Otros CV,CBT - Prohibited items,9,1,11
+P,Otros CV,Caja vac�a - MP,7,3,11
+P,Otros CV,Viaje del paquete - Vendedor,5,4,11
+P,Otros CV,Tarjetas de cr�dito - Solicitud y L�mites,6,3,9
+P,Otros CV,Transferencias de dinero,4,3,8
+P,Otros CV,Funcionalidades de tarjetas de Cr�dito,5,3,8
+P,Otros CV,CBT - Intellectual Property,6,1,7
+P,Otros CV,Restricciones,6,1,7
+P,Otros CV,Problemas con pagos - Cards,3,2,5
+P,Otros CV,Guardia Urbana,4,0,4
+P,Otros CV,Seguros transaccional - Payers,1,3,4
+P,Otros CV,Cancelaci�n de cuenta,3,1,4
+P,Otros CV,Despacho Ventas y Publicaciones Masivos,2,2,4
+P,Otros CV,Afiliados ML,1,3,4
+P,Otros CV,Acreditaci�n de Pagos - Payers,2,1,3
+P,Otros CV,Point - Como adquirir dispositivo,2,1,3
+P,Otros CV,Post Compra Funcionalidades Vendedor,0,2,3
+P,Otros CV,Chargeback Comprador,0,3,3
+P,Otros CV,Posterior a la Entrega,2,1,3
+P,Otros CV,Point - Log�stica,2,0,2
+P,Otros CV,Denuncia de usuario,1,1,2
+P,Otros CV,Datos fiscales,0,2,2
+P,Otros CV,Portabilidade salarial,2,0,2
+P,Otros CV,Consumer Credits,1,1,2
+P,Otros CV,Funcionalidades generales de MP - Payers,1,1,2
+P,Otros CV,Merchant Credits,0,2,2
+P,Otros CV,Conect Car,1,0,2
+P,Otros CV,Funcionalidades de Seguros - Payers,1,1,2
+P,Otros CV,Consumer Credits - Solicitud y L�mites,1,1,2
+P,Otros CV,Extractos y Reportes,2,0,2
+P,Otros CV,CBT - Photo quality,2,0,2
+P,Otros CV,PCF Vendedor - Masivo,0,2,2
+P,Otros CV,Merchant Credits - Solicitud y L�mites,2,0,2
+P,Otros CV,Tasas e Incentivos Sellers,2,0,2
+P,Otros CV,PNR - Default - Mediaciones,2,0,2
+P,Otros CV,MED - Cambios FBM,1,1,2
+P,Otros CV,Prevenci�n de Fraude - Vendedor - PNR C,0,1,1
+P,Otros CV,Reservas,1,0,1
+P,Otros CV,FBM - Inventario - Masivo,0,0,1
+P,Otros CV,Funcionalidades de tarjetas de d�bito,1,0,1
+P,Otros CV,Gesti�n de Publicaci�n,0,1,1
+P,Otros CV,CDB Investments,1,0,1
+P,Otros CV,Mi dinero,1,0,1
+P,Otros CV,PR - T�cnica prohibida Masivos,0,1,1
+P,Otros CV,Reembolso de la compra MP,1,0,1
+P,Otros CV,PF - PNR - Vendedor,1,0,1
+P,Otros CV,SHS - MED - Funcionalidades,1,0,1
+P,Otros CV,Point - Como usar dispositivo,0,1,1
+P,Otros CV,Post_Compra_Funcionalidades_MP_Comprador,0,1,1
+P,Otros CV,Asignaci�n del Contactanos Cuenta Marketplace,1,0,1
+P,Otros CV,Marketplace Kangu,0,1,1
+P,Otros CV,Consultas y Problemas con Pagos - Payers,1,0,1
+P,Otros CV,Asignaci�n del Cont�ctanos Masivos,0,1,1
+P,Otros CV,Post Compra Funcionalidades Comprador,1,0,1
+P,Otros CV,Relaciones entre cuentas,1,0,1
+P,Otros CV,Financiamiento de veh�culos - Prendarios,1,0,1
+P,Otros CV,Emision de Nota Fiscal,0,1,1
+P,Otros CV,Gestiones Operativas,1,0,1
+P,Otros CV,Calidad de foto Masivos,0,1,1
+P,Otros CV,Registro,1,0,1
+P,Otros CV,Funcionalidades de tarjetas de D�bito y Cr�dito,1,0,1
+P,Otros CV,Funcionalidades generales MP - Sellers,0,1,1
+P,Otros CV,Potenciar Ventas,1,0,1
+P,Otros CV,Funcionalidades de Online Payments - Sellers,1,0,1
+P,Otros CV,Facturaci�n,1,0,1
+P,Otros CV,Asignaci�n del cont�ctanos Mature Ventas,0,0,1
+P,Otros CV,Defectuoso - Super - Flex,1,0,1
+P,Otros CV,Asignaci�n del Contactanos MP Cards,0,1,1
+P,Otros CV,Jornada de la entrega,0,1,1
+P,PCF Vendedor Mature,Post Compra Funcionalidades Vendedor,213,64,310
+P,PCF Vendedor Meli Pro,Post Compra Funcionalidades Vendedor,223,37,293
+P,PCF Vendedor Seller Dev,Post Compra Funcionalidades Vendedor,356,106,512
+P,PDD DS&XD - Vendedor,Arrepentimiento - XD,82,72,178
+P,PDD DS&XD - Vendedor,Arrepentimiento - DS,82,55,153
+P,PDD DS&XD - Vendedor,Defectuoso - XD,51,69,132
+P,PDD DS&XD - Vendedor,Diferente - XD,64,55,129
+P,PDD DS&XD - Vendedor,Defectuoso - DS,60,51,123
+P,PDD DS&XD - Vendedor,Diferente - DS,42,27,79
+P,PDD DS&XD - Vendedor,Incompleto - XD,44,24,74
+P,PDD DS&XD - Vendedor,Incompleto - DS,42,22,67
+P,PDD DS&XD - Vendedor,Caja Vac�a - DS,16,7,24
+P,PDD DS&XD - Vendedor,Caja Vac�a - XD,9,4,13
+P,PDD DS&XD - Vendedor,Asignaci�n del Cont�ctanos PDD DS&XD,0,1,1
+P,PDD FBM - Vendedor,Defectuoso - FBM,38,35,82
+P,PDD FBM - Vendedor,Arrepentimiento - FBM,34,9,47
+P,PDD FBM - Vendedor,Asignaci�n del Cont�ctanos PDD FBM,14,19,36
+P,PDD FBM - Vendedor,Diferente - FBM,25,6,34
+P,PDD FBM - Vendedor,Incompleto - FBM,11,8,21
+P,PDD FBM - Vendedor,MED - PDD Low cost,10,4,16
+P,PDD FBM - Vendedor,Caja Vac�a - FBM,8,1,9
+P,PDD FBM - Vendedor,Arrepentimiento - Super - FBM,9,0,9
+P,PDD FBM - Vendedor,Incompleto - Super - FBM,4,1,6
+P,PDD FBM - Vendedor,Diferente - Super - FBM,4,0,4
+P,PDD FBM - Vendedor,Low Cost -  Dry,1,1,2
+P,PDD FBM - Vendedor,Defectuoso - Super - FBM,1,0,2
+P,PDD FBM - Vendedor,Apelaciones Buyer,0,1,1
+P,PDD Fotos - Vendedor,PDD - Fotos,31,23,59
+P,"PDD MP,FLEX & CBT - Vendedor",Arrepentimiento - MP,15,11,27
+P,"PDD MP,FLEX & CBT - Vendedor",Defectuoso - Flex,8,11,21
+P,"PDD MP,FLEX & CBT - Vendedor",Defectuoso - MP,8,4,16
+P,"PDD MP,FLEX & CBT - Vendedor",Arrepentimiento - Flex,7,3,13
+P,"PDD MP,FLEX & CBT - Vendedor",Incompleto - Flex,7,5,13
+P,"PDD MP,FLEX & CBT - Vendedor",Diferente - MP,3,5,9
+P,"PDD MP,FLEX & CBT - Vendedor",Diferente - Flex,3,2,5
+P,"PDD MP,FLEX & CBT - Vendedor",Asignaci�n del Cont�ctanos PDDMP Flex,3,0,3
+P,"PDD MP,FLEX & CBT - Vendedor",Incompleto - MP,1,0,2
+P,"PDD MP,FLEX & CBT - Vendedor",Defectuoso - CBT,1,0,1
+P,PNR ME - Vendedor,PNR - Previo al despacho XD DS,98,57,164
+P,PNR ME - Vendedor,PNR - Contradictorio XD DS FBM,17,10,31
+P,PNR ME - Vendedor,PNR - Low Cost,15,9,25
+P,PNR ME - Vendedor,PNR - Contradictorio - Flex,8,3,13
+P,PNR ME - Vendedor,PNR - Previo al Despacho - Flex,0,3,3
+P,PNR ME - Vendedor,PNR - Contradictorio - DS,1,0,1
+P,PNR ME - Vendedor,PNR - Contradictorio - XD,0,1,1
+P,PNR MP - Vendedor,PNR - MP,148,67,236
+P,Partners,Drivers,1689,280,2169
+P,Partners,Places Kangu,381,53,469
+P,Post Venta Mature,Reputaci�n,270,43,347
+P,Post Venta Mature,Anulaci�n de Venta,5,2,7
+P,Post Venta Meli Pro,Reputaci�n,333,13,356
+P,Post Venta Meli Pro,Anulaci�n de Venta,1,0,1
+P,Post Venta Seller Dev,Reputaci�n,752,106,933
+P,Post Venta Seller Dev,Anulaci�n de Venta,28,5,34
+P,Publicaciones Mature,Gesti�n de Publicaci�n,43,8,63
+P,Publicaciones Mature,PR - T�cnica prohibida,44,7,57
+P,Publicaciones Mature,PR - Propiedad intelectual,36,4,46
+P,Publicaciones Mature,Potenciar Ventas,20,6,32
+P,Publicaciones Mature,PR - Art�culos prohibidos,15,5,21
+P,Publicaciones Mature,Calidad de foto,9,1,10
+P,Publicaciones Mature,Antes de publicar,3,3,8
+P,Publicaciones Mature,Denuncia de usuario,4,1,5
+P,Publicaciones Mature,PR - Datos Personales,3,1,5
+P,Publicaciones Meli Pro,PR - T�cnica prohibida,93,5,100
+P,Publicaciones Meli Pro,Gesti�n de Publicaci�n,17,7,24
+P,Publicaciones Meli Pro,PR - Propiedad intelectual,17,0,18
+P,Publicaciones Meli Pro,Potenciar Ventas,9,3,14
+P,Publicaciones Meli Pro,Antes de publicar,3,0,5
+P,Publicaciones Meli Pro,PR - Art�culos prohibidos,2,0,2
+P,Publicaciones Meli Pro,Calidad de foto,2,0,2
+P,Publicaciones Meli Pro,PR - Datos Personales,1,0,1
+P,Publicaciones Meli Pro,Asignaci�n del Cont�ctanos - Prustomer,1,0,1
+P,Publicaciones Seller Dev,Afiliados ML,919,149,1163
+P,Publicaciones Seller Dev,Gesti�n de Publicaci�n,187,34,251
+P,Publicaciones Seller Dev,PR - T�cnica prohibida,188,27,237
+P,Publicaciones Seller Dev,PR - Propiedad intelectual,154,26,191
+P,Publicaciones Seller Dev,Antes de publicar,155,13,184
+P,Publicaciones Seller Dev,Potenciar Ventas,126,37,181
+P,Publicaciones Seller Dev,PR - Art�culos prohibidos,91,29,127
+P,Publicaciones Seller Dev,Denuncia de usuario,51,11,67
+P,Publicaciones Seller Dev,Calidad de foto,17,3,22
+P,Publicaciones Seller Dev,PR - Datos Personales,10,5,16

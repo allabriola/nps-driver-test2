@@ -1,9 +1,9 @@
 @echo off
 :: Atualiza os dashboards de NPS - roda diariamente via Task Scheduler
-:: Saida de log: C:\Users\allabriola\PROJETO CLAUDINHO\logs\atualizar_%data%.log
+:: Saida de log: C:\claudinho\logs\atualizar_%data%.log
 
 setlocal
-set PROJ=C:\Users\allabriola\PROJETO CLAUDINHO
+set PROJ=C:\claudinho
 set LOG_DIR=%PROJ%\logs
 for /f "tokens=1-3 delims=/ " %%a in ("%date%") do set LOG=%LOG_DIR%\atualizar_%%c%%b%%a.log
 
@@ -108,6 +108,17 @@ if "%DOW%"=="1" (
         echo [%date% %time%] Snapshot semanal: ERRO (codigo %errorlevel%) >> "%LOG%"
     )
 )
+
+:: 9 - NPS Longtail Sellers BR (Natasha) — atualiza diariamente
+echo [%date% %time%] Atualizando NPS Longtail Sellers BR... >> "%LOG%"
+cd /d "C:\Users\allabriola\Downloads"
+python update_nps_longtail.py >> "%LOG%" 2>&1
+if %errorlevel% equ 0 (
+    echo [%date% %time%] NPS Longtail: OK >> "%LOG%"
+) else (
+    echo [%date% %time%] NPS Longtail: ERRO (codigo %errorlevel%) >> "%LOG%"
+)
+cd /d "%PROJ%"
 
 echo [%date% %time%] === Atualizacao concluida === >> "%LOG%"
 endlocal

@@ -1,0 +1,35 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>
+<script>function updatePanes(){} var ddCharts={};</script>
+<script>function buildExecSummary(drv, period) {
+  var s = DD_SUMMARIES[drv];
+  var key = period === 'mes' ? 'mom' : 'wow';
+  var text = s && s[key] ? s[key] : (s && s['mom'] ? s['mom'] : null);
+  var title = period === 'mes' ? 'Resumo Executivo \u2014 MoM (Marco vs Abril 2026)' : 'Resumo Executivo \u2014 WoW';
+  if (!text) {
+    return '<div class="exec-summary"><div class="exec-summary-title">' + title + '</div>' +
+           '<div class="exec-na">Analise qualitativa nao disponivel para este driver.</div></div>';
+  }
+  var bullets = text.split('
+').filter(function(l){ return l.trim(); });
+  var html = '<div class="exec-summary"><div class="exec-summary-title">' + title + '</div>';
+  bullets.forEach(function(b) {
+    var clean = b.replace(/^[\u25b6\s]+/, '').trim();
+    if (!clean) return;
+    // Destaque da primeira parte antes do ':'
+    var colon = clean.indexOf(':');
+    if (colon > 0 && colon < 40) {
+      clean = '<strong>' + clean.substring(0, colon+1) + '</strong>' + clean.substring(colon+1);
+    }
+    html += '<div class="exec-bullet">\u25b6 ' + clean + '</div>';
+  });
+  html += '</div>';
+  return html;
+}
+</script>
+<script>
+var fns=["renderDD","buildWaterfall","buildBreakdownTable","sc_dd","shorten","buildExecSummary"];
+var ok=fns.filter(function(f){return typeof window[f]==='function';});
+var bad=fns.filter(function(f){return typeof window[f]!=='function';});
+document.write('<p style="font-family:monospace;font-size:12px">OK: '+ok.join(',')+' | FAIL: '+bad.join(',')+'</p>');
+</script>
+</body></html>

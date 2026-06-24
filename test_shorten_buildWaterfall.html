@@ -1,0 +1,55 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>
+<script>function updatePanes(){} var ddCharts={};</script>
+<script>function shorten(s, n) {
+  n = n || 11;
+  return s.length > n ? s.slice(0, n) + '...' : s;
+}
+function buildWaterfall(canvasId, startVal, endVal, startLabel, endLabel, drivers, yBase) {
+  var labels = [startLabel], floatData = [[yBase, startVal]],
+      bgColors = ['rgba(30,65,150,0.88)'], dlValues = [startVal.toFixed(1) + '%'];
+  var running = startVal;
+  drivers.forEach(function(d) {
+    labels.push(shorten(d.label));
+    floatData.push([running, running + d.v]);
+    bgColors.push(d.v >= 0 ? 'rgba(30,160,80,0.88)' : 'rgba(210,45,45,0.88)');
+    dlValues.push((d.v >= 0 ? '+' : '') + d.v.toFixed(2) + '%');
+    running += d.v;
+  });
+  labels.push(endLabel); floatData.push([yBase, endVal]);
+  bgColors.push('rgba(30,65,150,0.88)'); dlValues.push(endVal.toFixed(1) + '%');
+  var allVals = floatData.reduce(function(a,p){return a.concat([p[0],p[1]]);},[]);
+  var yMax = Math.max.apply(null, allVals) + 3;
+  new Chart(document.getElementById(canvasId), {
+    type: 'bar', plugins: [ChartDataLabels],
+    data: { labels: labels, datasets: [{
+      data: floatData, backgroundColor: bgColors,
+      borderWidth: 0, borderRadius: 2, barPercentage: 0.85, categoryPercentage: 0.9
+    }] },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {
+        legend: { display: false }, tooltip: { enabled: false },
+        datalabels: {
+          formatter: function(val,ctx){ return dlValues[ctx.dataIndex]; },
+          anchor: function(ctx){ var p=floatData[ctx.dataIndex]; return p[1]>=p[0]?'end':'start'; },
+          align:  function(ctx){ var p=floatData[ctx.dataIndex]; return p[1]>=p[0]?'top':'bottom'; },
+          font: { size: 9.5, weight: '600' }, color: '#333', padding: 2, clip: false
+        }
+      },
+      layout: { padding: { top: 28, bottom: 4 } },
+      scales: {
+        y: { min: yBase, max: yMax, display: false },
+        x: { ticks: { maxRotation: 60, minRotation: 45, font: { size: 9.5 }, color: '#555' },
+              grid: { display: false }, border: { display: false } }
+      }
+    }
+  });
+}
+</script>
+<script>
+var fns=["renderDD","buildWaterfall","buildBreakdownTable","sc_dd","shorten","buildExecSummary"];
+var ok=fns.filter(function(f){return typeof window[f]==='function';});
+var bad=fns.filter(function(f){return typeof window[f]!=='function';});
+document.write('<p style="font-family:monospace;font-size:12px">OK: '+ok.join(',')+' | FAIL: '+bad.join(',')+'</p>');
+</script>
+</body></html>

@@ -1,4 +1,4 @@
-import json, math
+﻿import json, math
 from collections import defaultdict
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -41,7 +41,7 @@ PROC_TMO = {
 }
 
 # ── Reps individuais ─────────────────────────────────────────────────
-with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_rep_data_me.json', encoding='utf-8') as f:
+with open(r'C:\claudinho\_rep_data_me.json', encoding='utf-8') as f:
     REPS_RAW = json.load(f)
 
 for r in REPS_RAW:
@@ -73,13 +73,13 @@ def _safe(num, den):
 
 def build_dset():
     # Carregar JSONs
-    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_nps_by_office.json', encoding='utf-8') as f:
+    with open(r'C:\claudinho\_nps_by_office.json', encoding='utf-8') as f:
         nps_raw = json.load(f)
-    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_tmo_by_office.json', encoding='utf-8') as f:
+    with open(r'C:\claudinho\_tmo_by_office.json', encoding='utf-8') as f:
         tmo_raw = json.load(f)
-    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_tdi_by_office.json', encoding='utf-8') as f:
+    with open(r'C:\claudinho\_tdi_by_office.json', encoding='utf-8') as f:
         tdi_raw = json.load(f)
-    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_rec_by_office.json', encoding='utf-8') as f:
+    with open(r'C:\claudinho\_rec_by_office.json', encoding='utf-8') as f:
         rec_raw = json.load(f)
 
     # Helper: filtrar por office e channel
@@ -404,7 +404,7 @@ def fmt_nps(v):
     return f'<span class="{cls}">{v:.1f}%</span>'
 
 def build_proc_data():
-    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_proc_tmo_by_office.json', encoding='utf-8') as f:
+    with open(r'C:\claudinho\_proc_tmo_by_office.json', encoding='utf-8') as f:
         raw = json.load(f)
 
     # Build PROC_DATA[office][channel][pid] = {'com': (tmo, casos), 'sem': (tmo, casos)}
@@ -456,7 +456,7 @@ PROC_DATA = build_proc_data()
 
 def build_proc_data_rep():
     """TMO por processo para modo 'Por Representante': treatment vs control."""
-    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_proc_tmo_rep.json', encoding='utf-8') as f:
+    with open(r'C:\claudinho\_proc_tmo_rep.json', encoding='utf-8') as f:
         raw = json.load(f)
     from collections import defaultdict
     acc = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: {'tmo_num':0.0,'casos':0}))))
@@ -496,7 +496,7 @@ PROC_DATA_REP = build_proc_data_rep()
 
 def build_rep_opc():
     """NPS por rep split por FLAG_CASE_COPILOT, para Opção A (treatment) e B (time completo)."""
-    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_rep_opc_nps.json', encoding='utf-8') as f:
+    with open(r'C:\claudinho\_rep_opc_nps.json', encoding='utf-8') as f:
         raw = json.load(f)
     # Mapear info dos reps (office, seniority, tl) do REPS_RAW (treatment)
     rep_info = {r['ldap']: {'office': r.get('office','—'), 'seniority': r.get('seniority',''),
@@ -580,13 +580,13 @@ def rep_rows():
 # ═══════════════════════════════════════════════════════════════════════
 
 def build_dset_opc():
-    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_opc_nps.json', encoding='utf-8') as f:
+    with open(r'C:\claudinho\_opc_nps.json', encoding='utf-8') as f:
         nps_raw = json.load(f)
-    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_opc_tmo.json', encoding='utf-8') as f:
+    with open(r'C:\claudinho\_opc_tmo.json', encoding='utf-8') as f:
         tmo_raw = json.load(f)
-    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_opc_tdi.json', encoding='utf-8') as f:
+    with open(r'C:\claudinho\_opc_tdi.json', encoding='utf-8') as f:
         tdi_raw = json.load(f)
-    with open(r'c:\Users\allabriola\PROJETO CLAUDINHO\_opc_rec.json', encoding='utf-8') as f:
+    with open(r'C:\claudinho\_opc_rec.json', encoding='utf-8') as f:
         rec_raw = json.load(f)
 
     def by_scope(rows, opcao):
@@ -1326,7 +1326,7 @@ TABS_CREATED['geral'] = true;
 </body>
 </html>'''
 
-out_path = r'c:\Users\allabriola\PROJETO CLAUDINHO\copiloto_analise_me.html'
+out_path = r'C:\claudinho\copiloto_analise_me.html'
 with open(out_path, 'w', encoding='utf-8') as f:
     f.write(html)
 print(f'Gerado: {out_path}  ({len(html)//1024} KB)')
