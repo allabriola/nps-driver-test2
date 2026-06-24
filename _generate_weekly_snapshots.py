@@ -88,8 +88,15 @@ for i, s1_lbl in enumerate(WEEK_LABELS):
         '27/abr': ('Abr', 'Mar', 'Abril 2026',    'Marco 2026'),
         '04/mai': ('Mai', 'Abr', 'Maio 2026',     'Abril 2026'),
         '11/mai': ('Mai', 'Abr', 'Maio 2026',     'Abril 2026'),
+        '18/mai': ('Mai', 'Abr', 'Maio 2026',     'Abril 2026'),
+        '25/mai': ('Mai', 'Abr', 'Maio 2026',     'Abril 2026'),
+        '01/jun': ('Jun', 'Mai', 'Junho 2026',    'Maio 2026'),
+        '08/jun': ('Jun', 'Mai', 'Junho 2026',    'Maio 2026'),
+        '15/jun': ('Jun', 'Mai', 'Junho 2026',    'Maio 2026'),
+        '22/jun': ('Jun', 'Mai', 'Junho 2026',    'Maio 2026'),
+        '29/jun': ('Jun', 'Mai', 'Junho 2026',    'Maio 2026'),
     }
-    m1_key, m2_key, m1_label, m2_label = MONTH_KEY.get(s1_lbl, ('Mai','Abr','Maio 2026','Abril 2026'))
+    m1_key, m2_key, m1_label, m2_label = MONTH_KEY.get(s1_lbl, ('Jun','Mai','Junho 2026','Maio 2026'))
     month_order = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']
     m1_idx = month_order.index(m1_key) if m1_key in month_order else 99
 
@@ -162,7 +169,7 @@ for i, s1_lbl in enumerate(WEEK_LABELS):
         mr_current = json.load(f)
 
     # Mapeia mês → prefixo para identificar semanas daquele mês
-    M_PREFIX = {'Jan':'jan','Fev':'fev','Mar':'mar','Abr':'abr','Mai':'mai'}
+    M_PREFIX = {'Jan':'jan','Fev':'fev','Mar':'mar','Abr':'abr','Mai':'mai','Jun':'jun','Jul':'jul','Ago':'ago','Set':'set','Out':'out','Nov':'nov','Dez':'dez'}
     m1_prefix = M_PREFIX.get(m1_key, m1_key.lower())
 
     mr_hist = {}
