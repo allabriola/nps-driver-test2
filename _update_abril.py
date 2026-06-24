@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Atualiza generate_html.py para fechamento de Abril 2026.
    S1=20/abr, S2=13/abr, M1=Abril, M2=Março."""

@@ -1,4 +1,4 @@
-﻿import sys, csv
+import sys, csv
 from collections import defaultdict
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 

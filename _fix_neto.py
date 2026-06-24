@@ -1,4 +1,4 @@
-﻿import re, shutil
+import re, shutil
 
 with open('C:/claudinho/reputacion_longtail_abr_mai_2026.html', encoding='utf-8') as f:
     html = f.read()

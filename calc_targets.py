@@ -1,4 +1,4 @@
-﻿import glob, openpyxl
+import glob, openpyxl
 
 f = glob.glob(r'C:/claudinho/*.xlsx')[0]
 wb = openpyxl.load_workbook(f, read_only=True, data_only=True)

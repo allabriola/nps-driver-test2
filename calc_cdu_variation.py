@@ -1,4 +1,4 @@
-﻿import sys
+import sys
 import csv
 import subprocess
 import json

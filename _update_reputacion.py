@@ -1,4 +1,4 @@
-﻿import csv, json, re, shutil
+import csv, json, re, shutil
 from datetime import datetime
 
 # ── Dados NPS (8 semanas) × 10 = % ──────────────────────────

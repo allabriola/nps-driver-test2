@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Injeta SECTION 2G (p_c_weekly/monthly) e 2H (p_o_weekly/monthly) em generate_html.py."""
 import collections

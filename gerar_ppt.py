@@ -1,4 +1,4 @@
-﻿import csv, json, io, os
+import csv, json, io, os
 from collections import defaultdict
 import matplotlib
 matplotlib.use('Agg')
