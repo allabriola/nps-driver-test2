@@ -81,6 +81,34 @@ tr:hover td{background:#fafbff;}
 .bar-fill{height:100%;background:var(--blue);border-radius:3px;}
 
 svg text{font-family:'Segoe UI',system-ui,sans-serif;}
+
+/* TABS */
+.tabs-nav{display:flex;gap:4px;padding:20px 40px 0;background:var(--dark);}
+.tab-btn{padding:9px 20px;border-radius:8px 8px 0 0;font-size:12px;font-weight:700;cursor:pointer;border:none;background:rgba(255,255,255,.1);color:#ccc;transition:background .15s,color .15s;}
+.tab-btn.active{background:#fff;color:var(--dark);}
+.tab-pane{display:none;}
+.tab-pane.active{display:block;}
+
+/* STATUS TAB */
+.status-group{margin-bottom:20px;}
+.status-group-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:6px 12px;border-radius:6px;margin-bottom:6px;display:inline-block;}
+.sg-not_delivered{background:#fdecea;color:var(--red);}
+.sg-ready_to_ship{background:#e8f0fe;color:#1a56b0;}
+.sg-shipped{background:#fff3ec;color:var(--orange);}
+.sg-pending{background:#f3f0ff;color:#6b21a8;}
+.sg-cancelled{background:#f5f5f5;color:#555;}
+.sg-delivered{background:#e6f7ee;color:var(--green);}
+.sg-handling{background:#fef9e7;color:#92610a;}
+.pct-bar{display:inline-block;vertical-align:middle;width:80px;height:6px;background:#ebebeb;border-radius:3px;margin-left:8px;overflow:hidden;}
+.pct-fill{height:100%;border-radius:3px;}
+.fill-not_delivered{background:var(--red);}
+.fill-ready_to_ship{background:var(--blue);}
+.fill-shipped{background:var(--orange);}
+.fill-pending{background:#9333ea;}
+.fill-cancelled{background:#888;}
+.fill-delivered{background:var(--green);}
+.fill-handling{background:#d97706;}
+.wa-highlight{background:#fffbea;border-left:3px solid var(--yellow);font-weight:700;}
 </style>
 </head>
 <body>
@@ -96,6 +124,12 @@ svg text{font-family:'Segoe UI',system-ui,sans-serif;}
   </div>
 </div>
 
+<div class="tabs-nav">
+  <button class="tab-btn active" onclick="switchTab('contatos')">Contatos</button>
+  <button class="tab-btn" onclick="switchTab('status')">Status &amp; Substatus</button>
+</div>
+
+<div class="tab-pane active" id="tab-contatos">
 <div class="container">
 
   <div class="section-title">Resumo geral</div>
@@ -298,9 +332,208 @@ svg text{font-family:'Segoe UI',system-ui,sans-serif;}
     Time BR_ME_Pre-Despacho_Offline sem registros no período.
   </div>
 
-</div>
+</div><!-- /container -->
+</div><!-- /tab-contatos -->
+
+<div class="tab-pane" id="tab-status">
+<div class="container">
+
+  <div class="section-title">Todos os status e substatus — Mai/2026 a Jun/2026</div>
+  <p class="info-note">Todos os envios que passaram pelo substatus <code>waiting_authority</code> no período, com todos os status/substatus que esses envios apresentaram ao longo da sua jornada.</p>
+
+  <div class="grid-3" style="margin-bottom:18px;">
+    <div class="kpi-card">
+      <div class="label">Combinações únicas</div>
+      <div class="value">48</div>
+      <div class="sub">status × substatus distintos</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Total de transições</div>
+      <div class="value">223.534</div>
+      <div class="sub">registros na tabela</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Envios rastreados</div>
+      <div class="value">28.777</div>
+      <div class="sub">com waiting_authority no período</div>
+    </div>
+  </div>
+
+  <!-- not_delivered -->
+  <div class="status-group">
+    <div class="status-group-label sg-not_delivered">not_delivered</div>
+    <div class="card">
+      <table>
+        <thead><tr><th style="text-align:left;">Substatus</th><th>Envios únicos</th><th>Transições</th><th style="text-align:left;">% dos envios</th></tr></thead>
+        <tbody id="tbl-not_delivered"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ready_to_ship -->
+  <div class="status-group">
+    <div class="status-group-label sg-ready_to_ship">ready_to_ship</div>
+    <div class="card">
+      <table>
+        <thead><tr><th style="text-align:left;">Substatus</th><th>Envios únicos</th><th>Transições</th><th style="text-align:left;">% dos envios</th></tr></thead>
+        <tbody id="tbl-ready_to_ship"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- shipped -->
+  <div class="status-group">
+    <div class="status-group-label sg-shipped">shipped</div>
+    <div class="card">
+      <table>
+        <thead><tr><th style="text-align:left;">Substatus</th><th>Envios únicos</th><th>Transições</th><th style="text-align:left;">% dos envios</th></tr></thead>
+        <tbody id="tbl-shipped"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- pending + outros -->
+  <div class="grid-2">
+    <div class="status-group" style="margin-bottom:0">
+      <div class="status-group-label sg-pending">pending</div>
+      <div class="card">
+        <table>
+          <thead><tr><th style="text-align:left;">Substatus</th><th>Envios únicos</th><th>Transições</th></tr></thead>
+          <tbody id="tbl-pending"></tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <div class="status-group" style="margin-bottom:14px">
+        <div class="status-group-label sg-cancelled">cancelled</div>
+        <div class="card">
+          <table>
+            <thead><tr><th style="text-align:left;">Substatus</th><th>Envios únicos</th><th>Transições</th></tr></thead>
+            <tbody id="tbl-cancelled"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="status-group" style="margin-bottom:14px">
+        <div class="status-group-label sg-delivered">delivered</div>
+        <div class="card">
+          <table>
+            <thead><tr><th style="text-align:left;">Substatus</th><th>Envios únicos</th><th>Transições</th></tr></thead>
+            <tbody id="tbl-delivered"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="status-group" style="margin-bottom:0">
+        <div class="status-group-label sg-handling">handling</div>
+        <div class="card">
+          <table>
+            <thead><tr><th style="text-align:left;">Substatus</th><th>Envios únicos</th><th>Transições</th></tr></thead>
+            <tbody id="tbl-handling"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container status -->
+</div><!-- /tab-status -->
 
 <script>
+// Tab switching
+function switchTab(name) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// Status/substatus data from BQ (qty_shipments, qty_transitions, status, substatus)
+const statusData = [
+  {s:'not_delivered', ss:'waiting_authority',            ships:28777, trans:29095},
+  {s:'not_delivered', ss:'returned_to_hub',              ships:18317, trans:18364},
+  {s:'not_delivered', ss:'returned',                     ships:16824, trans:16825},
+  {s:'not_delivered', ss:'returning_to_sender',          ships:13144, trans:13168},
+  {s:'not_delivered', ss:'returning_to_hub',             ships:12069, trans:12069},
+  {s:'not_delivered', ss:'confiscated',                  ships:3482,  trans:3608},
+  {s:'not_delivered', ss:'delayed',                      ships:792,   trans:792},
+  {s:'not_delivered', ss:'return_failed',                ships:322,   trans:322},
+  {s:'not_delivered', ss:'returning_to_warehouse',       ships:280,   trans:280},
+  {s:'not_delivered', ss:'returned_to_warehouse',        ships:188,   trans:372},
+  {s:'not_delivered', ss:'claimed_me',                   ships:62,    trans:62},
+  {s:'not_delivered', ss:'lost',                         ships:39,    trans:39},
+  {s:'not_delivered', ss:'damaged',                      ships:23,    trans:23},
+  {s:'not_delivered', ss:'shipment_stopped',             ships:12,    trans:12},
+  {s:'not_delivered', ss:'retained',                     ships:1,     trans:1},
+  {s:'not_delivered', ss:'picked_up_for_return',         ships:1,     trans:1},
+  {s:'not_delivered', ss:'fraudulent',                   ships:1,     trans:1},
+  {s:'ready_to_ship', ss:'ready_to_print',               ships:25998, trans:26004},
+  {s:'ready_to_ship', ss:'waiting_for_carrier_authorization', ships:25998, trans:26004},
+  {s:'ready_to_ship', ss:'invoice_pending',              ships:25887, trans:25888},
+  {s:'ready_to_ship', ss:'picked_up',                    ships:25192, trans:25198},
+  {s:'ready_to_ship', ss:'dropped_off',                  ships:14653, trans:14653},
+  {s:'ready_to_ship', ss:'printed',                      ships:14058, trans:14060},
+  {s:'ready_to_ship', ss:'ready_for_pickup',             ships:11941, trans:11941},
+  {s:'ready_to_ship', ss:'in_packing_list',              ships:499,   trans:499},
+  {s:'ready_to_ship', ss:'in_warehouse',                 ships:489,   trans:489},
+  {s:'ready_to_ship', ss:'on_hold',                      ships:17,    trans:17},
+  {s:'ready_to_ship', ss:'authorized_by_carrier',        ships:16,    trans:16},
+  {s:'ready_to_ship', ss:'in_hub',                       ships:4,     trans:4},
+  {s:'shipped',       ss:null,                           ships:9393,  trans:9393},
+  {s:'shipped',       ss:'out_for_delivery',             ships:396,   trans:409},
+  {s:'shipped',       ss:'stale',                        ships:208,   trans:208},
+  {s:'shipped',       ss:'claimed_me',                   ships:164,   trans:164},
+  {s:'shipped',       ss:'soon_deliver',                 ships:62,    trans:62},
+  {s:'shipped',       ss:'at_the_door',                  ships:51,    trans:51},
+  {s:'shipped',       ss:'receiver_absent',              ships:48,    trans:48},
+  {s:'shipped',       ss:'not_visited',                  ships:30,    trans:30},
+  {s:'shipped',       ss:'waiting_for_withdrawal',       ships:27,    trans:27},
+  {s:'shipped',       ss:'bad_address',                  ships:21,    trans:22},
+  {s:'shipped',       ss:'refused_delivery',             ships:19,    trans:19},
+  {s:'shipped',       ss:'on_hold',                      ships:8,     trans:15},
+  {s:'shipped',       ss:'awaiting_tax_documentation',   ships:7,     trans:7},
+  {s:'shipped',       ss:'operator_intervention',        ships:1,     trans:1},
+  {s:'pending',       ss:'buffered',                     ships:12452, trans:12453},
+  {s:'pending',       ss:'manufacturing',                ships:255,   trans:255},
+  {s:'cancelled',     ss:'empty_box',                    ships:26,    trans:56},
+  {s:'delivered',     ss:null,                           ships:9,     trans:9},
+  {s:'handling',      ss:'regenerating',                 ships:6,     trans:8},
+];
+
+const maxShips = 28777;
+
+function fmtN(n) { return n.toLocaleString('pt-BR'); }
+
+function buildStatusRows(status, hasPct) {
+  const rows = statusData.filter(d => d.s === status);
+  const tbody = document.getElementById('tbl-' + status);
+  if (!tbody) return;
+  rows.forEach(d => {
+    const pct = ((d.ships / maxShips) * 100).toFixed(1);
+    const isWA = d.ss === 'waiting_authority';
+    const ssLabel = d.ss || '<span style="color:#aaa;font-weight:400;font-style:italic;">—</span>';
+    let pctCol = '';
+    if (hasPct) {
+      pctCol = `<td style="text-align:left;">
+        <span style="font-size:11px;color:#666;">${pct}%</span>
+        <span class="pct-bar"><span class="pct-fill fill-${status}" style="width:${Math.min(pct,100)}%"></span></span>
+      </td>`;
+    }
+    tbody.innerHTML += `<tr class="${isWA ? 'wa-highlight' : ''}">
+      <td>${isWA ? '⭐ ' : ''}${ssLabel}</td>
+      <td>${fmtN(d.ships)}</td>
+      <td style="color:#aaa;">${fmtN(d.trans)}</td>
+      ${pctCol}
+    </tr>`;
+  });
+}
+
+buildStatusRows('not_delivered', true);
+buildStatusRows('ready_to_ship', true);
+buildStatusRows('shipped', true);
+buildStatusRows('pending', false);
+buildStatusRows('cancelled', false);
+buildStatusRows('delivered', false);
+buildStatusRows('handling', false);
+
 const topData = [
   [47031760873, 37, 16],
   [47006619013, 32, 3],
