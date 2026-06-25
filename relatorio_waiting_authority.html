@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contatos — Waiting Authority | BR_ME_Sellers_Longtail</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a18; padding: 2rem; }
@@ -20,9 +19,7 @@
   .metric-value { font-size: 24px; font-weight: 500; color: #1a1a18; }
   .metric-value.highlight { color: #d85a30; }
   .metric-sub { font-size: 11px; color: #888780; margin-top: 3px; }
-  .chart-wrap { position: relative; width: 100%; height: 240px; margin-bottom: 1.5rem; }
-  .chart-wrap-donut { position: relative; width: 100%; height: 200px; margin-bottom: 1.5rem; }
-  .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 12px; color: #5f5e5a; margin-bottom: .5rem; }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 12px; color: #5f5e5a; margin-bottom: .75rem; }
   .legend span { display: flex; align-items: center; gap: 5px; }
   .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
   hr { border: none; border-top: 0.5px solid #d3d1c7; margin: 1.5rem 0; }
@@ -40,8 +37,9 @@
   code { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; background: #f1efe8; padding: 1px 5px; border-radius: 4px; color: #3c3489; }
   .note { font-size: 12px; color: #888780; margin-top: 1rem; line-height: 1.6; }
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; }
+  svg text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
   @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } body { padding: 1rem; } .report { padding: 1.25rem; } }
-  @media print { body { background: #fff; padding: 0; } .report { border: none; box-shadow: none; } }
+  @media print { body { background: #fff; padding: 0; } .report { border: none; } }
 </style>
 </head>
 <body>
@@ -88,9 +86,68 @@
     <span><span class="legend-dot" style="background:#378ADD"></span>Maio/2026</span>
     <span><span class="legend-dot" style="background:#1D9E75"></span>Junho/2026</span>
   </div>
-  <div class="chart-wrap">
-    <canvas id="weekChart" role="img" aria-label="Gráfico de barras com evolução semanal de contatos">S18:5, S19:26, S20:112, S21:154, S22:227, S23:167, S24:167, S25:175, S26:139.</canvas>
-  </div>
+
+  <!-- Bar chart SVG -->
+  <svg viewBox="0 0 780 220" width="100%" style="display:block;margin-bottom:1.5rem" role="img" aria-label="Evolução semanal de contatos mai-jun 2026">
+    <title>Evolução semanal de contatos</title>
+    <defs>
+      <clipPath id="rnd"><rect width="100%" height="100%" rx="3"/></clipPath>
+    </defs>
+    <!-- grid lines -->
+    <line x1="50" y1="20" x2="770" y2="20" stroke="#e8e7e2" stroke-width="0.5"/>
+    <line x1="50" y1="60" x2="770" y2="60" stroke="#e8e7e2" stroke-width="0.5"/>
+    <line x1="50" y1="100" x2="770" y2="100" stroke="#e8e7e2" stroke-width="0.5"/>
+    <line x1="50" y1="140" x2="770" y2="140" stroke="#e8e7e2" stroke-width="0.5"/>
+    <line x1="50" y1="180" x2="770" y2="180" stroke="#e8e7e2" stroke-width="0.5"/>
+    <!-- y labels -->
+    <text x="44" y="23" text-anchor="end" font-size="10" fill="#888780">250</text>
+    <text x="44" y="63" text-anchor="end" font-size="10" fill="#888780">200</text>
+    <text x="44" y="103" text-anchor="end" font-size="10" fill="#888780">150</text>
+    <text x="44" y="143" text-anchor="end" font-size="10" fill="#888780">100</text>
+    <text x="44" y="183" text-anchor="end" font-size="10" fill="#888780">50</text>
+    <!-- baseline -->
+    <line x1="50" y1="183" x2="770" y2="183" stroke="#d3d1c7" stroke-width="0.5"/>
+
+    <!-- bars: max=250, scale: 1unit=0.64px, baseline y=183 -->
+    <!-- S18 Mai: 5 -->
+    <rect x="68"  y="180" width="44" height="3"   rx="2" fill="#378ADD"/>
+    <text x="90"  y="178" text-anchor="middle" font-size="10" fill="#5f5e5a">5</text>
+    <!-- S19 Mai: 26 -->
+    <rect x="148" y="166" width="44" height="17"  rx="2" fill="#378ADD"/>
+    <text x="170" y="163" text-anchor="middle" font-size="10" fill="#5f5e5a">26</text>
+    <!-- S20 Mai: 112 -->
+    <rect x="228" y="111" width="44" height="72"  rx="2" fill="#378ADD"/>
+    <text x="250" y="108" text-anchor="middle" font-size="10" fill="#5f5e5a">112</text>
+    <!-- S21 Mai: 154 -->
+    <rect x="308" y="84"  width="44" height="99"  rx="2" fill="#378ADD"/>
+    <text x="330" y="81"  text-anchor="middle" font-size="10" fill="#5f5e5a">154</text>
+    <!-- S22 Mai: 227 -->
+    <rect x="388" y="38"  width="44" height="145" rx="2" fill="#378ADD"/>
+    <text x="410" y="35"  text-anchor="middle" font-size="10" fill="#5f5e5a">227</text>
+    <!-- S23 Jun: 167 -->
+    <rect x="468" y="76"  width="44" height="107" rx="2" fill="#1D9E75"/>
+    <text x="490" y="73"  text-anchor="middle" font-size="10" fill="#5f5e5a">167</text>
+    <!-- S24 Jun: 167 -->
+    <rect x="548" y="76"  width="44" height="107" rx="2" fill="#1D9E75"/>
+    <text x="570" y="73"  text-anchor="middle" font-size="10" fill="#5f5e5a">167</text>
+    <!-- S25 Jun: 175 -->
+    <rect x="628" y="71"  width="44" height="112" rx="2" fill="#1D9E75"/>
+    <text x="650" y="68"  text-anchor="middle" font-size="10" fill="#5f5e5a">175</text>
+    <!-- S26 Jun: 139 -->
+    <rect x="708" y="94"  width="44" height="89"  rx="2" fill="#1D9E75"/>
+    <text x="730" y="91"  text-anchor="middle" font-size="10" fill="#5f5e5a">139</text>
+
+    <!-- x labels -->
+    <text x="90"  y="198" text-anchor="middle" font-size="10" fill="#888780">S18 Mai</text>
+    <text x="170" y="198" text-anchor="middle" font-size="10" fill="#888780">S19 Mai</text>
+    <text x="250" y="198" text-anchor="middle" font-size="10" fill="#888780">S20 Mai</text>
+    <text x="330" y="198" text-anchor="middle" font-size="10" fill="#888780">S21 Mai</text>
+    <text x="410" y="198" text-anchor="middle" font-size="10" fill="#888780">S22 Mai</text>
+    <text x="490" y="198" text-anchor="middle" font-size="10" fill="#888780">S23 Jun</text>
+    <text x="570" y="198" text-anchor="middle" font-size="10" fill="#888780">S24 Jun</text>
+    <text x="650" y="198" text-anchor="middle" font-size="10" fill="#888780">S25 Jun</text>
+    <text x="730" y="198" text-anchor="middle" font-size="10" fill="#888780">S26 Jun</text>
+  </svg>
 
   <div class="metrics" style="max-width: 400px;">
     <div class="metric">
@@ -124,10 +181,32 @@
       </div>
     </div>
     <div>
-      <div class="section-title">&nbsp;</div>
-      <div class="chart-wrap-donut">
-        <canvas id="recontactChart" role="img" aria-label="Gráfico de rosca: 66.3% sem recontato, 33.7% com recontato">Sem recontato: 336 (66.3%). Com recontato: 171 (33.7%).</canvas>
-      </div>
+      <!-- Donut chart SVG -->
+      <svg viewBox="0 0 200 180" width="100%" style="display:block" role="img" aria-label="Gráfico de rosca: 66.3% sem recontato, 33.7% com recontato">
+        <title>Taxa de recontato</title>
+        <!-- total = 507, sem=336 (66.3%), com=171 (33.7%) -->
+        <!-- circumference of r=60: 376.99 -->
+        <!-- sem: 376.99 * 0.663 = 249.95 -->
+        <!-- com: 376.99 * 0.337 = 127.04 -->
+        <!-- sem recontato: azul, starts at -90deg (top) -->
+        <circle cx="100" cy="90" r="60" fill="none" stroke="#85B7EB" stroke-width="26"
+          stroke-dasharray="249.95 376.99"
+          stroke-dashoffset="94.25"
+          transform="rotate(-90 100 90)"/>
+        <!-- com recontato: coral -->
+        <circle cx="100" cy="90" r="60" fill="none" stroke="#D85A30" stroke-width="26"
+          stroke-dasharray="127.04 376.99"
+          stroke-dashoffset="-155.70"
+          transform="rotate(-90 100 90)"/>
+        <!-- center label -->
+        <text x="100" y="85" text-anchor="middle" font-size="20" font-weight="500" fill="#1a1a18">33,7%</text>
+        <text x="100" y="101" text-anchor="middle" font-size="10" fill="#5f5e5a">recontato</text>
+        <!-- legend -->
+        <rect x="18" y="162" width="10" height="10" rx="2" fill="#85B7EB"/>
+        <text x="32" y="171" font-size="10" fill="#5f5e5a">Sem recontato (66,3%)</text>
+        <rect x="18" y="150" width="10" height="10" rx="2" fill="#D85A30"/>
+        <text x="32" y="159" font-size="10" fill="#5f5e5a">Com recontato (33,7%)</text>
+      </svg>
     </div>
   </div>
 
@@ -186,55 +265,6 @@ topData.forEach(([id, cont, casos], i) => {
     <td>${cont} ${tag} <span class="bar-wrap"><span class="bar-fill" style="width:${pct}%"></span></span></td>
     <td style="color:#5f5e5a">${casos}</td>
   </tr>`;
-});
-
-new Chart(document.getElementById('weekChart'), {
-  type: 'bar',
-  data: {
-    labels: ['S18 Mai','S19 Mai','S20 Mai','S21 Mai','S22 Mai','S23 Jun','S24 Jun','S25 Jun','S26 Jun'],
-    datasets: [{
-      data: [5, 26, 112, 154, 227, 167, 167, 175, 139],
-      backgroundColor: ['#378ADD','#378ADD','#378ADD','#378ADD','#378ADD','#1D9E75','#1D9E75','#1D9E75','#1D9E75'],
-      borderRadius: 4,
-      borderSkipped: false
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y + ' contatos' } }
-    },
-    scales: {
-      x: { ticks: { color: '#888780', font: { size: 11 }, autoSkip: false }, grid: { display: false } },
-      y: { ticks: { color: '#888780', font: { size: 11 } }, grid: { color: 'rgba(0,0,0,0.05)' } }
-    }
-  }
-});
-
-new Chart(document.getElementById('recontactChart'), {
-  type: 'doughnut',
-  data: {
-    labels: ['Sem recontato (66,3%)', 'Com recontato (33,7%)'],
-    datasets: [{
-      data: [336, 171],
-      backgroundColor: ['#85B7EB', '#D85A30'],
-      borderWidth: 0
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: true,
-        position: 'bottom',
-        labels: { color: '#5f5e5a', font: { size: 12 }, boxWidth: 12, boxHeight: 12, padding: 16 }
-      }
-    },
-    cutout: '60%'
-  }
 });
 </script>
 </body>
