@@ -2,223 +2,301 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contatos — Waiting Authority | BR_ME_Sellers_Longtail</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Contatos Waiting Authority — BR_ME_Sellers_Longtail</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a18; padding: 2rem; }
-  .report { max-width: 860px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 2rem 2.5rem; border: 0.5px solid #d3d1c7; }
-  .header { margin-bottom: 1.75rem; border-bottom: 0.5px solid #d3d1c7; padding-bottom: 1.25rem; }
-  .header h1 { font-size: 20px; font-weight: 500; color: #1a1a18; }
-  .header p { font-size: 13px; color: #5f5e5a; margin-top: 5px; }
-  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 6px; background: #e1f5ee; color: #0f6e56; margin-left: 8px; vertical-align: middle; font-weight: 500; }
-  .section-title { font-size: 12px; font-weight: 500; color: #888780; text-transform: uppercase; letter-spacing: .05em; margin: 1.75rem 0 .75rem; }
-  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
-  .metric { background: #f5f5f3; border-radius: 8px; padding: .875rem 1rem; }
-  .metric-label { font-size: 12px; color: #5f5e5a; margin-bottom: 4px; }
-  .metric-value { font-size: 24px; font-weight: 500; color: #1a1a18; }
-  .metric-value.highlight { color: #d85a30; }
-  .metric-sub { font-size: 11px; color: #888780; margin-top: 3px; }
-  .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 12px; color: #5f5e5a; margin-bottom: .75rem; }
-  .legend span { display: flex; align-items: center; gap: 5px; }
-  .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
-  hr { border: none; border-top: 0.5px solid #d3d1c7; margin: 1.5rem 0; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { text-align: left; font-weight: 500; font-size: 12px; color: #5f5e5a; padding: 6px 10px; border-bottom: 0.5px solid #d3d1c7; }
-  td { padding: 7px 10px; border-bottom: 0.5px solid #e8e7e2; color: #1a1a18; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: #fafaf8; }
-  .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 6px; font-weight: 500; }
-  .tag-high { background: #faece7; color: #993c1d; }
-  .tag-mid  { background: #faeeda; color: #854f0b; }
-  .tag-low  { background: #eaf3de; color: #3b6d11; }
-  .bar-wrap { display: inline-block; vertical-align: middle; width: 80px; height: 6px; background: #ebebeb; border-radius: 3px; margin-left: 8px; overflow: hidden; }
-  .bar-fill { height: 100%; background: #378add; border-radius: 3px; }
-  code { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; background: #f1efe8; padding: 1px 5px; border-radius: 4px; color: #3c3489; }
-  .note { font-size: 12px; color: #888780; margin-top: 1rem; line-height: 1.6; }
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; }
-  svg text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } body { padding: 1rem; } .report { padding: 1.25rem; } }
-  @media print { body { background: #fff; padding: 0; } .report { border: none; } }
+:root{
+  --yellow:#FFE600;--dark:#1a1a2e;--gray:#f5f5f5;--border:#e0e0e0;
+  --green:#00a650;--red:#e84142;--blue:#3483fa;--orange:#ff7733;
+  --text:#333;
+  --light-green:#e6f7ee;--light-red:#fdecea;--light-orange:#fff3ec;--light-blue:#e8f0fe;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:var(--text);font-size:14px;}
+
+.header{background:var(--dark);color:#fff;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.header h1{font-size:19px;font-weight:800;letter-spacing:-.3px;}
+.header p{font-size:11px;color:#aaa;margin-top:3px;}
+.header-badges{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.hbadge{background:var(--yellow);color:#000;font-weight:700;font-size:11px;padding:5px 12px;border-radius:20px;}
+.hbadge-gray{background:#444;color:#fff;font-weight:700;font-size:11px;padding:5px 12px;border-radius:20px;}
+
+.container{max-width:1100px;margin:0 auto;padding:24px 24px 60px;}
+
+.section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin:24px 0 10px;border-left:3px solid var(--yellow);padding-left:10px;}
+
+.grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
+@media(max-width:900px){.grid-5{grid-template-columns:1fr 1fr 1fr;}.grid-2,.grid-3{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.grid-5,.grid-2,.grid-3{grid-template-columns:1fr;}}
+
+.kpi-card{background:#fff;border-radius:10px;padding:14px 16px;border:1px solid var(--border);}
+.kpi-card .label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#999;margin-bottom:4px;}
+.kpi-card .value{font-size:26px;font-weight:800;line-height:1;color:var(--dark);}
+.kpi-card .value.red{color:var(--red);}
+.kpi-card .sub{font-size:11px;color:#888;margin-top:4px;}
+
+.card{background:#fff;border-radius:10px;border:1px solid var(--border);overflow:hidden;margin-bottom:14px;}
+.card-header{padding:12px 16px;border-bottom:1px solid var(--border);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.badge{display:inline-block;background:var(--gray);color:#666;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+
+table{width:100%;border-collapse:collapse;}
+th{background:#fafafa;padding:8px 12px;text-align:right;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#888;border-bottom:1px solid var(--border);}
+th:first-child{text-align:left;}
+td{padding:8px 12px;text-align:right;border-bottom:1px solid #f5f5f5;font-size:12px;}
+td:first-child{text-align:left;font-weight:600;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#fafbff;}
+
+.chip{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;}
+.chip-pos{background:var(--light-green);color:var(--green);}
+.chip-neg{background:var(--light-red);color:var(--red);}
+.chip-warn{background:var(--light-orange);color:var(--orange);}
+
+.chart-wrap{background:#fff;border-radius:10px;border:1px solid var(--border);padding:18px 20px;margin-bottom:14px;}
+.chart-title{font-size:13px;font-weight:700;color:var(--dark);margin-bottom:3px;}
+.chart-sub{font-size:11px;color:#888;margin-bottom:14px;}
+.chart-legend{display:flex;gap:16px;font-size:11px;color:#666;margin-bottom:14px;flex-wrap:wrap;}
+.chart-legend span{display:flex;align-items:center;gap:5px;}
+.chart-legend i{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+
+.hl-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+@media(max-width:700px){.hl-grid{grid-template-columns:1fr;}}
+.hl{padding:14px 16px;border-radius:8px;}
+.hl-neg{background:var(--light-red);border-left:4px solid var(--red);}
+.hl-warn{background:var(--light-orange);border-left:4px solid var(--orange);}
+.hl-info{background:var(--light-blue);border-left:4px solid var(--blue);}
+.hl-pos{background:var(--light-green);border-left:4px solid var(--green);}
+.hl-title{font-weight:700;font-size:12px;margin-bottom:6px;}
+.hl-neg .hl-title{color:var(--red);}
+.hl-warn .hl-title{color:var(--orange);}
+.hl-info .hl-title{color:var(--blue);}
+.hl-pos .hl-title{color:var(--green);}
+.hl-text{font-size:12px;color:#333;line-height:1.6;}
+
+.info-note{font-size:11px;color:#777;background:#fafafa;border-radius:6px;border-left:3px solid var(--yellow);padding:7px 11px;margin-bottom:12px;}
+
+.bar-wrap{display:inline-block;vertical-align:middle;width:70px;height:5px;background:#ebebeb;border-radius:3px;margin-left:8px;overflow:hidden;}
+.bar-fill{height:100%;background:var(--blue);border-radius:3px;}
+
+svg text{font-family:'Segoe UI',system-ui,sans-serif;}
 </style>
 </head>
 <body>
-<div class="report">
 
-  <div class="header">
-    <h1>Contatos — envios com substatus <code>waiting_authority</code> <span class="badge">BR_ME_Sellers_Longtail</span></h1>
+<div class="header">
+  <div>
+    <h1>Contatos — Envios com substatus <code style="font-size:15px;background:rgba(255,255,255,.1);padding:2px 8px;border-radius:4px;font-family:monospace;">waiting_authority</code></h1>
     <p>Período: Maio/2026 – Junho/2026 &nbsp;·&nbsp; Contatos de saída (outgoing) &nbsp;·&nbsp; Gerado em 25/06/2026</p>
   </div>
+  <div class="header-badges">
+    <span class="hbadge">BR_ME_Sellers_Longtail</span>
+    <span class="hbadge-gray">BR — Shipping</span>
+  </div>
+</div>
+
+<div class="container">
 
   <div class="section-title">Resumo geral</div>
-  <div class="metrics">
-    <div class="metric">
-      <div class="metric-label">Total de contatos</div>
-      <div class="metric-value">1.172</div>
-      <div class="metric-sub">mai + jun 2026</div>
+  <div class="grid-5">
+    <div class="kpi-card">
+      <div class="label">Total de contatos</div>
+      <div class="value">1.172</div>
+      <div class="sub">Mai + Jun 2026</div>
     </div>
-    <div class="metric">
-      <div class="metric-label">Envios únicos</div>
-      <div class="metric-value">507</div>
-      <div class="metric-sub">IDs distintos</div>
+    <div class="kpi-card">
+      <div class="label">Envios únicos</div>
+      <div class="value">507</div>
+      <div class="sub">IDs distintos</div>
     </div>
-    <div class="metric">
-      <div class="metric-label">Taxa de recontato</div>
-      <div class="metric-value highlight">33,7%</div>
-      <div class="metric-sub">171 envios recontactaram</div>
+    <div class="kpi-card">
+      <div class="label">Taxa de recontato</div>
+      <div class="value red">33,7%</div>
+      <div class="sub">171 envios recontactaram</div>
     </div>
-    <div class="metric">
-      <div class="metric-label">Média / envio</div>
-      <div class="metric-value">2,3</div>
-      <div class="metric-sub">contatos por ID</div>
+    <div class="kpi-card">
+      <div class="label">Média / envio</div>
+      <div class="value">2,3</div>
+      <div class="sub">contatos por ID</div>
     </div>
-    <div class="metric">
-      <div class="metric-label">Maior volume</div>
-      <div class="metric-value">37</div>
-      <div class="metric-sub">contatos num único ID</div>
+    <div class="kpi-card">
+      <div class="label">Maior volume</div>
+      <div class="value">37</div>
+      <div class="sub">contatos num único ID</div>
     </div>
   </div>
 
-  <hr>
+  <div class="hl-grid">
+    <div class="hl hl-warn">
+      <div class="hl-title">Crescimento acelerado em maio</div>
+      <div class="hl-text">Volume saltou de 5 contatos (S18) para 227 (S22) — crescimento de <strong>45x</strong> em 4 semanas.</div>
+    </div>
+    <div class="hl hl-neg">
+      <div class="hl-title">Alta taxa de recontato</div>
+      <div class="hl-text"><strong>1 em cada 3 envios</strong> gerou mais de um contato no período, indicando resolução incompleta no primeiro atendimento.</div>
+    </div>
+    <div class="hl hl-info">
+      <div class="hl-title">Estabilização em junho</div>
+      <div class="hl-text">Após o pico em S22, o volume se estabilizou entre 139–175 contatos/semana nas semanas 23–26.</div>
+    </div>
+    <div class="hl hl-pos">
+      <div class="hl-title">Pre-Despacho_Offline sem registros</div>
+      <div class="hl-text">O time <strong>BR_ME_Pre-Despacho_Offline</strong> não apresentou contatos com envios neste substatus no período.</div>
+    </div>
+  </div>
 
   <div class="section-title">Evolução semanal de contatos</div>
-  <div class="legend">
-    <span><span class="legend-dot" style="background:#378ADD"></span>Maio/2026</span>
-    <span><span class="legend-dot" style="background:#1D9E75"></span>Junho/2026</span>
+  <div class="chart-wrap">
+    <div class="chart-title">Contatos outgoing por semana</div>
+    <div class="chart-sub">BR_ME_Sellers_Longtail · substatus waiting_authority</div>
+    <div class="chart-legend">
+      <span><i style="background:#3483fa"></i>Maio/2026</span>
+      <span><i style="background:#00a650"></i>Junho/2026</span>
+    </div>
+    <svg viewBox="0 0 780 210" width="100%" role="img" aria-label="Evolução semanal de contatos mai-jun 2026">
+      <title>Evolução semanal de contatos</title>
+      <line x1="50" y1="15"  x2="770" y2="15"  stroke="#f0f0f0" stroke-width="1"/>
+      <line x1="50" y1="55"  x2="770" y2="55"  stroke="#f0f0f0" stroke-width="1"/>
+      <line x1="50" y1="95"  x2="770" y2="95"  stroke="#f0f0f0" stroke-width="1"/>
+      <line x1="50" y1="135" x2="770" y2="135" stroke="#f0f0f0" stroke-width="1"/>
+      <line x1="50" y1="175" x2="770" y2="175" stroke="#e0e0e0" stroke-width="1"/>
+
+      <text x="44" y="18"  text-anchor="end" font-size="10" fill="#aaa">250</text>
+      <text x="44" y="58"  text-anchor="end" font-size="10" fill="#aaa">200</text>
+      <text x="44" y="98"  text-anchor="end" font-size="10" fill="#aaa">150</text>
+      <text x="44" y="138" text-anchor="end" font-size="10" fill="#aaa">100</text>
+      <text x="44" y="178" text-anchor="end" font-size="10" fill="#aaa">50</text>
+
+      <!-- S18:5 -->
+      <rect x="68"  y="172" width="44" height="3"   rx="2" fill="#3483fa"/>
+      <text x="90"  y="169" text-anchor="middle" font-size="10" fill="#666">5</text>
+      <!-- S19:26 -->
+      <rect x="148" y="159" width="44" height="16"  rx="2" fill="#3483fa"/>
+      <text x="170" y="156" text-anchor="middle" font-size="10" fill="#666">26</text>
+      <!-- S20:112 -->
+      <rect x="228" y="104" width="44" height="71"  rx="2" fill="#3483fa"/>
+      <text x="250" y="101" text-anchor="middle" font-size="10" fill="#666">112</text>
+      <!-- S21:154 -->
+      <rect x="308" y="77"  width="44" height="98"  rx="2" fill="#3483fa"/>
+      <text x="330" y="74"  text-anchor="middle" font-size="10" fill="#666">154</text>
+      <!-- S22:227 -->
+      <rect x="388" y="32"  width="44" height="143" rx="2" fill="#3483fa"/>
+      <text x="410" y="29"  text-anchor="middle" font-size="10" fill="#666">227</text>
+      <!-- S23:167 -->
+      <rect x="468" y="69"  width="44" height="106" rx="2" fill="#00a650"/>
+      <text x="490" y="66"  text-anchor="middle" font-size="10" fill="#666">167</text>
+      <!-- S24:167 -->
+      <rect x="548" y="69"  width="44" height="106" rx="2" fill="#00a650"/>
+      <text x="570" y="66"  text-anchor="middle" font-size="10" fill="#666">167</text>
+      <!-- S25:175 -->
+      <rect x="628" y="64"  width="44" height="111" rx="2" fill="#00a650"/>
+      <text x="650" y="61"  text-anchor="middle" font-size="10" fill="#666">175</text>
+      <!-- S26:139 -->
+      <rect x="708" y="87"  width="44" height="88"  rx="2" fill="#00a650"/>
+      <text x="730" y="84"  text-anchor="middle" font-size="10" fill="#666">139</text>
+
+      <text x="90"  y="192" text-anchor="middle" font-size="10" fill="#888">S18 Mai</text>
+      <text x="170" y="192" text-anchor="middle" font-size="10" fill="#888">S19 Mai</text>
+      <text x="250" y="192" text-anchor="middle" font-size="10" fill="#888">S20 Mai</text>
+      <text x="330" y="192" text-anchor="middle" font-size="10" fill="#888">S21 Mai</text>
+      <text x="410" y="192" text-anchor="middle" font-size="10" fill="#888">S22 Mai</text>
+      <text x="490" y="192" text-anchor="middle" font-size="10" fill="#888">S23 Jun</text>
+      <text x="570" y="192" text-anchor="middle" font-size="10" fill="#888">S24 Jun</text>
+      <text x="650" y="192" text-anchor="middle" font-size="10" fill="#888">S25 Jun</text>
+      <text x="730" y="192" text-anchor="middle" font-size="10" fill="#888">S26 Jun</text>
+    </svg>
   </div>
 
-  <!-- Bar chart SVG -->
-  <svg viewBox="0 0 780 220" width="100%" style="display:block;margin-bottom:1.5rem" role="img" aria-label="Evolução semanal de contatos mai-jun 2026">
-    <title>Evolução semanal de contatos</title>
-    <defs>
-      <clipPath id="rnd"><rect width="100%" height="100%" rx="3"/></clipPath>
-    </defs>
-    <!-- grid lines -->
-    <line x1="50" y1="20" x2="770" y2="20" stroke="#e8e7e2" stroke-width="0.5"/>
-    <line x1="50" y1="60" x2="770" y2="60" stroke="#e8e7e2" stroke-width="0.5"/>
-    <line x1="50" y1="100" x2="770" y2="100" stroke="#e8e7e2" stroke-width="0.5"/>
-    <line x1="50" y1="140" x2="770" y2="140" stroke="#e8e7e2" stroke-width="0.5"/>
-    <line x1="50" y1="180" x2="770" y2="180" stroke="#e8e7e2" stroke-width="0.5"/>
-    <!-- y labels -->
-    <text x="44" y="23" text-anchor="end" font-size="10" fill="#888780">250</text>
-    <text x="44" y="63" text-anchor="end" font-size="10" fill="#888780">200</text>
-    <text x="44" y="103" text-anchor="end" font-size="10" fill="#888780">150</text>
-    <text x="44" y="143" text-anchor="end" font-size="10" fill="#888780">100</text>
-    <text x="44" y="183" text-anchor="end" font-size="10" fill="#888780">50</text>
-    <!-- baseline -->
-    <line x1="50" y1="183" x2="770" y2="183" stroke="#d3d1c7" stroke-width="0.5"/>
-
-    <!-- bars: max=250, scale: 1unit=0.64px, baseline y=183 -->
-    <!-- S18 Mai: 5 -->
-    <rect x="68"  y="180" width="44" height="3"   rx="2" fill="#378ADD"/>
-    <text x="90"  y="178" text-anchor="middle" font-size="10" fill="#5f5e5a">5</text>
-    <!-- S19 Mai: 26 -->
-    <rect x="148" y="166" width="44" height="17"  rx="2" fill="#378ADD"/>
-    <text x="170" y="163" text-anchor="middle" font-size="10" fill="#5f5e5a">26</text>
-    <!-- S20 Mai: 112 -->
-    <rect x="228" y="111" width="44" height="72"  rx="2" fill="#378ADD"/>
-    <text x="250" y="108" text-anchor="middle" font-size="10" fill="#5f5e5a">112</text>
-    <!-- S21 Mai: 154 -->
-    <rect x="308" y="84"  width="44" height="99"  rx="2" fill="#378ADD"/>
-    <text x="330" y="81"  text-anchor="middle" font-size="10" fill="#5f5e5a">154</text>
-    <!-- S22 Mai: 227 -->
-    <rect x="388" y="38"  width="44" height="145" rx="2" fill="#378ADD"/>
-    <text x="410" y="35"  text-anchor="middle" font-size="10" fill="#5f5e5a">227</text>
-    <!-- S23 Jun: 167 -->
-    <rect x="468" y="76"  width="44" height="107" rx="2" fill="#1D9E75"/>
-    <text x="490" y="73"  text-anchor="middle" font-size="10" fill="#5f5e5a">167</text>
-    <!-- S24 Jun: 167 -->
-    <rect x="548" y="76"  width="44" height="107" rx="2" fill="#1D9E75"/>
-    <text x="570" y="73"  text-anchor="middle" font-size="10" fill="#5f5e5a">167</text>
-    <!-- S25 Jun: 175 -->
-    <rect x="628" y="71"  width="44" height="112" rx="2" fill="#1D9E75"/>
-    <text x="650" y="68"  text-anchor="middle" font-size="10" fill="#5f5e5a">175</text>
-    <!-- S26 Jun: 139 -->
-    <rect x="708" y="94"  width="44" height="89"  rx="2" fill="#1D9E75"/>
-    <text x="730" y="91"  text-anchor="middle" font-size="10" fill="#5f5e5a">139</text>
-
-    <!-- x labels -->
-    <text x="90"  y="198" text-anchor="middle" font-size="10" fill="#888780">S18 Mai</text>
-    <text x="170" y="198" text-anchor="middle" font-size="10" fill="#888780">S19 Mai</text>
-    <text x="250" y="198" text-anchor="middle" font-size="10" fill="#888780">S20 Mai</text>
-    <text x="330" y="198" text-anchor="middle" font-size="10" fill="#888780">S21 Mai</text>
-    <text x="410" y="198" text-anchor="middle" font-size="10" fill="#888780">S22 Mai</text>
-    <text x="490" y="198" text-anchor="middle" font-size="10" fill="#888780">S23 Jun</text>
-    <text x="570" y="198" text-anchor="middle" font-size="10" fill="#888780">S24 Jun</text>
-    <text x="650" y="198" text-anchor="middle" font-size="10" fill="#888780">S25 Jun</text>
-    <text x="730" y="198" text-anchor="middle" font-size="10" fill="#888780">S26 Jun</text>
-  </svg>
-
-  <div class="metrics" style="max-width: 400px;">
-    <div class="metric">
-      <div class="metric-label">Maio/2026 (S18–S22)</div>
-      <div class="metric-value">524</div>
-      <div class="metric-sub">contatos outgoing</div>
+  <div class="grid-2">
+    <div class="kpi-card">
+      <div class="label">Maio/2026 (S18–S22)</div>
+      <div class="value">524</div>
+      <div class="sub">contatos outgoing</div>
     </div>
-    <div class="metric">
-      <div class="metric-label">Junho/2026 (S23–S26)</div>
-      <div class="metric-value">648</div>
-      <div class="metric-sub">+23,7% vs maio</div>
+    <div class="kpi-card">
+      <div class="label">Junho/2026 (S23–S26)</div>
+      <div class="value">648</div>
+      <div class="sub" style="color:var(--orange);font-weight:700;">+23,7% vs maio</div>
     </div>
   </div>
-
-  <hr>
 
   <div class="section-title">Análise de recontato</div>
-  <div class="metrics" style="max-width: 400px;">
-    <div class="metric">
-      <div class="metric-label">Sem recontato (1 contato)</div>
-      <div class="metric-value">336</div>
-      <div class="metric-sub">66,3% dos envios</div>
+  <div class="grid-3" style="align-items:start;">
+    <div>
+      <div class="kpi-card" style="margin-bottom:12px;">
+        <div class="label">Sem recontato (1 contato)</div>
+        <div class="value">336</div>
+        <div class="sub">66,3% dos envios</div>
+      </div>
+      <div class="kpi-card">
+        <div class="label">Com recontato (2+ contatos)</div>
+        <div class="value red">171</div>
+        <div class="sub">33,7% dos envios</div>
+      </div>
     </div>
-    <div class="metric">
-      <div class="metric-label">Com recontato (2+ contatos)</div>
-      <div class="metric-value highlight">171</div>
-      <div class="metric-sub">33,7% dos envios</div>
+    <div style="grid-column:span 2;">
+      <div class="chart-wrap" style="margin-bottom:0;">
+        <div class="chart-title">Distribuição de recontato</div>
+        <div style="display:flex;align-items:center;gap:32px;margin-top:16px;flex-wrap:wrap;">
+          <svg viewBox="0 0 160 160" width="160" height="160" style="flex-shrink:0" role="img" aria-label="Rosca: 66.3% sem recontato, 33.7% com recontato">
+            <circle cx="80" cy="80" r="55" fill="none" stroke="#e8f0fe" stroke-width="24"
+              stroke-dasharray="228.63 345.58" stroke-dashoffset="86.39" transform="rotate(-90 80 80)"/>
+            <circle cx="80" cy="80" r="55" fill="none" stroke="#e84142" stroke-width="24"
+              stroke-dasharray="116.95 345.58" stroke-dashoffset="-142.24" transform="rotate(-90 80 80)"/>
+            <text x="80" y="74" text-anchor="middle" font-size="18" font-weight="800" fill="#1a1a2e">33,7%</text>
+            <text x="80" y="90" text-anchor="middle" font-size="10" fill="#888">recontato</text>
+          </svg>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="width:12px;height:12px;border-radius:3px;background:#e8f0fe;border:2px solid #3483fa;flex-shrink:0;"></span>
+              <div>
+                <div style="font-size:13px;font-weight:700;color:#1a1a2e;">336 envios</div>
+                <div style="font-size:11px;color:#888;">Sem recontato — 66,3%</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="width:12px;height:12px;border-radius:3px;background:#fdecea;border:2px solid #e84142;flex-shrink:0;"></span>
+              <div>
+                <div style="font-size:13px;font-weight:700;color:#e84142;">171 envios</div>
+                <div style="font-size:11px;color:#888;">Com recontato — 33,7%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:1.5rem;">
-    <svg viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Gráfico de rosca: 66.3% sem recontato, 33.7% com recontato">
-      <title>Taxa de recontato</title>
-      <circle cx="100" cy="100" r="65" fill="none" stroke="#85B7EB" stroke-width="28"
-        stroke-dasharray="271.24 408.41"
-        stroke-dashoffset="102.1"
-        transform="rotate(-90 100 100)"/>
-      <circle cx="100" cy="100" r="65" fill="none" stroke="#D85A30" stroke-width="28"
-        stroke-dasharray="137.17 408.41"
-        stroke-dashoffset="-169.14"
-        transform="rotate(-90 100 100)"/>
-      <text x="100" y="94" text-anchor="middle" font-size="22" font-weight="500" fill="#1a1a18">33,7%</text>
-      <text x="100" y="112" text-anchor="middle" font-size="11" fill="#5f5e5a">recontato</text>
-    </svg>
-    <div style="display:flex;gap:20px;font-size:12px;color:#5f5e5a;margin-top:10px;">
-      <span style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:2px;background:#D85A30;flex-shrink:0;"></span>Com recontato (33,7%)</span>
-      <span style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:2px;background:#85B7EB;flex-shrink:0;"></span>Sem recontato (66,3%)</span>
-    </div>
-  </div>
-
-  <hr>
 
   <div class="section-title">Top 15 — envios com mais contatos no período</div>
-  <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Shipment ID</th>
-        <th>Contatos</th>
-        <th>Casos distintos</th>
-        <th>Volume</th>
-      </tr>
-    </thead>
-    <tbody id="topTable"></tbody>
-  </table>
+  <div class="card">
+    <div class="card-header">
+      Shipment IDs com maior volume de contatos
+      <span class="badge">Mai–Jun 2026</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th style="text-align:left;">Shipment ID</th>
+          <th>Contatos</th>
+          <th>Casos distintos</th>
+          <th>Volume</th>
+        </tr>
+      </thead>
+      <tbody id="topTable"></tbody>
+    </table>
+  </div>
 
-  <p class="note">
-    * Substatus correto identificado: <code>waiting_authority</code> (a nomenclatura <code>waiting_authority_not_delivered</code> não existe na tabela).<br>
-    * Time <strong>BR_ME_Pre-Despacho_Offline</strong> sem registros no período analisado.<br>
-    * Fonte: <code>meli-bi-data.WHOWNER.BT_SHP_TRACKING_STATE_TRANSITIONS</code> + <code>BT_CX_CASE_INTERACTION</code> + <code>BT_CX_CASE</code>.
-  </p>
+  <div class="info-note">
+    <strong>Fontes:</strong>
+    <code>meli-bi-data.WHOWNER.BT_SHP_TRACKING_STATE_TRANSITIONS</code> ·
+    <code>BT_CX_CASE_INTERACTION</code> ·
+    <code>BT_CX_CASE</code> ·
+    <code>BT_CX_STAFF_HISTORY</code><br>
+    Substatus correto: <code>waiting_authority</code> (não <code>waiting_authority_not_delivered</code>).
+    Time BR_ME_Pre-Despacho_Offline sem registros no período.
+  </div>
 
 </div>
 
@@ -243,15 +321,16 @@ const topData = [
 const maxC = 37;
 const tbody = document.getElementById('topTable');
 topData.forEach(([id, cont, casos], i) => {
-  const tag = cont >= 25 ? '<span class="tag tag-high">alto</span>'
-            : cont >= 15 ? '<span class="tag tag-mid">médio</span>'
-            : '<span class="tag tag-low">baixo</span>';
+  const chip = cont >= 25 ? '<span class="chip chip-neg">alto</span>'
+             : cont >= 15 ? '<span class="chip chip-warn">médio</span>'
+             : '<span class="chip chip-pos">baixo</span>';
   const pct = Math.round((cont / maxC) * 100);
   tbody.innerHTML += `<tr>
-    <td style="color:#888780;width:30px">${i+1}</td>
-    <td><code>${id}</code></td>
-    <td>${cont} ${tag} <span class="bar-wrap"><span class="bar-fill" style="width:${pct}%"></span></span></td>
-    <td style="color:#5f5e5a">${casos}</td>
+    <td style="color:#aaa;font-weight:400;text-align:right;">${i+1}</td>
+    <td style="font-family:monospace;font-size:12px;text-align:left;">${id}</td>
+    <td>${cont} ${chip}</td>
+    <td>${casos}</td>
+    <td><span class="bar-wrap"><span class="bar-fill" style="width:${pct}%"></span></span></td>
   </tr>`;
 });
 </script>
