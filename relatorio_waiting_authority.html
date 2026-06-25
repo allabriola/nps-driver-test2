@@ -164,45 +164,37 @@
 
   <hr>
 
-  <div class="two-col">
-    <div>
-      <div class="section-title">Análise de recontato</div>
-      <div class="metrics" style="grid-template-columns: 1fr;">
-        <div class="metric">
-          <div class="metric-label">Sem recontato (1 contato)</div>
-          <div class="metric-value">336</div>
-          <div class="metric-sub">66,3% dos envios</div>
-        </div>
-        <div class="metric">
-          <div class="metric-label">Com recontato (2+ contatos)</div>
-          <div class="metric-value highlight">171</div>
-          <div class="metric-sub">33,7% dos envios</div>
-        </div>
-      </div>
+  <div class="section-title">Análise de recontato</div>
+  <div class="metrics" style="max-width: 400px;">
+    <div class="metric">
+      <div class="metric-label">Sem recontato (1 contato)</div>
+      <div class="metric-value">336</div>
+      <div class="metric-sub">66,3% dos envios</div>
     </div>
-    <div>
-      <!-- Donut chart SVG -->
-      <svg viewBox="0 0 200 230" width="100%" style="display:block" role="img" aria-label="Gráfico de rosca: 66.3% sem recontato, 33.7% com recontato">
-        <title>Taxa de recontato</title>
-        <!-- sem recontato: azul -->
-        <circle cx="100" cy="100" r="65" fill="none" stroke="#85B7EB" stroke-width="28"
-          stroke-dasharray="271.24 408.41"
-          stroke-dashoffset="102.1"
-          transform="rotate(-90 100 100)"/>
-        <!-- com recontato: coral -->
-        <circle cx="100" cy="100" r="65" fill="none" stroke="#D85A30" stroke-width="28"
-          stroke-dasharray="137.17 408.41"
-          stroke-dashoffset="-169.14"
-          transform="rotate(-90 100 100)"/>
-        <!-- center label -->
-        <text x="100" y="94" text-anchor="middle" font-size="22" font-weight="500" fill="#1a1a18">33,7%</text>
-        <text x="100" y="112" text-anchor="middle" font-size="11" fill="#5f5e5a">recontato</text>
-        <!-- legend below -->
-        <rect x="28" y="185" width="12" height="12" rx="2" fill="#D85A30"/>
-        <text x="46" y="196" font-size="11" fill="#5f5e5a">Com recontato (33,7%)</text>
-        <rect x="28" y="207" width="12" height="12" rx="2" fill="#85B7EB"/>
-        <text x="46" y="218" font-size="11" fill="#5f5e5a">Sem recontato (66,3%)</text>
-      </svg>
+    <div class="metric">
+      <div class="metric-label">Com recontato (2+ contatos)</div>
+      <div class="metric-value highlight">171</div>
+      <div class="metric-sub">33,7% dos envios</div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:1.5rem;">
+    <svg viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Gráfico de rosca: 66.3% sem recontato, 33.7% com recontato">
+      <title>Taxa de recontato</title>
+      <circle cx="100" cy="100" r="65" fill="none" stroke="#85B7EB" stroke-width="28"
+        stroke-dasharray="271.24 408.41"
+        stroke-dashoffset="102.1"
+        transform="rotate(-90 100 100)"/>
+      <circle cx="100" cy="100" r="65" fill="none" stroke="#D85A30" stroke-width="28"
+        stroke-dasharray="137.17 408.41"
+        stroke-dashoffset="-169.14"
+        transform="rotate(-90 100 100)"/>
+      <text x="100" y="94" text-anchor="middle" font-size="22" font-weight="500" fill="#1a1a18">33,7%</text>
+      <text x="100" y="112" text-anchor="middle" font-size="11" fill="#5f5e5a">recontato</text>
+    </svg>
+    <div style="display:flex;gap:20px;font-size:12px;color:#5f5e5a;margin-top:10px;">
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:2px;background:#D85A30;flex-shrink:0;"></span>Com recontato (33,7%)</span>
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:2px;background:#85B7EB;flex-shrink:0;"></span>Sem recontato (66,3%)</span>
     </div>
   </div>
 
