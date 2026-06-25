@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contatos — Waiting Authority | BR_ME_Sellers_Longtail</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a18; padding: 2rem; }
+  .report { max-width: 860px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 2rem 2.5rem; border: 0.5px solid #d3d1c7; }
+  .header { margin-bottom: 1.75rem; border-bottom: 0.5px solid #d3d1c7; padding-bottom: 1.25rem; }
+  .header h1 { font-size: 20px; font-weight: 500; color: #1a1a18; }
+  .header p { font-size: 13px; color: #5f5e5a; margin-top: 5px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 6px; background: #e1f5ee; color: #0f6e56; margin-left: 8px; vertical-align: middle; font-weight: 500; }
+  .section-title { font-size: 12px; font-weight: 500; color: #888780; text-transform: uppercase; letter-spacing: .05em; margin: 1.75rem 0 .75rem; }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+  .metric { background: #f5f5f3; border-radius: 8px; padding: .875rem 1rem; }
+  .metric-label { font-size: 12px; color: #5f5e5a; margin-bottom: 4px; }
+  .metric-value { font-size: 24px; font-weight: 500; color: #1a1a18; }
+  .metric-value.highlight { color: #d85a30; }
+  .metric-sub { font-size: 11px; color: #888780; margin-top: 3px; }
+  .chart-wrap { position: relative; width: 100%; height: 240px; margin-bottom: 1.5rem; }
+  .chart-wrap-donut { position: relative; width: 100%; height: 200px; margin-bottom: 1.5rem; }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 12px; color: #5f5e5a; margin-bottom: .5rem; }
+  .legend span { display: flex; align-items: center; gap: 5px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  hr { border: none; border-top: 0.5px solid #d3d1c7; margin: 1.5rem 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; font-weight: 500; font-size: 12px; color: #5f5e5a; padding: 6px 10px; border-bottom: 0.5px solid #d3d1c7; }
+  td { padding: 7px 10px; border-bottom: 0.5px solid #e8e7e2; color: #1a1a18; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafaf8; }
+  .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 6px; font-weight: 500; }
+  .tag-high { background: #faece7; color: #993c1d; }
+  .tag-mid  { background: #faeeda; color: #854f0b; }
+  .tag-low  { background: #eaf3de; color: #3b6d11; }
+  .bar-wrap { display: inline-block; vertical-align: middle; width: 80px; height: 6px; background: #ebebeb; border-radius: 3px; margin-left: 8px; overflow: hidden; }
+  .bar-fill { height: 100%; background: #378add; border-radius: 3px; }
+  code { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; background: #f1efe8; padding: 1px 5px; border-radius: 4px; color: #3c3489; }
+  .note { font-size: 12px; color: #888780; margin-top: 1rem; line-height: 1.6; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } body { padding: 1rem; } .report { padding: 1.25rem; } }
+  @media print { body { background: #fff; padding: 0; } .report { border: none; box-shadow: none; } }
+</style>
+</head>
+<body>
+<div class="report">
+
+  <div class="header">
+    <h1>Contatos — envios com substatus <code>waiting_authority</code> <span class="badge">BR_ME_Sellers_Longtail</span></h1>
+    <p>Período: Maio/2026 – Junho/2026 &nbsp;·&nbsp; Contatos de saída (outgoing) &nbsp;·&nbsp; Gerado em 25/06/2026</p>
+  </div>
+
+  <div class="section-title">Resumo geral</div>
+  <div class="metrics">
+    <div class="metric">
+      <div class="metric-label">Total de contatos</div>
+      <div class="metric-value">1.172</div>
+      <div class="metric-sub">mai + jun 2026</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Envios únicos</div>
+      <div class="metric-value">507</div>
+      <div class="metric-sub">IDs distintos</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Taxa de recontato</div>
+      <div class="metric-value highlight">33,7%</div>
+      <div class="metric-sub">171 envios recontactaram</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Média / envio</div>
+      <div class="metric-value">2,3</div>
+      <div class="metric-sub">contatos por ID</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Maior volume</div>
+      <div class="metric-value">37</div>
+      <div class="metric-sub">contatos num único ID</div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="section-title">Evolução semanal de contatos</div>
+  <div class="legend">
+    <span><span class="legend-dot" style="background:#378ADD"></span>Maio/2026</span>
+    <span><span class="legend-dot" style="background:#1D9E75"></span>Junho/2026</span>
+  </div>
+  <div class="chart-wrap">
+    <canvas id="weekChart" role="img" aria-label="Gráfico de barras com evolução semanal de contatos">S18:5, S19:26, S20:112, S21:154, S22:227, S23:167, S24:167, S25:175, S26:139.</canvas>
+  </div>
+
+  <div class="metrics" style="max-width: 400px;">
+    <div class="metric">
+      <div class="metric-label">Maio/2026 (S18–S22)</div>
+      <div class="metric-value">524</div>
+      <div class="metric-sub">contatos outgoing</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Junho/2026 (S23–S26)</div>
+      <div class="metric-value">648</div>
+      <div class="metric-sub">+23,7% vs maio</div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="two-col">
+    <div>
+      <div class="section-title">Análise de recontato</div>
+      <div class="metrics" style="grid-template-columns: 1fr;">
+        <div class="metric">
+          <div class="metric-label">Sem recontato (1 contato)</div>
+          <div class="metric-value">336</div>
+          <div class="metric-sub">66,3% dos envios</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Com recontato (2+ contatos)</div>
+          <div class="metric-value highlight">171</div>
+          <div class="metric-sub">33,7% dos envios</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-title">&nbsp;</div>
+      <div class="chart-wrap-donut">
+        <canvas id="recontactChart" role="img" aria-label="Gráfico de rosca: 66.3% sem recontato, 33.7% com recontato">Sem recontato: 336 (66.3%). Com recontato: 171 (33.7%).</canvas>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="section-title">Top 15 — envios com mais contatos no período</div>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Shipment ID</th>
+        <th>Contatos</th>
+        <th>Casos distintos</th>
+        <th>Volume</th>
+      </tr>
+    </thead>
+    <tbody id="topTable"></tbody>
+  </table>
+
+  <p class="note">
+    * Substatus correto identificado: <code>waiting_authority</code> (a nomenclatura <code>waiting_authority_not_delivered</code> não existe na tabela).<br>
+    * Time <strong>BR_ME_Pre-Despacho_Offline</strong> sem registros no período analisado.<br>
+    * Fonte: <code>meli-bi-data.WHOWNER.BT_SHP_TRACKING_STATE_TRANSITIONS</code> + <code>BT_CX_CASE_INTERACTION</code> + <code>BT_CX_CASE</code>.
+  </p>
+
+</div>
+
+<script>
+const topData = [
+  [47031760873, 37, 16],
+  [47006619013, 32, 3],
+  [47031847964, 31, 17],
+  [46985849018, 24, 2],
+  [47010049956, 20, 3],
+  [47002341065, 20, 1],
+  [47251715164, 19, 2],
+  [46987483144, 17, 1],
+  [47104808939, 16, 1],
+  [47095676969, 16, 1],
+  [47052146552, 16, 1],
+  [46998785241, 16, 1],
+  [46998735207, 14, 2],
+  [47143710962, 14, 1],
+  [47054801629, 14, 1],
+];
+const maxC = 37;
+const tbody = document.getElementById('topTable');
+topData.forEach(([id, cont, casos], i) => {
+  const tag = cont >= 25 ? '<span class="tag tag-high">alto</span>'
+            : cont >= 15 ? '<span class="tag tag-mid">médio</span>'
+            : '<span class="tag tag-low">baixo</span>';
+  const pct = Math.round((cont / maxC) * 100);
+  tbody.innerHTML += `<tr>
+    <td style="color:#888780;width:30px">${i+1}</td>
+    <td><code>${id}</code></td>
+    <td>${cont} ${tag} <span class="bar-wrap"><span class="bar-fill" style="width:${pct}%"></span></span></td>
+    <td style="color:#5f5e5a">${casos}</td>
+  </tr>`;
+});
+
+new Chart(document.getElementById('weekChart'), {
+  type: 'bar',
+  data: {
+    labels: ['S18 Mai','S19 Mai','S20 Mai','S21 Mai','S22 Mai','S23 Jun','S24 Jun','S25 Jun','S26 Jun'],
+    datasets: [{
+      data: [5, 26, 112, 154, 227, 167, 167, 175, 139],
+      backgroundColor: ['#378ADD','#378ADD','#378ADD','#378ADD','#378ADD','#1D9E75','#1D9E75','#1D9E75','#1D9E75'],
+      borderRadius: 4,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y + ' contatos' } }
+    },
+    scales: {
+      x: { ticks: { color: '#888780', font: { size: 11 }, autoSkip: false }, grid: { display: false } },
+      y: { ticks: { color: '#888780', font: { size: 11 } }, grid: { color: 'rgba(0,0,0,0.05)' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('recontactChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Sem recontato (66,3%)', 'Com recontato (33,7%)'],
+    datasets: [{
+      data: [336, 171],
+      backgroundColor: ['#85B7EB', '#D85A30'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: { color: '#5f5e5a', font: { size: 12 }, boxWidth: 12, boxHeight: 12, padding: 16 }
+      }
+    },
+    cutout: '60%'
+  }
+});
+</script>
+</body>
+</html>
