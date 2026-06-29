@@ -1,25 +1,56 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Busca dados mensais NPS por driver (Abril final + Maio WTD).
+Busca dados mensais NPS por driver — últimos 6 meses + mês atual MTD.
 Tabela: DM_CX_NPS_CS_GOALS_MGR_AND_UP com filtros VALID_CS / E-Commerce / Sellers.
+Os períodos são calculados automaticamente com base na data de hoje.
 """
 import sys, json
+from datetime import date, timedelta
+import calendar
+
 sys.stdout.reconfigure(encoding='utf-8')
 from google.cloud import bigquery
 
 client = bigquery.Client(project="meli-bi-data")
 
-PERIODS = {
-    "Jan": ("2026-01-01", "2026-01-31"),
-    "Fev": ("2026-02-01", "2026-02-28"),
-    "Mar": ("2026-03-01", "2026-03-31"),
-    "Abr": ("2026-04-01", "2026-04-30"),
-    "Mai": ("2026-05-01", "2026-05-31"),
-    "Jun": ("2026-06-01", "2026-06-22"),
-}
+# ── Calcula períodos dinamicamente ───────────────────────────────────────────
+MONTH_ABBR = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"]
 
-# Lista dos 27 drivers Sellers (filtro direto sem LK join — garante paridade com Tableau)
+today = date.today()
+# Ontem (último dia com dados completos)
+yesterday = today - timedelta(days=1)
+
+def month_range(year, month):
+    """Retorna (primeiro_dia, ultimo_dia) do mês."""
+    first = date(year, month, 1)
+    last  = date(year, month, calendar.monthrange(year, month)[1])
+    return first, last
+
+# Monta 6 meses fechados + mês atual MTD
+PERIODS = {}
+for i in range(5, 0, -1):
+    # Calcula mês retroativo
+    m = today.month - i
+    y = today.year
+    while m <= 0:
+        m += 12
+        y -= 1
+    first, last = month_range(y, m)
+    lbl = MONTH_ABBR[m - 1]
+    PERIODS[lbl] = (str(first), str(last))
+
+# Mês atual — até ontem (MTD)
+cur_first = date(today.year, today.month, 1)
+cur_end   = yesterday if yesterday >= cur_first else cur_first
+lbl_cur   = MONTH_ABBR[today.month - 1]
+PERIODS[lbl_cur] = (str(cur_first), str(cur_end))
+
+print("Períodos calculados:")
+for lbl, (s, e) in PERIODS.items():
+    print(f"  {lbl}: {s} → {e}")
+
+# ── Drivers ──────────────────────────────────────────────────────────────────
 SELLERS_DRIVERS = (
     "ME Vendedor Seller Dev","ME Vendedor Mature","ME Vendedor Meli Pro",
     "Experiencia Impositiva Seller Dev","Experiencia Impositiva Mature","Experiencia Impositiva Meli Pro",
@@ -50,6 +81,7 @@ GROUP BY 1
 ORDER BY 1
 """
 
+# ── Executa queries ───────────────────────────────────────────────────────────
 all_data = {}
 for label, (start, end) in PERIODS.items():
     sql = BASE_SQL.replace("{start}", start).replace("{end}", end)
@@ -70,3 +102,5 @@ for label, (start, end) in PERIODS.items():
 with open("_monthly_result.json", "w", encoding="utf-8") as f:
     json.dump(all_data, f, ensure_ascii=False, indent=2)
 print("\n\nSalvo em _monthly_result.json")
+print(f"Mês atual (M1): {lbl_cur} ({str(cur_first)} → {str(cur_end)})")
+print(f"Total surveys {lbl_cur}: {sum(v[2] for v in all_data.get(lbl_cur,{}).values()):,}")
