@@ -23,14 +23,46 @@ SELLERS = (
 )
 DRV_IN = "'" + "','".join(d.replace("'","''") for d in SELLERS) + "'"
 
+from datetime import date, timedelta
+import calendar, re as _re
+
+# ── Calcula períodos dinamicamente ───────────────────────────────────────────
+_today     = date.today()
+_yesterday = _today - timedelta(days=1)
+
+def _month_range(y, m):
+    return date(y, m, 1), date(y, m, calendar.monthrange(y, m)[1])
+
+_m1 = _today.month
+_y1 = _today.year
+_m2 = _m1 - 1 if _m1 > 1 else 12
+_y2 = _y1 if _m1 > 1 else _y1 - 1
+_ABBR = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"]
+
+_cur_first = date(_y1, _m1, 1)
+_prev_first, _prev_last = _month_range(_y2, _m2)
+
 PERIODS_MONTHLY = {
-    'Abr': ('2026-04-01', '2026-04-30'),
-    'Mai': ('2026-05-01', '2026-05-18'),
+    _ABBR[_m2 - 1]: (str(_prev_first), str(_prev_last)),
+    _ABBR[_m1 - 1]: (str(_cur_first),  str(_yesterday)),
 }
+
+# Períodos semanais lidos de _fetch_weekly_data.py
+with open('_fetch_weekly_data.py', encoding='utf-8') as _fw:
+    _fw_src = _fw.read()
+_pm = _re.search(r'PERIODS\s*=\s*\{(.+?)\}', _fw_src, _re.DOTALL)
+def _ep(name):
+    m = _re.search(rf'"{name}".*?"(\d{{4}}-\d{{2}}-\d{{2}})".*?"(\d{{4}}-\d{{2}}-\d{{2}})"', _pm.group(1))
+    return m.group(1), m.group(2)
+
 PERIODS_WEEKLY = {
-    'S2': ('2026-05-04', '2026-05-10'),
-    'S1': ('2026-05-11', '2026-05-17'),
+    'S2': _ep('S2_new'),
+    'S1': _ep('S1_new'),
 }
+
+print("Períodos breakdown:")
+for k, (s, e) in {**PERIODS_MONTHLY, **PERIODS_WEEKLY}.items():
+    print(f"  {k}: {s} → {e}")
 
 SQL = """
 SELECT
@@ -70,7 +102,7 @@ for period, start, end, flag in all_periods:
         drv = r.driver
         if drv not in period_data:
             period_data[drv] = {'P': {}, 'C': {}, 'O': {}, 'T': {}}
-        p, d, s = int(r.p), int(r.d), int(r.s)
+        p, d, s = int(r.p or 0), int(r.d or 0), int(r.s or 0)
 
         # Processo
         proc = r.proc

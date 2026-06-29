@@ -86,6 +86,77 @@ def fn(v, dec=1):
     if v is None: return '—'
     return f'{round(v, dec):.{dec}f}'.replace('.', ',')
 
+def decompose_change(drvs, period_new, period_old, dim_key):
+    """Decompõe ΔNPS em efeito performance e efeito mix para uma dimensão."""
+    segs_new = {}; segs_old = {}
+    for drv in drvs:
+        for k, v in mb.get(period_new, {}).get(drv, {}).get(dim_key, {}).items():
+            if k.startswith('(sem') or k in ('UNAVAILABLE','unavailable'): continue
+            r = segs_new.setdefault(k, {'p':0,'d':0,'s':0})
+            r['p']+=v.get('p',0); r['d']+=v.get('d',0); r['s']+=v.get('s',0)
+        for k, v in mb.get(period_old, {}).get(drv, {}).get(dim_key, {}).items():
+            if k.startswith('(sem') or k in ('UNAVAILABLE','unavailable'): continue
+            r = segs_old.setdefault(k, {'p':0,'d':0,'s':0})
+            r['p']+=v.get('p',0); r['d']+=v.get('d',0); r['s']+=v.get('s',0)
+    total_new = sum(v['s'] for v in segs_new.values()) or 1
+    total_old = sum(v['s'] for v in segs_old.values()) or 1
+    n_old_total = nps(sum(v['p'] for v in segs_old.values()),
+                      sum(v['d'] for v in segs_old.values()),
+                      sum(v['s'] for v in segs_old.values())) or 0
+    results = []
+    for seg in segs_new:
+        if seg not in segs_old or segs_new[seg]['s'] < 8: continue
+        n_new = nps(segs_new[seg]['p'], segs_new[seg]['d'], segs_new[seg]['s'])
+        n_old = nps(segs_old[seg]['p'], segs_old[seg]['d'], segs_old[seg]['s'])
+        if n_new is None or n_old is None: continue
+        sh_new = segs_new[seg]['s'] / total_new
+        sh_old = segs_old[seg]['s'] / total_old
+        perf_effect = round(sh_old * (n_new - n_old), 2)
+        mix_effect  = round((sh_new - sh_old) * (n_old - n_old_total), 2)
+        results.append({
+            'seg': seg, 'nps_new': n_new, 'nps_old': n_old,
+            'share_new': round(100*sh_new), 'share_old': round(100*sh_old),
+            'perf_effect': perf_effect, 'mix_effect': mix_effect,
+            'total_effect': round(perf_effect + mix_effect, 2),
+            'vol': segs_new[seg]['s'],
+        })
+    results.sort(key=lambda x: x['total_effect'])
+    return results
+
+def causality_sentence(drvs, period_new, period_old, delta):
+    """Gera frase explicando a causa da variação de NPS."""
+    if not delta or abs(delta) < 0.5: return ''
+    best_proc = decompose_change(drvs, period_new, period_old, 'P')
+    best_sr   = decompose_change(drvs, period_new, period_old, 'Sr')
+    best_ch   = decompose_change(drvs, period_new, period_old, 'C')
+    parts = []
+    if best_proc:
+        pick = best_proc[0] if delta < 0 else best_proc[-1]
+        te = pick['total_effect']
+        if abs(te) >= 0.4:
+            pe = pick['perf_effect']; me = pick['mix_effect']
+            mix_str = ''
+            if abs(me) >= 0.2:
+                mix_dir = 'shift de mix para' if me < 0 else 'shift de mix saindo de'
+                mix_str = f' + {sign(me)}{fn(abs(me),1)}pp por {mix_dir} este processo'
+            parts.append(f"processo <strong>{esc(pick['seg'][:45])}</strong> "
+                         f"({sign(te)}{fn(te,1)}pp: {sign(pe)}{fn(pe,1)}pp performance{mix_str})")
+    if best_sr:
+        pick = best_sr[0] if delta < 0 else best_sr[-1]
+        te = pick['total_effect']
+        if abs(te) >= 0.3:
+            parts.append(f"<strong>{esc(pick['seg'])}</strong> "
+                         f"({sign(te)}{fn(te,1)}pp: NPS {fn(pick['nps_old'],1)}→{fn(pick['nps_new'],1)}%, "
+                         f"{pick['share_new']}% do vol)")
+    if best_ch and len(parts) >= 1:
+        pick = best_ch[0] if delta < 0 else best_ch[-1]
+        te = pick['total_effect']
+        if abs(te) >= 0.3:
+            parts.append(f"canal <strong>{esc(pick['seg'])}</strong> ({sign(te)}{fn(te,1)}pp)")
+    if not parts: return ''
+    verb = 'puxada por' if delta < 0 else 'impulsionada por'
+    return f'<span style="font-size:12px;color:#666;display:block;margin-top:4px">Variação {verb}: {", ".join(parts[:2])}.</span>'
+
 def sign(v):
     return '+' if v is not None and v >= 0 else ''
 
@@ -302,6 +373,7 @@ destaques_pos = [g for g in destaques
 
 def build_narrative(grp, icon):
     """Gera parágrafo narrativo corrido (sem tópicos) com todos os dados compilados."""
+    drvs = SD[grp]
     v = drv_data[grp]
 
     # Senioridade
@@ -340,8 +412,9 @@ def build_narrative(grp, icon):
     else:
         trend_txt = "Performance estável no período. "
 
+    causal = causality_sentence(drvs, lC, lP, v['mom'])
     text = (f"{icon} <strong>{grp}</strong>: NPS de <strong>{fn(v['nc'])}%</strong>, "
-            f"{status_txt} ({fn(v['tgt'])}%). {trend_txt}")
+            f"{status_txt} ({fn(v['tgt'])}%). {trend_txt}{causal}")
 
     # Senioridade
     if exp_v.get('nps') and new_v.get('nps'):
@@ -535,6 +608,7 @@ def cdu_narrative_wk(grp):
     return top.get('sub_pattern',''), top.get('narrative',''), top.get('share_pct',0)
 
 def build_narrative_wk(grp, icon):
+    drvs = SD[grp]
     v = wk_drv_data[grp]
     if v['nc'] is None:
         return ''
@@ -546,8 +620,9 @@ def build_narrative_wk(grp, icon):
     elif (v['mom'] or 0) < -0.5: trend_txt = f"Queda de <strong>{fn(v['mom'])} pp WoW</strong>. "
     else:                         trend_txt = "Performance estável na semana. "
 
+    causal_wk = causality_sentence(drvs, 'S1', 'S2', v['mom'])
     text = (f"{icon} <strong>{esc(grp)}</strong>: NPS de <strong>{fn(v['nc'])}%</strong>, "
-            f"{status} ({fn(v['tgt'])}%). {trend_txt}")
+            f"{status} ({fn(v['tgt'])}%). {trend_txt}{causal_wk}")
 
     sr = v['sr_mai']; sr_abr = v['sr_abr']
     exp_k = next((k for k in sr if 'expert' in k.lower()), None)

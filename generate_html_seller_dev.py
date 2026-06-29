@@ -1520,7 +1520,9 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
         rec_deep = _recurrence_deep(grp, trx_source=trx_src_used, top_proc=_top_proc_info)
         if rec_deep:
             rec_items = ""
-            for r in rec_deep[:3]:
+            _top_proc_ref_sort = _RC.get(grp, {}).get("top_proc_wk", "") or _RC.get(grp, {}).get("top_proc", "")
+            rec_deep_sorted = sorted(rec_deep[:3], key=lambda x: (0 if x.get("proc_name","") == _top_proc_ref_sort else 1, -(x.get("share_pct") or 0)))
+            for r in rec_deep_sorted:
                 # Casos de exemplo como badges clicáveis
                 ex_badges = ""
                 if r.get("examples"):
@@ -1542,13 +1544,25 @@ def _diagnostic_bullets(grp, bd_curr, bd_prev, nps_curr, nps_prev, lbl_curr, lbl
                                    f'border-radius:10px;padding:1px 8px;font-size:11px;font-weight:700;'
                                    f'margin-left:6px">{r["share_pct"]}% das pesquisas</span>')
                 _proc_wk_lbl = r.get("proc_name", "") or _RC.get(grp, {}).get("top_proc_wk", "")
-                _proc_tag = (f'<span style="font-size:10px;font-weight:600;color:#888;margin-left:6px;'
-                             f'background:#f0f4ff;border:1px solid #c8d8fa;border-radius:4px;padding:1px 6px">'
-                             f'{esc(_proc_wk_lbl)}</span>') if _proc_wk_lbl else ""
+                _is_top_proc = bool(_proc_wk_lbl and _proc_wk_lbl == _top_proc_ref_sort)
+                if _proc_wk_lbl:
+                    _pb_bg     = "#eef2ff" if _is_top_proc else "#f5f5f5"
+                    _pb_color  = "#3730a3" if _is_top_proc else "#666"
+                    _pb_border = "#c7d2fe" if _is_top_proc else "#ddd"
+                    _pb_icon   = "▲ " if _is_top_proc else ""
+                    _proc_tag = (f'<span style="font-size:10px;font-weight:700;color:{_pb_color};'
+                                 f'background:{_pb_bg};border:1px solid {_pb_border};'
+                                 f'border-radius:4px;padding:2px 7px;margin-right:8px;'
+                                 f'display:inline-block;vertical-align:middle">'
+                                 f'{_pb_icon}{esc(_proc_wk_lbl)}</span>')
+                else:
+                    _proc_tag = ""
+                _card_bg    = "#f8f8ff" if _is_top_proc else "#fff8f8"
+                _card_border= "#4f46e5" if _is_top_proc else "#E84142"
                 rec_items += (f'<div style="margin:10px 0;padding:10px 14px;'
-                              f'background:#fff8f8;border-left:3px solid #E84142;border-radius:0 6px 6px 0">'
+                              f'background:{_card_bg};border-left:3px solid {_card_border};border-radius:0 6px 6px 0">'
                               f'<div style="font-size:13px;font-weight:700;color:#222;margin-bottom:4px">'
-                              f'{esc(r["sub_pattern"])}{share_badge}{_proc_tag}</div>'
+                              f'{_proc_tag}{esc(r["sub_pattern"])}{share_badge}</div>'
                               f'<div style="font-size:11px;color:#888;margin-bottom:6px">'
                               f'S1: <strong style="color:#E84142">{r["s1_count"]} caso{"s" if r["s1_count"]>1 else ""}</strong>'
                               f' &nbsp;|&nbsp; mensal: <strong style="color:#E84142">{r["monthly_count"]} caso{"s" if r["monthly_count"]>1 else ""}</strong>'
