@@ -1,5 +1,16 @@
 [
   {
+    "label": "Semana 22/jun – 28/jun",
+    "archived_at": "2026-06-29",
+    "file": "semana_2026-06-22.html",
+    "s1_label": "22/jun – 28/jun",
+    "s2_label": "15/jun – 21/jun",
+    "vig_label": "29/jun – 29/jun",
+    "month": "Maio 2026",
+    "nps_s1": 68.87,
+    "most_recent": true
+  },
+  {
     "label": "Semana 15/jun – 21/jun",
     "archived_at": "2026-06-22",
     "file": "semana_2026-06-15.html",
@@ -8,7 +19,7 @@
     "vig_label": "22/jun – 22/jun",
     "month": "Maio 2026",
     "nps_s1": 66.63,
-    "most_recent": true
+    "most_recent": false
   },
   {
     "label": "Semana 08/jun – 14/jun",
