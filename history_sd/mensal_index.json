@@ -1,5 +1,15 @@
 [
   {
+    "label": "Junho 2026",
+    "file": "mensal_2026-06.html",
+    "month_label": "Junho 2026",
+    "prev_label": "Maio 2026",
+    "nps_mes": 68.11,
+    "surveys": 10451,
+    "archived_at": "2026-06-30",
+    "most_recent": true
+  },
+  {
     "label": "Maio 2026",
     "file": "mensal_2026-05.html",
     "month_label": "Maio 2026",
@@ -7,7 +17,7 @@
     "nps_mes": 66.39,
     "surveys": 11013,
     "archived_at": "2026-06-22",
-    "most_recent": true
+    "most_recent": false
   },
   {
     "label": "Abril 2026",
