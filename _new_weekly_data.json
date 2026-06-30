@@ -1,9 +1,9 @@
 {
   "S1_new": {
     "CBT": [
-      80,
+      84,
       7,
-      90
+      94
     ],
     "Experiencia Impositiva Mature": [
       2,
@@ -72,8 +72,8 @@
     ],
     "PDD DS&XD - Vendedor": [
       97,
-      81,
-      199
+      82,
+      200
     ],
     "PDD FBM - Vendedor": [
       34,
@@ -96,14 +96,14 @@
       32
     ],
     "PNR MP - Vendedor": [
-      29,
+      30,
       8,
-      42
+      43
     ],
     "Partners": [
       709,
       95,
-      881
+      882
     ],
     "Post Venta Mature": [
       53,
@@ -133,7 +133,7 @@
     "Publicaciones Seller Dev": [
       402,
       63,
-      519
+      520
     ]
   },
   "S2_new": {
@@ -273,5 +273,126 @@
       527
     ]
   },
-  "VIG_new": {}
+  "VIG_new": {
+    "CBT": [
+      13,
+      1,
+      15
+    ],
+    "Experiencia Impositiva Seller Dev": [
+      4,
+      3,
+      8
+    ],
+    "FBM-S Mature": [
+      1,
+      0,
+      1
+    ],
+    "FBM-S Meli Pro": [
+      2,
+      0,
+      3
+    ],
+    "FBM-S Seller Dev": [
+      5,
+      2,
+      7
+    ],
+    "ME Vendedor Mature": [
+      6,
+      1,
+      7
+    ],
+    "ME Vendedor Meli Pro": [
+      21,
+      1,
+      24
+    ],
+    "ME Vendedor Seller Dev": [
+      93,
+      12,
+      113
+    ],
+    "Otros CV": [
+      6,
+      3,
+      10
+    ],
+    "PCF Vendedor Mature": [
+      2,
+      2,
+      5
+    ],
+    "PCF Vendedor Meli Pro": [
+      15,
+      0,
+      17
+    ],
+    "PCF Vendedor Seller Dev": [
+      10,
+      1,
+      11
+    ],
+    "PDD DS&XD - Vendedor": [
+      8,
+      12,
+      21
+    ],
+    "PDD FBM - Vendedor": [
+      3,
+      0,
+      3
+    ],
+    "PDD MP,FLEX & CBT - Vendedor": [
+      2,
+      0,
+      2
+    ],
+    "PNR ME - Vendedor": [
+      2,
+      0,
+      2
+    ],
+    "PNR MP - Vendedor": [
+      9,
+      5,
+      14
+    ],
+    "Partners": [
+      82,
+      11,
+      106
+    ],
+    "Post Venta Mature": [
+      5,
+      0,
+      5
+    ],
+    "Post Venta Meli Pro": [
+      25,
+      2,
+      27
+    ],
+    "Post Venta Seller Dev": [
+      23,
+      4,
+      29
+    ],
+    "Publicaciones Mature": [
+      7,
+      0,
+      7
+    ],
+    "Publicaciones Meli Pro": [
+      3,
+      1,
+      5
+    ],
+    "Publicaciones Seller Dev": [
+      43,
+      6,
+      55
+    ]
+  }
 }
