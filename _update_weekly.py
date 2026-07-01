@@ -7,16 +7,24 @@ Le datas de _fetch_weekly_data.py e dados de _new_weekly_data.json.
 import re, json, sys
 from datetime import datetime
 
-# ── 1. Le datas de _fetch_weekly_data.py ──────────────────────────────
-with open('_fetch_weekly_data.py', encoding='utf-8') as f:
-    fw_src = f.read()
+# ── 1. Le datas resolvidas de _new_weekly_data.json (_periods) ────────
+# _fetch_weekly_data.py grava _periods com as datas ja resolvidas (janela
+# dinamica). Fallback: parseia literais de _fetch_weekly_data.py (formato antigo).
+with open('_new_weekly_data.json', encoding='utf-8') as f:
+    _wd0 = json.load(f)
 
-periods_match = re.search(r'PERIODS\s*=\s*\{(.+?)\}', fw_src, re.DOTALL)
-periods_raw = periods_match.group(1)
-
-def extract_period(name):
-    m = re.search(rf'"{name}".*?"(\d{{4}}-\d{{2}}-\d{{2}})".*?"(\d{{4}}-\d{{2}}-\d{{2}})"', periods_raw)
-    return m.group(1), m.group(2)
+_periods = _wd0.get('_periods')
+if _periods:
+    def extract_period(name):
+        return _periods[name][0], _periods[name][1]
+else:
+    with open('_fetch_weekly_data.py', encoding='utf-8') as f:
+        fw_src = f.read()
+    periods_match = re.search(r'PERIODS\s*=\s*\{(.+?)\}', fw_src, re.DOTALL)
+    periods_raw = periods_match.group(1)
+    def extract_period(name):
+        m = re.search(rf'"{name}".*?"(\d{{4}}-\d{{2}}-\d{{2}})".*?"(\d{{4}}-\d{{2}}-\d{{2}})"', periods_raw)
+        return m.group(1), m.group(2)
 
 s1_start, s1_end = extract_period("S1_new")
 s2_start, s2_end = extract_period("S2_new")

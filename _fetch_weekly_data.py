@@ -9,11 +9,18 @@ sys.stdout.reconfigure(encoding='utf-8')
 from google.cloud import bigquery
 client = bigquery.Client(project="meli-bi-data")
 
-# Periods atualizados para 19/mai/2026
+# Periods dinamicos — derivados da data de hoje.
+# Semana = segunda→domingo. VIG = semana atual (segunda→ontem/D-1);
+# S1 = semana fechada anterior; S2 = duas semanas atras.
+import datetime as _dt
+_hoje = _dt.date.today()
+_mon  = _hoje - _dt.timedelta(days=_hoje.weekday())      # segunda desta semana
+# VIG consulta segunda→hoje (janela generosa); o fim real p/ label e
+# ajustado abaixo p/ a ultima data que efetivamente tem dado (lag da fonte).
 PERIODS = {
-    "S1_new":  ("2026-06-22", "2026-06-28", "WEEK"),
-    "S2_new":  ("2026-06-15", "2026-06-21", "WEEK"),
-    "VIG_new": ("2026-06-29", "2026-06-29", "WEEK"),
+    "S1_new":  ((_mon - _dt.timedelta(days=7)).isoformat(),  (_mon - _dt.timedelta(days=1)).isoformat(),  "WEEK"),
+    "S2_new":  ((_mon - _dt.timedelta(days=14)).isoformat(), (_mon - _dt.timedelta(days=8)).isoformat(),  "WEEK"),
+    "VIG_new": (_mon.isoformat(), _hoje.isoformat(), "WEEK"),
 }
 
 _DRV_IN = ("'ME Vendedor Seller Dev','ME Vendedor Mature','ME Vendedor Meli Pro',"
@@ -60,9 +67,26 @@ for label, (start, end, flag) in PERIODS.items():
     nps_all = round(100*(total_p-total_d)/total_s, 2) if total_s else 0
     print(f"  TOTAL {label}: surveys={total_s} NPS={nps_all}%")
 
-# Save
+# VIG: ajusta o fim para a ULTIMA data que realmente tem dado na janela
+# (a fonte tem lag; sem isso o label mostraria dias ainda vazios).
+_vig_s, _vig_e, _ = PERIODS["VIG_new"]
+_maxsql = f"""
+SELECT MAX(DATE_ID) AS D
+FROM `meli-bi-data.WHOWNER.DM_CX_NPS_CS_GOALS_MGR_AND_UP`
+WHERE DATE_ID BETWEEN DATE("{_vig_s}") AND DATE("{_vig_e}")
+  AND CENTER = "BR" AND SIT_SITE_ID = "MLB"
+  AND QUE_QUEUE_TYPE = "VALID_CS" AND MP_ON_FLAG = "E-Commerce"
+"""
+_maxrow = list(client.query(_maxsql).result())
+_vig_real_end = _maxrow[0].D.isoformat() if _maxrow and _maxrow[0].D else _vig_s
+print(f"\nVIG janela consultada: {_vig_s} - {_vig_e} | ultima data c/ dado: {_vig_real_end}")
+
+# Save — inclui _periods resolvidos p/ _update_weekly.py derivar os labels
+_out = dict(all_data)
+_out["_periods"] = {k: [v[0], v[1]] for k, v in PERIODS.items()}
+_out["_periods"]["VIG_new"] = [_vig_s, _vig_real_end]   # fim = ultima data real
 with open("_new_weekly_data.json", "w", encoding="utf-8") as f:
-    json.dump(all_data, f, ensure_ascii=False, indent=2)
+    json.dump(_out, f, ensure_ascii=False, indent=2)
 print("\n\nSaved to _new_weekly_data.json")
 
 # Print in build_driver_impact.py format
