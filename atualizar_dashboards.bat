@@ -38,7 +38,31 @@ if %errorlevel% equ 0 (
     echo [%date% %time%] Driver Impact: ERRO (codigo %errorlevel%) >> "%LOG%"
 )
 
+:: 4a - Busca dados vigente do BQ e atualiza generate_html_gerencia.py
+echo [%date% %time%] Buscando dados vigente do BQ... >> "%LOG%"
+python _fetch_weekly_data.py >> "%LOG%" 2>&1
+if %errorlevel% equ 0 (
+    python _update_weekly.py >> "%LOG%" 2>&1
+    echo [%date% %time%] Dados vigente + gerencia.py: OK >> "%LOG%"
+) else (
+    echo [%date% %time%] Dados vigente: ERRO (codigo %errorlevel%) >> "%LOG%"
+)
+
+:: 4b - Recomputa dados mensais (mes fechado + consolidado do mes corrente)
+::      Roda TODO dia: mantem o mes consolidado atualizado e recomputa o mes
+::      que fecha. _update_monthly.py tem trava de virada (mantem mes anterior
+::      como M1 enquanto o mes corrente ainda esta vazio por lag da fonte).
+echo [%date% %time%] Recomputando dados mensais... >> "%LOG%"
+python _fetch_monthly_data.py >> "%LOG%" 2>&1
+if %errorlevel% equ 0 (
+    python _update_monthly.py >> "%LOG%" 2>&1
+    echo [%date% %time%] Dados mensais + gerencia.py: OK >> "%LOG%"
+) else (
+    echo [%date% %time%] Dados mensais: ERRO (codigo %errorlevel%) >> "%LOG%"
+)
+
 :: 3 - NPS Tendencias Gerencia (todos os drivers - diario)
+::      Gerado APOS os updates de dados (4a/4b) p/ refletir dados frescos.
 echo [%date% %time%] Atualizando NPS Tendencias Gerencia... >> "%LOG%"
 python generate_html_tendencias.py >> "%LOG%" 2>&1
 if %errorlevel% equ 0 (
@@ -48,16 +72,6 @@ if %errorlevel% equ 0 (
     echo [%date% %time%] NPS Tendencias Gerencia: OK >> "%LOG%"
 ) else (
     echo [%date% %time%] NPS Tendencias Gerencia: ERRO (codigo %errorlevel%) >> "%LOG%"
-)
-
-:: 4a - Busca dados vigente do BQ e atualiza generate_html_gerencia.py
-echo [%date% %time%] Buscando dados vigente do BQ... >> "%LOG%"
-python _fetch_weekly_data.py >> "%LOG%" 2>&1
-if %errorlevel% equ 0 (
-    python _update_weekly.py >> "%LOG%" 2>&1
-    echo [%date% %time%] Dados vigente + gerencia.py: OK >> "%LOG%"
-) else (
-    echo [%date% %time%] Dados vigente: ERRO (codigo %errorlevel%) >> "%LOG%"
 )
 
 :: 4 - Busca casos detratores do BQ (para Highlights & Resumos por driver)

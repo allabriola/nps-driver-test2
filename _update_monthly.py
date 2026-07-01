@@ -13,28 +13,40 @@ MONTH_NAMES  = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho",
                 "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"]
 
 today = date.today()
-lbl_m1 = MONTH_ABBR[today.month - 1]          # mês atual  ex: "Jun"
-lbl_m2 = MONTH_ABBR[(today.month - 2) % 12]   # mês anterior ex: "Mai"
-name_m1 = f"{MONTH_NAMES[today.month - 1]} {today.year}"   # "Junho 2026"
-name_m2_month = (today.month - 2) % 12        # índice 0-based
-name_m2_year  = today.year if today.month > 2 else today.year - 1
-name_m2 = f"{MONTH_NAMES[name_m2_month]} {name_m2_year}"   # "Maio 2026"
 
-print(f"M1 = {name_m1} ({lbl_m1})")
-print(f"M2 = {name_m2} ({lbl_m2})")
+def _month_meta(year, month):
+    return MONTH_ABBR[month - 1], f"{MONTH_NAMES[month - 1]} {year}"
 
 # ── Carrega resultado BQ ──────────────────────────────────────────────────────
 with open('_monthly_result.json', encoding='utf-8') as f:
     monthly_data = json.load(f)
 
-# Todos os meses disponíveis no JSON
-all_lbls = list(monthly_data.keys())   # ex: ["Jan","Fev","Mar","Abr","Mai","Jun"]
+all_lbls = list(monthly_data.keys())   # ex: ["Fev","Mar","Abr","Mai","Jun","Jul"]
 
-if lbl_m1 not in monthly_data:
-    raise SystemExit(f"ERRO: '{lbl_m1}' não encontrado em _monthly_result.json. "
-                     f"Chaves disponíveis: {all_lbls}")
+def _total(lbl):
+    return sum(v[2] for v in monthly_data.get(lbl, {}).values())
 
-M1_DATA = monthly_data[lbl_m1]
+# M1 = mês mais recente COM dado (trava de virada): se o mês corrente ainda
+# está vazio por lag da fonte, mantém o mês anterior como manchete em vez de
+# mostrar um mês em branco. Caminha pra trás a partir do mês atual.
+y, m = today.year, today.month
+for _ in range(6):
+    abbr, _ = _month_meta(y, m)
+    if _total(abbr) > 0:
+        break
+    m -= 1
+    if m == 0:
+        m, y = 12, y - 1
+lbl_m1, name_m1 = _month_meta(y, m)
+
+# M2 = mês imediatamente anterior a M1
+my, mm = (y - 1, 12) if m == 1 else (y, m - 1)
+lbl_m2, name_m2 = _month_meta(my, mm)
+
+print(f"M1 = {name_m1} ({lbl_m1})")
+print(f"M2 = {name_m2} ({lbl_m2})")
+
+M1_DATA = monthly_data.get(lbl_m1, {})
 M2_DATA = monthly_data.get(lbl_m2, {})
 
 # Validação rápida
@@ -51,8 +63,9 @@ with open('generate_html_gerencia.py', 'r', encoding='utf-8') as f:
 src = re.sub(r'(M1_LABEL\s*=\s*)"[^"]*"', rf'\1"{name_m1}"', src)
 src = re.sub(r'(M2_LABEL\s*=\s*)"[^"]*"', rf'\1"{name_m2}"', src)
 
-# ── 2. MONTH_LABELS (últimos 6 meses disponíveis) ────────────────────────────
-new_month_labels = json.dumps(all_lbls[-6:])
+# ── 2. MONTH_LABELS (últimos 6 meses COM dado — não mostra mês vazio) ─────────
+labeled_lbls = [l for l in all_lbls if _total(l) > 0][-6:]
+new_month_labels = json.dumps(labeled_lbls)
 src = re.sub(r'(MONTH_LABELS\s*=\s*)\[.*?\]', rf'\1{new_month_labels}', src)
 
 # ── 3. Helpers ───────────────────────────────────────────────────────────────
@@ -83,7 +96,7 @@ exec(compile(src[:stop2.start()], 'g', 'exec'), ns2)
 old_mh_start = src.find('monthly_history = {')
 old_mh_end   = src.find('\n}', old_mh_start) + 2
 
-month_lbls_to_use = all_lbls[-6:]
+month_lbls_to_use = labeled_lbls
 
 lines_mh = ['monthly_history = {']
 for drv in ns2['monthly_history']:
