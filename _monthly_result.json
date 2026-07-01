@@ -1,141 +1,4 @@
 {
-  "Jan": {
-    "CBT": [
-      481,
-      57,
-      549
-    ],
-    "Experiencia Impositiva Mature": [
-      81,
-      18,
-      113
-    ],
-    "Experiencia Impositiva Meli Pro": [
-      8,
-      6,
-      16
-    ],
-    "Experiencia Impositiva Seller Dev": [
-      574,
-      111,
-      744
-    ],
-    "FBM-S Mature": [
-      197,
-      94,
-      320
-    ],
-    "FBM-S Meli Pro": [
-      33,
-      5,
-      42
-    ],
-    "FBM-S Seller Dev": [
-      537,
-      168,
-      793
-    ],
-    "ME Vendedor Mature": [
-      2084,
-      422,
-      2688
-    ],
-    "ME Vendedor Meli Pro": [
-      126,
-      17,
-      149
-    ],
-    "ME Vendedor Seller Dev": [
-      8138,
-      1110,
-      9984
-    ],
-    "Otros CV": [
-      935,
-      420,
-      1472
-    ],
-    "PCF Vendedor Mature": [
-      306,
-      122,
-      482
-    ],
-    "PCF Vendedor Meli Pro": [
-      57,
-      8,
-      75
-    ],
-    "PCF Vendedor Seller Dev": [
-      697,
-      244,
-      1059
-    ],
-    "PDD DS&XD - Vendedor": [
-      406,
-      324,
-      830
-    ],
-    "PDD FBM - Vendedor": [
-      93,
-      39,
-      153
-    ],
-    "PDD Fotos - Vendedor": [
-      35,
-      18,
-      59
-    ],
-    "PDD MP,FLEX & CBT - Vendedor": [
-      59,
-      56,
-      124
-    ],
-    "PNR ME - Vendedor": [
-      83,
-      64,
-      169
-    ],
-    "PNR MP - Vendedor": [
-      122,
-      85,
-      239
-    ],
-    "Partners": [
-      1793,
-      251,
-      2254
-    ],
-    "Post Venta Mature": [
-      403,
-      114,
-      543
-    ],
-    "Post Venta Meli Pro": [
-      115,
-      11,
-      128
-    ],
-    "Post Venta Seller Dev": [
-      1206,
-      265,
-      1585
-    ],
-    "Publicaciones Mature": [
-      321,
-      73,
-      429
-    ],
-    "Publicaciones Meli Pro": [
-      43,
-      8,
-      53
-    ],
-    "Publicaciones Seller Dev": [
-      3396,
-      475,
-      4216
-    ]
-  },
   "Fev": {
     "CBT": [
       224,
@@ -686,9 +549,9 @@
   },
   "Jun": {
     "CBT": [
-      345,
-      40,
-      397
+      355,
+      42,
+      409
     ],
     "Experiencia Impositiva Mature": [
       13,
@@ -701,124 +564,125 @@
       29
     ],
     "Experiencia Impositiva Seller Dev": [
-      342,
-      82,
-      465
+      346,
+      87,
+      474
     ],
     "FBM-S Mature": [
-      55,
-      24,
-      91
+      58,
+      25,
+      95
     ],
     "FBM-S Meli Pro": [
       80,
-      10,
-      96
+      12,
+      98
     ],
     "FBM-S Seller Dev": [
-      286,
-      98,
-      427
+      292,
+      104,
+      439
     ],
     "ME Vendedor Mature": [
-      320,
-      50,
-      414
+      338,
+      53,
+      437
     ],
     "ME Vendedor Meli Pro": [
-      516,
-      54,
-      600
+      543,
+      56,
+      631
     ],
     "ME Vendedor Seller Dev": [
-      2769,
-      304,
-      3343
+      2900,
+      318,
+      3497
     ],
     "Otros CV": [
-      269,
-      159,
-      460
+      281,
+      166,
+      479
     ],
     "PCF Vendedor Mature": [
-      107,
+      110,
       41,
-      167
+      171
     ],
     "PCF Vendedor Meli Pro": [
-      368,
-      58,
-      450
+      385,
+      59,
+      469
     ],
     "PCF Vendedor Seller Dev": [
-      338,
-      100,
-      486
+      347,
+      110,
+      507
     ],
     "PDD DS&XD - Vendedor": [
-      480,
-      372,
-      948
+      496,
+      378,
+      971
     ],
     "PDD FBM - Vendedor": [
-      169,
-      74,
-      269
+      170,
+      81,
+      277
     ],
     "PDD Fotos - Vendedor": [
-      12,
+      13,
       6,
-      21
+      22
     ],
     "PDD MP,FLEX & CBT - Vendedor": [
-      66,
-      48,
-      135
+      67,
+      49,
+      137
     ],
     "PNR ME - Vendedor": [
-      110,
-      62,
-      186
+      111,
+      63,
+      188
     ],
     "PNR MP - Vendedor": [
-      124,
-      57,
-      208
+      130,
+      61,
+      219
     ],
     "Partners": [
-      2394,
-      340,
-      3009
+      2510,
+      353,
+      3153
     ],
     "Post Venta Mature": [
-      231,
-      16,
-      262
+      239,
+      17,
+      271
     ],
     "Post Venta Meli Pro": [
-      989,
-      44,
-      1046
+      1038,
+      46,
+      1099
     ],
     "Post Venta Seller Dev": [
-      753,
-      69,
-      903
+      782,
+      70,
+      936
     ],
     "Publicaciones Mature": [
-      105,
+      106,
       14,
-      133
+      134
     ],
     "Publicaciones Meli Pro": [
-      228,
-      10,
-      254
+      245,
+      11,
+      272
     ],
     "Publicaciones Seller Dev": [
-      1726,
-      309,
-      2245
+      1785,
+      326,
+      2325
     ]
-  }
+  },
+  "Jul": {}
 }
