@@ -26,17 +26,29 @@ all_lbls = list(monthly_data.keys())   # ex: ["Fev","Mar","Abr","Mai","Jun","Jul
 def _total(lbl):
     return sum(v[2] for v in monthly_data.get(lbl, {}).values())
 
-# M1 = mês mais recente COM dado (trava de virada): se o mês corrente ainda
-# está vazio por lag da fonte, mantém o mês anterior como manchete em vez de
-# mostrar um mês em branco. Caminha pra trás a partir do mês atual.
-y, m = today.year, today.month
-for _ in range(6):
-    abbr, _ = _month_meta(y, m)
-    if _total(abbr) > 0:
-        break
-    m -= 1
-    if m == 0:
-        m, y = 12, y - 1
+# --force-m1=<abbr> força M1 num mês específico (usado p/ gerar o snapshot de
+# fechamento de um mês fechado). Sem o arg, usa a trava de virada abaixo.
+import sys as _sys
+_force_abbr = None
+for _a in _sys.argv[1:]:
+    if _a.startswith('--force-m1='):
+        _force_abbr = _a.split('=', 1)[1]
+
+if _force_abbr:
+    m = MONTH_ABBR.index(_force_abbr) + 1
+    y = today.year if m <= today.month else today.year - 1
+else:
+    # M1 = mês mais recente COM dado (trava de virada): se o mês corrente ainda
+    # está vazio por lag da fonte, mantém o mês anterior como manchete em vez de
+    # mostrar um mês em branco. Caminha pra trás a partir do mês atual.
+    y, m = today.year, today.month
+    for _ in range(6):
+        abbr, _ = _month_meta(y, m)
+        if _total(abbr) > 0:
+            break
+        m -= 1
+        if m == 0:
+            m, y = 12, y - 1
 lbl_m1, name_m1 = _month_meta(y, m)
 
 # M2 = mês imediatamente anterior a M1
@@ -64,7 +76,11 @@ src = re.sub(r'(M1_LABEL\s*=\s*)"[^"]*"', rf'\1"{name_m1}"', src)
 src = re.sub(r'(M2_LABEL\s*=\s*)"[^"]*"', rf'\1"{name_m2}"', src)
 
 # ── 2. MONTH_LABELS (últimos 6 meses COM dado — não mostra mês vazio) ─────────
-labeled_lbls = [l for l in all_lbls if _total(l) > 0][-6:]
+labeled_lbls = [l for l in all_lbls if _total(l) > 0]
+# No modo forçado (snapshot de fechamento), o gráfico termina no mês focado.
+if _force_abbr and lbl_m1 in labeled_lbls:
+    labeled_lbls = labeled_lbls[:labeled_lbls.index(lbl_m1) + 1]
+labeled_lbls = labeled_lbls[-6:]
 new_month_labels = json.dumps(labeled_lbls)
 src = re.sub(r'(MONTH_LABELS\s*=\s*)\[.*?\]', rf'\1{new_month_labels}', src)
 
