@@ -82,7 +82,7 @@
     "nps_copilot": 50.0,
     "n_nps": 8,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_safegiov",
@@ -99,7 +99,24 @@
     "nps_copilot": 33.3,
     "n_nps": 6,
     "estilo_meli": 0.6,
-    "n_qm": 484
+    "n_qm": 506
+  },
+  {
+    "USER_LDAP": "ext_lucloyol",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 82.8,
+    "outgoing_total": 87,
+    "outgoing_copilot": 72,
+    "tmo_com_copilot": "2087",
+    "tmo_sem_copilot": "1856",
+    "dias_uso": 13,
+    "nps_copilot": 100.0,
+    "n_nps": 8,
+    "estilo_meli": 0.7,
+    "n_qm": 495
   },
   {
     "USER_LDAP": "ext_luzmeire",
@@ -116,7 +133,7 @@
     "nps_copilot": 95.0,
     "n_nps": 20,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_barbosin",
@@ -133,7 +150,7 @@
     "nps_copilot": 62.5,
     "n_nps": 8,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_cintquei",
@@ -150,7 +167,7 @@
     "nps_copilot": 82.4,
     "n_nps": 17,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_maristsa",
@@ -184,7 +201,7 @@
     "nps_copilot": 85.7,
     "n_nps": 7,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_wiboecha",
@@ -218,7 +235,7 @@
     "nps_copilot": 72.7,
     "n_nps": 11,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_marotond",
@@ -252,7 +269,7 @@
     "nps_copilot": 80.0,
     "n_nps": 20,
     "estilo_meli": 0.5,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_alamonta",
@@ -269,7 +286,7 @@
     "nps_copilot": 0.0,
     "n_nps": 15,
     "estilo_meli": 0.4,
-    "n_qm": 605
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_damascan",
@@ -286,7 +303,7 @@
     "nps_copilot": 100.0,
     "n_nps": 7,
     "estilo_meli": 0.7,
-    "n_qm": 440
+    "n_qm": 462
   },
   {
     "USER_LDAP": "ext_adriolia",
@@ -320,7 +337,7 @@
     "nps_copilot": 53.3,
     "n_nps": 15,
     "estilo_meli": 0.5,
-    "n_qm": 539
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_dinizdan",
@@ -337,7 +354,7 @@
     "nps_copilot": 63.2,
     "n_nps": 19,
     "estilo_meli": 0.7,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_danielyv",
@@ -371,7 +388,7 @@
     "nps_copilot": 71.4,
     "n_nps": 7,
     "estilo_meli": 0.6,
-    "n_qm": 495
+    "n_qm": 517
   },
   {
     "USER_LDAP": "ext_paun",
@@ -387,8 +404,8 @@
     "dias_uso": 21,
     "nps_copilot": 100.0,
     "n_nps": 12,
-    "estilo_meli": 0.5,
-    "n_qm": 407
+    "estilo_meli": 0.6,
+    "n_qm": 429
   },
   {
     "USER_LDAP": "ext_guiramal",
@@ -405,7 +422,7 @@
     "nps_copilot": 85.7,
     "n_nps": 7,
     "estilo_meli": 0.5,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_cosancri",
@@ -422,7 +439,7 @@
     "nps_copilot": 46.2,
     "n_nps": 13,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_alfecaro",
@@ -439,7 +456,7 @@
     "nps_copilot": 85.0,
     "n_nps": 20,
     "estilo_meli": 0.6,
-    "n_qm": 539
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_lidiagon",
@@ -456,7 +473,7 @@
     "nps_copilot": 85.7,
     "n_nps": 7,
     "estilo_meli": 0.7,
-    "n_qm": 440
+    "n_qm": 462
   },
   {
     "USER_LDAP": "ext_macester",
@@ -473,7 +490,7 @@
     "nps_copilot": 71.4,
     "n_nps": 7,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_daisesil",
@@ -490,7 +507,7 @@
     "nps_copilot": 71.4,
     "n_nps": 7,
     "estilo_meli": 0.7,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_renlaure",
@@ -507,7 +524,7 @@
     "nps_copilot": 88.9,
     "n_nps": 9,
     "estilo_meli": 0.6,
-    "n_qm": 605
+    "n_qm": 627
   },
   {
     "USER_LDAP": "ext_mendoama",
@@ -524,7 +541,7 @@
     "nps_copilot": -33.3,
     "n_nps": 3,
     "estilo_meli": 0.5,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_julietmu",
@@ -558,7 +575,7 @@
     "nps_copilot": 81.3,
     "n_nps": 16,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_pamsant",
@@ -575,7 +592,7 @@
     "nps_copilot": 100.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_olsizabe",
@@ -592,7 +609,7 @@
     "nps_copilot": 20.0,
     "n_nps": 5,
     "estilo_meli": 0.6,
-    "n_qm": 429
+    "n_qm": 451
   },
   {
     "USER_LDAP": "ext_makopke",
@@ -643,7 +660,7 @@
     "nps_copilot": 42.9,
     "n_nps": 7,
     "estilo_meli": 0.5,
-    "n_qm": 539
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_ansancam",
@@ -660,7 +677,7 @@
     "nps_copilot": 81.2,
     "n_nps": 16,
     "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_aluzeda",
@@ -694,7 +711,7 @@
     "nps_copilot": 0.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 451
+    "n_qm": 462
   },
   {
     "USER_LDAP": "ext_cacardma",
@@ -711,7 +728,7 @@
     "nps_copilot": 78.6,
     "n_nps": 14,
     "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_jeaneanj",
@@ -728,7 +745,7 @@
     "nps_copilot": 77.8,
     "n_nps": 9,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_simenlua",
@@ -745,7 +762,7 @@
     "nps_copilot": 66.7,
     "n_nps": 15,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_sueloure",
@@ -762,7 +779,7 @@
     "nps_copilot": 66.7,
     "n_nps": 6,
     "estilo_meli": 0.6,
-    "n_qm": 495
+    "n_qm": 517
   },
   {
     "USER_LDAP": "ext_jealaris",
@@ -779,7 +796,7 @@
     "nps_copilot": 90.0,
     "n_nps": 10,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_luurbiet",
@@ -796,7 +813,7 @@
     "nps_copilot": 88.9,
     "n_nps": 9,
     "estilo_meli": 0.4,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_dutais",
@@ -813,7 +830,7 @@
     "nps_copilot": 50.0,
     "n_nps": 8,
     "estilo_meli": 0.5,
-    "n_qm": 407
+    "n_qm": 418
   },
   {
     "USER_LDAP": "ext_marilsaa",
@@ -830,7 +847,7 @@
     "nps_copilot": 66.7,
     "n_nps": 9,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_estbispo",
@@ -847,7 +864,7 @@
     "nps_copilot": 100.0,
     "n_nps": 8,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_racolodi",
@@ -864,7 +881,7 @@
     "nps_copilot": 75.0,
     "n_nps": 4,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_chrqueir",
@@ -881,7 +898,7 @@
     "nps_copilot": 80.0,
     "n_nps": 15,
     "estilo_meli": 0.7,
-    "n_qm": 495
+    "n_qm": 517
   },
   {
     "USER_LDAP": "ext_nascil",
@@ -898,7 +915,7 @@
     "nps_copilot": 100.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 506
+    "n_qm": 528
   },
   {
     "USER_LDAP": "ext_matiagus",
@@ -949,7 +966,7 @@
     "nps_copilot": 68.8,
     "n_nps": 16,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_daiancou",
@@ -966,7 +983,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 396
+    "n_qm": 407
   },
   {
     "USER_LDAP": "ext_sicastra",
@@ -983,7 +1000,7 @@
     "nps_copilot": 0.0,
     "n_nps": 3,
     "estilo_meli": 0.4,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_jamberna",
@@ -1000,7 +1017,7 @@
     "nps_copilot": 100.0,
     "n_nps": 6,
     "estilo_meli": 0.7,
-    "n_qm": 451
+    "n_qm": 473
   },
   {
     "USER_LDAP": "ext_samagfer",
@@ -1034,7 +1051,7 @@
     "nps_copilot": 75.0,
     "n_nps": 8,
     "estilo_meli": 0.6,
-    "n_qm": 506
+    "n_qm": 528
   },
   {
     "USER_LDAP": "ext_mamachma",
@@ -1051,7 +1068,7 @@
     "nps_copilot": 23.1,
     "n_nps": 13,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_marlruan",
@@ -1068,7 +1085,7 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.5,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_marildlu",
@@ -1085,7 +1102,7 @@
     "nps_copilot": 77.8,
     "n_nps": 9,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_leakathl",
@@ -1099,10 +1116,10 @@
     "tmo_com_copilot": "2159",
     "tmo_sem_copilot": "1769",
     "dias_uso": 21,
-    "nps_copilot": 56.2,
+    "nps_copilot": 56.3,
     "n_nps": 16,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_munizcri",
@@ -1153,7 +1170,7 @@
     "nps_copilot": 80.0,
     "n_nps": 15,
     "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_sambarau",
@@ -1170,7 +1187,7 @@
     "nps_copilot": 66.7,
     "n_nps": 12,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_annesouz",
@@ -1187,7 +1204,7 @@
     "nps_copilot": 60.0,
     "n_nps": 5,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_jamara",
@@ -1204,7 +1221,7 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_mapetisc",
@@ -1221,7 +1238,7 @@
     "nps_copilot": 80.0,
     "n_nps": 10,
     "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_laislany",
@@ -1238,7 +1255,7 @@
     "nps_copilot": 75.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_luaneman",
@@ -1255,7 +1272,7 @@
     "nps_copilot": 50.0,
     "n_nps": 6,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_kleyoliv",
@@ -1272,7 +1289,7 @@
     "nps_copilot": 80.0,
     "n_nps": 15,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_ysazeved",
@@ -1289,7 +1306,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_olsoadan",
@@ -1306,7 +1323,7 @@
     "nps_copilot": 71.4,
     "n_nps": 7,
     "estilo_meli": 0.4,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_pesogeov",
@@ -1323,7 +1340,7 @@
     "nps_copilot": 16.7,
     "n_nps": 6,
     "estilo_meli": 0.5,
-    "n_qm": 429
+    "n_qm": 451
   },
   {
     "USER_LDAP": "ext_antahis",
@@ -1340,7 +1357,7 @@
     "nps_copilot": 50.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_xabianca",
@@ -1374,7 +1391,7 @@
     "nps_copilot": 50.0,
     "n_nps": 8,
     "estilo_meli": 0.5,
-    "n_qm": 429
+    "n_qm": 451
   },
   {
     "USER_LDAP": "ext_agevely",
@@ -1391,7 +1408,7 @@
     "nps_copilot": 25.0,
     "n_nps": 8,
     "estilo_meli": 0.5,
-    "n_qm": 440
+    "n_qm": 462
   },
   {
     "USER_LDAP": "ext_sosanlil",
@@ -1408,7 +1425,7 @@
     "nps_copilot": 30.8,
     "n_nps": 13,
     "estilo_meli": 0.5,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_kanalves",
@@ -1425,7 +1442,7 @@
     "nps_copilot": 0.0,
     "n_nps": 2,
     "estilo_meli": 0.5,
-    "n_qm": 143
+    "n_qm": 165
   },
   {
     "USER_LDAP": "ext_joekevin",
@@ -1442,7 +1459,7 @@
     "nps_copilot": 60.0,
     "n_nps": 10,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_emrebouc",
@@ -1459,7 +1476,7 @@
     "nps_copilot": 55.6,
     "n_nps": 9,
     "estilo_meli": 0.5,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_saolilil",
@@ -1476,7 +1493,7 @@
     "nps_copilot": 83.3,
     "n_nps": 6,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_cairian",
@@ -1493,7 +1510,7 @@
     "nps_copilot": 83.3,
     "n_nps": 12,
     "estilo_meli": 0.5,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_miammon",
@@ -1510,7 +1527,7 @@
     "nps_copilot": 80.0,
     "n_nps": 10,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_nivaferr",
@@ -1527,7 +1544,7 @@
     "nps_copilot": 66.7,
     "n_nps": 9,
     "estilo_meli": 0.6,
-    "n_qm": 407
+    "n_qm": 418
   },
   {
     "USER_LDAP": "ext_naiaramo",
@@ -1544,7 +1561,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 396
+    "n_qm": 418
   },
   {
     "USER_LDAP": "ext_sicazais",
@@ -1560,8 +1577,8 @@
     "dias_uso": 21,
     "nps_copilot": 66.7,
     "n_nps": 9,
-    "estilo_meli": 0.6,
-    "n_qm": 561
+    "estilo_meli": 0.7,
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_limaraya",
@@ -1578,7 +1595,7 @@
     "nps_copilot": 100.0,
     "n_nps": 4,
     "estilo_meli": 0.5,
-    "n_qm": 528
+    "n_qm": 550
   },
   {
     "USER_LDAP": "ext_vinivida",
@@ -1595,7 +1612,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_sirobjes",
@@ -1629,7 +1646,7 @@
     "nps_copilot": 55.6,
     "n_nps": 9,
     "estilo_meli": 0.6,
-    "n_qm": 517
+    "n_qm": 539
   },
   {
     "USER_LDAP": "ext_isfermar",
@@ -1646,7 +1663,7 @@
     "nps_copilot": 80.0,
     "n_nps": 10,
     "estilo_meli": 0.5,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_janeisan",
@@ -1663,7 +1680,7 @@
     "nps_copilot": 100.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_jelimgab",
@@ -1680,7 +1697,7 @@
     "nps_copilot": 66.7,
     "n_nps": 6,
     "estilo_meli": 0.6,
-    "n_qm": 495
+    "n_qm": 517
   },
   {
     "USER_LDAP": "ext_cocaaman",
@@ -1697,7 +1714,7 @@
     "nps_copilot": 72.7,
     "n_nps": 11,
     "estilo_meli": 0.7,
-    "n_qm": 572
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_bralana",
@@ -1714,7 +1731,7 @@
     "nps_copilot": 0.0,
     "n_nps": 3,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_adrieber",
@@ -1731,7 +1748,7 @@
     "nps_copilot": 87.5,
     "n_nps": 8,
     "estilo_meli": 0.5,
-    "n_qm": 550
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_thdiomed",
@@ -1748,7 +1765,7 @@
     "nps_copilot": 0.0,
     "n_nps": 4,
     "estilo_meli": 0.4,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_dennchri",
@@ -1765,7 +1782,7 @@
     "nps_copilot": 90.9,
     "n_nps": 11,
     "estilo_meli": 0.4,
-    "n_qm": 583
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_ampeixot",
@@ -1782,7 +1799,7 @@
     "nps_copilot": -100.0,
     "n_nps": 1,
     "estilo_meli": 0.4,
-    "n_qm": 451
+    "n_qm": 462
   },
   {
     "USER_LDAP": "ext_deborcun",
@@ -1799,7 +1816,7 @@
     "nps_copilot": 100.0,
     "n_nps": 7,
     "estilo_meli": 0.7,
-    "n_qm": 528
+    "n_qm": 550
   },
   {
     "USER_LDAP": "ext_jaqubras",
@@ -1816,7 +1833,7 @@
     "nps_copilot": 100.0,
     "n_nps": 4,
     "estilo_meli": 0.4,
-    "n_qm": 462
+    "n_qm": 484
   },
   {
     "USER_LDAP": "ext_riscassi",
@@ -1833,7 +1850,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 352
+    "n_qm": 374
   },
   {
     "USER_LDAP": "ext_robivo",
@@ -1850,7 +1867,7 @@
     "nps_copilot": 100.0,
     "n_nps": 6,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_tatielen",
@@ -1867,7 +1884,7 @@
     "nps_copilot": 100.0,
     "n_nps": 7,
     "estilo_meli": 0.6,
-    "n_qm": 495
+    "n_qm": 517
   },
   {
     "USER_LDAP": "ext_gidasant",
@@ -1884,7 +1901,7 @@
     "nps_copilot": 66.7,
     "n_nps": 9,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_ceisabel",
@@ -1900,8 +1917,8 @@
     "dias_uso": 17,
     "nps_copilot": 100.0,
     "n_nps": 6,
-    "estilo_meli": 0.6,
-    "n_qm": 583
+    "estilo_meli": 0.7,
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_jaiagonc",
@@ -1917,8 +1934,8 @@
     "dias_uso": 9,
     "nps_copilot": 22.2,
     "n_nps": 9,
-    "estilo_meli": 0.5,
-    "n_qm": 440
+    "estilo_meli": 0.6,
+    "n_qm": 462
   },
   {
     "USER_LDAP": "ext_victkarl",
@@ -1935,7 +1952,7 @@
     "nps_copilot": 72.7,
     "n_nps": 11,
     "estilo_meli": 0.7,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_raysmaga",
@@ -1952,7 +1969,7 @@
     "nps_copilot": 50.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_giufatim",
@@ -1969,7 +1986,7 @@
     "nps_copilot": 0.0,
     "n_nps": 4,
     "estilo_meli": 0.5,
-    "n_qm": 528
+    "n_qm": 539
   },
   {
     "USER_LDAP": "ext_jesielsa",
@@ -1986,7 +2003,7 @@
     "nps_copilot": 50.0,
     "n_nps": 12,
     "estilo_meli": 0.6,
-    "n_qm": 506
+    "n_qm": 528
   },
   {
     "USER_LDAP": "ext_raportug",
@@ -2020,7 +2037,7 @@
     "nps_copilot": 66.7,
     "n_nps": 9,
     "estilo_meli": 0.6,
-    "n_qm": 407
+    "n_qm": 429
   },
   {
     "USER_LDAP": "ext_nasantag",
@@ -2037,7 +2054,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 506
+    "n_qm": 528
   },
   {
     "USER_LDAP": "ext_pirlara",
@@ -2071,7 +2088,7 @@
     "nps_copilot": -50.0,
     "n_nps": 4,
     "estilo_meli": 0.4,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_elbvicto",
@@ -2122,7 +2139,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_luizagoe",
@@ -2156,7 +2173,7 @@
     "nps_copilot": 16.7,
     "n_nps": 12,
     "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_cabbrend",
@@ -2173,7 +2190,7 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.7,
-    "n_qm": 451
+    "n_qm": 473
   },
   {
     "USER_LDAP": "ext_alexwand",
@@ -2190,7 +2207,7 @@
     "nps_copilot": 83.3,
     "n_nps": 6,
     "estilo_meli": 0.7,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_tainmess",
@@ -2207,7 +2224,7 @@
     "nps_copilot": 84.6,
     "n_nps": 13,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_annbento",
@@ -2241,7 +2258,7 @@
     "nps_copilot": 100.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_soaresli",
@@ -2258,7 +2275,7 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_caiqmach",
@@ -2275,7 +2292,7 @@
     "nps_copilot": 72.2,
     "n_nps": 18,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_filvitor",
@@ -2292,7 +2309,7 @@
     "nps_copilot": 100.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 473
+    "n_qm": 495
   },
   {
     "USER_LDAP": "ext_kepessan",
@@ -2326,7 +2343,7 @@
     "nps_copilot": 57.1,
     "n_nps": 7,
     "estilo_meli": 0.5,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_riberamo",
@@ -2343,7 +2360,7 @@
     "nps_copilot": 0.0,
     "n_nps": 6,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_analanda",
@@ -2360,7 +2377,7 @@
     "nps_copilot": 100.0,
     "n_nps": 5,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_sajesusg",
@@ -2377,7 +2394,7 @@
     "nps_copilot": 66.7,
     "n_nps": 3,
     "estilo_meli": 0.4,
-    "n_qm": 473
+    "n_qm": 495
   },
   {
     "USER_LDAP": "ext_juabrasi",
@@ -2394,7 +2411,7 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.4,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_almealis",
@@ -2411,7 +2428,7 @@
     "nps_copilot": 60.0,
     "n_nps": 5,
     "estilo_meli": 0.6,
-    "n_qm": 517
+    "n_qm": 528
   },
   {
     "USER_LDAP": "ext_davidsri",
@@ -2428,7 +2445,7 @@
     "nps_copilot": 50.0,
     "n_nps": 10,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_isamaia",
@@ -2461,8 +2478,8 @@
     "dias_uso": 8,
     "nps_copilot": 100.0,
     "n_nps": 2,
-    "estilo_meli": 0.5,
-    "n_qm": 429
+    "estilo_meli": 0.6,
+    "n_qm": 451
   },
   {
     "USER_LDAP": "ext_coppaulo",
@@ -2479,7 +2496,7 @@
     "nps_copilot": 20.0,
     "n_nps": 5,
     "estilo_meli": 0.6,
-    "n_qm": 495
+    "n_qm": 517
   },
   {
     "USER_LDAP": "ext_tampaulo",
@@ -2496,7 +2513,7 @@
     "nps_copilot": 83.3,
     "n_nps": 6,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_marcjun",
@@ -2513,7 +2530,7 @@
     "nps_copilot": 75.0,
     "n_nps": 4,
     "estilo_meli": 0.5,
-    "n_qm": 539
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_suelcerq",
@@ -2547,7 +2564,7 @@
     "nps_copilot": 40.0,
     "n_nps": 10,
     "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_camibast",
@@ -2564,7 +2581,7 @@
     "nps_copilot": 60.0,
     "n_nps": 5,
     "estilo_meli": 0.7,
-    "n_qm": 517
+    "n_qm": 539
   },
   {
     "USER_LDAP": "ext_brunange",
@@ -2581,7 +2598,7 @@
     "nps_copilot": 0.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 517
+    "n_qm": 539
   },
   {
     "USER_LDAP": "ext_menezelu",
@@ -2598,7 +2615,7 @@
     "nps_copilot": 66.7,
     "n_nps": 12,
     "estilo_meli": 0.6,
-    "n_qm": 539
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_kayjusti",
@@ -2615,7 +2632,7 @@
     "nps_copilot": 75.0,
     "n_nps": 4,
     "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_caif",
@@ -2632,7 +2649,7 @@
     "nps_copilot": 100.0,
     "n_nps": 14,
     "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_iklucian",
@@ -2649,7 +2666,7 @@
     "nps_copilot": 88.9,
     "n_nps": 9,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_gajjonas",
@@ -2666,7 +2683,7 @@
     "nps_copilot": 66.7,
     "n_nps": 9,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_frlouise",
@@ -2683,7 +2700,7 @@
     "nps_copilot": 100.0,
     "n_nps": 5,
     "estilo_meli": 0.5,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_juliavan",
@@ -2700,7 +2717,7 @@
     "nps_copilot": 50.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_maianery",
@@ -2734,7 +2751,7 @@
     "nps_copilot": 100.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_kamsanti",
@@ -2751,7 +2768,7 @@
     "nps_copilot": 75.0,
     "n_nps": 4,
     "estilo_meli": 0.4,
-    "n_qm": 528
+    "n_qm": 539
   },
   {
     "USER_LDAP": "ext_mirecabr",
@@ -2768,7 +2785,7 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.5,
-    "n_qm": 308
+    "n_qm": 319
   },
   {
     "USER_LDAP": "ext_elaragao",
@@ -2785,7 +2802,7 @@
     "nps_copilot": 0.0,
     "n_nps": 3,
     "estilo_meli": 0.5,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_keniagom",
@@ -2836,7 +2853,7 @@
     "nps_copilot": 83.3,
     "n_nps": 6,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_jeafabia",
@@ -2853,7 +2870,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 539
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_rossan",
@@ -2870,7 +2887,7 @@
     "nps_copilot": 75.0,
     "n_nps": 8,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_joladisl",
@@ -2887,7 +2904,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_aledonat",
@@ -2904,7 +2921,7 @@
     "nps_copilot": 33.3,
     "n_nps": 6,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_facancio",
@@ -2921,7 +2938,7 @@
     "nps_copilot": 57.1,
     "n_nps": 7,
     "estilo_meli": 0.5,
-    "n_qm": 462
+    "n_qm": 484
   },
   {
     "USER_LDAP": "ext_mesquian",
@@ -2938,7 +2955,7 @@
     "nps_copilot": 100.0,
     "n_nps": 4,
     "estilo_meli": 0.5,
-    "n_qm": 495
+    "n_qm": 506
   },
   {
     "USER_LDAP": "ext_cofangel",
@@ -2955,7 +2972,7 @@
     "nps_copilot": 100.0,
     "n_nps": 11,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_caojuan",
@@ -2972,7 +2989,7 @@
     "nps_copilot": 100.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_frsanvan",
@@ -2989,7 +3006,7 @@
     "nps_copilot": 42.9,
     "n_nps": 7,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_samiluci",
@@ -3023,7 +3040,7 @@
     "nps_copilot": 100.0,
     "n_nps": 5,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_sacamcam",
@@ -3057,7 +3074,7 @@
     "nps_copilot": 88.9,
     "n_nps": 9,
     "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_cruzaria",
@@ -3074,7 +3091,7 @@
     "nps_copilot": 87.5,
     "n_nps": 8,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_kamils",
@@ -3091,7 +3108,7 @@
     "nps_copilot": 80.0,
     "n_nps": 10,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_almaalic",
@@ -3125,7 +3142,7 @@
     "nps_copilot": 81.8,
     "n_nps": 11,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_anebonfi",
@@ -3176,7 +3193,7 @@
     "nps_copilot": 81.8,
     "n_nps": 11,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_visosara",
@@ -3210,7 +3227,7 @@
     "nps_copilot": 60.0,
     "n_nps": 5,
     "estilo_meli": 0.6,
-    "n_qm": 484
+    "n_qm": 506
   },
   {
     "USER_LDAP": "ext_nuoljuli",
@@ -3227,7 +3244,7 @@
     "nps_copilot": 60.0,
     "n_nps": 10,
     "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_ingpena",
@@ -3244,7 +3261,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.5,
-    "n_qm": 539
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_rayanmot",
@@ -3261,7 +3278,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 539
+    "n_qm": 550
   },
   {
     "USER_LDAP": "ext_jullysil",
@@ -3295,7 +3312,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 242
+    "n_qm": 264
   },
   {
     "USER_LDAP": "ext_gellima",
@@ -3312,7 +3329,7 @@
     "nps_copilot": 0.0,
     "n_nps": 4,
     "estilo_meli": 0.3,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_albecost",
@@ -3346,7 +3363,7 @@
     "nps_copilot": 55.6,
     "n_nps": 9,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_letisila",
@@ -3363,7 +3380,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.5,
-    "n_qm": 473
+    "n_qm": 495
   },
   {
     "USER_LDAP": "ext_margmarg",
@@ -3380,7 +3397,7 @@
     "nps_copilot": 83.3,
     "n_nps": 6,
     "estilo_meli": 0.6,
-    "n_qm": 539
+    "n_qm": 550
   },
   {
     "USER_LDAP": "ext_narefern",
@@ -3414,7 +3431,7 @@
     "nps_copilot": 55.6,
     "n_nps": 9,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_mahanjos",
@@ -3465,7 +3482,7 @@
     "nps_copilot": 77.8,
     "n_nps": 9,
     "estilo_meli": 0.7,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_sioledua",
@@ -3482,7 +3499,7 @@
     "nps_copilot": 64.3,
     "n_nps": 14,
     "estilo_meli": 0.5,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_jhenramo",
@@ -3533,7 +3550,7 @@
     "nps_copilot": 80.0,
     "n_nps": 10,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_rocsilvi",
@@ -3584,7 +3601,7 @@
     "nps_copilot": 0.0,
     "n_nps": 3,
     "estilo_meli": 0.5,
-    "n_qm": 517
+    "n_qm": 539
   },
   {
     "USER_LDAP": "ext_livosori",
@@ -3601,7 +3618,7 @@
     "nps_copilot": 83.3,
     "n_nps": 12,
     "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_maconraf",
@@ -3618,7 +3635,7 @@
     "nps_copilot": 50.0,
     "n_nps": 2,
     "estilo_meli": 0.4,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_marinsga",
@@ -3635,7 +3652,7 @@
     "nps_copilot": 8.3,
     "n_nps": 12,
     "estilo_meli": 0.3,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_soelucas",
@@ -3669,7 +3686,7 @@
     "nps_copilot": 0.0,
     "n_nps": 2,
     "estilo_meli": 0.4,
-    "n_qm": 121
+    "n_qm": 132
   },
   {
     "USER_LDAP": "ext_apligabr",
@@ -3686,7 +3703,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.5,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_cleisosi",
@@ -3703,7 +3720,7 @@
     "nps_copilot": 66.7,
     "n_nps": 3,
     "estilo_meli": 0.4,
-    "n_qm": 429
+    "n_qm": 451
   },
   {
     "USER_LDAP": "ext_ismaress",
@@ -3720,7 +3737,7 @@
     "nps_copilot": 88.9,
     "n_nps": 9,
     "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_janierib",
@@ -3737,7 +3754,7 @@
     "nps_copilot": 100.0,
     "n_nps": 5,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_letigodo",
@@ -3754,7 +3771,7 @@
     "nps_copilot": -60.0,
     "n_nps": 5,
     "estilo_meli": 0.4,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_vanlobo",
@@ -3771,7 +3788,7 @@
     "nps_copilot": 83.3,
     "n_nps": 6,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_lujjose",
@@ -3788,7 +3805,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 484
+    "n_qm": 506
   },
   {
     "USER_LDAP": "ext_marcogad",
@@ -3822,7 +3839,7 @@
     "nps_copilot": 20.0,
     "n_nps": 5,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_filhedua",
@@ -3839,7 +3856,7 @@
     "nps_copilot": 63.6,
     "n_nps": 11,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_gemonten",
@@ -3856,7 +3873,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 605
+    "n_qm": 627
   },
   {
     "USER_LDAP": "ext_kanilo",
@@ -3873,7 +3890,7 @@
     "nps_copilot": 75.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 506
+    "n_qm": 528
   },
   {
     "USER_LDAP": "ext_raalbite",
@@ -3907,7 +3924,7 @@
     "nps_copilot": 100.0,
     "n_nps": 4,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_anaregis",
@@ -3924,7 +3941,7 @@
     "nps_copilot": 50.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_alcnicol",
@@ -3941,7 +3958,7 @@
     "nps_copilot": 50.0,
     "n_nps": 6,
     "estilo_meli": 0.5,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_keljenni",
@@ -3958,7 +3975,7 @@
     "nps_copilot": 100.0,
     "n_nps": 6,
     "estilo_meli": 0.7,
-    "n_qm": 572
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_nualucia",
@@ -3992,7 +4009,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.5,
-    "n_qm": 594
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_renatsiq",
@@ -4043,7 +4060,7 @@
     "nps_copilot": 75.0,
     "n_nps": 4,
     "estilo_meli": 0.7,
-    "n_qm": 484
+    "n_qm": 506
   },
   {
     "USER_LDAP": "ext_jencarmo",
@@ -4060,7 +4077,7 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.7,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_cardotia",
@@ -4077,7 +4094,7 @@
     "nps_copilot": 100.0,
     "n_nps": 5,
     "estilo_meli": 0.5,
-    "n_qm": 165
+    "n_qm": 187
   },
   {
     "USER_LDAP": "ext_micaesan",
@@ -4094,7 +4111,7 @@
     "nps_copilot": 58.3,
     "n_nps": 12,
     "estilo_meli": 0.7,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_stefanun",
@@ -4111,7 +4128,7 @@
     "nps_copilot": 0.0,
     "n_nps": 5,
     "estilo_meli": 0.7,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_marqueia",
@@ -4128,7 +4145,7 @@
     "nps_copilot": 50.0,
     "n_nps": 6,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_rogyasmi",
@@ -4145,7 +4162,7 @@
     "nps_copilot": 100.0,
     "n_nps": 5,
     "estilo_meli": 0.7,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_elinjesu",
@@ -4179,7 +4196,7 @@
     "nps_copilot": 0.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_sammfran",
@@ -4195,8 +4212,8 @@
     "dias_uso": 10,
     "nps_copilot": 0.0,
     "n_nps": 1,
-    "estilo_meli": 0.4,
-    "n_qm": 594
+    "estilo_meli": 0.5,
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_nagrosa",
@@ -4213,7 +4230,7 @@
     "nps_copilot": 75.0,
     "n_nps": 4,
     "estilo_meli": 0.5,
-    "n_qm": 517
+    "n_qm": 539
   },
   {
     "USER_LDAP": "ext_isairafa",
@@ -4230,7 +4247,7 @@
     "nps_copilot": -100.0,
     "n_nps": 1,
     "estilo_meli": 0.2,
-    "n_qm": 429
+    "n_qm": 451
   },
   {
     "USER_LDAP": "ext_raquecae",
@@ -4247,7 +4264,7 @@
     "nps_copilot": -60.0,
     "n_nps": 5,
     "estilo_meli": 0.4,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_cajander",
@@ -4264,7 +4281,7 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_jebriluc",
@@ -4281,7 +4298,7 @@
     "nps_copilot": 100.0,
     "n_nps": 7,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_rapmoura",
@@ -4298,7 +4315,7 @@
     "nps_copilot": 0.0,
     "n_nps": 2,
     "estilo_meli": 0.4,
-    "n_qm": 528
+    "n_qm": 550
   },
   {
     "USER_LDAP": "ext_dasipria",
@@ -4315,7 +4332,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_luaorlan",
@@ -4332,7 +4349,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_deelektr",
@@ -4348,8 +4365,8 @@
     "dias_uso": 9,
     "nps_copilot": 100.0,
     "n_nps": 3,
-    "estilo_meli": 0.5,
-    "n_qm": 583
+    "estilo_meli": 0.6,
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_ferbalde",
@@ -4366,7 +4383,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 517
+    "n_qm": 539
   },
   {
     "USER_LDAP": "ext_vivsique",
@@ -4383,7 +4400,7 @@
     "nps_copilot": 60.0,
     "n_nps": 5,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_marchen",
@@ -4400,7 +4417,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 451
+    "n_qm": 473
   },
   {
     "USER_LDAP": "ext_helljesu",
@@ -4417,7 +4434,7 @@
     "nps_copilot": 88.9,
     "n_nps": 9,
     "estilo_meli": 0.7,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_jesicami",
@@ -4434,7 +4451,7 @@
     "nps_copilot": 100.0,
     "n_nps": 5,
     "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_felipcer",
@@ -4451,7 +4468,7 @@
     "nps_copilot": 50.0,
     "n_nps": 2,
     "estilo_meli": 0.5,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_fabjoaqu",
@@ -4485,7 +4502,7 @@
     "nps_copilot": 0.0,
     "n_nps": 5,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_jatelles",
@@ -4519,7 +4536,7 @@
     "nps_copilot": 80.0,
     "n_nps": 5,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_vandehen",
@@ -4536,7 +4553,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_jaianero",
@@ -4553,7 +4570,7 @@
     "nps_copilot": 85.7,
     "n_nps": 7,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_ankamile",
@@ -4570,7 +4587,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.7,
-    "n_qm": 77
+    "n_qm": 99
   },
   {
     "USER_LDAP": "ext_annaalex",
@@ -4621,7 +4638,7 @@
     "nps_copilot": 100.0,
     "n_nps": 6,
     "estilo_meli": 0.7,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_anpalope",
@@ -4638,7 +4655,7 @@
     "nps_copilot": 0.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_iaraapar",
@@ -4655,7 +4672,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_marbenvi",
@@ -4672,7 +4689,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.5,
-    "n_qm": 473
+    "n_qm": 495
   },
   {
     "USER_LDAP": "ext_loluara",
@@ -4689,7 +4706,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_deivdaia",
@@ -4706,7 +4723,7 @@
     "nps_copilot": 0.0,
     "n_nps": 1,
     "estilo_meli": 0.3,
-    "n_qm": 440
+    "n_qm": 462
   },
   {
     "USER_LDAP": "ext_clbezana",
@@ -4723,7 +4740,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_miqueiaa",
@@ -4740,24 +4757,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.5,
-    "n_qm": 561
-  },
-  {
-    "USER_LDAP": "ext_ibjanine",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 23.1,
-    "outgoing_total": 295,
-    "outgoing_copilot": 68,
-    "tmo_com_copilot": "1826",
-    "tmo_sem_copilot": "1383",
-    "dias_uso": 20,
-    "nps_copilot": 100.0,
-    "n_nps": 1,
-    "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_sarosane",
@@ -4774,24 +4774,24 @@
     "nps_copilot": 100.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 528
+    "n_qm": 550
   },
   {
-    "USER_LDAP": "ext_lidianen",
+    "USER_LDAP": "ext_ibjanine",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 22.7,
-    "outgoing_total": 291,
-    "outgoing_copilot": 66,
-    "tmo_com_copilot": "1572",
-    "tmo_sem_copilot": "1448",
-    "dias_uso": 17,
-    "nps_copilot": 60.0,
-    "n_nps": 5,
-    "estilo_meli": 0.5,
-    "n_qm": 550
+    "senioridade": "Newbie",
+    "pct_adopcion": 23.1,
+    "outgoing_total": 295,
+    "outgoing_copilot": 68,
+    "tmo_com_copilot": "1826",
+    "tmo_sem_copilot": "1383",
+    "dias_uso": 20,
+    "nps_copilot": 100.0,
+    "n_nps": 1,
+    "estilo_meli": 0.6,
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_thamipai",
@@ -4808,24 +4808,24 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.5,
-    "n_qm": 528
+    "n_qm": 550
   },
   {
-    "USER_LDAP": "ext_rayfigue",
+    "USER_LDAP": "ext_lidianen",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Expert",
-    "pct_adopcion": 22.5,
-    "outgoing_total": 40,
-    "outgoing_copilot": 9,
-    "tmo_com_copilot": "1611",
-    "tmo_sem_copilot": "1240",
-    "dias_uso": 3,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.7,
-    "n_qm": 121
+    "pct_adopcion": 22.7,
+    "outgoing_total": 291,
+    "outgoing_copilot": 66,
+    "tmo_com_copilot": "1572",
+    "tmo_sem_copilot": "1448",
+    "dias_uso": 17,
+    "nps_copilot": 60.0,
+    "n_nps": 5,
+    "estilo_meli": 0.5,
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_luscarla",
@@ -4842,7 +4842,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.5,
-    "n_qm": 539
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_galimand",
@@ -4859,7 +4859,7 @@
     "nps_copilot": 40.0,
     "n_nps": 5,
     "estilo_meli": 0.7,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_edsuzart",
@@ -4876,7 +4876,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_humorevi",
@@ -4892,8 +4892,8 @@
     "dias_uso": 15,
     "nps_copilot": 0.0,
     "n_nps": 2,
-    "estilo_meli": 0.4,
-    "n_qm": 517
+    "estilo_meli": 0.3,
+    "n_qm": 539
   },
   {
     "USER_LDAP": "ext_malimaga",
@@ -4910,7 +4910,7 @@
     "nps_copilot": -100.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_shabento",
@@ -4927,7 +4927,7 @@
     "nps_copilot": 50.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 363
+    "n_qm": 385
   },
   {
     "USER_LDAP": "ext_freimich",
@@ -4944,7 +4944,7 @@
     "nps_copilot": 100.0,
     "n_nps": 6,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_gomadieg",
@@ -4978,7 +4978,7 @@
     "nps_copilot": 40.0,
     "n_nps": 5,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_jessyroc",
@@ -4995,7 +4995,7 @@
     "nps_copilot": 80.0,
     "n_nps": 5,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_lohmatos",
@@ -5012,7 +5012,7 @@
     "nps_copilot": 100.0,
     "n_nps": 6,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_gomaluan",
@@ -5029,7 +5029,7 @@
     "nps_copilot": 50.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_cauhora",
@@ -5046,7 +5046,7 @@
     "nps_copilot": 77.8,
     "n_nps": 9,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_andricos",
@@ -5063,7 +5063,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.3,
-    "n_qm": 143
+    "n_qm": 165
   },
   {
     "USER_LDAP": "ext_remamari",
@@ -5080,7 +5080,7 @@
     "nps_copilot": 100.0,
     "n_nps": 5,
     "estilo_meli": 0.4,
-    "n_qm": 451
+    "n_qm": 473
   },
   {
     "USER_LDAP": "ext_julyavic",
@@ -5097,7 +5097,7 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.7,
-    "n_qm": 517
+    "n_qm": 539
   },
   {
     "USER_LDAP": "ext_clecerqu",
@@ -5114,7 +5114,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 451
+    "n_qm": 473
   },
   {
     "USER_LDAP": "ext_thiagole",
@@ -5131,7 +5131,7 @@
     "nps_copilot": 0.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 143
+    "n_qm": 165
   },
   {
     "USER_LDAP": "ext_merlorra",
@@ -5148,7 +5148,7 @@
     "nps_copilot": -33.3,
     "n_nps": 3,
     "estilo_meli": 0.4,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_diefrias",
@@ -5165,7 +5165,7 @@
     "nps_copilot": 60.0,
     "n_nps": 5,
     "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_crgracie",
@@ -5182,7 +5182,7 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_vicpasso",
@@ -5199,7 +5199,7 @@
     "nps_copilot": -50.0,
     "n_nps": 4,
     "estilo_meli": 0.4,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_feslidia",
@@ -5216,7 +5216,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.4,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_fedthain",
@@ -5233,7 +5233,7 @@
     "nps_copilot": 0.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 473
+    "n_qm": 495
   },
   {
     "USER_LDAP": "ext_fejesube",
@@ -5250,7 +5250,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.7,
-    "n_qm": 539
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_cavalvic",
@@ -5267,7 +5267,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_elinmend",
@@ -5301,7 +5301,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_crjkaren",
@@ -5318,7 +5318,7 @@
     "nps_copilot": 100.0,
     "n_nps": 4,
     "estilo_meli": 0.4,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_exsan",
@@ -5335,7 +5335,7 @@
     "nps_copilot": 0.0,
     "n_nps": 2,
     "estilo_meli": 0.3,
-    "n_qm": 352
+    "n_qm": 374
   },
   {
     "USER_LDAP": "ext_cacastor",
@@ -5369,7 +5369,7 @@
     "nps_copilot": 50.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_galordao",
@@ -5403,7 +5403,7 @@
     "nps_copilot": 100.0,
     "n_nps": 5,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_talanunc",
@@ -5420,7 +5420,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_dofrutuo",
@@ -5437,7 +5437,7 @@
     "nps_copilot": 33.3,
     "n_nps": 3,
     "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_jesaalic",
@@ -5454,7 +5454,7 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_brunnchr",
@@ -5471,7 +5471,7 @@
     "nps_copilot": 0.0,
     "n_nps": 2,
     "estilo_meli": 0.8,
-    "n_qm": 528
+    "n_qm": 550
   },
   {
     "USER_LDAP": "ext_adsuzart",
@@ -5488,7 +5488,7 @@
     "nps_copilot": 25.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_patalves",
@@ -5505,7 +5505,7 @@
     "nps_copilot": 33.3,
     "n_nps": 3,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_suelamar",
@@ -5522,7 +5522,7 @@
     "nps_copilot": -100.0,
     "n_nps": 1,
     "estilo_meli": 0.3,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_sampaiod",
@@ -5539,7 +5539,7 @@
     "nps_copilot": -100.0,
     "n_nps": 1,
     "estilo_meli": 0.4,
-    "n_qm": 528
+    "n_qm": 550
   },
   {
     "USER_LDAP": "ext_sialexaa",
@@ -5556,7 +5556,7 @@
     "nps_copilot": 50.0,
     "n_nps": 2,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_victobap",
@@ -5573,7 +5573,7 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.4,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_aretiene",
@@ -5607,7 +5607,7 @@
     "nps_copilot": 33.3,
     "n_nps": 3,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_thfiuza",
@@ -5624,7 +5624,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_ityara",
@@ -5641,7 +5641,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_jomamona",
@@ -5658,7 +5658,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_alcrrafa",
@@ -5675,7 +5675,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_thalimed",
@@ -5692,7 +5692,7 @@
     "nps_copilot": 66.7,
     "n_nps": 6,
     "estilo_meli": 0.7,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_marimili",
@@ -5709,7 +5709,7 @@
     "nps_copilot": 0.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 473
+    "n_qm": 484
   },
   {
     "USER_LDAP": "ext_eligenes",
@@ -5726,7 +5726,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 462
+    "n_qm": 484
   },
   {
     "USER_LDAP": "ext_ludcorde",
@@ -5743,7 +5743,7 @@
     "nps_copilot": 100.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_julisani",
@@ -5794,7 +5794,7 @@
     "nps_copilot": 25.0,
     "n_nps": 4,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_fanasmar",
@@ -5828,7 +5828,7 @@
     "nps_copilot": -100.0,
     "n_nps": 1,
     "estilo_meli": 0.4,
-    "n_qm": 583
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_taianunc",
@@ -5879,7 +5879,7 @@
     "nps_copilot": 100.0,
     "n_nps": 5,
     "estilo_meli": 0.5,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_hairvito",
@@ -5896,7 +5896,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.4,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_daemanoe",
@@ -5913,7 +5913,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 539
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_bapjulia",
@@ -5930,7 +5930,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_silvcava",
@@ -5947,7 +5947,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_calmorei",
@@ -5964,7 +5964,7 @@
     "nps_copilot": 60.0,
     "n_nps": 5,
     "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_figuerga",
@@ -5981,7 +5981,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_elhelois",
@@ -5998,7 +5998,7 @@
     "nps_copilot": 100.0,
     "n_nps": 5,
     "estilo_meli": 0.5,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_enjoice",
@@ -6032,7 +6032,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_leandrmi",
@@ -6049,7 +6049,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 539
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_gasouzma",
@@ -6066,7 +6066,7 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.5,
-    "n_qm": 539
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_sarrosan",
@@ -6083,7 +6083,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.5,
-    "n_qm": 462
+    "n_qm": 484
   },
   {
     "USER_LDAP": "ext_natevely",
@@ -6100,7 +6100,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 385
+    "n_qm": 407
   },
   {
     "USER_LDAP": "ext_beatbrun",
@@ -6134,7 +6134,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.7,
-    "n_qm": 374
+    "n_qm": 396
   },
   {
     "USER_LDAP": "ext_flaalvar",
@@ -6151,7 +6151,7 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_levissou",
@@ -6168,7 +6168,7 @@
     "nps_copilot": 66.7,
     "n_nps": 3,
     "estilo_meli": 0.6,
-    "n_qm": 473
+    "n_qm": 495
   },
   {
     "USER_LDAP": "ext_aliemily",
@@ -6185,7 +6185,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.3,
-    "n_qm": 396
+    "n_qm": 418
   },
   {
     "USER_LDAP": "ext_bernalet",
@@ -6202,7 +6202,7 @@
     "nps_copilot": 50.0,
     "n_nps": 2,
     "estilo_meli": 0.7,
-    "n_qm": 462
+    "n_qm": 484
   },
   {
     "USER_LDAP": "ext_joseacar",
@@ -6219,7 +6219,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 297
+    "n_qm": 319
   },
   {
     "USER_LDAP": "ext_clebribe",
@@ -6253,7 +6253,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 550
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_brudamaz",
@@ -6270,7 +6270,7 @@
     "nps_copilot": 50.0,
     "n_nps": 2,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_doairan",
@@ -6287,7 +6287,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 517
+    "n_qm": 539
   },
   {
     "USER_LDAP": "ext_nicsant",
@@ -6304,7 +6304,7 @@
     "nps_copilot": 0.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 473
+    "n_qm": 495
   },
   {
     "USER_LDAP": "ext_alragiov",
@@ -6321,7 +6321,7 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_emanubis",
@@ -6338,7 +6338,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_marcclei",
@@ -6355,7 +6355,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 451
+    "n_qm": 473
   },
   {
     "USER_LDAP": "ext_lolgabri",
@@ -6372,7 +6372,7 @@
     "nps_copilot": -100.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_gersreis",
@@ -6389,7 +6389,7 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.7,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_olsilved",
@@ -6406,7 +6406,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 484
+    "n_qm": 506
   },
   {
     "USER_LDAP": "ext_gabbitte",
@@ -6423,7 +6423,7 @@
     "nps_copilot": -100.0,
     "n_nps": 1,
     "estilo_meli": 0.4,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_jucmaria",
@@ -6457,7 +6457,7 @@
     "nps_copilot": 100.0,
     "n_nps": 3,
     "estilo_meli": 0.7,
-    "n_qm": 583
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_luisthom",
@@ -6474,7 +6474,7 @@
     "nps_copilot": 0.0,
     "n_nps": 2,
     "estilo_meli": 0.4,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_kelvinno",
@@ -6491,7 +6491,7 @@
     "nps_copilot": 33.3,
     "n_nps": 3,
     "estilo_meli": 0.5,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_davneri",
@@ -6508,7 +6508,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_belobo",
@@ -6559,7 +6559,7 @@
     "nps_copilot": 66.7,
     "n_nps": 3,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_brucarib",
@@ -6576,7 +6576,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_sibrguil",
@@ -6593,7 +6593,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.4,
-    "n_qm": 539
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_sahemarc",
@@ -6610,7 +6610,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_clmacmar",
@@ -6661,7 +6661,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 539
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_thifmarq",
@@ -6695,7 +6695,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_lors",
@@ -6712,7 +6712,7 @@
     "nps_copilot": 50.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_pinigor",
@@ -6729,7 +6729,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.5,
-    "n_qm": 528
+    "n_qm": 550
   },
   {
     "USER_LDAP": "ext_renilsan",
@@ -6746,7 +6746,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 561
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_cabaraun",
@@ -6763,7 +6763,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_frrmarce",
@@ -6780,7 +6780,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 363
+    "n_qm": 385
   },
   {
     "USER_LDAP": "ext_victalic",
@@ -6797,7 +6797,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_pauamori",
@@ -6831,7 +6831,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_edt",
@@ -6848,7 +6848,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_lsil",
@@ -6865,7 +6865,7 @@
     "nps_copilot": 25.0,
     "n_nps": 4,
     "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_brcampea",
@@ -6882,7 +6882,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 473
+    "n_qm": 495
   },
   {
     "USER_LDAP": "ext_anacatha",
@@ -6899,7 +6899,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_lethiper",
@@ -6916,7 +6916,7 @@
     "nps_copilot": 50.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_matetele",
@@ -6933,7 +6933,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_natsanti",
@@ -6984,7 +6984,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 495
+    "n_qm": 517
   },
   {
     "USER_LDAP": "ext_patnorbe",
@@ -7001,7 +7001,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 506
+    "n_qm": 528
   },
   {
     "USER_LDAP": "ext_ingpaz",
@@ -7018,7 +7018,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_santaju",
@@ -7035,7 +7035,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_evkathly",
@@ -7052,7 +7052,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_lebeckma",
@@ -7086,7 +7086,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_rubsanta",
@@ -7103,7 +7103,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_flgonana",
@@ -7120,7 +7120,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_sidimigu",
@@ -7137,7 +7137,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.3,
-    "n_qm": 462
+    "n_qm": 484
   },
   {
     "USER_LDAP": "ext_davmacen",
@@ -7154,7 +7154,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_beaoli",
@@ -7171,7 +7171,7 @@
     "nps_copilot": 50.0,
     "n_nps": 2,
     "estilo_meli": 0.8,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_eliasasi",
@@ -7187,25 +7187,8 @@
     "dias_uso": 9,
     "nps_copilot": 33.3,
     "n_nps": 3,
-    "estilo_meli": 0.6,
-    "n_qm": 561
-  },
-  {
-    "USER_LDAP": "ext_franerik",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 4.7,
-    "outgoing_total": 149,
-    "outgoing_copilot": 7,
-    "tmo_com_copilot": "3021",
-    "tmo_sem_copilot": "2129",
-    "dias_uso": 8,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.6,
-    "n_qm": 539
+    "estilo_meli": 0.7,
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_allanafe",
@@ -7223,6 +7206,23 @@
     "n_nps": 5,
     "estilo_meli": 0.5,
     "n_qm": 429
+  },
+  {
+    "USER_LDAP": "ext_franerik",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 4.7,
+    "outgoing_total": 149,
+    "outgoing_copilot": 7,
+    "tmo_com_copilot": "3021",
+    "tmo_sem_copilot": "2129",
+    "dias_uso": 8,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.6,
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_isadelly",
@@ -7256,7 +7256,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_kailysan",
@@ -7273,7 +7273,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 583
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_liassis",
@@ -7290,7 +7290,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_lazfelip",
@@ -7307,7 +7307,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_walbarro",
@@ -7324,7 +7324,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 539
+    "n_qm": 550
   },
   {
     "USER_LDAP": "ext_cljones",
@@ -7341,7 +7341,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_thcena",
@@ -7375,7 +7375,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 220
+    "n_qm": 231
   },
   {
     "USER_LDAP": "ext_jaygomes",
@@ -7392,7 +7392,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.7,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_mosvicto",
@@ -7426,7 +7426,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_yaneres",
@@ -7443,7 +7443,7 @@
     "nps_copilot": 100.0,
     "n_nps": 2,
     "estilo_meli": 0.6,
-    "n_qm": 572
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_daianlim",
@@ -7460,7 +7460,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 286
+    "n_qm": 308
   },
   {
     "USER_LDAP": "ext_feaevell",
@@ -7494,7 +7494,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_ludlopes",
@@ -7511,7 +7511,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_pamandre",
@@ -7545,7 +7545,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_eskeny",
@@ -7579,7 +7579,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_vicecili",
@@ -7630,7 +7630,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 517
+    "n_qm": 528
   },
   {
     "USER_LDAP": "ext_telucian",
@@ -7664,7 +7664,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_kaleiras",
@@ -7681,7 +7681,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 429
+    "n_qm": 451
   },
   {
     "USER_LDAP": "ext_jamilgom",
@@ -7698,7 +7698,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_renapaz",
@@ -7718,6 +7718,23 @@
     "n_qm": 352
   },
   {
+    "USER_LDAP": "ext_saalvcar",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 3.0,
+    "outgoing_total": 135,
+    "outgoing_copilot": 4,
+    "tmo_com_copilot": "2314",
+    "tmo_sem_copilot": "1443",
+    "dias_uso": 3,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.3,
+    "n_qm": 561
+  },
+  {
     "USER_LDAP": "ext_jesusigo",
     "USER_OFFICE": "KTA_BRASIL",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
@@ -7735,23 +7752,6 @@
     "n_qm": 253
   },
   {
-    "USER_LDAP": "ext_saalvcar",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 3.0,
-    "outgoing_total": 135,
-    "outgoing_copilot": 4,
-    "tmo_com_copilot": "2314",
-    "tmo_sem_copilot": "1443",
-    "dias_uso": 3,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.3,
-    "n_qm": 539
-  },
-  {
     "USER_LDAP": "ext_elabrasi",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
@@ -7766,7 +7766,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.7,
-    "n_qm": 561
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_paullrod",
@@ -7783,7 +7783,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_fellhenr",
@@ -7817,7 +7817,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_edmatiam",
@@ -7834,7 +7834,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.3,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_pamonali",
@@ -7850,8 +7850,8 @@
     "dias_uso": 7,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 583
+    "estilo_meli": 0.5,
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_guilco",
@@ -7868,7 +7868,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 517
+    "n_qm": 539
   },
   {
     "USER_LDAP": "ext_gumi",
@@ -7902,7 +7902,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 539
+    "n_qm": 550
   },
   {
     "USER_LDAP": "ext_yawellin",
@@ -7919,7 +7919,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 517
+    "n_qm": 539
   },
   {
     "USER_LDAP": "ext_rodraf",
@@ -7936,7 +7936,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_jorgdani",
@@ -7953,7 +7953,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 121
+    "n_qm": 143
   },
   {
     "USER_LDAP": "ext_kessorai",
@@ -7987,7 +7987,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.7,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_ferarcha",
@@ -8007,23 +8007,6 @@
     "n_qm": 550
   },
   {
-    "USER_LDAP": "ext_josenire",
-    "USER_OFFICE": "KTA_BRASIL",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 2.1,
-    "outgoing_total": 234,
-    "outgoing_copilot": 5,
-    "tmo_com_copilot": "3061",
-    "tmo_sem_copilot": "1739",
-    "dias_uso": 6,
-    "nps_copilot": 100.0,
-    "n_nps": 1,
-    "estilo_meli": 0.5,
-    "n_qm": 583
-  },
-  {
     "USER_LDAP": "ext_lavinisi",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
@@ -8038,7 +8021,24 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.7,
-    "n_qm": 572
+    "n_qm": 594
+  },
+  {
+    "USER_LDAP": "ext_josenire",
+    "USER_OFFICE": "KTA_BRASIL",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 2.1,
+    "outgoing_total": 234,
+    "outgoing_copilot": 5,
+    "tmo_com_copilot": "3061",
+    "tmo_sem_copilot": "1739",
+    "dias_uso": 6,
+    "nps_copilot": 100.0,
+    "n_nps": 1,
+    "estilo_meli": 0.5,
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_rufelix",
@@ -8089,7 +8089,7 @@
     "nps_copilot": 0.0,
     "n_nps": 1,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_heldfeli",
@@ -8157,7 +8157,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.2,
-    "n_qm": 418
+    "n_qm": 440
   },
   {
     "USER_LDAP": "ext_ramosmic",
@@ -8174,7 +8174,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_palomgab",
@@ -8191,7 +8191,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.7,
-    "n_qm": 495
+    "n_qm": 506
   },
   {
     "USER_LDAP": "ext_ketslima",
@@ -8208,7 +8208,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_micaellj",
@@ -8225,7 +8225,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.3,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_ravale",
@@ -8242,7 +8242,7 @@
     "nps_copilot": 100.0,
     "n_nps": 1,
     "estilo_meli": 0.7,
-    "n_qm": 528
+    "n_qm": 539
   },
   {
     "USER_LDAP": "ext_nasillua",
@@ -8259,7 +8259,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.7,
-    "n_qm": 352
+    "n_qm": 374
   },
   {
     "USER_LDAP": "ext_odborges",
@@ -8276,7 +8276,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.7,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_debomeir",
@@ -8292,8 +8292,8 @@
     "dias_uso": 4,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 583
+    "estilo_meli": 0.6,
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_fatamire",
@@ -8310,7 +8310,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_clbarbom",
@@ -8327,7 +8327,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.7,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_luanejes",
@@ -8344,7 +8344,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 583
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_marisile",
@@ -8378,7 +8378,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 605
   },
   {
     "USER_LDAP": "ext_vitoriny",
@@ -8395,7 +8395,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 572
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_roomarci",
@@ -8412,7 +8412,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 396
+    "n_qm": 418
   },
   {
     "USER_LDAP": "ext_gabramon",
@@ -8429,7 +8429,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_simoesju",
@@ -8446,7 +8446,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.7,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_nunmiche",
@@ -8463,7 +8463,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 550
+    "n_qm": 572
   },
   {
     "USER_LDAP": "ext_laisanti",
@@ -8480,7 +8480,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_blbruno",
@@ -8497,7 +8497,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.3,
-    "n_qm": 451
+    "n_qm": 473
   },
   {
     "USER_LDAP": "ext_clarvale",
@@ -8514,7 +8514,7 @@
     "nps_copilot": -100.0,
     "n_nps": 1,
     "estilo_meli": 0.4,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_jesouraf",
@@ -8531,7 +8531,24 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 594
+  },
+  {
+    "USER_LDAP": "ext_leanpach",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 0.7,
+    "outgoing_total": 286,
+    "outgoing_copilot": 2,
+    "tmo_com_copilot": "2144",
+    "tmo_sem_copilot": "1813",
+    "dias_uso": 2,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_taylsilv",
@@ -8551,23 +8568,6 @@
     "n_qm": 561
   },
   {
-    "USER_LDAP": "ext_leanpach",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 0.7,
-    "outgoing_total": 286,
-    "outgoing_copilot": 2,
-    "tmo_com_copilot": "2144",
-    "tmo_sem_copilot": "1813",
-    "dias_uso": 2,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 572
-  },
-  {
     "USER_LDAP": "ext_naifigue",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
@@ -8582,7 +8582,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 594
+    "n_qm": 616
   },
   {
     "USER_LDAP": "ext_saclarma",
@@ -8667,7 +8667,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.3,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_thaynare",
@@ -8684,7 +8684,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.7,
-    "n_qm": 572
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_lauanasi",
@@ -8718,24 +8718,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 539
-  },
-  {
-    "USER_LDAP": "ext_petemore",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 0.4,
-    "outgoing_total": 229,
-    "outgoing_copilot": 1,
-    "tmo_com_copilot": "1063",
-    "tmo_sem_copilot": "658",
-    "dias_uso": 2,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 583
+    "n_qm": 561
   },
   {
     "USER_LDAP": "ext_annmende",
@@ -8755,6 +8738,23 @@
     "n_qm": 407
   },
   {
+    "USER_LDAP": "ext_petemore",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 0.4,
+    "outgoing_total": 229,
+    "outgoing_copilot": 1,
+    "tmo_com_copilot": "1063",
+    "tmo_sem_copilot": "658",
+    "dias_uso": 2,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 605
+  },
+  {
     "USER_LDAP": "ext_azepedro",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
@@ -8769,7 +8769,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_edbaluiz",
@@ -8803,7 +8803,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
     "USER_LDAP": "ext_layajesu",
@@ -8819,8 +8819,59 @@
     "dias_uso": 1,
     "nps_copilot": null,
     "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 583
+  },
+  {
+    "USER_LDAP": "ext_kallynfe",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 24,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2203",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
     "estilo_meli": 0.3,
-    "n_qm": 561
+    "n_qm": 264
+  },
+  {
+    "USER_LDAP": "ext_valporto",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 14,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2186",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 308
+  },
+  {
+    "USER_LDAP": "ext_edmerces",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 25,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2259",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.6,
+    "n_qm": 319
   },
   {
     "USER_LDAP": "ext_ferrraf",
@@ -8837,7 +8888,58 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
+    "n_qm": 363
+  },
+  {
+    "USER_LDAP": "ext_anaiala",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 23,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2504",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 253
+  },
+  {
+    "USER_LDAP": "ext_pealadri",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 39,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1499",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
     "n_qm": 341
+  },
+  {
+    "USER_LDAP": "ext_frmmateu",
+    "USER_OFFICE": "KTA_BRASIL",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 18,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1905",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 286
   },
   {
     "USER_LDAP": "ext_brx",
@@ -8857,106 +8959,21 @@
     "n_qm": 451
   },
   {
-    "USER_LDAP": "ext_valporto",
+    "USER_LDAP": "ext_pamecarn",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 14,
+    "outgoing_total": 10,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2186",
+    "tmo_sem_copilot": "1566",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 286
-  },
-  {
-    "USER_LDAP": "ext_anaiala",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 23,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2504",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 231
-  },
-  {
-    "USER_LDAP": "ext_kallynfe",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 24,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2203",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.3,
-    "n_qm": 242
-  },
-  {
-    "USER_LDAP": "ext_edmerces",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 25,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2259",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.6,
-    "n_qm": 297
-  },
-  {
-    "USER_LDAP": "ext_pealadri",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 39,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1499",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 319
-  },
-  {
-    "USER_LDAP": "ext_frmmateu",
-    "USER_OFFICE": "KTA_BRASIL",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 18,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1905",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 264
+    "n_qm": 209
   },
   {
     "USER_LDAP": "ext_yassan",
@@ -8973,7 +8990,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 220
+    "n_qm": 242
   },
   {
     "USER_LDAP": "ext_moraipat",
@@ -8990,24 +9007,24 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 110
+    "n_qm": 121
   },
   {
-    "USER_LDAP": "ext_pamecarn",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_LDAP": "ext_marsaan",
+    "USER_OFFICE": "AEC",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 10,
+    "outgoing_total": 32,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1566",
+    "tmo_sem_copilot": "1210",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 187
+    "estilo_meli": 0.3,
+    "n_qm": 242
   },
   {
     "USER_LDAP": "ext_rhlucas",
@@ -9061,23 +9078,6 @@
     "n_qm": 220
   },
   {
-    "USER_LDAP": "ext_marsaan",
-    "USER_OFFICE": "AEC",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 32,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1210",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.3,
-    "n_qm": 231
-  },
-  {
     "USER_LDAP": "ext_deisbarb",
     "USER_OFFICE": "KTA_BRASIL",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
@@ -9092,58 +9092,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 297
-  },
-  {
-    "USER_LDAP": "ext_andrsalu",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 24,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2197",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 220
-  },
-  {
-    "USER_LDAP": "ext_tokaique",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 399,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": "1056",
-    "tmo_sem_copilot": "1008",
-    "dias_uso": 1,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.6,
-    "n_qm": 539
-  },
-  {
-    "USER_LDAP": "ext_cinsanto",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 7,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": "4108",
-    "tmo_sem_copilot": "1686",
-    "dias_uso": 1,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": null,
-    "n_qm": 0
+    "n_qm": 308
   },
   {
     "USER_LDAP": "ext_crosamar",
@@ -9159,8 +9108,8 @@
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 286
+    "estilo_meli": 0.4,
+    "n_qm": 308
   },
   {
     "USER_LDAP": "ext_ademilso",
@@ -9180,23 +9129,6 @@
     "n_qm": 330
   },
   {
-    "USER_LDAP": "ext_crpecanh",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 9,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "3238",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 209
-  },
-  {
     "USER_LDAP": "ext_crlimgab",
     "USER_OFFICE": "AEC",
     "USER_TEAM_CHANNEL": "MULTICANAL C2C",
@@ -9212,6 +9144,57 @@
     "n_nps": 0,
     "estilo_meli": 0.4,
     "n_qm": 374
+  },
+  {
+    "USER_LDAP": "ext_tokaique",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 399,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": "1056",
+    "tmo_sem_copilot": "1008",
+    "dias_uso": 1,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.6,
+    "n_qm": 561
+  },
+  {
+    "USER_LDAP": "ext_andrsalu",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 24,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2197",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 242
+  },
+  {
+    "USER_LDAP": "ext_martirda",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 7,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2712",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 154
   },
   {
     "USER_LDAP": "ext_cinandre",
@@ -9248,55 +9231,38 @@
     "n_qm": 407
   },
   {
-    "USER_LDAP": "ext_beargabr",
-    "USER_OFFICE": "AEC",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 23,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1407",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.3,
-    "n_qm": 275
-  },
-  {
-    "USER_LDAP": "ext_evandrra",
+    "USER_LDAP": "ext_crpecanh",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 34,
+    "outgoing_total": 9,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1747",
+    "tmo_sem_copilot": "3238",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 187
+    "estilo_meli": 0.4,
+    "n_qm": 231
   },
   {
-    "USER_LDAP": "ext_barbobre",
+    "USER_LDAP": "ext_cinsanto",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
+    "senioridade": "Expert",
     "pct_adopcion": 0.0,
-    "outgoing_total": 24,
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2205",
-    "dias_uso": 0,
+    "tmo_com_copilot": "4108",
+    "tmo_sem_copilot": "1686",
+    "dias_uso": 1,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 264
+    "estilo_meli": null,
+    "n_qm": 0
   },
   {
     "USER_LDAP": "ext_daiasima",
@@ -9316,6 +9282,57 @@
     "n_qm": 165
   },
   {
+    "USER_LDAP": "ext_henriyag",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 14,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2432",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 143
+  },
+  {
+    "USER_LDAP": "ext_racfonse",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 48,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1630",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 297
+  },
+  {
+    "USER_LDAP": "ext_chacarmo",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 26,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2514",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 242
+  },
+  {
     "USER_LDAP": "ext_eduxavie",
     "USER_OFFICE": "AEC",
     "USER_TEAM_CHANNEL": "MULTICANAL C2C",
@@ -9333,38 +9350,21 @@
     "n_qm": 572
   },
   {
-    "USER_LDAP": "ext_racfonse",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_LDAP": "ext_rebthali",
+    "USER_OFFICE": "AEC",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
+    "senioridade": "Expert",
     "pct_adopcion": 0.0,
-    "outgoing_total": 48,
+    "outgoing_total": 2,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1630",
+    "tmo_sem_copilot": "884",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 275
-  },
-  {
-    "USER_LDAP": "ext_henriyag",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 14,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2432",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 143
+    "estilo_meli": 0.3,
+    "n_qm": 11
   },
   {
     "USER_LDAP": "ext_joeromeu",
@@ -9397,25 +9397,76 @@
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 275
+    "estilo_meli": 0.6,
+    "n_qm": 297
   },
   {
-    "USER_LDAP": "ext_rebthali",
+    "USER_LDAP": "ext_barbobre",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 24,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2205",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 286
+  },
+  {
+    "USER_LDAP": "ext_evandrra",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 34,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1747",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 209
+  },
+  {
+    "USER_LDAP": "ext_goandlet",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 17,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1520",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 187
+  },
+  {
+    "USER_LDAP": "ext_beargabr",
     "USER_OFFICE": "AEC",
     "USER_TEAM_CHANNEL": "MULTICANAL C2C",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
+    "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 2,
+    "outgoing_total": 23,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "884",
+    "tmo_sem_copilot": "1407",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.3,
-    "n_qm": 11
+    "n_qm": 297
   },
   {
     "USER_LDAP": "ext_saane",
@@ -9435,57 +9486,6 @@
     "n_qm": 605
   },
   {
-    "USER_LDAP": "ext_chacarmo",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 26,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2514",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 220
-  },
-  {
-    "USER_LDAP": "ext_vibercac",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 40,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1535",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 275
-  },
-  {
-    "USER_LDAP": "ext_goandlet",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 17,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1520",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 165
-  },
-  {
     "USER_LDAP": "ext_wallacli",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
@@ -9500,24 +9500,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 165
-  },
-  {
-    "USER_LDAP": "ext_sipdiogo",
-    "USER_OFFICE": "AEC",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 230,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": "1249",
-    "tmo_sem_copilot": "1375",
-    "dias_uso": 2,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 594
+    "n_qm": 187
   },
   {
     "USER_LDAP": "ext_jefseraf",
@@ -9533,8 +9516,25 @@
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.4,
+    "estilo_meli": 0.3,
     "n_qm": 440
+  },
+  {
+    "USER_LDAP": "ext_cagonsal",
+    "USER_OFFICE": "KTA_BRASIL",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 36,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2274",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.6,
+    "n_qm": 308
   },
   {
     "USER_LDAP": "ext_jaqgraca",
@@ -9551,7 +9551,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 319
+    "n_qm": 341
   },
   {
     "USER_LDAP": "ext_cerqjess",
@@ -9568,7 +9568,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 220
+    "n_qm": 231
   },
   {
     "USER_LDAP": "ext_almalana",
@@ -9585,7 +9585,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 253
+    "n_qm": 275
   },
   {
     "USER_LDAP": "ext_hellengo",
@@ -9605,6 +9605,74 @@
     "n_qm": 231
   },
   {
+    "USER_LDAP": "ext_vibercac",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 40,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1535",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 297
+  },
+  {
+    "USER_LDAP": "ext_sipdiogo",
+    "USER_OFFICE": "AEC",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 230,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": "1249",
+    "tmo_sem_copilot": "1375",
+    "dias_uso": 2,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 594
+  },
+  {
+    "USER_LDAP": "ext_borjaque",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 15,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "3836",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 242
+  },
+  {
+    "USER_LDAP": "ext_violandr",
+    "USER_OFFICE": "AEC",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 15,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1143",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.2,
+    "n_qm": 374
+  },
+  {
     "USER_LDAP": "ext_garussie",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
@@ -9619,7 +9687,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 231
+    "n_qm": 253
   },
   {
     "USER_LDAP": "ext_wafroes",
@@ -9637,142 +9705,6 @@
     "n_nps": 0,
     "estilo_meli": 0.8,
     "n_qm": 11
-  },
-  {
-    "USER_LDAP": "ext_vimluis",
-    "USER_OFFICE": "KTA_BRASIL",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 40,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1421",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.6,
-    "n_qm": 275
-  },
-  {
-    "USER_LDAP": "ext_cagonsal",
-    "USER_OFFICE": "KTA_BRASIL",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 36,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2274",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.6,
-    "n_qm": 286
-  },
-  {
-    "USER_LDAP": "ext_ingrynay",
-    "USER_OFFICE": "AEC",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 18,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1419",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 242
-  },
-  {
-    "USER_LDAP": "ext_borjaque",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 15,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "3836",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 220
-  },
-  {
-    "USER_LDAP": "ext_violandr",
-    "USER_OFFICE": "AEC",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 15,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1143",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.2,
-    "n_qm": 352
-  },
-  {
-    "USER_LDAP": "ext_lasandma",
-    "USER_OFFICE": "KTA_BRASIL",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 24,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2526",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 209
-  },
-  {
-    "USER_LDAP": "ext_shamaced",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 20,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2238",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 275
-  },
-  {
-    "USER_LDAP": "ext_fraralan",
-    "USER_OFFICE": "KTA_BRASIL",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 34,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1863",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.6,
-    "n_qm": 275
   },
   {
     "USER_LDAP": "ext_leanguim",
@@ -9806,58 +9738,58 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 231
+    "n_qm": 253
   },
   {
-    "USER_LDAP": "ext_coeverto",
+    "USER_LDAP": "ext_ingrynay",
     "USER_OFFICE": "AEC",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 24,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1284",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 352
-  },
-  {
-    "USER_LDAP": "ext_sacarjul",
-    "USER_OFFICE": "AEC",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 14,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1290",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 374
-  },
-  {
-    "USER_LDAP": "ext_lirmarti",
-    "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL C2C",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 20,
+    "outgoing_total": 18,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1593",
+    "tmo_sem_copilot": "1419",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.3,
-    "n_qm": 242
+    "estilo_meli": 0.4,
+    "n_qm": 264
+  },
+  {
+    "USER_LDAP": "ext_vimluis",
+    "USER_OFFICE": "KTA_BRASIL",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 40,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1421",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.6,
+    "n_qm": 297
+  },
+  {
+    "USER_LDAP": "ext_fraralan",
+    "USER_OFFICE": "KTA_BRASIL",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 34,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1863",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.6,
+    "n_qm": 297
   },
   {
     "USER_LDAP": "ext_erraquie",
@@ -9877,38 +9809,38 @@
     "n_qm": 407
   },
   {
-    "USER_LDAP": "ext_rutcerqu",
-    "USER_OFFICE": "ATE",
+    "USER_LDAP": "ext_lasandma",
+    "USER_OFFICE": "KTA_BRASIL",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 27,
+    "outgoing_total": 24,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "3047",
+    "tmo_sem_copilot": "2526",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 209
+    "n_qm": 231
   },
   {
-    "USER_LDAP": "ext_vivale",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_LDAP": "ext_coeverto",
+    "USER_OFFICE": "AEC",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Expert",
     "pct_adopcion": 0.0,
-    "outgoing_total": 135,
+    "outgoing_total": 24,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2279",
+    "tmo_sem_copilot": "1284",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 572
+    "estilo_meli": 0.4,
+    "n_qm": 374
   },
   {
     "USER_LDAP": "ext_saefigen",
@@ -9925,24 +9857,58 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 242
+    "n_qm": 264
   },
   {
-    "USER_LDAP": "ext_camanast",
+    "USER_LDAP": "ext_lirmarti",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 20,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1593",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.3,
+    "n_qm": 264
+  },
+  {
+    "USER_LDAP": "ext_rutcerqu",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 26,
+    "outgoing_total": 27,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1627",
+    "tmo_sem_copilot": "3047",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 286
+    "n_qm": 220
+  },
+  {
+    "USER_LDAP": "ext_vivale",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 135,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2279",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 594
   },
   {
     "USER_LDAP": "ext_marcicou",
@@ -9979,6 +9945,91 @@
     "n_qm": 583
   },
   {
+    "USER_LDAP": "ext_shamaced",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 20,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2238",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 297
+  },
+  {
+    "USER_LDAP": "ext_sacarjul",
+    "USER_OFFICE": "AEC",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 14,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1290",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 374
+  },
+  {
+    "USER_LDAP": "ext_camanast",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 26,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1627",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 308
+  },
+  {
+    "USER_LDAP": "ext_siajonat",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 27,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1906",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 275
+  },
+  {
+    "USER_LDAP": "ext_roberipa",
+    "USER_OFFICE": "KTA_BRASIL",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 9,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1225",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 198
+  },
+  {
     "USER_LDAP": "ext_thifraga",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
@@ -10010,24 +10061,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 286
-  },
-  {
-    "USER_LDAP": "ext_roberipa",
-    "USER_OFFICE": "KTA_BRASIL",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 9,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1225",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 198
+    "n_qm": 308
   },
   {
     "USER_LDAP": "ext_melqusil",
@@ -10061,24 +10095,41 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 198
+    "n_qm": 220
   },
   {
-    "USER_LDAP": "ext_siajonat",
+    "USER_LDAP": "ext_bosmaria",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 27,
+    "outgoing_total": 32,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1906",
+    "tmo_sem_copilot": "2223",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 253
+    "n_qm": 286
+  },
+  {
+    "USER_LDAP": "ext_silvesmi",
+    "USER_OFFICE": "AEC",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 13,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "837",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.3,
+    "n_qm": 275
   },
   {
     "USER_LDAP": "ext_maiaguim",
@@ -10112,57 +10163,6 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 242
-  },
-  {
-    "USER_LDAP": "ext_bosmaria",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 32,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2223",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 264
-  },
-  {
-    "USER_LDAP": "ext_mesocaro",
-    "USER_OFFICE": "KTA_BRASIL",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 26,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2174",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 242
-  },
-  {
-    "USER_LDAP": "ext_silvesmi",
-    "USER_OFFICE": "AEC",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 13,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "837",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.3,
     "n_qm": 264
   },
   {
@@ -10197,40 +10197,6 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 253
-  },
-  {
-    "USER_LDAP": "ext_tesathai",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 44,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1515",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 308
-  },
-  {
-    "USER_LDAP": "ext_ansjorge",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 45,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1090",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.6,
     "n_qm": 275
   },
   {
@@ -10248,40 +10214,40 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.3,
-    "n_qm": 286
-  },
-  {
-    "USER_LDAP": "ext_jennimon",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 35,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1742",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
     "n_qm": 308
   },
   {
-    "USER_LDAP": "ext_mojadiel",
+    "USER_LDAP": "ext_mesocaro",
     "USER_OFFICE": "KTA_BRASIL",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 40,
+    "outgoing_total": 26,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1462",
+    "tmo_sem_copilot": "2174",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.6,
+    "estilo_meli": 0.5,
+    "n_qm": 264
+  },
+  {
+    "USER_LDAP": "ext_tesathai",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 44,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1515",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
     "n_qm": 330
   },
   {
@@ -10299,24 +10265,24 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 561
+    "n_qm": 583
   },
   {
-    "USER_LDAP": "ext_liroana",
+    "USER_LDAP": "ext_ansjorge",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
+    "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 239,
+    "outgoing_total": 45,
     "outgoing_copilot": 0,
-    "tmo_com_copilot": "3699",
-    "tmo_sem_copilot": "1895",
-    "dias_uso": 2,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1090",
+    "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 583
+    "estilo_meli": 0.6,
+    "n_qm": 297
   },
   {
     "USER_LDAP": "ext_salevino",
@@ -10350,7 +10316,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 231
+    "n_qm": 253
   },
   {
     "USER_LDAP": "ext_montesar",
@@ -10370,6 +10336,57 @@
     "n_qm": 407
   },
   {
+    "USER_LDAP": "ext_liroana",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 239,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": "3699",
+    "tmo_sem_copilot": "1895",
+    "dias_uso": 2,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 605
+  },
+  {
+    "USER_LDAP": "ext_jennimon",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 35,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1742",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 330
+  },
+  {
+    "USER_LDAP": "ext_mojadiel",
+    "USER_OFFICE": "KTA_BRASIL",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 40,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1462",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.6,
+    "n_qm": 352
+  },
+  {
     "USER_LDAP": "ext_samrosil",
     "USER_OFFICE": "KTA_BRASIL",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
@@ -10384,7 +10401,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 242
+    "n_qm": 264
   },
   {
     "USER_LDAP": "ext_tavaresl",
@@ -10404,91 +10421,6 @@
     "n_qm": 22
   },
   {
-    "USER_LDAP": "ext_firalons",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 27,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1507",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 220
-  },
-  {
-    "USER_LDAP": "ext_sicrosan",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 15,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2117",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 275
-  },
-  {
-    "USER_LDAP": "ext_edxamari",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 13,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2270",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 231
-  },
-  {
-    "USER_LDAP": "ext_sapaumar",
-    "USER_OFFICE": "AEC",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 11,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1209",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 418
-  },
-  {
-    "USER_LDAP": "ext_emesacra",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 27,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1755",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 253
-  },
-  {
     "USER_LDAP": "ext_nabitenc",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
@@ -10503,24 +10435,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 187
-  },
-  {
-    "USER_LDAP": "ext_izkanawa",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 1,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "3933",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 253
+    "n_qm": 209
   },
   {
     "USER_LDAP": "ext_soalcaio",
@@ -10537,7 +10452,58 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 187
+    "n_qm": 198
+  },
+  {
+    "USER_LDAP": "ext_edxamari",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 13,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2270",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 253
+  },
+  {
+    "USER_LDAP": "ext_izkanawa",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 1,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "3933",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 275
+  },
+  {
+    "USER_LDAP": "ext_emesacra",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 27,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1755",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 275
   },
   {
     "USER_LDAP": "ext_reipamel",
@@ -10554,109 +10520,24 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 286
+    "n_qm": 308
   },
   {
-    "USER_LDAP": "ext_soalalex",
+    "USER_LDAP": "ext_jeorange",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 10,
+    "outgoing_total": 11,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "3344",
+    "tmo_sem_copilot": "1859",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 165
-  },
-  {
-    "USER_LDAP": "ext_diitalia",
-    "USER_OFFICE": "AEC",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 19,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1772",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.3,
-    "n_qm": 275
-  },
-  {
-    "USER_LDAP": "ext_lisaeliz",
-    "USER_OFFICE": "KTA_BRASIL",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 34,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1553",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.6,
-    "n_qm": 231
-  },
-  {
-    "USER_LDAP": "ext_myllvito",
-    "USER_OFFICE": "AEC",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 144,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": "2162",
-    "tmo_sem_copilot": "1502",
-    "dias_uso": 3,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 517
-  },
-  {
-    "USER_LDAP": "ext_mabaroni",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 20,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2670",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 121
-  },
-  {
-    "USER_LDAP": "ext_thaialca",
-    "USER_OFFICE": "AEC",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 6,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1328",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 253
+    "n_qm": 55
   },
   {
     "USER_LDAP": "ext_indrocha",
@@ -10690,7 +10571,109 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 242
+    "n_qm": 264
+  },
+  {
+    "USER_LDAP": "ext_lisaeliz",
+    "USER_OFFICE": "KTA_BRASIL",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 34,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1553",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.6,
+    "n_qm": 253
+  },
+  {
+    "USER_LDAP": "ext_myllvito",
+    "USER_OFFICE": "AEC",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 144,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": "2162",
+    "tmo_sem_copilot": "1502",
+    "dias_uso": 3,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 517
+  },
+  {
+    "USER_LDAP": "ext_mabaroni",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 20,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2670",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 143
+  },
+  {
+    "USER_LDAP": "ext_firalons",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 27,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1507",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 231
+  },
+  {
+    "USER_LDAP": "ext_sicrosan",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 15,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2117",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 297
+  },
+  {
+    "USER_LDAP": "ext_sapaumar",
+    "USER_OFFICE": "AEC",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 11,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1209",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 429
   },
   {
     "USER_LDAP": "ext_vidivino",
@@ -10707,24 +10690,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 143
-  },
-  {
-    "USER_LDAP": "ext_jeorange",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 11,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1859",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 33
+    "n_qm": 165
   },
   {
     "USER_LDAP": "ext_gabgamba",
@@ -10758,41 +10724,24 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 275
+    "n_qm": 297
   },
   {
-    "USER_LDAP": "ext_rebeijes",
-    "USER_OFFICE": "KTA_BRASIL",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 22,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "3011",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.6,
-    "n_qm": 209
-  },
-  {
-    "USER_LDAP": "ext_almloren",
+    "USER_LDAP": "ext_leapeixo",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 47,
+    "outgoing_total": 29,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1289",
+    "tmo_sem_copilot": "2535",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.6,
-    "n_qm": 352
+    "estilo_meli": 0.5,
+    "n_qm": 264
   },
   {
     "USER_LDAP": "ext_sivferna",
@@ -10812,21 +10761,21 @@
     "n_qm": 242
   },
   {
-    "USER_LDAP": "ext_leapeixo",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_LDAP": "ext_thaialca",
+    "USER_OFFICE": "AEC",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 29,
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2535",
+    "tmo_sem_copilot": "1328",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 242
+    "estilo_meli": 0.4,
+    "n_qm": 275
   },
   {
     "USER_LDAP": "ext_tadcosta",
@@ -10843,7 +10792,330 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 220
+    "n_qm": 231
+  },
+  {
+    "USER_LDAP": "ext_rebeijes",
+    "USER_OFFICE": "KTA_BRASIL",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 22,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "3011",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.6,
+    "n_qm": 231
+  },
+  {
+    "USER_LDAP": "ext_juliodin",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 20,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2695",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.6,
+    "n_qm": 341
+  },
+  {
+    "USER_LDAP": "ext_carneivi",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 42,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1903",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 264
+  },
+  {
+    "USER_LDAP": "ext_arscrist",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 34,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2018",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 341
+  },
+  {
+    "USER_LDAP": "ext_ligdebor",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 35,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1842",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 330
+  },
+  {
+    "USER_LDAP": "ext_jackelis",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 25,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1245",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 55
+  },
+  {
+    "USER_LDAP": "ext_pollferr",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 388,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": "1747",
+    "tmo_sem_copilot": "1097",
+    "dias_uso": 1,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 583
+  },
+  {
+    "USER_LDAP": "ext_safoluca",
+    "USER_OFFICE": "KTA_BRASIL",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 31,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2137",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 242
+  },
+  {
+    "USER_LDAP": "ext_verpinto",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 27,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2475",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 341
+  },
+  {
+    "USER_LDAP": "ext_lucmalhe",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 20,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2816",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 286
+  },
+  {
+    "USER_LDAP": "ext_bynetlem",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 106,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2276",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.6,
+    "n_qm": 528
+  },
+  {
+    "USER_LDAP": "ext_jecaana",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 20,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2469",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 264
+  },
+  {
+    "USER_LDAP": "ext_keicsilv",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 28,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2084",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 330
+  },
+  {
+    "USER_LDAP": "ext_soalalex",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 10,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "3344",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 187
+  },
+  {
+    "USER_LDAP": "ext_diitalia",
+    "USER_OFFICE": "AEC",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 19,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1772",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.3,
+    "n_qm": 297
+  },
+  {
+    "USER_LDAP": "ext_samigfra",
+    "USER_OFFICE": "AEC",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 16,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1532",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.3,
+    "n_qm": 407
+  },
+  {
+    "USER_LDAP": "ext_milenmat",
+    "USER_OFFICE": "KTA_BRASIL",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 36,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1401",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.6,
+    "n_qm": 297
+  },
+  {
+    "USER_LDAP": "ext_mebeserr",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 199,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": "583",
+    "tmo_sem_copilot": "1593",
+    "dias_uso": 1,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 594
+  },
+  {
+    "USER_LDAP": "ext_yumsilva",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 32,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2174",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 231
   },
   {
     "USER_LDAP": "ext_flcidade",
@@ -10894,296 +11166,58 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 308
+    "n_qm": 330
   },
   {
-    "USER_LDAP": "ext_juliodin",
+    "USER_LDAP": "ext_simarclu",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 20,
+    "outgoing_total": 33,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2695",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.6,
-    "n_qm": 319
-  },
-  {
-    "USER_LDAP": "ext_pollferr",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 388,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": "1747",
-    "tmo_sem_copilot": "1097",
-    "dias_uso": 1,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 561
-  },
-  {
-    "USER_LDAP": "ext_jackelis",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 25,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1245",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 55
-  },
-  {
-    "USER_LDAP": "ext_keicsilv",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 28,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2084",
+    "tmo_sem_copilot": "1455",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 308
+    "n_qm": 231
   },
   {
-    "USER_LDAP": "ext_carneivi",
+    "USER_LDAP": "ext_souzawen",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 42,
+    "outgoing_total": 46,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1903",
+    "tmo_sem_copilot": "2083",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.4,
+    "estilo_meli": 0.6,
     "n_qm": 242
   },
   {
-    "USER_LDAP": "ext_arscrist",
+    "USER_LDAP": "ext_maicoara",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 34,
+    "outgoing_total": 15,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2018",
+    "tmo_sem_copilot": "3069",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 319
-  },
-  {
-    "USER_LDAP": "ext_jecaana",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 20,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2469",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 242
-  },
-  {
-    "USER_LDAP": "ext_ligdebor",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 35,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1842",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 308
-  },
-  {
-    "USER_LDAP": "ext_verpinto",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 27,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2475",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 319
-  },
-  {
-    "USER_LDAP": "ext_safoluca",
-    "USER_OFFICE": "KTA_BRASIL",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 31,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2137",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 220
-  },
-  {
-    "USER_LDAP": "ext_yumsilva",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 32,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2174",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 209
-  },
-  {
-    "USER_LDAP": "ext_lucmalhe",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 20,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2816",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 264
-  },
-  {
-    "USER_LDAP": "ext_bynetlem",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 106,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2276",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.6,
-    "n_qm": 506
-  },
-  {
-    "USER_LDAP": "ext_milenmat",
-    "USER_OFFICE": "KTA_BRASIL",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 36,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1401",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.6,
-    "n_qm": 275
-  },
-  {
-    "USER_LDAP": "ext_samigfra",
-    "USER_OFFICE": "AEC",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 16,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1532",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.3,
-    "n_qm": 407
-  },
-  {
-    "USER_LDAP": "ext_joicosme",
-    "USER_OFFICE": "KTA_BRASIL",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 31,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1821",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.6,
-    "n_qm": 198
-  },
-  {
-    "USER_LDAP": "ext_mebeserr",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 199,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": "583",
-    "tmo_sem_copilot": "1593",
-    "dias_uso": 1,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 572
+    "n_qm": 99
   },
   {
     "USER_LDAP": "ext_crdiogo",
@@ -11203,55 +11237,21 @@
     "n_qm": 143
   },
   {
-    "USER_LDAP": "ext_souzawen",
-    "USER_OFFICE": "ATE",
+    "USER_LDAP": "ext_joicosme",
+    "USER_OFFICE": "KTA_BRASIL",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 46,
+    "outgoing_total": 31,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2083",
+    "tmo_sem_copilot": "1821",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
     "n_qm": 220
-  },
-  {
-    "USER_LDAP": "ext_maicoara",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 15,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "3069",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 77
-  },
-  {
-    "USER_LDAP": "ext_simarclu",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 33,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1455",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 209
   },
   {
     "USER_LDAP": "ext_alencaju",
@@ -11285,7 +11285,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 209
+    "n_qm": 231
   },
   {
     "USER_LDAP": "ext_paisa",
@@ -11301,8 +11301,8 @@
     "dias_uso": 0,
     "nps_copilot": 100.0,
     "n_nps": 1,
-    "estilo_meli": 0.4,
-    "n_qm": 242
+    "estilo_meli": 0.5,
+    "n_qm": 264
   },
   {
     "USER_LDAP": "ext_rolevy",
@@ -11319,7 +11319,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 242
+    "n_qm": 264
   },
   {
     "USER_LDAP": "ext_rapemari",
@@ -11336,7 +11336,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.3,
-    "n_qm": 176
+    "n_qm": 187
   },
   {
     "USER_LDAP": "ext_aljcaio",
@@ -11353,92 +11353,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.6,
-    "n_qm": 242
-  },
-  {
-    "USER_LDAP": "ext_peramjoa",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 30,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1267",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.2,
-    "n_qm": 253
-  },
-  {
-    "USER_LDAP": "ext_gabrenat",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 29,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2727",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 209
-  },
-  {
-    "USER_LDAP": "ext_syribeir",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 274,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1655",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 550
-  },
-  {
-    "USER_LDAP": "ext_erygonca",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 23,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1715",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.6,
-    "n_qm": 77
-  },
-  {
-    "USER_LDAP": "ext_elavenan",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 3,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1621",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 209
+    "n_qm": 264
   },
   {
     "USER_LDAP": "ext_rorisolo",
@@ -11454,8 +11369,8 @@
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 99
+    "estilo_meli": 0.4,
+    "n_qm": 110
   },
   {
     "USER_LDAP": "ext_ramomaya",
@@ -11472,7 +11387,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 528
+    "n_qm": 539
   },
   {
     "USER_LDAP": "ext_lujansse",
@@ -11488,93 +11403,42 @@
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.4,
+    "estilo_meli": 0.5,
+    "n_qm": 297
+  },
+  {
+    "USER_LDAP": "ext_peramjoa",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 30,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1267",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.2,
     "n_qm": 275
   },
   {
-    "USER_LDAP": "ext_geuapare",
+    "USER_LDAP": "ext_gabrenat",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 8,
+    "outgoing_total": 29,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2461",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 88
-  },
-  {
-    "USER_LDAP": "ext_brwinnie",
-    "USER_OFFICE": "KTA_BRASIL",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 7,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": "2033",
-    "tmo_sem_copilot": "1043",
-    "dias_uso": 1,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 22
-  },
-  {
-    "USER_LDAP": "ext_nunbrend",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 34,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1865",
+    "tmo_sem_copilot": "2727",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 220
-  },
-  {
-    "USER_LDAP": "ext_porluiz",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 39,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1760",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 286
-  },
-  {
-    "USER_LDAP": "ext_ingsampa",
-    "USER_OFFICE": "KTA_BRASIL",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 37,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1642",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 341
+    "n_qm": 231
   },
   {
     "USER_LDAP": "ext_migluan",
@@ -11611,6 +11475,142 @@
     "n_qm": 22
   },
   {
+    "USER_LDAP": "ext_porluiz",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 39,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1760",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 308
+  },
+  {
+    "USER_LDAP": "ext_ingsampa",
+    "USER_OFFICE": "KTA_BRASIL",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 37,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1642",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 363
+  },
+  {
+    "USER_LDAP": "ext_elavenan",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 3,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1621",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 209
+  },
+  {
+    "USER_LDAP": "ext_geuapare",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 8,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2461",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 99
+  },
+  {
+    "USER_LDAP": "ext_hebabo",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 22,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2827",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 143
+  },
+  {
+    "USER_LDAP": "ext_rimotta",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 37,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1478",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 385
+  },
+  {
+    "USER_LDAP": "ext_syribeir",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 274,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1655",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 550
+  },
+  {
+    "USER_LDAP": "ext_erygonca",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 23,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1715",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.6,
+    "n_qm": 88
+  },
+  {
     "USER_LDAP": "ext_igoamaro",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
@@ -11642,41 +11642,58 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 231
+    "n_qm": 253
   },
   {
-    "USER_LDAP": "ext_hebabo",
+    "USER_LDAP": "ext_brwinnie",
+    "USER_OFFICE": "KTA_BRASIL",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 7,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": "2033",
+    "tmo_sem_copilot": "1043",
+    "dias_uso": 1,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 22
+  },
+  {
+    "USER_LDAP": "ext_almloren",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 22,
+    "outgoing_total": 47,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2827",
+    "tmo_sem_copilot": "1289",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 121
+    "estilo_meli": 0.6,
+    "n_qm": 374
   },
   {
-    "USER_LDAP": "ext_rimotta",
+    "USER_LDAP": "ext_nunbrend",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 37,
+    "outgoing_total": 34,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1478",
+    "tmo_sem_copilot": "1865",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 363
+    "estilo_meli": 0.4,
+    "n_qm": 242
   },
   {
     "USER_LDAP": "ext_jormatth",
@@ -11693,24 +11710,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 198
-  },
-  {
-    "USER_LDAP": "ext_biavande",
-    "USER_OFFICE": "KTA_BRASIL",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 36,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1972",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.6,
-    "n_qm": 319
+    "n_qm": 220
   },
   {
     "USER_LDAP": "ext_frfrenat",
@@ -11747,57 +11747,6 @@
     "n_qm": 165
   },
   {
-    "USER_LDAP": "ext_kleyedua",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 2,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2192",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.3,
-    "n_qm": 132
-  },
-  {
-    "USER_LDAP": "ext_famluiz",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 1,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1617",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.3,
-    "n_qm": 275
-  },
-  {
-    "USER_LDAP": "ext_biancbea",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 210,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1656",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 583
-  },
-  {
     "USER_LDAP": "ext_seandres",
     "USER_OFFICE": "AEC",
     "USER_TEAM_CHANNEL": "MULTICANAL C2C",
@@ -11812,74 +11761,23 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 374
+    "n_qm": 396
   },
   {
-    "USER_LDAP": "ext_vicgusma",
+    "USER_LDAP": "ext_magaleon",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 1,
+    "outgoing_total": 47,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "3480",
+    "tmo_sem_copilot": "1541",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 165
-  },
-  {
-    "USER_LDAP": "ext_romotta",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 24,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2159",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.5,
-    "n_qm": 297
-  },
-  {
-    "USER_LDAP": "ext_gofvicto",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 32,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2098",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.6,
-    "n_qm": 286
-  },
-  {
-    "USER_LDAP": "ext_vigsara",
-    "USER_OFFICE": "ATE",
-    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 37,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "2025",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.6,
     "n_qm": 275
   },
   {
@@ -11897,7 +11795,109 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 242
+    "n_qm": 264
+  },
+  {
+    "USER_LDAP": "ext_kleyedua",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 2,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2192",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.3,
+    "n_qm": 132
+  },
+  {
+    "USER_LDAP": "ext_biancbea",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 210,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1656",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 605
+  },
+  {
+    "USER_LDAP": "ext_biavande",
+    "USER_OFFICE": "KTA_BRASIL",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 36,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1972",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.6,
+    "n_qm": 341
+  },
+  {
+    "USER_LDAP": "ext_vicgusma",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 1,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "3480",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.4,
+    "n_qm": 176
+  },
+  {
+    "USER_LDAP": "ext_romotta",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 24,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2159",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.5,
+    "n_qm": 319
+  },
+  {
+    "USER_LDAP": "ext_gofvicto",
+    "USER_OFFICE": "ATE",
+    "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 32,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "2098",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.6,
+    "n_qm": 308
   },
   {
     "USER_LDAP": "ext_freirnat",
@@ -11914,41 +11914,7 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 275
-  },
-  {
-    "USER_LDAP": "ext_caygabri",
-    "USER_OFFICE": "AEC",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Newbie",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 26,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1186",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.4,
-    "n_qm": 264
-  },
-  {
-    "USER_LDAP": "ext_joaqufra",
-    "USER_OFFICE": "AEC",
-    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
-    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
-    "senioridade": "Expert",
-    "pct_adopcion": 0.0,
-    "outgoing_total": 22,
-    "outgoing_copilot": 0,
-    "tmo_com_copilot": null,
-    "tmo_sem_copilot": "922",
-    "dias_uso": 0,
-    "nps_copilot": null,
-    "n_nps": 0,
-    "estilo_meli": 0.3,
-    "n_qm": 308
+    "n_qm": 286
   },
   {
     "USER_LDAP": "ext_cacapela",
@@ -11965,24 +11931,58 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.5,
-    "n_qm": 264
+    "n_qm": 286
   },
   {
-    "USER_LDAP": "ext_magaleon",
+    "USER_LDAP": "ext_vigsara",
     "USER_OFFICE": "ATE",
     "USER_TEAM_CHANNEL": "MULTICANAL CHAT",
     "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
     "senioridade": "Newbie",
     "pct_adopcion": 0.0,
-    "outgoing_total": 47,
+    "outgoing_total": 37,
     "outgoing_copilot": 0,
     "tmo_com_copilot": null,
-    "tmo_sem_copilot": "1541",
+    "tmo_sem_copilot": "2025",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.6,
+    "n_qm": 286
+  },
+  {
+    "USER_LDAP": "ext_caygabri",
+    "USER_OFFICE": "AEC",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Newbie",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 26,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "1186",
     "dias_uso": 0,
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.4,
-    "n_qm": 253
+    "n_qm": 275
+  },
+  {
+    "USER_LDAP": "ext_joaqufra",
+    "USER_OFFICE": "AEC",
+    "USER_TEAM_CHANNEL": "MULTICANAL C2C",
+    "USER_TEAM_NAME": "BR_ME_Sellers_Longtail",
+    "senioridade": "Expert",
+    "pct_adopcion": 0.0,
+    "outgoing_total": 22,
+    "outgoing_copilot": 0,
+    "tmo_com_copilot": null,
+    "tmo_sem_copilot": "922",
+    "dias_uso": 0,
+    "nps_copilot": null,
+    "n_nps": 0,
+    "estilo_meli": 0.3,
+    "n_qm": 330
   },
   {
     "USER_LDAP": "ext_thamandu",
@@ -12016,6 +12016,6 @@
     "nps_copilot": null,
     "n_nps": 0,
     "estilo_meli": 0.3,
-    "n_qm": 253
+    "n_qm": 264
   }
 ]

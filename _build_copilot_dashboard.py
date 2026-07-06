@@ -369,6 +369,7 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .filter-bar{{background:white;padding:10px 32px;display:flex;align-items:center;gap:16px;border-bottom:1px solid #e2e8f0;flex-wrap:wrap}}
 .filter-bar label{{font-size:12px;font-weight:600;color:#64748b}}
 .filter-bar select{{font-size:12px;padding:5px 10px;border-radius:7px;border:1px solid #e2e8f0;background:white;color:#1e293b}}
+.filter-bar input[type=date]{{font-size:12px;padding:4px 8px;border-radius:7px;border:1px solid #e2e8f0;background:white;color:#1e293b}}
 .container{{max-width:1350px;margin:0 auto;padding:20px 16px 40px}}
 .tabs{{display:flex;gap:4px;margin-bottom:16px;background:white;padding:6px;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.07);width:fit-content;flex-wrap:wrap}}
 .tab-btn{{padding:7px 18px;border-radius:7px;border:none;cursor:pointer;font-size:13px;font-weight:600;background:transparent;color:#64748b;transition:.15s}}
@@ -439,6 +440,13 @@ table.rt tr:hover td{{filter:brightness(.97)}}
   <select id="f-office" onchange="applyFilters()">{offices_opts}</select>
   <label>Canal:</label>
   <select id="f-canal" onchange="applyFilters()">{canais_opts}</select>
+  <span style="width:1px;height:20px;background:#e2e8f0;margin:0 4px"></span>
+  <label>Período:</label>
+  <input type="date" id="f-from" onchange="updateCharts()">
+  <span style="font-size:11px;color:#94a3b8">até</span>
+  <input type="date" id="f-to" onchange="updateCharts()">
+  <button class="csv-btn" style="background:#64748b" onclick="clearDates()">Limpar</button>
+  <span style="font-size:10.5px;color:#cbd5e1">(datas: só gráficos de evolução e oficina)</span>
   <span id="filter-count" style="font-size:11px;color:#94a3b8;margin-left:8px"></span>
 </div>
 
@@ -472,6 +480,7 @@ table.rt tr:hover td{{filter:brightness(.97)}}
           <div class="adopt-tgls">
             <button class="adopt-tgl active" onclick="toggleAdopt('monthly',this)">Mês</button>
             <button class="adopt-tgl" onclick="toggleAdopt('weekly',this)">Semana</button>
+            <button class="adopt-tgl" onclick="toggleAdopt('daily',this)">Dia</button>
           </div>
         </div>
         <div class="ch-box"><canvas id="ch-adopt"></canvas></div>
@@ -552,9 +561,8 @@ function setPtab(group, id, btn) {{
 const REPS_JS = {json.dumps([{"o": r.get("USER_OFFICE","N/D"), "c": r.get("USER_TEAM_CHANNEL","N/D"), "s": r.get("senioridade","N/D"), "a": r.get("pct_adopcion"), "n": r.get("nps_copilot"), "nn": r.get("n_nps") or 0, "ot": r.get("outgoing_total") or 0, "oc": r.get("outgoing_copilot") or 0} for r in REPS], ensure_ascii=False)};
 const DIST_LBLS = {json.dumps(list(buckets.keys()))};
 const MIN_NPS_JS = {MIN_NPS};
-// Série temporal de adoção (por período × office × canal) — p/ filtro client-side
-const ADOPT_MONTH = {json.dumps([{"p": r.get("period"), "o": r.get("office","N/D"), "c": r.get("canal","N/D"), "t": float(r.get("total") or 0), "cp": float(r.get("copilot") or 0)} for r in ADOPT_TS.get("monthly", [])], ensure_ascii=False)};
-const ADOPT_WEEK  = {json.dumps([{"p": r.get("period"), "o": r.get("office","N/D"), "c": r.get("canal","N/D"), "t": float(r.get("total") or 0), "cp": float(r.get("copilot") or 0)} for r in ADOPT_TS.get("weekly", [])], ensure_ascii=False)};
+// Série temporal DIÁRIA (data × office × canal) — dia/semana/mês derivados aqui
+const ADOPT_DAY = {json.dumps([{"d": r.get("d"), "o": r.get("office","N/D"), "c": r.get("canal","N/D"), "t": float(r.get("total") or 0), "cp": float(r.get("copilot") or 0)} for r in ADOPT_TS.get("daily", [])], ensure_ascii=False)};
 
 function filteredReps() {{
   const office = document.getElementById('f-office').value;
@@ -587,35 +595,55 @@ function computeNpsByBucket(reps) {{
   }});
   return sum.map((s,i)=> cnt[i] ? Math.round(s/cnt[i]*10)/10 : null);
 }}
-// Adoção % por período (série temporal), agregando as linhas que passam no filtro
-function computeAdopt(rows) {{
+// Intervalo de datas (filtro) — d = 'YYYY-MM-DD'
+function dateInRange(d) {{
+  const from = document.getElementById('f-from').value;
+  const to   = document.getElementById('f-to').value;
+  if (from && d < from) return false;
+  if (to   && d > to)   return false;
+  return true;
+}}
+// Segunda-feira (ISO) da semana de uma data 'YYYY-MM-DD'
+function weekStart(d) {{
+  const dt = new Date(d + 'T00:00:00');
+  const off = (dt.getDay() + 6) % 7;          // 0 = segunda
+  dt.setDate(dt.getDate() - off);
+  const mm = String(dt.getMonth()+1).padStart(2,'0');
+  const dd = String(dt.getDate()).padStart(2,'0');
+  return dt.getFullYear() + '-' + mm + '-' + dd;
+}}
+// Adoção % por período (dia/semana/mês) a partir do diário; aplica office/canal + data
+function computeAdopt(mode) {{
   const office = document.getElementById('f-office').value;
   const canal  = document.getElementById('f-canal').value;
   const agg = {{}};
-  rows.forEach(r => {{
+  ADOPT_DAY.forEach(r => {{
     if (office !== 'ALL' && r.o !== office) return;
     if (canal  !== 'ALL' && r.c !== canal)  return;
-    if (!agg[r.p]) agg[r.p] = {{t:0, cp:0}};
-    agg[r.p].t += r.t; agg[r.p].cp += r.cp;
+    if (!dateInRange(r.d)) return;
+    const key = (mode === 'daily') ? r.d : (mode === 'weekly') ? weekStart(r.d) : r.d.slice(0,7);
+    if (!agg[key]) agg[key] = {{t:0, cp:0}};
+    agg[key].t += r.t; agg[key].cp += r.cp;
   }});
   const raw = Object.keys(agg).sort();
   const MES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
-  const labels = raw.map(p => p.length === 7
-      ? (MES[parseInt(p.slice(5,7),10)-1] + '/' + p.slice(2,4))   // AAAA-MM → mmm/AA
-      : (p.slice(8,10) + '/' + p.slice(5,7)));                    // AAAA-MM-DD → DD/MM
-  const data = raw.map(p => agg[p].t > 0 ? Math.round(agg[p].cp/agg[p].t*1000)/10 : 0);
+  const labels = raw.map(k => (mode === 'monthly')
+      ? (MES[parseInt(k.slice(5,7),10)-1] + '/' + k.slice(2,4))   // AAAA-MM → mmm/AA
+      : (k.slice(8,10) + '/' + k.slice(5,7)));                    // AAAA-MM-DD → DD/MM
+  const data = raw.map(k => agg[k].t > 0 ? Math.round(agg[k].cp/agg[k].t*1000)/10 : 0);
   return {{ labels, data }};
 }}
-// Adoção % por OFICINA (ponderada por outgoing), p/ comparação. Respeita o
-// filtro de canal; ignora o filtro de oficina (é uma comparação entre oficinas).
+// Adoção % por OFICINA (ponderada), p/ comparação. Respeita canal + data;
+// ignora o filtro de oficina (é uma comparação entre oficinas).
 function computeByOffice() {{
   const canal = document.getElementById('f-canal').value;
   const agg = {{}};
-  REPS_JS.forEach(r => {{
+  ADOPT_DAY.forEach(r => {{
     if (!r.o || r.o === 'N/D') return;
     if (canal !== 'ALL' && r.c !== canal) return;
+    if (!dateInRange(r.d)) return;
     if (!agg[r.o]) agg[r.o] = {{t:0, cp:0}};
-    agg[r.o].t += (r.ot || 0); agg[r.o].cp += (r.oc || 0);
+    agg[r.o].t += r.t; agg[r.o].cp += r.cp;
   }});
   const rows = Object.keys(agg)
     .map(o => ({{ o, pct: agg[o].t > 0 ? Math.round(agg[o].cp/agg[o].t*1000)/10 : 0 }}))
@@ -649,7 +677,14 @@ if (window.ChartDataLabels) Chart.register(ChartDataLabels);
 let chDist, chSen, chAdopt, chOffice;
 let adoptMode = 'monthly';
 
-function adoptSeries() {{ return computeAdopt(adoptMode === 'monthly' ? ADOPT_MONTH : ADOPT_WEEK); }}
+function adoptSeries() {{ return computeAdopt(adoptMode); }}
+// Esconde rótulos quando há muitas barras (ex.: visão diária) p/ não poluir
+function fewLabels(ctx) {{ return ctx.chart.data.labels.length <= 16; }}
+function clearDates() {{
+  document.getElementById('f-from').value = '';
+  document.getElementById('f-to').value = '';
+  updateCharts();
+}}
 
 function makeCharts() {{
   const reps = filteredReps();
@@ -688,13 +723,13 @@ function makeCharts() {{
       scales: {{ y: {{ beginAtZero: true, max: 100, ticks: {{ callback: v => v+'%' }} }} }}
     }}
   }});
-  // Evolução da adoção (BARRAS — mês ou semana)
+  // Evolução da adoção (BARRAS — dia/semana/mês)
   const s0 = adoptSeries();
   chAdopt = new Chart(document.getElementById('ch-adopt'), {{
     type: 'bar',
     data: {{ labels: s0.labels, datasets: [{{ label: 'Adoção %', data: s0.data,
       backgroundColor: s0.data.map(adoptColor), borderRadius: 5,
-      datalabels: {{ color: '#334155', font: {{ weight: '700', size: 10 }}, anchor: 'end', align: 'top', formatter: v => v + '%' }} }} ] }},
+      datalabels: {{ display: fewLabels, color: '#334155', font: {{ weight: '700', size: 10 }}, anchor: 'end', align: 'top', formatter: v => v + '%' }} }} ] }},
     options: {{ responsive: true, maintainAspectRatio: false, plugins: {{ legend: {{ display: false }} }},
       scales: {{ y: {{ beginAtZero: true, max: 100, ticks: {{ callback: v => v+'%' }} }} }} }}
   }});
