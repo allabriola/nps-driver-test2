@@ -70,6 +70,9 @@ table.rt tr:hover td{filter:brightness(.97)}
 .adopt-tgls{display:flex;gap:3px;background:#e2e8f0;padding:3px;border-radius:7px}
 .adopt-tgl{padding:5px 14px;border:none;border-radius:5px;background:transparent;color:#64748b;font-size:12px;font-weight:600;cursor:pointer}
 .adopt-tgl.active{background:white;color:#1d4ed8;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.mon-chips{display:inline-flex;gap:4px;flex-wrap:wrap}
+.mon-chip{padding:4px 10px;border:1px solid #e2e8f0;border-radius:14px;background:white;color:#64748b;font-size:11px;font-weight:600;cursor:pointer}
+.mon-chip.active{background:#1d4ed8;color:white;border-color:#1d4ed8}
 @media(max-width:900px){.sc-grid{grid-template-columns:repeat(3,1fr)}.ch-grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -87,12 +90,9 @@ table.rt tr:hover td{filter:brightness(.97)}
   <label>Canal:</label>
   <select id="f-canal" onchange="applyFilters()"><option value="ALL">Todos os Canais</option><option value="MULTICANAL C2C">MULTICANAL C2C</option><option value="MULTICANAL CHAT">MULTICANAL CHAT</option></select>
   <span style="width:1px;height:20px;background:#e2e8f0;margin:0 4px"></span>
-  <label>Período:</label>
-  <input type="date" id="f-from" onchange="updateCharts()">
-  <span style="font-size:11px;color:#94a3b8">até</span>
-  <input type="date" id="f-to" onchange="updateCharts()">
-  <button class="csv-btn" style="background:#64748b" onclick="clearDates()">Limpar</button>
-  <span style="font-size:10.5px;color:#cbd5e1">(datas: só gráficos de evolução e oficina)</span>
+  <label>Mês:</label>
+  <span class="mon-chips"><button class="mon-chip active" data-m="ALL" onclick="toggleMonth(this)">Todos</button><button class="mon-chip" data-m="2026-04" onclick="toggleMonth(this)">abr/26</button><button class="mon-chip" data-m="2026-05" onclick="toggleMonth(this)">mai/26</button><button class="mon-chip" data-m="2026-06" onclick="toggleMonth(this)">jun/26</button><button class="mon-chip" data-m="2026-07" onclick="toggleMonth(this)">jul/26</button></span>
+  <span style="font-size:10.5px;color:#cbd5e1">(mês: só gráficos de evolução e oficina)</span>
   <span id="filter-count" style="font-size:11px;color:#94a3b8;margin-left:8px"></span>
 </div>
 
@@ -17352,13 +17352,21 @@ function computeNpsByBucket(reps) {
   });
   return sum.map((s,i)=> cnt[i] ? Math.round(s/cnt[i]*10)/10 : null);
 }
-// Intervalo de datas (filtro) — d = 'YYYY-MM-DD'
-function dateInRange(d) {
-  const from = document.getElementById('f-from').value;
-  const to   = document.getElementById('f-to').value;
-  if (from && d < from) return false;
-  if (to   && d > to)   return false;
-  return true;
+// Filtro de mês (multi-seleção). Vazio = todos os meses. d = 'YYYY-MM-DD'
+const selMonths = new Set();
+function monthOk(d) { return selMonths.size === 0 || selMonths.has(d.slice(0,7)); }
+function toggleMonth(btn) {
+  const m = btn.dataset.m;
+  if (m === 'ALL') {
+    selMonths.clear();
+    document.querySelectorAll('.mon-chip').forEach(b => b.classList.toggle('active', b.dataset.m === 'ALL'));
+  } else {
+    btn.classList.toggle('active');
+    if (btn.classList.contains('active')) selMonths.add(m); else selMonths.delete(m);
+    const allBtn = document.querySelector('.mon-chip[data-m="ALL"]');
+    if (allBtn) allBtn.classList.toggle('active', selMonths.size === 0);
+  }
+  updateCharts();
 }
 // Segunda-feira (ISO) da semana de uma data 'YYYY-MM-DD'
 function weekStart(d) {
@@ -17377,7 +17385,7 @@ function computeAdopt(mode) {
   ADOPT_DAY.forEach(r => {
     if (office !== 'ALL' && r.o !== office) return;
     if (canal  !== 'ALL' && r.c !== canal)  return;
-    if (!dateInRange(r.d)) return;
+    if (!monthOk(r.d)) return;
     const key = (mode === 'daily') ? r.d : (mode === 'weekly') ? weekStart(r.d) : r.d.slice(0,7);
     if (!agg[key]) agg[key] = {t:0, cp:0};
     agg[key].t += r.t; agg[key].cp += r.cp;
@@ -17398,7 +17406,7 @@ function computeByOffice() {
   ADOPT_DAY.forEach(r => {
     if (!r.o || r.o === 'N/D') return;
     if (canal !== 'ALL' && r.c !== canal) return;
-    if (!dateInRange(r.d)) return;
+    if (!monthOk(r.d)) return;
     if (!agg[r.o]) agg[r.o] = {t:0, cp:0};
     agg[r.o].t += r.t; agg[r.o].cp += r.cp;
   });
@@ -17437,11 +17445,6 @@ let adoptMode = 'monthly';
 function adoptSeries() { return computeAdopt(adoptMode); }
 // Esconde rótulos quando há muitas barras (ex.: visão diária) p/ não poluir
 function fewLabels(ctx) { return ctx.chart.data.labels.length <= 16; }
-function clearDates() {
-  document.getElementById('f-from').value = '';
-  document.getElementById('f-to').value = '';
-  updateCharts();
-}
 
 function makeCharts() {
   const reps = filteredReps();
