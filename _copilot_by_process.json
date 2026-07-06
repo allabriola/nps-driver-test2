@@ -64,15 +64,15 @@
   },
   {
     "USER_LDAP": "ext_ademilso",
-    "processo": "Reputación",
-    "outgoing_total": 5,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 14,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_ademilso",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 14,
+    "processo": "Reputación",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -533,16 +533,16 @@
   },
   {
     "USER_LDAP": "ext_alcarvda",
-    "processo": "Reputación ME",
-    "outgoing_total": 6,
-    "outgoing_copilot": 2,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 12,
+    "outgoing_copilot": 4,
     "pct_adopcion": 33.3
   },
   {
     "USER_LDAP": "ext_alcarvda",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 12,
-    "outgoing_copilot": 4,
+    "processo": "Reputación ME",
+    "outgoing_total": 6,
+    "outgoing_copilot": 2,
     "pct_adopcion": 33.3
   },
   {
@@ -757,8 +757,8 @@
   },
   {
     "USER_LDAP": "ext_alencaju",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 29,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -771,8 +771,8 @@
   },
   {
     "USER_LDAP": "ext_alencaju",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 6,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 29,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -785,15 +785,15 @@
   },
   {
     "USER_LDAP": "ext_alencaju",
-    "processo": "Places Kangu",
-    "outgoing_total": 10,
+    "processo": "Reputación ME",
+    "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_alencaju",
-    "processo": "Reputación ME",
-    "outgoing_total": 8,
+    "processo": "Places Kangu",
+    "outgoing_total": 10,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -841,16 +841,16 @@
   },
   {
     "USER_LDAP": "ext_alexwand",
-    "processo": "Reversa",
-    "outgoing_total": 8,
-    "outgoing_copilot": 4,
+    "processo": "Reputación ME",
+    "outgoing_total": 18,
+    "outgoing_copilot": 9,
     "pct_adopcion": 50.0
   },
   {
     "USER_LDAP": "ext_alexwand",
-    "processo": "Reputación ME",
-    "outgoing_total": 18,
-    "outgoing_copilot": 9,
+    "processo": "Reversa",
+    "outgoing_total": 8,
+    "outgoing_copilot": 4,
     "pct_adopcion": 50.0
   },
   {
@@ -1009,6 +1009,13 @@
   },
   {
     "USER_LDAP": "ext_allanafe",
+    "processo": "Reputación",
+    "outgoing_total": 8,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_allanafe",
     "processo": "Drivers",
     "outgoing_total": 34,
     "outgoing_copilot": 0,
@@ -1018,13 +1025,6 @@
     "USER_LDAP": "ext_allanafe",
     "processo": "Reputación ME",
     "outgoing_total": 16,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_allanafe",
-    "processo": "Reputación",
-    "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -1142,6 +1142,13 @@
   },
   {
     "USER_LDAP": "ext_almloren",
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 6,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_almloren",
     "processo": "Reputación ME",
     "outgoing_total": 6,
     "outgoing_copilot": 0,
@@ -1169,13 +1176,6 @@
     "pct_adopcion": 0.0
   },
   {
-    "USER_LDAP": "ext_almloren",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 6,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
     "USER_LDAP": "ext_alragiov",
     "processo": "Despacho Ventas y Publicaciones",
     "outgoing_total": 28,
@@ -1198,14 +1198,14 @@
   },
   {
     "USER_LDAP": "ext_alragiov",
-    "processo": "Reputación",
+    "processo": "Gestiones Operativas",
     "outgoing_total": 12,
     "outgoing_copilot": 1,
     "pct_adopcion": 8.3
   },
   {
     "USER_LDAP": "ext_alragiov",
-    "processo": "Gestiones Operativas",
+    "processo": "Reputación",
     "outgoing_total": 12,
     "outgoing_copilot": 1,
     "pct_adopcion": 8.3
@@ -1989,16 +1989,16 @@
   },
   {
     "USER_LDAP": "ext_anebonfi",
-    "processo": "Reversa",
-    "outgoing_total": 33,
-    "outgoing_copilot": 15,
+    "processo": "Places Kangu",
+    "outgoing_total": 11,
+    "outgoing_copilot": 5,
     "pct_adopcion": 45.5
   },
   {
     "USER_LDAP": "ext_anebonfi",
-    "processo": "Places Kangu",
-    "outgoing_total": 11,
-    "outgoing_copilot": 5,
+    "processo": "Reversa",
+    "outgoing_total": 33,
+    "outgoing_copilot": 15,
     "pct_adopcion": 45.5
   },
   {
@@ -2227,15 +2227,15 @@
   },
   {
     "USER_LDAP": "ext_annmende",
-    "processo": "Reputación",
-    "outgoing_total": 15,
+    "processo": "Reputación ME",
+    "outgoing_total": 16,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_annmende",
-    "processo": "Reputación ME",
-    "outgoing_total": 16,
+    "processo": "Reputación",
+    "outgoing_total": 15,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -2262,15 +2262,15 @@
   },
   {
     "USER_LDAP": "ext_annmende",
-    "processo": "Viaje del paquete - Comprador",
-    "outgoing_total": 87,
+    "processo": "Drivers",
+    "outgoing_total": 32,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_annmende",
-    "processo": "Drivers",
-    "outgoing_total": 32,
+    "processo": "Viaje del paquete - Comprador",
+    "outgoing_total": 87,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -2325,16 +2325,16 @@
   },
   {
     "USER_LDAP": "ext_annybarr",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 48,
-    "outgoing_copilot": 30,
+    "processo": "Reputación",
+    "outgoing_total": 8,
+    "outgoing_copilot": 5,
     "pct_adopcion": 62.5
   },
   {
     "USER_LDAP": "ext_annybarr",
-    "processo": "Reputación",
-    "outgoing_total": 8,
-    "outgoing_copilot": 5,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 48,
+    "outgoing_copilot": 30,
     "pct_adopcion": 62.5
   },
   {
@@ -2640,6 +2640,13 @@
   },
   {
     "USER_LDAP": "ext_arscrist",
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 6,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_arscrist",
     "processo": "Drivers",
     "outgoing_total": 5,
     "outgoing_copilot": 0,
@@ -2649,13 +2656,6 @@
     "USER_LDAP": "ext_arscrist",
     "processo": "Reputación ME",
     "outgoing_total": 5,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_arscrist",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -2717,20 +2717,6 @@
   },
   {
     "USER_LDAP": "ext_azepedro",
-    "processo": "Reputación ME",
-    "outgoing_total": 19,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_azepedro",
-    "processo": "Drivers",
-    "outgoing_total": 45,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_azepedro",
     "processo": "Gestiones Operativas",
     "outgoing_total": 6,
     "outgoing_copilot": 0,
@@ -2745,8 +2731,15 @@
   },
   {
     "USER_LDAP": "ext_azepedro",
-    "processo": "Places Kangu",
-    "outgoing_total": 20,
+    "processo": "Reputación ME",
+    "outgoing_total": 19,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_azepedro",
+    "processo": "Drivers",
+    "outgoing_total": 45,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -2754,6 +2747,13 @@
     "USER_LDAP": "ext_azepedro",
     "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 30,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_azepedro",
+    "processo": "Places Kangu",
+    "outgoing_total": 20,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -2941,13 +2941,6 @@
   },
   {
     "USER_LDAP": "ext_beaoli",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 30,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_beaoli",
     "processo": "Viaje del paquete - Vendedor",
     "outgoing_total": 6,
     "outgoing_copilot": 0,
@@ -2957,6 +2950,13 @@
     "USER_LDAP": "ext_beaoli",
     "processo": "Drivers",
     "outgoing_total": 48,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_beaoli",
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 30,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -3011,15 +3011,15 @@
   },
   {
     "USER_LDAP": "ext_beatbrun",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 7,
+    "processo": "Reputación",
+    "outgoing_total": 10,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_beatbrun",
-    "processo": "Reputación",
-    "outgoing_total": 10,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -3172,15 +3172,8 @@
   },
   {
     "USER_LDAP": "ext_biancbea",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 7,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_biancbea",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 49,
+    "processo": "Reversa",
+    "outgoing_total": 14,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -3193,22 +3186,22 @@
   },
   {
     "USER_LDAP": "ext_biancbea",
-    "processo": "Drivers",
+    "processo": "Despacho Ventas y Publicaciones",
     "outgoing_total": 49,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_biancbea",
-    "processo": "Reversa",
-    "outgoing_total": 14,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
-    "USER_LDAP": "ext_biavande",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 7,
+    "USER_LDAP": "ext_biancbea",
+    "processo": "Drivers",
+    "outgoing_total": 49,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -3216,6 +3209,13 @@
     "USER_LDAP": "ext_biavande",
     "processo": "Reputación ME",
     "outgoing_total": 5,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_biavande",
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -3578,15 +3578,15 @@
   },
   {
     "USER_LDAP": "ext_brucarib",
-    "processo": "Reputación",
-    "outgoing_total": 14,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_brucarib",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 5,
+    "processo": "Reputación",
+    "outgoing_total": 14,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -3781,6 +3781,13 @@
   },
   {
     "USER_LDAP": "ext_bynetlem",
+    "processo": "Reversa",
+    "outgoing_total": 5,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_bynetlem",
     "processo": "Reputación ME",
     "outgoing_total": 8,
     "outgoing_copilot": 0,
@@ -3795,8 +3802,8 @@
   },
   {
     "USER_LDAP": "ext_bynetlem",
-    "processo": "Reversa",
-    "outgoing_total": 5,
+    "processo": "Reputación",
+    "outgoing_total": 14,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -3804,13 +3811,6 @@
     "USER_LDAP": "ext_bynetlem",
     "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 22,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_bynetlem",
-    "processo": "Reputación",
-    "outgoing_total": 14,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -3893,9 +3893,9 @@
   },
   {
     "USER_LDAP": "ext_cabbrend",
-    "processo": "Reputación",
-    "outgoing_total": 16,
-    "outgoing_copilot": 8,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 22,
+    "outgoing_copilot": 11,
     "pct_adopcion": 50.0
   },
   {
@@ -3907,9 +3907,9 @@
   },
   {
     "USER_LDAP": "ext_cabbrend",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 22,
-    "outgoing_copilot": 11,
+    "processo": "Reputación",
+    "outgoing_total": 16,
+    "outgoing_copilot": 8,
     "pct_adopcion": 50.0
   },
   {
@@ -4621,15 +4621,15 @@
   },
   {
     "USER_LDAP": "ext_carneivi",
-    "processo": "Viaje del paquete - Comprador",
-    "outgoing_total": 6,
+    "processo": "Reputación",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_carneivi",
-    "processo": "Reputación",
-    "outgoing_total": 7,
+    "processo": "Viaje del paquete - Comprador",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -4663,6 +4663,13 @@
   },
   {
     "USER_LDAP": "ext_carolyma",
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 34,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_carolyma",
     "processo": "Gestiones Operativas",
     "outgoing_total": 12,
     "outgoing_copilot": 0,
@@ -4672,13 +4679,6 @@
     "USER_LDAP": "ext_carolyma",
     "processo": "Reputación",
     "outgoing_total": 36,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_carolyma",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 34,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -5097,15 +5097,15 @@
   },
   {
     "USER_LDAP": "ext_cinandre",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 5,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 9,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_cinandre",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 9,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -5307,8 +5307,8 @@
   },
   {
     "USER_LDAP": "ext_clarvale",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 21,
+    "processo": "Reputación",
+    "outgoing_total": 11,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -5321,15 +5321,15 @@
   },
   {
     "USER_LDAP": "ext_clarvale",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 22,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 21,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_clarvale",
-    "processo": "Reputación",
-    "outgoing_total": 11,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 22,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -5391,20 +5391,6 @@
   },
   {
     "USER_LDAP": "ext_clbarbom",
-    "processo": "Anulación de Venta",
-    "outgoing_total": 10,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_clbarbom",
-    "processo": "Drivers",
-    "outgoing_total": 142,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_clbarbom",
     "processo": "Despacho Ventas y Publicaciones",
     "outgoing_total": 148,
     "outgoing_copilot": 0,
@@ -5412,8 +5398,22 @@
   },
   {
     "USER_LDAP": "ext_clbarbom",
+    "processo": "Anulación de Venta",
+    "outgoing_total": 10,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_clbarbom",
     "processo": "Viaje del paquete - Vendedor",
     "outgoing_total": 15,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_clbarbom",
+    "processo": "Drivers",
+    "outgoing_total": 142,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -6189,13 +6189,6 @@
   },
   {
     "USER_LDAP": "ext_correren",
-    "processo": "Viaje del paquete - Comprador",
-    "outgoing_total": 54,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_correren",
     "processo": "Reversa",
     "outgoing_total": 8,
     "outgoing_copilot": 0,
@@ -6205,6 +6198,13 @@
     "USER_LDAP": "ext_correren",
     "processo": "Despacho Ventas y Publicaciones",
     "outgoing_total": 39,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_correren",
+    "processo": "Viaje del paquete - Comprador",
+    "outgoing_total": 54,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -6308,6 +6308,13 @@
   },
   {
     "USER_LDAP": "ext_cosobeat",
+    "processo": "Reputación ME",
+    "outgoing_total": 11,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_cosobeat",
     "processo": "Reversa",
     "outgoing_total": 11,
     "outgoing_copilot": 0,
@@ -6315,8 +6322,8 @@
   },
   {
     "USER_LDAP": "ext_cosobeat",
-    "processo": "Reputación ME",
-    "outgoing_total": 11,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 20,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -6343,13 +6350,6 @@
   },
   {
     "USER_LDAP": "ext_cosobeat",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 20,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_cosobeat",
     "processo": "Viaje del paquete - Vendedor",
     "outgoing_total": 5,
     "outgoing_copilot": 0,
@@ -6364,6 +6364,13 @@
   },
   {
     "USER_LDAP": "ext_crdiogo",
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 36,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_crdiogo",
     "processo": "Despacho Ventas y Publicaciones",
     "outgoing_total": 41,
     "outgoing_copilot": 0,
@@ -6371,8 +6378,8 @@
   },
   {
     "USER_LDAP": "ext_crdiogo",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 36,
+    "processo": "Places Kangu",
+    "outgoing_total": 18,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -6387,13 +6394,6 @@
     "USER_LDAP": "ext_crdiogo",
     "processo": "Reputación",
     "outgoing_total": 28,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_crdiogo",
-    "processo": "Places Kangu",
-    "outgoing_total": 18,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -6539,8 +6539,8 @@
   },
   {
     "USER_LDAP": "ext_crosamar",
-    "processo": "Reputación",
-    "outgoing_total": 5,
+    "processo": "Viaje del paquete - Comprador",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -6553,8 +6553,8 @@
   },
   {
     "USER_LDAP": "ext_crosamar",
-    "processo": "Viaje del paquete - Comprador",
-    "outgoing_total": 7,
+    "processo": "Reputación",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -7050,7 +7050,7 @@
   },
   {
     "USER_LDAP": "ext_danillpa",
-    "processo": "Reversa",
+    "processo": "Reputación ME",
     "outgoing_total": 21,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
@@ -7064,7 +7064,7 @@
   },
   {
     "USER_LDAP": "ext_danillpa",
-    "processo": "Reputación ME",
+    "processo": "Reversa",
     "outgoing_total": 21,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
@@ -7687,15 +7687,15 @@
   },
   {
     "USER_LDAP": "ext_dinaiara",
-    "processo": "Drivers",
-    "outgoing_total": 8,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_dinaiara",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 5,
+    "processo": "Drivers",
+    "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -7757,16 +7757,16 @@
   },
   {
     "USER_LDAP": "ext_dinizdan",
-    "processo": "Viaje del paquete - Comprador",
-    "outgoing_total": 6,
-    "outgoing_copilot": 4,
+    "processo": "Drivers",
+    "outgoing_total": 66,
+    "outgoing_copilot": 44,
     "pct_adopcion": 66.7
   },
   {
     "USER_LDAP": "ext_dinizdan",
-    "processo": "Drivers",
-    "outgoing_total": 66,
-    "outgoing_copilot": 44,
+    "processo": "Viaje del paquete - Comprador",
+    "outgoing_total": 6,
+    "outgoing_copilot": 4,
     "pct_adopcion": 66.7
   },
   {
@@ -7813,15 +7813,15 @@
   },
   {
     "USER_LDAP": "ext_diorsilv",
-    "processo": "Reversa",
-    "outgoing_total": 20,
+    "processo": "Reputación ME",
+    "outgoing_total": 23,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_diorsilv",
-    "processo": "Reputación ME",
-    "outgoing_total": 23,
+    "processo": "Reversa",
+    "outgoing_total": 20,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -7855,8 +7855,8 @@
   },
   {
     "USER_LDAP": "ext_disant",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 12,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 19,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -7876,8 +7876,8 @@
   },
   {
     "USER_LDAP": "ext_disant",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 19,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 12,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -7932,15 +7932,15 @@
   },
   {
     "USER_LDAP": "ext_doairan",
-    "processo": "Reversa",
-    "outgoing_total": 9,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_doairan",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 5,
+    "processo": "Reversa",
+    "outgoing_total": 9,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -8065,15 +8065,15 @@
   },
   {
     "USER_LDAP": "ext_edbaluiz",
-    "processo": "Reputación",
-    "outgoing_total": 31,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 19,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_edbaluiz",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 19,
+    "processo": "Reputación",
+    "outgoing_total": 31,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -8135,14 +8135,14 @@
   },
   {
     "USER_LDAP": "ext_edcrsant",
-    "processo": "Drivers",
+    "processo": "Gestiones Operativas",
     "outgoing_total": 11,
     "outgoing_copilot": 7,
     "pct_adopcion": 63.6
   },
   {
     "USER_LDAP": "ext_edcrsant",
-    "processo": "Gestiones Operativas",
+    "processo": "Drivers",
     "outgoing_total": 11,
     "outgoing_copilot": 7,
     "pct_adopcion": 63.6
@@ -8296,16 +8296,16 @@
   },
   {
     "USER_LDAP": "ext_edsuzart",
-    "processo": "Reputación ME",
-    "outgoing_total": 15,
-    "outgoing_copilot": 5,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 60,
+    "outgoing_copilot": 20,
     "pct_adopcion": 33.3
   },
   {
     "USER_LDAP": "ext_edsuzart",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 60,
-    "outgoing_copilot": 20,
+    "processo": "Reputación ME",
+    "outgoing_total": 15,
+    "outgoing_copilot": 5,
     "pct_adopcion": 33.3
   },
   {
@@ -8352,16 +8352,16 @@
   },
   {
     "USER_LDAP": "ext_edt",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 14,
-    "outgoing_copilot": 2,
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 7,
+    "outgoing_copilot": 1,
     "pct_adopcion": 14.3
   },
   {
     "USER_LDAP": "ext_edt",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 7,
-    "outgoing_copilot": 1,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 14,
+    "outgoing_copilot": 2,
     "pct_adopcion": 14.3
   },
   {
@@ -8429,15 +8429,15 @@
   },
   {
     "USER_LDAP": "ext_eduxavie",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 15,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 27,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_eduxavie",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 27,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 15,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -8457,15 +8457,15 @@
   },
   {
     "USER_LDAP": "ext_eduxavie",
-    "processo": "Reputación",
-    "outgoing_total": 17,
+    "processo": "Places Kangu",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_eduxavie",
-    "processo": "Places Kangu",
-    "outgoing_total": 6,
+    "processo": "Reputación",
+    "outgoing_total": 17,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -8786,13 +8786,6 @@
   },
   {
     "USER_LDAP": "ext_eliaferr",
-    "processo": "Viaje del paquete - Comprador",
-    "outgoing_total": 82,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_eliaferr",
     "processo": "Anulación de Venta",
     "outgoing_total": 5,
     "outgoing_copilot": 0,
@@ -8807,8 +8800,15 @@
   },
   {
     "USER_LDAP": "ext_eliaferr",
-    "processo": "Reputación",
+    "processo": "Reputación ME",
     "outgoing_total": 13,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_eliaferr",
+    "processo": "Viaje del paquete - Comprador",
+    "outgoing_total": 82,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -8821,15 +8821,8 @@
   },
   {
     "USER_LDAP": "ext_eliaferr",
-    "processo": "Reputación ME",
+    "processo": "Reputación",
     "outgoing_total": 13,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_eliaferr",
-    "processo": "Reversa",
-    "outgoing_total": 15,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -8837,6 +8830,13 @@
     "USER_LDAP": "ext_eliaferr",
     "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 43,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_eliaferr",
+    "processo": "Reversa",
+    "outgoing_total": 15,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -9164,6 +9164,13 @@
   },
   {
     "USER_LDAP": "ext_emesacra",
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 5,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_emesacra",
     "processo": "Viaje del paquete - Comprador",
     "outgoing_total": 5,
     "outgoing_copilot": 0,
@@ -9173,13 +9180,6 @@
     "USER_LDAP": "ext_emesacra",
     "processo": "Drivers",
     "outgoing_total": 6,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_emesacra",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -9283,6 +9283,13 @@
   },
   {
     "USER_LDAP": "ext_enjoice",
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 14,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_enjoice",
     "processo": "Reversa",
     "outgoing_total": 12,
     "outgoing_copilot": 0,
@@ -9304,13 +9311,6 @@
   },
   {
     "USER_LDAP": "ext_enjoice",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 14,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_enjoice",
     "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 20,
     "outgoing_copilot": 0,
@@ -9318,14 +9318,14 @@
   },
   {
     "USER_LDAP": "ext_erygonca",
-    "processo": "Despacho Ventas y Publicaciones",
+    "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_erygonca",
-    "processo": "Post Compra Funcionalidades Vendedor",
+    "processo": "Despacho Ventas y Publicaciones",
     "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
@@ -9542,15 +9542,15 @@
   },
   {
     "USER_LDAP": "ext_evkathly",
-    "processo": "Reputación",
-    "outgoing_total": 11,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 17,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_evkathly",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 17,
+    "processo": "Reputación",
+    "outgoing_total": 11,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -9563,15 +9563,15 @@
   },
   {
     "USER_LDAP": "ext_ewegomes",
-    "processo": "Reputación",
-    "outgoing_total": 5,
+    "processo": "Viaje del paquete - Comprador",
+    "outgoing_total": 25,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_ewegomes",
-    "processo": "Viaje del paquete - Comprador",
-    "outgoing_total": 25,
+    "processo": "Reputación",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -9920,15 +9920,15 @@
   },
   {
     "USER_LDAP": "ext_fariaali",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 6,
+    "processo": "Viaje del paquete - Comprador",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_fariaali",
-    "processo": "Viaje del paquete - Comprador",
-    "outgoing_total": 7,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -9948,8 +9948,8 @@
   },
   {
     "USER_LDAP": "ext_fatamire",
-    "processo": "Reputación",
-    "outgoing_total": 12,
+    "processo": "Reputación ME",
+    "outgoing_total": 23,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -9962,13 +9962,6 @@
   },
   {
     "USER_LDAP": "ext_fatamire",
-    "processo": "Drivers",
-    "outgoing_total": 36,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_fatamire",
     "processo": "Gestiones Operativas",
     "outgoing_total": 10,
     "outgoing_copilot": 0,
@@ -9976,8 +9969,15 @@
   },
   {
     "USER_LDAP": "ext_fatamire",
-    "processo": "Reputación ME",
-    "outgoing_total": 23,
+    "processo": "Reputación",
+    "outgoing_total": 12,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_fatamire",
+    "processo": "Drivers",
+    "outgoing_total": 36,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -10025,15 +10025,15 @@
   },
   {
     "USER_LDAP": "ext_feaevell",
-    "processo": "Drivers",
-    "outgoing_total": 10,
+    "processo": "Reputación",
+    "outgoing_total": 9,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_feaevell",
-    "processo": "Reputación",
-    "outgoing_total": 9,
+    "processo": "Drivers",
+    "outgoing_total": 10,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -10291,15 +10291,15 @@
   },
   {
     "USER_LDAP": "ext_ferarcha",
-    "processo": "Drivers",
-    "outgoing_total": 31,
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_ferarcha",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 5,
+    "processo": "Drivers",
+    "outgoing_total": 31,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -10403,14 +10403,14 @@
   },
   {
     "USER_LDAP": "ext_fericami",
-    "processo": "Gestiones Operativas",
+    "processo": "Reputación ME",
     "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_fericami",
-    "processo": "Reputación ME",
+    "processo": "Gestiones Operativas",
     "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
@@ -10508,6 +10508,13 @@
   },
   {
     "USER_LDAP": "ext_fesounic",
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 9,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_fesounic",
     "processo": "Reputación ME",
     "outgoing_total": 11,
     "outgoing_copilot": 0,
@@ -10517,13 +10524,6 @@
     "USER_LDAP": "ext_fesounic",
     "processo": "Reputación",
     "outgoing_total": 25,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_fesounic",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 9,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -10543,8 +10543,8 @@
   },
   {
     "USER_LDAP": "ext_fesounic",
-    "processo": "Places Kangu",
-    "outgoing_total": 15,
+    "processo": "Reversa",
+    "outgoing_total": 24,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -10557,8 +10557,8 @@
   },
   {
     "USER_LDAP": "ext_fesounic",
-    "processo": "Reversa",
-    "outgoing_total": 24,
+    "processo": "Places Kangu",
+    "outgoing_total": 15,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -10823,15 +10823,15 @@
   },
   {
     "USER_LDAP": "ext_flcidade",
-    "processo": "Reputación",
-    "outgoing_total": 7,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_flcidade",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 8,
+    "processo": "Reputación",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -10886,6 +10886,13 @@
   },
   {
     "USER_LDAP": "ext_flgonana",
+    "processo": "Reversa",
+    "outgoing_total": 16,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_flgonana",
     "processo": "Drivers",
     "outgoing_total": 32,
     "outgoing_copilot": 0,
@@ -10895,13 +10902,6 @@
     "USER_LDAP": "ext_flgonana",
     "processo": "Places Kangu",
     "outgoing_total": 21,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_flgonana",
-    "processo": "Reversa",
-    "outgoing_total": 16,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -10928,8 +10928,8 @@
   },
   {
     "USER_LDAP": "ext_franerik",
-    "processo": "Reversa",
-    "outgoing_total": 6,
+    "processo": "Reputación",
+    "outgoing_total": 26,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -10942,8 +10942,8 @@
   },
   {
     "USER_LDAP": "ext_franerik",
-    "processo": "Reputación",
-    "outgoing_total": 26,
+    "processo": "Reversa",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -11047,6 +11047,13 @@
   },
   {
     "USER_LDAP": "ext_frfrenat",
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 7,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_frfrenat",
     "processo": "Viaje del paquete - Comprador",
     "outgoing_total": 14,
     "outgoing_copilot": 0,
@@ -11056,13 +11063,6 @@
     "USER_LDAP": "ext_frfrenat",
     "processo": "Drivers",
     "outgoing_total": 6,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_frfrenat",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -11327,15 +11327,15 @@
   },
   {
     "USER_LDAP": "ext_gabbitte",
-    "processo": "Reputación ME",
-    "outgoing_total": 12,
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 10,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_gabbitte",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 10,
+    "processo": "Reputación ME",
+    "outgoing_total": 12,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -11383,15 +11383,15 @@
   },
   {
     "USER_LDAP": "ext_gabramon",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 11,
+    "processo": "Reputación",
+    "outgoing_total": 28,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_gabramon",
-    "processo": "Reputación",
-    "outgoing_total": 28,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 11,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -11593,6 +11593,13 @@
   },
   {
     "USER_LDAP": "ext_galukas",
+    "processo": "Drivers",
+    "outgoing_total": 19,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_galukas",
     "processo": "Viaje del paquete - Comprador",
     "outgoing_total": 56,
     "outgoing_copilot": 0,
@@ -11602,13 +11609,6 @@
     "USER_LDAP": "ext_galukas",
     "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 6,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_galukas",
-    "processo": "Drivers",
-    "outgoing_total": 19,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -12013,15 +12013,15 @@
   },
   {
     "USER_LDAP": "ext_gomadieg",
-    "processo": "Reputación ME",
-    "outgoing_total": 6,
+    "processo": "Drivers",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_gomadieg",
-    "processo": "Drivers",
-    "outgoing_total": 5,
+    "processo": "Reputación ME",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -12118,15 +12118,15 @@
   },
   {
     "USER_LDAP": "ext_guilco",
-    "processo": "Reversa",
-    "outgoing_total": 11,
+    "processo": "Drivers",
+    "outgoing_total": 13,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_guilco",
-    "processo": "Drivers",
-    "outgoing_total": 13,
+    "processo": "Reversa",
+    "outgoing_total": 11,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -12216,15 +12216,15 @@
   },
   {
     "USER_LDAP": "ext_guilvito",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 8,
+    "processo": "Reversa",
+    "outgoing_total": 28,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_guilvito",
-    "processo": "Reversa",
-    "outgoing_total": 28,
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -12468,15 +12468,15 @@
   },
   {
     "USER_LDAP": "ext_heldfeli",
-    "processo": "Reputación",
-    "outgoing_total": 5,
+    "processo": "Drivers",
+    "outgoing_total": 9,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_heldfeli",
-    "processo": "Drivers",
-    "outgoing_total": 9,
+    "processo": "Reputación",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -13329,14 +13329,14 @@
   },
   {
     "USER_LDAP": "ext_ingsampa",
-    "processo": "Drivers",
+    "processo": "Reputación",
     "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_ingsampa",
-    "processo": "Reputación",
+    "processo": "Drivers",
     "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
@@ -13347,13 +13347,6 @@
     "outgoing_total": 50,
     "outgoing_copilot": 1,
     "pct_adopcion": 2.0
-  },
-  {
-    "USER_LDAP": "ext_irialves",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 77,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_irialves",
@@ -13371,22 +13364,15 @@
   },
   {
     "USER_LDAP": "ext_irialves",
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 77,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_irialves",
     "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 36,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_irialves",
-    "processo": "Reversa",
-    "outgoing_total": 32,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_irialves",
-    "processo": "Reputación ME",
-    "outgoing_total": 27,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -13399,8 +13385,22 @@
   },
   {
     "USER_LDAP": "ext_irialves",
+    "processo": "Reversa",
+    "outgoing_total": 32,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_irialves",
     "processo": "Viaje del paquete - Vendedor",
     "outgoing_total": 5,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_irialves",
+    "processo": "Reputación ME",
+    "outgoing_total": 27,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -13434,14 +13434,14 @@
   },
   {
     "USER_LDAP": "ext_isadelly",
-    "processo": "Despacho Ventas y Publicaciones",
+    "processo": "Drivers",
     "outgoing_total": 11,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_isadelly",
-    "processo": "Drivers",
+    "processo": "Despacho Ventas y Publicaciones",
     "outgoing_total": 11,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
@@ -13805,6 +13805,13 @@
   },
   {
     "USER_LDAP": "ext_izabella",
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 14,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_izabella",
     "processo": "Reputación",
     "outgoing_total": 9,
     "outgoing_copilot": 0,
@@ -13819,13 +13826,6 @@
   },
   {
     "USER_LDAP": "ext_izabella",
-    "processo": "Reputación ME",
-    "outgoing_total": 12,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_izabella",
     "processo": "Reversa",
     "outgoing_total": 7,
     "outgoing_copilot": 0,
@@ -13833,8 +13833,8 @@
   },
   {
     "USER_LDAP": "ext_izabella",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 14,
+    "processo": "Reputación ME",
+    "outgoing_total": 12,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -14008,16 +14008,16 @@
   },
   {
     "USER_LDAP": "ext_jaianero",
-    "processo": "Reversa",
-    "outgoing_total": 32,
-    "outgoing_copilot": 6,
+    "processo": "Places Kangu",
+    "outgoing_total": 16,
+    "outgoing_copilot": 3,
     "pct_adopcion": 18.8
   },
   {
     "USER_LDAP": "ext_jaianero",
-    "processo": "Places Kangu",
-    "outgoing_total": 16,
-    "outgoing_copilot": 3,
+    "processo": "Reversa",
+    "outgoing_total": 32,
+    "outgoing_copilot": 6,
     "pct_adopcion": 18.8
   },
   {
@@ -14316,15 +14316,15 @@
   },
   {
     "USER_LDAP": "ext_jaqgraca",
-    "processo": "Drivers",
-    "outgoing_total": 7,
+    "processo": "Viaje del paquete - Comprador",
+    "outgoing_total": 36,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_jaqgraca",
-    "processo": "Viaje del paquete - Comprador",
-    "outgoing_total": 36,
+    "processo": "Drivers",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -14848,16 +14848,16 @@
   },
   {
     "USER_LDAP": "ext_jencarmo",
-    "processo": "Reputación ME",
-    "outgoing_total": 10,
-    "outgoing_copilot": 2,
+    "processo": "Drivers",
+    "outgoing_total": 20,
+    "outgoing_copilot": 4,
     "pct_adopcion": 20.0
   },
   {
     "USER_LDAP": "ext_jencarmo",
-    "processo": "Drivers",
-    "outgoing_total": 20,
-    "outgoing_copilot": 4,
+    "processo": "Reputación ME",
+    "outgoing_total": 10,
+    "outgoing_copilot": 2,
     "pct_adopcion": 20.0
   },
   {
@@ -15072,6 +15072,13 @@
   },
   {
     "USER_LDAP": "ext_jesouraf",
+    "processo": "Drivers",
+    "outgoing_total": 50,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_jesouraf",
     "processo": "Reputación",
     "outgoing_total": 27,
     "outgoing_copilot": 0,
@@ -15088,13 +15095,6 @@
     "USER_LDAP": "ext_jesouraf",
     "processo": "Gestiones Operativas",
     "outgoing_total": 11,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_jesouraf",
-    "processo": "Drivers",
-    "outgoing_total": 50,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -15282,15 +15282,8 @@
   },
   {
     "USER_LDAP": "ext_jesusigo",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 7,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_jesusigo",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 12,
+    "processo": "Reversa",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -15303,15 +15296,22 @@
   },
   {
     "USER_LDAP": "ext_jesusigo",
-    "processo": "Reputación",
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 12,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_jesusigo",
+    "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_jesusigo",
-    "processo": "Reversa",
-    "outgoing_total": 5,
+    "processo": "Reputación",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -15366,14 +15366,14 @@
   },
   {
     "USER_LDAP": "ext_jhcalado",
-    "processo": "Post Compra Funcionalidades Vendedor",
+    "processo": "Reputación ME",
     "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_jhcalado",
-    "processo": "Reputación ME",
+    "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
@@ -15569,13 +15569,6 @@
   },
   {
     "USER_LDAP": "ext_joeromeu",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 57,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_joeromeu",
     "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 28,
     "outgoing_copilot": 0,
@@ -15597,8 +15590,8 @@
   },
   {
     "USER_LDAP": "ext_joeromeu",
-    "processo": "Drivers",
-    "outgoing_total": 19,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 57,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -15613,6 +15606,13 @@
     "USER_LDAP": "ext_joeromeu",
     "processo": "Reputación ME",
     "outgoing_total": 9,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_joeromeu",
+    "processo": "Drivers",
+    "outgoing_total": 19,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -15842,8 +15842,8 @@
   },
   {
     "USER_LDAP": "ext_jorgdani",
-    "processo": "Reversa",
-    "outgoing_total": 9,
+    "processo": "Reputación ME",
+    "outgoing_total": 30,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -15863,15 +15863,8 @@
   },
   {
     "USER_LDAP": "ext_jorgdani",
-    "processo": "Reputación ME",
-    "outgoing_total": 30,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_jorgdani",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 6,
+    "processo": "Reversa",
+    "outgoing_total": 9,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -15879,6 +15872,13 @@
     "USER_LDAP": "ext_jorgdani",
     "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 29,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_jorgdani",
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -15954,15 +15954,15 @@
   },
   {
     "USER_LDAP": "ext_josenire",
-    "processo": "Reputación",
-    "outgoing_total": 26,
+    "processo": "Viaje del paquete - Comprador",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_josenire",
-    "processo": "Reputación ME",
-    "outgoing_total": 17,
+    "processo": "Reputación",
+    "outgoing_total": 26,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -15975,15 +15975,15 @@
   },
   {
     "USER_LDAP": "ext_josenire",
-    "processo": "Viaje del paquete - Comprador",
-    "outgoing_total": 6,
+    "processo": "Places Kangu",
+    "outgoing_total": 30,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_josenire",
-    "processo": "Places Kangu",
-    "outgoing_total": 30,
+    "processo": "Reputación ME",
+    "outgoing_total": 17,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -16542,6 +16542,13 @@
   },
   {
     "USER_LDAP": "ext_kaleiras",
+    "processo": "Drivers",
+    "outgoing_total": 11,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_kaleiras",
     "processo": "Reversa",
     "outgoing_total": 5,
     "outgoing_copilot": 0,
@@ -16551,13 +16558,6 @@
     "USER_LDAP": "ext_kaleiras",
     "processo": "Reputación ME",
     "outgoing_total": 6,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_kaleiras",
-    "processo": "Drivers",
-    "outgoing_total": 11,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -16577,15 +16577,15 @@
   },
   {
     "USER_LDAP": "ext_kallynfe",
-    "processo": "Reputación",
-    "outgoing_total": 5,
+    "processo": "Drivers",
+    "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_kallynfe",
-    "processo": "Drivers",
-    "outgoing_total": 8,
+    "processo": "Reputación",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -16836,16 +16836,16 @@
   },
   {
     "USER_LDAP": "ext_kayjusti",
-    "processo": "Places Kangu",
-    "outgoing_total": 8,
-    "outgoing_copilot": 4,
+    "processo": "Reputación",
+    "outgoing_total": 14,
+    "outgoing_copilot": 7,
     "pct_adopcion": 50.0
   },
   {
     "USER_LDAP": "ext_kayjusti",
-    "processo": "Reputación",
-    "outgoing_total": 14,
-    "outgoing_copilot": 7,
+    "processo": "Places Kangu",
+    "outgoing_total": 8,
+    "outgoing_copilot": 4,
     "pct_adopcion": 50.0
   },
   {
@@ -17256,15 +17256,15 @@
   },
   {
     "USER_LDAP": "ext_ketslima",
-    "processo": "Places Kangu",
-    "outgoing_total": 20,
+    "processo": "Reputación ME",
+    "outgoing_total": 22,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_ketslima",
-    "processo": "Reputación ME",
-    "outgoing_total": 22,
+    "processo": "Places Kangu",
+    "outgoing_total": 20,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -17382,20 +17382,6 @@
   },
   {
     "USER_LDAP": "ext_laisanti",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 53,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_laisanti",
-    "processo": "Reputación",
-    "outgoing_total": 23,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_laisanti",
     "processo": "Reversa",
     "outgoing_total": 31,
     "outgoing_copilot": 0,
@@ -17410,6 +17396,20 @@
   },
   {
     "USER_LDAP": "ext_laisanti",
+    "processo": "Reputación",
+    "outgoing_total": 23,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_laisanti",
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 53,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_laisanti",
     "processo": "Places Kangu",
     "outgoing_total": 10,
     "outgoing_copilot": 0,
@@ -17417,15 +17417,15 @@
   },
   {
     "USER_LDAP": "ext_laisanti",
-    "processo": "Reputación ME",
-    "outgoing_total": 23,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_laisanti",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 6,
+    "processo": "Reputación ME",
+    "outgoing_total": 23,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -17508,6 +17508,13 @@
   },
   {
     "USER_LDAP": "ext_lauanasi",
+    "processo": "Reputación",
+    "outgoing_total": 11,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_lauanasi",
     "processo": "Reputación ME",
     "outgoing_total": 8,
     "outgoing_copilot": 0,
@@ -17529,22 +17536,15 @@
   },
   {
     "USER_LDAP": "ext_lauanasi",
-    "processo": "Reputación",
-    "outgoing_total": 11,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_lauanasi",
-    "processo": "Drivers",
-    "outgoing_total": 25,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_lauanasi",
     "processo": "Viaje del paquete - Vendedor",
     "outgoing_total": 6,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_lauanasi",
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 44,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -17557,8 +17557,8 @@
   },
   {
     "USER_LDAP": "ext_lauanasi",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 44,
+    "processo": "Drivers",
+    "outgoing_total": 25,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -17592,6 +17592,13 @@
   },
   {
     "USER_LDAP": "ext_lavinisi",
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 25,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_lavinisi",
     "processo": "Places Kangu",
     "outgoing_total": 29,
     "outgoing_copilot": 0,
@@ -17606,8 +17613,8 @@
   },
   {
     "USER_LDAP": "ext_lavinisi",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 25,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 60,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -17615,13 +17622,6 @@
     "USER_LDAP": "ext_lavinisi",
     "processo": "Reversa",
     "outgoing_total": 47,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_lavinisi",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 60,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -17662,15 +17662,15 @@
   },
   {
     "USER_LDAP": "ext_layajesu",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 44,
+    "processo": "Reversa",
+    "outgoing_total": 14,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_layajesu",
-    "processo": "Reversa",
-    "outgoing_total": 14,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 44,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -17683,15 +17683,15 @@
   },
   {
     "USER_LDAP": "ext_layajesu",
-    "processo": "Places Kangu",
-    "outgoing_total": 10,
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_layajesu",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 8,
+    "processo": "Places Kangu",
+    "outgoing_total": 10,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -17725,15 +17725,15 @@
   },
   {
     "USER_LDAP": "ext_lazfelip",
-    "processo": "Reversa",
-    "outgoing_total": 8,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_lazfelip",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 6,
+    "processo": "Reversa",
+    "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -17893,6 +17893,20 @@
   },
   {
     "USER_LDAP": "ext_leanguim",
+    "processo": "Reputación ME",
+    "outgoing_total": 11,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_leanguim",
+    "processo": "Drivers",
+    "outgoing_total": 27,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_leanguim",
     "processo": "Despacho Ventas y Publicaciones",
     "outgoing_total": 27,
     "outgoing_copilot": 0,
@@ -17907,15 +17921,8 @@
   },
   {
     "USER_LDAP": "ext_leanguim",
-    "processo": "Drivers",
-    "outgoing_total": 27,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_leanguim",
-    "processo": "Reputación ME",
-    "outgoing_total": 11,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 21,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -17930,13 +17937,6 @@
     "USER_LDAP": "ext_leanguim",
     "processo": "Gestiones Operativas",
     "outgoing_total": 11,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_leanguim",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 21,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -18180,16 +18180,16 @@
   },
   {
     "USER_LDAP": "ext_letigodo",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 45,
-    "outgoing_copilot": 15,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 12,
+    "outgoing_copilot": 4,
     "pct_adopcion": 33.3
   },
   {
     "USER_LDAP": "ext_letigodo",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 12,
-    "outgoing_copilot": 4,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 45,
+    "outgoing_copilot": 15,
     "pct_adopcion": 33.3
   },
   {
@@ -18642,6 +18642,20 @@
   },
   {
     "USER_LDAP": "ext_liroana",
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 55,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_liroana",
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 13,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_liroana",
     "processo": "Reputación",
     "outgoing_total": 32,
     "outgoing_copilot": 0,
@@ -18656,13 +18670,6 @@
   },
   {
     "USER_LDAP": "ext_liroana",
-    "processo": "Reputación ME",
-    "outgoing_total": 22,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_liroana",
     "processo": "Drivers",
     "outgoing_total": 35,
     "outgoing_copilot": 0,
@@ -18670,15 +18677,8 @@
   },
   {
     "USER_LDAP": "ext_liroana",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 55,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_liroana",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 13,
+    "processo": "Reputación ME",
+    "outgoing_total": 22,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -18880,15 +18880,15 @@
   },
   {
     "USER_LDAP": "ext_lolgabri",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 5,
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_lolgabri",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 7,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -19083,15 +19083,15 @@
   },
   {
     "USER_LDAP": "ext_luanejes",
-    "processo": "Reversa",
-    "outgoing_total": 18,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 10,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_luanejes",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 10,
+    "processo": "Reversa",
+    "outgoing_total": 18,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -19993,7 +19993,7 @@
   },
   {
     "USER_LDAP": "ext_macieant",
-    "processo": "Drivers",
+    "processo": "Gestiones Operativas",
     "outgoing_total": 11,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
@@ -20007,15 +20007,8 @@
   },
   {
     "USER_LDAP": "ext_macieant",
-    "processo": "Gestiones Operativas",
+    "processo": "Drivers",
     "outgoing_total": 11,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_macieant",
-    "processo": "Reputación",
-    "outgoing_total": 9,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -20030,6 +20023,13 @@
     "USER_LDAP": "ext_macieant",
     "processo": "Despacho Ventas y Publicaciones",
     "outgoing_total": 26,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_macieant",
+    "processo": "Reputación",
+    "outgoing_total": 9,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -20763,16 +20763,16 @@
   },
   {
     "USER_LDAP": "ext_marciaau",
-    "processo": "Reputación",
-    "outgoing_total": 9,
-    "outgoing_copilot": 9,
+    "processo": "Reputación ME",
+    "outgoing_total": 11,
+    "outgoing_copilot": 11,
     "pct_adopcion": 100.0
   },
   {
     "USER_LDAP": "ext_marciaau",
-    "processo": "Reputación ME",
-    "outgoing_total": 11,
-    "outgoing_copilot": 11,
+    "processo": "Reputación",
+    "outgoing_total": 9,
+    "outgoing_copilot": 9,
     "pct_adopcion": 100.0
   },
   {
@@ -20833,6 +20833,13 @@
   },
   {
     "USER_LDAP": "ext_marcicou",
+    "processo": "Viaje del paquete - Comprador",
+    "outgoing_total": 20,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_marcicou",
     "processo": "Reversa",
     "outgoing_total": 5,
     "outgoing_copilot": 0,
@@ -20842,13 +20849,6 @@
     "USER_LDAP": "ext_marcicou",
     "processo": "Despacho Ventas y Publicaciones",
     "outgoing_total": 6,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_marcicou",
-    "processo": "Viaje del paquete - Comprador",
-    "outgoing_total": 20,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -21176,15 +21176,15 @@
   },
   {
     "USER_LDAP": "ext_marinisa",
-    "processo": "Reputación ME",
-    "outgoing_total": 12,
+    "processo": "Reputación",
+    "outgoing_total": 23,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_marinisa",
-    "processo": "Reputación",
-    "outgoing_total": 23,
+    "processo": "Reputación ME",
+    "outgoing_total": 12,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -21218,15 +21218,15 @@
   },
   {
     "USER_LDAP": "ext_marinisa",
-    "processo": "Places Kangu",
-    "outgoing_total": 7,
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_marinisa",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 6,
+    "processo": "Places Kangu",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -21316,13 +21316,6 @@
   },
   {
     "USER_LDAP": "ext_marisile",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 31,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_marisile",
     "processo": "Reputación ME",
     "outgoing_total": 9,
     "outgoing_copilot": 0,
@@ -21330,8 +21323,8 @@
   },
   {
     "USER_LDAP": "ext_marisile",
-    "processo": "Reversa",
-    "outgoing_total": 24,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 31,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -21344,6 +21337,13 @@
   },
   {
     "USER_LDAP": "ext_marisile",
+    "processo": "Reversa",
+    "outgoing_total": 24,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_marisile",
     "processo": "Reputación",
     "outgoing_total": 25,
     "outgoing_copilot": 0,
@@ -21351,15 +21351,15 @@
   },
   {
     "USER_LDAP": "ext_marisile",
-    "processo": "Places Kangu",
-    "outgoing_total": 12,
+    "processo": "Drivers",
+    "outgoing_total": 23,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_marisile",
-    "processo": "Drivers",
-    "outgoing_total": 23,
+    "processo": "Places Kangu",
+    "outgoing_total": 12,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -21491,16 +21491,16 @@
   },
   {
     "USER_LDAP": "ext_marotond",
-    "processo": "Reversa",
-    "outgoing_total": 6,
-    "outgoing_copilot": 6,
+    "processo": "Places Kangu",
+    "outgoing_total": 10,
+    "outgoing_copilot": 10,
     "pct_adopcion": 100.0
   },
   {
     "USER_LDAP": "ext_marotond",
-    "processo": "Places Kangu",
-    "outgoing_total": 10,
-    "outgoing_copilot": 10,
+    "processo": "Reversa",
+    "outgoing_total": 6,
+    "outgoing_copilot": 6,
     "pct_adopcion": 100.0
   },
   {
@@ -21540,15 +21540,15 @@
   },
   {
     "USER_LDAP": "ext_marpedre",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 13,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 55,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_marpedre",
-    "processo": "Drivers",
-    "outgoing_total": 60,
+    "processo": "Marketplace Kangu",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -21561,6 +21561,13 @@
   },
   {
     "USER_LDAP": "ext_marpedre",
+    "processo": "Drivers",
+    "outgoing_total": 60,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_marpedre",
     "processo": "Reversa",
     "outgoing_total": 20,
     "outgoing_copilot": 0,
@@ -21568,8 +21575,8 @@
   },
   {
     "USER_LDAP": "ext_marpedre",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 55,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 13,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -21598,13 +21605,6 @@
     "USER_LDAP": "ext_marpedre",
     "processo": "Places Kangu",
     "outgoing_total": 24,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_marpedre",
-    "processo": "Marketplace Kangu",
-    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -21687,14 +21687,14 @@
   },
   {
     "USER_LDAP": "ext_matetele",
-    "processo": "Gestiones Operativas",
+    "processo": "Places Kangu",
     "outgoing_total": 7,
     "outgoing_copilot": 1,
     "pct_adopcion": 14.3
   },
   {
     "USER_LDAP": "ext_matetele",
-    "processo": "Places Kangu",
+    "processo": "Gestiones Operativas",
     "outgoing_total": 7,
     "outgoing_copilot": 1,
     "pct_adopcion": 14.3
@@ -21792,13 +21792,6 @@
   },
   {
     "USER_LDAP": "ext_mebeserr",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 42,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_mebeserr",
     "processo": "Reputación ME",
     "outgoing_total": 20,
     "outgoing_copilot": 0,
@@ -21808,6 +21801,13 @@
     "USER_LDAP": "ext_mebeserr",
     "processo": "Reputación",
     "outgoing_total": 27,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_mebeserr",
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 42,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -21855,15 +21855,15 @@
   },
   {
     "USER_LDAP": "ext_melqusil",
-    "processo": "Drivers",
-    "outgoing_total": 6,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_melqusil",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 7,
+    "processo": "Drivers",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -22233,8 +22233,8 @@
   },
   {
     "USER_LDAP": "ext_micaellj",
-    "processo": "Drivers",
-    "outgoing_total": 77,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 25,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -22247,8 +22247,8 @@
   },
   {
     "USER_LDAP": "ext_micaellj",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 25,
+    "processo": "Drivers",
+    "outgoing_total": 77,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -22387,8 +22387,8 @@
   },
   {
     "USER_LDAP": "ext_migluan",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 5,
+    "processo": "Drivers",
+    "outgoing_total": 16,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -22401,6 +22401,13 @@
   },
   {
     "USER_LDAP": "ext_migluan",
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 5,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_migluan",
     "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 6,
     "outgoing_copilot": 0,
@@ -22408,8 +22415,8 @@
   },
   {
     "USER_LDAP": "ext_migluan",
-    "processo": "Drivers",
-    "outgoing_total": 16,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -22424,13 +22431,6 @@
     "USER_LDAP": "ext_migluan",
     "processo": "Reputación ME",
     "outgoing_total": 6,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_migluan",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -22702,14 +22702,14 @@
   },
   {
     "USER_LDAP": "ext_mtesca",
-    "processo": "Reputación",
+    "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 27,
     "outgoing_copilot": 1,
     "pct_adopcion": 3.7
   },
   {
     "USER_LDAP": "ext_mtesca",
-    "processo": "Post Compra Funcionalidades Vendedor",
+    "processo": "Reputación",
     "outgoing_total": 27,
     "outgoing_copilot": 1,
     "pct_adopcion": 3.7
@@ -22744,6 +22744,13 @@
   },
   {
     "USER_LDAP": "ext_myllvito",
+    "processo": "Reversa",
+    "outgoing_total": 10,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_myllvito",
     "processo": "Drivers",
     "outgoing_total": 17,
     "outgoing_copilot": 0,
@@ -22758,14 +22765,21 @@
   },
   {
     "USER_LDAP": "ext_myllvito",
-    "processo": "Reversa",
-    "outgoing_total": 10,
+    "processo": "Reputación ME",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_myllvito",
-    "processo": "Reputación ME",
+    "processo": "Viaje del paquete - Comprador",
+    "outgoing_total": 53,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_myllvito",
+    "processo": "Places Kangu",
     "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
@@ -22779,22 +22793,8 @@
   },
   {
     "USER_LDAP": "ext_myllvito",
-    "processo": "Places Kangu",
-    "outgoing_total": 6,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_myllvito",
     "processo": "Gestiones Operativas",
     "outgoing_total": 8,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_myllvito",
-    "processo": "Viaje del paquete - Comprador",
-    "outgoing_total": 53,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -22807,15 +22807,15 @@
   },
   {
     "USER_LDAP": "ext_nabitenc",
-    "processo": "Drivers",
-    "outgoing_total": 6,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_nabitenc",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 5,
+    "processo": "Drivers",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -22954,13 +22954,6 @@
   },
   {
     "USER_LDAP": "ext_naifigue",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 12,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_naifigue",
     "processo": "Viaje del paquete - Vendedor",
     "outgoing_total": 5,
     "outgoing_copilot": 0,
@@ -22970,6 +22963,13 @@
     "USER_LDAP": "ext_naifigue",
     "processo": "Reputación",
     "outgoing_total": 19,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_naifigue",
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 12,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -22989,15 +22989,15 @@
   },
   {
     "USER_LDAP": "ext_naifigue",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 45,
+    "processo": "Reversa",
+    "outgoing_total": 10,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_naifigue",
-    "processo": "Reversa",
-    "outgoing_total": 10,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 45,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -23206,15 +23206,15 @@
   },
   {
     "USER_LDAP": "ext_nasillua",
-    "processo": "Drivers",
-    "outgoing_total": 14,
+    "processo": "Reputación",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_nasillua",
-    "processo": "Reputación",
-    "outgoing_total": 6,
+    "processo": "Drivers",
+    "outgoing_total": 14,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -23598,15 +23598,15 @@
   },
   {
     "USER_LDAP": "ext_nunmiche",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 40,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 15,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_nunmiche",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 15,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 40,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -23703,8 +23703,8 @@
   },
   {
     "USER_LDAP": "ext_odborges",
-    "processo": "Reputación ME",
-    "outgoing_total": 29,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -23717,8 +23717,8 @@
   },
   {
     "USER_LDAP": "ext_odborges",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 5,
+    "processo": "Reputación ME",
+    "outgoing_total": 29,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -23822,6 +23822,13 @@
   },
   {
     "USER_LDAP": "ext_olsilved",
+    "processo": "Reputación",
+    "outgoing_total": 17,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_olsilved",
     "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 5,
     "outgoing_copilot": 0,
@@ -23831,13 +23838,6 @@
     "USER_LDAP": "ext_olsilved",
     "processo": "Reputación ME",
     "outgoing_total": 7,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_olsilved",
-    "processo": "Reputación",
-    "outgoing_total": 17,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -24158,6 +24158,13 @@
   },
   {
     "USER_LDAP": "ext_palomgab",
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 5,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_palomgab",
     "processo": "Reversa",
     "outgoing_total": 18,
     "outgoing_copilot": 0,
@@ -24172,13 +24179,6 @@
   },
   {
     "USER_LDAP": "ext_palomgab",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 5,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_palomgab",
     "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 20,
     "outgoing_copilot": 0,
@@ -24186,15 +24186,15 @@
   },
   {
     "USER_LDAP": "ext_palomgab",
-    "processo": "Reputación ME",
-    "outgoing_total": 13,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 44,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_palomgab",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 44,
+    "processo": "Reputación ME",
+    "outgoing_total": 13,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -24382,16 +24382,16 @@
   },
   {
     "USER_LDAP": "ext_patalves",
-    "processo": "Places Kangu",
-    "outgoing_total": 9,
-    "outgoing_copilot": 3,
+    "processo": "Reversa",
+    "outgoing_total": 12,
+    "outgoing_copilot": 4,
     "pct_adopcion": 33.3
   },
   {
     "USER_LDAP": "ext_patalves",
-    "processo": "Reversa",
-    "outgoing_total": 12,
-    "outgoing_copilot": 4,
+    "processo": "Places Kangu",
+    "outgoing_total": 9,
+    "outgoing_copilot": 3,
     "pct_adopcion": 33.3
   },
   {
@@ -24487,15 +24487,15 @@
   },
   {
     "USER_LDAP": "ext_patnorbe",
-    "processo": "Reputación ME",
-    "outgoing_total": 10,
+    "processo": "Reversa",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_patnorbe",
-    "processo": "Reversa",
-    "outgoing_total": 7,
+    "processo": "Reputación ME",
+    "outgoing_total": 10,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -24592,13 +24592,6 @@
   },
   {
     "USER_LDAP": "ext_paun",
-    "processo": "Reputación ME",
-    "outgoing_total": 15,
-    "outgoing_copilot": 12,
-    "pct_adopcion": 80.0
-  },
-  {
-    "USER_LDAP": "ext_paun",
     "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 15,
     "outgoing_copilot": 12,
@@ -24613,6 +24606,13 @@
   },
   {
     "USER_LDAP": "ext_paun",
+    "processo": "Reputación ME",
+    "outgoing_total": 15,
+    "outgoing_copilot": 12,
+    "pct_adopcion": 80.0
+  },
+  {
+    "USER_LDAP": "ext_paun",
     "processo": "Places Kangu",
     "outgoing_total": 5,
     "outgoing_copilot": 4,
@@ -24620,14 +24620,14 @@
   },
   {
     "USER_LDAP": "ext_paun",
-    "processo": "Reversa",
+    "processo": "Drivers",
     "outgoing_total": 40,
     "outgoing_copilot": 31,
     "pct_adopcion": 77.5
   },
   {
     "USER_LDAP": "ext_paun",
-    "processo": "Drivers",
+    "processo": "Reversa",
     "outgoing_total": 40,
     "outgoing_copilot": 31,
     "pct_adopcion": 77.5
@@ -24697,13 +24697,6 @@
   },
   {
     "USER_LDAP": "ext_pedpesso",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 14,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_pedpesso",
     "processo": "Reputación",
     "outgoing_total": 10,
     "outgoing_copilot": 0,
@@ -24711,15 +24704,15 @@
   },
   {
     "USER_LDAP": "ext_pedpesso",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 13,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 14,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
-    "USER_LDAP": "ext_pelopdan",
+    "USER_LDAP": "ext_pedpesso",
     "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 23,
+    "outgoing_total": 13,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -24739,6 +24732,13 @@
   },
   {
     "USER_LDAP": "ext_pelopdan",
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 23,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_pelopdan",
     "processo": "Drivers",
     "outgoing_total": 24,
     "outgoing_copilot": 0,
@@ -24746,15 +24746,15 @@
   },
   {
     "USER_LDAP": "ext_pelopdan",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 7,
+    "processo": "Reputación ME",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_pelopdan",
-    "processo": "Reputación ME",
-    "outgoing_total": 5,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -24830,15 +24830,15 @@
   },
   {
     "USER_LDAP": "ext_petemore",
-    "processo": "Reputación",
-    "outgoing_total": 23,
+    "processo": "Drivers",
+    "outgoing_total": 27,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_petemore",
-    "processo": "Drivers",
-    "outgoing_total": 27,
+    "processo": "Reputación",
+    "outgoing_total": 23,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -24872,15 +24872,15 @@
   },
   {
     "USER_LDAP": "ext_petemore",
-    "processo": "Reversa",
-    "outgoing_total": 22,
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_petemore",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 5,
+    "processo": "Reversa",
+    "outgoing_total": 22,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -25033,15 +25033,15 @@
   },
   {
     "USER_LDAP": "ext_pobomfim",
-    "processo": "Reversa",
-    "outgoing_total": 42,
+    "processo": "Reputación",
+    "outgoing_total": 34,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_pobomfim",
-    "processo": "Reputación",
-    "outgoing_total": 34,
+    "processo": "Reversa",
+    "outgoing_total": 42,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -25056,6 +25056,13 @@
     "USER_LDAP": "ext_pobomfim",
     "processo": "Despacho Ventas y Publicaciones",
     "outgoing_total": 44,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_pollferr",
+    "processo": "Places Kangu",
+    "outgoing_total": 16,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -25075,13 +25082,6 @@
   },
   {
     "USER_LDAP": "ext_pollferr",
-    "processo": "Places Kangu",
-    "outgoing_total": 16,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_pollferr",
     "processo": "Reputación ME",
     "outgoing_total": 22,
     "outgoing_copilot": 0,
@@ -25096,15 +25096,15 @@
   },
   {
     "USER_LDAP": "ext_pollferr",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 13,
+    "processo": "Reputación",
+    "outgoing_total": 26,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_pollferr",
-    "processo": "Reputación",
-    "outgoing_total": 26,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 13,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -25131,6 +25131,13 @@
   },
   {
     "USER_LDAP": "ext_porluiz",
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 5,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_porluiz",
     "processo": "Despacho Ventas y Publicaciones",
     "outgoing_total": 8,
     "outgoing_copilot": 0,
@@ -25147,13 +25154,6 @@
     "USER_LDAP": "ext_porluiz",
     "processo": "Viaje del paquete - Comprador",
     "outgoing_total": 6,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_porluiz",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -25250,15 +25250,15 @@
   },
   {
     "USER_LDAP": "ext_racfonse",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 8,
+    "processo": "Drivers",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_racfonse",
-    "processo": "Drivers",
-    "outgoing_total": 7,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -25376,15 +25376,15 @@
   },
   {
     "USER_LDAP": "ext_raislima",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 5,
+    "processo": "Places Kangu",
+    "outgoing_total": 15,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_raislima",
-    "processo": "Places Kangu",
-    "outgoing_total": 15,
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -25397,8 +25397,8 @@
   },
   {
     "USER_LDAP": "ext_ramomaya",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 8,
+    "processo": "Reputación",
+    "outgoing_total": 22,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -25411,15 +25411,8 @@
   },
   {
     "USER_LDAP": "ext_ramomaya",
-    "processo": "Reputación",
-    "outgoing_total": 22,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_ramomaya",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 11,
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -25432,8 +25425,8 @@
   },
   {
     "USER_LDAP": "ext_ramomaya",
-    "processo": "Drivers",
-    "outgoing_total": 26,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 11,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -25448,6 +25441,13 @@
     "USER_LDAP": "ext_ramomaya",
     "processo": "Reputación ME",
     "outgoing_total": 19,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_ramomaya",
+    "processo": "Drivers",
+    "outgoing_total": 26,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -25481,15 +25481,15 @@
   },
   {
     "USER_LDAP": "ext_ramosmic",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 13,
+    "processo": "Drivers",
+    "outgoing_total": 114,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_ramosmic",
-    "processo": "Reputación ME",
-    "outgoing_total": 20,
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 13,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -25502,8 +25502,8 @@
   },
   {
     "USER_LDAP": "ext_ramosmic",
-    "processo": "Drivers",
-    "outgoing_total": 114,
+    "processo": "Reputación ME",
+    "outgoing_total": 20,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -25511,6 +25511,13 @@
     "USER_LDAP": "ext_ramosmic",
     "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 36,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_rapemari",
+    "processo": "Viaje del paquete - Comprador",
+    "outgoing_total": 31,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -25525,13 +25532,6 @@
     "USER_LDAP": "ext_rapemari",
     "processo": "Despacho Ventas y Publicaciones",
     "outgoing_total": 14,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_rapemari",
-    "processo": "Viaje del paquete - Comprador",
-    "outgoing_total": 31,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -25852,15 +25852,15 @@
   },
   {
     "USER_LDAP": "ext_ravale",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 65,
+    "processo": "Reputación",
+    "outgoing_total": 21,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_ravale",
-    "processo": "Reputación",
-    "outgoing_total": 21,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 65,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -26125,7 +26125,7 @@
   },
   {
     "USER_LDAP": "ext_reipamel",
-    "processo": "Reputación",
+    "processo": "Gestiones Operativas",
     "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
@@ -26139,15 +26139,15 @@
   },
   {
     "USER_LDAP": "ext_reipamel",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 11,
+    "processo": "Reputación",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_reipamel",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 5,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 11,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -26398,14 +26398,14 @@
   },
   {
     "USER_LDAP": "ext_renilsan",
-    "processo": "Reputación ME",
+    "processo": "Viaje del paquete - Vendedor",
     "outgoing_total": 11,
     "outgoing_copilot": 2,
     "pct_adopcion": 18.2
   },
   {
     "USER_LDAP": "ext_renilsan",
-    "processo": "Viaje del paquete - Vendedor",
+    "processo": "Reputación ME",
     "outgoing_total": 11,
     "outgoing_copilot": 2,
     "pct_adopcion": 18.2
@@ -26531,6 +26531,13 @@
   },
   {
     "USER_LDAP": "ext_rhlucas",
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 24,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_rhlucas",
     "processo": "Reputación ME",
     "outgoing_total": 5,
     "outgoing_copilot": 0,
@@ -26552,13 +26559,6 @@
   },
   {
     "USER_LDAP": "ext_rhlucas",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 24,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_rhlucas",
     "processo": "Viaje del paquete - Comprador",
     "outgoing_total": 54,
     "outgoing_copilot": 0,
@@ -26573,15 +26573,15 @@
   },
   {
     "USER_LDAP": "ext_rhlucas",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 11,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_rhlucas",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 6,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 11,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -26643,15 +26643,15 @@
   },
   {
     "USER_LDAP": "ext_rimotta",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 8,
+    "processo": "Drivers",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_rimotta",
-    "processo": "Drivers",
-    "outgoing_total": 6,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -26769,15 +26769,15 @@
   },
   {
     "USER_LDAP": "ext_robsneve",
-    "processo": "Reputación ME",
-    "outgoing_total": 7,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_robsneve",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 5,
+    "processo": "Reputación ME",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -26853,15 +26853,15 @@
   },
   {
     "USER_LDAP": "ext_rodraf",
-    "processo": "Reputación ME",
-    "outgoing_total": 15,
+    "processo": "Reversa",
+    "outgoing_total": 21,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_rodraf",
-    "processo": "Reversa",
-    "outgoing_total": 21,
+    "processo": "Reputación ME",
+    "outgoing_total": 15,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -27007,15 +27007,15 @@
   },
   {
     "USER_LDAP": "ext_roomarci",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 6,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 22,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_roomarci",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 22,
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -27161,15 +27161,15 @@
   },
   {
     "USER_LDAP": "ext_rubsanta",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 14,
+    "processo": "Reputación",
+    "outgoing_total": 23,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_rubsanta",
-    "processo": "Reputación",
-    "outgoing_total": 23,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 14,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -27266,15 +27266,15 @@
   },
   {
     "USER_LDAP": "ext_saalvcar",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 28,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_saalvcar",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 8,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 28,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -27301,13 +27301,6 @@
   },
   {
     "USER_LDAP": "ext_saane",
-    "processo": "Reputación",
-    "outgoing_total": 23,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_saane",
     "processo": "Places Kangu",
     "outgoing_total": 8,
     "outgoing_copilot": 0,
@@ -27317,6 +27310,13 @@
     "USER_LDAP": "ext_saane",
     "processo": "Reversa",
     "outgoing_total": 18,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_saane",
+    "processo": "Reputación",
+    "outgoing_total": 23,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -27350,15 +27350,15 @@
   },
   {
     "USER_LDAP": "ext_saane",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 5,
+    "processo": "Viaje del paquete - Comprador",
+    "outgoing_total": 82,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_saane",
-    "processo": "Viaje del paquete - Comprador",
-    "outgoing_total": 82,
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -27420,6 +27420,13 @@
   },
   {
     "USER_LDAP": "ext_saclarma",
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 8,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_saclarma",
     "processo": "Drivers",
     "outgoing_total": 15,
     "outgoing_copilot": 0,
@@ -27448,8 +27455,8 @@
   },
   {
     "USER_LDAP": "ext_saclarma",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 8,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 19,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -27457,13 +27464,6 @@
     "USER_LDAP": "ext_saclarma",
     "processo": "Places Kangu",
     "outgoing_total": 6,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_saclarma",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 19,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -27567,14 +27567,14 @@
   },
   {
     "USER_LDAP": "ext_saferrcr",
-    "processo": "Viaje del paquete - Comprador",
+    "processo": "Gestiones Operativas",
     "outgoing_total": 15,
     "outgoing_copilot": 11,
     "pct_adopcion": 73.3
   },
   {
     "USER_LDAP": "ext_saferrcr",
-    "processo": "Gestiones Operativas",
+    "processo": "Viaje del paquete - Comprador",
     "outgoing_total": 15,
     "outgoing_copilot": 11,
     "pct_adopcion": 73.3
@@ -28680,14 +28680,14 @@
   },
   {
     "USER_LDAP": "ext_sibrguil",
-    "processo": "Post Compra Funcionalidades Vendedor",
+    "processo": "Reputación ME",
     "outgoing_total": 14,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_sibrguil",
-    "processo": "Reputación ME",
+    "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 14,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
@@ -28897,15 +28897,15 @@
   },
   {
     "USER_LDAP": "ext_siferncr",
-    "processo": "Reversa",
-    "outgoing_total": 12,
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_siferncr",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 6,
+    "processo": "Reversa",
+    "outgoing_total": 12,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -29065,15 +29065,15 @@
   },
   {
     "USER_LDAP": "ext_simoesju",
-    "processo": "Reputación ME",
-    "outgoing_total": 10,
+    "processo": "Drivers",
+    "outgoing_total": 21,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_simoesju",
-    "processo": "Drivers",
-    "outgoing_total": 21,
+    "processo": "Reputación ME",
+    "outgoing_total": 10,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -29184,22 +29184,8 @@
   },
   {
     "USER_LDAP": "ext_sipdiogo",
-    "processo": "Places Kangu",
-    "outgoing_total": 6,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_sipdiogo",
     "processo": "Reputación ME",
     "outgoing_total": 16,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_sipdiogo",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 33,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -29212,8 +29198,29 @@
   },
   {
     "USER_LDAP": "ext_sipdiogo",
+    "processo": "Places Kangu",
+    "outgoing_total": 6,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_sipdiogo",
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 33,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_sipdiogo",
     "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 10,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_sipdiogo",
+    "processo": "Reversa",
+    "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -29228,13 +29235,6 @@
     "USER_LDAP": "ext_sipdiogo",
     "processo": "Reputación",
     "outgoing_total": 29,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_sipdiogo",
-    "processo": "Reversa",
-    "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -29863,6 +29863,13 @@
   },
   {
     "USER_LDAP": "ext_syribeir",
+    "processo": "Drivers",
+    "outgoing_total": 38,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_syribeir",
     "processo": "Viaje del paquete - Comprador",
     "outgoing_total": 76,
     "outgoing_copilot": 0,
@@ -29884,13 +29891,6 @@
   },
   {
     "USER_LDAP": "ext_syribeir",
-    "processo": "Drivers",
-    "outgoing_total": 38,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_syribeir",
     "processo": "Viaje del paquete - Vendedor",
     "outgoing_total": 5,
     "outgoing_copilot": 0,
@@ -29905,13 +29905,6 @@
   },
   {
     "USER_LDAP": "ext_syribeir",
-    "processo": "Reversa",
-    "outgoing_total": 9,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_syribeir",
     "processo": "Despacho Ventas y Publicaciones",
     "outgoing_total": 60,
     "outgoing_copilot": 0,
@@ -29921,6 +29914,13 @@
     "USER_LDAP": "ext_syribeir",
     "processo": "Gestiones Operativas",
     "outgoing_total": 21,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_syribeir",
+    "processo": "Reversa",
+    "outgoing_total": 9,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -30255,14 +30255,14 @@
   },
   {
     "USER_LDAP": "ext_tampaulo",
-    "processo": "Reputación ME",
+    "processo": "Reputación",
     "outgoing_total": 7,
     "outgoing_copilot": 3,
     "pct_adopcion": 42.9
   },
   {
     "USER_LDAP": "ext_tampaulo",
-    "processo": "Reputación",
+    "processo": "Reputación ME",
     "outgoing_total": 7,
     "outgoing_copilot": 3,
     "pct_adopcion": 42.9
@@ -30353,8 +30353,8 @@
   },
   {
     "USER_LDAP": "ext_taylsilv",
-    "processo": "Reputación",
-    "outgoing_total": 21,
+    "processo": "Drivers",
+    "outgoing_total": 46,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -30374,6 +30374,13 @@
   },
   {
     "USER_LDAP": "ext_taylsilv",
+    "processo": "Reputación",
+    "outgoing_total": 21,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_taylsilv",
     "processo": "Reputación ME",
     "outgoing_total": 22,
     "outgoing_copilot": 0,
@@ -30383,13 +30390,6 @@
     "USER_LDAP": "ext_taylsilv",
     "processo": "Gestiones Operativas",
     "outgoing_total": 17,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_taylsilv",
-    "processo": "Drivers",
-    "outgoing_total": 46,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -30430,6 +30430,13 @@
   },
   {
     "USER_LDAP": "ext_telucian",
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 6,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_telucian",
     "processo": "Reversa",
     "outgoing_total": 14,
     "outgoing_copilot": 0,
@@ -30439,13 +30446,6 @@
     "USER_LDAP": "ext_telucian",
     "processo": "Post Compra Funcionalidades Vendedor",
     "outgoing_total": 20,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_telucian",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -30472,15 +30472,15 @@
   },
   {
     "USER_LDAP": "ext_tesathai",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 9,
+    "processo": "Drivers",
+    "outgoing_total": 5,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_tesathai",
-    "processo": "Drivers",
-    "outgoing_total": 5,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 9,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -30598,15 +30598,15 @@
   },
   {
     "USER_LDAP": "ext_thaiassu",
-    "processo": "Places Kangu",
-    "outgoing_total": 7,
+    "processo": "Drivers",
+    "outgoing_total": 51,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_thaiassu",
-    "processo": "Drivers",
-    "outgoing_total": 51,
+    "processo": "Places Kangu",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -30773,15 +30773,15 @@
   },
   {
     "USER_LDAP": "ext_thaynare",
-    "processo": "Gestiones Operativas",
-    "outgoing_total": 13,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 45,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_thaynare",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 45,
+    "processo": "Gestiones Operativas",
+    "outgoing_total": 13,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -30794,28 +30794,28 @@
   },
   {
     "USER_LDAP": "ext_thaynare",
-    "processo": "Reversa",
-    "outgoing_total": 11,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_thaynare",
     "processo": "Reputación",
     "outgoing_total": 18,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
-    "USER_LDAP": "ext_thcena",
+    "USER_LDAP": "ext_thaynare",
     "processo": "Reversa",
+    "outgoing_total": 11,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_thcena",
+    "processo": "Viaje del paquete - Vendedor",
     "outgoing_total": 6,
     "outgoing_copilot": 1,
     "pct_adopcion": 16.7
   },
   {
     "USER_LDAP": "ext_thcena",
-    "processo": "Viaje del paquete - Vendedor",
+    "processo": "Reversa",
     "outgoing_total": 6,
     "outgoing_copilot": 1,
     "pct_adopcion": 16.7
@@ -30843,15 +30843,15 @@
   },
   {
     "USER_LDAP": "ext_thcena",
-    "processo": "Reputación",
-    "outgoing_total": 8,
+    "processo": "Post Compra Funcionalidades Vendedor",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_thcena",
-    "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 7,
+    "processo": "Reputación",
+    "outgoing_total": 8,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -31242,8 +31242,15 @@
   },
   {
     "USER_LDAP": "ext_tokaique",
-    "processo": "Reputación",
-    "outgoing_total": 53,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 59,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_tokaique",
+    "processo": "Places Kangu",
+    "outgoing_total": 29,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -31256,15 +31263,8 @@
   },
   {
     "USER_LDAP": "ext_tokaique",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 59,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_tokaique",
-    "processo": "Places Kangu",
-    "outgoing_total": 29,
+    "processo": "Reputación",
+    "outgoing_total": 53,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -31284,15 +31284,15 @@
   },
   {
     "USER_LDAP": "ext_tokaique",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 13,
+    "processo": "Reputación ME",
+    "outgoing_total": 62,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_tokaique",
-    "processo": "Reputación ME",
-    "outgoing_total": 62,
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 13,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -31893,15 +31893,15 @@
   },
   {
     "USER_LDAP": "ext_vigsara",
-    "processo": "Drivers",
-    "outgoing_total": 6,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 12,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_vigsara",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 12,
+    "processo": "Drivers",
+    "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -31921,15 +31921,15 @@
   },
   {
     "USER_LDAP": "ext_vimluis",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 13,
+    "processo": "Drivers",
+    "outgoing_total": 9,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_vimluis",
-    "processo": "Drivers",
-    "outgoing_total": 9,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 13,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -32264,15 +32264,15 @@
   },
   {
     "USER_LDAP": "ext_vivale",
-    "processo": "Reputación",
-    "outgoing_total": 27,
+    "processo": "Despacho Ventas y Publicaciones",
+    "outgoing_total": 19,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_vivale",
-    "processo": "Despacho Ventas y Publicaciones",
-    "outgoing_total": 19,
+    "processo": "Reputación",
+    "outgoing_total": 27,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -32383,15 +32383,15 @@
   },
   {
     "USER_LDAP": "ext_walbarro",
-    "processo": "Places Kangu",
-    "outgoing_total": 17,
+    "processo": "Viaje del paquete - Vendedor",
+    "outgoing_total": 7,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
   {
     "USER_LDAP": "ext_walbarro",
-    "processo": "Viaje del paquete - Vendedor",
-    "outgoing_total": 7,
+    "processo": "Places Kangu",
+    "outgoing_total": 17,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0
   },
@@ -32733,6 +32733,13 @@
   },
   {
     "USER_LDAP": "ext_yumsilva",
+    "processo": "Reputación ME",
+    "outgoing_total": 6,
+    "outgoing_copilot": 0,
+    "pct_adopcion": 0.0
+  },
+  {
+    "USER_LDAP": "ext_yumsilva",
     "processo": "Drivers",
     "outgoing_total": 5,
     "outgoing_copilot": 0,
@@ -32741,13 +32748,6 @@
   {
     "USER_LDAP": "ext_yumsilva",
     "processo": "Post Compra Funcionalidades Vendedor",
-    "outgoing_total": 6,
-    "outgoing_copilot": 0,
-    "pct_adopcion": 0.0
-  },
-  {
-    "USER_LDAP": "ext_yumsilva",
-    "processo": "Reputación ME",
     "outgoing_total": 6,
     "outgoing_copilot": 0,
     "pct_adopcion": 0.0

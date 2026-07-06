@@ -151,7 +151,7 @@ def reps_table(reps_list, show_q4_only=False, extra_cols=True, table_id=""):
         em_cls    = color_estilo(r.get("estilo_meli"), r["q4_estilo"])
         sen_cls   = "exp-badge" if r.get("senioridade") == "Expert" else "new-badge"
         rows += f"""<tr>
-          <td class="rep-name" data-office="{r['USER_OFFICE']}" data-canal="{r['USER_TEAM_CHANNEL']}">{r['USER_LDAP']}</td>
+          <td class="rep-name" data-office="{r['USER_OFFICE']}" data-canal="{r['USER_TEAM_CHANNEL']}" data-sen="{r.get('senioridade','N/D')}">{r['USER_LDAP']}</td>
           <td><span class="{sen_cls}">{r.get('senioridade','N/D')}</span></td>
           <td>{r.get('USER_OFFICE','—')}</td>
           <td>{r.get('USER_TEAM_CHANNEL','—')}</td>
@@ -312,7 +312,7 @@ def build_criticos_tab():
         adopt_cls = color_adopt(r.get("pct_adopcion"))
         sen_cls   = "exp-badge" if r.get("senioridade") == "Expert" else "new-badge"
         rows += f"""<tr>
-          <td class="rep-name" data-office="{r['USER_OFFICE']}" data-canal="{r['USER_TEAM_CHANNEL']}">{r['USER_LDAP']}</td>
+          <td class="rep-name" data-office="{r['USER_OFFICE']}" data-canal="{r['USER_TEAM_CHANNEL']}" data-sen="{r.get('senioridade','N/D')}">{r['USER_LDAP']}</td>
           <td><span class="{sen_cls}">{r.get('senioridade','N/D')}</span></td>
           <td class="{adopt_cls}">{fmt(r.get('pct_adopcion'))}%</td>
           <td>{fmt(r.get('nps_copilot'))}%</td>
@@ -353,8 +353,8 @@ def _mlabel(ym):
     y, m = ym.split("-")
     return f"{_MES_ABBR[int(m)-1]}/{y[2:]}"
 _months = sorted({(r.get("d") or "")[:7] for r in ADOPT_TS.get("daily", []) if r.get("d")})
-month_chips = '<button class="mon-chip active" data-m="ALL" onclick="toggleMonth(this)">Todos</button>' + "".join(
-    f'<button class="mon-chip" data-m="{ym}" onclick="toggleMonth(this)">{_mlabel(ym)}</button>' for ym in _months)
+month_opts = '<option value="ALL">Todos os meses</option>' + "".join(
+    f'<option value="{ym}">{_mlabel(ym)}</option>' for ym in reversed(_months))
 
 today = date.today().strftime("%d/%m/%Y")
 
@@ -433,9 +433,6 @@ table.rt tr:hover td{{filter:brightness(.97)}}
 .adopt-tgls{{display:flex;gap:3px;background:#e2e8f0;padding:3px;border-radius:7px}}
 .adopt-tgl{{padding:5px 14px;border:none;border-radius:5px;background:transparent;color:#64748b;font-size:12px;font-weight:600;cursor:pointer}}
 .adopt-tgl.active{{background:white;color:#1d4ed8;box-shadow:0 1px 3px rgba(0,0,0,.1)}}
-.mon-chips{{display:inline-flex;gap:4px;flex-wrap:wrap}}
-.mon-chip{{padding:4px 10px;border:1px solid #e2e8f0;border-radius:14px;background:white;color:#64748b;font-size:11px;font-weight:600;cursor:pointer}}
-.mon-chip.active{{background:#1d4ed8;color:white;border-color:#1d4ed8}}
 @media(max-width:900px){{.sc-grid{{grid-template-columns:repeat(3,1fr)}}.ch-grid{{grid-template-columns:1fr}}}}
 </style>
 </head>
@@ -452,9 +449,13 @@ table.rt tr:hover td{{filter:brightness(.97)}}
   <select id="f-office" onchange="applyFilters()">{offices_opts}</select>
   <label>Canal:</label>
   <select id="f-canal" onchange="applyFilters()">{canais_opts}</select>
+  <label>Senioridade:</label>
+  <select id="f-sen" onchange="applyFilters()">
+    <option value="ALL">Todos</option><option value="Expert">Expert</option><option value="Newbie">Newbie</option>
+  </select>
   <span style="width:1px;height:20px;background:#e2e8f0;margin:0 4px"></span>
   <label>Mês:</label>
-  <span class="mon-chips">{month_chips}</span>
+  <select id="f-month" onchange="updateCharts()">{month_opts}</select>
   <span style="font-size:10.5px;color:#cbd5e1">(mês: só gráficos de evolução e oficina)</span>
   <span id="filter-count" style="font-size:11px;color:#94a3b8;margin-left:8px"></span>
 </div>
@@ -570,10 +571,18 @@ function setPtab(group, id, btn) {{
 const REPS_JS = {json.dumps([{"o": r.get("USER_OFFICE","N/D"), "c": r.get("USER_TEAM_CHANNEL","N/D"), "s": r.get("senioridade","N/D"), "a": r.get("pct_adopcion"), "n": r.get("nps_copilot"), "nn": r.get("n_nps") or 0, "ot": r.get("outgoing_total") or 0, "oc": r.get("outgoing_copilot") or 0} for r in REPS], ensure_ascii=False)};
 const DIST_LBLS = {json.dumps(list(buckets.keys()))};
 const MIN_NPS_JS = {MIN_NPS};
-// Série temporal DIÁRIA (data × office × canal) — dia/semana/mês derivados aqui
-const ADOPT_DAY = {json.dumps([{"d": r.get("d"), "o": r.get("office","N/D"), "c": r.get("canal","N/D"), "t": float(r.get("total") or 0), "cp": float(r.get("copilot") or 0)} for r in ADOPT_TS.get("daily", [])], ensure_ascii=False)};
+// Série temporal DIÁRIA (data × office × canal × senioridade) — derivados aqui
+const ADOPT_DAY = {json.dumps([{"d": r.get("d"), "o": r.get("office","N/D"), "c": r.get("canal","N/D"), "s": r.get("sen","N/D"), "t": float(r.get("total") or 0), "cp": float(r.get("copilot") or 0)} for r in ADOPT_TS.get("daily", [])], ensure_ascii=False)};
 
 function filteredReps() {{
+  const office = document.getElementById('f-office').value;
+  const canal  = document.getElementById('f-canal').value;
+  const sen    = document.getElementById('f-sen').value;
+  return REPS_JS.filter(r => (office === 'ALL' || r.o === office)
+    && (canal === 'ALL' || r.c === canal) && (sen === 'ALL' || r.s === sen));
+}}
+// Sem o filtro de senioridade — p/ o gráfico Expert vs Newbie (sempre mostra ambos)
+function filteredRepsNoSen() {{
   const office = document.getElementById('f-office').value;
   const canal  = document.getElementById('f-canal').value;
   return REPS_JS.filter(r => (office === 'ALL' || r.o === office) && (canal === 'ALL' || r.c === canal));
@@ -604,22 +613,10 @@ function computeNpsByBucket(reps) {{
   }});
   return sum.map((s,i)=> cnt[i] ? Math.round(s/cnt[i]*10)/10 : null);
 }}
-// Filtro de mês (multi-seleção). Vazio = todos os meses. d = 'YYYY-MM-DD'
-const selMonths = new Set();
-function monthOk(d) {{ return selMonths.size === 0 || selMonths.has(d.slice(0,7)); }}
-function toggleMonth(btn) {{
-  const m = btn.dataset.m;
-  if (m === 'ALL') {{
-    selMonths.clear();
-    document.querySelectorAll('.mon-chip').forEach(b => b.classList.toggle('active', b.dataset.m === 'ALL'));
-  }} else {{
-    btn.classList.toggle('active');
-    if (btn.classList.contains('active')) selMonths.add(m); else selMonths.delete(m);
-    const allBtn = document.querySelector('.mon-chip[data-m="ALL"]');
-    if (allBtn) allBtn.classList.toggle('active', selMonths.size === 0);
-  }}
-  updateCharts();
-}}
+// Filtros de mês (dropdown) e senioridade — d = 'YYYY-MM-DD'
+function monthOk(d) {{ const m = document.getElementById('f-month').value; return m === 'ALL' || d.slice(0,7) === m; }}
+function senVal() {{ return document.getElementById('f-sen').value; }}
+function senOk(s) {{ const v = senVal(); return v === 'ALL' || s === v; }}
 // Segunda-feira (ISO) da semana de uma data 'YYYY-MM-DD'
 function weekStart(d) {{
   const dt = new Date(d + 'T00:00:00');
@@ -638,6 +635,7 @@ function computeAdopt(mode) {{
     if (office !== 'ALL' && r.o !== office) return;
     if (canal  !== 'ALL' && r.c !== canal)  return;
     if (!monthOk(r.d)) return;
+    if (!senOk(r.s)) return;
     const key = (mode === 'daily') ? r.d : (mode === 'weekly') ? weekStart(r.d) : r.d.slice(0,7);
     if (!agg[key]) agg[key] = {{t:0, cp:0}};
     agg[key].t += r.t; agg[key].cp += r.cp;
@@ -659,6 +657,7 @@ function computeByOffice() {{
     if (!r.o || r.o === 'N/D') return;
     if (canal !== 'ALL' && r.c !== canal) return;
     if (!monthOk(r.d)) return;
+    if (!senOk(r.s)) return;
     if (!agg[r.o]) agg[r.o] = {{t:0, cp:0}};
     agg[r.o].t += r.t; agg[r.o].cp += r.cp;
   }});
@@ -673,18 +672,20 @@ function adoptColor(v) {{ return v >= 60 ? '#15803d' : (v >= 30 ? '#f59e0b' : '#
 function applyFilters() {{
   const office = document.getElementById('f-office').value;
   const canal  = document.getElementById('f-canal').value;
+  const sen    = document.getElementById('f-sen').value;
   let vis = 0, tot = 0;
   document.querySelectorAll('table[data-table] tbody tr').forEach(tr => {{
     const td = tr.querySelector('td[data-office]');
     if (!td) {{ tr.classList.remove('hidden'); return; }}
     const ro = td.dataset.office || '';
     const rc = td.dataset.canal  || '';
-    const show = (office === 'ALL' || ro === office) && (canal === 'ALL' || rc === canal);
+    const rs = td.dataset.sen    || '';
+    const show = (office === 'ALL' || ro === office) && (canal === 'ALL' || rc === canal) && (sen === 'ALL' || rs === sen);
     tr.classList.toggle('hidden', !show);
     tot++; if (show) vis++;
   }});
   const el = document.getElementById('filter-count');
-  if (office !== 'ALL' || canal !== 'ALL') el.textContent = `${{vis}} de ${{tot}} reps visíveis`;
+  if (office !== 'ALL' || canal !== 'ALL' || sen !== 'ALL') el.textContent = `${{vis}} de ${{tot}} reps visíveis`;
   else el.textContent = '';
   updateCharts();
 }}
@@ -726,7 +727,7 @@ function makeCharts() {{
   }});
   chSen = new Chart(document.getElementById('ch-sen'), {{
     type: 'bar',
-    data: {{ labels: ['Expert', 'Newbie'], datasets: [{{ label: 'Adoção Média %', data: computeSen(reps),
+    data: {{ labels: ['Expert', 'Newbie'], datasets: [{{ label: 'Adoção Média %', data: computeSen(filteredRepsNoSen()),
       backgroundColor: ['#1d4ed8','#7c3aed'], borderRadius: 5,
       datalabels: {{ color: '#fff', font: {{ weight: '700', size: 12 }}, anchor: 'center', align: 'center', formatter: v => v > 0 ? v + '%' : '' }} }}] }},
     options: {{
@@ -768,7 +769,7 @@ function updateCharts() {{
   chDist.data.datasets[0].data = computeDist(reps);
   chDist.data.datasets[1].data = computeNpsByBucket(reps);
   chDist.update();
-  chSen.data.datasets[0].data = computeSen(reps); chSen.update();
+  chSen.data.datasets[0].data = computeSen(filteredRepsNoSen()); chSen.update();
   if (chAdopt) {{ const s = adoptSeries(); chAdopt.data.labels = s.labels; chAdopt.data.datasets[0].data = s.data; chAdopt.data.datasets[0].backgroundColor = s.data.map(adoptColor); chAdopt.update(); }}
   if (chOffice) {{ const so = computeByOffice(); chOffice.data.labels = so.labels; chOffice.data.datasets[0].data = so.data; chOffice.data.datasets[0].backgroundColor = so.data.map(adoptColor); chOffice.update(); }}
 }}

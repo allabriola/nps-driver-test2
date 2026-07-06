@@ -176,7 +176,8 @@ _ADOPT_CTE = """
 WITH km AS (
   SELECT USER_LDAP,
          COALESCE(USER_OFFICE,'N/D')       AS office,
-         COALESCE(USER_TEAM_CHANNEL,'N/D')  AS canal
+         COALESCE(USER_TEAM_CHANNEL,'N/D')  AS canal,
+         IF(FLAG_EXPERT_STATUS, 'Expert', 'Newbie') AS sen
   FROM `meli-bi-data.WHOWNER.BT_CX_KM_TRAINING_STATUS`
   WHERE DATE_ID = (SELECT MAX(DATE_ID) FROM `meli-bi-data.WHOWNER.BT_CX_KM_TRAINING_STATUS`)
     AND USER_TEAM_NAME = 'BR_ME_Sellers_Longtail'
@@ -193,7 +194,7 @@ staff_active AS (
 # aplica o filtro de data client-side a partir daqui. ~6 meses de histórico.
 SQL_ADOPT_DAY = _ADOPT_CTE + """
 SELECT CAST(DATE(T.GESTION_DT) AS STRING)     AS d,
-       km.office AS office, km.canal AS canal,
+       km.office AS office, km.canal AS canal, km.sen AS sen,
        SUM(T.OUTGOING_TOTAL)                 AS total,
        SUM(COALESCE(T.OUTGOING_COPILOT, 0))  AS copilot
 FROM `meli-bi-data.WHOWNER.BT_CX_CXCOPILOT_TMO` T
@@ -201,7 +202,7 @@ JOIN km           USING (USER_LDAP)
 JOIN staff_active USING (USER_LDAP)
 WHERE T.FLAG_ON = 1
   AND DATE(T.GESTION_DT) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 5 MONTH), MONTH)
-GROUP BY 1, 2, 3
+GROUP BY 1, 2, 3, 4
 ORDER BY 1
 """
 
