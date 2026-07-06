@@ -460,7 +460,21 @@ table.rt tr:hover td{{filter:brightness(.97)}}
       <div class="kc"><div class="lbl">Q4 ≥1 Métrica</div><div class="val" style="color:#7c3aed">{n_q4_any}</div><div class="cmp">NPS, TMO ou Estilo Meli</div></div>
       <div class="kc"><div class="lbl">Críticos</div><div class="val" style="color:#dc2626">{n_critico}</div><div class="cmp">Baixa adoção + Q4</div></div>
     </div>
-    <div class="ch-grid">
+    <!-- Evolução da adoção — TOPO, em barras -->
+    <div class="cc">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <div>
+          <h3>Evolução da Adoção</h3>
+          <p>% de outgoing com Copilot ao longo do tempo (respeita o filtro)</p>
+        </div>
+        <div class="adopt-tgls">
+          <button class="adopt-tgl active" onclick="toggleAdopt('monthly',this)">Mês</button>
+          <button class="adopt-tgl" onclick="toggleAdopt('weekly',this)">Semana</button>
+        </div>
+      </div>
+      <canvas id="ch-adopt" style="max-height:240px"></canvas>
+    </div>
+    <div class="ch-grid" style="margin-top:14px">
       <div class="cc">
         <h3>Distribuição de Adoção &amp; NPS por faixa</h3>
         <p>Barras: nº de reps por faixa de adoção · Linha: NPS médio da faixa (eixo dir.)</p>
@@ -473,17 +487,9 @@ table.rt tr:hover td{{filter:brightness(.97)}}
       </div>
     </div>
     <div class="cc" style="margin-top:14px">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-        <div>
-          <h3>Evolução da Adoção</h3>
-          <p>% de outgoing com Copilot ao longo do tempo (respeita o filtro)</p>
-        </div>
-        <div class="adopt-tgls">
-          <button class="adopt-tgl active" onclick="toggleAdopt('monthly',this)">Mês</button>
-          <button class="adopt-tgl" onclick="toggleAdopt('weekly',this)">Semana</button>
-        </div>
-      </div>
-      <canvas id="ch-adopt" style="max-height:260px"></canvas>
+      <h3>Adoção por Oficina</h3>
+      <p>% de outgoing com Copilot por oficina (ponderada · respeita o filtro de canal)</p>
+      <canvas id="ch-office" style="max-height:260px"></canvas>
     </div>
     <div class="section-lbl" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
       <span>Todos os Reps — Visão Geral</span>
@@ -539,7 +545,7 @@ function setPtab(group, id, btn) {{
 }}
 
 // ── DADOS DOS REPS (p/ filtro dos gráficos) ────────────────────────────
-const REPS_JS = {json.dumps([{"o": r.get("USER_OFFICE","N/D"), "c": r.get("USER_TEAM_CHANNEL","N/D"), "s": r.get("senioridade","N/D"), "a": r.get("pct_adopcion"), "n": r.get("nps_copilot"), "nn": r.get("n_nps") or 0} for r in REPS], ensure_ascii=False)};
+const REPS_JS = {json.dumps([{"o": r.get("USER_OFFICE","N/D"), "c": r.get("USER_TEAM_CHANNEL","N/D"), "s": r.get("senioridade","N/D"), "a": r.get("pct_adopcion"), "n": r.get("nps_copilot"), "nn": r.get("n_nps") or 0, "ot": r.get("outgoing_total") or 0, "oc": r.get("outgoing_copilot") or 0} for r in REPS], ensure_ascii=False)};
 const DIST_LBLS = {json.dumps(list(buckets.keys()))};
 const MIN_NPS_JS = {MIN_NPS};
 // Série temporal de adoção (por período × office × canal) — p/ filtro client-side
@@ -596,6 +602,23 @@ function computeAdopt(rows) {{
   const data = raw.map(p => agg[p].t > 0 ? Math.round(agg[p].cp/agg[p].t*1000)/10 : 0);
   return {{ labels, data }};
 }}
+// Adoção % por OFICINA (ponderada por outgoing), p/ comparação. Respeita o
+// filtro de canal; ignora o filtro de oficina (é uma comparação entre oficinas).
+function computeByOffice() {{
+  const canal = document.getElementById('f-canal').value;
+  const agg = {{}};
+  REPS_JS.forEach(r => {{
+    if (!r.o || r.o === 'N/D') return;
+    if (canal !== 'ALL' && r.c !== canal) return;
+    if (!agg[r.o]) agg[r.o] = {{t:0, cp:0}};
+    agg[r.o].t += (r.ot || 0); agg[r.o].cp += (r.oc || 0);
+  }});
+  const rows = Object.keys(agg)
+    .map(o => ({{ o, pct: agg[o].t > 0 ? Math.round(agg[o].cp/agg[o].t*1000)/10 : 0 }}))
+    .sort((a,b) => b.pct - a.pct);
+  return {{ labels: rows.map(r=>r.o), data: rows.map(r=>r.pct) }};
+}}
+function adoptColor(v) {{ return v >= 60 ? '#15803d' : (v >= 30 ? '#f59e0b' : '#dc2626'); }}
 
 // ── FILTROS ───────────────────────────────────────────────────────────
 function applyFilters() {{
@@ -619,7 +642,7 @@ function applyFilters() {{
 
 // ── CHARTS ────────────────────────────────────────────────────────────
 if (window.ChartDataLabels) Chart.register(ChartDataLabels);
-let chDist, chSen, chAdopt;
+let chDist, chSen, chAdopt, chOffice;
 let adoptMode = 'monthly';
 
 function adoptSeries() {{ return computeAdopt(adoptMode === 'monthly' ? ADOPT_MONTH : ADOPT_WEEK); }}
@@ -659,14 +682,23 @@ function makeCharts() {{
       scales: {{ y: {{ beginAtZero: true, max: 100, ticks: {{ callback: v => v+'%' }} }} }}
     }}
   }});
-  // Evolução da adoção (série temporal — mês ou semana)
+  // Evolução da adoção (BARRAS — mês ou semana)
   const s0 = adoptSeries();
   chAdopt = new Chart(document.getElementById('ch-adopt'), {{
-    type: 'line',
+    type: 'bar',
     data: {{ labels: s0.labels, datasets: [{{ label: 'Adoção %', data: s0.data,
-      borderColor: '#1d4ed8', backgroundColor: 'rgba(29,78,216,.12)', fill: true, tension: 0.3,
-      pointRadius: 3, pointBackgroundColor: '#1d4ed8', borderWidth: 2,
-      datalabels: {{ color: '#1d4ed8', font: {{ weight: '700', size: 9 }}, anchor: 'end', align: 'top', formatter: v => v + '%' }} }} ] }},
+      backgroundColor: s0.data.map(adoptColor), borderRadius: 5,
+      datalabels: {{ color: '#334155', font: {{ weight: '700', size: 10 }}, anchor: 'end', align: 'top', formatter: v => v + '%' }} }} ] }},
+    options: {{ plugins: {{ legend: {{ display: false }} }},
+      scales: {{ y: {{ beginAtZero: true, max: 100, ticks: {{ callback: v => v+'%' }} }} }} }}
+  }});
+  // Adoção por OFICINA (BARRAS — comparação)
+  const so = computeByOffice();
+  chOffice = new Chart(document.getElementById('ch-office'), {{
+    type: 'bar',
+    data: {{ labels: so.labels, datasets: [{{ label: 'Adoção %', data: so.data,
+      backgroundColor: so.data.map(adoptColor), borderRadius: 5,
+      datalabels: {{ color: '#334155', font: {{ weight: '700', size: 10 }}, anchor: 'end', align: 'top', formatter: v => v + '%' }} }} ] }},
     options: {{ plugins: {{ legend: {{ display: false }} }},
       scales: {{ y: {{ beginAtZero: true, max: 100, ticks: {{ callback: v => v+'%' }} }} }} }}
   }});
@@ -675,7 +707,7 @@ function toggleAdopt(mode, btn) {{
   adoptMode = mode;
   document.querySelectorAll('.adopt-tgl').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
-  if (chAdopt) {{ const s = adoptSeries(); chAdopt.data.labels = s.labels; chAdopt.data.datasets[0].data = s.data; chAdopt.update(); }}
+  if (chAdopt) {{ const s = adoptSeries(); chAdopt.data.labels = s.labels; chAdopt.data.datasets[0].data = s.data; chAdopt.data.datasets[0].backgroundColor = s.data.map(adoptColor); chAdopt.update(); }}
 }}
 function updateCharts() {{
   if (!chDist || !chSen) return;
@@ -684,7 +716,8 @@ function updateCharts() {{
   chDist.data.datasets[1].data = computeNpsByBucket(reps);
   chDist.update();
   chSen.data.datasets[0].data = computeSen(reps); chSen.update();
-  if (chAdopt) {{ const s = adoptSeries(); chAdopt.data.labels = s.labels; chAdopt.data.datasets[0].data = s.data; chAdopt.update(); }}
+  if (chAdopt) {{ const s = adoptSeries(); chAdopt.data.labels = s.labels; chAdopt.data.datasets[0].data = s.data; chAdopt.data.datasets[0].backgroundColor = s.data.map(adoptColor); chAdopt.update(); }}
+  if (chOffice) {{ const so = computeByOffice(); chOffice.data.labels = so.labels; chOffice.data.datasets[0].data = so.data; chOffice.data.datasets[0].backgroundColor = so.data.map(adoptColor); chOffice.update(); }}
 }}
 window.addEventListener('DOMContentLoaded', makeCharts);
 
