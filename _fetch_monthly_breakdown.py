@@ -33,18 +33,38 @@ _yesterday = _today - timedelta(days=1)
 def _month_range(y, m):
     return date(y, m, 1), date(y, m, calendar.monthrange(y, m)[1])
 
-_m1 = _today.month
-_y1 = _today.year
-_m2 = _m1 - 1 if _m1 > 1 else 12
-_y2 = _y1 if _m1 > 1 else _y1 - 1
 _ABBR = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"]
 
-_cur_first = date(_y1, _m1, 1)
+# M1 = mês mais recente COM dado (mesma trava de virada do _update_monthly.py);
+# M2 = mês anterior. Lê _monthly_result.json, que _fetch_monthly_data.py já
+# atualizou antes deste script no pipeline. Assim as chaves do breakdown casam
+# com MONTH_LABELS (evita coluna vazia nos 1-2 primeiros dias do mês).
+try:
+    with open('_monthly_result.json', encoding='utf-8') as _fmr:
+        _MR = json.load(_fmr)
+except Exception:
+    _MR = {}
+
+def _has_data(abbr):
+    return (sum(v[2] for v in _MR.get(abbr, {}).values()) > 0) if _MR else True
+
+_y1, _m1 = _today.year, _today.month
+for _ in range(6):
+    if _has_data(_ABBR[_m1 - 1]):
+        break
+    _m1 -= 1
+    if _m1 == 0:
+        _m1, _y1 = 12, _y1 - 1
+_m2 = _m1 - 1 if _m1 > 1 else 12
+_y2 = _y1 if _m1 > 1 else _y1 - 1
+
+_cur_first, _cur_last_full = _month_range(_y1, _m1)
+_cur_last = min(_cur_last_full, _yesterday)   # MTD se mês corrente; mês cheio se já fechado
 _prev_first, _prev_last = _month_range(_y2, _m2)
 
 PERIODS_MONTHLY = {
     _ABBR[_m2 - 1]: (str(_prev_first), str(_prev_last)),
-    _ABBR[_m1 - 1]: (str(_cur_first),  str(_yesterday)),
+    _ABBR[_m1 - 1]: (str(_cur_first),  str(_cur_last)),
 }
 
 # Períodos semanais: lê de _new_weekly_data.json (_periods, datas já resolvidas
