@@ -31,6 +31,7 @@ def load_json(path, default):
 REPS    = load_json("_copilot_reps.json",       [])
 BY_PROC = load_json("_copilot_by_process.json", [])
 CATS    = load_json("_copilot_categories.json", {})
+ADOPT_TS = load_json("_copilot_adoption_ts.json", {"monthly": [], "weekly": []})
 
 # Converte campos numéricos que possam ter vindo como string do BQ
 NUM_FIELDS = ["pct_adopcion","outgoing_total","outgoing_copilot","dias_uso",
@@ -418,6 +419,9 @@ table.rt tr:hover td{{filter:brightness(.97)}}
 .hidden{{display:none!important}}
 .csv-btn{{background:#1d4ed8;color:#fff;border:none;padding:5px 13px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer}}
 .csv-btn:hover{{background:#1e40af}}
+.adopt-tgls{{display:flex;gap:3px;background:#e2e8f0;padding:3px;border-radius:7px}}
+.adopt-tgl{{padding:5px 14px;border:none;border-radius:5px;background:transparent;color:#64748b;font-size:12px;font-weight:600;cursor:pointer}}
+.adopt-tgl.active{{background:white;color:#1d4ed8;box-shadow:0 1px 3px rgba(0,0,0,.1)}}
 @media(max-width:900px){{.sc-grid{{grid-template-columns:repeat(3,1fr)}}.ch-grid{{grid-template-columns:1fr}}}}
 </style>
 </head>
@@ -458,8 +462,8 @@ table.rt tr:hover td{{filter:brightness(.97)}}
     </div>
     <div class="ch-grid">
       <div class="cc">
-        <h3>Distribuição de Adoção</h3>
-        <p>N° de reps por faixa de % adoção Copilot</p>
+        <h3>Distribuição de Adoção &amp; NPS por faixa</h3>
+        <p>Barras: nº de reps por faixa de adoção · Linha: NPS médio da faixa (eixo dir.)</p>
         <canvas id="ch-dist"></canvas>
       </div>
       <div class="cc">
@@ -467,6 +471,19 @@ table.rt tr:hover td{{filter:brightness(.97)}}
         <p>Comparação de adoção por senioridade</p>
         <canvas id="ch-sen"></canvas>
       </div>
+    </div>
+    <div class="cc" style="margin-top:14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <div>
+          <h3>Evolução da Adoção</h3>
+          <p>% de outgoing com Copilot ao longo do tempo (respeita o filtro)</p>
+        </div>
+        <div class="adopt-tgls">
+          <button class="adopt-tgl active" onclick="toggleAdopt('monthly',this)">Mês</button>
+          <button class="adopt-tgl" onclick="toggleAdopt('weekly',this)">Semana</button>
+        </div>
+      </div>
+      <canvas id="ch-adopt" style="max-height:260px"></canvas>
     </div>
     <div class="section-lbl" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
       <span>Todos os Reps — Visão Geral</span>
@@ -522,8 +539,12 @@ function setPtab(group, id, btn) {{
 }}
 
 // ── DADOS DOS REPS (p/ filtro dos gráficos) ────────────────────────────
-const REPS_JS = {json.dumps([{"o": r.get("USER_OFFICE","N/D"), "c": r.get("USER_TEAM_CHANNEL","N/D"), "s": r.get("senioridade","N/D"), "a": r.get("pct_adopcion")} for r in REPS], ensure_ascii=False)};
+const REPS_JS = {json.dumps([{"o": r.get("USER_OFFICE","N/D"), "c": r.get("USER_TEAM_CHANNEL","N/D"), "s": r.get("senioridade","N/D"), "a": r.get("pct_adopcion"), "n": r.get("nps_copilot"), "nn": r.get("n_nps") or 0} for r in REPS], ensure_ascii=False)};
 const DIST_LBLS = {json.dumps(list(buckets.keys()))};
+const MIN_NPS_JS = {MIN_NPS};
+// Série temporal de adoção (por período × office × canal) — p/ filtro client-side
+const ADOPT_MONTH = {json.dumps([{"p": r.get("period"), "o": r.get("office","N/D"), "c": r.get("canal","N/D"), "t": float(r.get("total") or 0), "cp": float(r.get("copilot") or 0)} for r in ADOPT_TS.get("monthly", [])], ensure_ascii=False)};
+const ADOPT_WEEK  = {json.dumps([{"p": r.get("period"), "o": r.get("office","N/D"), "c": r.get("canal","N/D"), "t": float(r.get("total") or 0), "cp": float(r.get("copilot") or 0)} for r in ADOPT_TS.get("weekly", [])], ensure_ascii=False)};
 
 function filteredReps() {{
   const office = document.getElementById('f-office').value;
@@ -544,6 +565,36 @@ function computeSen(reps) {{
     return xs.length ? Math.round(xs.reduce((a,b)=>a+b,0)/xs.length*10)/10 : 0;
   }};
   return [avg('Expert'), avg('Newbie')];
+}}
+// NPS médio por faixa de adoção (mesmas faixas de computeDist); null se sem dados
+function computeNpsByBucket(reps) {{
+  const sum=[0,0,0,0,0], cnt=[0,0,0,0,0];
+  reps.forEach(r => {{
+    if (r.n == null || r.nn < MIN_NPS_JS) return;
+    const v = (r.a == null) ? 0 : r.a;
+    let i; if (v<20) i=0; else if(v<40) i=1; else if(v<60) i=2; else if(v<80) i=3; else i=4;
+    sum[i]+=r.n; cnt[i]++;
+  }});
+  return sum.map((s,i)=> cnt[i] ? Math.round(s/cnt[i]*10)/10 : null);
+}}
+// Adoção % por período (série temporal), agregando as linhas que passam no filtro
+function computeAdopt(rows) {{
+  const office = document.getElementById('f-office').value;
+  const canal  = document.getElementById('f-canal').value;
+  const agg = {{}};
+  rows.forEach(r => {{
+    if (office !== 'ALL' && r.o !== office) return;
+    if (canal  !== 'ALL' && r.c !== canal)  return;
+    if (!agg[r.p]) agg[r.p] = {{t:0, cp:0}};
+    agg[r.p].t += r.t; agg[r.p].cp += r.cp;
+  }});
+  const raw = Object.keys(agg).sort();
+  const MES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  const labels = raw.map(p => p.length === 7
+      ? (MES[parseInt(p.slice(5,7),10)-1] + '/' + p.slice(2,4))   // AAAA-MM → mmm/AA
+      : (p.slice(8,10) + '/' + p.slice(5,7)));                    // AAAA-MM-DD → DD/MM
+  const data = raw.map(p => agg[p].t > 0 ? Math.round(agg[p].cp/agg[p].t*1000)/10 : 0);
+  return {{ labels, data }};
 }}
 
 // ── FILTROS ───────────────────────────────────────────────────────────
@@ -568,45 +619,72 @@ function applyFilters() {{
 
 // ── CHARTS ────────────────────────────────────────────────────────────
 if (window.ChartDataLabels) Chart.register(ChartDataLabels);
-let chDist, chSen;
+let chDist, chSen, chAdopt;
+let adoptMode = 'monthly';
 
-const DL_BASE = {{ color: '#fff', font: {{ weight: '700', size: 11 }}, anchor: 'center', align: 'center' }};
+function adoptSeries() {{ return computeAdopt(adoptMode === 'monthly' ? ADOPT_MONTH : ADOPT_WEEK); }}
 
 function makeCharts() {{
   const reps = filteredReps();
+  // Distribuição de adoção (barras = nº reps) + NPS médio por faixa (linha, eixo dir.)
   chDist = new Chart(document.getElementById('ch-dist'), {{
-    type: 'bar',
-    data: {{ labels: DIST_LBLS, datasets: [{{ label: 'Reps', data: computeDist(reps),
-      backgroundColor: ['#dc2626','#f59e0b','#f59e0b','#22c55e','#15803d'], borderRadius: 5 }}] }},
+    data: {{ labels: DIST_LBLS, datasets: [
+      {{ type: 'bar', label: 'Nº de reps', data: computeDist(reps), order: 2,
+        backgroundColor: ['#dc2626','#f59e0b','#f59e0b','#22c55e','#15803d'], borderRadius: 5,
+        datalabels: {{ color: '#fff', font: {{ weight: '700', size: 11 }}, anchor: 'center', align: 'center',
+          formatter: (v, ctx) => {{ const t = ctx.chart.data.datasets[0].data.reduce((a,b)=>a+(b||0),0);
+            return (v > 0 && t > 0) ? Math.round(v/t*100) + '%' : ''; }} }} }},
+      {{ type: 'line', label: 'NPS médio', data: computeNpsByBucket(reps), yAxisID: 'y1', order: 1,
+        borderColor: '#1a1a2e', backgroundColor: '#1a1a2e', borderWidth: 2, tension: 0.3,
+        spanGaps: true, pointRadius: 4, pointBackgroundColor: '#1a1a2e',
+        datalabels: {{ color: '#1a1a2e', font: {{ weight: '700', size: 10 }}, anchor: 'end', align: 'top',
+          formatter: v => (v == null) ? '' : v + '%' }} }}
+    ] }},
     options: {{
-      plugins: {{
-        legend: {{ display: false }},
-        datalabels: {{ ...DL_BASE, formatter: (v, ctx) => {{
-          const t = ctx.chart.data.datasets[0].data.reduce((a,b)=>a+b,0);
-          return (v > 0 && t > 0) ? Math.round(v/t*100) + '%' : '';
-        }} }}
-      }},
-      scales: {{ y: {{ beginAtZero: true, ticks: {{ precision: 0 }} }} }}
+      plugins: {{ legend: {{ display: true, labels: {{ boxWidth: 12, font: {{ size: 10 }} }} }} }},
+      scales: {{
+        y:  {{ beginAtZero: true, ticks: {{ precision: 0 }}, title: {{ display: true, text: 'Nº de reps', font: {{ size: 10 }} }} }},
+        y1: {{ position: 'right', beginAtZero: true, max: 100, grid: {{ drawOnChartArea: false }},
+               ticks: {{ callback: v => v+'%' }}, title: {{ display: true, text: 'NPS médio', font: {{ size: 10 }} }} }}
+      }}
     }}
   }});
   chSen = new Chart(document.getElementById('ch-sen'), {{
     type: 'bar',
     data: {{ labels: ['Expert', 'Newbie'], datasets: [{{ label: 'Adoção Média %', data: computeSen(reps),
-      backgroundColor: ['#1d4ed8','#7c3aed'], borderRadius: 5 }}] }},
+      backgroundColor: ['#1d4ed8','#7c3aed'], borderRadius: 5,
+      datalabels: {{ color: '#fff', font: {{ weight: '700', size: 12 }}, anchor: 'center', align: 'center', formatter: v => v > 0 ? v + '%' : '' }} }}] }},
     options: {{
-      plugins: {{
-        legend: {{ display: false }},
-        datalabels: {{ ...DL_BASE, font: {{ weight: '700', size: 12 }}, formatter: v => v > 0 ? v + '%' : '' }}
-      }},
+      plugins: {{ legend: {{ display: false }} }},
       scales: {{ y: {{ beginAtZero: true, max: 100, ticks: {{ callback: v => v+'%' }} }} }}
     }}
   }});
+  // Evolução da adoção (série temporal — mês ou semana)
+  const s0 = adoptSeries();
+  chAdopt = new Chart(document.getElementById('ch-adopt'), {{
+    type: 'line',
+    data: {{ labels: s0.labels, datasets: [{{ label: 'Adoção %', data: s0.data,
+      borderColor: '#1d4ed8', backgroundColor: 'rgba(29,78,216,.12)', fill: true, tension: 0.3,
+      pointRadius: 3, pointBackgroundColor: '#1d4ed8', borderWidth: 2,
+      datalabels: {{ color: '#1d4ed8', font: {{ weight: '700', size: 9 }}, anchor: 'end', align: 'top', formatter: v => v + '%' }} }} ] }},
+    options: {{ plugins: {{ legend: {{ display: false }} }},
+      scales: {{ y: {{ beginAtZero: true, max: 100, ticks: {{ callback: v => v+'%' }} }} }} }}
+  }});
+}}
+function toggleAdopt(mode, btn) {{
+  adoptMode = mode;
+  document.querySelectorAll('.adopt-tgl').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  if (chAdopt) {{ const s = adoptSeries(); chAdopt.data.labels = s.labels; chAdopt.data.datasets[0].data = s.data; chAdopt.update(); }}
 }}
 function updateCharts() {{
   if (!chDist || !chSen) return;
   const reps = filteredReps();
-  chDist.data.datasets[0].data = computeDist(reps); chDist.update();
-  chSen.data.datasets[0].data  = computeSen(reps);  chSen.update();
+  chDist.data.datasets[0].data = computeDist(reps);
+  chDist.data.datasets[1].data = computeNpsByBucket(reps);
+  chDist.update();
+  chSen.data.datasets[0].data = computeSen(reps); chSen.update();
+  if (chAdopt) {{ const s = adoptSeries(); chAdopt.data.labels = s.labels; chAdopt.data.datasets[0].data = s.data; chAdopt.update(); }}
 }}
 window.addEventListener('DOMContentLoaded', makeCharts);
 

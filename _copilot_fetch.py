@@ -169,6 +169,54 @@ ORDER BY RAND()
 LIMIT 800
 """
 
+# ══════════════════════════════════════════════════════════════════════
+# Q4: Adoção por período (mês e semana) — série temporal p/ gráfico de evolução
+# ══════════════════════════════════════════════════════════════════════
+_ADOPT_CTE = """
+WITH km AS (
+  SELECT USER_LDAP,
+         COALESCE(USER_OFFICE,'N/D')       AS office,
+         COALESCE(USER_TEAM_CHANNEL,'N/D')  AS canal
+  FROM `meli-bi-data.WHOWNER.BT_CX_KM_TRAINING_STATUS`
+  WHERE DATE_ID = (SELECT MAX(DATE_ID) FROM `meli-bi-data.WHOWNER.BT_CX_KM_TRAINING_STATUS`)
+    AND USER_TEAM_NAME = 'BR_ME_Sellers_Longtail'
+),
+staff_active AS (
+  SELECT DISTINCT USER_LDAP
+  FROM `meli-bi-data.WHOWNER.BT_CX_STAFF_HISTORY`
+  WHERE DATE_ID = (SELECT MAX(DATE_ID) FROM `meli-bi-data.WHOWNER.BT_CX_STAFF_HISTORY`)
+    AND UPPER(USER_STATUS) IN ('ACTIVE','ATIVO')
+)
+"""
+
+SQL_ADOPT_MONTH = _ADOPT_CTE + """
+SELECT FORMAT_DATE('%Y-%m', DATE(T.GESTION_DT)) AS period,
+       km.office AS office, km.canal AS canal,
+       SUM(T.OUTGOING_TOTAL)                 AS total,
+       SUM(COALESCE(T.OUTGOING_COPILOT, 0))  AS copilot
+FROM `meli-bi-data.WHOWNER.BT_CX_CXCOPILOT_TMO` T
+JOIN km           USING (USER_LDAP)
+JOIN staff_active USING (USER_LDAP)
+WHERE T.FLAG_ON = 1
+  AND DATE(T.GESTION_DT) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 5 MONTH), MONTH)
+GROUP BY 1, 2, 3
+ORDER BY 1
+"""
+
+SQL_ADOPT_WEEK = _ADOPT_CTE + """
+SELECT CAST(DATE_TRUNC(DATE(T.GESTION_DT), WEEK(MONDAY)) AS STRING) AS period,
+       km.office AS office, km.canal AS canal,
+       SUM(T.OUTGOING_TOTAL)                 AS total,
+       SUM(COALESCE(T.OUTGOING_COPILOT, 0))  AS copilot
+FROM `meli-bi-data.WHOWNER.BT_CX_CXCOPILOT_TMO` T
+JOIN km           USING (USER_LDAP)
+JOIN staff_active USING (USER_LDAP)
+WHERE T.FLAG_ON = 1
+  AND DATE(T.GESTION_DT) >= DATE_SUB(DATE_TRUNC(CURRENT_DATE(), WEEK(MONDAY)), INTERVAL 11 WEEK)
+GROUP BY 1, 2, 3
+ORDER BY 1
+"""
+
 # ── MAIN ──────────────────────────────────────────────────────────────
 print("=== CX Copilot — Fetch BQ ===\n")
 
@@ -193,6 +241,13 @@ try:
 except Exception as e:
     print(f"   ! Acesso negado à tabela de transcrições — aba Consultas ficará indisponível.")
     print(f"   ! Erro: {str(e)[:120]}\n")
+
+print("4. Adoção por mês e por semana (série temporal)...")
+adopt_month = run_query(SQL_ADOPT_MONTH, "adoção mensal")
+adopt_week  = run_query(SQL_ADOPT_WEEK,  "adoção semanal")
+with open("_copilot_adoption_ts.json", "w", encoding="utf-8") as f:
+    json.dump({"monthly": adopt_month, "weekly": adopt_week}, f, ensure_ascii=False, indent=2, default=str)
+print(f"   Salvo: _copilot_adoption_ts.json ({len(adopt_month)} linhas mês, {len(adopt_week)} linhas semana)\n")
 
 print("=== Fetch concluído! ===")
 print("Próximo: python _build_copilot_dashboard.py")

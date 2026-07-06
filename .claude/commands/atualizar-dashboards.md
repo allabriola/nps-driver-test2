@@ -36,7 +36,7 @@ Pipeline completo de dados frescos (vigente + mensal), nesta ordem:
 1. `python _copilot_fetch.py`  (o 403 nas transcrições é esperado — aba "Consultas" fica indisponível; os dados de reps/adoção/NPS/TMO funcionam normalmente)
 2. `python _build_copilot_dashboard.py`
 - Senioridade Expert/Newbie vem de `BT_CX_KM_TRAINING_STATUS`; filtro de ativos vem de `BT_CX_STAFF_HISTORY` (USER_STATUS). Não mexer nisso.
-- Commit: `copiloto_usabilidade.html _copilot_reps.json _copilot_by_process.json`
+- Commit: `copiloto_usabilidade.html _copilot_reps.json _copilot_by_process.json _copilot_adoption_ts.json`
 
 ## 4. Async Longtail — `async_longtail.html`
 - Rode: `python _build_async_longtail.py`  (auto-suficiente; gera `_async_longtail.html` e `async_longtail.html`)
