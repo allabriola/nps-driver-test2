@@ -3435,8 +3435,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', san
 .tab-btn:hover  { color:#3483FA; background:#f0f4ff; }
 .tab-btn.active { color:#3483FA; border-bottom-color:#3483FA; font-weight:700; }
 
-.tab-pane { display:none; padding:20px 24px; max-width:1400px; margin:0 auto; }
-.tab-pane.active { display:block; }
+/* Painéis visíveis durante o load p/ os gráficos (Chart.js) nascerem
+   dimensionados; só depois de 'js-ready' aplicamos a troca por aba.
+   Charts criados em container display:none renderizavam em branco. */
+.tab-pane { display:block; padding:20px 24px; max-width:1400px; margin:0 auto; }
+body.js-ready .tab-pane { display:none; }
+body.js-ready .tab-pane.active { display:block; }
 
 .kpi-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:20px; }
 .kpi-card  { background:#fff; border-radius:10px; padding:18px 20px;
@@ -3854,6 +3858,17 @@ function openSnapshot(file) {{
 function showTab(n){{
   document.querySelectorAll('.tab-btn').forEach(function(b,i){{b.classList.toggle('active',i===n);}});
   document.querySelectorAll('.tab-pane').forEach(function(p,i){{p.classList.toggle('active',i===n);}});
+  // Os gráficos são criados com a aba display:none (canvas 0x0); o ResizeObserver
+  // do Chart.js às vezes não recupera todos ao exibir (barras em branco). Força
+  // o resize dos gráficos da aba recém-exibida.
+  requestAnimationFrame(function(){{
+    var pane = document.querySelectorAll('.tab-pane')[n];
+    if (!pane || !window.Chart || !Chart.getChart) return;
+    pane.querySelectorAll('canvas').forEach(function(c){{
+      var ch = Chart.getChart(c);
+      if (ch) {{ try {{ ch.resize(); }} catch(e) {{}} }}
+    }});
+  }});
 }}
 function filterDrv(btn, grp){{
   document.querySelectorAll('.drv-fbtn').forEach(function(b){{b.classList.remove('active');}});
@@ -3930,6 +3945,16 @@ function filterDrv(btn, grp){{
 </div><!-- /.main-content -->
 
 <script>{js}</script>
+<script>
+// Todos os gráficos já foram criados (com as abas visíveis, portanto
+// dimensionados). Agora ativa a troca por aba (esconde as inativas).
+(function(){{
+  function ready(){{ document.body.classList.add('js-ready'); }}
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', ready);
+  else ready();
+}})();
+</script>
 </body>
 </html>"""
 
