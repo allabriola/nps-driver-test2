@@ -33,6 +33,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .cc{background:white;border-radius:10px;padding:16px 20px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .cc h3{font-size:12px;font-weight:700;color:#1e293b}
 .cc p{font-size:10.5px;color:#94a3b8;margin:2px 0 10px}
+.ch-box{position:relative;height:230px}
 .rep-table-wrap{margin-top:10px;overflow-x:auto}
 table.rt{width:100%;border-collapse:collapse;font-size:11.5px}
 table.rt th{background:#1a1a2e;color:white;padding:7px 10px;text-align:center;font-size:10.5px;font-weight:600;letter-spacing:.3px;white-space:nowrap}
@@ -106,36 +107,39 @@ table.rt tr:hover td{filter:brightness(.97)}
       <div class="kc"><div class="lbl">Q4 ≥1 Métrica</div><div class="val" style="color:#7c3aed">363</div><div class="cmp">NPS, TMO ou Estilo Meli</div></div>
       <div class="kc"><div class="lbl">Críticos</div><div class="val" style="color:#dc2626">232</div><div class="cmp">Baixa adoção + Q4</div></div>
     </div>
-    <!-- Evolução da adoção — TOPO, em barras -->
-    <div class="cc">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-        <div>
-          <h3>Evolução da Adoção</h3>
-          <p>% de outgoing com Copilot ao longo do tempo (respeita o filtro)</p>
+    <!-- Linha 1: Evolução da Adoção | Distribuição & NPS -->
+    <div class="ch-grid">
+      <div class="cc">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+          <div>
+            <h3>Evolução da Adoção</h3>
+            <p>% de outgoing com Copilot ao longo do tempo (respeita o filtro)</p>
+          </div>
+          <div class="adopt-tgls">
+            <button class="adopt-tgl active" onclick="toggleAdopt('monthly',this)">Mês</button>
+            <button class="adopt-tgl" onclick="toggleAdopt('weekly',this)">Semana</button>
+          </div>
         </div>
-        <div class="adopt-tgls">
-          <button class="adopt-tgl active" onclick="toggleAdopt('monthly',this)">Mês</button>
-          <button class="adopt-tgl" onclick="toggleAdopt('weekly',this)">Semana</button>
-        </div>
+        <div class="ch-box"><canvas id="ch-adopt"></canvas></div>
       </div>
-      <canvas id="ch-adopt" style="max-height:240px"></canvas>
-    </div>
-    <div class="ch-grid" style="margin-top:14px">
       <div class="cc">
         <h3>Distribuição de Adoção &amp; NPS por faixa</h3>
         <p>Barras: nº de reps por faixa de adoção · Linha: NPS médio da faixa (eixo dir.)</p>
-        <canvas id="ch-dist"></canvas>
+        <div class="ch-box"><canvas id="ch-dist"></canvas></div>
       </div>
+    </div>
+    <!-- Linha 2: Expert vs Newbie | Adoção por Oficina -->
+    <div class="ch-grid" style="margin-top:14px">
       <div class="cc">
         <h3>Expert vs Newbie — Adoção Média</h3>
         <p>Comparação de adoção por senioridade</p>
-        <canvas id="ch-sen"></canvas>
+        <div class="ch-box"><canvas id="ch-sen"></canvas></div>
       </div>
-    </div>
-    <div class="cc" style="margin-top:14px">
-      <h3>Adoção por Oficina</h3>
-      <p>% de outgoing com Copilot por oficina (ponderada · respeita o filtro de canal)</p>
-      <canvas id="ch-office" style="max-height:260px"></canvas>
+      <div class="cc">
+        <h3>Adoção por Oficina</h3>
+        <p>% de outgoing com Copilot por oficina (ponderada · respeita o filtro de canal)</p>
+        <div class="ch-box"><canvas id="ch-office"></canvas></div>
+      </div>
     </div>
     <div class="section-lbl" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
       <span>Todos os Reps — Visão Geral</span>
@@ -17391,6 +17395,7 @@ function makeCharts() {
           formatter: v => (v == null) ? '' : v + '%' } }
     ] },
     options: {
+      responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: true, labels: { boxWidth: 12, font: { size: 10 } } } },
       scales: {
         y:  { beginAtZero: true, ticks: { precision: 0 }, title: { display: true, text: 'Nº de reps', font: { size: 10 } } },
@@ -17405,6 +17410,7 @@ function makeCharts() {
       backgroundColor: ['#1d4ed8','#7c3aed'], borderRadius: 5,
       datalabels: { color: '#fff', font: { weight: '700', size: 12 }, anchor: 'center', align: 'center', formatter: v => v > 0 ? v + '%' : '' } }] },
     options: {
+      responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v+'%' } } }
     }
@@ -17416,7 +17422,7 @@ function makeCharts() {
     data: { labels: s0.labels, datasets: [{ label: 'Adoção %', data: s0.data,
       backgroundColor: s0.data.map(adoptColor), borderRadius: 5,
       datalabels: { color: '#334155', font: { weight: '700', size: 10 }, anchor: 'end', align: 'top', formatter: v => v + '%' } } ] },
-    options: { plugins: { legend: { display: false } },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
       scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v+'%' } } } }
   });
   // Adoção por OFICINA (BARRAS — comparação)
@@ -17426,7 +17432,7 @@ function makeCharts() {
     data: { labels: so.labels, datasets: [{ label: 'Adoção %', data: so.data,
       backgroundColor: so.data.map(adoptColor), borderRadius: 5,
       datalabels: { color: '#334155', font: { weight: '700', size: 10 }, anchor: 'end', align: 'top', formatter: v => v + '%' } } ] },
-    options: { plugins: { legend: { display: false } },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
       scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v+'%' } } } }
   });
 }
