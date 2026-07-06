@@ -47,17 +47,28 @@ PERIODS_MONTHLY = {
     _ABBR[_m1 - 1]: (str(_cur_first),  str(_yesterday)),
 }
 
-# Períodos semanais lidos de _fetch_weekly_data.py
-with open('_fetch_weekly_data.py', encoding='utf-8') as _fw:
-    _fw_src = _fw.read()
-_pm = _re.search(r'PERIODS\s*=\s*\{(.+?)\}', _fw_src, _re.DOTALL)
-def _ep(name):
-    m = _re.search(rf'"{name}".*?"(\d{{4}}-\d{{2}}-\d{{2}})".*?"(\d{{4}}-\d{{2}}-\d{{2}})"', _pm.group(1))
-    return m.group(1), m.group(2)
+# Períodos semanais: lê de _new_weekly_data.json (_periods, datas já resolvidas
+# pela janela dinâmica). Fallback: regex nas datas literais de _fetch_weekly_data.py.
+def _weekly_periods():
+    try:
+        with open('_new_weekly_data.json', encoding='utf-8') as _f:
+            _p = json.load(_f).get('_periods')
+        if _p:
+            return (tuple(_p['S2_new'][:2]), tuple(_p['S1_new'][:2]))
+    except Exception:
+        pass
+    with open('_fetch_weekly_data.py', encoding='utf-8') as _fw:
+        _fw_src = _fw.read()
+    _pm = _re.search(r'PERIODS\s*=\s*\{(.+?)\}', _fw_src, _re.DOTALL)
+    def _ep(name):
+        m = _re.search(rf'"{name}".*?"(\d{{4}}-\d{{2}}-\d{{2}})".*?"(\d{{4}}-\d{{2}}-\d{{2}})"', _pm.group(1))
+        return m.group(1), m.group(2)
+    return (_ep('S2_new'), _ep('S1_new'))
 
+_s2p, _s1p = _weekly_periods()
 PERIODS_WEEKLY = {
-    'S2': _ep('S2_new'),
-    'S1': _ep('S1_new'),
+    'S2': _s2p,
+    'S1': _s1p,
 }
 
 print("Períodos breakdown:")

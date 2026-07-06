@@ -61,6 +61,16 @@ if %errorlevel% equ 0 (
     echo [%date% %time%] Dados mensais: ERRO (codigo %errorlevel%) >> "%LOG%"
 )
 
+:: 4c - Aberturas mensais (processo/senioridade/oficina/equipe) p/ a aba
+::      Evolucao Mensal > Analise por Driver. Mes atual + anterior, dinamico.
+echo [%date% %time%] Buscando aberturas mensais... >> "%LOG%"
+python _fetch_monthly_breakdown.py >> "%LOG%" 2>&1
+if %errorlevel% equ 0 (
+    echo [%date% %time%] Aberturas mensais: OK >> "%LOG%"
+) else (
+    echo [%date% %time%] Aberturas mensais: ERRO (codigo %errorlevel%) >> "%LOG%"
+)
+
 :: 3 - NPS Tendencias Gerencia (todos os drivers - diario)
 ::      Gerado APOS os updates de dados (4a/4b) p/ refletir dados frescos.
 echo [%date% %time%] Atualizando NPS Tendencias Gerencia... >> "%LOG%"

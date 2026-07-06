@@ -20,6 +20,7 @@ Pipeline completo de dados frescos (vigente + mensal), nesta ordem:
 2. `python _update_weekly.py`
 3. `python _fetch_monthly_data.py`  (recomputa meses fechados + mês corrente MTD)
 4. `python _update_monthly.py`  (trava de virada: mantém mês anterior como M1 enquanto o corrente estiver vazio)
+4b. `python _fetch_monthly_breakdown.py`  (aberturas mensais por processo/senioridade/oficina/equipe — mês atual + anterior; alimenta a aba Evolução Mensal → Análise por Driver. Pode demorar, tem várias queries.)
 5. `python generate_html_tendencias.py`  (gera nps_tendencias_gerencia.html)
 6. `python generate_html_seller_dev.py`  (gera nps_tendencias_seller_dev.html — o erro `Grid: No module named 'playwright'` é esperado e NÃO afeta o GitHub Pages)
 7. `python _save_monthly_snapshot.py`  (aba "Fechamentos Mensais": snapshota o último mês fechado completo; remove o mês corrente da aba)
@@ -29,7 +30,7 @@ Pipeline completo de dados frescos (vigente + mensal), nesta ordem:
    - `python generate_html_seller_dev.py`  (regera p/ embutir o histórico novo)
    - Nesse caso, inclua também `history/ history_sd/` no commit.
    - (Verifique o dia com: `python -c "import datetime;print(datetime.date.today().weekday())"` → 0 = segunda.)
-- Commit: `nps_tendencias_seller_dev.html nps_tendencias_gerencia.html generate_html_gerencia.py _new_weekly_data.json _monthly_result.json history_sd/ history/`
+- Commit: `nps_tendencias_seller_dev.html nps_tendencias_gerencia.html generate_html_gerencia.py _new_weekly_data.json _monthly_result.json _monthly_breakdown.json history_sd/ history/`
 
 ## 3. Copiloto Usabilidade — `copiloto_usabilidade.html`
 1. `python _copilot_fetch.py`  (o 403 nas transcrições é esperado — aba "Consultas" fica indisponível; os dados de reps/adoção/NPS/TMO funcionam normalmente)

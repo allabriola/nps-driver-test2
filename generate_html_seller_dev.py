@@ -213,20 +213,24 @@ def _agg_dim(drvs, dim, period, source=None):
         v["nps"] = round(100.0*(v["p"]-v["d"])/v["s"], 1) if v["s"] > 0 else None
     return result
 
-# M1 = Maio, M2 = Abril — P/C/O/T/Sr todos da tabela oficial ou com filtros corretos
+# M1 = mês corrente, M2 = mês anterior — labels DINÂMICOS (= MONTH_LABELS, que
+# _update_monthly.py mantém sincronizado). Devem casar com as chaves mensais de
+# _monthly_breakdown.json (gerado por _fetch_monthly_breakdown.py, mesmo mês atual/anterior).
+_BD_M1 = MONTH_LABELS[-1] if MONTH_LABELS else "Jun"
+_BD_M2 = MONTH_LABELS[-2] if len(MONTH_LABELS) >= 2 else "Mai"
 grp_breakdown = {}
 for _grp, _drvs in DRIVER_GROUPS.items():
     grp_breakdown[_grp] = {
-        "P_M1":  _agg_mb(_drvs,  "P",  "Mai"),
-        "P_M2":  _agg_mb(_drvs,  "P",  "Abr"),
-        "C_M1":  _agg_mb(_drvs,  "C",  "Mai"),
-        "C_M2":  _agg_mb(_drvs,  "C",  "Abr"),
-        "O_M1":  _agg_mb(_drvs,  "O",  "Mai"),
-        "O_M2":  _agg_mb(_drvs,  "O",  "Abr"),
-        "T_M1":  _agg_mb(_drvs,  "T",  "Mai"),   # equipes
-        "T_M2":  _agg_mb(_drvs,  "T",  "Abr"),
-        "Sr_M1": _agg_mb(_drvs,  "Sr", "Mai"),
-        "Sr_M2": _agg_mb(_drvs,  "Sr", "Abr"),
+        "P_M1":  _agg_mb(_drvs,  "P",  _BD_M1),
+        "P_M2":  _agg_mb(_drvs,  "P",  _BD_M2),
+        "C_M1":  _agg_mb(_drvs,  "C",  _BD_M1),
+        "C_M2":  _agg_mb(_drvs,  "C",  _BD_M2),
+        "O_M1":  _agg_mb(_drvs,  "O",  _BD_M1),
+        "O_M2":  _agg_mb(_drvs,  "O",  _BD_M2),
+        "T_M1":  _agg_mb(_drvs,  "T",  _BD_M1),   # equipes
+        "T_M2":  _agg_mb(_drvs,  "T",  _BD_M2),
+        "Sr_M1": _agg_mb(_drvs,  "Sr", _BD_M1),
+        "Sr_M2": _agg_mb(_drvs,  "Sr", _BD_M2),
     }
 
 # VIG por grupo (de drivers_vigente)
