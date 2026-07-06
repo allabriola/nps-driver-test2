@@ -137,7 +137,7 @@ for r in REPS:
 # ══════════════════════════════════════════════════════════════════════
 # TABELAS HTML
 # ══════════════════════════════════════════════════════════════════════
-def reps_table(reps_list, show_q4_only=False, extra_cols=True):
+def reps_table(reps_list, show_q4_only=False, extra_cols=True, table_id=""):
     """Gera <table> de reps com métricas."""
     filtered = [r for r in reps_list if not show_q4_only or r["n_q4"] >= 1]
     if not filtered:
@@ -161,8 +161,9 @@ def reps_table(reps_list, show_q4_only=False, extra_cols=True):
           {'<td>' + badge_q4(r) + '</td>' if extra_cols else ''}
         </tr>"""
     header_q4 = "<th>Status Q4</th>" if extra_cols else ""
+    id_attr = f' id="{table_id}"' if table_id else ""
     return f"""
-    <table class="rt" data-table>
+    <table class="rt" data-table{id_attr}>
       <thead><tr>
         <th class="left">Rep</th><th>Senioridade</th><th>Oficina</th><th>Canal</th>
         <th>Adoção%</th><th>NPS</th><th>TMO(s)</th><th>Estilo Meli</th>{header_q4}
@@ -357,6 +358,7 @@ html = f"""<!DOCTYPE html>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>CX Copilot — Usabilidade dos Reps</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
 <style>
 *{{margin:0;padding:0;box-sizing:border-box}}
 body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f7;color:#1a1a2e}}
@@ -414,6 +416,8 @@ table.rt tr:hover td{{filter:brightness(.97)}}
 .ex-item{{font-size:11px;color:#374151;background:#f8fafc;border-left:3px solid #93c5fd;padding:5px 10px;margin-bottom:4px;border-radius:0 5px 5px 0;font-style:italic}}
 .footer{{font-size:11px;color:#94a3b8;text-align:center;margin-top:28px}}
 .hidden{{display:none!important}}
+.csv-btn{{background:#1d4ed8;color:#fff;border:none;padding:5px 13px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer}}
+.csv-btn:hover{{background:#1e40af}}
 @media(max-width:900px){{.sc-grid{{grid-template-columns:repeat(3,1fr)}}.ch-grid{{grid-template-columns:1fr}}}}
 </style>
 </head>
@@ -464,8 +468,11 @@ table.rt tr:hover td{{filter:brightness(.97)}}
         <canvas id="ch-sen"></canvas>
       </div>
     </div>
-    <div class="section-lbl">Todos os Reps — Visão Geral</div>
-    {reps_table(sorted(REPS, key=lambda r: -(r.get('pct_adopcion') or 0)), show_q4_only=False)}
+    <div class="section-lbl" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <span>Todos os Reps — Visão Geral</span>
+      <button class="csv-btn" onclick="exportRepsCSV()">&#11015; Exportar CSV</button>
+    </div>
+    {reps_table(sorted(REPS, key=lambda r: -(r.get('pct_adopcion') or 0)), show_q4_only=False, table_id="tbl-geral")}
   </div>
 
   <!-- ══ TAB 2: REPS Q4 ══ -->
@@ -514,6 +521,31 @@ function setPtab(group, id, btn) {{
   btn.classList.add('active');
 }}
 
+// ── DADOS DOS REPS (p/ filtro dos gráficos) ────────────────────────────
+const REPS_JS = {json.dumps([{"o": r.get("USER_OFFICE","N/D"), "c": r.get("USER_TEAM_CHANNEL","N/D"), "s": r.get("senioridade","N/D"), "a": r.get("pct_adopcion")} for r in REPS], ensure_ascii=False)};
+const DIST_LBLS = {json.dumps(list(buckets.keys()))};
+
+function filteredReps() {{
+  const office = document.getElementById('f-office').value;
+  const canal  = document.getElementById('f-canal').value;
+  return REPS_JS.filter(r => (office === 'ALL' || r.o === office) && (canal === 'ALL' || r.c === canal));
+}}
+function computeDist(reps) {{
+  const b = [0,0,0,0,0];
+  reps.forEach(r => {{
+    const v = (r.a == null) ? 0 : r.a;
+    if (v < 20) b[0]++; else if (v < 40) b[1]++; else if (v < 60) b[2]++; else if (v < 80) b[3]++; else b[4]++;
+  }});
+  return b;
+}}
+function computeSen(reps) {{
+  const avg = sen => {{
+    const xs = reps.filter(r => r.s === sen && r.a != null).map(r => r.a);
+    return xs.length ? Math.round(xs.reduce((a,b)=>a+b,0)/xs.length*10)/10 : 0;
+  }};
+  return [avg('Expert'), avg('Newbie')];
+}}
+
 // ── FILTROS ───────────────────────────────────────────────────────────
 function applyFilters() {{
   const office = document.getElementById('f-office').value;
@@ -531,47 +563,71 @@ function applyFilters() {{
   const el = document.getElementById('filter-count');
   if (office !== 'ALL' || canal !== 'ALL') el.textContent = `${{vis}} de ${{tot}} reps visíveis`;
   else el.textContent = '';
+  updateCharts();
 }}
 
 // ── CHARTS ────────────────────────────────────────────────────────────
-const DIST_DATA = {json.dumps(list(buckets.values()))};
-const DIST_LBLS = {json.dumps(list(buckets.keys()))};
+if (window.ChartDataLabels) Chart.register(ChartDataLabels);
+let chDist, chSen;
 
-const adopt_expert = {round(sum(r.get('pct_adopcion',0) or 0 for r in REPS if r.get('senioridade')=='Expert') / max(sum(1 for r in REPS if r.get('senioridade')=='Expert'),1), 1)};
-const adopt_newbie = {round(sum(r.get('pct_adopcion',0) or 0 for r in REPS if r.get('senioridade')=='Newbie') / max(sum(1 for r in REPS if r.get('senioridade')=='Newbie'),1), 1)};
+const DL_BASE = {{ color: '#fff', font: {{ weight: '700', size: 11 }}, anchor: 'center', align: 'center' }};
 
-window.addEventListener('DOMContentLoaded', () => {{
-  new Chart(document.getElementById('ch-dist'), {{
+function makeCharts() {{
+  const reps = filteredReps();
+  chDist = new Chart(document.getElementById('ch-dist'), {{
     type: 'bar',
-    data: {{
-      labels: DIST_LBLS,
-      datasets: [{{
-        label: 'Reps',
-        data: DIST_DATA,
-        backgroundColor: ['#dc2626','#f59e0b','#f59e0b','#22c55e','#15803d'],
-        borderRadius: 5
-      }}]
-    }},
-    options: {{ plugins: {{ legend: {{ display: false }} }}, scales: {{ y: {{ beginAtZero: true, ticks: {{ precision: 0 }} }} }} }}
-  }});
-
-  new Chart(document.getElementById('ch-sen'), {{
-    type: 'bar',
-    data: {{
-      labels: ['Expert', 'Newbie'],
-      datasets: [{{
-        label: 'Adoção Média %',
-        data: [adopt_expert, adopt_newbie],
-        backgroundColor: ['#1d4ed8','#7c3aed'],
-        borderRadius: 5
-      }}]
-    }},
+    data: {{ labels: DIST_LBLS, datasets: [{{ label: 'Reps', data: computeDist(reps),
+      backgroundColor: ['#dc2626','#f59e0b','#f59e0b','#22c55e','#15803d'], borderRadius: 5 }}] }},
     options: {{
-      plugins: {{ legend: {{ display: false }} }},
+      plugins: {{
+        legend: {{ display: false }},
+        datalabels: {{ ...DL_BASE, formatter: (v, ctx) => {{
+          const t = ctx.chart.data.datasets[0].data.reduce((a,b)=>a+b,0);
+          return (v > 0 && t > 0) ? Math.round(v/t*100) + '%' : '';
+        }} }}
+      }},
+      scales: {{ y: {{ beginAtZero: true, ticks: {{ precision: 0 }} }} }}
+    }}
+  }});
+  chSen = new Chart(document.getElementById('ch-sen'), {{
+    type: 'bar',
+    data: {{ labels: ['Expert', 'Newbie'], datasets: [{{ label: 'Adoção Média %', data: computeSen(reps),
+      backgroundColor: ['#1d4ed8','#7c3aed'], borderRadius: 5 }}] }},
+    options: {{
+      plugins: {{
+        legend: {{ display: false }},
+        datalabels: {{ ...DL_BASE, font: {{ weight: '700', size: 12 }}, formatter: v => v > 0 ? v + '%' : '' }}
+      }},
       scales: {{ y: {{ beginAtZero: true, max: 100, ticks: {{ callback: v => v+'%' }} }} }}
     }}
   }});
-}});
+}}
+function updateCharts() {{
+  if (!chDist || !chSen) return;
+  const reps = filteredReps();
+  chDist.data.datasets[0].data = computeDist(reps); chDist.update();
+  chSen.data.datasets[0].data  = computeSen(reps);  chSen.update();
+}}
+window.addEventListener('DOMContentLoaded', makeCharts);
+
+// ── EXPORT CSV (tabela "Todos os Reps — Visão Geral", respeita filtro) ──
+function exportRepsCSV() {{
+  const table = document.getElementById('tbl-geral');
+  if (!table) return;
+  const rows = [];
+  rows.push([...table.querySelectorAll('thead th')].map(th => th.textContent.trim()));
+  table.querySelectorAll('tbody tr').forEach(tr => {{
+    if (tr.classList.contains('hidden')) return;
+    rows.push([...tr.querySelectorAll('td')].map(td => td.textContent.trim()));
+  }});
+  const csv = rows.map(r => r.map(c => '"' + String(c).replace(/"/g,'""') + '"').join(',')).join('\\n');
+  const blob = new Blob(['\\ufeff' + csv], {{ type: 'text/csv;charset=utf-8;' }});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'copiloto_reps_visao_geral.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}}
 </script>
 </body>
 </html>"""
