@@ -38,17 +38,17 @@
           "s": 9,
           "nps": 66.67
         },
-        "CBT - Boosters": {
-          "p": 5,
-          "d": 2,
-          "s": 7,
-          "nps": 42.86
-        },
         "CBT - Reversa": {
           "p": 5,
           "d": 3,
           "s": 9,
           "nps": 22.22
+        },
+        "CBT - Boosters": {
+          "p": 5,
+          "d": 2,
+          "s": 7,
+          "nps": 42.86
         },
         "CBT - Operational Management": {
           "p": 2,
@@ -356,17 +356,17 @@
           "s": 14,
           "nps": 14.29
         },
-        "FBM - Retiro de Stock - Cx One": {
-          "p": 13,
-          "d": 3,
-          "s": 20,
-          "nps": 50.0
-        },
         "FBM - Inventario": {
           "p": 10,
           "d": 2,
           "s": 13,
           "nps": 61.54
+        },
+        "FBM - Retiro de Stock - Cx One": {
+          "p": 13,
+          "d": 3,
+          "s": 20,
+          "nps": 50.0
         },
         "FBM - Devoluciones": {
           "p": 3,
@@ -548,17 +548,17 @@
           "s": 165,
           "nps": 58.18
         },
-        "FBM - Inventario": {
-          "p": 48,
-          "d": 19,
-          "s": 75,
-          "nps": 38.67
-        },
         "FBM - Post Inbound": {
           "p": 40,
           "d": 24,
           "s": 74,
           "nps": 21.62
+        },
+        "FBM - Inventario": {
+          "p": 48,
+          "d": 19,
+          "s": 75,
+          "nps": 38.67
         },
         "FBM - Retiro de Stock - Cx One": {
           "p": 34,
@@ -585,10 +585,10 @@
           "nps": 50.0
         },
         "Asignación del Contáctanos FBM": {
-          "p": 0,
+          "p": 1,
           "d": 2,
-          "s": 2,
-          "nps": -100.0
+          "s": 3,
+          "nps": -33.33
         }
       },
       "C": {
@@ -708,17 +708,17 @@
           "s": 257,
           "nps": 66.15
         },
-        "ATE": {
-          "p": 57,
-          "d": 12,
-          "s": 79,
-          "nps": 56.96
-        },
         "KTA_BRASIL": {
           "p": 52,
           "d": 5,
           "s": 66,
           "nps": 71.21
+        },
+        "ATE": {
+          "p": 57,
+          "d": 12,
+          "s": 79,
+          "nps": 56.96
         },
         "AEC": {
           "p": 25,
@@ -740,17 +740,17 @@
           "s": 34,
           "nps": 73.53
         },
-        "BR_ME_Sellers_Longtail": {
-          "p": 92,
-          "d": 19,
-          "s": 126,
-          "nps": 57.94
-        },
         "BR_Publicaciones_Sellers_Longtail": {
           "p": 22,
           "d": 1,
           "s": 26,
           "nps": 80.77
+        },
+        "BR_ME_Sellers_Longtail": {
+          "p": 92,
+          "d": 19,
+          "s": 126,
+          "nps": 57.94
         },
         "BR_Ventas_Sellers_Longtail": {
           "p": 19,
@@ -780,9 +780,9 @@
       "Sr": {
         "Training": {
           "p": 519,
-          "d": 196,
-          "s": 715,
-          "nps": 45.17
+          "d": 197,
+          "s": 716,
+          "nps": 44.97
         },
         "Expert": {
           "p": 6520,
@@ -1082,17 +1082,17 @@
           "s": 20,
           "nps": 40.0
         },
-        "Viaje del paquete - Comprador": {
-          "p": 40,
-          "d": 10,
-          "s": 59,
-          "nps": 50.85
-        },
         "Reputación ME Masivos": {
           "p": 3,
           "d": 11,
           "s": 15,
           "nps": -53.33
+        },
+        "Viaje del paquete - Comprador": {
+          "p": 40,
+          "d": 10,
+          "s": 59,
+          "nps": 50.85
         },
         "Reputación ML Masivos": {
           "p": 16,
@@ -1106,17 +1106,17 @@
           "s": 12,
           "nps": 66.67
         },
-        "CBT - Intellectual Property": {
-          "p": 15,
-          "d": 1,
-          "s": 16,
-          "nps": 87.5
-        },
         "Caja vacía - Flex": {
           "p": 23,
           "d": 3,
           "s": 27,
           "nps": 74.07
+        },
+        "CBT - Intellectual Property": {
+          "p": 15,
+          "d": 1,
+          "s": 16,
+          "nps": 87.5
         },
         "Asignación del contáctanos Buyers Post": {
           "p": 11,
@@ -1124,17 +1124,17 @@
           "s": 18,
           "nps": 38.89
         },
-        "KYC seg360": {
-          "p": 17,
-          "d": 7,
-          "s": 26,
-          "nps": 38.46
-        },
         "Problemas de seguridad": {
           "p": 8,
           "d": 8,
           "s": 16,
           "nps": 0.0
+        },
+        "KYC seg360": {
+          "p": 17,
+          "d": 7,
+          "s": 26,
+          "nps": 38.46
         },
         "Despacho Ventas y Publicaciones Masivos": {
           "p": 1,
@@ -1148,23 +1148,17 @@
           "s": 7,
           "nps": 71.43
         },
-        "PNR - OP": {
-          "p": 5,
-          "d": 3,
-          "s": 9,
-          "nps": 22.22
-        },
         "Apelaciones buyer XDDS": {
           "p": 4,
           "d": 5,
           "s": 9,
           "nps": -11.11
         },
-        "Consumer Credits": {
-          "p": 3,
+        "PNR - OP": {
+          "p": 5,
           "d": 3,
-          "s": 6,
-          "nps": 0.0
+          "s": 9,
+          "nps": 22.22
         },
         "Restricciones": {
           "p": 5,
@@ -1184,6 +1178,18 @@
           "s": 7,
           "nps": -14.29
         },
+        "Consumer Credits": {
+          "p": 3,
+          "d": 3,
+          "s": 6,
+          "nps": 0.0
+        },
+        "Asignacion del Contactanos ME Pre Despacho Top ON": {
+          "p": 3,
+          "d": 0,
+          "s": 3,
+          "nps": 100.0
+        },
         "Seguros transaccional - Payers": {
           "p": 3,
           "d": 3,
@@ -1196,23 +1202,17 @@
           "s": 3,
           "nps": 100.0
         },
-        "Guardia Urbana": {
-          "p": 2,
-          "d": 0,
-          "s": 3,
-          "nps": 66.67
-        },
         "SHS - Caso Recusado": {
           "p": 0,
           "d": 3,
           "s": 3,
           "nps": -100.0
         },
-        "Asignacion del Contactanos ME Pre Despacho Top ON": {
-          "p": 3,
+        "Guardia Urbana": {
+          "p": 2,
           "d": 0,
           "s": 3,
-          "nps": 100.0
+          "nps": 66.67
         },
         "Transferencias de dinero": {
           "p": 1,
@@ -1220,31 +1220,13 @@
           "s": 2,
           "nps": 0.0
         },
-        "KYC Services": {
+        "Mi dinero": {
           "p": 1,
           "d": 1,
           "s": 2,
           "nps": 0.0
         },
-        "Caja vacía - MP": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
-        },
-        "Consultas y Problemas con Pagos - Payers": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
-        },
-        "Marketplace Kangu": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
-        },
-        "Mi dinero": {
+        "Asignación del contáctanos Buyers Pre": {
           "p": 1,
           "d": 1,
           "s": 2,
@@ -1256,11 +1238,29 @@
           "s": 2,
           "nps": -100.0
         },
-        "Asignación del contáctanos Buyers Pre": {
+        "Caja vacía - MP": {
+          "p": 2,
+          "d": 0,
+          "s": 2,
+          "nps": 100.0
+        },
+        "Marketplace Kangu": {
+          "p": 2,
+          "d": 0,
+          "s": 2,
+          "nps": 100.0
+        },
+        "KYC Services": {
           "p": 1,
           "d": 1,
           "s": 2,
           "nps": 0.0
+        },
+        "Consultas y Problemas con Pagos - Payers": {
+          "p": 2,
+          "d": 0,
+          "s": 2,
+          "nps": 100.0
         }
       },
       "C": {
@@ -1340,17 +1340,17 @@
           "s": 53,
           "nps": 62.26
         },
-        "BR_Buyers_Pre_Entrega": {
-          "p": 36,
-          "d": 9,
-          "s": 53,
-          "nps": 50.94
-        },
         "BR_MLVendedor_Analisis_Masivo": {
           "p": 8,
           "d": 22,
           "s": 32,
           "nps": -43.75
+        },
+        "BR_Buyers_Pre_Entrega": {
+          "p": 36,
+          "d": 9,
+          "s": 53,
+          "nps": 50.94
         },
         "MELIPRO_VIP_MLB": {
           "p": 12,
@@ -1358,17 +1358,17 @@
           "s": 12,
           "nps": 100.0
         },
-        "BR_Security_MP": {
-          "p": 37,
-          "d": 18,
-          "s": 57,
-          "nps": 33.33
-        },
         "BR_Buyers_Compra": {
           "p": 4,
           "d": 3,
           "s": 8,
           "nps": 12.5
+        },
+        "BR_Security_MP": {
+          "p": 37,
+          "d": 18,
+          "s": 57,
+          "nps": 33.33
         },
         "BR_ME_Sellers_Longtail": {
           "p": 9,
@@ -1388,17 +1388,17 @@
           "s": 5,
           "nps": 0.0
         },
-        "BR_Publicaciones_Sellers_Longtail": {
-          "p": 2,
-          "d": 0,
-          "s": 3,
-          "nps": 66.67
-        },
         "OUV - Ouvidoria Regulatório Online": {
           "p": 0,
           "d": 3,
           "s": 3,
           "nps": -100.0
+        },
+        "BR_Publicaciones_Sellers_Longtail": {
+          "p": 2,
+          "d": 0,
+          "s": 3,
+          "nps": 66.67
         },
         "BR_Banking_Payments_MP": {
           "p": 4,
@@ -1406,13 +1406,13 @@
           "s": 6,
           "nps": 33.33
         },
-        "MLB_Services_Cobranzas": {
+        "BR_Sellers_MP": {
           "p": 1,
           "d": 1,
           "s": 2,
           "nps": 0.0
         },
-        "BR_Sellers_MP": {
+        "MLB_Services_Cobranzas": {
           "p": 1,
           "d": 1,
           "s": 2,
@@ -1427,22 +1427,22 @@
       },
       "Sr": {
         "Training": {
-          "p": 592,
-          "d": 255,
-          "s": 847,
-          "nps": 39.79
+          "p": 591,
+          "d": 252,
+          "s": 843,
+          "nps": 40.21
         },
         "Expert": {
-          "p": 9380,
-          "d": 2039,
-          "s": 11419,
-          "nps": 64.29
+          "p": 9320,
+          "d": 2014,
+          "s": 11334,
+          "nps": 64.46
         },
         "Newbie": {
-          "p": 8864,
-          "d": 2149,
-          "s": 11013,
-          "nps": 60.97
+          "p": 8812,
+          "d": 2127,
+          "s": 10939,
+          "nps": 61.11
         }
       }
     },
@@ -1529,10 +1529,10 @@
       },
       "Sr": {
         "Training": {
-          "p": 27,
+          "p": 28,
           "d": 15,
-          "s": 42,
-          "nps": 28.57
+          "s": 43,
+          "nps": 30.23
         },
         "Expert": {
           "p": 542,
@@ -1616,25 +1616,25 @@
           "s": 4,
           "nps": 75.0
         },
-        "BR_ME_Sellers_Longtail": {
-          "p": 2,
-          "d": 1,
-          "s": 3,
-          "nps": 33.33
-        },
         "BR_Ventas_Sellers_Mature": {
           "p": 3,
           "d": 0,
           "s": 3,
           "nps": 100.0
+        },
+        "BR_ME_Sellers_Longtail": {
+          "p": 2,
+          "d": 1,
+          "s": 3,
+          "nps": 33.33
         }
       },
       "Sr": {
         "Training": {
-          "p": 27,
+          "p": 28,
           "d": 15,
-          "s": 42,
-          "nps": 28.57
+          "s": 43,
+          "nps": 30.23
         },
         "Expert": {
           "p": 542,
@@ -1721,10 +1721,10 @@
       },
       "Sr": {
         "Training": {
-          "p": 27,
+          "p": 28,
           "d": 15,
-          "s": 42,
-          "nps": 28.57
+          "s": 43,
+          "nps": 30.23
         },
         "Expert": {
           "p": 542,
@@ -1865,16 +1865,16 @@
           "nps": 51.61
         },
         "Expert": {
-          "p": 1986,
-          "d": 553,
-          "s": 2539,
-          "nps": 56.44
+          "p": 1987,
+          "d": 556,
+          "s": 2543,
+          "nps": 56.27
         },
         "Newbie": {
-          "p": 951,
+          "p": 953,
           "d": 218,
-          "s": 1169,
-          "nps": 62.7
+          "s": 1171,
+          "nps": 62.77
         }
       }
     },
@@ -1916,12 +1916,6 @@
           "s": 18,
           "nps": 77.78
         },
-        "Caja Vacía - FBM": {
-          "p": 2,
-          "d": 0,
-          "s": 3,
-          "nps": 66.67
-        },
         "Incompleto - Super - FBM": {
           "p": 3,
           "d": 0,
@@ -1934,17 +1928,23 @@
           "s": 5,
           "nps": 20.0
         },
-        "Defectuoso - Super - FBM": {
-          "p": 1,
+        "Caja Vacía - FBM": {
+          "p": 2,
           "d": 0,
-          "s": 2,
-          "nps": 50.0
+          "s": 3,
+          "nps": 66.67
         },
         "Diferente - Super - FBM": {
           "p": 1,
           "d": 1,
           "s": 2,
           "nps": 0.0
+        },
+        "Defectuoso - Super - FBM": {
+          "p": 1,
+          "d": 0,
+          "s": 2,
+          "nps": 50.0
         }
       },
       "C": {
@@ -2321,10 +2321,10 @@
       },
       "Sr": {
         "Training": {
-          "p": 38,
+          "p": 41,
           "d": 11,
-          "s": 49,
-          "nps": 55.1
+          "s": 52,
+          "nps": 57.69
         },
         "Expert": {
           "p": 733,
@@ -2404,17 +2404,17 @@
           "s": 206,
           "nps": 56.31
         },
-        "Expert": {
-          "p": 1271,
-          "d": 145,
-          "s": 1416,
-          "nps": 79.52
-        },
         "Newbie": {
           "p": 1091,
           "d": 155,
           "s": 1246,
           "nps": 75.12
+        },
+        "Expert": {
+          "p": 1271,
+          "d": 145,
+          "s": 1416,
+          "nps": 79.52
         }
       }
     },
@@ -2726,13 +2726,13 @@
           "s": 226,
           "nps": 71.68
         },
-        "BR_Publicaciones_Sellers_Mature": {
+        "BR_ME_Sellers_Mature": {
           "p": 4,
           "d": 0,
           "s": 4,
           "nps": 100.0
         },
-        "BR_ME_Sellers_Mature": {
+        "BR_Publicaciones_Sellers_Mature": {
           "p": 4,
           "d": 0,
           "s": 4,
@@ -2786,17 +2786,17 @@
           "s": 16,
           "nps": 75.0
         },
-        "Calidad de foto": {
-          "p": 5,
-          "d": 0,
-          "s": 6,
-          "nps": 83.33
-        },
         "Potenciar Ventas": {
           "p": 7,
           "d": 4,
           "s": 14,
           "nps": 21.43
+        },
+        "Calidad de foto": {
+          "p": 5,
+          "d": 0,
+          "s": 6,
+          "nps": 83.33
         },
         "Antes de publicar": {
           "p": 1,
@@ -2874,9 +2874,9 @@
         },
         "Newbie": {
           "p": 779,
-          "d": 118,
-          "s": 897,
-          "nps": 73.69
+          "d": 119,
+          "s": 898,
+          "nps": 73.5
         }
       }
     },
@@ -2976,9 +2976,9 @@
         },
         "Newbie": {
           "p": 779,
-          "d": 118,
-          "s": 897,
-          "nps": 73.69
+          "d": 119,
+          "s": 898,
+          "nps": 73.5
         }
       }
     },
@@ -3098,17 +3098,17 @@
           "s": 1072,
           "nps": 64.46
         },
-        "OUV - Cap": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
-        },
         "BR_Publicaciones_Sellers_Mature": {
           "p": 1,
           "d": 1,
           "s": 2,
           "nps": 0.0
+        },
+        "OUV - Cap": {
+          "p": 2,
+          "d": 0,
+          "s": 2,
+          "nps": 100.0
         }
       },
       "Sr": {
@@ -3120,15 +3120,15 @@
         },
         "Expert": {
           "p": 965,
-          "d": 121,
-          "s": 1086,
-          "nps": 77.72
+          "d": 122,
+          "s": 1087,
+          "nps": 77.55
         },
         "Newbie": {
           "p": 1167,
-          "d": 218,
-          "s": 1385,
-          "nps": 68.52
+          "d": 219,
+          "s": 1386,
+          "nps": 68.4
         }
       }
     }
@@ -3137,28 +3137,28 @@
     "CBT": {
       "P": {
         "CBT - ME Reputation": {
-          "p": 53,
+          "p": 67,
           "d": 6,
-          "s": 60,
-          "nps": 78.33
+          "s": 74,
+          "nps": 82.43
         },
         "CBT - Reputation": {
-          "p": 19,
+          "p": 21,
           "d": 2,
-          "s": 22,
-          "nps": 77.27
+          "s": 24,
+          "nps": 79.17
         },
         "CBT - Package journey": {
-          "p": 5,
+          "p": 7,
           "d": 2,
-          "s": 7,
-          "nps": 42.86
+          "s": 9,
+          "nps": 55.56
         },
         "CBT - Dispatch, Sales and Listings": {
-          "p": 3,
+          "p": 4,
           "d": 1,
-          "s": 4,
-          "nps": 50.0
+          "s": 5,
+          "nps": 60.0
         },
         "CBT - Publication Management": {
           "p": 1,
@@ -3166,47 +3166,47 @@
           "s": 3,
           "nps": -33.33
         },
-        "CBT - Reversa": {
-          "p": 1,
-          "d": 1,
-          "s": 2,
-          "nps": 0.0
-        },
         "CBT - Operational Management": {
           "p": 1,
           "d": 0,
           "s": 2,
           "nps": 50.0
+        },
+        "CBT - Reversa": {
+          "p": 1,
+          "d": 1,
+          "s": 2,
+          "nps": 0.0
         }
       },
       "C": {
         "CHAT": {
-          "p": 83,
+          "p": 102,
           "d": 14,
-          "s": 100,
-          "nps": 69.0
+          "s": 119,
+          "nps": 73.95
         }
       },
       "O": {
         "ONELINK_MEDELLIN": {
-          "p": 69,
+          "p": 85,
           "d": 10,
-          "s": 82,
-          "nps": 71.95
+          "s": 98,
+          "nps": 76.53
         },
         "SHANGHAI": {
-          "p": 14,
+          "p": 17,
           "d": 4,
-          "s": 18,
-          "nps": 55.56
+          "s": 21,
+          "nps": 61.9
         }
       },
       "T": {
         "CBT_OFFLINE": {
-          "p": 83,
+          "p": 102,
           "d": 14,
-          "s": 100,
-          "nps": 69.0
+          "s": 119,
+          "nps": 73.95
         }
       },
       "Sr": {}
@@ -3214,16 +3214,16 @@
     "Experiencia Impositiva Seller Dev": {
       "P": {
         "Emision de Nota Fiscal": {
-          "p": 35,
+          "p": 46,
           "d": 4,
-          "s": 43,
-          "nps": 72.09
+          "s": 54,
+          "nps": 77.78
         },
         "Facturación": {
-          "p": 17,
-          "d": 4,
-          "s": 22,
-          "nps": 59.09
+          "p": 24,
+          "d": 5,
+          "s": 30,
+          "nps": 63.33
         },
         "Datos fiscales": {
           "p": 2,
@@ -3234,38 +3234,38 @@
       },
       "C": {
         "CHAT": {
-          "p": 40,
-          "d": 1,
-          "s": 44,
-          "nps": 88.64
+          "p": 54,
+          "d": 2,
+          "s": 59,
+          "nps": 88.14
         },
         "C2C": {
-          "p": 14,
+          "p": 18,
           "d": 7,
-          "s": 23,
-          "nps": 30.43
+          "s": 27,
+          "nps": 40.74
         }
       },
       "O": {
         "AEC": {
-          "p": 40,
-          "d": 1,
-          "s": 44,
-          "nps": 88.64
+          "p": 54,
+          "d": 2,
+          "s": 59,
+          "nps": 88.14
         },
         "KTA_BRASIL": {
-          "p": 14,
+          "p": 18,
           "d": 7,
-          "s": 23,
-          "nps": 30.43
+          "s": 27,
+          "nps": 40.74
         }
       },
       "T": {
         "BR_Ventas_Sellers_Longtail": {
-          "p": 54,
-          "d": 8,
-          "s": 67,
-          "nps": 68.66
+          "p": 72,
+          "d": 9,
+          "s": 86,
+          "nps": 73.26
         }
       },
       "Sr": {
@@ -3276,49 +3276,109 @@
           "nps": 50.0
         },
         "Expert": {
-          "p": 36,
-          "d": 7,
-          "s": 43,
-          "nps": 67.44
+          "p": 43,
+          "d": 8,
+          "s": 51,
+          "nps": 68.63
         },
         "Newbie": {
-          "p": 21,
+          "p": 32,
           "d": 3,
-          "s": 24,
-          "nps": 75.0
+          "s": 35,
+          "nps": 82.86
         }
       }
     },
     "FBM-S Mature": {
       "P": {
-        "FBM - Inventario": {
-          "p": 3,
-          "d": 1,
+        "FBM - Post Inbound": {
+          "p": 1,
+          "d": 3,
           "s": 4,
-          "nps": 50.0
+          "nps": -50.0
         },
-        "FBM - Outbound": {
-          "p": 2,
+        "FBM - Retiro de Stock - Cx One": {
+          "p": 1,
           "d": 0,
           "s": 2,
-          "nps": 100.0
+          "nps": 50.0
         },
         "FBM - Pre Inbound": {
           "p": 3,
           "d": 1,
           "s": 4,
           "nps": 50.0
+        }
+      },
+      "C": {
+        "CHAT": {
+          "p": 4,
+          "d": 3,
+          "s": 8,
+          "nps": 12.5
         },
-        "FBM - Post Inbound": {
+        "C2C": {
           "p": 1,
           "d": 1,
           "s": 2,
           "nps": 0.0
+        }
+      },
+      "O": {
+        "ATE": {
+          "p": 4,
+          "d": 1,
+          "s": 6,
+          "nps": 50.0
+        },
+        "MELICIDADE": {
+          "p": 1,
+          "d": 3,
+          "s": 4,
+          "nps": -50.0
+        }
+      },
+      "T": {
+        "BR_FBM_Seller_Offline_Premium": {
+          "p": 5,
+          "d": 4,
+          "s": 10,
+          "nps": 10.0
+        }
+      },
+      "Sr": {
+        "Newbie": {
+          "p": 6,
+          "d": 2,
+          "s": 8,
+          "nps": 50.0
+        },
+        "Expert": {
+          "p": 22,
+          "d": 9,
+          "s": 31,
+          "nps": 41.94
+        }
+      }
+    },
+    "FBM-S Meli Pro": {
+      "P": {
+        "FBM - Outbound": {
+          "p": 3,
+          "d": 0,
+          "s": 3,
+          "nps": 100.0
+        },
+        "FBM - Inventario": {
+          "p": 3,
+          "d": 0,
+          "s": 3,
+          "nps": 100.0
         },
         "FBM - Devoluciones": {
-          "p": 2,
+          "p": 3,
           "d": 0,
-          "s": 2,
+          "s": 3,
           "nps": 100.0
         },
         "FBM - Funcionalidades": {
@@ -3330,74 +3390,68 @@
       },
       "C": {
         "CHAT": {
-          "p": 12,
-          "d": 2,
-          "s": 14,
-          "nps": 71.43
-        },
-        "C2C": {
-          "p": 1,
-          "d": 1,
-          "s": 2,
-          "nps": 0.0
+          "p": 11,
+          "d": 0,
+          "s": 11,
+          "nps": 100.0
         }
       },
       "O": {
         "ATE": {
-          "p": 10,
-          "d": 2,
-          "s": 12,
-          "nps": 66.67
+          "p": 9,
+          "d": 0,
+          "s": 9,
+          "nps": 100.0
         },
         "MELICIDADE": {
-          "p": 3,
-          "d": 1,
-          "s": 4,
-          "nps": 50.0
+          "p": 2,
+          "d": 0,
+          "s": 2,
+          "nps": 100.0
         }
       },
       "T": {
         "BR_FBM_Seller_Offline_Premium": {
-          "p": 13,
-          "d": 3,
-          "s": 16,
-          "nps": 62.5
+          "p": 11,
+          "d": 0,
+          "s": 11,
+          "nps": 100.0
         }
       },
       "Sr": {
         "Expert": {
-          "p": 38,
+          "p": 31,
           "d": 11,
-          "s": 49,
-          "nps": 55.1
+          "s": 42,
+          "nps": 47.62
         },
         "Newbie": {
-          "p": 6,
+          "p": 4,
           "d": 6,
-          "s": 12,
-          "nps": 0.0
+          "s": 10,
+          "nps": -20.0
         }
       }
     },
     "FBM-S Seller Dev": {
       "P": {
         "FBM - Inventario": {
-          "p": 10,
-          "d": 10,
-          "s": 22,
-          "nps": 0.0
+          "p": 12,
+          "d": 13,
+          "s": 28,
+          "nps": -3.57
         },
         "FBM - Pre Inbound": {
-          "p": 9,
-          "d": 1,
-          "s": 13,
-          "nps": 61.54
+          "p": 11,
+          "d": 4,
+          "s": 18,
+          "nps": 38.89
         },
         "FBM - Funcionalidades": {
-          "p": 5,
+          "p": 7,
           "d": 2,
-          "s": 7,
-          "nps": 42.86
+          "s": 9,
+          "nps": 55.56
         },
         "FBM - Retiro de Stock - Cx One": {
           "p": 2,
@@ -3406,148 +3460,250 @@
           "nps": -20.0
         },
         "FBM - Post Inbound": {
-          "p": 3,
-          "d": 0,
-          "s": 3,
-          "nps": 100.0
+          "p": 5,
+          "d": 1,
+          "s": 8,
+          "nps": 50.0
         },
         "FBM - Devoluciones": {
-          "p": 3,
+          "p": 4,
           "d": 0,
-          "s": 4,
-          "nps": 75.0
+          "s": 5,
+          "nps": 80.0
         }
       },
       "C": {
         "CHAT": {
-          "p": 20,
-          "d": 13,
-          "s": 38,
-          "nps": 18.42
+          "p": 28,
+          "d": 18,
+          "s": 53,
+          "nps": 18.87
         },
         "C2C": {
-          "p": 12,
-          "d": 3,
-          "s": 16,
-          "nps": 56.25
+          "p": 13,
+          "d": 5,
+          "s": 20,
+          "nps": 40.0
         }
       },
       "O": {
         "ATE": {
-          "p": 26,
-          "d": 13,
-          "s": 43,
-          "nps": 30.23
+          "p": 33,
+          "d": 17,
+          "s": 54,
+          "nps": 29.63
         },
         "MELICIDADE": {
-          "p": 6,
-          "d": 3,
-          "s": 11,
-          "nps": 27.27
+          "p": 8,
+          "d": 6,
+          "s": 19,
+          "nps": 10.53
         }
       },
       "T": {
         "BR_FBM_Seller_Offline_Premium": {
-          "p": 32,
-          "d": 16,
-          "s": 54,
-          "nps": 29.63
+          "p": 41,
+          "d": 23,
+          "s": 73,
+          "nps": 24.66
         }
       },
       "Sr": {
         "Expert": {
-          "p": 40,
-          "d": 14,
-          "s": 54,
-          "nps": 48.15
+          "p": 50,
+          "d": 20,
+          "s": 70,
+          "nps": 42.86
         },
         "Newbie": {
-          "p": 7,
-          "d": 6,
-          "s": 13,
-          "nps": 7.69
+          "p": 10,
+          "d": 8,
+          "s": 18,
+          "nps": 11.11
         }
       }
     },
     "ME Vendedor Mature": {
       "P": {
         "Reputación ME": {
-          "p": 25,
-          "d": 4,
-          "s": 30,
-          "nps": 70.0
-        },
-        "Despacho Ventas y Publicaciones": {
-          "p": 17,
+          "p": 19,
           "d": 3,
           "s": 25,
-          "nps": 56.0
+          "nps": 64.0
         },
         "Reversa": {
-          "p": 17,
+          "p": 10,
           "d": 1,
-          "s": 19,
-          "nps": 84.21
-        },
-        "Viaje del paquete - Vendedor": {
-          "p": 3,
-          "d": 1,
-          "s": 5,
-          "nps": 40.0
+          "s": 12,
+          "nps": 75.0
         },
         "Gestiones Operativas": {
-          "p": 5,
+          "p": 8,
           "d": 0,
-          "s": 5,
+          "s": 8,
           "nps": 100.0
+        },
+        "Despacho Ventas y Publicaciones": {
+          "p": 9,
+          "d": 1,
+          "s": 14,
+          "nps": 57.14
+        },
+        "Viaje del paquete - Vendedor": {
+          "p": 4,
+          "d": 1,
+          "s": 6,
+          "nps": 50.0
         }
       },
       "C": {
         "CHAT": {
-          "p": 60,
-          "d": 9,
-          "s": 77,
-          "nps": 66.23
+          "p": 38,
+          "d": 6,
+          "s": 53,
+          "nps": 60.38
         },
         "C2C": {
-          "p": 7,
+          "p": 12,
           "d": 0,
-          "s": 7,
+          "s": 12,
           "nps": 100.0
         }
       },
       "O": {
         "MELICIDADE": {
-          "p": 48,
-          "d": 8,
-          "s": 60,
-          "nps": 66.67
+          "p": 34,
+          "d": 5,
+          "s": 43,
+          "nps": 67.44
         },
         "KTA_BRASIL": {
-          "p": 12,
+          "p": 11,
           "d": 0,
           "s": 14,
-          "nps": 85.71
+          "nps": 78.57
         },
         "ATE": {
-          "p": 7,
+          "p": 5,
+          "d": 1,
+          "s": 8,
+          "nps": 50.0
+        }
+      },
+      "T": {
+        "BR_Publicaciones_Sellers_Mature": {
+          "p": 9,
           "d": 1,
           "s": 10,
+          "nps": 80.0
+        },
+        "BR_Ventas_Sellers_Mature": {
+          "p": 5,
+          "d": 1,
+          "s": 8,
+          "nps": 50.0
+        },
+        "BR_ME_Sellers_Longtail": {
+          "p": 15,
+          "d": 1,
+          "s": 20,
+          "nps": 70.0
+        },
+        "BR_ME_Sellers_Mature": {
+          "p": 18,
+          "d": 3,
+          "s": 23,
+          "nps": 65.22
+        },
+        "MELI_PRO_MLB": {
+          "p": 2,
+          "d": 0,
+          "s": 2,
+          "nps": 100.0
+        },
+        "BR_Publicaciones_Sellers_Longtail": {
+          "p": 1,
+          "d": 0,
+          "s": 2,
+          "nps": 50.0
+        }
+      },
+      "Sr": {
+        "Training": {
+          "p": 8,
+          "d": 2,
+          "s": 10,
           "nps": 60.0
+        },
+        "Expert": {
+          "p": 302,
+          "d": 37,
+          "s": 339,
+          "nps": 78.17
+        },
+        "Newbie": {
+          "p": 328,
+          "d": 35,
+          "s": 363,
+          "nps": 80.72
+        }
+      }
+    },
+    "ME Vendedor Meli Pro": {
+      "P": {
+        "Reputación ME": {
+          "p": 26,
+          "d": 7,
+          "s": 33,
+          "nps": 57.58
+        },
+        "Despacho Ventas y Publicaciones": {
+          "p": 9,
+          "d": 2,
+          "s": 12,
+          "nps": 58.33
+        },
+        "Reversa": {
+          "p": 13,
+          "d": 0,
+          "s": 13,
+          "nps": 100.0
+        },
+        "Viaje del paquete - Vendedor": {
+          "p": 8,
+          "d": 1,
+          "s": 9,
+          "nps": 77.78
+        }
+      },
+      "C": {
+        "CHAT": {
+          "p": 56,
+          "d": 10,
+          "s": 67,
+          "nps": 68.66
+        }
+      },
+      "O": {
+        "MELICIDADE": {
+          "p": 51,
+          "d": 10,
+          "s": 62,
+          "nps": 66.13
+        },
+        "KTA_BRASIL": {
+          "p": 5,
+          "d": 0,
+          "s": 5,
+          "nps": 100.0
         }
       },
       "T": {
         "MELI_PRO_MLB": {
-          "p": 23,
-          "d": 4,
-          "s": 28,
-          "nps": 67.86
-        },
-        "BR_Publicaciones_Sellers_Mature": {
-          "p": 5,
-          "d": 1,
-          "s": 6,
-          "nps": 66.67
+          "p": 46,
+          "d": 9,
+          "s": 56,
+          "nps": 66.07
         },
         "BR_Publicaciones_Sellers_Longtail": {
           "p": 5,
@@ -3555,25 +3711,13 @@
           "s": 5,
           "nps": 100.0
         },
-        "BR_ME_Sellers_Mature": {
-          "p": 17,
-          "d": 2,
-          "s": 21,
-          "nps": 71.43
-        },
-        "BR_ME_Sellers_Longtail": {
-          "p": 14,
-          "d": 1,
-          "s": 19,
-          "nps": 68.42
-        },
-        "BR_Ventas_Sellers_Mature": {
-          "p": 1,
-          "d": 1,
-          "s": 3,
-          "nps": 0.0
-        },
         "MELIPRO_VIP_MLB": {
+          "p": 3,
+          "d": 1,
+          "s": 4,
+          "nps": 50.0
+        },
+        "BR_ME_Sellers_Mature": {
           "p": 2,
           "d": 0,
           "s": 2,
@@ -3582,212 +3726,140 @@
       },
       "Sr": {
         "Training": {
-          "p": 4,
-          "d": 3,
-          "s": 7,
-          "nps": 14.29
+          "p": 7,
+          "d": 2,
+          "s": 9,
+          "nps": 55.56
         },
         "Expert": {
-          "p": 196,
-          "d": 25,
-          "s": 221,
-          "nps": 77.38
+          "p": 277,
+          "d": 35,
+          "s": 312,
+          "nps": 77.56
         },
         "Newbie": {
-          "p": 174,
-          "d": 18,
-          "s": 192,
-          "nps": 81.25
-        }
-      }
-    },
-    "ME Vendedor Meli Pro": {
-      "P": {
-        "Viaje del paquete - Vendedor": {
-          "p": 3,
-          "d": 0,
-          "s": 3,
-          "nps": 100.0
-        },
-        "Despacho Ventas y Publicaciones": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
-        },
-        "Reputación ME": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
-        },
-        "Reversa": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
-        }
-      },
-      "C": {
-        "CHAT": {
-          "p": 9,
-          "d": 0,
-          "s": 9,
-          "nps": 100.0
-        }
-      },
-      "O": {
-        "MELICIDADE": {
-          "p": 9,
-          "d": 0,
-          "s": 9,
-          "nps": 100.0
-        }
-      },
-      "T": {
-        "MELI_PRO_MLB": {
-          "p": 9,
-          "d": 0,
-          "s": 9,
-          "nps": 100.0
-        }
-      },
-      "Sr": {
-        "Training": {
-          "p": 3,
-          "d": 3,
-          "s": 6,
-          "nps": 0.0
-        },
-        "Expert": {
-          "p": 175,
-          "d": 23,
-          "s": 198,
-          "nps": 76.77
-        },
-        "Newbie": {
-          "p": 158,
-          "d": 18,
-          "s": 176,
-          "nps": 79.55
+          "p": 303,
+          "d": 35,
+          "s": 338,
+          "nps": 79.29
         }
       }
     },
     "ME Vendedor Seller Dev": {
       "P": {
         "Despacho Ventas y Publicaciones": {
-          "p": 117,
-          "d": 21,
-          "s": 150,
-          "nps": 64.0
+          "p": 173,
+          "d": 27,
+          "s": 224,
+          "nps": 65.18
         },
         "Reputación ME": {
-          "p": 108,
-          "d": 7,
-          "s": 123,
-          "nps": 82.11
+          "p": 253,
+          "d": 11,
+          "s": 282,
+          "nps": 85.82
         },
         "Gestiones Operativas": {
-          "p": 30,
+          "p": 41,
           "d": 1,
-          "s": 36,
-          "nps": 80.56
+          "s": 49,
+          "nps": 81.63
         },
         "Reversa": {
-          "p": 30,
-          "d": 9,
-          "s": 41,
-          "nps": 51.22
+          "p": 35,
+          "d": 12,
+          "s": 49,
+          "nps": 46.94
         },
         "Viaje del paquete - Vendedor": {
-          "p": 12,
-          "d": 2,
-          "s": 16,
-          "nps": 62.5
+          "p": 15,
+          "d": 4,
+          "s": 23,
+          "nps": 47.83
         }
       },
       "C": {
         "CHAT": {
-          "p": 240,
-          "d": 28,
-          "s": 292,
-          "nps": 72.6
+          "p": 428,
+          "d": 40,
+          "s": 514,
+          "nps": 75.49
         },
         "C2C": {
-          "p": 57,
-          "d": 12,
-          "s": 74,
-          "nps": 60.81
+          "p": 89,
+          "d": 15,
+          "s": 113,
+          "nps": 65.49
         }
       },
       "O": {
         "ATE": {
-          "p": 155,
-          "d": 17,
-          "s": 186,
-          "nps": 74.19
+          "p": 238,
+          "d": 29,
+          "s": 290,
+          "nps": 72.07
         },
         "KTA_BRASIL": {
-          "p": 108,
-          "d": 15,
-          "s": 134,
-          "nps": 69.4
+          "p": 204,
+          "d": 17,
+          "s": 247,
+          "nps": 75.71
         },
         "AEC": {
-          "p": 34,
-          "d": 8,
-          "s": 46,
-          "nps": 56.52
+          "p": 75,
+          "d": 9,
+          "s": 90,
+          "nps": 73.33
         }
       },
       "T": {
         "BR_ME_Sellers_Longtail": {
-          "p": 248,
-          "d": 37,
-          "s": 312,
-          "nps": 67.63
+          "p": 389,
+          "d": 50,
+          "s": 486,
+          "nps": 69.75
         },
         "BR_Publicaciones_Sellers_Longtail": {
-          "p": 31,
-          "d": 3,
-          "s": 36,
-          "nps": 77.78
+          "p": 78,
+          "d": 4,
+          "s": 89,
+          "nps": 83.15
         },
         "BR_Ventas_Sellers_Longtail": {
-          "p": 18,
-          "d": 0,
-          "s": 18,
-          "nps": 100.0
+          "p": 50,
+          "d": 1,
+          "s": 52,
+          "nps": 94.23
         }
       },
       "Sr": {
         "Training": {
-          "p": 4,
-          "d": 3,
-          "s": 7,
-          "nps": 14.29
+          "p": 8,
+          "d": 2,
+          "s": 10,
+          "nps": 60.0
         },
         "Expert": {
-          "p": 196,
-          "d": 25,
-          "s": 221,
-          "nps": 77.38
+          "p": 302,
+          "d": 37,
+          "s": 339,
+          "nps": 78.17
         },
         "Newbie": {
-          "p": 174,
-          "d": 18,
-          "s": 192,
-          "nps": 81.25
+          "p": 328,
+          "d": 35,
+          "s": 363,
+          "nps": 80.72
         }
       }
     },
     "Otros CV": {
       "P": {
         "Apelaciones retorno buyer XDDS": {
-          "p": 2,
-          "d": 1,
-          "s": 3,
-          "nps": 33.33
+          "p": 3,
+          "d": 3,
+          "s": 6,
+          "nps": 0.0
         },
         "CBT - Intellectual Property": {
           "p": 2,
@@ -3795,25 +3867,19 @@
           "s": 3,
           "nps": 33.33
         },
-        "Despacho Ventas y Publicaciones Masivos": {
-          "p": 2,
+        "Viaje del paquete - Comprador": {
+          "p": 5,
           "d": 0,
-          "s": 2,
+          "s": 5,
           "nps": 100.0
         },
         "Caja vacía - MP": {
           "p": 1,
-          "d": 1,
-          "s": 2,
-          "nps": 0.0
+          "d": 2,
+          "s": 3,
+          "nps": -33.33
         },
-        "Caja vacía - Flex": {
-          "p": 1,
-          "d": 1,
-          "s": 2,
-          "nps": 0.0
-        },
-        "Viaje del paquete - Comprador": {
+        "CBT - Prohibited technique": {
           "p": 4,
           "d": 0,
           "s": 4,
@@ -3825,7 +3891,19 @@
           "s": 2,
           "nps": 0.0
         },
-        "CBT - Prohibited technique": {
+        "Caja vacía - Flex": {
+          "p": 1,
+          "d": 1,
+          "s": 2,
+          "nps": 0.0
+        },
+        "Despacho Ventas y Publicaciones Masivos": {
+          "p": 2,
+          "d": 0,
+          "s": 2,
+          "nps": 100.0
+        },
+        "Post Compra Funcionalidades CBT": {
           "p": 2,
           "d": 0,
           "s": 2,
@@ -3834,67 +3912,67 @@
       },
       "C": {
         "OFFLINE": {
-          "p": 5,
-          "d": 2,
-          "s": 7,
-          "nps": 42.86
+          "p": 6,
+          "d": 5,
+          "s": 11,
+          "nps": 9.09
         },
         "CHAT": {
-          "p": 10,
+          "p": 15,
           "d": 3,
-          "s": 13,
-          "nps": 53.85
+          "s": 18,
+          "nps": 66.67
         }
       },
       "O": {
         "ATE": {
-          "p": 6,
-          "d": 3,
-          "s": 9,
-          "nps": 33.33
+          "p": 7,
+          "d": 4,
+          "s": 11,
+          "nps": 27.27
         },
         "ONELINK_MEDELLIN": {
+          "p": 6,
+          "d": 1,
+          "s": 7,
+          "nps": 71.43
+        },
+        "AEC": {
           "p": 4,
           "d": 1,
           "s": 5,
           "nps": 60.0
         },
-        "KTA_BRASIL": {
+        "SHANGHAI": {
           "p": 2,
           "d": 0,
           "s": 2,
           "nps": 100.0
         },
-        "AEC": {
-          "p": 3,
-          "d": 1,
+        "KTA_BRASIL": {
+          "p": 2,
+          "d": 2,
           "s": 4,
-          "nps": 50.0
+          "nps": 0.0
         }
       },
       "T": {
         "BR_Buyers_Post_Entrega": {
-          "p": 4,
-          "d": 3,
-          "s": 7,
-          "nps": 14.29
+          "p": 5,
+          "d": 6,
+          "s": 11,
+          "nps": -9.09
         },
         "CBT_OFFLINE": {
-          "p": 4,
+          "p": 8,
           "d": 1,
-          "s": 5,
-          "nps": 60.0
-        },
-        "BR_MLVendedor_Analisis_Masivo": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
+          "s": 9,
+          "nps": 77.78
         },
         "BR_Buyers_Pre_Entrega": {
-          "p": 4,
+          "p": 5,
           "d": 0,
-          "s": 4,
+          "s": 5,
           "nps": 100.0
         },
         "BR_Security_MP": {
@@ -3902,44 +3980,50 @@
           "d": 1,
           "s": 2,
           "nps": 0.0
+        },
+        "BR_MLVendedor_Analisis_Masivo": {
+          "p": 2,
+          "d": 0,
+          "s": 2,
+          "nps": 100.0
         }
       },
       "Sr": {
         "Training": {
-          "p": 46,
-          "d": 28,
-          "s": 74,
-          "nps": 24.32
+          "p": 45,
+          "d": 27,
+          "s": 72,
+          "nps": 25.0
         },
         "Expert": {
-          "p": 1004,
-          "d": 171,
-          "s": 1175,
-          "nps": 70.89
+          "p": 1261,
+          "d": 217,
+          "s": 1478,
+          "nps": 70.64
         },
         "Newbie": {
-          "p": 690,
-          "d": 186,
-          "s": 876,
-          "nps": 57.53
+          "p": 933,
+          "d": 263,
+          "s": 1196,
+          "nps": 56.02
         }
       }
     },
     "PCF Vendedor Mature": {
       "P": {
         "Post Compra Funcionalidades Vendedor": {
-          "p": 21,
-          "d": 8,
-          "s": 31,
-          "nps": 41.94
+          "p": 15,
+          "d": 6,
+          "s": 23,
+          "nps": 39.13
         }
       },
       "C": {
         "CHAT": {
-          "p": 18,
-          "d": 7,
-          "s": 27,
-          "nps": 40.74
+          "p": 12,
+          "d": 5,
+          "s": 19,
+          "nps": 36.84
         },
         "C2C": {
           "p": 3,
@@ -3950,44 +4034,44 @@
       },
       "O": {
         "MELICIDADE": {
-          "p": 17,
-          "d": 5,
-          "s": 23,
-          "nps": 52.17
+          "p": 7,
+          "d": 3,
+          "s": 10,
+          "nps": 40.0
         },
         "ATE": {
-          "p": 2,
+          "p": 5,
           "d": 3,
-          "s": 6,
-          "nps": -16.67
+          "s": 9,
+          "nps": 22.22
         },
         "KTA_BRASIL": {
+          "p": 3,
+          "d": 0,
+          "s": 4,
+          "nps": 75.0
+        }
+      },
+      "T": {
+        "BR_Ventas_Sellers_Mature": {
+          "p": 7,
+          "d": 3,
+          "s": 10,
+          "nps": 40.0
+        },
+        "BR_ME_Sellers_Longtail": {
+          "p": 4,
+          "d": 3,
+          "s": 9,
+          "nps": 11.11
+        },
+        "BR_Ventas_Sellers_Longtail": {
           "p": 2,
           "d": 0,
           "s": 2,
           "nps": 100.0
-        }
-      },
-      "T": {
-        "MELI_PRO_MLB": {
-          "p": 10,
-          "d": 4,
-          "s": 15,
-          "nps": 40.0
         },
-        "BR_ME_Sellers_Longtail": {
-          "p": 2,
-          "d": 3,
-          "s": 6,
-          "nps": -16.67
-        },
-        "BR_Ventas_Sellers_Mature": {
-          "p": 7,
-          "d": 1,
-          "s": 8,
-          "nps": 75.0
-        },
-        "BR_Ventas_Sellers_Longtail": {
+        "BR_FBM_Seller_Offline_Premium": {
           "p": 2,
           "d": 0,
           "s": 2,
@@ -3996,212 +4080,236 @@
       },
       "Sr": {
         "Training": {
-          "p": 4,
+          "p": 5,
           "d": 1,
-          "s": 5,
-          "nps": 60.0
+          "s": 6,
+          "nps": 66.67
         },
         "Expert": {
-          "p": 44,
-          "d": 7,
-          "s": 51,
-          "nps": 72.55
+          "p": 55,
+          "d": 14,
+          "s": 69,
+          "nps": 59.42
         },
         "Newbie": {
-          "p": 34,
-          "d": 16,
-          "s": 50,
-          "nps": 36.0
+          "p": 47,
+          "d": 21,
+          "s": 68,
+          "nps": 38.24
         }
       }
     },
     "PCF Vendedor Meli Pro": {
       "P": {
         "Post Compra Funcionalidades Vendedor": {
-          "p": 7,
-          "d": 0,
-          "s": 7,
-          "nps": 100.0
+          "p": 26,
+          "d": 9,
+          "s": 37,
+          "nps": 45.95
         }
       },
       "C": {
         "CHAT": {
-          "p": 7,
-          "d": 0,
-          "s": 7,
-          "nps": 100.0
+          "p": 26,
+          "d": 9,
+          "s": 37,
+          "nps": 45.95
         }
       },
       "O": {
         "MELICIDADE": {
-          "p": 7,
-          "d": 0,
-          "s": 7,
-          "nps": 100.0
+          "p": 25,
+          "d": 7,
+          "s": 33,
+          "nps": 54.55
+        },
+        "ATE": {
+          "p": 1,
+          "d": 2,
+          "s": 4,
+          "nps": -25.0
         }
       },
       "T": {
         "MELI_PRO_MLB": {
-          "p": 7,
+          "p": 21,
+          "d": 7,
+          "s": 29,
+          "nps": 48.28
+        },
+        "BR_FBM_Seller_Offline_Premium": {
+          "p": 3,
+          "d": 2,
+          "s": 6,
+          "nps": 16.67
+        },
+        "BR_Ventas_Sellers_Mature": {
+          "p": 2,
           "d": 0,
-          "s": 7,
+          "s": 2,
           "nps": 100.0
         }
       },
       "Sr": {
         "Training": {
-          "p": 4,
+          "p": 5,
           "d": 1,
-          "s": 5,
-          "nps": 60.0
+          "s": 6,
+          "nps": 66.67
         },
         "Expert": {
-          "p": 44,
-          "d": 7,
-          "s": 51,
-          "nps": 72.55
+          "p": 55,
+          "d": 14,
+          "s": 69,
+          "nps": 59.42
         },
         "Newbie": {
-          "p": 34,
-          "d": 16,
-          "s": 50,
-          "nps": 36.0
+          "p": 47,
+          "d": 21,
+          "s": 68,
+          "nps": 38.24
         }
       }
     },
     "PCF Vendedor Seller Dev": {
       "P": {
         "Post Compra Funcionalidades Vendedor": {
-          "p": 52,
-          "d": 16,
-          "s": 73,
-          "nps": 49.32
+          "p": 64,
+          "d": 20,
+          "s": 91,
+          "nps": 48.35
         }
       },
       "C": {
         "CHAT": {
-          "p": 35,
-          "d": 12,
-          "s": 52,
-          "nps": 44.23
+          "p": 43,
+          "d": 15,
+          "s": 65,
+          "nps": 43.08
         },
         "C2C": {
-          "p": 17,
-          "d": 4,
-          "s": 21,
-          "nps": 61.9
+          "p": 21,
+          "d": 5,
+          "s": 26,
+          "nps": 61.54
         }
       },
       "O": {
         "ATE": {
-          "p": 22,
-          "d": 11,
-          "s": 34,
-          "nps": 32.35
+          "p": 24,
+          "d": 15,
+          "s": 40,
+          "nps": 22.5
         },
         "KTA_BRASIL": {
-          "p": 21,
+          "p": 26,
           "d": 4,
-          "s": 26,
-          "nps": 65.38
+          "s": 31,
+          "nps": 70.97
         },
         "AEC": {
-          "p": 9,
+          "p": 11,
           "d": 1,
-          "s": 13,
-          "nps": 61.54
+          "s": 16,
+          "nps": 62.5
+        },
+        "MELICIDADE": {
+          "p": 3,
+          "d": 0,
+          "s": 4,
+          "nps": 75.0
         }
       },
       "T": {
         "BR_ME_Sellers_Longtail": {
-          "p": 31,
-          "d": 14,
-          "s": 47,
-          "nps": 36.17
+          "p": 33,
+          "d": 17,
+          "s": 52,
+          "nps": 30.77
         },
         "BR_Ventas_Sellers_Longtail": {
-          "p": 15,
+          "p": 20,
           "d": 0,
-          "s": 18,
+          "s": 24,
           "nps": 83.33
         },
         "BR_FBM_Seller_Offline_Premium": {
-          "p": 6,
-          "d": 2,
-          "s": 8,
-          "nps": 50.0
+          "p": 11,
+          "d": 3,
+          "s": 15,
+          "nps": 53.33
         }
       },
       "Sr": {
         "Training": {
-          "p": 4,
+          "p": 5,
           "d": 1,
-          "s": 5,
-          "nps": 60.0
+          "s": 6,
+          "nps": 66.67
         },
         "Expert": {
-          "p": 44,
-          "d": 7,
-          "s": 51,
-          "nps": 72.55
+          "p": 55,
+          "d": 14,
+          "s": 69,
+          "nps": 59.42
         },
         "Newbie": {
-          "p": 34,
-          "d": 16,
-          "s": 50,
-          "nps": 36.0
+          "p": 47,
+          "d": 21,
+          "s": 68,
+          "nps": 38.24
         }
       }
     },
     "PDD DS&XD - Vendedor": {
       "P": {
         "Arrepentimiento - DS": {
-          "p": 15,
-          "d": 11,
-          "s": 29,
-          "nps": 13.79
+          "p": 23,
+          "d": 18,
+          "s": 46,
+          "nps": 10.87
+        },
+        "Defectuoso - XD": {
+          "p": 8,
+          "d": 13,
+          "s": 24,
+          "nps": -20.83
         },
         "Defectuoso - DS": {
           "p": 7,
-          "d": 11,
-          "s": 19,
-          "nps": -21.05
-        },
-        "Defectuoso - XD": {
-          "p": 6,
-          "d": 8,
-          "s": 16,
-          "nps": -12.5
-        },
-        "Incompleto - XD": {
-          "p": 8,
-          "d": 3,
-          "s": 13,
-          "nps": 38.46
-        },
-        "Arrepentimiento - XD": {
-          "p": 11,
-          "d": 1,
-          "s": 12,
-          "nps": 83.33
+          "d": 12,
+          "s": 20,
+          "nps": -25.0
         },
         "Incompleto - DS": {
-          "p": 3,
+          "p": 6,
           "d": 4,
-          "s": 7,
-          "nps": -14.29
+          "s": 10,
+          "nps": 20.0
+        },
+        "Incompleto - XD": {
+          "p": 10,
+          "d": 6,
+          "s": 21,
+          "nps": 19.05
         },
         "Diferente - XD": {
-          "p": 6,
+          "p": 10,
+          "d": 6,
+          "s": 17,
+          "nps": 23.53
+        },
+        "Arrepentimiento - XD": {
+          "p": 13,
           "d": 3,
-          "s": 10,
-          "nps": 30.0
+          "s": 18,
+          "nps": 55.56
         },
         "Diferente - DS": {
           "p": 5,
-          "d": 5,
-          "s": 11,
-          "nps": 0.0
+          "d": 6,
+          "s": 12,
+          "nps": -8.33
         },
         "Caja Vacía - XD": {
           "p": 1,
@@ -4212,98 +4320,98 @@
       },
       "C": {
         "OFFLINE": {
-          "p": 42,
-          "d": 28,
-          "s": 75,
-          "nps": 18.67
+          "p": 57,
+          "d": 43,
+          "s": 112,
+          "nps": 12.5
         },
         "CHAT": {
-          "p": 1,
-          "d": 1,
-          "s": 2,
+          "p": 2,
+          "d": 2,
+          "s": 4,
           "nps": 0.0
         }
       },
       "O": {
         "AEC": {
-          "p": 15,
-          "d": 12,
-          "s": 31,
-          "nps": 9.68
+          "p": 22,
+          "d": 16,
+          "s": 47,
+          "nps": 12.77
         },
         "ATE": {
-          "p": 21,
-          "d": 15,
-          "s": 36,
-          "nps": 16.67
+          "p": 29,
+          "d": 22,
+          "s": 51,
+          "nps": 13.73
         },
         "KTA_BRASIL": {
-          "p": 7,
-          "d": 2,
-          "s": 10,
-          "nps": 50.0
+          "p": 8,
+          "d": 7,
+          "s": 18,
+          "nps": 5.56
         }
       },
       "T": {
         "BR_Buyers_Post_Entrega": {
-          "p": 43,
-          "d": 29,
-          "s": 77,
-          "nps": 18.18
+          "p": 59,
+          "d": 45,
+          "s": 116,
+          "nps": 12.07
         }
       },
       "Sr": {
         "Training": {
-          "p": 15,
-          "d": 2,
-          "s": 17,
-          "nps": 76.47
+          "p": 12,
+          "d": 4,
+          "s": 16,
+          "nps": 50.0
         },
         "Expert": {
-          "p": 269,
-          "d": 68,
-          "s": 337,
-          "nps": 59.64
+          "p": 386,
+          "d": 91,
+          "s": 477,
+          "nps": 61.84
         },
         "Newbie": {
-          "p": 132,
-          "d": 18,
-          "s": 150,
-          "nps": 76.0
+          "p": 177,
+          "d": 35,
+          "s": 212,
+          "nps": 66.98
         }
       }
     },
     "PDD FBM - Vendedor": {
       "P": {
         "MED - PDD Low cost": {
-          "p": 4,
-          "d": 0,
-          "s": 5,
-          "nps": 80.0
-        },
-        "Defectuoso - FBM": {
-          "p": 3,
-          "d": 0,
-          "s": 5,
-          "nps": 60.0
+          "p": 5,
+          "d": 1,
+          "s": 7,
+          "nps": 57.14
         },
         "Asignación del Contáctanos PDD FBM": {
-          "p": 1,
+          "p": 2,
           "d": 1,
-          "s": 3,
-          "nps": 0.0
+          "s": 4,
+          "nps": 25.0
         },
         "Incompleto - FBM": {
-          "p": 3,
+          "p": 5,
           "d": 2,
-          "s": 5,
-          "nps": 20.0
+          "s": 9,
+          "nps": 33.33
+        },
+        "Defectuoso - FBM": {
+          "p": 4,
+          "d": 0,
+          "s": 7,
+          "nps": 57.14
         },
         "Arrepentimiento - FBM": {
-          "p": 3,
+          "p": 4,
           "d": 0,
-          "s": 4,
-          "nps": 75.0
+          "s": 7,
+          "nps": 57.14
         },
         "Diferente - FBM": {
           "p": 1,
@@ -4314,77 +4422,110 @@
       },
       "C": {
         "OFFLINE": {
-          "p": 5,
+          "p": 7,
           "d": 2,
-          "s": 9,
+          "s": 15,
           "nps": 33.33
         },
         "CHAT": {
-          "p": 2,
+          "p": 3,
           "d": 0,
-          "s": 2,
-          "nps": 100.0
+          "s": 4,
+          "nps": 75.0
         }
       },
       "O": {
         "AEC": {
-          "p": 3,
+          "p": 4,
           "d": 2,
-          "s": 7,
-          "nps": 14.29
+          "s": 10,
+          "nps": 20.0
         },
         "ATE": {
-          "p": 4,
+          "p": 6,
           "d": 0,
-          "s": 4,
-          "nps": 100.0
+          "s": 9,
+          "nps": 66.67
         }
       },
       "T": {
         "BR_Buyers_Post_Entrega": {
-          "p": 7,
+          "p": 10,
           "d": 2,
-          "s": 11,
-          "nps": 45.45
+          "s": 19,
+          "nps": 42.11
         }
       },
       "Sr": {
         "Training": {
           "p": 11,
-          "d": 0,
-          "s": 11,
-          "nps": 100.0
+          "d": 1,
+          "s": 12,
+          "nps": 83.33
         },
         "Expert": {
-          "p": 297,
-          "d": 50,
-          "s": 347,
-          "nps": 71.18
+          "p": 378,
+          "d": 62,
+          "s": 440,
+          "nps": 71.82
         },
         "Newbie": {
-          "p": 96,
-          "d": 11,
-          "s": 107,
-          "nps": 79.44
+          "p": 124,
+          "d": 17,
+          "s": 141,
+          "nps": 75.89
         }
       }
     },
     "PDD Fotos - Vendedor": {
       "P": {
         "PDD - Fotos": {
-          "p": 0,
-          "d": 2,
-          "s": 2,
-          "nps": -100.0
+          "p": 2,
+          "d": 3,
+          "s": 5,
+          "nps": -20.0
         }
       },
-      "C": {},
-      "O": {},
-      "T": {},
+      "C": {
+        "OFFLINE": {
+          "p": 1,
+          "d": 1,
+          "s": 2,
+          "nps": 0.0
+        }
+      },
+      "O": {
+        "ONELINK_BOGOTA": {
+          "p": 1,
+          "d": 1,
+          "s": 2,
+          "nps": 0.0
+        }
+      },
+      "T": {
+        "HSP_MED_PDD_Fotos_Offline": {
+          "p": 1,
+          "d": 1,
+          "s": 2,
+          "nps": 0.0
+        }
+      },
       "Sr": {}
     },
     "PDD MP,FLEX & CBT - Vendedor": {
       "P": {
+        "Defectuoso - MP": {
+          "p": 1,
+          "d": 1,
+          "s": 2,
+          "nps": 0.0
+        },
+        "Arrepentimiento - MP": {
+          "p": 1,
+          "d": 1,
+          "s": 2,
+          "nps": 0.0
+        },
         "Defectuoso - Flex": {
           "p": 1,
           "d": 0,
@@ -4400,13 +4541,19 @@
       },
       "C": {
         "OFFLINE": {
-          "p": 1,
-          "d": 0,
-          "s": 2,
-          "nps": 50.0
+          "p": 3,
+          "d": 2,
+          "s": 6,
+          "nps": 16.67
         }
       },
       "O": {
+        "AEC": {
+          "p": 2,
+          "d": 2,
+          "s": 4,
+          "nps": 0.0
+        },
         "ATE": {
           "p": 1,
           "d": 0,
@@ -4416,40 +4563,40 @@
       },
       "T": {
         "BR_Buyers_Post_Entrega": {
-          "p": 1,
-          "d": 0,
-          "s": 2,
-          "nps": 50.0
+          "p": 3,
+          "d": 2,
+          "s": 6,
+          "nps": 16.67
         }
       },
       "Sr": {
         "Expert": {
-          "p": 8,
-          "d": 0,
-          "s": 8,
-          "nps": 100.0
+          "p": 54,
+          "d": 19,
+          "s": 73,
+          "nps": 47.95
         },
         "Newbie": {
-          "p": 1,
-          "d": 1,
-          "s": 2,
-          "nps": 0.0
+          "p": 14,
+          "d": 5,
+          "s": 19,
+          "nps": 47.37
         }
       }
     },
     "PNR ME - Vendedor": {
       "P": {
-        "PNR - Previo al despacho XD DS": {
-          "p": 4,
-          "d": 4,
-          "s": 8,
-          "nps": 0.0
-        },
         "PNR - Contradictorio - Flex": {
-          "p": 0,
-          "d": 2,
-          "s": 2,
-          "nps": -100.0
+          "p": 3,
+          "d": 6,
+          "s": 11,
+          "nps": -27.27
+        },
+        "PNR - Previo al despacho XD DS": {
+          "p": 5,
+          "d": 5,
+          "s": 10,
+          "nps": 0.0
         },
         "PNR - Contradictorio XD DS FBM": {
           "p": 1,
@@ -4460,221 +4607,227 @@
       },
       "C": {
         "OFFLINE": {
-          "p": 5,
-          "d": 6,
-          "s": 12,
-          "nps": -8.33
+          "p": 8,
+          "d": 11,
+          "s": 21,
+          "nps": -14.29
         }
       },
       "O": {
-        "ATE": {
-          "p": 1,
-          "d": 4,
-          "s": 5,
-          "nps": -60.0
-        },
         "AEC": {
-          "p": 4,
-          "d": 2,
-          "s": 7,
-          "nps": 28.57
+          "p": 6,
+          "d": 5,
+          "s": 13,
+          "nps": 7.69
+        },
+        "ATE": {
+          "p": 2,
+          "d": 6,
+          "s": 8,
+          "nps": -50.0
         }
       },
       "T": {
         "BR_Buyers_Pre_Entrega": {
-          "p": 5,
-          "d": 6,
-          "s": 12,
-          "nps": -8.33
+          "p": 8,
+          "d": 11,
+          "s": 21,
+          "nps": -14.29
         }
       },
       "Sr": {
+        "Training": {
+          "p": 0,
+          "d": 2,
+          "s": 2,
+          "nps": -100.0
+        },
         "Expert": {
-          "p": 47,
-          "d": 19,
-          "s": 66,
-          "nps": 42.42
+          "p": 64,
+          "d": 27,
+          "s": 91,
+          "nps": 40.66
         },
         "Newbie": {
-          "p": 16,
+          "p": 20,
           "d": 9,
-          "s": 25,
-          "nps": 28.0
+          "s": 29,
+          "nps": 37.93
         }
       }
     },
     "PNR MP - Vendedor": {
       "P": {
         "PNR - MP": {
-          "p": 17,
-          "d": 8,
-          "s": 26,
-          "nps": 34.62
+          "p": 22,
+          "d": 10,
+          "s": 35,
+          "nps": 34.29
         }
       },
       "C": {
         "OFFLINE": {
-          "p": 8,
-          "d": 4,
-          "s": 12,
-          "nps": 33.33
+          "p": 10,
+          "d": 5,
+          "s": 17,
+          "nps": 29.41
         }
       },
       "O": {
         "AEC": {
-          "p": 6,
+          "p": 7,
           "d": 1,
-          "s": 7,
-          "nps": 71.43
+          "s": 10,
+          "nps": 60.0
         },
         "ATE": {
-          "p": 2,
-          "d": 3,
-          "s": 5,
-          "nps": -20.0
+          "p": 3,
+          "d": 4,
+          "s": 7,
+          "nps": -14.29
         }
       },
       "T": {
         "BR_Buyers_Pre_Entrega": {
-          "p": 8,
-          "d": 4,
-          "s": 12,
-          "nps": 33.33
+          "p": 10,
+          "d": 5,
+          "s": 17,
+          "nps": 29.41
         }
       },
       "Sr": {
         "Training": {
-          "p": 6,
-          "d": 2,
-          "s": 8,
-          "nps": 50.0
+          "p": 7,
+          "d": 3,
+          "s": 10,
+          "nps": 40.0
         },
         "Expert": {
-          "p": 130,
-          "d": 31,
-          "s": 161,
-          "nps": 61.49
+          "p": 162,
+          "d": 35,
+          "s": 197,
+          "nps": 64.47
         },
         "Newbie": {
-          "p": 33,
-          "d": 10,
-          "s": 43,
-          "nps": 53.49
+          "p": 52,
+          "d": 12,
+          "s": 64,
+          "nps": 62.5
         }
       }
     },
     "Partners": {
       "P": {
         "Drivers": {
-          "p": 498,
-          "d": 62,
-          "s": 631,
-          "nps": 69.1
+          "p": 626,
+          "d": 74,
+          "s": 787,
+          "nps": 70.14
         },
         "Places Kangu": {
-          "p": 9,
+          "p": 14,
           "d": 3,
-          "s": 16,
-          "nps": 37.5
+          "s": 22,
+          "nps": 50.0
         }
       },
       "C": {
         "CHAT": {
-          "p": 433,
-          "d": 49,
-          "s": 546,
-          "nps": 70.33
+          "p": 548,
+          "d": 59,
+          "s": 686,
+          "nps": 71.28
         },
         "C2C": {
-          "p": 74,
-          "d": 16,
-          "s": 101,
-          "nps": 57.43
+          "p": 92,
+          "d": 18,
+          "s": 123,
+          "nps": 60.16
         }
       },
       "O": {
         "ATE": {
-          "p": 271,
-          "d": 33,
-          "s": 351,
-          "nps": 67.81
+          "p": 343,
+          "d": 40,
+          "s": 441,
+          "nps": 68.71
         },
         "KTA_BRASIL": {
-          "p": 205,
-          "d": 22,
-          "s": 253,
-          "nps": 72.33
+          "p": 256,
+          "d": 27,
+          "s": 313,
+          "nps": 73.16
         },
         "AEC": {
-          "p": 31,
+          "p": 41,
           "d": 10,
-          "s": 43,
-          "nps": 48.84
+          "s": 55,
+          "nps": 56.36
         }
       },
       "T": {
         "BR_ME_Sellers_Longtail": {
-          "p": 507,
-          "d": 65,
-          "s": 647,
-          "nps": 68.32
+          "p": 640,
+          "d": 77,
+          "s": 809,
+          "nps": 69.59
         }
       },
       "Sr": {
         "Training": {
-          "p": 15,
-          "d": 0,
+          "p": 14,
+          "d": 1,
           "s": 15,
-          "nps": 100.0
+          "nps": 86.67
         },
         "Expert": {
-          "p": 223,
-          "d": 23,
-          "s": 246,
-          "nps": 81.3
+          "p": 273,
+          "d": 28,
+          "s": 301,
+          "nps": 81.4
         },
         "Newbie": {
-          "p": 244,
-          "d": 37,
-          "s": 281,
-          "nps": 73.67
+          "p": 346,
+          "d": 48,
+          "s": 394,
+          "nps": 75.63
         }
       }
     },
     "Post Venta Mature": {
       "P": {
         "Reputación": {
-          "p": 49,
-          "d": 5,
-          "s": 56,
-          "nps": 78.57
+          "p": 21,
+          "d": 3,
+          "s": 26,
+          "nps": 69.23
         }
       },
       "C": {
         "CHAT": {
-          "p": 43,
-          "d": 3,
-          "s": 47,
-          "nps": 85.11
+          "p": 14,
+          "d": 0,
+          "s": 15,
+          "nps": 93.33
         },
         "C2C": {
-          "p": 6,
-          "d": 2,
-          "s": 9,
-          "nps": 44.44
+          "p": 7,
+          "d": 3,
+          "s": 11,
+          "nps": 36.36
         }
       },
       "O": {
         "MELICIDADE": {
-          "p": 35,
-          "d": 5,
-          "s": 41,
-          "nps": 73.17
+          "p": 9,
+          "d": 3,
+          "s": 13,
+          "nps": 46.15
         },
         "KTA_BRASIL": {
-          "p": 11,
+          "p": 9,
           "d": 0,
-          "s": 11,
+          "s": 9,
           "nps": 100.0
         },
         "ATE": {
@@ -4691,41 +4844,113 @@
         }
       },
       "T": {
-        "MELI_PRO_MLB": {
-          "p": 17,
-          "d": 3,
-          "s": 20,
-          "nps": 70.0
-        },
         "BR_Publicaciones_Sellers_Mature": {
-          "p": 9,
-          "d": 1,
-          "s": 10,
-          "nps": 80.0
-        },
-        "BR_Publicaciones_Sellers_Longtail": {
           "p": 6,
-          "d": 0,
-          "s": 6,
-          "nps": 100.0
+          "d": 1,
+          "s": 7,
+          "nps": 71.43
         },
         "BR_Ventas_Sellers_Mature": {
           "p": 1,
-          "d": 1,
-          "s": 3,
-          "nps": 0.0
-        },
-        "BR_ME_Sellers_Mature": {
-          "p": 5,
-          "d": 0,
-          "s": 5,
-          "nps": 100.0
+          "d": 2,
+          "s": 4,
+          "nps": -25.0
         },
         "BR_ME_Sellers_Longtail": {
           "p": 4,
           "d": 0,
           "s": 5,
           "nps": 80.0
+        },
+        "BR_Publicaciones_Sellers_Longtail": {
+          "p": 3,
+          "d": 0,
+          "s": 3,
+          "nps": 100.0
+        },
+        "BR_Ventas_Sellers_Longtail": {
+          "p": 5,
+          "d": 0,
+          "s": 5,
+          "nps": 100.0
+        },
+        "BR_ME_Sellers_Mature": {
+          "p": 2,
+          "d": 0,
+          "s": 2,
+          "nps": 100.0
+        }
+      },
+      "Sr": {
+        "Training": {
+          "p": 9,
+          "d": 0,
+          "s": 9,
+          "nps": 100.0
+        },
+        "Expert": {
+          "p": 106,
+          "d": 15,
+          "s": 121,
+          "nps": 75.21
+        },
+        "Newbie": {
+          "p": 83,
+          "d": 11,
+          "s": 94,
+          "nps": 76.6
+        }
+      }
+    },
+    "Post Venta Meli Pro": {
+      "P": {
+        "Reputación": {
+          "p": 72,
+          "d": 4,
+          "s": 78,
+          "nps": 87.18
+        }
+      },
+      "C": {
+        "CHAT": {
+          "p": 72,
+          "d": 4,
+          "s": 78,
+          "nps": 87.18
+        }
+      },
+      "O": {
+        "MELICIDADE": {
+          "p": 68,
+          "d": 4,
+          "s": 74,
+          "nps": 86.49
+        },
+        "KTA_BRASIL": {
+          "p": 4,
+          "d": 0,
+          "s": 4,
+          "nps": 100.0
+        }
+      },
+      "T": {
+        "MELI_PRO_MLB": {
+          "p": 58,
+          "d": 4,
+          "s": 64,
+          "nps": 84.38
+        },
+        "BR_Publicaciones_Sellers_Mature": {
+          "p": 5,
+          "d": 0,
+          "s": 5,
+          "nps": 100.0
+        },
+        "BR_Publicaciones_Sellers_Longtail": {
+          "p": 4,
+          "d": 0,
+          "s": 4,
+          "nps": 100.0
         },
         "MELIPRO_VIP_MLB": {
           "p": 3,
@@ -4733,95 +4958,41 @@
           "s": 3,
           "nps": 100.0
         },
-        "BR_Ventas_Sellers_Longtail": {
-          "p": 4,
+        "BR_ME_Sellers_Mature": {
+          "p": 2,
           "d": 0,
-          "s": 4,
+          "s": 2,
           "nps": 100.0
         }
       },
       "Sr": {
         "Training": {
-          "p": 11,
+          "p": 9,
           "d": 0,
-          "s": 11,
+          "s": 9,
           "nps": 100.0
         },
         "Expert": {
-          "p": 75,
-          "d": 10,
-          "s": 85,
-          "nps": 76.47
+          "p": 106,
+          "d": 15,
+          "s": 121,
+          "nps": 75.21
         },
         "Newbie": {
-          "p": 66,
-          "d": 4,
-          "s": 70,
-          "nps": 88.57
-        }
-      }
-    },
-    "Post Venta Meli Pro": {
-      "P": {
-        "Reputación": {
-          "p": 13,
-          "d": 1,
-          "s": 15,
-          "nps": 80.0
-        }
-      },
-      "C": {
-        "CHAT": {
-          "p": 13,
-          "d": 1,
-          "s": 15,
-          "nps": 80.0
-        }
-      },
-      "O": {
-        "MELICIDADE": {
-          "p": 13,
-          "d": 1,
-          "s": 15,
-          "nps": 80.0
-        }
-      },
-      "T": {
-        "MELI_PRO_MLB": {
-          "p": 13,
-          "d": 1,
-          "s": 15,
-          "nps": 80.0
-        }
-      },
-      "Sr": {
-        "Training": {
-          "p": 11,
-          "d": 0,
-          "s": 11,
-          "nps": 100.0
-        },
-        "Expert": {
-          "p": 75,
-          "d": 10,
-          "s": 85,
-          "nps": 76.47
-        },
-        "Newbie": {
-          "p": 66,
-          "d": 4,
-          "s": 70,
-          "nps": 88.57
+          "p": 83,
+          "d": 11,
+          "s": 94,
+          "nps": 76.6
         }
       }
     },
     "Post Venta Seller Dev": {
       "P": {
         "Reputación": {
-          "p": 88,
-          "d": 11,
-          "s": 108,
-          "nps": 71.3
+          "p": 102,
+          "d": 18,
+          "s": 129,
+          "nps": 65.12
         },
         "Anulación de Venta": {
           "p": 0,
@@ -4832,109 +5003,151 @@
       },
       "C": {
         "CHAT": {
-          "p": 65,
-          "d": 11,
-          "s": 85,
-          "nps": 63.53
+          "p": 74,
+          "d": 17,
+          "s": 99,
+          "nps": 57.58
         },
         "C2C": {
-          "p": 23,
-          "d": 1,
-          "s": 25,
-          "nps": 88.0
+          "p": 28,
+          "d": 2,
+          "s": 32,
+          "nps": 81.25
         }
       },
       "O": {
         "ATE": {
-          "p": 24,
-          "d": 7,
-          "s": 33,
-          "nps": 51.52
+          "p": 27,
+          "d": 11,
+          "s": 40,
+          "nps": 40.0
         },
         "KTA_BRASIL": {
-          "p": 36,
-          "d": 4,
-          "s": 44,
-          "nps": 72.73
+          "p": 43,
+          "d": 5,
+          "s": 53,
+          "nps": 71.7
         },
         "AEC": {
-          "p": 27,
-          "d": 1,
-          "s": 31,
-          "nps": 83.87
-        },
-        "MELICIDADE": {
-          "p": 1,
-          "d": 0,
-          "s": 2,
-          "nps": 50.0
+          "p": 32,
+          "d": 3,
+          "s": 38,
+          "nps": 76.32
         }
       },
       "T": {
         "BR_ME_Sellers_Longtail": {
-          "p": 41,
-          "d": 8,
-          "s": 53,
-          "nps": 62.26
+          "p": 46,
+          "d": 13,
+          "s": 63,
+          "nps": 52.38
         },
         "BR_Publicaciones_Sellers_Longtail": {
-          "p": 27,
-          "d": 3,
-          "s": 33,
-          "nps": 72.73
+          "p": 34,
+          "d": 4,
+          "s": 41,
+          "nps": 73.17
         },
         "BR_Ventas_Sellers_Longtail": {
-          "p": 19,
-          "d": 1,
-          "s": 22,
-          "nps": 81.82
-        },
-        "MELI_PRO_MLB": {
-          "p": 1,
-          "d": 0,
-          "s": 2,
-          "nps": 50.0
+          "p": 22,
+          "d": 2,
+          "s": 27,
+          "nps": 74.07
         }
       },
       "Sr": {
         "Training": {
-          "p": 11,
+          "p": 9,
           "d": 0,
-          "s": 11,
+          "s": 9,
           "nps": 100.0
         },
         "Expert": {
-          "p": 79,
-          "d": 10,
-          "s": 89,
-          "nps": 77.53
+          "p": 110,
+          "d": 15,
+          "s": 125,
+          "nps": 76.0
         },
         "Newbie": {
-          "p": 66,
-          "d": 5,
-          "s": 71,
-          "nps": 85.92
+          "p": 83,
+          "d": 12,
+          "s": 95,
+          "nps": 74.74
         }
       }
     },
     "Publicaciones Mature": {
       "P": {
-        "Gestión de Publicación": {
-          "p": 8,
-          "d": 2,
-          "s": 10,
-          "nps": 60.0
-        },
         "PR - Artículos prohibidos": {
           "p": 3,
           "d": 1,
           "s": 5,
           "nps": 40.0
         },
-        "PR - Técnica prohibida": {
-          "p": 4,
+        "PR - Propiedad intelectual": {
+          "p": 2,
           "d": 0,
-          "s": 4,
+          "s": 3,
+          "nps": 66.67
+        }
+      },
+      "C": {
+        "CHAT": {
+          "p": 5,
+          "d": 1,
+          "s": 8,
+          "nps": 50.0
+        }
+      },
+      "O": {
+        "KTA_BRASIL": {
+          "p": 5,
+          "d": 1,
+          "s": 8,
+          "nps": 50.0
+        }
+      },
+      "T": {
+        "BR_Publicaciones_Sellers_Longtail": {
+          "p": 5,
+          "d": 1,
+          "s": 8,
+          "nps": 50.0
+        }
+      },
+      "Sr": {
+        "Expert": {
+          "p": 26,
+          "d": 3,
+          "s": 29,
+          "nps": 79.31
+        },
+        "Newbie": {
+          "p": 49,
+          "d": 2,
+          "s": 51,
+          "nps": 92.16
+        }
+      }
+    },
+    "Publicaciones Meli Pro": {
+      "P": {
+        "Gestión de Publicación": {
+          "p": 11,
+          "d": 2,
+          "s": 13,
+          "nps": 69.23
+        },
+        "PR - Técnica prohibida": {
+          "p": 6,
+          "d": 0,
+          "s": 6,
+          "nps": 100.0
+        },
+        "PR - Artículos prohibidos": {
+          "p": 5,
+          "d": 0,
+          "s": 5,
           "nps": 100.0
         },
         "Calidad de foto": {
@@ -4946,44 +5159,26 @@
       },
       "C": {
         "CHAT": {
-          "p": 17,
-          "d": 3,
-          "s": 21,
-          "nps": 66.67
+          "p": 24,
+          "d": 2,
+          "s": 26,
+          "nps": 84.62
         }
       },
       "O": {
         "MELICIDADE": {
-          "p": 14,
+          "p": 24,
           "d": 2,
-          "s": 16,
-          "nps": 75.0
-        },
-        "KTA_BRASIL": {
-          "p": 3,
-          "d": 1,
-          "s": 5,
-          "nps": 40.0
+          "s": 26,
+          "nps": 84.62
         }
       },
       "T": {
         "MELI_PRO_MLB": {
-          "p": 12,
+          "p": 24,
           "d": 2,
-          "s": 14,
-          "nps": 71.43
-        },
-        "BR_Publicaciones_Sellers_Longtail": {
-          "p": 3,
-          "d": 1,
-          "s": 5,
-          "nps": 40.0
-        },
-        "BR_Publicaciones_Sellers_Mature": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
+          "s": 26,
+          "nps": 84.62
         }
       },
       "Sr": {
@@ -4994,61 +5189,67 @@
           "nps": 20.0
         },
         "Expert": {
-          "p": 31,
+          "p": 50,
           "d": 5,
-          "s": 36,
-          "nps": 72.22
+          "s": 55,
+          "nps": 81.82
         },
         "Newbie": {
-          "p": 56,
-          "d": 10,
-          "s": 66,
-          "nps": 69.7
+          "p": 68,
+          "d": 11,
+          "s": 79,
+          "nps": 72.15
         }
       }
     },
     "Publicaciones Seller Dev": {
       "P": {
         "Afiliados ML": {
-          "p": 113,
-          "d": 20,
-          "s": 150,
-          "nps": 62.0
+          "p": 145,
+          "d": 28,
+          "s": 194,
+          "nps": 60.31
         },
         "PR - Propiedad intelectual": {
-          "p": 33,
+          "p": 36,
           "d": 2,
-          "s": 35,
-          "nps": 88.57
-        },
-        "PR - Técnica prohibida": {
-          "p": 23,
-          "d": 4,
-          "s": 31,
-          "nps": 61.29
+          "s": 38,
+          "nps": 89.47
         },
         "Potenciar Ventas": {
-          "p": 23,
+          "p": 28,
+          "d": 7,
+          "s": 37,
+          "nps": 56.76
+        },
+        "PR - Técnica prohibida": {
+          "p": 27,
           "d": 4,
-          "s": 29,
-          "nps": 65.52
+          "s": 35,
+          "nps": 65.71
         },
         "Gestión de Publicación": {
-          "p": 24,
-          "d": 7,
-          "s": 33,
-          "nps": 51.52
+          "p": 29,
+          "d": 8,
+          "s": 40,
+          "nps": 52.5
         },
         "PR - Artículos prohibidos": {
-          "p": 16,
+          "p": 26,
           "d": 3,
-          "s": 22,
-          "nps": 59.09
+          "s": 32,
+          "nps": 71.88
         },
         "Denuncia de usuario": {
-          "p": 7,
+          "p": 8,
           "d": 1,
-          "s": 8,
+          "s": 9,
+          "nps": 77.78
+        },
+        "Antes de publicar": {
+          "p": 3,
+          "d": 0,
+          "s": 4,
           "nps": 75.0
         },
         "Calidad de foto": {
@@ -5056,12 +5257,6 @@
           "d": 0,
           "s": 2,
           "nps": 100.0
-        },
-        "Antes de publicar": {
-          "p": 1,
-          "d": 0,
-          "s": 2,
-          "nps": 50.0
         },
         "PR - Datos Personales": {
           "p": 1,
@@ -5072,64 +5267,64 @@
       },
       "C": {
         "CHAT": {
-          "p": 211,
-          "d": 25,
-          "s": 263,
-          "nps": 70.72
+          "p": 264,
+          "d": 35,
+          "s": 330,
+          "nps": 69.39
         },
         "C2C": {
-          "p": 32,
-          "d": 16,
-          "s": 51,
-          "nps": 31.37
+          "p": 41,
+          "d": 18,
+          "s": 63,
+          "nps": 36.51
         }
       },
       "O": {
         "AEC": {
-          "p": 120,
-          "d": 19,
-          "s": 153,
-          "nps": 66.01
+          "p": 148,
+          "d": 25,
+          "s": 190,
+          "nps": 64.74
         },
         "KTA_BRASIL": {
-          "p": 123,
-          "d": 22,
-          "s": 161,
-          "nps": 62.73
+          "p": 157,
+          "d": 28,
+          "s": 203,
+          "nps": 63.55
         }
       },
       "T": {
         "BR_Ventas_Sellers_Longtail": {
-          "p": 120,
-          "d": 21,
-          "s": 158,
-          "nps": 62.66
+          "p": 153,
+          "d": 29,
+          "s": 203,
+          "nps": 61.08
         },
         "BR_Publicaciones_Sellers_Longtail": {
-          "p": 123,
-          "d": 20,
-          "s": 156,
-          "nps": 66.03
+          "p": 152,
+          "d": 24,
+          "s": 190,
+          "nps": 67.37
         }
       },
       "Sr": {
-        "Training": {
-          "p": 8,
-          "d": 6,
-          "s": 14,
-          "nps": 14.29
-        },
         "Expert": {
-          "p": 121,
-          "d": 13,
-          "s": 134,
-          "nps": 80.6
+          "p": 159,
+          "d": 16,
+          "s": 175,
+          "nps": 81.71
+        },
+        "Training": {
+          "p": 9,
+          "d": 7,
+          "s": 16,
+          "nps": 12.5
         },
         "Newbie": {
-          "p": 147,
-          "d": 25,
-          "s": 172,
-          "nps": 70.93
+          "p": 185,
+          "d": 31,
+          "s": 216,
+          "nps": 71.3
         }
       }
     }
@@ -5161,13 +5356,13 @@
           "s": 3,
           "nps": 66.67
         },
-        "CBT - Boosters": {
+        "CBT - Dispatch, Sales and Listings": {
           "p": 2,
           "d": 0,
           "s": 2,
           "nps": 100.0
         },
-        "CBT - Dispatch, Sales and Listings": {
+        "CBT - Boosters": {
           "p": 2,
           "d": 0,
           "s": 2,
@@ -5241,31 +5436,31 @@
         }
       },
       "C": {
-        "C2C": {
-          "p": 0,
-          "d": 2,
-          "s": 2,
-          "nps": -100.0
-        },
         "CHAT": {
           "p": 2,
           "d": 1,
           "s": 4,
           "nps": 25.0
-        }
-      },
-      "O": {
-        "KTA_BRASIL": {
+        },
+        "C2C": {
           "p": 0,
           "d": 2,
           "s": 2,
           "nps": -100.0
-        },
+        }
+      },
+      "O": {
         "AEC": {
           "p": 2,
           "d": 1,
           "s": 4,
           "nps": 25.0
+        },
+        "KTA_BRASIL": {
+          "p": 0,
+          "d": 2,
+          "s": 2,
+          "nps": -100.0
         }
       },
       "T": {
@@ -5307,13 +5502,13 @@
         }
       },
       "C": {
-        "C2C": {
+        "CHAT": {
           "p": 2,
           "d": 0,
           "s": 2,
           "nps": 100.0
         },
-        "CHAT": {
+        "C2C": {
           "p": 2,
           "d": 0,
           "s": 2,
@@ -5321,13 +5516,13 @@
         }
       },
       "O": {
-        "KTA_BRASIL": {
+        "AEC": {
           "p": 2,
           "d": 0,
           "s": 2,
           "nps": 100.0
         },
-        "AEC": {
+        "KTA_BRASIL": {
           "p": 2,
           "d": 0,
           "s": 2,
@@ -5455,17 +5650,17 @@
           "s": 5,
           "nps": -20.0
         },
-        "FBM - Retiro de Stock - Cx One": {
-          "p": 1,
-          "d": 1,
-          "s": 2,
-          "nps": 0.0
-        },
         "FBM - Inventario": {
           "p": 2,
           "d": 0,
           "s": 2,
           "nps": 100.0
+        },
+        "FBM - Retiro de Stock - Cx One": {
+          "p": 1,
+          "d": 1,
+          "s": 2,
+          "nps": 0.0
         },
         "FBM - Devoluciones": {
           "p": 2,
@@ -5545,17 +5740,17 @@
           "s": 4,
           "nps": 75.0
         },
-        "FBM - Devoluciones": {
-          "p": 1,
-          "d": 1,
-          "s": 2,
-          "nps": 0.0
-        },
         "FBM - Outbound": {
           "p": 2,
           "d": 0,
           "s": 2,
           "nps": 100.0
+        },
+        "FBM - Devoluciones": {
+          "p": 1,
+          "d": 1,
+          "s": 2,
+          "nps": 0.0
         },
         "FBM - Funcionalidades": {
           "p": 2,
@@ -6043,23 +6238,29 @@
           "s": 4,
           "nps": 100.0
         },
+        "CBT - Intellectual Property": {
+          "p": 3,
+          "d": 0,
+          "s": 3,
+          "nps": 100.0
+        },
         "Despacho Ventas y Publicaciones Masivos": {
           "p": 0,
           "d": 3,
           "s": 3,
           "nps": -100.0
         },
+        "Reputación ME Masivos": {
+          "p": 2,
+          "d": 1,
+          "s": 3,
+          "nps": 33.33
+        },
         "Reputación ML Masivos": {
           "p": 3,
           "d": 2,
           "s": 5,
           "nps": 20.0
-        },
-        "CBT - Intellectual Property": {
-          "p": 3,
-          "d": 0,
-          "s": 3,
-          "nps": 100.0
         },
         "KYC seg360": {
           "p": 5,
@@ -6073,17 +6274,17 @@
           "s": 3,
           "nps": 33.33
         },
-        "Reputación ME Masivos": {
-          "p": 2,
-          "d": 1,
-          "s": 3,
-          "nps": 33.33
-        },
-        "Restricciones": {
+        "Tarjetas de crédito - Solicitud y Límites": {
           "p": 2,
           "d": 0,
           "s": 2,
           "nps": 100.0
+        },
+        "Caja vacía - Flex": {
+          "p": 1,
+          "d": 1,
+          "s": 2,
+          "nps": 0.0
         },
         "Problemas con acceso y factores": {
           "p": 4,
@@ -6091,23 +6292,17 @@
           "s": 6,
           "nps": 50.0
         },
-        "Tarjetas de crédito - Solicitud y Límites": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
-        },
         "Viaje del paquete - Comprador": {
           "p": 2,
           "d": 0,
           "s": 4,
           "nps": 50.0
         },
-        "Caja vacía - Flex": {
-          "p": 1,
-          "d": 1,
+        "Restricciones": {
+          "p": 2,
+          "d": 0,
           "s": 2,
-          "nps": 0.0
+          "nps": 100.0
         }
       },
       "C": {
@@ -6187,25 +6382,25 @@
           "s": 14,
           "nps": 78.57
         },
-        "MELIPRO_VIP_MLB": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
-        },
         "BR_Credits_MP": {
           "p": 2,
           "d": 0,
           "s": 2,
           "nps": 100.0
         },
-        "BR_ME_Sellers_Longtail": {
+        "MELIPRO_VIP_MLB": {
+          "p": 2,
+          "d": 0,
+          "s": 2,
+          "nps": 100.0
+        },
+        "BR_Buyers_Pre_Entrega": {
           "p": 1,
           "d": 0,
           "s": 2,
           "nps": 50.0
         },
-        "BR_Buyers_Pre_Entrega": {
+        "BR_ME_Sellers_Longtail": {
           "p": 1,
           "d": 0,
           "s": 2,
@@ -6304,10 +6499,10 @@
       },
       "Sr": {
         "Training": {
-          "p": 7,
+          "p": 8,
           "d": 4,
-          "s": 11,
-          "nps": 27.27
+          "s": 12,
+          "nps": 33.33
         },
         "Expert": {
           "p": 120,
@@ -6376,10 +6571,10 @@
       },
       "Sr": {
         "Training": {
-          "p": 7,
+          "p": 8,
           "d": 4,
-          "s": 11,
-          "nps": 27.27
+          "s": 12,
+          "nps": 33.33
         },
         "Expert": {
           "p": 120,
@@ -6466,10 +6661,10 @@
       },
       "Sr": {
         "Training": {
-          "p": 7,
+          "p": 8,
           "d": 4,
-          "s": 11,
-          "nps": 27.27
+          "s": 12,
+          "nps": 33.33
         },
         "Expert": {
           "p": 120,
@@ -6517,11 +6712,11 @@
           "s": 16,
           "nps": 12.5
         },
-        "Incompleto - DS": {
+        "Defectuoso - XD": {
           "p": 10,
-          "d": 4,
-          "s": 15,
-          "nps": 40.0
+          "d": 13,
+          "s": 24,
+          "nps": -12.5
         },
         "Diferente - XD": {
           "p": 7,
@@ -6529,11 +6724,11 @@
           "s": 16,
           "nps": 0.0
         },
-        "Defectuoso - XD": {
+        "Incompleto - DS": {
           "p": 10,
-          "d": 13,
-          "s": 24,
-          "nps": -12.5
+          "d": 4,
+          "s": 15,
+          "nps": 40.0
         },
         "Caja Vacía - XD": {
           "p": 1,
@@ -6603,33 +6798,33 @@
           "s": 7,
           "nps": 14.29
         },
-        "Expert": {
-          "p": 403,
-          "d": 111,
-          "s": 514,
-          "nps": 56.81
-        },
         "Newbie": {
           "p": 203,
           "d": 51,
           "s": 254,
           "nps": 59.84
+        },
+        "Expert": {
+          "p": 404,
+          "d": 111,
+          "s": 515,
+          "nps": 56.89
         }
       }
     },
     "PDD FBM - Vendedor": {
       "P": {
-        "Defectuoso - FBM": {
-          "p": 11,
-          "d": 4,
-          "s": 17,
-          "nps": 41.18
-        },
         "MED - PDD Low cost": {
           "p": 4,
           "d": 0,
           "s": 5,
           "nps": 80.0
+        },
+        "Defectuoso - FBM": {
+          "p": 11,
+          "d": 4,
+          "s": 17,
+          "nps": 41.18
         },
         "Arrepentimiento - FBM": {
           "p": 6,
@@ -6721,17 +6916,17 @@
           "s": 3,
           "nps": 0.0
         },
-        "Defectuoso - Flex": {
-          "p": 3,
-          "d": 0,
-          "s": 3,
-          "nps": 100.0
-        },
         "Incompleto - Flex": {
           "p": 2,
           "d": 1,
           "s": 5,
           "nps": 20.0
+        },
+        "Defectuoso - Flex": {
+          "p": 3,
+          "d": 0,
+          "s": 3,
+          "nps": 100.0
         },
         "Diferente - Flex": {
           "p": 2,
@@ -6904,10 +7099,10 @@
       },
       "Sr": {
         "Training": {
-          "p": 11,
+          "p": 12,
           "d": 4,
-          "s": 15,
-          "nps": 46.67
+          "s": 16,
+          "nps": 50.0
         },
         "Expert": {
           "p": 196,
@@ -6987,17 +7182,17 @@
           "s": 66,
           "nps": 60.61
         },
-        "Expert": {
-          "p": 310,
-          "d": 34,
-          "s": 344,
-          "nps": 80.23
-        },
         "Newbie": {
           "p": 332,
           "d": 40,
           "s": 372,
           "nps": 78.49
+        },
+        "Expert": {
+          "p": 310,
+          "d": 34,
+          "s": 344,
+          "nps": 80.23
         }
       }
     },
@@ -7063,17 +7258,17 @@
           "s": 11,
           "nps": 63.64
         },
-        "BR_Publicaciones_Sellers_Mature": {
-          "p": 3,
-          "d": 1,
-          "s": 5,
-          "nps": 40.0
-        },
         "BR_Ventas_Sellers_Mature": {
           "p": 9,
           "d": 0,
           "s": 9,
           "nps": 100.0
+        },
+        "BR_Publicaciones_Sellers_Mature": {
+          "p": 3,
+          "d": 1,
+          "s": 5,
+          "nps": 40.0
         },
         "BR_Ventas_Sellers_Longtail": {
           "p": 4,
@@ -7101,17 +7296,17 @@
           "s": 15,
           "nps": 86.67
         },
-        "Newbie": {
-          "p": 191,
-          "d": 9,
-          "s": 200,
-          "nps": 91.0
-        },
         "Expert": {
           "p": 273,
           "d": 19,
           "s": 292,
           "nps": 86.99
+        },
+        "Newbie": {
+          "p": 191,
+          "d": 9,
+          "s": 200,
+          "nps": 91.0
         }
       }
     },
@@ -7791,25 +7986,97 @@
     },
     "FBM-S Mature": {
       "P": {
-        "FBM - Inventario": {
-          "p": 3,
-          "d": 2,
-          "s": 5,
-          "nps": 20.0
-        },
         "FBM - Pre Inbound": {
-          "p": 7,
+          "p": 5,
           "d": 1,
-          "s": 8,
-          "nps": 75.0
+          "s": 6,
+          "nps": 66.67
+        },
+        "FBM - Inventario": {
+          "p": 0,
+          "d": 2,
+          "s": 2,
+          "nps": -100.0
         },
         "FBM - Post Inbound": {
           "p": 1,
           "d": 1,
           "s": 2,
           "nps": 0.0
+        }
+      },
+      "C": {
+        "CHAT": {
+          "p": 4,
+          "d": 3,
+          "s": 7,
+          "nps": 14.29
+        },
+        "C2C": {
+          "p": 2,
+          "d": 1,
+          "s": 3,
+          "nps": 33.33
+        }
+      },
+      "O": {
+        "ATE": {
+          "p": 4,
+          "d": 3,
+          "s": 7,
+          "nps": 14.29
+        },
+        "MELICIDADE": {
+          "p": 2,
+          "d": 1,
+          "s": 3,
+          "nps": 33.33
+        }
+      },
+      "T": {
+        "BR_FBM_Seller_Offline_Premium": {
+          "p": 6,
+          "d": 4,
+          "s": 10,
+          "nps": 20.0
+        }
+      },
+      "Sr": {
+        "Expert": {
+          "p": 36,
+          "d": 16,
+          "s": 52,
+          "nps": 38.46
+        },
+        "Newbie": {
+          "p": 6,
+          "d": 8,
+          "s": 14,
+          "nps": -14.29
+        }
+      }
+    },
+    "FBM-S Meli Pro": {
+      "P": {
+        "FBM - Inventario": {
+          "p": 3,
+          "d": 0,
+          "s": 3,
+          "nps": 100.0
+        },
+        "FBM - Pre Inbound": {
+          "p": 1,
+          "d": 2,
+          "s": 3,
+          "nps": -33.33
         },
         "FBM - Devoluciones": {
+          "p": 3,
+          "d": 0,
+          "s": 3,
+          "nps": 100.0
+        },
+        "FBM - Funcionalidades": {
           "p": 2,
           "d": 0,
           "s": 2,
@@ -7820,110 +8087,50 @@
           "d": 0,
           "s": 2,
           "nps": 100.0
+        }
+      },
+      "C": {
+        "CHAT": {
+          "p": 11,
+          "d": 2,
+          "s": 13,
+          "nps": 69.23
+        }
+      },
+      "O": {
+        "ATE": {
+          "p": 9,
+          "d": 2,
+          "s": 11,
+          "nps": 63.64
         },
-        "FBM - Funcionalidades": {
+        "MELICIDADE": {
           "p": 2,
           "d": 0,
           "s": 2,
           "nps": 100.0
         }
       },
-      "C": {
-        "CHAT": {
-          "p": 13,
-          "d": 3,
-          "s": 16,
-          "nps": 62.5
-        },
-        "C2C": {
-          "p": 4,
-          "d": 1,
-          "s": 5,
-          "nps": 60.0
-        }
-      },
-      "O": {
-        "ATE": {
-          "p": 13,
-          "d": 3,
-          "s": 16,
-          "nps": 62.5
-        },
-        "MELICIDADE": {
-          "p": 4,
-          "d": 1,
-          "s": 5,
-          "nps": 60.0
-        }
-      },
       "T": {
         "BR_FBM_Seller_Offline_Premium": {
-          "p": 17,
-          "d": 4,
-          "s": 21,
-          "nps": 61.9
+          "p": 11,
+          "d": 2,
+          "s": 13,
+          "nps": 69.23
         }
       },
       "Sr": {
         "Expert": {
-          "p": 52,
-          "d": 19,
-          "s": 71,
-          "nps": 46.48
+          "p": 49,
+          "d": 15,
+          "s": 64,
+          "nps": 53.12
         },
         "Newbie": {
-          "p": 7,
+          "p": 6,
           "d": 9,
-          "s": 16,
-          "nps": -12.5
-        }
-      }
-    },
-    "FBM-S Meli Pro": {
-      "P": {
-        "FBM - Pre Inbound": {
-          "p": 1,
-          "d": 2,
-          "s": 3,
-          "nps": -33.33
-        }
-      },
-      "C": {
-        "CHAT": {
-          "p": 1,
-          "d": 2,
-          "s": 3,
-          "nps": -33.33
-        }
-      },
-      "O": {
-        "ATE": {
-          "p": 1,
-          "d": 2,
-          "s": 3,
-          "nps": -33.33
-        }
-      },
-      "T": {
-        "BR_FBM_Seller_Offline_Premium": {
-          "p": 1,
-          "d": 2,
-          "s": 3,
-          "nps": -33.33
-        }
-      },
-      "Sr": {
-        "Expert": {
-          "p": 18,
-          "d": 3,
-          "s": 21,
-          "nps": 71.43
-        },
-        "Newbie": {
-          "p": 4,
-          "d": 2,
-          "s": 6,
-          "nps": 33.33
+          "s": 15,
+          "nps": -20.0
         }
       }
     },
@@ -8003,39 +8210,39 @@
         }
       },
       "Sr": {
-        "Expert": {
-          "p": 55,
-          "d": 22,
-          "s": 77,
-          "nps": 42.86
-        },
         "Newbie": {
           "p": 9,
           "d": 9,
           "s": 18,
           "nps": 0.0
+        },
+        "Expert": {
+          "p": 56,
+          "d": 22,
+          "s": 78,
+          "nps": 43.59
         }
       }
     },
     "ME Vendedor Mature": {
       "P": {
-        "Reputación ME": {
-          "p": 34,
-          "d": 6,
-          "s": 42,
-          "nps": 66.67
-        },
         "Reversa": {
-          "p": 26,
+          "p": 18,
           "d": 1,
-          "s": 29,
-          "nps": 86.21
+          "s": 21,
+          "nps": 80.95
         },
         "Despacho Ventas y Publicaciones": {
+          "p": 9,
+          "d": 3,
+          "s": 15,
+          "nps": 40.0
+        },
+        "Reputación ME": {
           "p": 19,
-          "d": 5,
-          "s": 29,
-          "nps": 48.28
+          "d": 4,
+          "s": 25,
+          "nps": 60.0
         },
         "Gestiones Operativas": {
           "p": 9,
@@ -8044,44 +8251,44 @@
           "nps": 100.0
         },
         "Viaje del paquete - Vendedor": {
-          "p": 4,
+          "p": 3,
           "d": 1,
-          "s": 6,
-          "nps": 50.0
+          "s": 5,
+          "nps": 40.0
         }
       },
       "C": {
         "CHAT": {
-          "p": 81,
-          "d": 12,
-          "s": 103,
-          "nps": 66.99
+          "p": 49,
+          "d": 8,
+          "s": 65,
+          "nps": 63.08
         },
         "C2C": {
-          "p": 11,
+          "p": 9,
           "d": 1,
-          "s": 12,
-          "nps": 83.33
+          "s": 10,
+          "nps": 80.0
         }
       },
       "O": {
         "MELICIDADE": {
-          "p": 64,
-          "d": 11,
-          "s": 81,
-          "nps": 65.43
+          "p": 39,
+          "d": 7,
+          "s": 51,
+          "nps": 62.75
         },
         "KTA_BRASIL": {
-          "p": 17,
+          "p": 11,
           "d": 0,
-          "s": 19,
-          "nps": 89.47
+          "s": 12,
+          "nps": 91.67
         },
         "ATE": {
-          "p": 10,
+          "p": 7,
           "d": 1,
-          "s": 13,
-          "nps": 69.23
+          "s": 10,
+          "nps": 60.0
         },
         "AEC": {
           "p": 1,
@@ -8091,23 +8298,11 @@
         }
       },
       "T": {
-        "MELI_PRO_MLB": {
-          "p": 23,
-          "d": 4,
-          "s": 28,
-          "nps": 67.86
-        },
         "BR_ME_Sellers_Mature": {
-          "p": 32,
+          "p": 30,
           "d": 5,
-          "s": 40,
-          "nps": 67.5
-        },
-        "BR_Publicaciones_Sellers_Longtail": {
-          "p": 9,
-          "d": 1,
-          "s": 10,
-          "nps": 80.0
+          "s": 38,
+          "nps": 65.79
         },
         "BR_Publicaciones_Sellers_Mature": {
           "p": 5,
@@ -8116,10 +8311,10 @@
           "nps": 57.14
         },
         "BR_ME_Sellers_Longtail": {
-          "p": 19,
+          "p": 15,
           "d": 1,
-          "s": 24,
-          "nps": 75.0
+          "s": 19,
+          "nps": 73.68
         },
         "BR_Ventas_Sellers_Mature": {
           "p": 2,
@@ -8127,7 +8322,13 @@
           "s": 4,
           "nps": 25.0
         },
-        "MELIPRO_VIP_MLB": {
+        "BR_Publicaciones_Sellers_Longtail": {
+          "p": 4,
+          "d": 1,
+          "s": 5,
+          "nps": 60.0
+        },
+        "MELI_PRO_MLB": {
           "p": 2,
           "d": 0,
           "s": 2,
@@ -8136,100 +8337,118 @@
       },
       "Sr": {
         "Training": {
-          "p": 49,
-          "d": 11,
-          "s": 60,
-          "nps": 63.33
+          "p": 48,
+          "d": 10,
+          "s": 58,
+          "nps": 65.52
         },
         "Expert": {
-          "p": 345,
-          "d": 39,
-          "s": 384,
-          "nps": 79.69
+          "p": 341,
+          "d": 40,
+          "s": 381,
+          "nps": 79.0
         },
         "Newbie": {
-          "p": 281,
-          "d": 25,
-          "s": 306,
-          "nps": 83.66
+          "p": 297,
+          "d": 31,
+          "s": 328,
+          "nps": 81.1
         }
       }
     },
     "ME Vendedor Meli Pro": {
       "P": {
         "Reputación ME": {
-          "p": 25,
-          "d": 2,
-          "s": 29,
-          "nps": 79.31
+          "p": 40,
+          "d": 4,
+          "s": 46,
+          "nps": 78.26
         },
         "Reversa": {
-          "p": 9,
+          "p": 17,
           "d": 1,
-          "s": 11,
-          "nps": 72.73
+          "s": 19,
+          "nps": 84.21
         },
         "Despacho Ventas y Publicaciones": {
-          "p": 8,
-          "d": 0,
-          "s": 9,
-          "nps": 88.89
+          "p": 13,
+          "d": 2,
+          "s": 17,
+          "nps": 64.71
         },
         "Viaje del paquete - Vendedor": {
-          "p": 8,
+          "p": 9,
           "d": 0,
-          "s": 8,
+          "s": 9,
           "nps": 100.0
         },
         "Gestiones Operativas": {
           "p": 6,
-          "d": 0,
-          "s": 6,
-          "nps": 100.0
+          "d": 1,
+          "s": 7,
+          "nps": 71.43
         }
       },
       "C": {
         "CHAT": {
-          "p": 56,
-          "d": 3,
-          "s": 63,
-          "nps": 84.13
+          "p": 85,
+          "d": 8,
+          "s": 98,
+          "nps": 78.57
         }
       },
       "O": {
         "MELICIDADE": {
-          "p": 56,
-          "d": 3,
-          "s": 63,
-          "nps": 84.13
+          "p": 80,
+          "d": 8,
+          "s": 93,
+          "nps": 77.42
+        },
+        "KTA_BRASIL": {
+          "p": 5,
+          "d": 0,
+          "s": 5,
+          "nps": 100.0
         }
       },
       "T": {
         "MELI_PRO_MLB": {
-          "p": 56,
-          "d": 3,
-          "s": 63,
-          "nps": 84.13
+          "p": 78,
+          "d": 8,
+          "s": 91,
+          "nps": 76.92
+        },
+        "BR_Publicaciones_Sellers_Longtail": {
+          "p": 5,
+          "d": 0,
+          "s": 5,
+          "nps": 100.0
+        },
+        "BR_ME_Sellers_Mature": {
+          "p": 2,
+          "d": 0,
+          "s": 2,
+          "nps": 100.0
         }
       },
       "Sr": {
         "Training": {
-          "p": 49,
-          "d": 11,
-          "s": 60,
-          "nps": 63.33
+          "p": 48,
+          "d": 10,
+          "s": 58,
+          "nps": 65.52
         },
         "Expert": {
-          "p": 345,
-          "d": 39,
-          "s": 384,
-          "nps": 79.69
+          "p": 341,
+          "d": 40,
+          "s": 381,
+          "nps": 79.0
         },
         "Newbie": {
-          "p": 281,
-          "d": 25,
-          "s": 306,
-          "nps": 83.66
+          "p": 297,
+          "d": 31,
+          "s": 328,
+          "nps": 81.1
         }
       }
     },
@@ -8322,32 +8541,32 @@
       },
       "Sr": {
         "Training": {
-          "p": 49,
-          "d": 11,
-          "s": 60,
-          "nps": 63.33
+          "p": 48,
+          "d": 10,
+          "s": 58,
+          "nps": 65.52
         },
         "Expert": {
-          "p": 345,
-          "d": 39,
-          "s": 384,
-          "nps": 79.69
+          "p": 341,
+          "d": 40,
+          "s": 381,
+          "nps": 79.0
         },
         "Newbie": {
-          "p": 281,
-          "d": 25,
-          "s": 306,
-          "nps": 83.66
+          "p": 297,
+          "d": 31,
+          "s": 328,
+          "nps": 81.1
         }
       }
     },
     "Otros CV": {
       "P": {
         "Apelaciones retorno buyer XDDS": {
-          "p": 2,
+          "p": 3,
           "d": 4,
-          "s": 6,
-          "nps": -33.33
+          "s": 7,
+          "nps": -14.29
         },
         "Viaje del paquete - Comprador": {
           "p": 7,
@@ -8361,23 +8580,23 @@
           "s": 4,
           "nps": 100.0
         },
-        "KYC seg360": {
-          "p": 2,
-          "d": 1,
-          "s": 3,
-          "nps": 33.33
-        },
         "CBT - Intellectual Property": {
           "p": 2,
           "d": 1,
           "s": 3,
           "nps": 33.33
         },
-        "Despacho Ventas y Publicaciones Masivos": {
+        "KYC seg360": {
           "p": 2,
-          "d": 0,
+          "d": 1,
+          "s": 3,
+          "nps": 33.33
+        },
+        "Post Compra Funcionalidades CBT": {
+          "p": 1,
+          "d": 1,
           "s": 2,
-          "nps": 100.0
+          "nps": 0.0
         },
         "Reputación ME Masivos": {
           "p": 2,
@@ -8385,7 +8604,7 @@
           "s": 2,
           "nps": 100.0
         },
-        "Reputación ML Masivos": {
+        "Despacho Ventas y Publicaciones Masivos": {
           "p": 2,
           "d": 0,
           "s": 2,
@@ -8397,19 +8616,19 @@
           "s": 4,
           "nps": 50.0
         },
-        "Caja vacía - MP": {
-          "p": 1,
-          "d": 1,
-          "s": 2,
-          "nps": 0.0
-        },
         "Asignación del contáctanos RA Post Entrega": {
           "p": 0,
           "d": 2,
           "s": 2,
           "nps": -100.0
         },
-        "Post Compra Funcionalidades CBT": {
+        "Reputación ML Masivos": {
+          "p": 2,
+          "d": 0,
+          "s": 2,
+          "nps": 100.0
+        },
+        "Caja vacía - MP": {
           "p": 1,
           "d": 1,
           "s": 2,
@@ -8418,10 +8637,10 @@
       },
       "C": {
         "OFFLINE": {
-          "p": 7,
+          "p": 8,
           "d": 5,
-          "s": 12,
-          "nps": 16.67
+          "s": 13,
+          "nps": 23.08
         },
         "CHAT": {
           "p": 20,
@@ -8438,22 +8657,22 @@
       },
       "O": {
         "ATE": {
-          "p": 7,
+          "p": 8,
           "d": 7,
-          "s": 14,
-          "nps": 0.0
-        },
-        "ONELINK_MEDELLIN": {
-          "p": 7,
-          "d": 2,
-          "s": 9,
-          "nps": 55.56
+          "s": 15,
+          "nps": 6.67
         },
         "AEC": {
           "p": 8,
           "d": 3,
           "s": 11,
           "nps": 45.45
+        },
+        "ONELINK_MEDELLIN": {
+          "p": 7,
+          "d": 2,
+          "s": 9,
+          "nps": 55.56
         },
         "KTA_BRASIL": {
           "p": 4,
@@ -8470,10 +8689,10 @@
       },
       "T": {
         "BR_Buyers_Post_Entrega": {
-          "p": 6,
+          "p": 7,
           "d": 6,
-          "s": 12,
-          "nps": 0.0
+          "s": 13,
+          "nps": 7.69
         },
         "BR_Buyers_Pre_Entrega": {
           "p": 6,
@@ -8493,6 +8712,12 @@
           "s": 3,
           "nps": 33.33
         },
+        "BR_ME_Sellers_Longtail": {
+          "p": 1,
+          "d": 1,
+          "s": 2,
+          "nps": 0.0
+        },
         "BR_MLVendedor_Analisis_Masivo": {
           "p": 4,
           "d": 0,
@@ -8504,50 +8729,44 @@
           "d": 0,
           "s": 2,
           "nps": 100.0
-        },
-        "BR_ME_Sellers_Longtail": {
-          "p": 1,
-          "d": 1,
-          "s": 2,
-          "nps": 0.0
         }
       },
       "Sr": {
         "Training": {
-          "p": 88,
-          "d": 53,
-          "s": 141,
-          "nps": 24.82
+          "p": 84,
+          "d": 52,
+          "s": 136,
+          "nps": 23.53
         },
         "Expert": {
-          "p": 1437,
+          "p": 1434,
           "d": 272,
-          "s": 1709,
-          "nps": 68.17
+          "s": 1706,
+          "nps": 68.11
         },
         "Newbie": {
-          "p": 935,
-          "d": 257,
-          "s": 1192,
-          "nps": 56.88
+          "p": 990,
+          "d": 291,
+          "s": 1281,
+          "nps": 54.57
         }
       }
     },
     "PCF Vendedor Mature": {
       "P": {
         "Post Compra Funcionalidades Vendedor": {
-          "p": 26,
-          "d": 10,
-          "s": 41,
-          "nps": 39.02
+          "p": 13,
+          "d": 6,
+          "s": 22,
+          "nps": 31.82
         }
       },
       "C": {
         "CHAT": {
-          "p": 21,
-          "d": 9,
-          "s": 35,
-          "nps": 34.29
+          "p": 8,
+          "d": 5,
+          "s": 16,
+          "nps": 18.75
         },
         "C2C": {
           "p": 5,
@@ -8558,10 +8777,10 @@
       },
       "O": {
         "MELICIDADE": {
-          "p": 20,
-          "d": 7,
-          "s": 29,
-          "nps": 44.83
+          "p": 8,
+          "d": 3,
+          "s": 12,
+          "nps": 41.67
         },
         "ATE": {
           "p": 2,
@@ -8576,30 +8795,24 @@
           "nps": 50.0
         },
         "KTA_BRASIL": {
-          "p": 3,
+          "p": 2,
           "d": 0,
-          "s": 4,
-          "nps": 75.0
+          "s": 2,
+          "nps": 100.0
         }
       },
       "T": {
-        "MELI_PRO_MLB": {
-          "p": 10,
-          "d": 4,
-          "s": 15,
-          "nps": 40.0
-        },
         "BR_Ventas_Sellers_Mature": {
-          "p": 10,
+          "p": 8,
           "d": 3,
-          "s": 14,
-          "nps": 50.0
+          "s": 12,
+          "nps": 41.67
         },
         "BR_ME_Sellers_Longtail": {
-          "p": 3,
+          "p": 2,
           "d": 3,
-          "s": 8,
-          "nps": 0.0
+          "s": 6,
+          "nps": -16.67
         },
         "BR_Ventas_Sellers_Longtail": {
           "p": 3,
@@ -8616,64 +8829,70 @@
           "nps": 27.27
         },
         "Expert": {
-          "p": 83,
+          "p": 82,
           "d": 13,
-          "s": 96,
-          "nps": 72.92
+          "s": 95,
+          "nps": 72.63
         },
         "Newbie": {
-          "p": 48,
-          "d": 19,
-          "s": 67,
-          "nps": 43.28
+          "p": 51,
+          "d": 22,
+          "s": 73,
+          "nps": 39.73
         }
       }
     },
     "PCF Vendedor Meli Pro": {
       "P": {
         "Post Compra Funcionalidades Vendedor": {
-          "p": 39,
-          "d": 1,
-          "s": 42,
-          "nps": 90.48
+          "p": 52,
+          "d": 6,
+          "s": 62,
+          "nps": 74.19
         }
       },
       "C": {
         "CHAT": {
-          "p": 39,
-          "d": 1,
-          "s": 42,
-          "nps": 90.48
+          "p": 52,
+          "d": 6,
+          "s": 62,
+          "nps": 74.19
         }
       },
       "O": {
         "MELICIDADE": {
-          "p": 36,
-          "d": 0,
-          "s": 38,
-          "nps": 94.74
+          "p": 49,
+          "d": 4,
+          "s": 57,
+          "nps": 78.95
         },
         "ATE": {
           "p": 3,
-          "d": 1,
-          "s": 4,
-          "nps": 50.0
+          "d": 2,
+          "s": 5,
+          "nps": 20.0
         }
       },
       "T": {
         "MELI_PRO_MLB": {
-          "p": 34,
-          "d": 0,
-          "s": 36,
-          "nps": 94.44
+          "p": 44,
+          "d": 4,
+          "s": 51,
+          "nps": 78.43
         },
         "BR_FBM_Seller_Offline_Premium": {
-          "p": 3,
-          "d": 1,
-          "s": 4,
-          "nps": 50.0
+          "p": 4,
+          "d": 2,
+          "s": 7,
+          "nps": 28.57
         },
         "MELIPRO_VIP_MLB": {
+          "p": 2,
+          "d": 0,
+          "s": 2,
+          "nps": 100.0
+        },
+        "BR_Ventas_Sellers_Mature": {
           "p": 2,
           "d": 0,
           "s": 2,
@@ -8688,16 +8907,16 @@
           "nps": 27.27
         },
         "Expert": {
-          "p": 83,
+          "p": 82,
           "d": 13,
-          "s": 96,
-          "nps": 72.92
+          "s": 95,
+          "nps": 72.63
         },
         "Newbie": {
-          "p": 48,
-          "d": 19,
-          "s": 67,
-          "nps": 43.28
+          "p": 51,
+          "d": 22,
+          "s": 73,
+          "nps": 39.73
         }
       }
     },
@@ -8772,26 +8991,26 @@
           "nps": 27.27
         },
         "Expert": {
-          "p": 83,
+          "p": 82,
           "d": 13,
-          "s": 96,
-          "nps": 72.92
+          "s": 95,
+          "nps": 72.63
         },
         "Newbie": {
-          "p": 48,
-          "d": 19,
-          "s": 67,
-          "nps": 43.28
+          "p": 51,
+          "d": 22,
+          "s": 73,
+          "nps": 39.73
         }
       }
     },
     "PDD DS&XD - Vendedor": {
       "P": {
         "Arrepentimiento - DS": {
-          "p": 19,
+          "p": 20,
           "d": 14,
-          "s": 36,
-          "nps": 13.89
+          "s": 37,
+          "nps": 16.22
         },
         "Defectuoso - DS": {
           "p": 19,
@@ -8807,9 +9026,9 @@
         },
         "Defectuoso - XD": {
           "p": 7,
-          "d": 10,
-          "s": 19,
-          "nps": -15.79
+          "d": 11,
+          "s": 20,
+          "nps": -20.0
         },
         "Incompleto - XD": {
           "p": 11,
@@ -8819,9 +9038,9 @@
         },
         "Diferente - XD": {
           "p": 9,
-          "d": 6,
-          "s": 17,
-          "nps": 17.65
+          "d": 7,
+          "s": 18,
+          "nps": 11.11
         },
         "Incompleto - DS": {
           "p": 6,
@@ -8835,25 +9054,25 @@
           "s": 12,
           "nps": -8.33
         },
-        "Caja Vacía - DS": {
-          "p": 0,
-          "d": 2,
-          "s": 2,
-          "nps": -100.0
-        },
         "Caja Vacía - XD": {
           "p": 1,
           "d": 1,
           "s": 2,
           "nps": 0.0
+        },
+        "Caja Vacía - DS": {
+          "p": 0,
+          "d": 2,
+          "s": 2,
+          "nps": -100.0
         }
       },
       "C": {
         "OFFLINE": {
-          "p": 60,
-          "d": 38,
-          "s": 104,
-          "nps": 21.15
+          "p": 61,
+          "d": 39,
+          "s": 106,
+          "nps": 20.75
         },
         "CHAT": {
           "p": 2,
@@ -8871,43 +9090,43 @@
         },
         "ATE": {
           "p": 30,
-          "d": 18,
-          "s": 48,
-          "nps": 25.0
+          "d": 19,
+          "s": 49,
+          "nps": 22.45
         },
         "KTA_BRASIL": {
-          "p": 10,
+          "p": 11,
           "d": 4,
-          "s": 16,
-          "nps": 37.5
+          "s": 17,
+          "nps": 41.18
         }
       },
       "T": {
         "BR_Buyers_Post_Entrega": {
-          "p": 62,
-          "d": 40,
-          "s": 108,
-          "nps": 20.37
+          "p": 63,
+          "d": 41,
+          "s": 110,
+          "nps": 20.0
         }
       },
       "Sr": {
         "Training": {
-          "p": 18,
+          "p": 15,
           "d": 2,
-          "s": 20,
-          "nps": 80.0
+          "s": 17,
+          "nps": 76.47
         },
         "Expert": {
-          "p": 386,
-          "d": 95,
-          "s": 481,
-          "nps": 60.5
+          "p": 419,
+          "d": 108,
+          "s": 527,
+          "nps": 59.01
         },
         "Newbie": {
-          "p": 191,
-          "d": 24,
-          "s": 215,
-          "nps": 77.67
+          "p": 204,
+          "d": 31,
+          "s": 235,
+          "nps": 73.62
         }
       }
     },
@@ -8915,9 +9134,9 @@
       "P": {
         "MED - PDD Low cost": {
           "p": 4,
-          "d": 1,
-          "s": 6,
-          "nps": 50.0
+          "d": 2,
+          "s": 7,
+          "nps": 28.57
         },
         "Incompleto - FBM": {
           "p": 4,
@@ -8931,17 +9150,17 @@
           "s": 15,
           "nps": 13.33
         },
-        "Arrepentimiento - FBM": {
-          "p": 3,
-          "d": 1,
-          "s": 5,
-          "nps": 40.0
-        },
         "Asignación del Contáctanos PDD FBM": {
           "p": 2,
           "d": 2,
           "s": 5,
           "nps": 0.0
+        },
+        "Arrepentimiento - FBM": {
+          "p": 3,
+          "d": 1,
+          "s": 5,
+          "nps": 40.0
         },
         "Diferente - FBM": {
           "p": 1,
@@ -8977,13 +9196,13 @@
           "s": 7,
           "nps": 28.57
         },
-        "ONELINK_BOGOTA": {
+        "KTA_BRASIL": {
           "p": 1,
           "d": 1,
           "s": 2,
           "nps": 0.0
         },
-        "KTA_BRASIL": {
+        "ONELINK_BOGOTA": {
           "p": 1,
           "d": 1,
           "s": 2,
@@ -9006,22 +9225,22 @@
       },
       "Sr": {
         "Training": {
-          "p": 13,
+          "p": 9,
           "d": 0,
-          "s": 13,
+          "s": 9,
           "nps": 100.0
         },
         "Expert": {
-          "p": 417,
-          "d": 63,
-          "s": 480,
-          "nps": 73.75
+          "p": 437,
+          "d": 66,
+          "s": 503,
+          "nps": 73.76
         },
         "Newbie": {
-          "p": 133,
-          "d": 16,
-          "s": 149,
-          "nps": 78.52
+          "p": 138,
+          "d": 17,
+          "s": 155,
+          "nps": 78.06
         }
       }
     },
@@ -9107,22 +9326,22 @@
       },
       "Sr": {
         "Training": {
-          "p": 4,
+          "p": 3,
           "d": 1,
-          "s": 5,
-          "nps": 60.0
+          "s": 4,
+          "nps": 50.0
         },
         "Expert": {
-          "p": 28,
+          "p": 30,
           "d": 9,
-          "s": 37,
-          "nps": 51.35
+          "s": 39,
+          "nps": 53.85
         },
         "Newbie": {
-          "p": 10,
+          "p": 11,
           "d": 3,
-          "s": 13,
-          "nps": 53.85
+          "s": 14,
+          "nps": 57.14
         }
       }
     },
@@ -9135,10 +9354,10 @@
           "nps": 9.09
         },
         "PNR - Contradictorio - Flex": {
-          "p": 0,
+          "p": 1,
           "d": 3,
-          "s": 3,
-          "nps": -100.0
+          "s": 4,
+          "nps": -50.0
         },
         "PNR - Contradictorio XD DS FBM": {
           "p": 3,
@@ -9149,18 +9368,18 @@
       },
       "C": {
         "OFFLINE": {
-          "p": 9,
+          "p": 10,
           "d": 8,
-          "s": 18,
-          "nps": 5.56
+          "s": 19,
+          "nps": 10.53
         }
       },
       "O": {
         "AEC": {
-          "p": 6,
+          "p": 7,
           "d": 4,
-          "s": 11,
-          "nps": 18.18
+          "s": 12,
+          "nps": 25.0
         },
         "ATE": {
           "p": 3,
@@ -9171,40 +9390,40 @@
       },
       "T": {
         "BR_Buyers_Pre_Entrega": {
-          "p": 9,
+          "p": 10,
           "d": 8,
-          "s": 18,
-          "nps": 5.56
+          "s": 19,
+          "nps": 10.53
         }
       },
       "Sr": {
         "Training": {
           "p": 0,
-          "d": 2,
-          "s": 2,
+          "d": 3,
+          "s": 3,
           "nps": -100.0
         },
         "Expert": {
-          "p": 53,
-          "d": 20,
-          "s": 73,
-          "nps": 45.21
+          "p": 60,
+          "d": 26,
+          "s": 86,
+          "nps": 39.53
         },
         "Newbie": {
-          "p": 19,
+          "p": 20,
           "d": 10,
-          "s": 29,
-          "nps": 31.03
+          "s": 30,
+          "nps": 33.33
         }
       }
     },
     "PNR MP - Vendedor": {
       "P": {
         "PNR - MP": {
-          "p": 34,
+          "p": 35,
           "d": 17,
-          "s": 54,
-          "nps": 31.48
+          "s": 55,
+          "nps": 32.73
         }
       },
       "C": {
@@ -9239,22 +9458,22 @@
       },
       "Sr": {
         "Training": {
-          "p": 16,
+          "p": 19,
           "d": 2,
-          "s": 18,
-          "nps": 77.78
+          "s": 21,
+          "nps": 80.95
         },
         "Expert": {
-          "p": 158,
-          "d": 36,
-          "s": 194,
-          "nps": 62.89
+          "p": 164,
+          "d": 40,
+          "s": 204,
+          "nps": 60.78
         },
         "Newbie": {
-          "p": 49,
-          "d": 12,
-          "s": 61,
-          "nps": 60.66
+          "p": 54,
+          "d": 13,
+          "s": 67,
+          "nps": 61.19
         }
       }
     },
@@ -9317,40 +9536,40 @@
       },
       "Sr": {
         "Training": {
-          "p": 55,
+          "p": 53,
           "d": 4,
-          "s": 59,
-          "nps": 86.44
+          "s": 57,
+          "nps": 85.96
         },
         "Expert": {
-          "p": 306,
-          "d": 34,
-          "s": 340,
-          "nps": 80.0
+          "p": 301,
+          "d": 33,
+          "s": 334,
+          "nps": 80.24
         },
         "Newbie": {
-          "p": 335,
-          "d": 44,
-          "s": 379,
-          "nps": 76.78
+          "p": 361,
+          "d": 50,
+          "s": 411,
+          "nps": 75.67
         }
       }
     },
     "Post Venta Mature": {
       "P": {
         "Reputación": {
-          "p": 64,
-          "d": 6,
-          "s": 72,
-          "nps": 80.56
+          "p": 33,
+          "d": 3,
+          "s": 38,
+          "nps": 78.95
         }
       },
       "C": {
         "CHAT": {
-          "p": 54,
-          "d": 4,
-          "s": 59,
-          "nps": 84.75
+          "p": 23,
+          "d": 1,
+          "s": 25,
+          "nps": 88.0
         },
         "C2C": {
           "p": 10,
@@ -9361,15 +9580,15 @@
       },
       "O": {
         "MELICIDADE": {
-          "p": 47,
-          "d": 6,
-          "s": 54,
-          "nps": 75.93
+          "p": 19,
+          "d": 3,
+          "s": 23,
+          "nps": 69.57
         },
         "KTA_BRASIL": {
-          "p": 13,
+          "p": 10,
           "d": 0,
-          "s": 13,
+          "s": 10,
           "nps": 100.0
         },
         "ATE": {
@@ -9386,35 +9605,17 @@
         }
       },
       "T": {
-        "MELI_PRO_MLB": {
-          "p": 17,
-          "d": 3,
-          "s": 20,
-          "nps": 70.0
-        },
         "BR_Publicaciones_Sellers_Mature": {
-          "p": 14,
+          "p": 9,
           "d": 1,
-          "s": 15,
-          "nps": 86.67
-        },
-        "BR_Publicaciones_Sellers_Longtail": {
-          "p": 7,
-          "d": 0,
-          "s": 7,
-          "nps": 100.0
-        },
-        "BR_ME_Sellers_Mature": {
-          "p": 7,
-          "d": 1,
-          "s": 8,
-          "nps": 75.0
+          "s": 10,
+          "nps": 80.0
         },
         "BR_Ventas_Sellers_Mature": {
-          "p": 6,
+          "p": 5,
           "d": 1,
-          "s": 8,
-          "nps": 62.5
+          "s": 7,
+          "nps": 57.14
         },
         "BR_ME_Sellers_Longtail": {
           "p": 6,
@@ -9422,11 +9623,17 @@
           "s": 7,
           "nps": 85.71
         },
-        "MELIPRO_VIP_MLB": {
-          "p": 3,
+        "BR_Publicaciones_Sellers_Longtail": {
+          "p": 4,
           "d": 0,
-          "s": 3,
+          "s": 4,
           "nps": 100.0
+        },
+        "BR_ME_Sellers_Mature": {
+          "p": 5,
+          "d": 1,
+          "s": 6,
+          "nps": 66.67
         },
         "BR_Ventas_Sellers_Longtail": {
           "p": 4,
@@ -9437,32 +9644,32 @@
       },
       "Sr": {
         "Training": {
-          "p": 21,
+          "p": 18,
           "d": 2,
-          "s": 23,
-          "nps": 82.61
+          "s": 20,
+          "nps": 80.0
         },
         "Expert": {
-          "p": 155,
+          "p": 154,
           "d": 15,
-          "s": 170,
-          "nps": 82.35
+          "s": 169,
+          "nps": 82.25
         },
         "Newbie": {
-          "p": 114,
-          "d": 7,
-          "s": 121,
-          "nps": 88.43
+          "p": 118,
+          "d": 10,
+          "s": 128,
+          "nps": 84.38
         }
       }
     },
     "Post Venta Meli Pro": {
       "P": {
         "Reputación": {
-          "p": 84,
-          "d": 4,
-          "s": 91,
-          "nps": 87.91
+          "p": 115,
+          "d": 7,
+          "s": 126,
+          "nps": 85.71
         },
         "Anulación de Venta": {
           "p": 1,
@@ -9473,28 +9680,52 @@
       },
       "C": {
         "CHAT": {
-          "p": 85,
-          "d": 5,
-          "s": 93,
-          "nps": 86.02
+          "p": 116,
+          "d": 8,
+          "s": 128,
+          "nps": 84.38
         }
       },
       "O": {
         "MELICIDADE": {
-          "p": 85,
-          "d": 5,
-          "s": 93,
-          "nps": 86.02
+          "p": 113,
+          "d": 8,
+          "s": 125,
+          "nps": 84.0
+        },
+        "KTA_BRASIL": {
+          "p": 3,
+          "d": 0,
+          "s": 3,
+          "nps": 100.0
         }
       },
       "T": {
         "MELI_PRO_MLB": {
-          "p": 83,
-          "d": 5,
-          "s": 91,
-          "nps": 85.71
+          "p": 101,
+          "d": 8,
+          "s": 113,
+          "nps": 82.3
+        },
+        "BR_Publicaciones_Sellers_Mature": {
+          "p": 5,
+          "d": 0,
+          "s": 5,
+          "nps": 100.0
         },
         "MELIPRO_VIP_MLB": {
+          "p": 5,
+          "d": 0,
+          "s": 5,
+          "nps": 100.0
+        },
+        "BR_Publicaciones_Sellers_Longtail": {
+          "p": 3,
+          "d": 0,
+          "s": 3,
+          "nps": 100.0
+        },
+        "BR_ME_Sellers_Mature": {
           "p": 2,
           "d": 0,
           "s": 2,
@@ -9503,22 +9734,22 @@
       },
       "Sr": {
         "Training": {
-          "p": 21,
+          "p": 18,
           "d": 2,
-          "s": 23,
-          "nps": 82.61
+          "s": 20,
+          "nps": 80.0
         },
         "Expert": {
-          "p": 160,
+          "p": 159,
           "d": 16,
-          "s": 176,
-          "nps": 81.82
+          "s": 175,
+          "nps": 81.71
         },
         "Newbie": {
-          "p": 114,
-          "d": 8,
-          "s": 122,
-          "nps": 86.89
+          "p": 118,
+          "d": 11,
+          "s": 129,
+          "nps": 82.95
         }
       }
     },
@@ -9527,8 +9758,8 @@
         "Reputación": {
           "p": 141,
           "d": 17,
-          "s": 174,
-          "nps": 71.26
+          "s": 173,
+          "nps": 71.68
         },
         "Anulación de Venta": {
           "p": 0,
@@ -9539,16 +9770,16 @@
       },
       "C": {
         "CHAT": {
-          "p": 100,
+          "p": 99,
           "d": 16,
-          "s": 131,
-          "nps": 64.12
+          "s": 129,
+          "nps": 64.34
         },
         "C2C": {
-          "p": 41,
+          "p": 42,
           "d": 2,
-          "s": 45,
-          "nps": 86.67
+          "s": 46,
+          "nps": 86.96
         }
       },
       "O": {
@@ -9559,22 +9790,16 @@
           "nps": 57.89
         },
         "KTA_BRASIL": {
-          "p": 60,
+          "p": 61,
           "d": 7,
-          "s": 74,
-          "nps": 71.62
+          "s": 75,
+          "nps": 72.0
         },
         "AEC": {
           "p": 38,
           "d": 2,
           "s": 43,
           "nps": 83.72
-        },
-        "MELICIDADE": {
-          "p": 1,
-          "d": 0,
-          "s": 2,
-          "nps": 50.0
         }
       },
       "T": {
@@ -9591,47 +9816,35 @@
           "nps": 72.22
         },
         "BR_Ventas_Sellers_Longtail": {
-          "p": 28,
+          "p": 29,
           "d": 1,
-          "s": 31,
-          "nps": 87.1
-        },
-        "MELI_PRO_MLB": {
-          "p": 1,
-          "d": 0,
-          "s": 2,
-          "nps": 50.0
+          "s": 32,
+          "nps": 87.5
         }
       },
       "Sr": {
         "Training": {
-          "p": 21,
+          "p": 18,
           "d": 2,
-          "s": 23,
-          "nps": 82.61
+          "s": 20,
+          "nps": 80.0
         },
         "Expert": {
-          "p": 160,
+          "p": 159,
           "d": 16,
-          "s": 176,
-          "nps": 81.82
+          "s": 175,
+          "nps": 81.71
         },
         "Newbie": {
-          "p": 114,
-          "d": 8,
-          "s": 122,
-          "nps": 86.89
+          "p": 118,
+          "d": 11,
+          "s": 129,
+          "nps": 82.95
         }
       }
     },
     "Publicaciones Mature": {
       "P": {
-        "Gestión de Publicación": {
-          "p": 8,
-          "d": 2,
-          "s": 10,
-          "nps": 60.0
-        },
         "PR - Artículos prohibidos": {
           "p": 3,
           "d": 1,
@@ -9639,9 +9852,9 @@
           "nps": 40.0
         },
         "PR - Técnica prohibida": {
-          "p": 9,
+          "p": 4,
           "d": 0,
-          "s": 9,
+          "s": 4,
           "nps": 100.0
         },
         "PR - Propiedad intelectual": {
@@ -9649,132 +9862,120 @@
           "d": 0,
           "s": 2,
           "nps": 100.0
+        }
+      },
+      "C": {
+        "CHAT": {
+          "p": 9,
+          "d": 1,
+          "s": 11,
+          "nps": 72.73
+        }
+      },
+      "O": {
+        "KTA_BRASIL": {
+          "p": 7,
+          "d": 1,
+          "s": 9,
+          "nps": 66.67
         },
-        "Calidad de foto": {
+        "MELICIDADE": {
           "p": 2,
           "d": 0,
           "s": 2,
           "nps": 100.0
         }
       },
-      "C": {
-        "CHAT": {
-          "p": 24,
-          "d": 3,
-          "s": 28,
-          "nps": 75.0
-        }
-      },
-      "O": {
-        "MELICIDADE": {
-          "p": 16,
-          "d": 2,
-          "s": 18,
-          "nps": 77.78
-        },
-        "KTA_BRASIL": {
-          "p": 8,
-          "d": 1,
-          "s": 10,
-          "nps": 70.0
-        }
-      },
       "T": {
-        "MELI_PRO_MLB": {
-          "p": 12,
-          "d": 2,
-          "s": 14,
-          "nps": 71.43
-        },
         "BR_Publicaciones_Sellers_Longtail": {
-          "p": 8,
+          "p": 7,
           "d": 1,
-          "s": 10,
-          "nps": 70.0
+          "s": 9,
+          "nps": 66.67
         },
         "BR_Publicaciones_Sellers_Mature": {
-          "p": 4,
+          "p": 2,
           "d": 0,
-          "s": 4,
+          "s": 2,
           "nps": 100.0
         }
       },
       "Sr": {
         "Training": {
-          "p": 4,
-          "d": 2,
-          "s": 6,
+          "p": 2,
+          "d": 1,
+          "s": 3,
           "nps": 33.33
         },
         "Expert": {
-          "p": 63,
-          "d": 10,
-          "s": 73,
-          "nps": 72.6
+          "p": 41,
+          "d": 5,
+          "s": 46,
+          "nps": 78.26
         },
         "Newbie": {
-          "p": 125,
-          "d": 14,
-          "s": 139,
-          "nps": 79.86
+          "p": 87,
+          "d": 8,
+          "s": 95,
+          "nps": 83.16
         }
       }
     },
     "Publicaciones Meli Pro": {
       "P": {
-        "Calidad de foto": {
-          "p": 6,
-          "d": 1,
-          "s": 7,
+        "Gestión de Publicación": {
+          "p": 12,
+          "d": 2,
+          "s": 14,
           "nps": 71.43
         },
-        "Gestión de Publicación": {
-          "p": 6,
-          "d": 0,
-          "s": 6,
-          "nps": 100.0
+        "Calidad de foto": {
+          "p": 8,
+          "d": 1,
+          "s": 9,
+          "nps": 77.78
         },
         "PR - Técnica prohibida": {
-          "p": 3,
+          "p": 7,
           "d": 0,
-          "s": 4,
-          "nps": 75.0
+          "s": 8,
+          "nps": 87.5
         },
         "Potenciar Ventas": {
-          "p": 3,
+          "p": 4,
           "d": 0,
-          "s": 3,
+          "s": 4,
           "nps": 100.0
         },
         "PR - Artículos prohibidos": {
-          "p": 2,
+          "p": 3,
           "d": 0,
-          "s": 2,
+          "s": 3,
           "nps": 100.0
         }
       },
       "C": {
         "CHAT": {
-          "p": 20,
-          "d": 1,
-          "s": 22,
-          "nps": 86.36
+          "p": 34,
+          "d": 3,
+          "s": 38,
+          "nps": 81.58
         }
       },
       "O": {
         "MELICIDADE": {
-          "p": 20,
-          "d": 1,
-          "s": 22,
-          "nps": 86.36
+          "p": 34,
+          "d": 3,
+          "s": 38,
+          "nps": 81.58
         }
       },
       "T": {
         "MELI_PRO_MLB": {
-          "p": 20,
-          "d": 1,
-          "s": 22,
-          "nps": 86.36
+          "p": 34,
+          "d": 3,
+          "s": 38,
+          "nps": 81.58
         }
       },
       "Sr": {
@@ -9792,9 +9993,9 @@
         },
         "Newbie": {
           "p": 106,
-          "d": 21,
-          "s": 127,
-          "nps": 66.93
+          "d": 22,
+          "s": 128,
+          "nps": 65.62
         }
       }
     },
@@ -9912,15 +10113,15 @@
         },
         "Expert": {
           "p": 193,
-          "d": 25,
-          "s": 218,
-          "nps": 77.06
+          "d": 27,
+          "s": 220,
+          "nps": 75.45
         },
         "Newbie": {
           "p": 207,
-          "d": 39,
-          "s": 246,
-          "nps": 68.29
+          "d": 40,
+          "s": 247,
+          "nps": 67.61
         }
       }
     }
