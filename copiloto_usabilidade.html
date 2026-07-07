@@ -6,6 +6,7 @@
 <title>CX Copilot — Usabilidade dos Reps</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f7;color:#1a1a2e}
@@ -153,7 +154,7 @@ table.rt tr:hover td{filter:brightness(.97)}
     </div>
     <div class="section-lbl" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
       <span>Todos os Reps — Visão Geral</span>
-      <button class="csv-btn" onclick="exportRepsCSV()">&#11015; Exportar CSV</button>
+      <button class="csv-btn" style="background:#188038" onclick="exportRepsXLSX()">&#11015; Exportar Excel</button>
     </div>
     
     <table class="rt" data-table id="tbl-geral">
@@ -18204,22 +18205,29 @@ function updateCharts() {
 window.addEventListener('DOMContentLoaded', makeCharts);
 
 // ── EXPORT CSV (tabela "Todos os Reps — Visão Geral", respeita filtro) ──
-function exportRepsCSV() {
+// Converte "100.0%" / "687s" / "3.5" em número quando possível (melhor no Excel/Sheets)
+function _cellVal(txt) {
+  const t = String(txt).trim();
+  if (t === '' || t === '—' || t === '—%') return '';
+  const m = t.match(/^(-?\d+(?:[.,]\d+)?)\s*(%|s)?$/);
+  if (m) { const n = parseFloat(m[1].replace(',', '.')); if (!isNaN(n)) return n; }
+  return t;
+}
+function exportRepsXLSX() {
   const table = document.getElementById('tbl-geral');
   if (!table) return;
-  const rows = [];
-  rows.push([...table.querySelectorAll('thead th')].map(th => th.textContent.trim()));
+  if (typeof XLSX === 'undefined') { alert('Biblioteca de Excel ainda carregando — tente novamente em 1s.'); return; }
+  const aoa = [];
+  aoa.push([...table.querySelectorAll('thead th')].map(th => th.textContent.trim()));
   table.querySelectorAll('tbody tr').forEach(tr => {
     if (tr.classList.contains('hidden')) return;
-    rows.push([...tr.querySelectorAll('td')].map(td => td.textContent.trim()));
+    aoa.push([...tr.querySelectorAll('td')].map(td => _cellVal(td.textContent)));
   });
-  const csv = rows.map(r => r.map(c => '"' + String(c).replace(/"/g,'""') + '"').join(',')).join('\n');
-  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'copiloto_reps_visao_geral.csv';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Reps');
+  const hoje = new Date().toISOString().slice(0,10);
+  XLSX.writeFile(wb, 'copiloto_reps_' + hoje + '.xlsx');
 }
 </script>
 </body>
