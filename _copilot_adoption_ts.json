@@ -107,18 +107,18 @@
     {
       "d": "2026-04-20",
       "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 12,
-      "copilot": 3
-    },
-    {
-      "d": "2026-04-20",
-      "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Expert",
       "total": 14,
       "copilot": 2
+    },
+    {
+      "d": "2026-04-20",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 12,
+      "copilot": 3
     },
     {
       "d": "2026-04-21",
@@ -171,18 +171,18 @@
     {
       "d": "2026-04-27",
       "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 11,
-      "copilot": 4
-    },
-    {
-      "d": "2026-04-27",
-      "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
       "total": 27,
       "copilot": 9
+    },
+    {
+      "d": "2026-04-27",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 11,
+      "copilot": 4
     },
     {
       "d": "2026-04-28",
@@ -203,18 +203,18 @@
     {
       "d": "2026-04-29",
       "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 15,
-      "copilot": 3
-    },
-    {
-      "d": "2026-04-29",
-      "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
       "total": 110,
       "copilot": 42
+    },
+    {
+      "d": "2026-04-29",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 15,
+      "copilot": 3
     },
     {
       "d": "2026-04-30",
@@ -266,14 +266,6 @@
     },
     {
       "d": "2026-05-05",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 260,
-      "copilot": 26
-    },
-    {
-      "d": "2026-05-05",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
@@ -282,19 +274,27 @@
     },
     {
       "d": "2026-05-05",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 15,
-      "copilot": 0
-    },
-    {
-      "d": "2026-05-05",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
       "total": 107,
       "copilot": 42
+    },
+    {
+      "d": "2026-05-05",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 271,
+      "copilot": 28
+    },
+    {
+      "d": "2026-05-06",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 438,
+      "copilot": 61
     },
     {
       "d": "2026-05-06",
@@ -306,22 +306,6 @@
     },
     {
       "d": "2026-05-06",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 33,
-      "copilot": 5
-    },
-    {
-      "d": "2026-05-06",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 423,
-      "copilot": 58
-    },
-    {
-      "d": "2026-05-06",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
@@ -329,12 +313,12 @@
       "copilot": 58
     },
     {
-      "d": "2026-05-07",
+      "d": "2026-05-06",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 54,
-      "copilot": 12
+      "total": 19,
+      "copilot": 4
     },
     {
       "d": "2026-05-07",
@@ -346,6 +330,22 @@
     },
     {
       "d": "2026-05-07",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 977,
+      "copilot": 103
+    },
+    {
+      "d": "2026-05-07",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 39,
+      "copilot": 7
+    },
+    {
+      "d": "2026-05-07",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
@@ -353,20 +353,12 @@
       "copilot": 96
     },
     {
-      "d": "2026-05-07",
+      "d": "2026-05-08",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 969,
-      "copilot": 103
-    },
-    {
-      "d": "2026-05-08",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 877,
-      "copilot": 194
+      "total": 974,
+      "copilot": 115
     },
     {
       "d": "2026-05-08",
@@ -378,19 +370,11 @@
     },
     {
       "d": "2026-05-08",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 962,
-      "copilot": 115
-    },
-    {
-      "d": "2026-05-09",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 454,
-      "copilot": 82
+      "total": 877,
+      "copilot": 194
     },
     {
       "d": "2026-05-09",
@@ -404,25 +388,17 @@
       "d": "2026-05-09",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 454,
+      "copilot": 82
+    },
+    {
+      "d": "2026-05-09",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
       "total": 322,
       "copilot": 77
-    },
-    {
-      "d": "2026-05-10",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 274,
-      "copilot": 54
-    },
-    {
-      "d": "2026-05-10",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 212,
-      "copilot": 79
     },
     {
       "d": "2026-05-10",
@@ -433,28 +409,36 @@
       "copilot": 39
     },
     {
-      "d": "2026-05-11",
+      "d": "2026-05-10",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 968,
-      "copilot": 105
+      "total": 284,
+      "copilot": 55
     },
     {
-      "d": "2026-05-11",
+      "d": "2026-05-10",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 742,
-      "copilot": 176
+      "total": 212,
+      "copilot": 79
     },
     {
       "d": "2026-05-11",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 62,
-      "copilot": 18
+      "total": 45,
+      "copilot": 15
+    },
+    {
+      "d": "2026-05-11",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 977,
+      "copilot": 105
     },
     {
       "d": "2026-05-11",
@@ -465,12 +449,12 @@
       "copilot": 98
     },
     {
-      "d": "2026-05-12",
-      "office": "ATE",
+      "d": "2026-05-11",
+      "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 1068,
-      "copilot": 121
+      "total": 742,
+      "copilot": 176
     },
     {
       "d": "2026-05-12",
@@ -482,14 +466,6 @@
     },
     {
       "d": "2026-05-12",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 45,
-      "copilot": 17
-    },
-    {
-      "d": "2026-05-12",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
@@ -497,28 +473,44 @@
       "copilot": 189
     },
     {
+      "d": "2026-05-12",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1074,
+      "copilot": 121
+    },
+    {
+      "d": "2026-05-12",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 33,
+      "copilot": 14
+    },
+    {
+      "d": "2026-05-13",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1093,
+      "copilot": 117
+    },
+    {
       "d": "2026-05-13",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 58,
-      "copilot": 20
+      "total": 39,
+      "copilot": 17
     },
     {
       "d": "2026-05-13",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 1,
-      "copilot": 0
-    },
-    {
-      "d": "2026-05-13",
-      "office": "ATE",
+      "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 1077,
-      "copilot": 116
+      "total": 692,
+      "copilot": 173
     },
     {
       "d": "2026-05-13",
@@ -530,11 +522,27 @@
     },
     {
       "d": "2026-05-13",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 1,
+      "copilot": 0
+    },
+    {
+      "d": "2026-05-14",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 692,
-      "copilot": 173
+      "total": 697,
+      "copilot": 172
+    },
+    {
+      "d": "2026-05-14",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 972,
+      "copilot": 123
     },
     {
       "d": "2026-05-14",
@@ -553,30 +561,6 @@
       "copilot": 5
     },
     {
-      "d": "2026-05-14",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 697,
-      "copilot": 172
-    },
-    {
-      "d": "2026-05-14",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 953,
-      "copilot": 122
-    },
-    {
-      "d": "2026-05-15",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 373,
-      "copilot": 81
-    },
-    {
       "d": "2026-05-15",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
@@ -589,16 +573,24 @@
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 771,
+      "total": 774,
       "copilot": 98
+    },
+    {
+      "d": "2026-05-15",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 373,
+      "copilot": 81
     },
     {
       "d": "2026-05-16",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 350,
-      "copilot": 45
+      "total": 364,
+      "copilot": 47
     },
     {
       "d": "2026-05-16",
@@ -620,14 +612,6 @@
       "d": "2026-05-17",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 66,
-      "copilot": 16
-    },
-    {
-      "d": "2026-05-17",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
       "sen": "Expert",
       "total": 270,
       "copilot": 93
@@ -641,20 +625,12 @@
       "copilot": 43
     },
     {
-      "d": "2026-05-18",
+      "d": "2026-05-17",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 827,
-      "copilot": 215
-    },
-    {
-      "d": "2026-05-18",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 3,
-      "copilot": 0
+      "sen": "Newbie",
+      "total": 66,
+      "copilot": 16
     },
     {
       "d": "2026-05-18",
@@ -667,10 +643,18 @@
     {
       "d": "2026-05-18",
       "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 3,
+      "copilot": 0
+    },
+    {
+      "d": "2026-05-18",
+      "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 63,
-      "copilot": 17
+      "sen": "Expert",
+      "total": 827,
+      "copilot": 215
     },
     {
       "d": "2026-05-18",
@@ -681,20 +665,36 @@
       "copilot": 151
     },
     {
-      "d": "2026-05-19",
+      "d": "2026-05-18",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 46,
-      "copilot": 9
+      "total": 42,
+      "copilot": 13
     },
     {
       "d": "2026-05-19",
       "office": "ATE",
-      "canal": "MULTICANAL C2C",
+      "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 2,
-      "copilot": 0
+      "total": 1056,
+      "copilot": 115
+    },
+    {
+      "d": "2026-05-19",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 34,
+      "copilot": 7
+    },
+    {
+      "d": "2026-05-19",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 532,
+      "copilot": 129
     },
     {
       "d": "2026-05-19",
@@ -707,34 +707,18 @@
     {
       "d": "2026-05-19",
       "office": "ATE",
-      "canal": "MULTICANAL CHAT",
+      "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 1052,
-      "copilot": 115
+      "total": 2,
+      "copilot": 0
     },
     {
-      "d": "2026-05-19",
+      "d": "2026-05-20",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 532,
-      "copilot": 129
-    },
-    {
-      "d": "2026-05-20",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 53,
-      "copilot": 7
-    },
-    {
-      "d": "2026-05-20",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 874,
-      "copilot": 134
+      "total": 547,
+      "copilot": 135
     },
     {
       "d": "2026-05-20",
@@ -746,6 +730,14 @@
     },
     {
       "d": "2026-05-20",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 882,
+      "copilot": 134
+    },
+    {
+      "d": "2026-05-20",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
@@ -754,27 +746,11 @@
     },
     {
       "d": "2026-05-20",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 547,
-      "copilot": 135
-    },
-    {
-      "d": "2026-05-21",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 888,
-      "copilot": 118
-    },
-    {
-      "d": "2026-05-21",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 392,
-      "copilot": 85
+      "total": 37,
+      "copilot": 7
     },
     {
       "d": "2026-05-21",
@@ -788,6 +764,22 @@
       "d": "2026-05-21",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 392,
+      "copilot": 85
+    },
+    {
+      "d": "2026-05-21",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 51,
+      "copilot": 13
+    },
+    {
+      "d": "2026-05-21",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
       "sen": "Expert",
       "total": 677,
       "copilot": 133
@@ -796,25 +788,9 @@
       "d": "2026-05-21",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 65,
-      "copilot": 15
-    },
-    {
-      "d": "2026-05-22",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 878,
-      "copilot": 125
-    },
-    {
-      "d": "2026-05-22",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 18,
-      "copilot": 0
+      "total": 894,
+      "copilot": 119
     },
     {
       "d": "2026-05-22",
@@ -833,6 +809,22 @@
       "copilot": 138
     },
     {
+      "d": "2026-05-22",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 887,
+      "copilot": 126
+    },
+    {
+      "d": "2026-05-22",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 18,
+      "copilot": 0
+    },
+    {
       "d": "2026-05-23",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
@@ -842,19 +834,19 @@
     },
     {
       "d": "2026-05-23",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 402,
+      "copilot": 58
+    },
+    {
+      "d": "2026-05-23",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
       "total": 256,
       "copilot": 68
-    },
-    {
-      "d": "2026-05-23",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 395,
-      "copilot": 56
     },
     {
       "d": "2026-05-24",
@@ -883,10 +875,10 @@
     {
       "d": "2026-05-25",
       "office": "ATE",
-      "canal": "MULTICANAL CHAT",
+      "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 838,
-      "copilot": 113
+      "total": 8,
+      "copilot": 1
     },
     {
       "d": "2026-05-25",
@@ -895,14 +887,6 @@
       "sen": "Expert",
       "total": 814,
       "copilot": 195
-    },
-    {
-      "d": "2026-05-25",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 508,
-      "copilot": 149
     },
     {
       "d": "2026-05-25",
@@ -915,26 +899,18 @@
     {
       "d": "2026-05-25",
       "office": "ATE",
-      "canal": "MULTICANAL C2C",
+      "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 8,
-      "copilot": 1
+      "total": 847,
+      "copilot": 113
     },
     {
-      "d": "2026-05-26",
-      "office": "ATE",
+      "d": "2026-05-25",
+      "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 65,
-      "copilot": 3
-    },
-    {
-      "d": "2026-05-26",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 1012,
-      "copilot": 101
+      "total": 508,
+      "copilot": 149
     },
     {
       "d": "2026-05-26",
@@ -961,6 +937,22 @@
       "copilot": 137
     },
     {
+      "d": "2026-05-26",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1019,
+      "copilot": 101
+    },
+    {
+      "d": "2026-05-26",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 65,
+      "copilot": 3
+    },
+    {
       "d": "2026-05-27",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
@@ -970,19 +962,19 @@
     },
     {
       "d": "2026-05-27",
-      "office": "ATE",
+      "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 989,
-      "copilot": 170
+      "total": 604,
+      "copilot": 183
     },
     {
       "d": "2026-05-27",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 52,
-      "copilot": 16
+      "sen": "Expert",
+      "total": 1008,
+      "copilot": 171
     },
     {
       "d": "2026-05-27",
@@ -994,35 +986,19 @@
     },
     {
       "d": "2026-05-27",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 604,
-      "copilot": 183
-    },
-    {
-      "d": "2026-05-28",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 559,
-      "copilot": 166
-    },
-    {
-      "d": "2026-05-28",
-      "office": "KTA_BRASIL",
+      "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 595,
-      "copilot": 242
+      "total": 52,
+      "copilot": 16
     },
     {
       "d": "2026-05-28",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 65,
-      "copilot": 9
+      "sen": "Expert",
+      "total": 946,
+      "copilot": 159
     },
     {
       "d": "2026-05-28",
@@ -1035,26 +1011,34 @@
     {
       "d": "2026-05-28",
       "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 928,
-      "copilot": 159
-    },
-    {
-      "d": "2026-05-28",
-      "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Expert",
       "total": 8,
       "copilot": 5
     },
     {
-      "d": "2026-05-29",
-      "office": "ATE",
+      "d": "2026-05-28",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 595,
+      "copilot": 242
+    },
+    {
+      "d": "2026-05-28",
+      "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 912,
-      "copilot": 167
+      "total": 559,
+      "copilot": 166
+    },
+    {
+      "d": "2026-05-28",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 52,
+      "copilot": 5
     },
     {
       "d": "2026-05-29",
@@ -1068,25 +1052,33 @@
       "d": "2026-05-29",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 555,
-      "copilot": 215
-    },
-    {
-      "d": "2026-05-29",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
       "sen": "Expert",
       "total": 531,
       "copilot": 151
     },
     {
-      "d": "2026-05-30",
-      "office": "KTA_BRASIL",
+      "d": "2026-05-29",
+      "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 279,
-      "copilot": 73
+      "total": 921,
+      "copilot": 167
+    },
+    {
+      "d": "2026-05-29",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 555,
+      "copilot": 215
+    },
+    {
+      "d": "2026-05-30",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 15,
+      "copilot": 2
     },
     {
       "d": "2026-05-30",
@@ -1098,35 +1090,19 @@
     },
     {
       "d": "2026-05-30",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 279,
+      "copilot": 73
+    },
+    {
+      "d": "2026-05-30",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
       "total": 253,
       "copilot": 76
-    },
-    {
-      "d": "2026-05-30",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 15,
-      "copilot": 2
-    },
-    {
-      "d": "2026-05-31",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 202,
-      "copilot": 24
-    },
-    {
-      "d": "2026-05-31",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 162,
-      "copilot": 43
     },
     {
       "d": "2026-05-31",
@@ -1140,9 +1116,41 @@
       "d": "2026-05-31",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 162,
+      "copilot": 43
+    },
+    {
+      "d": "2026-05-31",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
       "total": 227,
       "copilot": 97
+    },
+    {
+      "d": "2026-05-31",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 220,
+      "copilot": 25
+    },
+    {
+      "d": "2026-06-01",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 906,
+      "copilot": 171
+    },
+    {
+      "d": "2026-06-01",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 644,
+      "copilot": 240
     },
     {
       "d": "2026-06-01",
@@ -1157,16 +1165,8 @@
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 73,
+      "total": 58,
       "copilot": 11
-    },
-    {
-      "d": "2026-06-01",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 890,
-      "copilot": 170
     },
     {
       "d": "2026-06-01",
@@ -1185,12 +1185,20 @@
       "copilot": 7
     },
     {
-      "d": "2026-06-01",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 644,
-      "copilot": 240
+      "d": "2026-06-02",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 11,
+      "copilot": 3
+    },
+    {
+      "d": "2026-06-02",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 140,
+      "copilot": 21
     },
     {
       "d": "2026-06-02",
@@ -1199,14 +1207,6 @@
       "sen": "Expert",
       "total": 682,
       "copilot": 235
-    },
-    {
-      "d": "2026-06-02",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 11,
-      "copilot": 3
     },
     {
       "d": "2026-06-02",
@@ -1220,49 +1220,17 @@
       "d": "2026-06-02",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 87,
-      "copilot": 10
-    },
-    {
-      "d": "2026-06-02",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 140,
-      "copilot": 21
-    },
-    {
-      "d": "2026-06-02",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 869,
+      "total": 879,
       "copilot": 166
     },
     {
-      "d": "2026-06-03",
-      "office": "KTA_BRASIL",
+      "d": "2026-06-02",
+      "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 813,
-      "copilot": 332
-    },
-    {
-      "d": "2026-06-03",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 1660,
-      "copilot": 225
-    },
-    {
-      "d": "2026-06-03",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 660,
-      "copilot": 57
+      "total": 70,
+      "copilot": 10
     },
     {
       "d": "2026-06-03",
@@ -1277,8 +1245,32 @@
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 176,
+      "total": 157,
       "copilot": 24
+    },
+    {
+      "d": "2026-06-03",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 632,
+      "copilot": 57
+    },
+    {
+      "d": "2026-06-03",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 813,
+      "copilot": 332
+    },
+    {
+      "d": "2026-06-03",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1688,
+      "copilot": 225
     },
     {
       "d": "2026-06-03",
@@ -1290,6 +1282,14 @@
     },
     {
       "d": "2026-06-04",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 411,
+      "copilot": 182
+    },
+    {
+      "d": "2026-06-04",
       "office": "AEC",
       "canal": "MULTICANAL C2C",
       "sen": "Expert",
@@ -1298,11 +1298,19 @@
     },
     {
       "d": "2026-06-04",
-      "office": "KTA_BRASIL",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 432,
+      "copilot": 57
+    },
+    {
+      "d": "2026-06-04",
+      "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 411,
-      "copilot": 182
+      "sen": "Expert",
+      "total": 780,
+      "copilot": 141
     },
     {
       "d": "2026-06-04",
@@ -1316,57 +1324,25 @@
       "d": "2026-06-04",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 768,
-      "copilot": 138
-    },
-    {
-      "d": "2026-06-04",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
       "total": 34,
       "copilot": 14
     },
     {
-      "d": "2026-06-04",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 442,
-      "copilot": 57
-    },
-    {
-      "d": "2026-06-05",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 48,
-      "copilot": 10
-    },
-    {
       "d": "2026-06-05",
       "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 763,
+      "total": 746,
       "copilot": 120
-    },
-    {
-      "d": "2026-06-05",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 1453,
-      "copilot": 208
     },
     {
       "d": "2026-06-05",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 586,
-      "copilot": 233
+      "sen": "Newbie",
+      "total": 753,
+      "copilot": 332
     },
     {
       "d": "2026-06-05",
@@ -1380,9 +1356,9 @@
       "d": "2026-06-05",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 753,
-      "copilot": 332
+      "sen": "Expert",
+      "total": 586,
+      "copilot": 233
     },
     {
       "d": "2026-06-05",
@@ -1393,20 +1369,52 @@
       "copilot": 15
     },
     {
+      "d": "2026-06-05",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 48,
+      "copilot": 10
+    },
+    {
+      "d": "2026-06-05",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1470,
+      "copilot": 211
+    },
+    {
       "d": "2026-06-06",
-      "office": "KTA_BRASIL",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 300,
+      "copilot": 69
+    },
+    {
+      "d": "2026-06-06",
+      "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 316,
-      "copilot": 125
+      "total": 20,
+      "copilot": 8
     },
     {
       "d": "2026-06-06",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 588,
+      "total": 598,
       "copilot": 99
+    },
+    {
+      "d": "2026-06-06",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 55,
+      "copilot": 6
     },
     {
       "d": "2026-06-06",
@@ -1420,33 +1428,17 @@
       "d": "2026-06-06",
       "office": "ATE",
       "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 319,
-      "copilot": 69
-    },
-    {
-      "d": "2026-06-06",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 55,
-      "copilot": 6
-    },
-    {
-      "d": "2026-06-06",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
       "sen": "Newbie",
       "total": 43,
       "copilot": 10
     },
     {
       "d": "2026-06-06",
-      "office": "ATE",
+      "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 20,
-      "copilot": 8
+      "total": 316,
+      "copilot": 125
     },
     {
       "d": "2026-06-07",
@@ -1455,22 +1447,6 @@
       "sen": "Expert",
       "total": 197,
       "copilot": 18
-    },
-    {
-      "d": "2026-06-07",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 96,
-      "copilot": 9
-    },
-    {
-      "d": "2026-06-07",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 223,
-      "copilot": 113
     },
     {
       "d": "2026-06-07",
@@ -1490,51 +1466,27 @@
     },
     {
       "d": "2026-06-07",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 96,
+      "copilot": 9
+    },
+    {
+      "d": "2026-06-07",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 223,
+      "copilot": 113
+    },
+    {
+      "d": "2026-06-07",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
       "total": 186,
       "copilot": 92
-    },
-    {
-      "d": "2026-06-08",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 742,
-      "copilot": 148
-    },
-    {
-      "d": "2026-06-08",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 1625,
-      "copilot": 235
-    },
-    {
-      "d": "2026-06-08",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 145,
-      "copilot": 35
-    },
-    {
-      "d": "2026-06-08",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 160,
-      "copilot": 16
-    },
-    {
-      "d": "2026-06-08",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 62,
-      "copilot": 18
     },
     {
       "d": "2026-06-08",
@@ -1553,36 +1505,52 @@
       "copilot": 224
     },
     {
-      "d": "2026-06-09",
-      "office": "KTA_BRASIL",
+      "d": "2026-06-08",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 62,
+      "copilot": 18
+    },
+    {
+      "d": "2026-06-08",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1639,
+      "copilot": 236
+    },
+    {
+      "d": "2026-06-08",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 160,
+      "copilot": 16
+    },
+    {
+      "d": "2026-06-08",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 724,
+      "copilot": 148
+    },
+    {
+      "d": "2026-06-08",
+      "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 798,
-      "copilot": 403
+      "total": 129,
+      "copilot": 33
     },
     {
       "d": "2026-06-09",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 1738,
-      "copilot": 296
-    },
-    {
-      "d": "2026-06-09",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 658,
-      "copilot": 261
-    },
-    {
-      "d": "2026-06-09",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 168,
-      "copilot": 16
+      "sen": "Newbie",
+      "total": 134,
+      "copilot": 42
     },
     {
       "d": "2026-06-09",
@@ -1596,25 +1564,41 @@
       "d": "2026-06-09",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 145,
-      "copilot": 43
+      "sen": "Expert",
+      "total": 1757,
+      "copilot": 297
     },
     {
       "d": "2026-06-09",
       "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 754,
+      "total": 735,
       "copilot": 138
     },
     {
-      "d": "2026-06-10",
-      "office": "ATE",
+      "d": "2026-06-09",
+      "office": "AEC",
       "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 168,
+      "copilot": 16
+    },
+    {
+      "d": "2026-06-09",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 658,
+      "copilot": 261
+    },
+    {
+      "d": "2026-06-09",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 84,
-      "copilot": 29
+      "total": 798,
+      "copilot": 403
     },
     {
       "d": "2026-06-10",
@@ -1623,22 +1607,6 @@
       "sen": "Expert",
       "total": 633,
       "copilot": 232
-    },
-    {
-      "d": "2026-06-10",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 1532,
-      "copilot": 285
-    },
-    {
-      "d": "2026-06-10",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 138,
-      "copilot": 12
     },
     {
       "d": "2026-06-10",
@@ -1652,17 +1620,49 @@
       "d": "2026-06-10",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1539,
+      "copilot": 285
+    },
+    {
+      "d": "2026-06-10",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
       "sen": "Newbie",
-      "total": 108,
-      "copilot": 21
+      "total": 84,
+      "copilot": 29
+    },
+    {
+      "d": "2026-06-10",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 93,
+      "copilot": 19
+    },
+    {
+      "d": "2026-06-10",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 138,
+      "copilot": 12
     },
     {
       "d": "2026-06-10",
       "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 646,
+      "total": 625,
       "copilot": 109
+    },
+    {
+      "d": "2026-06-11",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 684,
+      "copilot": 155
     },
     {
       "d": "2026-06-11",
@@ -1674,27 +1674,19 @@
     },
     {
       "d": "2026-06-11",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 151,
+      "copilot": 22
+    },
+    {
+      "d": "2026-06-11",
       "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Newbie",
       "total": 60,
       "copilot": 19
-    },
-    {
-      "d": "2026-06-11",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 700,
-      "copilot": 156
-    },
-    {
-      "d": "2026-06-11",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 1416,
-      "copilot": 292
     },
     {
       "d": "2026-06-11",
@@ -1708,41 +1700,17 @@
       "d": "2026-06-11",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 67,
-      "copilot": 18
+      "sen": "Expert",
+      "total": 1430,
+      "copilot": 292
     },
     {
       "d": "2026-06-11",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 151,
-      "copilot": 22
-    },
-    {
-      "d": "2026-06-12",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 836,
-      "copilot": 171
-    },
-    {
-      "d": "2026-06-12",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 1255,
-      "copilot": 228
-    },
-    {
-      "d": "2026-06-12",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 435,
-      "copilot": 190
+      "sen": "Newbie",
+      "total": 67,
+      "copilot": 18
     },
     {
       "d": "2026-06-12",
@@ -1754,11 +1722,19 @@
     },
     {
       "d": "2026-06-12",
-      "office": "KTA_BRASIL",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 817,
+      "copilot": 171
+    },
+    {
+      "d": "2026-06-12",
+      "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 761,
-      "copilot": 369
+      "sen": "Expert",
+      "total": 1263,
+      "copilot": 230
     },
     {
       "d": "2026-06-12",
@@ -1770,6 +1746,14 @@
     },
     {
       "d": "2026-06-12",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 761,
+      "copilot": 369
+    },
+    {
+      "d": "2026-06-12",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
@@ -1777,36 +1761,20 @@
       "copilot": 24
     },
     {
-      "d": "2026-06-13",
-      "office": "ATE",
+      "d": "2026-06-12",
+      "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 12,
-      "copilot": 5
+      "sen": "Expert",
+      "total": 435,
+      "copilot": 190
     },
     {
       "d": "2026-06-13",
       "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 331,
-      "copilot": 86
-    },
-    {
-      "d": "2026-06-13",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 604,
-      "copilot": 118
-    },
-    {
-      "d": "2026-06-13",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 152,
-      "copilot": 78
+      "total": 318,
+      "copilot": 84
     },
     {
       "d": "2026-06-13",
@@ -1826,11 +1794,51 @@
     },
     {
       "d": "2026-06-13",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 12,
+      "copilot": 5
+    },
+    {
+      "d": "2026-06-13",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 613,
+      "copilot": 121
+    },
+    {
+      "d": "2026-06-13",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
       "total": 373,
       "copilot": 183
+    },
+    {
+      "d": "2026-06-13",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 152,
+      "copilot": 78
+    },
+    {
+      "d": "2026-06-14",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 25,
+      "copilot": 18
+    },
+    {
+      "d": "2026-06-14",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 202,
+      "copilot": 99
     },
     {
       "d": "2026-06-14",
@@ -1850,22 +1858,6 @@
     },
     {
       "d": "2026-06-14",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 240,
-      "copilot": 131
-    },
-    {
-      "d": "2026-06-14",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 202,
-      "copilot": 99
-    },
-    {
-      "d": "2026-06-14",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
@@ -1874,11 +1866,11 @@
     },
     {
       "d": "2026-06-14",
-      "office": "ATE",
+      "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 25,
-      "copilot": 18
+      "total": 240,
+      "copilot": 131
     },
     {
       "d": "2026-06-14",
@@ -1890,19 +1882,43 @@
     },
     {
       "d": "2026-06-15",
-      "office": "KTA_BRASIL",
+      "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 562,
-      "copilot": 253
+      "total": 1649,
+      "copilot": 403
+    },
+    {
+      "d": "2026-06-15",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 125,
+      "copilot": 21
     },
     {
       "d": "2026-06-15",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 95,
+      "copilot": 37
+    },
+    {
+      "d": "2026-06-15",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 831,
+      "copilot": 459
+    },
+    {
+      "d": "2026-06-15",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 1636,
-      "copilot": 400
+      "total": 562,
+      "copilot": 253
     },
     {
       "d": "2026-06-15",
@@ -1917,72 +1933,16 @@
       "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 793,
-      "copilot": 198
-    },
-    {
-      "d": "2026-06-15",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 831,
-      "copilot": 459
-    },
-    {
-      "d": "2026-06-15",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 101,
-      "copilot": 37
-    },
-    {
-      "d": "2026-06-15",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 125,
-      "copilot": 21
-    },
-    {
-      "d": "2026-06-16",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 326,
-      "copilot": 46
-    },
-    {
-      "d": "2026-06-16",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 123,
-      "copilot": 52
-    },
-    {
-      "d": "2026-06-16",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 178,
-      "copilot": 27
+      "total": 781,
+      "copilot": 195
     },
     {
       "d": "2026-06-16",
       "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 833,
+      "total": 816,
       "copilot": 201
-    },
-    {
-      "d": "2026-06-16",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 631,
-      "copilot": 275
     },
     {
       "d": "2026-06-16",
@@ -1997,16 +1957,56 @@
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 1819,
+      "total": 1826,
       "copilot": 395
     },
     {
-      "d": "2026-06-17",
+      "d": "2026-06-16",
       "office": "AEC",
       "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 178,
+      "copilot": 27
+    },
+    {
+      "d": "2026-06-16",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
       "sen": "Newbie",
-      "total": 141,
-      "copilot": 9
+      "total": 123,
+      "copilot": 52
+    },
+    {
+      "d": "2026-06-16",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 631,
+      "copilot": 275
+    },
+    {
+      "d": "2026-06-16",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 311,
+      "copilot": 44
+    },
+    {
+      "d": "2026-06-17",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 610,
+      "copilot": 278
+    },
+    {
+      "d": "2026-06-17",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1664,
+      "copilot": 361
     },
     {
       "d": "2026-06-17",
@@ -2019,34 +2019,10 @@
     {
       "d": "2026-06-17",
       "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 929,
-      "copilot": 247
-    },
-    {
-      "d": "2026-06-17",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 1655,
-      "copilot": 358
-    },
-    {
-      "d": "2026-06-17",
-      "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 702,
-      "copilot": 268
-    },
-    {
-      "d": "2026-06-17",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 610,
-      "copilot": 278
+      "total": 695,
+      "copilot": 261
     },
     {
       "d": "2026-06-17",
@@ -2060,49 +2036,25 @@
       "d": "2026-06-17",
       "office": "ATE",
       "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 909,
+      "copilot": 247
+    },
+    {
+      "d": "2026-06-17",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
       "sen": "Newbie",
       "total": 98,
       "copilot": 44
     },
     {
-      "d": "2026-06-18",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 1639,
-      "copilot": 358
-    },
-    {
-      "d": "2026-06-18",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 836,
-      "copilot": 222
-    },
-    {
-      "d": "2026-06-18",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 1092,
-      "copilot": 604
-    },
-    {
-      "d": "2026-06-18",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 202,
-      "copilot": 26
-    },
-    {
-      "d": "2026-06-18",
+      "d": "2026-06-17",
       "office": "AEC",
       "canal": "MULTICANAL C2C",
       "sen": "Newbie",
-      "total": 206,
-      "copilot": 73
+      "total": 141,
+      "copilot": 9
     },
     {
       "d": "2026-06-18",
@@ -2116,9 +2068,33 @@
       "d": "2026-06-18",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1650,
+      "copilot": 359
+    },
+    {
+      "d": "2026-06-18",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 730,
-      "copilot": 277
+      "total": 722,
+      "copilot": 270
+    },
+    {
+      "d": "2026-06-18",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 202,
+      "copilot": 26
+    },
+    {
+      "d": "2026-06-18",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 1092,
+      "copilot": 604
     },
     {
       "d": "2026-06-18",
@@ -2127,6 +2103,38 @@
       "sen": "Newbie",
       "total": 123,
       "copilot": 61
+    },
+    {
+      "d": "2026-06-18",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 819,
+      "copilot": 221
+    },
+    {
+      "d": "2026-06-18",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 206,
+      "copilot": 73
+    },
+    {
+      "d": "2026-06-19",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1553,
+      "copilot": 318
+    },
+    {
+      "d": "2026-06-19",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 625,
+      "copilot": 306
     },
     {
       "d": "2026-06-19",
@@ -2141,8 +2149,8 @@
       "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 820,
-      "copilot": 220
+      "total": 797,
+      "copilot": 219
     },
     {
       "d": "2026-06-19",
@@ -2156,17 +2164,17 @@
       "d": "2026-06-19",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 567,
-      "copilot": 240
+      "sen": "Newbie",
+      "total": 914,
+      "copilot": 509
     },
     {
       "d": "2026-06-19",
-      "office": "ATE",
+      "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 632,
-      "copilot": 309
+      "sen": "Expert",
+      "total": 567,
+      "copilot": 240
     },
     {
       "d": "2026-06-19",
@@ -2177,60 +2185,12 @@
       "copilot": 26
     },
     {
-      "d": "2026-06-19",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 914,
-      "copilot": 509
-    },
-    {
-      "d": "2026-06-19",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 1539,
-      "copilot": 314
-    },
-    {
-      "d": "2026-06-20",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 66,
-      "copilot": 13
-    },
-    {
-      "d": "2026-06-20",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 477,
-      "copilot": 137
-    },
-    {
-      "d": "2026-06-20",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 217,
-      "copilot": 104
-    },
-    {
-      "d": "2026-06-20",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 413,
-      "copilot": 221
-    },
-    {
       "d": "2026-06-20",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 605,
-      "copilot": 150
+      "sen": "Newbie",
+      "total": 410,
+      "copilot": 191
     },
     {
       "d": "2026-06-20",
@@ -2244,9 +2204,33 @@
       "d": "2026-06-20",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 613,
+      "copilot": 150
+    },
+    {
+      "d": "2026-06-20",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 217,
+      "copilot": 104
+    },
+    {
+      "d": "2026-06-20",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
       "sen": "Newbie",
-      "total": 418,
-      "copilot": 196
+      "total": 66,
+      "copilot": 13
+    },
+    {
+      "d": "2026-06-20",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 413,
+      "copilot": 221
     },
     {
       "d": "2026-06-20",
@@ -2257,52 +2241,12 @@
       "copilot": 35
     },
     {
-      "d": "2026-06-21",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 388,
-      "copilot": 65
-    },
-    {
-      "d": "2026-06-21",
+      "d": "2026-06-20",
       "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 154,
-      "copilot": 48
-    },
-    {
-      "d": "2026-06-21",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 71,
-      "copilot": 43
-    },
-    {
-      "d": "2026-06-21",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 176,
-      "copilot": 85
-    },
-    {
-      "d": "2026-06-21",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 61,
-      "copilot": 13
-    },
-    {
-      "d": "2026-06-21",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 279,
-      "copilot": 174
+      "total": 449,
+      "copilot": 131
     },
     {
       "d": "2026-06-21",
@@ -2316,25 +2260,57 @@
       "d": "2026-06-21",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 102,
-      "copilot": 63
+      "sen": "Expert",
+      "total": 388,
+      "copilot": 65
     },
     {
-      "d": "2026-06-22",
+      "d": "2026-06-21",
       "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Newbie",
-      "total": 114,
-      "copilot": 66
+      "total": 71,
+      "copilot": 43
     },
     {
-      "d": "2026-06-22",
+      "d": "2026-06-21",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 154,
+      "copilot": 48
+    },
+    {
+      "d": "2026-06-21",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 61,
+      "copilot": 13
+    },
+    {
+      "d": "2026-06-21",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 176,
+      "copilot": 85
+    },
+    {
+      "d": "2026-06-21",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 279,
+      "copilot": 174
+    },
+    {
+      "d": "2026-06-21",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 820,
-      "copilot": 342
+      "total": 102,
+      "copilot": 63
     },
     {
       "d": "2026-06-22",
@@ -2343,6 +2319,30 @@
       "sen": "Newbie",
       "total": 1179,
       "copilot": 640
+    },
+    {
+      "d": "2026-06-22",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1761,
+      "copilot": 354
+    },
+    {
+      "d": "2026-06-22",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 599,
+      "copilot": 264
+    },
+    {
+      "d": "2026-06-22",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 114,
+      "copilot": 66
     },
     {
       "d": "2026-06-22",
@@ -2355,18 +2355,10 @@
     {
       "d": "2026-06-22",
       "office": "ATE",
-      "canal": "MULTICANAL CHAT",
+      "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 1747,
-      "copilot": 352
-    },
-    {
-      "d": "2026-06-22",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 599,
-      "copilot": 264
+      "total": 880,
+      "copilot": 221
     },
     {
       "d": "2026-06-22",
@@ -2379,26 +2371,10 @@
     {
       "d": "2026-06-22",
       "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 897,
-      "copilot": 222
-    },
-    {
-      "d": "2026-06-23",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 138,
-      "copilot": 74
-    },
-    {
-      "d": "2026-06-23",
-      "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 1253,
-      "copilot": 701
+      "total": 798,
+      "copilot": 335
     },
     {
       "d": "2026-06-23",
@@ -2412,25 +2388,17 @@
       "d": "2026-06-23",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 1788,
-      "copilot": 337
-    },
-    {
-      "d": "2026-06-23",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
       "sen": "Newbie",
-      "total": 184,
-      "copilot": 57
+      "total": 848,
+      "copilot": 401
     },
     {
       "d": "2026-06-23",
       "office": "ATE",
-      "canal": "MULTICANAL C2C",
+      "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 877,
-      "copilot": 268
+      "total": 1811,
+      "copilot": 340
     },
     {
       "d": "2026-06-23",
@@ -2442,27 +2410,35 @@
     },
     {
       "d": "2026-06-23",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
       "sen": "Newbie",
-      "total": 848,
-      "copilot": 401
+      "total": 184,
+      "copilot": 57
     },
     {
-      "d": "2026-06-24",
+      "d": "2026-06-23",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 1253,
+      "copilot": 701
+    },
+    {
+      "d": "2026-06-23",
       "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Newbie",
-      "total": 107,
-      "copilot": 54
+      "total": 138,
+      "copilot": 74
     },
     {
-      "d": "2026-06-24",
+      "d": "2026-06-23",
       "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 745,
-      "copilot": 364
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 859,
+      "copilot": 261
     },
     {
       "d": "2026-06-24",
@@ -2471,14 +2447,6 @@
       "sen": "Newbie",
       "total": 1026,
       "copilot": 604
-    },
-    {
-      "d": "2026-06-24",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 787,
-      "copilot": 239
     },
     {
       "d": "2026-06-24",
@@ -2492,9 +2460,17 @@
       "d": "2026-06-24",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 1383,
-      "copilot": 294
+      "sen": "Newbie",
+      "total": 724,
+      "copilot": 358
+    },
+    {
+      "d": "2026-06-24",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 107,
+      "copilot": 54
     },
     {
       "d": "2026-06-24",
@@ -2506,6 +2482,14 @@
     },
     {
       "d": "2026-06-24",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1395,
+      "copilot": 295
+    },
+    {
+      "d": "2026-06-24",
       "office": "AEC",
       "canal": "MULTICANAL C2C",
       "sen": "Newbie",
@@ -2513,12 +2497,12 @@
       "copilot": 46
     },
     {
-      "d": "2026-06-25",
+      "d": "2026-06-24",
       "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 693,
-      "copilot": 240
+      "total": 776,
+      "copilot": 235
     },
     {
       "d": "2026-06-25",
@@ -2540,9 +2524,33 @@
       "d": "2026-06-25",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 768,
+      "copilot": 350
+    },
+    {
+      "d": "2026-06-25",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 115,
+      "copilot": 56
+    },
+    {
+      "d": "2026-06-25",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 180,
+      "copilot": 56
+    },
+    {
+      "d": "2026-06-25",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 1429,
-      "copilot": 322
+      "total": 675,
+      "copilot": 234
     },
     {
       "d": "2026-06-25",
@@ -2555,42 +2563,18 @@
     {
       "d": "2026-06-25",
       "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 115,
-      "copilot": 56
-    },
-    {
-      "d": "2026-06-25",
-      "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 791,
-      "copilot": 358
+      "sen": "Expert",
+      "total": 1436,
+      "copilot": 322
     },
     {
-      "d": "2026-06-25",
+      "d": "2026-06-26",
       "office": "AEC",
       "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 180,
-      "copilot": 56
-    },
-    {
-      "d": "2026-06-26",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 678,
-      "copilot": 331
-    },
-    {
-      "d": "2026-06-26",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 686,
-      "copilot": 201
+      "total": 144,
+      "copilot": 15
     },
     {
       "d": "2026-06-26",
@@ -2603,18 +2587,10 @@
     {
       "d": "2026-06-26",
       "office": "ATE",
-      "canal": "MULTICANAL CHAT",
+      "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 1297,
-      "copilot": 269
-    },
-    {
-      "d": "2026-06-26",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 975,
-      "copilot": 586
+      "total": 675,
+      "copilot": 199
     },
     {
       "d": "2026-06-26",
@@ -2626,11 +2602,27 @@
     },
     {
       "d": "2026-06-26",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 975,
+      "copilot": 586
+    },
+    {
+      "d": "2026-06-26",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 144,
-      "copilot": 15
+      "total": 1303,
+      "copilot": 269
+    },
+    {
+      "d": "2026-06-26",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 678,
+      "copilot": 331
     },
     {
       "d": "2026-06-26",
@@ -2645,15 +2637,39 @@
       "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 295,
-      "copilot": 86
+      "total": 277,
+      "copilot": 85
+    },
+    {
+      "d": "2026-06-27",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 89,
+      "copilot": 43
+    },
+    {
+      "d": "2026-06-27",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 247,
+      "copilot": 122
+    },
+    {
+      "d": "2026-06-27",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 253,
+      "copilot": 167
     },
     {
       "d": "2026-06-27",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 407,
+      "total": 410,
       "copilot": 98
     },
     {
@@ -2674,43 +2690,11 @@
     },
     {
       "d": "2026-06-27",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 253,
-      "copilot": 167
-    },
-    {
-      "d": "2026-06-27",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 89,
-      "copilot": 43
-    },
-    {
-      "d": "2026-06-27",
       "office": "AEC",
       "canal": "MULTICANAL C2C",
       "sen": "Expert",
       "total": 68,
       "copilot": 11
-    },
-    {
-      "d": "2026-06-27",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 258,
-      "copilot": 127
-    },
-    {
-      "d": "2026-06-28",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 383,
-      "copilot": 107
     },
     {
       "d": "2026-06-28",
@@ -2719,6 +2703,30 @@
       "sen": "Newbie",
       "total": 131,
       "copilot": 71
+    },
+    {
+      "d": "2026-06-28",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 150,
+      "copilot": 35
+    },
+    {
+      "d": "2026-06-28",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 14,
+      "copilot": 9
+    },
+    {
+      "d": "2026-06-28",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 383,
+      "copilot": 107
     },
     {
       "d": "2026-06-28",
@@ -2738,27 +2746,11 @@
     },
     {
       "d": "2026-06-28",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 14,
-      "copilot": 9
-    },
-    {
-      "d": "2026-06-28",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
       "total": 167,
       "copilot": 103
-    },
-    {
-      "d": "2026-06-28",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 150,
-      "copilot": 35
     },
     {
       "d": "2026-06-29",
@@ -2772,17 +2764,9 @@
       "d": "2026-06-29",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 1059,
-      "copilot": 237
-    },
-    {
-      "d": "2026-06-29",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
       "sen": "Newbie",
-      "total": 262,
-      "copilot": 77
+      "total": 775,
+      "copilot": 383
     },
     {
       "d": "2026-06-29",
@@ -2794,22 +2778,6 @@
     },
     {
       "d": "2026-06-29",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 775,
-      "copilot": 383
-    },
-    {
-      "d": "2026-06-29",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 566,
-      "copilot": 195
-    },
-    {
-      "d": "2026-06-29",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
@@ -2818,11 +2786,75 @@
     },
     {
       "d": "2026-06-29",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 262,
+      "copilot": 77
+    },
+    {
+      "d": "2026-06-29",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1062,
+      "copilot": 237
+    },
+    {
+      "d": "2026-06-29",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
       "total": 679,
       "copilot": 373
+    },
+    {
+      "d": "2026-06-29",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 558,
+      "copilot": 194
+    },
+    {
+      "d": "2026-06-30",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 632,
+      "copilot": 208
+    },
+    {
+      "d": "2026-06-30",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1365,
+      "copilot": 322
+    },
+    {
+      "d": "2026-06-30",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 930,
+      "copilot": 563
+    },
+    {
+      "d": "2026-06-30",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 1164,
+      "copilot": 566
+    },
+    {
+      "d": "2026-06-30",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 259,
+      "copilot": 85
     },
     {
       "d": "2026-06-30",
@@ -2836,33 +2868,9 @@
       "d": "2026-06-30",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 930,
-      "copilot": 563
-    },
-    {
-      "d": "2026-06-30",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
       "sen": "Expert",
       "total": 420,
       "copilot": 207
-    },
-    {
-      "d": "2026-06-30",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 259,
-      "copilot": 85
-    },
-    {
-      "d": "2026-06-30",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 632,
-      "copilot": 208
     },
     {
       "d": "2026-06-30",
@@ -2871,62 +2879,6 @@
       "sen": "Newbie",
       "total": 95,
       "copilot": 53
-    },
-    {
-      "d": "2026-06-30",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 1181,
-      "copilot": 567
-    },
-    {
-      "d": "2026-06-30",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 1358,
-      "copilot": 320
-    },
-    {
-      "d": "2026-07-01",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 502,
-      "copilot": 200
-    },
-    {
-      "d": "2026-07-01",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 138,
-      "copilot": 84
-    },
-    {
-      "d": "2026-07-01",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 1405,
-      "copilot": 339
-    },
-    {
-      "d": "2026-07-01",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 304,
-      "copilot": 93
-    },
-    {
-      "d": "2026-07-01",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 203,
-      "copilot": 25
     },
     {
       "d": "2026-07-01",
@@ -2939,10 +2891,26 @@
     {
       "d": "2026-07-01",
       "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1411,
+      "copilot": 339
+    },
+    {
+      "d": "2026-07-01",
+      "office": "AEC",
       "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 781,
-      "copilot": 290
+      "total": 203,
+      "copilot": 25
+    },
+    {
+      "d": "2026-07-01",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 765,
+      "copilot": 288
     },
     {
       "d": "2026-07-01",
@@ -2953,20 +2921,36 @@
       "copilot": 716
     },
     {
-      "d": "2026-07-02",
+      "d": "2026-07-01",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 132,
+      "copilot": 83
+    },
+    {
+      "d": "2026-07-01",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 304,
+      "copilot": 93
+    },
+    {
+      "d": "2026-07-01",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 1078,
-      "copilot": 707
+      "sen": "Expert",
+      "total": 502,
+      "copilot": 200
     },
     {
       "d": "2026-07-02",
-      "office": "ATE",
+      "office": "AEC",
       "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 934,
-      "copilot": 288
+      "sen": "Newbie",
+      "total": 394,
+      "copilot": 123
     },
     {
       "d": "2026-07-02",
@@ -2986,19 +2970,27 @@
     },
     {
       "d": "2026-07-02",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 909,
+      "copilot": 287
+    },
+    {
+      "d": "2026-07-02",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 1078,
+      "copilot": 707
+    },
+    {
+      "d": "2026-07-02",
       "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
       "total": 479,
       "copilot": 230
-    },
-    {
-      "d": "2026-07-02",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 394,
-      "copilot": 123
     },
     {
       "d": "2026-07-02",
@@ -3013,40 +3005,8 @@
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 1246,
+      "total": 1231,
       "copilot": 535
-    },
-    {
-      "d": "2026-07-03",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 444,
-      "copilot": 123
-    },
-    {
-      "d": "2026-07-03",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 1099,
-      "copilot": 503
-    },
-    {
-      "d": "2026-07-03",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 769,
-      "copilot": 279
-    },
-    {
-      "d": "2026-07-03",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 198,
-      "copilot": 92
     },
     {
       "d": "2026-07-03",
@@ -3055,6 +3015,14 @@
       "sen": "Expert",
       "total": 445,
       "copilot": 219
+    },
+    {
+      "d": "2026-07-03",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1360,
+      "copilot": 326
     },
     {
       "d": "2026-07-03",
@@ -3075,10 +3043,66 @@
     {
       "d": "2026-07-03",
       "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 749,
+      "copilot": 279
+    },
+    {
+      "d": "2026-07-03",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 1099,
+      "copilot": 503
+    },
+    {
+      "d": "2026-07-03",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 198,
+      "copilot": 92
+    },
+    {
+      "d": "2026-07-03",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 444,
+      "copilot": 123
+    },
+    {
+      "d": "2026-07-04",
+      "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Expert",
-      "total": 1354,
-      "copilot": 325
+      "total": 589,
+      "copilot": 111
+    },
+    {
+      "d": "2026-07-04",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 461,
+      "copilot": 286
+    },
+    {
+      "d": "2026-07-04",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 120,
+      "copilot": 15
+    },
+    {
+      "d": "2026-07-04",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 211,
+      "copilot": 92
     },
     {
       "d": "2026-07-04",
@@ -3098,14 +3122,6 @@
     },
     {
       "d": "2026-07-04",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 211,
-      "copilot": 92
-    },
-    {
-      "d": "2026-07-04",
       "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Newbie",
@@ -3114,43 +3130,43 @@
     },
     {
       "d": "2026-07-04",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Expert",
-      "total": 120,
-      "copilot": 15
-    },
-    {
-      "d": "2026-07-04",
       "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 312,
+      "total": 290,
       "copilot": 121
     },
     {
-      "d": "2026-07-04",
-      "office": "KTA_BRASIL",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 461,
-      "copilot": 286
-    },
-    {
-      "d": "2026-07-04",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
+      "d": "2026-07-05",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 589,
-      "copilot": 111
+      "total": 18,
+      "copilot": 0
     },
     {
       "d": "2026-07-05",
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 341,
-      "copilot": 114
+      "sen": "Newbie",
+      "total": 143,
+      "copilot": 72
+    },
+    {
+      "d": "2026-07-05",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 11,
+      "copilot": 0
+    },
+    {
+      "d": "2026-07-05",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 346,
+      "copilot": 246
     },
     {
       "d": "2026-07-05",
@@ -3179,42 +3195,26 @@
     {
       "d": "2026-07-05",
       "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 11,
-      "copilot": 0
-    },
-    {
-      "d": "2026-07-05",
-      "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 346,
-      "copilot": 246
-    },
-    {
-      "d": "2026-07-05",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
       "sen": "Expert",
-      "total": 18,
-      "copilot": 0
-    },
-    {
-      "d": "2026-07-05",
-      "office": "ATE",
-      "canal": "MULTICANAL CHAT",
-      "sen": "Newbie",
-      "total": 143,
-      "copilot": 72
+      "total": 345,
+      "copilot": 114
     },
     {
       "d": "2026-07-06",
-      "office": "KTA_BRASIL",
+      "office": "ATE",
       "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1627,
+      "copilot": 154
+    },
+    {
+      "d": "2026-07-06",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
       "sen": "Newbie",
-      "total": 1536,
-      "copilot": 434
+      "total": 514,
+      "copilot": 66
     },
     {
       "d": "2026-07-06",
@@ -3229,24 +3229,16 @@
       "office": "ATE",
       "canal": "MULTICANAL CHAT",
       "sen": "Newbie",
-      "total": 1838,
-      "copilot": 351
+      "total": 1833,
+      "copilot": 350
     },
     {
       "d": "2026-07-06",
-      "office": "ATE",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 150,
-      "copilot": 16
-    },
-    {
-      "d": "2026-07-06",
-      "office": "ATE",
+      "office": "KTA_BRASIL",
       "canal": "MULTICANAL CHAT",
-      "sen": "Expert",
-      "total": 1617,
-      "copilot": 151
+      "sen": "Newbie",
+      "total": 1536,
+      "copilot": 434
     },
     {
       "d": "2026-07-06",
@@ -3258,19 +3250,83 @@
     },
     {
       "d": "2026-07-06",
-      "office": "AEC",
-      "canal": "MULTICANAL C2C",
-      "sen": "Newbie",
-      "total": 514,
-      "copilot": 66
-    },
-    {
-      "d": "2026-07-06",
       "office": "ATE",
       "canal": "MULTICANAL C2C",
       "sen": "Expert",
       "total": 795,
       "copilot": 111
+    },
+    {
+      "d": "2026-07-06",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 150,
+      "copilot": 16
+    },
+    {
+      "d": "2026-07-07",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 1684,
+      "copilot": 0
+    },
+    {
+      "d": "2026-07-07",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 607,
+      "copilot": 0
+    },
+    {
+      "d": "2026-07-07",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 812,
+      "copilot": 0
+    },
+    {
+      "d": "2026-07-07",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Newbie",
+      "total": 1596,
+      "copilot": 0
+    },
+    {
+      "d": "2026-07-07",
+      "office": "ATE",
+      "canal": "MULTICANAL C2C",
+      "sen": "Newbie",
+      "total": 165,
+      "copilot": 0
+    },
+    {
+      "d": "2026-07-07",
+      "office": "AEC",
+      "canal": "MULTICANAL C2C",
+      "sen": "Expert",
+      "total": 142,
+      "copilot": 0
+    },
+    {
+      "d": "2026-07-07",
+      "office": "ATE",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 1708,
+      "copilot": 0
+    },
+    {
+      "d": "2026-07-07",
+      "office": "KTA_BRASIL",
+      "canal": "MULTICANAL CHAT",
+      "sen": "Expert",
+      "total": 650,
+      "copilot": 0
     }
   ]
 }
