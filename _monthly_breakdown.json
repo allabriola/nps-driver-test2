@@ -3166,17 +3166,17 @@
           "s": 3,
           "nps": -33.33
         },
-        "CBT - Operational Management": {
-          "p": 1,
-          "d": 0,
-          "s": 2,
-          "nps": 50.0
-        },
         "CBT - Reversa": {
           "p": 1,
           "d": 1,
           "s": 2,
           "nps": 0.0
+        },
+        "CBT - Operational Management": {
+          "p": 1,
+          "d": 0,
+          "s": 2,
+          "nps": 50.0
         }
       },
       "C": {
@@ -3297,16 +3297,16 @@
           "s": 4,
           "nps": -50.0
         },
-        "FBM - Retiro de Stock - Cx One": {
-          "p": 1,
-          "d": 0,
-          "s": 2,
-          "nps": 50.0
-        },
         "FBM - Pre Inbound": {
           "p": 3,
           "d": 1,
           "s": 4,
+          "nps": 50.0
+        },
+        "FBM - Retiro de Stock - Cx One": {
+          "p": 1,
+          "d": 0,
+          "s": 2,
           "nps": 50.0
         }
       },
@@ -3325,17 +3325,17 @@
         }
       },
       "O": {
-        "ATE": {
-          "p": 4,
-          "d": 1,
-          "s": 6,
-          "nps": 50.0
-        },
         "MELICIDADE": {
           "p": 1,
           "d": 3,
           "s": 4,
           "nps": -50.0
+        },
+        "ATE": {
+          "p": 4,
+          "d": 1,
+          "s": 6,
+          "nps": 50.0
         }
       },
       "T": {
@@ -3347,28 +3347,22 @@
         }
       },
       "Sr": {
-        "Newbie": {
-          "p": 6,
-          "d": 2,
-          "s": 8,
-          "nps": 50.0
-        },
         "Expert": {
           "p": 22,
           "d": 9,
           "s": 31,
           "nps": 41.94
+        },
+        "Newbie": {
+          "p": 6,
+          "d": 2,
+          "s": 8,
+          "nps": 50.0
         }
       }
     },
     "FBM-S Meli Pro": {
       "P": {
-        "FBM - Outbound": {
-          "p": 3,
-          "d": 0,
-          "s": 3,
-          "nps": 100.0
-        },
         "FBM - Inventario": {
           "p": 3,
           "d": 0,
@@ -3376,6 +3370,12 @@
           "nps": 100.0
         },
         "FBM - Devoluciones": {
+          "p": 3,
+          "d": 0,
+          "s": 3,
+          "nps": 100.0
+        },
+        "FBM - Outbound": {
           "p": 3,
           "d": 0,
           "s": 3,
@@ -3537,17 +3537,17 @@
           "s": 12,
           "nps": 75.0
         },
-        "Gestiones Operativas": {
-          "p": 8,
-          "d": 0,
-          "s": 8,
-          "nps": 100.0
-        },
         "Despacho Ventas y Publicaciones": {
           "p": 9,
           "d": 1,
           "s": 14,
           "nps": 57.14
+        },
+        "Gestiones Operativas": {
+          "p": 8,
+          "d": 0,
+          "s": 8,
+          "nps": 100.0
         },
         "Viaje del paquete - Vendedor": {
           "p": 4,
@@ -3615,17 +3615,17 @@
           "s": 23,
           "nps": 65.22
         },
-        "MELI_PRO_MLB": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
-        },
         "BR_Publicaciones_Sellers_Longtail": {
           "p": 1,
           "d": 0,
           "s": 2,
           "nps": 50.0
+        },
+        "MELI_PRO_MLB": {
+          "p": 2,
+          "d": 0,
+          "s": 2,
+          "nps": 100.0
         }
       },
       "Sr": {
@@ -3861,11 +3861,11 @@
           "s": 6,
           "nps": 0.0
         },
-        "CBT - Intellectual Property": {
-          "p": 2,
-          "d": 1,
+        "Caja vacía - MP": {
+          "p": 1,
+          "d": 2,
           "s": 3,
-          "nps": 33.33
+          "nps": -33.33
         },
         "Viaje del paquete - Comprador": {
           "p": 5,
@@ -3873,11 +3873,11 @@
           "s": 5,
           "nps": 100.0
         },
-        "Caja vacía - MP": {
-          "p": 1,
-          "d": 2,
+        "CBT - Intellectual Property": {
+          "p": 2,
+          "d": 1,
           "s": 3,
-          "nps": -33.33
+          "nps": 33.33
         },
         "CBT - Prohibited technique": {
           "p": 4,
@@ -3885,17 +3885,17 @@
           "s": 4,
           "nps": 100.0
         },
-        "KYC seg360": {
-          "p": 1,
-          "d": 1,
-          "s": 2,
-          "nps": 0.0
-        },
         "Caja vacía - Flex": {
           "p": 1,
           "d": 1,
           "s": 2,
           "nps": 0.0
+        },
+        "Post Compra Funcionalidades CBT": {
+          "p": 2,
+          "d": 0,
+          "s": 2,
+          "nps": 100.0
         },
         "Despacho Ventas y Publicaciones Masivos": {
           "p": 2,
@@ -3903,11 +3903,11 @@
           "s": 2,
           "nps": 100.0
         },
-        "Post Compra Funcionalidades CBT": {
-          "p": 2,
-          "d": 0,
+        "KYC seg360": {
+          "p": 1,
+          "d": 1,
           "s": 2,
-          "nps": 100.0
+          "nps": 0.0
         }
       },
       "C": {
@@ -3931,29 +3931,29 @@
           "s": 11,
           "nps": 27.27
         },
-        "ONELINK_MEDELLIN": {
-          "p": 6,
-          "d": 1,
-          "s": 7,
-          "nps": 71.43
-        },
         "AEC": {
           "p": 4,
           "d": 1,
           "s": 5,
           "nps": 60.0
         },
-        "SHANGHAI": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
+        "ONELINK_MEDELLIN": {
+          "p": 6,
+          "d": 1,
+          "s": 7,
+          "nps": 71.43
         },
         "KTA_BRASIL": {
           "p": 2,
           "d": 2,
           "s": 4,
           "nps": 0.0
+        },
+        "SHANGHAI": {
+          "p": 2,
+          "d": 0,
+          "s": 2,
+          "nps": 100.0
         }
       },
       "T": {
@@ -3963,16 +3963,22 @@
           "s": 11,
           "nps": -9.09
         },
+        "BR_Buyers_Pre_Entrega": {
+          "p": 5,
+          "d": 0,
+          "s": 5,
+          "nps": 100.0
+        },
         "CBT_OFFLINE": {
           "p": 8,
           "d": 1,
           "s": 9,
           "nps": 77.78
         },
-        "BR_Buyers_Pre_Entrega": {
-          "p": 5,
+        "BR_MLVendedor_Analisis_Masivo": {
+          "p": 2,
           "d": 0,
-          "s": 5,
+          "s": 2,
           "nps": 100.0
         },
         "BR_Security_MP": {
@@ -3980,12 +3986,6 @@
           "d": 1,
           "s": 2,
           "nps": 0.0
-        },
-        "BR_MLVendedor_Analisis_Masivo": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
         }
       },
       "Sr": {
@@ -4065,13 +4065,13 @@
           "s": 9,
           "nps": 11.11
         },
-        "BR_Ventas_Sellers_Longtail": {
+        "BR_FBM_Seller_Offline_Premium": {
           "p": 2,
           "d": 0,
           "s": 2,
           "nps": 100.0
         },
-        "BR_FBM_Seller_Offline_Premium": {
+        "BR_Ventas_Sellers_Longtail": {
           "p": 2,
           "d": 0,
           "s": 2,
@@ -4514,13 +4514,13 @@
     },
     "PDD MP,FLEX & CBT - Vendedor": {
       "P": {
-        "Defectuoso - MP": {
-          "p": 1,
-          "d": 1,
+        "Asignación del Contáctanos PDDMP Flex": {
+          "p": 0,
+          "d": 2,
           "s": 2,
-          "nps": 0.0
+          "nps": -100.0
         },
-        "Arrepentimiento - MP": {
+        "Defectuoso - MP": {
           "p": 1,
           "d": 1,
           "s": 2,
@@ -4532,11 +4532,11 @@
           "s": 2,
           "nps": 50.0
         },
-        "Asignación del Contáctanos PDDMP Flex": {
-          "p": 0,
-          "d": 2,
+        "Arrepentimiento - MP": {
+          "p": 1,
+          "d": 1,
           "s": 2,
-          "nps": -100.0
+          "nps": 0.0
         }
       },
       "C": {
@@ -5222,17 +5222,17 @@
           "s": 37,
           "nps": 56.76
         },
-        "PR - Técnica prohibida": {
-          "p": 27,
-          "d": 4,
-          "s": 35,
-          "nps": 65.71
-        },
         "Gestión de Publicación": {
           "p": 29,
           "d": 8,
           "s": 40,
           "nps": 52.5
+        },
+        "PR - Técnica prohibida": {
+          "p": 27,
+          "d": 4,
+          "s": 35,
+          "nps": 65.71
         },
         "PR - Artículos prohibidos": {
           "p": 26,
@@ -5252,17 +5252,17 @@
           "s": 4,
           "nps": 75.0
         },
-        "Calidad de foto": {
-          "p": 2,
-          "d": 0,
-          "s": 2,
-          "nps": 100.0
-        },
         "PR - Datos Personales": {
           "p": 1,
           "d": 0,
           "s": 2,
           "nps": 50.0
+        },
+        "Calidad de foto": {
+          "p": 2,
+          "d": 0,
+          "s": 2,
+          "nps": 100.0
         }
       },
       "C": {
@@ -5308,17 +5308,17 @@
         }
       },
       "Sr": {
-        "Expert": {
-          "p": 159,
-          "d": 16,
-          "s": 175,
-          "nps": 81.71
-        },
         "Training": {
           "p": 9,
           "d": 7,
           "s": 16,
           "nps": 12.5
+        },
+        "Expert": {
+          "p": 159,
+          "d": 16,
+          "s": 175,
+          "nps": 81.71
         },
         "Newbie": {
           "p": 185,
