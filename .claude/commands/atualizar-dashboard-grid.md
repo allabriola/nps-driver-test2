@@ -1,8 +1,8 @@
 ---
-description: Atualiza os 4 dashboards diários (outgoing drivers, NPS Seller Dev, Copiloto, Async Longtail) e publica no Grid com link compartilhável
+description: Atualiza os 5 dashboards diários (outgoing drivers, NPS Seller Dev, Copiloto, Async Longtail, CSAT) e publica no Grid com link compartilhável
 ---
 
-Atualize os quatro dashboards abaixo, nesta ordem. São scripts Python em `C:\claudinho` que consultam o BigQuery (podem demorar alguns minutos cada) e geram HTMLs que são publicados no Grid (não no GitHub Pages).
+Atualize os cinco dashboards abaixo, nesta ordem. São scripts Python em `C:\claudinho` que consultam o BigQuery (podem demorar alguns minutos cada) e geram HTMLs que são publicados no Grid (não no GitHub Pages).
 
 Os doc_ids do Grid estão em `C:\claudinho\_grid_doc_ids.json`. Sempre use `file_new_version: true` para criar nova versão no doc existente — nunca crie um novo documento.
 
@@ -94,6 +94,25 @@ Link: https://grid.adminml.com/d/01KX12PSQHT8NHA128X1CYN2EN/view
 
 ---
 
+---
+
+## 5. CSAT — `csat_dashboard.html`
+
+**Gerar HTML:**
+1. `python csat_fetch.py`  (busca dados do BQ para 4 equipes; salva `_csat_data.json`)
+2. `python csat_diagnostic.py`  (Claude API → diagnóstico por processo; salva `_csat_diagnostic.json`. Requer `ANTHROPIC_API_KEY`. Se falhar, o build continua sem diagnóstico IA.)
+3. `python build_csat_dashboard.py`  (gera `csat_dashboard.html`)
+
+**Publicar no Grid:**
+```bash
+curl -s -X POST "https://grid.melioffice.com/api/v1/engine/run" \
+  -F 'config={"skill_version":"3.6.5","doc_id":"01KQ3BMS9EGKTB3QHEZXXW4E46","file_new_version":true,"title":"CSAT — BR Longtail + ExpImpo"}' \
+  -F "file=@C:/claudinho/csat_dashboard.html"
+```
+Link: https://grid.adminml.com/d/01KQ3BMS9EGKTB3QHEZXXW4E46/view
+
+---
+
 ## Fechamento
 
 Confirme que as versões subiram verificando o campo `version` na resposta de cada curl.
@@ -105,3 +124,4 @@ Entregue resumo em tabela:
 | NPS Tendências Seller Dev | | | https://grid.adminml.com/d/01KRBESTYE6P7M3FG2FS4KVES2/view |
 | Copiloto Usabilidade | | | https://grid.adminml.com/d/01KX131TPRN818YPAJZKY21DHE/view |
 | Async Longtail | | | https://grid.adminml.com/d/01KX12PSQHT8NHA128X1CYN2EN/view |
+| CSAT | | | https://grid.adminml.com/d/01KQ3BMS9EGKTB3QHEZXXW4E46/view |

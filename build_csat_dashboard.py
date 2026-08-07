@@ -14,12 +14,12 @@ def esc(s): return _html.escape(str(s) if s is not None else "")
 
 # ── Carrega dados ──────────────────────────────────────────────────────────────
 print("Carregando dados…")
-with open("_csat_data.json", encoding="utf-8") as f:
+with open("_csat_data.json", encoding="utf-8-sig") as f:
     D = json.load(f)
 
 DIAG = {}
 if os.path.exists("_csat_diagnostic.json"):
-    with open("_csat_diagnostic.json", encoding="utf-8") as f:
+    with open("_csat_diagnostic.json", encoding="utf-8-sig") as f:
         DIAG = json.load(f)
     print("  ✓ Diagnóstico carregado")
 else:
