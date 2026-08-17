@@ -85,16 +85,42 @@
         "canal": "CHAT",
         "n_msgs": 0
       },
-      "472909734": {
+      "472905231": {
         "motivo": "",
         "desfecho": "",
         "transferido": false,
         "resolvido": false,
         "escalacao": false,
-        "survey_comment": "Foi feito o pagamento adicional de entrega rápida, mas a empresa não se compromete a realizar a entrega na data prevista.",
-        "cdu": "Quiere cancelar o reprogramar el envío",
-        "solucao": "Envio a caminho - executamos cancelamento alteração de estado (C)",
+        "survey_comment": "As entregas do mercado livre estão muito ruim. Minhas duas últimas entregas estavam com frete FULL, e mesmo assim atrasaram. Uma delas está perdida no centro de distribuição de são Paulo há mais de uma semana",
+        "cdu": "Tiene dudas sobre el estado del envio",
+        "solucao": "Envio a caminho - informamos data de entrega (C)",
         "seniority": "NEWBIE",
+        "canal": "CHAT",
+        "n_msgs": 0
+      },
+      "472912258": {
+        "motivo": "",
+        "desfecho": "",
+        "transferido": false,
+        "resolvido": false,
+        "escalacao": false,
+        "survey_comment": "Primeiramente quero agradecer a atendente Tainara que me deu todo suporte e informações claras. Mas o procedimentos de voces andam perdendo o padrao e uma pena desacreditar em uma empresa Brasileira. Comprava muito por aqui mas venho tendo muito problema com entregas. Por isto eu dou nota 5 pq nao e uma referencia no setor mais l, vem perdendo credibilidade quando nao cumpri o que esta no anuncio.",
+        "cdu": "Tiene dudas sobre el estado del envio",
+        "solucao": "Envio a caminho - informamos data de entrega (C)",
+        "seniority": "EXPERT",
+        "canal": "CHAT",
+        "n_msgs": 0
+      },
+      "472894940": {
+        "motivo": "",
+        "desfecho": "",
+        "transferido": false,
+        "resolvido": false,
+        "escalacao": false,
+        "survey_comment": "Encomendei uma mercadoria pelo FULL para chegar rápido mas não foi isso que aconteceu. Não por um problema meu e sim pelo mercado livre .",
+        "cdu": "Tiene dudas sobre el estado del envio",
+        "solucao": "Envio demorado - informamos data de entrega (C)",
+        "seniority": "EXPERT",
         "canal": "CHAT",
         "n_msgs": 0
       },
@@ -111,16 +137,16 @@
         "canal": "OFFLINE",
         "n_msgs": 0
       },
-      "472912258": {
+      "472909734": {
         "motivo": "",
         "desfecho": "",
         "transferido": false,
         "resolvido": false,
         "escalacao": false,
-        "survey_comment": "Primeiramente quero agradecer a atendente Tainara que me deu todo suporte e informações claras. Mas o procedimentos de voces andam perdendo o padrao e uma pena desacreditar em uma empresa Brasileira. Comprava muito por aqui mas venho tendo muito problema com entregas. Por isto eu dou nota 5 pq nao e uma referencia no setor mais l, vem perdendo credibilidade quando nao cumpri o que esta no anuncio.",
-        "cdu": "Tiene dudas sobre el estado del envio",
-        "solucao": "Envio a caminho - informamos data de entrega (C)",
-        "seniority": "EXPERT",
+        "survey_comment": "Foi feito o pagamento adicional de entrega rápida, mas a empresa não se compromete a realizar a entrega na data prevista.",
+        "cdu": "Quiere cancelar o reprogramar el envío",
+        "solucao": "Envio a caminho - executamos cancelamento alteração de estado (C)",
+        "seniority": "NEWBIE",
         "canal": "CHAT",
         "n_msgs": 0
       },
@@ -136,32 +162,6 @@
         "seniority": "EXPERT",
         "canal": "CHAT",
         "n_msgs": 0
-      },
-      "472905231": {
-        "motivo": "",
-        "desfecho": "",
-        "transferido": false,
-        "resolvido": false,
-        "escalacao": false,
-        "survey_comment": "As entregas do mercado livre estão muito ruim. Minhas duas últimas entregas estavam com frete FULL, e mesmo assim atrasaram. Uma delas está perdida no centro de distribuição de são Paulo há mais de uma semana",
-        "cdu": "Tiene dudas sobre el estado del envio",
-        "solucao": "Envio a caminho - informamos data de entrega (C)",
-        "seniority": "NEWBIE",
-        "canal": "CHAT",
-        "n_msgs": 0
-      },
-      "472894940": {
-        "motivo": "",
-        "desfecho": "",
-        "transferido": false,
-        "resolvido": false,
-        "escalacao": false,
-        "survey_comment": "Encomendei uma mercadoria pelo FULL para chegar rápido mas não foi isso que aconteceu. Não por um problema meu e sim pelo mercado livre .",
-        "cdu": "Tiene dudas sobre el estado del envio",
-        "solucao": "Envio demorado - informamos data de entrega (C)",
-        "seniority": "EXPERT",
-        "canal": "CHAT",
-        "n_msgs": 0
       }
     },
     "categories_mon": [
@@ -172,10 +172,10 @@
         "share_pct": 57,
         "examples": [
           "472691381",
-          "472912258",
-          "472905231"
+          "472905231",
+          "472912258"
         ],
-        "narrative": "Principais motivos: \"Reclamação por atraso e reagendamento na entrega\"; \"Cliente insatisfeito com atraso e cancelamento de pedido\". Sellers reportam atraso ou falta de atualização no status de envios aos compradores (4 casos). Nenhum caso com resolução confirmada.",
+        "narrative": "Principais motivos: \"Reclamação por atraso e reagendamento na entrega\"; \"Consulta sobre entrega de encomenda no centro de distribuição\". Sellers reportam atraso ou falta de atualização no status de envios aos compradores (4 casos). Nenhum caso com resolução confirmada.",
         "n_transfer": 0,
         "n_resolved": 0,
         "n_escalation": 0
@@ -186,8 +186,8 @@
         "monthly_count": 3,
         "share_pct": 43,
         "examples": [
-          "472909734",
           "472847147",
+          "472909734",
           "472903683"
         ],
         "narrative": "Principais motivos: \"Usuário insatisfeito com atraso no reembolso\". Sellers solicitam cancelamento ou reprogramação de envios em andamento (3 casos). Nenhum caso com resolução confirmada.",
