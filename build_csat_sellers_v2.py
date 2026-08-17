@@ -247,6 +247,37 @@ for t in TEAMS:
 JS_LINEAL_MTD = json.dumps(lineal_mtd, ensure_ascii=False)
 JS_LINEAL_WTD = json.dumps(lineal_wtd, ensure_ascii=False)
 
+# ── Mês anterior ──────────────────────────────────────────────────────────────
+if len(MONTHS) >= 2:
+    PREV_MONTH = MONTHS[-2]
+else:
+    yr, mo = map(int, MONTH_CUR.split('-'))
+    PREV_MONTH = f"{yr}-{mo-1:02d}" if mo > 1 else f"{yr-1}-12"
+
+prev_mtd = by_team_month(PREV_MONTH) if PREV_MONTH else {}
+c_prev   = consol(prev_mtd) if prev_mtd else {}
+
+# ── MoM chart data (grouped bar) ─────────────────────────────────────────────
+mom_chart_data = {
+    "labels":    [lbl(t) for t in TEAMS],
+    "prev_month": MONTH_LABELS.get(PREV_MONTH, PREV_MONTH),
+    "cur_month":  MONTH_LABELS.get(MONTH_CUR, MONTH_CUR),
+    "data_prev":  [prev_mtd.get(t, {}).get("csat") for t in TEAMS],
+    "data_cur":   [mtd.get(t, {}).get("csat") for t in TEAMS],
+}
+JS_MOM_CHART = json.dumps(mom_chart_data, ensure_ascii=False)
+
+# ── Histórico semanal ─────────────────────────────────────────────────────────
+WEEKLY_HIST    = D.get("weekly_history", [])
+JS_WEEKLY_HIST = json.dumps(WEEKLY_HIST, ensure_ascii=False)
+
+# ── Team list para JS (com valores MTD como referência) ──────────────────────
+team_list_js = [
+    {"id": t, "label": lbl(t), "color": clr(t), "mtd": mtd.get(t, {}).get("csat")}
+    for t in TEAMS
+]
+JS_TEAM_LIST = json.dumps(team_list_js, ensure_ascii=False)
+
 # Lineal: process breakdown (MTD e WTD por equipe)
 lineal_proc_mtd = {}
 for t in TEAMS:
@@ -318,48 +349,114 @@ def team_row_html(r, show_rr=True):
   {"<td>"+esc(rr_str)+"</td>" if show_rr else ""}
 </tr>"""
 
-# ── ABA: VISÃO GERAL ──────────────────────────────────────────────────────────
+# ── ABA: VISÃO EXECUTIVA ──────────────────────────────────────────────────────
 def tab_visao_geral():
-    # Consol cards
-    cards_html = f"""
-<div class="section">
-  <div class="section-title">CONSOLIDADO</div>
-  <div class="cards-row">
-    {metric_card("CSAT LINEAL · "+MONTH_LBL, pct(c_mtd.get('csat')), fmt(c_mtd.get('total',0))+" pesquisas", csat_color(c_mtd.get('csat')))}
-    {metric_card("CSAT LINEAL · Semana "+WEEK_LBL, pct(c_wtd.get('csat')), fmt(c_wtd.get('total',0))+" pesquisas", csat_color(c_wtd.get('csat')))}
-    {metric_card("BOTTOM BOX · "+MONTH_LBL, pct(c_mtd.get('bottom_box_pct')), "Notas 1-2", bb_color(c_mtd.get('bottom_box_pct')))}
-    {metric_card("RESPONSE RATE · "+MONTH_LBL, pct(rr_consol_mtd.get('rr_pct')), fmt(rr_consol_mtd.get('answered',0))+" de "+fmt(rr_consol_mtd.get('sent',0))+" enviadas")}
+    csat_cur  = c_mtd.get("csat")
+    csat_prev_val = c_prev.get("csat")
+    prev_m_lbl = MONTH_LABELS.get(PREV_MONTH, PREV_MONTH) if PREV_MONTH else "—"
+    cur_m_lbl  = MONTH_LABELS.get(MONTH_CUR, MONTH_CUR)
+
+    # Δ MoM
+    mom_delta = round(csat_cur - csat_prev_val, 1) if (csat_cur is not None and csat_prev_val is not None) else None
+    if mom_delta is not None:
+        arrow = "▲" if mom_delta > 0 else ("▼" if mom_delta < 0 else "")
+        sign  = "+" if mom_delta > 0 else ""
+        mom_str   = f"{arrow} {sign}{mom_delta:.1f}pp"
+        mom_color = "#16a34a" if mom_delta >= 0 else "#dc2626"
+    else:
+        mom_str, mom_color = "—", "#888"
+
+    # ── 6 summary cards ──────────────────────────────────────────────────────
+    cards = f"""
+<div class="exec-cards-row">
+  <div class="exec-card" style="border-top-color:{csat_color(csat_cur)}">
+    <div class="ec-label">CSAT MÊS ATUAL<br><span style="color:#94a3b8;font-weight:400">{esc(cur_m_lbl)}</span></div>
+    <div class="ec-value" style="color:{csat_color(csat_cur)}">{pct(csat_cur)}</div>
+    <div class="ec-sub">Target: —</div>
+  </div>
+  <div class="exec-card" style="border-top-color:#94a3b8">
+    <div class="ec-label">CSAT MÊS ANTERIOR<br><span style="color:#94a3b8;font-weight:400">{esc(prev_m_lbl)}</span></div>
+    <div class="ec-value" style="color:#334155">{pct(csat_prev_val)}</div>
+    <div class="ec-sub">Referência do período</div>
+  </div>
+  <div class="exec-card" style="border-top-color:#d97706">
+    <div class="ec-label">TARGET<br><span style="color:#94a3b8;font-weight:400">{esc(cur_m_lbl)}</span></div>
+    <div class="ec-value" style="color:#94a3b8">—</div>
+    <div class="ec-sub">Meta do período</div>
+  </div>
+  <div class="exec-card" style="border-top-color:{mom_color}">
+    <div class="ec-label">Δ MOM<br><span style="color:#94a3b8;font-weight:400">vs {esc(prev_m_lbl)}</span></div>
+    <div class="ec-value" style="color:{mom_color};font-size:1.6rem">{esc(mom_str)}</div>
+    <div class="ec-sub">{pct(csat_prev_val)} → {pct(csat_cur)}</div>
+  </div>
+  <div class="exec-card" style="border-top-color:#16a34a">
+    <div class="ec-label">GAP VS TARGET<br><span style="color:#94a3b8;font-weight:400">{esc(cur_m_lbl)}</span></div>
+    <div class="ec-value" style="color:#94a3b8">—</div>
+    <div class="ec-sub">Target: —</div>
+  </div>
+  <div class="exec-card" style="border-top-color:#7c3aed">
+    <div class="ec-label">PESQUISAS<br><span style="color:#94a3b8;font-weight:400">{esc(cur_m_lbl)}</span></div>
+    <div class="ec-value" style="color:#334155">{fmt(c_mtd.get('total',0))}</div>
+    <div class="ec-sub">{pct(rr_consol_mtd.get('rr_pct'))} response rate</div>
   </div>
 </div>"""
 
-    # Por equipe
-    team_sections = ""
+    # ── Two charts side by side ───────────────────────────────────────────────
+    charts = f"""
+<div class="exec-charts-row">
+  <div class="exec-chart-box">
+    <div class="section-title">Histórico CSAT — {esc(cur_m_lbl)}</div>
+    <div class="section-sub">Últimos meses · Base sem mediação</div>
+    <canvas id="trendChart" height="130"></canvas>
+  </div>
+  <div class="exec-chart-box">
+    <div class="section-title">CSAT MoM por Equipe — {esc(prev_m_lbl)} → {esc(cur_m_lbl)}</div>
+    <div class="section-sub">Comparativo {esc(prev_m_lbl)} vs {esc(cur_m_lbl)} por equipe</div>
+    <canvas id="momChart" height="130"></canvas>
+  </div>
+</div>"""
+
+    # ── Highlights & Análise (auto-gerado) ───────────────────────────────────
+    team_bullets = []
     for t in TEAMS:
-        r_m = mtd.get(t, {})
-        r_w = wtd.get(t, {})
-        rr_m = rr_mtd_all.get(t, {})
-        rr_w = rr_wtd_all.get(t, {})
-        team_sections += f"""
-<div class="section" style="border-left:4px solid {clr(t)};padding-left:12px">
-  <div class="section-title" style="color:{clr(t)}">{esc(lbl(t))}</div>
-  <div class="cards-row">
-    {metric_card("CSAT · "+MONTH_LBL, pct(r_m.get('csat')), fmt(r_m.get('total',0))+" pesquisas", csat_color(r_m.get('csat')), small=True)}
-    {metric_card("CSAT · Semana "+WEEK_LBL, pct(r_w.get('csat')), fmt(r_w.get('total',0))+" pesquisas", csat_color(r_w.get('csat')), small=True)}
-    {metric_card("BOTTOM BOX · "+MONTH_LBL, pct(r_m.get('bottom_box_pct')), str(r_m.get('bottom_box',0))+" detratores", bb_color(r_m.get('bottom_box_pct')), small=True)}
-    {metric_card("RESPONSE RATE · "+MONTH_LBL, pct(rr_m.get('rr_pct')), fmt(rr_m.get('answered',0))+" de "+fmt(rr_m.get('sent',0)), None, small=True)}
-  </div>
+        r_cur = mtd.get(t, {})
+        r_prv = prev_mtd.get(t, {})
+        c_t   = r_cur.get("csat")
+        c_p   = r_prv.get("csat")
+        bb    = r_cur.get("bottom_box_pct")
+        delta_t = round(c_t - c_p, 1) if (c_t is not None and c_p is not None) else None
+        dot_c = "#16a34a" if (c_t and c_t >= 84) else ("#d97706" if (c_t and c_t >= 80) else "#dc2626")
+        delta_html = ""
+        if delta_t is not None:
+            dsign = "+" if delta_t >= 0 else ""
+            word  = "Alta" if delta_t >= 0 else "Queda"
+            delta_html = f'. {word} de <b>{dsign}{delta_t:.1f} pp MoM</b>'
+        team_bullets.append(f"""<div class="hl-item">
+  <span class="hl-dot" style="background:{dot_c}"></span>
+  <div><b>{esc(lbl(t))}</b>: CSAT de <b>{pct(c_t)}</b>{delta_html}. Bottom Box: <b>{pct(bb)}</b>. Volume: {fmt(r_cur.get('total',0))} pesquisas.</div>
+</div>""")
+
+    mom_hl = f"<b>{'+'if mom_delta and mom_delta>0 else ''}{mom_delta:.1f} pp MoM</b>" if mom_delta is not None else "—"
+    prev_ref = f" ({esc(prev_m_lbl)}: {pct(csat_prev_val)})" if csat_prev_val is not None else ""
+
+    highlights = f"""
+<div class="highlights-box">
+  <div class="hl-eyebrow">HIGHLIGHTS &amp; ANÁLISE</div>
+  <div class="hl-headline">CSAT de {pct(csat_cur)} — {mom_hl}{prev_ref}</div>
+  <div class="hl-section">Análise por equipe:</div>
+  {"".join(team_bullets)}
 </div>"""
 
-    # Chart de trend
-    chart_html = f"""
+    return f"""
 <div class="section">
-  <div class="section-title">EVOLUÇÃO MENSAL — CSAT LINEAL POR EQUIPE</div>
-  <div style="max-width:700px;margin:0 auto">
-    <canvas id="trendChart" height="120"></canvas>
-  </div>
+  {cards}
+</div>
+<div class="section">
+  {charts}
+</div>
+<div class="section">
+  {highlights}
 </div>"""
-
-    return cards_html + team_sections + chart_html
 
 # ── ABA: EVOLUÇÃO MENSAL ─────────────────────────────────────────────────────
 def tab_mensal():
@@ -441,28 +538,44 @@ def tab_mensal():
 
 # ── ABA: EVOLUÇÃO SEMANAL ─────────────────────────────────────────────────────
 def tab_semanal():
-    wtd_rows = "".join(team_row_html(r) for r in lineal_wtd)
-
-    week_cards = f"""
-<div class="section">
-  <div class="section-title">RESUMO · Semana {WEEK_LBL}</div>
-  <div class="cards-row">
-    {metric_card("CSAT LINEAL · Semana "+WEEK_LBL, pct(c_wtd.get('csat')), fmt(c_wtd.get('total',0))+" pesquisas", csat_color(c_wtd.get('csat')))}
-    {metric_card("BOTTOM BOX · Semana "+WEEK_LBL, pct(c_wtd.get('bottom_box_pct')), "Notas 1-2", bb_color(c_wtd.get('bottom_box_pct')))}
-    {metric_card("RESPONSE RATE · Semana "+WEEK_LBL, pct(rr_consol_wtd.get('rr_pct')), fmt(rr_consol_wtd.get('answered',0))+" de "+fmt(rr_consol_wtd.get('sent',0))+" enviadas")}
+    # Cards por equipe (estilo NPS: nome + CSAT + delta + canvas)
+    team_card_items = ""
+    for i, t in enumerate(TEAMS):
+        r_w = wtd.get(t, {})
+        r_m = mtd.get(t, {})
+        c_w = r_w.get("csat")
+        c_m = r_m.get("csat")
+        delta = round(c_w - c_m, 1) if (c_w is not None and c_m is not None) else None
+        delta_str   = (("+" if delta >= 0 else "") + f"{delta:.1f}pp") if delta is not None else "—"
+        delta_color = "#16a34a" if (delta is not None and delta >= 0) else "#dc2626"
+        bb_w  = r_w.get("bottom_box_pct")
+        bb_m  = r_m.get("bottom_box_pct")
+        bb_sub = f"BB: {pct(bb_w)}" + (f" (MTD: {pct(bb_m)})" if bb_m else "")
+        team_card_items += f"""
+<div class="team-card" style="border-top:4px solid {clr(t)}">
+  <div class="tc-header">
+    <div class="tc-name">{esc(lbl(t)).upper()}</div>
+    <div class="tc-kpi">
+      <span class="tc-csat" style="color:{csat_color(c_w)}">{pct(c_w)}</span>
+      <span class="tc-delta" style="color:{delta_color}">{esc(delta_str)}</span>
+    </div>
+    <div class="tc-sub">vs MTD: {pct(c_m)} &nbsp;|&nbsp; {esc(bb_sub)}</div>
   </div>
+  <canvas id="team-chart-{i}" height="90"></canvas>
 </div>"""
 
     return f"""
-{week_cards}
+<div class="section" style="padding:12px 16px 8px">
+  <span style="font-size:11px;font-weight:700;color:#64748b;letter-spacing:.06em;text-transform:uppercase">
+    Semana vigente: {esc(WEEK_LBL)}
+  </span>
+  <span style="font-size:11px;color:#94a3b8;margin-left:12px">
+    (gráficos mostram últimas 12 semanas — requer dados históricos atualizados)
+  </span>
+</div>
 
-<div class="section">
-  <div class="section-title">LINEAL — POR EQUIPE · Semana {WEEK_LBL}</div>
-  <div class="section-sub">Equipe que atendeu o contato — responsabilidade operacional</div>
-  <table class="tbl">
-    <thead><tr><th>Equipe</th><th>CSAT</th><th>Volume</th><th>Bottom Box</th><th>Response Rate</th></tr></thead>
-    <tbody>{wtd_rows}</tbody>
-  </table>
+<div class="team-cards-grid">
+{team_card_items}
 </div>
 
 <div class="section">
@@ -719,6 +832,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:11px;font-weight:700}
 .badge-1{background:#fee2e2;color:#991b1b}
 .badge-2{background:#fed7aa;color:#92400e}
+/* ── Visão Executiva ───────────────────────────────────── */
+.exec-cards-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:4px}
+.exec-card{flex:1;min-width:140px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;border-top:3px solid #0369a1;padding:12px 16px}
+.ec-label{font-size:10px;font-weight:700;color:#64748b;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px;line-height:1.4}
+.ec-value{font-size:1.9rem;font-weight:800;line-height:1;margin-bottom:4px}
+.ec-sub{font-size:11px;color:#94a3b8}
+.exec-charts-row{display:flex;gap:20px;flex-wrap:wrap}
+.exec-chart-box{flex:1;min-width:260px}
+.exec-chart-box .section-title{margin-bottom:3px}
+.highlights-box{border-left:3px solid #d97706;padding-left:14px}
+.hl-eyebrow{font-size:10px;font-weight:700;color:#64748b;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.hl-headline{font-size:15px;font-weight:700;color:#1e293b;margin-bottom:12px;line-height:1.5}
+.hl-section{font-size:12px;font-weight:700;color:#475569;margin-bottom:8px}
+.hl-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;font-size:13px;color:#334155;line-height:1.5}
+.hl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
+/* ── Team cards (Evolução Semanal) ─────────────────────── */
+.team-cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:8px 16px 16px}
+.team-card{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.tc-header{margin-bottom:10px}
+.tc-name{font-size:10px;font-weight:700;color:#64748b;letter-spacing:.05em}
+.tc-kpi{display:flex;align-items:baseline;gap:10px;margin:4px 0 2px}
+.tc-csat{font-size:1.8rem;font-weight:800;line-height:1}
+.tc-delta{font-size:13px;font-weight:700}
+.tc-sub{font-size:11px;color:#94a3b8}
 /* ── Sidebar histórico ─────────────────────────────────── */
 .wk-sidebar{position:fixed;top:0;left:0;width:220px;height:100vh;background:#1a1e2e;color:#c8cfe0;display:flex;flex-direction:column;z-index:300;}
 .wk-sb-head{padding:14px 16px 10px;border-bottom:1px solid #2e3350;flex-shrink:0;}
@@ -764,6 +901,9 @@ const BB_WTD           = {JS_BB_WTD};
 const COMMENTS         = {JS_COMMENTS};
 const TEAM_COLORS      = {json.dumps({lbl(t): clr(t) for t in TEAMS}, ensure_ascii=False)};
 const TEAM_COLOR_IDS   = {json.dumps({t: clr(t) for t in TEAMS}, ensure_ascii=False)};
+const MOM_CHART        = {JS_MOM_CHART};
+const WEEKLY_HIST      = {JS_WEEKLY_HIST};
+const TEAM_LIST        = {JS_TEAM_LIST};
 var   _GHPAGES_BASE    = "{GHPAGES_BASE}";
 var   _HISTORY         = {JS_HISTORY};
 
@@ -810,9 +950,9 @@ function showTab(id, el) {{
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   el.classList.add('active');
-  if(id === 'tab-exec')    initChart();
+  if(id === 'tab-exec')    {{ initChart(); initMoMChart(); }}
   if(id === 'tab-mensal')  {{ renderMensalLineal(); renderMensalBB(); }}
-  if(id === 'tab-semanal') {{ renderSemanalLineal(); renderSemanalBB(); }}
+  if(id === 'tab-semanal') {{ renderSemanalLineal(); renderSemanalBB(); renderSemanalCards(); }}
   if(id === 'tab-com')     renderComments();
 }}
 
@@ -892,7 +1032,7 @@ function renderBBTable(raw, teamFilterId, volFilterId, tableId) {{
   el.innerHTML = html;
 }}
 
-// ── Trend chart ───────────────────────────────────────────────────────────────
+// ── Trend chart (histórico mensal) ────────────────────────────────────────────
 let chartInst = null;
 function initChart() {{
   if(chartInst) return;
@@ -903,9 +1043,126 @@ function initChart() {{
     data: CHART_DATA,
     options: {{
       responsive:true,
-      plugins:{{legend:{{position:'bottom'}}}},
-      scales:{{y:{{min:70,max:100,ticks:{{callback:v=>v+'%'}}}}}}
+      plugins:{{legend:{{position:'bottom',labels:{{font:{{size:11}}}}}}}},
+      scales:{{y:{{min:70,max:100,ticks:{{callback:v=>v+'%',font:{{size:10}}}}}}}}
     }}
+  }});
+}}
+
+// ── MoM grouped bar chart ─────────────────────────────────────────────────────
+let momChartInst = null;
+function initMoMChart() {{
+  if(momChartInst) return;
+  const ctx = document.getElementById('momChart');
+  if(!ctx) return;
+  const teamColors = TEAM_LIST.map(t => t.color);
+  momChartInst = new Chart(ctx, {{
+    type: 'bar',
+    data: {{
+      labels: MOM_CHART.labels,
+      datasets: [
+        {{
+          label: MOM_CHART.prev_month,
+          data: MOM_CHART.data_prev,
+          backgroundColor: '#94a3b844',
+          borderColor: '#94a3b8',
+          borderWidth: 1.5,
+          borderRadius: 4,
+        }},
+        {{
+          label: MOM_CHART.cur_month,
+          data: MOM_CHART.data_cur,
+          backgroundColor: teamColors.map(c => c + 'bb'),
+          borderColor: teamColors,
+          borderWidth: 1.5,
+          borderRadius: 4,
+        }},
+      ]
+    }},
+    options: {{
+      responsive: true,
+      plugins: {{
+        legend: {{position:'bottom', labels:{{font:{{size:11}}}}}},
+        tooltip: {{callbacks:{{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toFixed(1)+'%'}}}}
+      }},
+      scales: {{
+        y: {{min:70,max:100,ticks:{{callback:v=>v+'%',font:{{size:10}}}}}},
+        x: {{ticks:{{font:{{size:11}}}}}}
+      }}
+    }}
+  }});
+}}
+
+// ── Team cards — gráficos semanais ────────────────────────────────────────────
+const _teamCharts = {{}};
+function renderSemanalCards() {{
+  // Agrupa histórico por equipe
+  const histByTeam = {{}};
+  WEEKLY_HIST.forEach(r => {{
+    if(!histByTeam[r.team]) histByTeam[r.team] = [];
+    histByTeam[r.team].push(r);
+  }});
+  Object.values(histByTeam).forEach(arr =>
+    arr.sort((a,b) => a.week_start.localeCompare(b.week_start))
+  );
+
+  TEAM_LIST.forEach((team, i) => {{
+    if(_teamCharts[team.id]) return; // já renderizado
+    const hist = histByTeam[team.id] || [];
+    const labels = hist.map(r => r.week_label || r.week_start.slice(5));
+    const data   = hist.map(r => r.csat);
+    const ctx    = document.getElementById('team-chart-' + i);
+    if(!ctx) return;
+
+    // Última semana destaque, anteriores mais claras
+    const bgColors = hist.map((_, j) =>
+      j === hist.length - 1 ? team.color : team.color + '55'
+    );
+
+    _teamCharts[team.id] = new Chart(ctx, {{
+      type: 'bar',
+      data: {{
+        labels,
+        datasets: [
+          {{
+            data: data,
+            backgroundColor: bgColors,
+            borderRadius: 3,
+            label: team.label,
+          }},
+          // Linha de referência MTD (tracejada)
+          {{
+            type: 'line',
+            data: team.mtd !== null ? Array(labels.length).fill(team.mtd) : [],
+            borderColor: '#ef4444',
+            borderDash: [5, 3],
+            borderWidth: 1.5,
+            pointRadius: 0,
+            fill: false,
+            label: 'MTD',
+          }},
+        ]
+      }},
+      options: {{
+        responsive: true,
+        plugins: {{
+          legend: {{display: false}},
+          tooltip: {{
+            callbacks: {{
+              label: ctx => ctx.dataset.label + ': ' +
+                (ctx.parsed.y !== null ? ctx.parsed.y.toFixed(1) + '%' : '—')
+            }}
+          }}
+        }},
+        scales: {{
+          y: {{
+            min: 60, max: 100,
+            ticks: {{callback: v => v + '%', font: {{size: 10}}}},
+          }},
+          x: {{ticks: {{font: {{size: 9}}}}}}
+        }}
+      }}
+    }});
   }});
 }}
 
@@ -956,10 +1213,12 @@ function renderComments() {{
 // ── Init ──────────────────────────────────────────────────────────────────────
 window.addEventListener('load', () => {{
   initChart();
+  initMoMChart();
   renderMensalLineal();
   renderMensalBB();
   renderSemanalLineal();
   renderSemanalBB();
+  renderSemanalCards();
   renderComments();
 }});
 """
