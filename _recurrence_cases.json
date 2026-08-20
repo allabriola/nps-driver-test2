@@ -73,9 +73,9 @@
     "weekly": {},
     "monthly": {
       "472691381": {
-        "motivo": "",
-        "desfecho": "",
-        "transferido": false,
+        "motivo": "minha compra ja foi reagendada %num vezes a data de entrega",
+        "desfecho": "agradeço por toda a sua compreensão durante todo o nosso atendimento, qualquer duvida sobre a chegada da sua entrega hoje, pode entrar em contato conosco novamente que estamos à sua disposição. sigo e",
+        "transferido": true,
         "resolvido": false,
         "escalacao": false,
         "survey_comment": "Atendente simpática. Mas, entrega do mercado livre horrível",
@@ -83,37 +83,24 @@
         "solucao": "Envio demorado - informamos data de entrega (C)",
         "seniority": "EXPERT",
         "canal": "CHAT",
-        "n_msgs": 0
+        "n_msgs": 77
       },
-      "472905231": {
-        "motivo": "",
-        "desfecho": "",
+      "472847147": {
+        "motivo": "{\"action\":\"item_selected\",\"data\":{\"primary_text\":\" camisa elastica retrô masculina tactical rapid-... | r$ %num,%num\",\"pack_id\":%num},\"instruction\":\"item selected.\"}",
+        "desfecho": "recipient: %email. email: ola, marcelo henrique. espero que esteja bem! me chamo maria, sou representante do mercado livre e vou te auxiliar.lamentamos profundamente pelo transtorno e pela inconveniên",
         "transferido": false,
-        "resolvido": false,
+        "resolvido": true,
         "escalacao": false,
-        "survey_comment": "As entregas do mercado livre estão muito ruim. Minhas duas últimas entregas estavam com frete FULL, e mesmo assim atrasaram. Uma delas está perdida no centro de distribuição de são Paulo há mais de uma semana",
-        "cdu": "Tiene dudas sobre el estado del envio",
-        "solucao": "Envio a caminho - informamos data de entrega (C)",
-        "seniority": "NEWBIE",
-        "canal": "CHAT",
-        "n_msgs": 0
-      },
-      "472912258": {
-        "motivo": "",
-        "desfecho": "",
-        "transferido": false,
-        "resolvido": false,
-        "escalacao": false,
-        "survey_comment": "Primeiramente quero agradecer a atendente Tainara que me deu todo suporte e informações claras. Mas o procedimentos de voces andam perdendo o padrao e uma pena desacreditar em uma empresa Brasileira. Comprava muito por aqui mas venho tendo muito problema com entregas. Por isto eu dou nota 5 pq nao e uma referencia no setor mais l, vem perdendo credibilidade quando nao cumpri o que esta no anuncio.",
-        "cdu": "Tiene dudas sobre el estado del envio",
-        "solucao": "Envio a caminho - informamos data de entrega (C)",
+        "survey_comment": "Não ajudam com nada",
+        "cdu": "Quiere cancelar o reprogramar el envío",
+        "solucao": "Envio a caminho - executamos cancelamento express (C)",
         "seniority": "EXPERT",
-        "canal": "CHAT",
-        "n_msgs": 0
+        "canal": "OFFLINE",
+        "n_msgs": 13
       },
       "472894940": {
-        "motivo": "",
-        "desfecho": "",
+        "motivo": "lava e seca lg vc4 front load%priceg com aidd em a... | r$ %num.%num,%num",
+        "desfecho": "te desejo um excelente dia. qualquer duvida, ficamos à disposição! 🤝",
         "transferido": false,
         "resolvido": false,
         "escalacao": false,
@@ -122,38 +109,12 @@
         "solucao": "Envio demorado - informamos data de entrega (C)",
         "seniority": "EXPERT",
         "canal": "CHAT",
-        "n_msgs": 0
-      },
-      "472847147": {
-        "motivo": "",
-        "desfecho": "",
-        "transferido": false,
-        "resolvido": false,
-        "escalacao": false,
-        "survey_comment": "Não ajudam com nada",
-        "cdu": "Quiere cancelar o reprogramar el envío",
-        "solucao": "Envio a caminho - executamos cancelamento express (C)",
-        "seniority": "EXPERT",
-        "canal": "OFFLINE",
-        "n_msgs": 0
-      },
-      "472909734": {
-        "motivo": "",
-        "desfecho": "",
-        "transferido": false,
-        "resolvido": false,
-        "escalacao": false,
-        "survey_comment": "Foi feito o pagamento adicional de entrega rápida, mas a empresa não se compromete a realizar a entrega na data prevista.",
-        "cdu": "Quiere cancelar o reprogramar el envío",
-        "solucao": "Envio a caminho - executamos cancelamento alteração de estado (C)",
-        "seniority": "NEWBIE",
-        "canal": "CHAT",
-        "n_msgs": 0
+        "n_msgs": 52
       },
       "472903683": {
-        "motivo": "",
-        "desfecho": "",
-        "transferido": false,
+        "motivo": "sapato social masculino preto verniz de fivela l... | r$ %num,%num",
+        "desfecho": "permaneço totalmente à disposição caso precise do meu apoio novamente, seja em relação a esta reclamação ou a qualquer outro assunto.como ja passei todas as informações e orientações sobre o seu caso,",
+        "transferido": true,
         "resolvido": false,
         "escalacao": false,
         "survey_comment": "Um falta de respeito, se eu tivesse fora da minha razão, sem poblemas, agora ter que ficar em casa esperando entregadores que usam desculpas ridículas, cendo que já compro a anos, e não ter a opção de cancelar quando esta em rota, e uma falta de respeito, se tivesse passado um dia, sem poblemas agora 4 dias, e um absurdo, o produto era para ser usando dia 28, e ainda nem chegou, ainda tenho que ter esse trastorno de cancelamento, gostava muito mas infelizmente tem deixando muito a desejar. Espero que melhore essa opção de cancelamento, so não escrevo mas pq infelizmente   tem poucos caracteres",
@@ -161,7 +122,46 @@
         "solucao": "Envio a caminho - não pode cancelar rejeição na porta (C)",
         "seniority": "EXPERT",
         "canal": "CHAT",
-        "n_msgs": 0
+        "n_msgs": 67
+      },
+      "472905231": {
+        "motivo": "preciso saber onde esta minha encomenda",
+        "desfecho": "sei que a sua maior preocupação e acompanhar essa entrega e receber sua encomenda no endereço correto. se precisar de qualquer suporte adicional, tirar duvidas ou retomar esse assunto, conte sempre co",
+        "transferido": false,
+        "resolvido": false,
+        "escalacao": false,
+        "survey_comment": "As entregas do mercado livre estão muito ruim. Minhas duas últimas entregas estavam com frete FULL, e mesmo assim atrasaram. Uma delas está perdida no centro de distribuição de são Paulo há mais de uma semana",
+        "cdu": "Tiene dudas sobre el estado del envio",
+        "solucao": "Envio a caminho - informamos data de entrega (C)",
+        "seniority": "NEWBIE",
+        "canal": "CHAT",
+        "n_msgs": 36
+      },
+      "472909734": {
+        "motivo": "{\"action\":\"item_selected\",\"data\":{\"primary_text\":\"muleta ortopedica canadense preta par suporta %num... | r$ %num,%num\",\"pack_id\":%num},\"instruction\":\"item selected.\"}",
+        "desfecho": "te desejo um felizzz fim de semana ❤️",
+        "transferido": true,
+        "resolvido": true,
+        "escalacao": false,
+        "survey_comment": "Foi feito o pagamento adicional de entrega rápida, mas a empresa não se compromete a realizar a entrega na data prevista.",
+        "cdu": "Quiere cancelar o reprogramar el envío",
+        "solucao": "Envio a caminho - executamos cancelamento alteração de estado (C)",
+        "seniority": "NEWBIE",
+        "canal": "CHAT",
+        "n_msgs": 39
+      },
+      "472912258": {
+        "motivo": "infelizmente, não e a primeira vez que tenho problemas com minhas compras recentes no mercado livre. nas ultimas compras, tambem enfrentei situações que me causaram transtornos e, por conta da recorrência desses problemas, estou começando a desacredi",
+        "desfecho": "recipient: %email. email: ola, lander! espero que o seu dia esteja sendo excelente.me chamo miguel, sou representante do mercado livre e assumi pessoalmente o acompanhamento da sua solicitação para te",
+        "transferido": false,
+        "resolvido": true,
+        "escalacao": false,
+        "survey_comment": "Primeiramente quero agradecer a atendente Tainara que me deu todo suporte e informações claras. Mas o procedimentos de voces andam perdendo o padrao e uma pena desacreditar em uma empresa Brasileira. Comprava muito por aqui mas venho tendo muito problema com entregas. Por isto eu dou nota 5 pq nao e uma referencia no setor mais l, vem perdendo credibilidade quando nao cumpri o que esta no anuncio.",
+        "cdu": "Tiene dudas sobre el estado del envio",
+        "solucao": "Envio a caminho - informamos data de entrega (C)",
+        "seniority": "EXPERT",
+        "canal": "CHAT",
+        "n_msgs": 96
       }
     },
     "categories_mon": [
@@ -172,12 +172,12 @@
         "share_pct": 57,
         "examples": [
           "472691381",
-          "472905231",
-          "472912258"
+          "472894940",
+          "472905231"
         ],
-        "narrative": "Principais motivos: \"Reclamação por atraso e reagendamento na entrega\"; \"Consulta sobre entrega de encomenda no centro de distribuição\". Sellers reportam atraso ou falta de atualização no status de envios aos compradores (4 casos). Nenhum caso com resolução confirmada.",
-        "n_transfer": 0,
-        "n_resolved": 0,
+        "narrative": "Sellers reportam atraso ou falta de atualização no status de envios aos compradores (4 casos). 25% transferidos sem resolução no 1º contato; apenas 25% com resolução confirmada.",
+        "n_transfer": 1,
+        "n_resolved": 1,
         "n_escalation": 0
       },
       {
@@ -187,12 +187,12 @@
         "share_pct": 43,
         "examples": [
           "472847147",
-          "472909734",
-          "472903683"
+          "472903683",
+          "472909734"
         ],
-        "narrative": "Principais motivos: \"Usuário insatisfeito com atraso no reembolso\". Sellers solicitam cancelamento ou reprogramação de envios em andamento (3 casos). Nenhum caso com resolução confirmada.",
-        "n_transfer": 0,
-        "n_resolved": 0,
+        "narrative": "Sellers solicitam cancelamento ou reprogramação de envios em andamento (3 casos). 67% transferidos sem resolução no 1º contato; 67% com resolução confirmada.",
+        "n_transfer": 2,
+        "n_resolved": 2,
         "n_escalation": 0
       }
     ],
